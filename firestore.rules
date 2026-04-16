@@ -1,0 +1,273 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: {userId}
+    // Fields:
+    //   - uid: string (required, max 128)
+    //   - email: string (required, max 256)
+    //   - displayName: string (optional, max 100)
+    //   - photoURL: string (optional, max 2048)
+    //   - role: string (required, 'user' or 'admin')
+    //   - createdAt: string (required, ISO 8601)
+    //
+    // Collection: events
+    // Document ID: {eventId}
+    // Fields:
+    //   - title: string (required, max 200)
+    //   - description: string (required, max 5000)
+    //   - price: number (required, >= 0)
+    //   - capacity: number (optional, >= 0)
+    //   - date: string (required, ISO 8601)
+    //   - time: string (optional, max 50)
+    //   - location: string (optional, max 200)
+    //   - imageUrl: string (required, max 2048)
+    //   - category: string (optional, max 100)
+    //   - whatsIncluded: list of strings (optional, max 20 items)
+    //   - registeredCount: number (optional, >= 0)
+    //   - createdAt: timestamp (required)
+    //   - updatedAt: timestamp (optional)
+    //
+    // Collection: registrations
+    // Document ID: {registrationId}
+    // Fields:
+    //   - eventId: string (required, max 128)
+    //   - eventTitle: string (required, max 200)
+    //   - userId: string (required, max 128)
+    //   - userEmail: string (required, max 256)
+    //   - name: string (required, max 100)
+    //   - email: string (required, max 256)
+    //   - phone: string (optional, max 50)
+    //   - notes: string (optional, max 1000)
+    //   - status: string (required, 'pending', 'paid', 'cancelled', 'completed')
+    //   - amount: number (required, >= 0)
+    //   - stripeSessionId: string (optional, max 256)
+    //   - createdAt: timestamp (required)
+    //
+    // Collection: posts
+    // Document ID: {postId}
+    // Fields:
+    //   - title: string (required, max 200)
+    //   - content: string (required, max 10000)
+    //   - imageUrl: string (optional, max 2048)
+    //   - authorId: string (required, max 128)
+    //   - createdAt: timestamp (required)
+    //
+    // Collection: analytics
+    // Document ID: {viewId}
+    // Fields:
+    //   - path: string (required, max 500)
+    //   - timestamp: timestamp (required)
+    //   - userId: string (optional, max 128)
+    //   - userAgent: string (optional, max 500)
+    //
+    // Collection: gallery
+    // Document ID: {itemId}
+    // Fields:
+    //   - title: string (required, max 200)
+    //   - artist: string (optional, max 200)
+    //   - year: string (optional, max 50)
+    //   - description: string (optional, max 2000)
+    //   - imageUrl: string (required, max 2048)
+    //   - category: string (optional, max 100)
+    //   - createdAt: timestamp (required)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && 
+        ((exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
+         request.auth.token.email == "emeraldtorstein@gmail.com");
+    }
+
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    function validString(field, minLen, maxLen) {
+      return field is string && field.size() >= minLen && field.size() <= maxLen;
+    }
+
+    function validOptionalString(field, minLen, maxLen) {
+      return !(field in request.resource.data) || validString(request.resource.data[field], minLen, maxLen);
+    }
+
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$") && email.size() <= 256;
+    }
+
+    function isValidUrl(url) {
+      return url is string && (url.matches("^https://.*") || url.matches("^http://.*") || url.matches("^/.*")) && url.size() <= 2048;
+    }
+
+    function isValidDateString(dateStr) {
+      return dateStr is string && dateStr.matches("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.*Z?$") && dateStr.size() <= 50;
+    }
+
+    function areImmutableFieldsUnchanged(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+    function isValidUser(data) {
+      return hasOnlyAllowedFields(['uid', 'email', 'displayName', 'photoURL', 'role', 'createdAt']) &&
+             hasRequiredFields(['uid', 'email', 'role', 'createdAt']) &&
+             validString(data.uid, 1, 128) &&
+             isValidEmail(data.email) &&
+             validOptionalString('displayName', 0, 100) &&
+             (!( 'photoURL' in data ) || isValidUrl(data.photoURL)) &&
+             data.role in ['user', 'admin'] &&
+             isValidDateString(data.createdAt);
+    }
+
+    function isValidEvent(data) {
+      return hasOnlyAllowedFields(['title', 'description', 'price', 'capacity', 'date', 'time', 'location', 'imageUrl', 'category', 'whatsIncluded', 'registeredCount', 'createdAt', 'updatedAt']) &&
+             hasRequiredFields(['title', 'description', 'price', 'date', 'imageUrl', 'createdAt']) &&
+             validString(data.title, 1, 200) &&
+             validString(data.description, 1, 5000) &&
+             data.price is number && data.price >= 0 &&
+             (!( 'capacity' in data ) || (data.capacity is number && data.capacity >= 0)) &&
+             validString(data.date, 1, 50) &&
+             validOptionalString('time', 0, 50) &&
+             validOptionalString('location', 0, 200) &&
+             isValidUrl(data.imageUrl) &&
+             validOptionalString('category', 0, 100) &&
+             (!( 'whatsIncluded' in data ) || (data.whatsIncluded is list && data.whatsIncluded.size() <= 20)) &&
+             (!( 'registeredCount' in data ) || (data.registeredCount is number && data.registeredCount >= 0)) &&
+             data.createdAt is timestamp &&
+             (!( 'updatedAt' in data ) || data.updatedAt is timestamp);
+    }
+
+    function isValidRegistration(data) {
+      return hasOnlyAllowedFields(['eventId', 'eventTitle', 'userId', 'userEmail', 'name', 'email', 'phone', 'notes', 'status', 'amount', 'stripeSessionId', 'createdAt']) &&
+             hasRequiredFields(['eventId', 'eventTitle', 'userId', 'userEmail', 'name', 'email', 'status', 'amount', 'createdAt']) &&
+             validString(data.eventId, 1, 128) &&
+             validString(data.eventTitle, 1, 200) &&
+             validString(data.userId, 1, 128) &&
+             isValidEmail(data.userEmail) &&
+             validString(data.name, 1, 100) &&
+             isValidEmail(data.email) &&
+             validOptionalString('phone', 0, 50) &&
+             validOptionalString('notes', 0, 1000) &&
+             data.status in ['pending', 'paid', 'cancelled', 'completed'] &&
+             data.amount is number && data.amount >= 0 &&
+             validOptionalString('stripeSessionId', 0, 256) &&
+             data.createdAt is timestamp;
+    }
+
+    function isValidPost(data) {
+      return hasOnlyAllowedFields(['title', 'content', 'imageUrl', 'authorId', 'createdAt']) &&
+             hasRequiredFields(['title', 'content', 'authorId', 'createdAt']) &&
+             validString(data.title, 1, 200) &&
+             validString(data.content, 1, 10000) &&
+             (!( 'imageUrl' in data ) || isValidUrl(data.imageUrl)) &&
+             validString(data.authorId, 1, 128) &&
+             data.createdAt is timestamp;
+    }
+
+    function isValidAnalytics(data) {
+      return hasRequiredFields(['path']) &&
+             validString(data.path, 1, 500);
+    }
+
+    function isValidGalleryItem(data) {
+      return hasOnlyAllowedFields(['title', 'artist', 'year', 'description', 'imageUrl', 'category', 'createdAt']) &&
+             hasRequiredFields(['title', 'imageUrl', 'createdAt']) &&
+             validString(data.title, 1, 200) &&
+             validOptionalString('artist', 0, 200) &&
+             validOptionalString('year', 0, 50) &&
+             validOptionalString('description', 0, 2000) &&
+             isValidUrl(data.imageUrl) &&
+             validOptionalString('category', 0, 100) &&
+             data.createdAt is timestamp;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /test/{docId} {
+      allow read: if true;
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId) && 
+                       isValidUser(request.resource.data) && 
+                       request.resource.data.uid == userId &&
+                       (request.resource.data.role == 'user' || isAdmin());
+      allow update: if (isOwner(userId) || isAdmin()) && 
+                       isValidUser(request.resource.data) && 
+                       areImmutableFieldsUnchanged(['uid', 'createdAt']) &&
+                       (isAdmin() || request.resource.data.role == resource.data.role);
+    }
+
+    match /events/{eventId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidEvent(request.resource.data);
+      allow update: if (isAdmin() && isValidEvent(request.resource.data)) || (
+        isAuthenticated() &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['registeredCount']) &&
+        request.resource.data.registeredCount == resource.data.get('registeredCount', 0) + 1 &&
+        isValidEvent(request.resource.data)
+      );
+      allow delete: if isAdmin();
+    }
+
+    match /registrations/{regId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && 
+                       isValidRegistration(request.resource.data) && 
+                       request.resource.data.userId == request.auth.uid;
+      allow update: if (isAdmin() || (isAuthenticated() && resource.data.userId == request.auth.uid)) && 
+                       isValidRegistration(request.resource.data) &&
+                       areImmutableFieldsUnchanged(['eventId', 'userId', 'createdAt']) &&
+                       (isAdmin() || (
+                         areImmutableFieldsUnchanged(['amount', 'stripeSessionId']) &&
+                         (request.resource.data.status == resource.data.status || 
+                          (resource.data.status == 'pending' && request.resource.data.status == 'cancelled'))
+                       ));
+    }
+
+    match /posts/{postId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidPost(request.resource.data);
+      allow update: if isAdmin() && isValidPost(request.resource.data) && areImmutableFieldsUnchanged(['authorId', 'createdAt']);
+      allow delete: if isAdmin();
+    }
+
+    match /analytics/{viewId} {
+      allow read: if isAdmin();
+      allow create: if isValidAnalytics(request.resource.data);
+    }
+
+    match /gallery/{itemId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidGalleryItem(request.resource.data);
+      allow update: if isAdmin() && isValidGalleryItem(request.resource.data) && areImmutableFieldsUnchanged(['createdAt']);
+      allow delete: if isAdmin();
+    }
+  }
+}
