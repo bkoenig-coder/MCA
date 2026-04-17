@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../components/MongolianDesign';
 import { db, collection, onSnapshot, query, orderBy, limit, handleFirestoreError, OperationType } from '../firebase';
+import logo1 from '../assets/media/logo1.jpg';
+import logo2 from '../assets/media/logo2.png';
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -252,20 +254,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Partners Marquee Section */}
-      <section className="py-8 md:py-12 bg-[#8B1C1C] relative overflow-hidden border-y border-[#C5A059]/30 shadow-[inset_0_2px_10px_rgba(0,0,0,0.2)]">
-        {/* Decorative Mongolian Pattern Background */}
-        <div className="absolute inset-0 opacity-[0.03] flex items-center justify-center pointer-events-none">
-          <div className="flex gap-4">
-            {[...Array(20)].map((_, i) => (
-              <UlziiSymbol key={`bg-${i}`} className="w-32 h-32 text-[#C5A059]" />
-            ))}
-          </div>
-        </div>
-        
+      {/* Partners Marquee Section - Corporate Refactor */}
+      <section className="py-8 md:py-10 bg-gray-50 relative overflow-hidden border-y border-gray-200">
         {/* Gradient Fades for Smooth Edges */}
-        <div className="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#8B1C1C] to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#8B1C1C] to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-gray-50 to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-gray-50 to-transparent z-10 pointer-events-none" />
         
         <div className="flex overflow-hidden relative">
           <motion.div 
@@ -274,20 +267,30 @@ export default function Home() {
             className="flex w-max relative z-20"
           >
             {[...Array(2)].map((_, groupIndex) => (
-              <div key={groupIndex} className="flex items-center gap-16 md:gap-24 px-8 md:px-12">
+              <div key={groupIndex} className="flex items-center gap-12 md:gap-20 px-6 md:px-10">
                 {[
-                  { name: 'Gobi Group', icon: <UlziiSymbol className="w-8 h-8" /> },
-                  { name: 'Steppe Capital', icon: <MongolianLine className="w-16 h-4" /> },
-                  { name: 'Khaan Holdings', icon: <SoyomboSymbol className="w-5 h-8" /> },
-                  { name: 'Tengri Partners', icon: <ArcherSymbol className="w-10 h-10" /> },
-                  { name: 'Altai Ventures', icon: <Shield strokeWidth={1} className="w-8 h-8" /> },
-                  { name: 'Nomad Global', icon: <Star strokeWidth={1} className="w-8 h-8" /> },
+                  { name: 'Deutschothek Sprachschule', isImg: true, src: logo1 },
+                  { name: 'Gobi Group', isImg: false, icon: <UlziiSymbol className="w-8 h-8 md:w-10 md:h-10 text-brand-ink" /> },
+                  { name: 'Verein für aktiv Leben und Bildung', isImg: true, src: logo2 },
+                  { name: 'Khaan Holdings', isImg: false, icon: <SoyomboSymbol className="w-6 h-10 md:w-8 md:h-12 text-brand-ink" /> },
+                  { name: 'Tengri Partners', isImg: false, icon: <ArcherSymbol className="w-8 h-8 md:w-12 md:h-12 text-brand-ink" /> },
+                  { name: 'Altai Ventures', isImg: false, icon: <Shield strokeWidth={1.5} className="w-8 h-8 md:w-10 md:h-10 text-brand-ink" /> },
+                  { name: 'Nomad Global', isImg: false, icon: <Star strokeWidth={1.5} className="w-8 h-8 md:w-10 md:h-10 text-brand-ink" /> },
                 ].map((partner, idx) => (
-                  <div key={`${groupIndex}-${idx}`} className="flex items-center gap-4 text-white/50 hover:text-[#C5A059] transition-all duration-500 cursor-pointer group">
-                    <div className="opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500">
-                      {partner.icon}
+                  <div key={`${groupIndex}-${idx}`} className="flex flex-col items-center gap-4 group cursor-pointer grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+                    <div className="flex items-center justify-center h-12 md:h-16 min-w-[140px] md:min-w-[160px] group-hover:-translate-y-1 transition-transform duration-500 will-change-transform">
+                      {partner.isImg ? (
+                        <img 
+                          src={partner.src} 
+                          alt={partner.name} 
+                          className="h-full w-auto object-contain mix-blend-multiply" 
+                          referrerPolicy="no-referrer" 
+                        />
+                      ) : (
+                        partner.icon
+                      )}
                     </div>
-                    <span className="font-serif text-xl md:text-2xl tracking-[0.2em] uppercase whitespace-nowrap">
+                    <span className="font-sans font-semibold text-[10px] md:text-xs tracking-widest uppercase whitespace-nowrap text-gray-400 group-hover:text-brand-ink transition-colors duration-500">
                       {partner.name}
                     </span>
                   </div>

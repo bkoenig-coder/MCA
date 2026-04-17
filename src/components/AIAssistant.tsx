@@ -1,17 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Info } from 'lucide-react';
+import { X, MessageSquare } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 import { useTranslation } from 'react-i18next';
-import { UlziiSymbol, MongolianLine } from './MongolianDesign';
 
-const MENU_OPTIONS = '[ 📅 Upcoming Events ]\n[ ℹ️ About Us ]\n[ 🛠️ How To ]';
+const MENU_OPTIONS = '[ Upcoming Events ]\n[ About Us ]\n[ How To ]';
 const INITIAL_MESSAGE = `Hi! What information would you like to get today?\n\n${MENU_OPTIONS}`;
 
 const RESPONSES: Record<string, string> = {
-  '📅 Upcoming Events': 'We regularly host cultural events, workshops, and exhibitions. These include traditional music performances (Morin Khuur), Mongolian calligraphy workshops, and Shagai (ankle bone) game nights. You can view the full schedule and RSVP on our Events page!',
-  'ℹ️ About Us': 'The Mongolian Center in Vienna, Austria, is a cultural hub dedicated to preserving and promoting Mongolian heritage. We offer a space for the community to gather, learn, and celebrate traditional arts, language, and nomadic customs.',
-  '🛠️ How To': 'Here are some quick guides:\n• How to join: You can sign up via our website\'s Sign In button or visit us in Vienna.\n• How to volunteer: We are always looking for passionate volunteers! Contact us through the Contact page.\n• How to explore: Check out our interactive 3D Diorama from the menu to learn about the Ger, Shagai, and the Three Manly Skills!'
+  'Upcoming Events': 'We regularly host cultural events, workshops, and exhibitions. These include traditional music performances, Mongolian calligraphy workshops, and Shagai (ankle bone) game nights. You can view the full schedule and RSVP on our Events page.',
+  'About Us': 'The Mongolian Center in Vienna, Austria, is a cultural hub dedicated to preserving and promoting Mongolian heritage. We offer a space for the community to gather, learn, and celebrate traditional arts, language, and nomadic customs.',
+  'How To': 'Here are some quick guides:\n• How to join: You can sign up via our website\'s Sign In button or visit us in Vienna.\n• How to volunteer: We are always looking for passionate volunteers. Contact us through the Contact page.\n• How to explore: Check out our interactive 3D Diorama from the menu to learn about the Ger, Shagai, and the Three Manly Skills.'
 };
 
 export default function AIAssistant() {
@@ -57,17 +56,9 @@ export default function AIAssistant() {
             key={i}
             onClick={() => handleSelection(buttonText)}
             disabled={!isLatest || isTyping}
-            className="group relative block w-full text-center mt-3 px-4 py-3 bg-[#FDFBF7] hover:bg-brand-gold text-brand-ink hover:text-brand-ink border border-brand-gold/40 rounded-sm text-sm font-serif font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-default shadow-sm"
+            className="block w-full text-center mt-3 px-4 py-3 bg-white hover:bg-brand-paper border border-brand-ink/20 text-xs font-bold uppercase tracking-widest text-brand-ink transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {/* Corner accents */}
-            <div className="absolute top-1 left-1 w-1 h-1 bg-brand-gold/50 group-hover:bg-brand-ink/30 transition-colors" />
-            <div className="absolute top-1 right-1 w-1 h-1 bg-brand-gold/50 group-hover:bg-brand-ink/30 transition-colors" />
-            <div className="absolute bottom-1 left-1 w-1 h-1 bg-brand-gold/50 group-hover:bg-brand-ink/30 transition-colors" />
-            <div className="absolute bottom-1 right-1 w-1 h-1 bg-brand-gold/50 group-hover:bg-brand-ink/30 transition-colors" />
-            
-            <span className="relative z-10 tracking-wide">
-              {buttonText}
-            </span>
+            {buttonText}
           </button>
         );
       }
@@ -76,67 +67,64 @@ export default function AIAssistant() {
   };
 
   return (
-    <>
+    <div className="font-[Arial]">
       {/* Floating Action Button */}
       <motion.button
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
         onClick={() => setIsOpen(true)}
         className={cn(
-          "fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-brand-ink text-brand-gold shadow-2xl flex items-center justify-center transition-all duration-300 hover:bg-brand-gold hover:text-brand-ink border-2 border-brand-gold/30 ring-4 ring-brand-ink/10",
-          isOpen && "scale-0 opacity-0 pointer-events-none"
+          "fixed bottom-6 right-6 z-50 flex items-center gap-2 px-5 py-3 bg-brand-ink text-white shadow-xl transition-all duration-300 border border-brand-ink hover:bg-white hover:text-brand-ink",
+          isOpen && "opacity-0 pointer-events-none translate-y-4"
         )}
       >
-        <UlziiSymbol className="w-6 h-6" />
+        <MessageSquare className="w-4 h-4" />
+        <span className="font-bold text-[10px] uppercase tracking-widest">Support</span>
       </motion.button>
 
       {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed bottom-6 right-6 z-50 w-[350px] sm:w-[400px] h-[500px] max-h-[80vh] bg-[#FDFBF7] rounded-xl shadow-2xl border-2 border-brand-gold/40 flex flex-col overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ type: 'tween', duration: 0.3, ease: 'easeOut' }}
+            className="fixed bottom-6 right-6 z-50 w-[350px] sm:w-[400px] h-[500px] max-h-[80vh] bg-white shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-brand-ink/10 flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="bg-brand-ink text-brand-gold px-6 py-4 flex items-center justify-between relative overflow-hidden">
-              <UlziiSymbol className="absolute -right-4 -top-4 w-24 h-24 text-brand-gold/10 rotate-12" />
-              <div className="flex items-center gap-3 relative z-10">
-                <UlziiSymbol className="w-6 h-6" />
+            <div className="bg-brand-ink text-white px-6 py-4 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <MessageSquare className="w-5 h-5" />
                 <div>
-                  <h3 className="font-serif text-lg leading-none tracking-wide">Information</h3>
-                  <p className="text-[10px] uppercase tracking-widest opacity-70 mt-1">Mongolian Center</p>
+                  <h3 className="font-bold text-sm uppercase tracking-wider">Help & Support</h3>
                 </div>
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
-                className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors relative z-10"
+                className="w-8 h-8 flex items-center justify-center hover:bg-white/10 transition-colors"
+                aria-label="Close support chat"
               >
-                <X size={16} />
+                <X size={18} />
               </button>
             </div>
-            <MongolianLine className="w-full text-brand-gold h-1.5 opacity-80" />
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-4 relative">
-              <UlziiSymbol className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 text-brand-gold/5 pointer-events-none" />
-              
+            <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-5 bg-[#FAFAFA]">
               {messages.map((msg, idx) => {
                 const isLatestModelMessage = msg.role === 'model' && idx === messages.length - 1;
                 return (
                   <motion.div
                     key={idx}
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     className={cn(
-                      "max-w-[85%] px-4 py-3 text-sm relative z-10 shadow-sm",
+                      "max-w-[85%] px-4 py-3 text-sm leading-relaxed shadow-sm",
                       msg.role === 'user' 
-                        ? "bg-brand-ink text-[#FDFBF7] self-end rounded-xl rounded-tr-sm border border-brand-gold/30" 
-                        : "bg-white border-2 border-brand-gold/20 text-brand-ink self-start rounded-xl rounded-tl-sm"
+                        ? "bg-brand-ink text-white self-end ml-auto" 
+                        : "bg-white border border-brand-ink/10 text-brand-ink self-start"
                     )}
                   >
                     {msg.role === 'model' ? renderMessageText(msg.text, isLatestModelMessage) : <span className="whitespace-pre-wrap">{msg.text}</span>}
@@ -145,13 +133,13 @@ export default function AIAssistant() {
               })}
               {isTyping && (
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-white border border-brand-ink/10 text-brand-ink self-start rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm flex items-center gap-2"
+                  className="bg-white border border-brand-ink/10 text-brand-ink self-start px-4 py-3 shadow-sm flex items-center gap-1.5"
                 >
-                  <div className="w-1.5 h-1.5 bg-brand-gold rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <div className="w-1.5 h-1.5 bg-brand-gold rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <div className="w-1.5 h-1.5 bg-brand-gold rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                  <div className="w-1.5 h-1.5 bg-brand-ink/50 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <div className="w-1.5 h-1.5 bg-brand-ink/50 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <div className="w-1.5 h-1.5 bg-brand-ink/50 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                 </motion.div>
               )}
               <div ref={messagesEndRef} />
@@ -159,6 +147,6 @@ export default function AIAssistant() {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }
