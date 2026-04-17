@@ -179,7 +179,7 @@ export default function Navbar() {
 
       <nav
         className={cn(
-          'transition-all duration-300 px-4 md:px-6 py-4 md:py-8 relative',
+          'transition-all duration-300 px-4 md:px-6 py-4 md:py-8 relative z-[120]',
           isOpen ? 'bg-white' : (scrolled || nextEvent ? 'bg-white py-3 md:py-4 shadow-sm border-b border-brand-ink/5' : 'bg-white'),
           nextEvent && !scrolled && !isOpen && 'py-4 md:py-6'
         )}
@@ -374,122 +374,135 @@ export default function Navbar() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute top-full left-2 right-2 md:left-8 md:right-8 lg:left-16 lg:right-16 mt-2 md:mt-4 bg-[#4A0E0E] rounded-[1.5rem] md:rounded-[2rem] shadow-2xl border border-[#C5A059]/40 z-[110] p-1.5 md:p-3 max-h-[calc(100vh-100px)] overflow-y-auto transform-gpu"
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="fixed inset-0 min-h-screen w-full bg-brand-paper z-[110] flex flex-col pt-[100px] md:pt-[140px] overflow-y-auto"
               style={{ willChange: 'transform, opacity', backfaceVisibility: 'hidden' }}
             >
-              {/* The Repeating Ulzii Border Layer */}
-              <div 
-                className="w-full min-h-full rounded-[1.25rem] md:rounded-[1.5rem] p-2 md:p-4 transform-gpu"
-                style={{ 
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23C5A059' stroke-width='1.5' opacity='0.6'%3E%3Cpath d='M10,0 V10 H0 M40,10 H30 V0 M30,40 V30 H40 M0,30 H10 V40'/%3E%3Crect x='10' y='10' width='20' height='20'/%3E%3Crect x='15' y='15' width='10' height='10'/%3E%3C/g%3E%3C/svg%3E")`,
-                  backgroundRepeat: 'repeat'
-                }}
-              >
-                {/* The Inner Felt Layer */}
-                <div 
-                  className="relative w-full h-full bg-[#721414] rounded-xl flex flex-col p-4 md:p-10 lg:p-12 shadow-[inset_0_0_40px_rgba(74,14,14,0.8)] border border-[#C5A059]/20 transform-gpu"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E")`
-                  }}
-                >
-                  {/* Decorative Corner Elements */}
-                  <div className="absolute top-2 left-2 md:top-4 md:left-4 w-4 h-4 md:w-8 md:h-8 border-t-2 border-l-2 border-[#C5A059]/40 rounded-tl-lg pointer-events-none" />
-                  <div className="absolute top-2 right-2 md:top-4 md:right-4 w-4 h-4 md:w-8 md:h-8 border-t-2 border-r-2 border-[#C5A059]/40 rounded-tr-lg pointer-events-none" />
-                  <div className="absolute bottom-2 left-2 md:bottom-4 md:left-4 w-4 h-4 md:w-8 md:h-8 border-b-2 border-l-2 border-[#C5A059]/40 rounded-bl-lg pointer-events-none" />
-                  <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 w-4 h-4 md:w-8 md:h-8 border-b-2 border-r-2 border-[#C5A059]/40 rounded-br-lg pointer-events-none" />
-
-                  <nav className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-6 w-full relative z-10">
+              <div className="flex-1 w-full max-w-[1600px] mx-auto px-4 sm:px-8 md:px-12 lg:px-24 flex flex-col justify-between pb-12 relative h-full min-h-[min-content]">
+                {/* Subtle Decorative Accents */}
+                <div className="absolute top-0 right-12 opacity-[0.03] pointer-events-none hidden md:block">
+                  <svg width='800' height='800' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg' className="-mt-32">
+                    <g fill='none' stroke='#040A1A' strokeWidth='0.5'>
+                      <path d='M10,0 V10 H0 M40,10 H30 V0 M30,40 V30 H40 M0,30 H10 V40'/>
+                      <rect x='10' y='10' width='20' height='20'/>
+                      <rect x='15' y='15' width='10' height='10'/>
+                    </g>
+                  </svg>
+                </div>
+                
+                <div className="flex-1 flex flex-col md:flex-row gap-12 md:gap-24 relative z-10 w-full mt-4 md:mt-8">
+                  {/* Left Column: Primary Navigation Links */}
+                  <nav className="flex-1 flex flex-col justify-start">
                     {navItems.map((item, idx) => {
-                      const Icon = item.icon;
                       const isActive = location.pathname === item.path;
                       return (
                         <Link
                           key={item.path}
                           to={item.path}
                           className={cn(
-                            'text-sm md:text-lg font-serif font-medium tracking-wide transition-all duration-300 p-3 md:p-5 flex items-center justify-between group rounded-xl border',
-                            isActive 
-                              ? 'text-[#C5A059] bg-[#C5A059]/10 border-[#C5A059]/30 shadow-[inset_0_0_20px_rgba(197,160,89,0.1)]' 
-                              : 'text-white/90 border-white/5 bg-white/5 hover:border-[#C5A059]/40 hover:bg-[#C5A059]/10 hover:text-[#C5A059] hover:shadow-[inset_0_0_20px_rgba(197,160,89,0.05)]'
+                            'group flex items-center w-max transition-all duration-300 relative py-3 md:py-4',
+                            isActive ? 'text-brand-gold' : 'text-brand-ink/90 hover:text-brand-gold md:hover:translate-x-6'
                           )}
                           onClick={() => setIsOpen(false)}
                         >
-                          <span className="flex items-center gap-3 md:gap-4">
-                            {Icon && <Icon size={18} className={cn("transition-colors md:w-5 md:h-5", isActive ? "text-[#C5A059]" : "text-[#C5A059]/60 group-hover:text-[#C5A059]")} />}
+                          <span className="font-sans font-black text-4xl sm:text-5xl md:text-6xl lg:text-[80px] uppercase tracking-[-0.03em] leading-none">
                             {item.name}
-                            {item.path === '/events' && (
-                              <span className="text-[8px] md:text-[9px] bg-[#C5A059] text-[#4A0E0E] px-2 py-0.5 md:px-2.5 md:py-1 rounded-sm tracking-widest font-sans font-bold shadow-sm ml-2 md:ml-3">
-                                UPCOMING
-                              </span>
-                            )}
                           </span>
-                          <ArrowRight size={14} className={cn("transition-all md:w-4 md:h-4", isActive ? "opacity-100 translate-x-0 text-[#C5A059]" : "opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 text-[#C5A059]")} />
+                          {item.path === '/events' && (
+                            <span className="ml-4 md:ml-6 flex-shrink-0 text-[9px] md:text-xs bg-brand-gold text-brand-ink px-2 md:px-3 py-1 -mt-4 md:-mt-8 uppercase tracking-[0.2em] font-sans font-bold shadow-md transform rotate-[4deg]">
+                              UPCOMING
+                            </span>
+                          )}
                         </Link>
                       );
                     })}
                   </nav>
-                  
-                  <div className="mt-6 md:mt-10 pt-6 md:pt-8 relative flex flex-col sm:flex-row items-center justify-between gap-4 md:gap-6 z-10">
-                    {/* Ornate Divider */}
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-md h-px bg-gradient-to-r from-transparent via-[#C5A059]/40 to-transparent" />
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 md:w-3 md:h-3 rotate-45 border border-[#C5A059]/40 bg-[#721414]" />
 
-                    {user ? (
-                      <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6 w-full sm:w-auto">
-                        <Link 
-                          to="/profile" 
-                          onClick={() => setIsOpen(false)}
-                          className="flex items-center gap-3 md:gap-4 group p-2 md:p-3 -mx-2 md:-mx-3 rounded-xl hover:bg-white/5 transition-colors w-full sm:w-auto border border-transparent hover:border-[#C5A059]/20"
-                        >
-                          {user.photoURL ? (
-                            <img src={user.photoURL} alt="" className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-[#C5A059]/40 shadow-md" />
-                          ) : (
-                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#4A0E0E] flex items-center justify-center text-[#C5A059] border-2 border-[#C5A059]/40 shadow-md">
-                              <UserIcon size={18} className="md:w-5 md:h-5" />
-                            </div>
-                          )}
-                          <div className="flex flex-col">
-                            <span className="font-serif text-sm md:text-base text-white group-hover:text-[#C5A059] transition-colors">{user.displayName}</span>
-                            <span className="text-[8px] md:text-[9px] uppercase tracking-widest text-[#C5A059] font-bold">{t('nav.member')}</span>
-                          </div>
-                        </Link>
-                        <button 
-                          onClick={() => { logOut(); setIsOpen(false); }} 
-                          className="flex items-center justify-center gap-2 px-4 md:px-6 py-3 md:py-4 w-full sm:w-auto rounded-xl text-white/60 text-[10px] md:text-[11px] font-bold uppercase tracking-widest hover:bg-[#4A0E0E] hover:text-white transition-all border border-transparent hover:border-[#C5A059]/30"
-                        >
-                          <LogOut size={16} className="md:w-[18px] md:h-[18px]" />
-                          <span>{t('nav.signOut')}</span>
-                        </button>
+                  {/* Right Column: Information & Secondary Utilities */}
+                  <div className="w-full md:w-80 lg:w-96 flex flex-col gap-8 md:gap-12 pb-8">
+                    {/* User Profile / Login Block */}
+                    <div className="flex flex-col gap-6">
+                      <div className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-ink/40 border-b border-brand-ink/10 pb-3">
+                        {user ? 'YOUR PROFILE' : 'MEMBERSHIP'}
                       </div>
-                    ) : (
-                      <button
-                        onClick={async () => {
-                          try {
-                            await signInWithGoogle();
-                            setIsOpen(false);
-                          } catch (error: any) {
-                            if (error?.code === 'auth/popup-blocked') {
-                              toast.error('Login popup blocked by your browser. Please allow popups or open the app in a new tab.');
-                            } else if (error?.code !== 'auth/popup-closed-by-user') {
-                              toast.error(`Sign in failed: ${error.message || 'Unknown error. Try opening in a new tab.'}`);
-                            }
-                          }
-                        }}
-                        className="w-full sm:w-auto bg-gradient-to-r from-[#C5A059] to-[#D4AF37] text-[#4A0E0E] px-6 md:px-8 py-3 md:py-4 rounded-xl text-center text-[10px] md:text-[11px] uppercase tracking-[0.2em] font-bold flex items-center justify-center gap-2 md:gap-3 shadow-[0_4px_15px_rgba(197,160,89,0.3)] hover:shadow-[0_6px_20px_rgba(197,160,89,0.5)] hover:-translate-y-0.5 transition-all duration-300"
-                      >
-                        <LogIn size={16} className="md:w-[18px] md:h-[18px]" />
-                        {t('nav.signIn')}
-                      </button>
-                    )}
-                    
-                    <div className="flex sm:hidden w-full items-center justify-center gap-6 text-[#C5A059]/60 text-[10px] uppercase tracking-[0.2em] font-medium pt-4 border-t border-[#C5A059]/10">
-                      <span className="hover:text-[#C5A059] transition-colors cursor-pointer">Instagram</span>
-                      <span className="hover:text-[#C5A059] transition-colors cursor-pointer">Facebook</span>
+                      
+                      {user ? (
+                        <div className="flex flex-col gap-6">
+                          <Link 
+                            to="/profile" 
+                            onClick={() => setIsOpen(false)}
+                            className="flex items-center gap-4 group transition-colors"
+                          >
+                            {user.photoURL ? (
+                              <img src={user.photoURL} alt="" className="w-14 h-14 rounded-full border-2 border-brand-gold/30 shadow-sm" />
+                            ) : (
+                              <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-brand-gold border-2 border-brand-gold/30 shadow-sm">
+                                <UserIcon size={24} />
+                              </div>
+                            )}
+                            <div className="flex flex-col text-left">
+                              <span className="font-serif text-lg text-brand-ink group-hover:text-brand-gold transition-colors">{user.displayName}</span>
+                              <span className="text-[10px] uppercase tracking-[0.3em] text-brand-ink/50 font-bold mt-1">{t('nav.member')}</span>
+                            </div>
+                          </Link>
+                          
+                          <button 
+                            onClick={() => { logOut(); setIsOpen(false); }} 
+                            className="flex items-center justify-center gap-2 px-6 py-4 w-full md:w-auto rounded-xl text-white bg-brand-ink text-[11px] font-bold uppercase tracking-[0.2em] shadow-md hover:bg-black transition-all hover:-translate-y-0.5"
+                          >
+                            <LogOut size={16} />
+                            <span>{t('nav.signOut')}</span>
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col gap-4">
+                          <p className="text-sm font-serif text-brand-ink/70">Join our community to engage with events and connect to Mongolian culture.</p>
+                          <button
+                            onClick={async () => {
+                              try {
+                                await signInWithGoogle();
+                                setIsOpen(false);
+                              } catch (error: any) {
+                                if (error?.code === 'auth/popup-blocked') {
+                                  toast.error('Login popup blocked by your browser. Please allow popups or open the app in a new tab.');
+                                } else if (error?.code !== 'auth/popup-closed-by-user') {
+                                  toast.error(`Sign in failed: ${error.message || 'Unknown error. Try opening in a new tab.'}`);
+                                }
+                              }
+                            }}
+                            className="w-full bg-brand-ink text-white hover:bg-brand-gold px-8 py-5 text-[11px] uppercase tracking-[0.2em] font-bold flex items-center justify-center gap-3 shadow-[0_4px_15px_rgba(4,10,26,0.1)] hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+                          >
+                            <LogIn size={18} />
+                            {t('nav.signIn')}
+                          </button>
+                        </div>
+                      )}
                     </div>
-                    <div className="hidden sm:flex items-center gap-6 text-[#C5A059]/60 text-[10px] uppercase tracking-[0.2em] font-medium">
-                      <span className="hover:text-[#C5A059] transition-colors cursor-pointer">Instagram</span>
-                      <span className="hover:text-[#C5A059] transition-colors cursor-pointer">Facebook</span>
+                
+                    {/* Socials Block */}
+                    <div className="flex flex-col gap-6">
+                      <div className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-ink/40 border-b border-brand-ink/10 pb-3">
+                        CONNECT
+                      </div>
+                      <div className="flex flex-col gap-4 text-brand-ink/70 text-sm font-sans font-bold uppercase tracking-[0.1em]">
+                        <span className="hover:text-brand-gold transition-colors cursor-pointer w-max flex items-center gap-2 group">
+                          <ArrowRight size={14} className="text-brand-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"/>
+                          Instagram
+                        </span>
+                        <span className="hover:text-brand-gold transition-colors cursor-pointer w-max flex items-center gap-2 group">
+                          <ArrowRight size={14} className="text-brand-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"/>
+                          Facebook
+                        </span>
+                        <span className="hover:text-brand-gold transition-colors cursor-pointer w-max flex items-center gap-2 group">
+                          <ArrowRight size={14} className="text-brand-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"/>
+                          Newsletter
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Bottom Established Stamp */}
+                    <div className="mt-8 pt-8 border-t border-brand-ink/10 text-[9px] uppercase tracking-[0.4em] font-bold text-brand-ink/30">
+                      ESTABLISHED 2026 • VIENNA, AUSTRIA
                     </div>
                   </div>
                 </div>

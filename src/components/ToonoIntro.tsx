@@ -5,17 +5,12 @@ export default function ToonoIntro() {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Prevent scrolling while the animation is playing
-    document.body.style.overflow = 'hidden';
-    
     const timer = setTimeout(() => {
       setIsVisible(false);
-      document.body.style.overflow = 'unset';
     }, 3500); // 3.5 seconds total
     
     return () => {
       clearTimeout(timer);
-      document.body.style.overflow = 'unset';
     };
   }, []);
 
