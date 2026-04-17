@@ -180,7 +180,7 @@ export default function Navbar() {
       <nav
         className={cn(
           'transition-all duration-300 px-4 md:px-6 py-4 md:py-8 relative z-[120]',
-          isOpen ? 'bg-white' : (scrolled || nextEvent ? 'bg-white py-3 md:py-4 shadow-sm border-b border-brand-ink/5' : 'bg-white'),
+          isOpen ? 'bg-white border-b-0' : (scrolled || nextEvent ? 'bg-white py-3 md:py-4 shadow-sm border-b border-brand-ink/5' : 'bg-transparent'),
           nextEvent && !scrolled && !isOpen && 'py-4 md:py-6'
         )}
       >
@@ -196,7 +196,7 @@ export default function Navbar() {
 
         <div className="max-w-[1600px] w-full mx-auto px-4 md:px-16 relative">
           {/* Desktop Layout */}
-          <div className="hidden lg:flex items-center justify-between w-full min-h-[80px] relative">
+          <div className="hidden lg:grid grid-cols-[1fr_auto_1fr] items-center w-full min-h-[80px] relative z-[120]">
             {/* Left Nav */}
             <div className="flex items-center justify-start gap-8 xl:gap-12 pl-4 z-10">
               <button
@@ -211,7 +211,7 @@ export default function Navbar() {
             </div>
 
             {/* Center Logo */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 flex justify-center w-max">
+            <div className="flex justify-center z-50">
               <Link to="/" className="flex items-center gap-4 md:gap-6 group">
                 <div className="relative">
                   <div className="w-12 h-12 md:w-16 md:h-16 border border-[#C5A059]/20 rounded-full flex items-center justify-center text-[#ffa800] transition-all duration-1000 group-hover:border-[#C5A059] group-hover:rotate-[360deg] bg-white/10 backdrop-blur-sm shadow-sm">
@@ -221,9 +221,9 @@ export default function Navbar() {
                 </div>
                 <div className="flex flex-col">
                   <span className={cn(
-                    "font-serif text-xl md:text-3xl leading-none font-light tracking-tight uppercase transition-colors duration-300 text-brand-ink"
+                    "font-[Arial] font-bold italic text-xl md:text-3xl leading-none tracking-tight uppercase transition-colors duration-300 text-brand-ink no-underline"
                   )}>
-                    {t('nav.mongolian')} <span className="italic text-[#ffa700] border-[#ff0000]">{t('nav.center')}</span>
+                    {t('nav.mongolian')} <span className="text-[#ffa700] border-[#ff0000]">{t('nav.center')}</span>
                   </span>
                   <span className={cn(
                     "text-[8px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.5em] font-bold mt-1.5 md:mt-2 transition-colors duration-300 text-[#ffbc00] opacity-70"
@@ -322,7 +322,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Layout */}
-          <div className="grid lg:hidden grid-cols-[1fr_auto_1fr] items-center w-full">
+          <div className="grid lg:hidden grid-cols-[1fr_auto_1fr] items-center w-full relative z-[120]">
             {/* Mobile Toggle */}
             <div className="flex justify-start">
               <button 
@@ -337,15 +337,15 @@ export default function Navbar() {
 
             {/* Mobile Logo */}
             <div className="flex justify-center z-50">
-              <Link to="/" className="flex items-center gap-3 group">
+              <Link to="/" className="flex items-center gap-3 group ml-[42px]">
                 <div className="w-10 h-10 border border-[#C5A059]/20 rounded-full flex items-center justify-center text-[#ffa800] bg-white/10 backdrop-blur-sm shadow-sm">
                   <UlziiSymbol className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
                   <span className={cn(
-                    "font-serif text-lg leading-none font-light tracking-tight uppercase transition-colors duration-300 text-brand-ink"
+                    "font-[Arial] font-bold italic text-lg leading-none tracking-tight uppercase transition-colors duration-300 text-brand-ink no-underline"
                   )}>
-                    {t('nav.mongolian')} <span className="italic text-[#ffa700] border-[#ff0000]">{t('nav.center')}</span>
+                    {t('nav.mongolian')} <span className="text-[#ffa700] border-[#ff0000]">{t('nav.center')}</span>
                   </span>
                 </div>
               </Link>
@@ -375,7 +375,7 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed inset-0 min-h-screen w-full bg-brand-paper z-[110] flex flex-col pt-[100px] md:pt-[140px] overflow-y-auto"
+              className="fixed inset-0 min-h-screen w-full bg-white z-[110] flex flex-col pt-[100px] md:pt-[140px] overflow-y-auto"
               style={{ willChange: 'transform, opacity', backfaceVisibility: 'hidden' }}
             >
               <div className="flex-1 w-full max-w-[1600px] mx-auto px-4 sm:px-8 md:px-12 lg:px-24 flex flex-col justify-between pb-12 relative h-full min-h-[min-content]">

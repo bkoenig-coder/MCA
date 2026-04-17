@@ -61,7 +61,7 @@ export default function Home() {
                       </span>
                     </div>
                     <h1 className={cn(
-                      "font-serif leading-[0.9] mb-8 md:mb-10 tracking-tight text-brand-ink md:whitespace-nowrap",
+                      "font-serif font-normal leading-[0.9] mb-8 md:mb-10 tracking-tight text-brand-ink md:whitespace-nowrap",
                       i18n.language === 'en' ? "text-5xl md:text-7xl lg:text-[82px]" : "text-4xl md:text-6xl lg:text-[64px]"
                     )}>
                       {t('hero.title')} <br />
