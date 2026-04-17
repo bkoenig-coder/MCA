@@ -179,8 +179,8 @@ export default function Navbar() {
 
       <nav
         className={cn(
-          'transition-all duration-300 px-4 md:px-6 py-4 md:py-8 relative z-[120]',
-          isOpen ? 'bg-white border-b-0' : (scrolled || nextEvent ? 'bg-white py-3 md:py-4 shadow-sm border-b border-brand-ink/5' : 'bg-transparent'),
+          'transition-all duration-300 px-4 md:px-6 py-4 md:py-8 relative z-[120] w-full',
+          isOpen ? 'bg-white border-b-0' : (scrolled || nextEvent ? 'bg-white py-3 md:py-4 shadow-sm border-b border-brand-ink/5' : 'bg-white'),
           nextEvent && !scrolled && !isOpen && 'py-4 md:py-6'
         )}
       >
@@ -375,7 +375,7 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed inset-0 min-h-screen w-full bg-white z-[110] flex flex-col pt-[100px] md:pt-[140px] overflow-y-auto"
+              className="fixed inset-0 min-h-screen w-full bg-white z-[110] flex flex-col pt-[90px] md:pt-[110px] overflow-y-auto"
               style={{ willChange: 'transform, opacity', backfaceVisibility: 'hidden' }}
             >
               <div className="flex-1 w-full max-w-[1600px] mx-auto px-4 sm:px-8 md:px-12 lg:px-24 flex flex-col justify-between pb-12 relative h-full min-h-[min-content]">
@@ -400,12 +400,12 @@ export default function Navbar() {
                           key={item.path}
                           to={item.path}
                           className={cn(
-                            'group flex items-center w-max transition-all duration-300 relative py-3 md:py-4',
+                            'group flex items-center w-max transition-all duration-300 relative py-2 lg:py-3',
                             isActive ? 'text-brand-gold' : 'text-brand-ink/90 hover:text-brand-gold md:hover:translate-x-6'
                           )}
                           onClick={() => setIsOpen(false)}
                         >
-                          <span className="font-sans font-black text-4xl sm:text-5xl md:text-6xl lg:text-[80px] uppercase tracking-[-0.03em] leading-none">
+                          <span className="font-sans font-black text-3xl sm:text-4xl md:text-5xl lg:text-[60px] uppercase tracking-[-0.03em] leading-[1.1]">
                             {item.name}
                           </span>
                           {item.path === '/events' && (
