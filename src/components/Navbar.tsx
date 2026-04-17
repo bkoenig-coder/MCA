@@ -1,6 +1,7 @@
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Globe, LogIn, LogOut, User as UserIcon, ChevronDown, Calendar, ArrowRight, Info, Newspaper, Image as ImageIcon, Heart, Mail, Compass, Shield } from 'lucide-react';
+import { toast } from 'sonner';
 import { useState, useEffect, useRef } from 'react';
 import { cn } from '@/src/lib/utils';
 import { useAuth } from '../contexts/AuthContext';
@@ -298,7 +299,17 @@ export default function Navbar() {
                   </div>
                 ) : (
                   <button 
-                    onClick={() => signInWithGoogle()}
+                    onClick={async () => {
+                      try {
+                        await signInWithGoogle();
+                      } catch (error: any) {
+                        if (error?.code === 'auth/popup-blocked') {
+                          toast.error('Login popup blocked by your browser. Please allow popups or open the app in a new tab.');
+                        } else if (error?.code !== 'auth/popup-closed-by-user') {
+                          toast.error(`Sign in failed: ${error.message || 'Unknown error. Try opening in a new tab.'}`);
+                        }
+                      }
+                    }}
                     className={cn(
                       "text-[10px] uppercase tracking-[0.3em] font-bold px-6 py-2.5 rounded-full transition-all duration-500 shadow-sm whitespace-nowrap text-white bg-brand-ink hover:bg-[#C5A059]"
                     )}
@@ -453,7 +464,18 @@ export default function Navbar() {
                       </div>
                     ) : (
                       <button
-                        onClick={() => { signInWithGoogle(); setIsOpen(false); }}
+                        onClick={async () => {
+                          try {
+                            await signInWithGoogle();
+                            setIsOpen(false);
+                          } catch (error: any) {
+                            if (error?.code === 'auth/popup-blocked') {
+                              toast.error('Login popup blocked by your browser. Please allow popups or open the app in a new tab.');
+                            } else if (error?.code !== 'auth/popup-closed-by-user') {
+                              toast.error(`Sign in failed: ${error.message || 'Unknown error. Try opening in a new tab.'}`);
+                            }
+                          }
+                        }}
                         className="w-full sm:w-auto bg-gradient-to-r from-[#C5A059] to-[#D4AF37] text-[#4A0E0E] px-6 md:px-8 py-3 md:py-4 rounded-xl text-center text-[10px] md:text-[11px] uppercase tracking-[0.2em] font-bold flex items-center justify-center gap-2 md:gap-3 shadow-[0_4px_15px_rgba(197,160,89,0.3)] hover:shadow-[0_6px_20px_rgba(197,160,89,0.5)] hover:-translate-y-0.5 transition-all duration-300"
                       >
                         <LogIn size={16} className="md:w-[18px] md:h-[18px]" />

@@ -8,6 +8,9 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 export const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({
+  prompt: 'select_account'
+});
 
 export async function signInWithGoogle() {
   try {
@@ -32,7 +35,9 @@ export async function signInWithGoogle() {
         await setDoc(userRef, userData);
       }
     } catch (firestoreError) {
-      handleFirestoreError(firestoreError, OperationType.WRITE, `users/${user.uid}`);
+      console.error("Firestore error creating user profile:", firestoreError);
+      // We do not throw here, so that the user can still be logged in via Auth
+      // handleFirestoreError(firestoreError, OperationType.WRITE, `users/${user.uid}`);
     }
     
     return user;
