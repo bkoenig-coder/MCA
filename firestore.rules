@@ -178,13 +178,14 @@ service cloud.firestore {
     }
 
     function isValidPost(data) {
-      return hasOnlyAllowedFields(['title', 'content', 'imageUrl', 'authorId', 'createdAt']) &&
+      return hasOnlyAllowedFields(['title', 'content', 'imageUrl', 'authorId', 'createdAt', 'updatedAt']) &&
              hasRequiredFields(['title', 'content', 'authorId', 'createdAt']) &&
              validString(data.title, 1, 200) &&
              validString(data.content, 1, 10000) &&
              (!( 'imageUrl' in data ) || isValidUrl(data.imageUrl)) &&
              validString(data.authorId, 1, 128) &&
-             data.createdAt is timestamp;
+             data.createdAt is timestamp &&
+             (!( 'updatedAt' in data ) || data.updatedAt is timestamp);
     }
 
     function isValidAnalytics(data) {
@@ -193,7 +194,7 @@ service cloud.firestore {
     }
 
     function isValidGalleryItem(data) {
-      return hasOnlyAllowedFields(['title', 'artist', 'year', 'description', 'imageUrl', 'category', 'createdAt']) &&
+      return hasOnlyAllowedFields(['title', 'artist', 'year', 'description', 'imageUrl', 'category', 'createdAt', 'updatedAt']) &&
              hasRequiredFields(['title', 'imageUrl', 'createdAt']) &&
              validString(data.title, 1, 200) &&
              validOptionalString('artist', 0, 200) &&
@@ -201,7 +202,8 @@ service cloud.firestore {
              validOptionalString('description', 0, 2000) &&
              isValidUrl(data.imageUrl) &&
              validOptionalString('category', 0, 100) &&
-             data.createdAt is timestamp;
+             data.createdAt is timestamp &&
+             (!( 'updatedAt' in data ) || data.updatedAt is timestamp);
     }
 
     // ===============================================================

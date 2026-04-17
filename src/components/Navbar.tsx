@@ -179,7 +179,7 @@ export default function Navbar() {
       <nav
         className={cn(
           'transition-all duration-300 px-4 md:px-6 py-4 md:py-8 relative',
-          isOpen ? 'bg-white' : (scrolled || nextEvent ? 'bg-white/95 backdrop-blur-3xl py-3 md:py-4 shadow-sm border-b border-brand-ink/5' : 'bg-transparent'),
+          isOpen ? 'bg-white' : (scrolled || nextEvent ? 'bg-white py-3 md:py-4 shadow-sm border-b border-brand-ink/5' : 'bg-white'),
           nextEvent && !scrolled && !isOpen && 'py-4 md:py-6'
         )}
       >
