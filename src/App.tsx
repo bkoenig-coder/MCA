@@ -27,6 +27,7 @@ import { Toaster } from 'sonner';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import AIAssistant from './components/AIAssistant';
 import ToonoIntro from './components/ToonoIntro';
+import { Analytics } from '@vercel/analytics/react';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -72,6 +73,7 @@ export default function App() {
             <Footer />
             <AIAssistant />
           </div>
+          <Analytics />
         </Router>
       </AuthProvider>
     </ErrorBoundary>
