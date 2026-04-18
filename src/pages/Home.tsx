@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../components/MongolianDesign';
 import { db, collection, onSnapshot, query, orderBy, limit, handleFirestoreError, OperationType } from '../firebase';
-import logo1 from '../assets/media/logo1.jpg';
-import logo2 from '../assets/media/logo2.png';
-import logo3 from '../assets/media/logo3.png';
+import logo1 from '../assets/media/org-group-1.jpg';
+import logo2 from '../assets/media/org-group-2.png';
+import logo3 from '../assets/media/org-group-3.png';
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -292,7 +292,6 @@ export default function Home() {
                           src={partner.src} 
                           alt={partner.name} 
                           className="h-full w-auto object-contain mix-blend-multiply" 
-                          referrerPolicy="no-referrer" 
                         />
                       ) : (
                         partner.icon
