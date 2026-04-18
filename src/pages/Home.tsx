@@ -8,6 +8,7 @@ import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../comp
 import { db, collection, onSnapshot, query, orderBy, limit, handleFirestoreError, OperationType } from '../firebase';
 import logo1 from '../assets/media/logo1.jpg';
 import logo2 from '../assets/media/logo2.png';
+import logo3 from '../assets/media/logo3.png';
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -57,19 +58,19 @@ export default function Home() {
                     transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                   >
                     <div className="flex items-center gap-4 mb-6 md:mb-8">
-                      <div className="h-px w-12 bg-brand-gold/40" />
-                      <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">
+                      <div className="h-px w-12 bg-brand-gold/40 -mt-[52px]" />
+                      <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold -mt-[52px]">
                         {t('hero.tag')}
                       </span>
                     </div>
                     <h1 className={cn(
-                      "font-serif font-normal leading-[0.9] mb-8 md:mb-10 tracking-tight text-brand-ink md:whitespace-nowrap",
+                      "font-serif font-normal leading-[0.9] mb-8 md:mb-10 tracking-tight text-brand-ink md:whitespace-nowrap -mt-[26px]",
                       i18n.language === 'en' ? "text-5xl md:text-7xl lg:text-[82px]" : "text-4xl md:text-6xl lg:text-[64px]"
                     )}>
                       {t('hero.title')} <br />
                       <span className="italic text-brand-gold font-light">{t('hero.titleItalic')}</span>
                     </h1>
-                    <p className="text-base md:text-xl text-brand-ink/60 max-w-2xl mb-10 md:mb-12 leading-relaxed font-light mr-[1px]">
+                    <p className="text-[12px] text-brand-ink/60 max-w-2xl mb-10 md:mb-12 leading-relaxed font-normal -mr-[27px]">
                       {t('hero.subtitle')}
                     </p>
                   </motion.div>
@@ -87,7 +88,7 @@ export default function Home() {
                       opacity: { duration: 0.8 },
                       y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
                     }}
-                    className="relative flex flex-col items-center p-4 py-16 border border-brand-gold/30 bg-white/60 backdrop-blur-xl rounded-full shadow-xl overflow-hidden min-w-[100px]"
+                    className="relative flex flex-col items-center p-4 py-16 border border-brand-gold/30 bg-white/60 backdrop-blur-xl rounded-full shadow-xl overflow-hidden min-w-[100px] -mt-[89px]"
                   >
                     {/* Subtle Background Pattern */}
                     <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
@@ -134,17 +135,17 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.5 }}
-                className="flex flex-col sm:flex-row flex-wrap xl:flex-nowrap gap-3 md:gap-4"
+                className="flex flex-col sm:flex-row flex-wrap xl:flex-nowrap gap-3 md:gap-4 -mt-[28px]"
               >
                 <Link to="/events" className="w-full sm:w-auto flex-1 text-center bg-brand-ink text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-gold transition-all shadow-xl group whitespace-nowrap">
                   {t('hero.ctaEvents')}
                 </Link>
-                <Link to="/about" className="w-full sm:w-auto flex-1 text-center border border-brand-ink/20 px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold hover:text-brand-gold transition-all whitespace-nowrap">
-                  {t('hero.ctaStory')}
-                </Link>
                 <Link to="/diorama" className="w-full sm:w-auto flex-1 text-center bg-gradient-to-r from-brand-gold to-amber-600 text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all shadow-xl flex items-center justify-center gap-2 group border border-amber-400/30 whitespace-nowrap">
                   <SoyomboSymbol className="w-3 h-3 lg:w-4 lg:h-4 group-hover:rotate-12 transition-transform duration-300" />
                   Explore 3D
+                </Link>
+                <Link to="/about" className="w-full sm:w-auto flex-1 text-center border border-brand-ink/20 px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold hover:text-brand-gold transition-all whitespace-nowrap">
+                  {t('hero.ctaStory')}
                 </Link>
               </motion.div>
             </div>
@@ -280,7 +281,7 @@ export default function Home() {
                   { name: 'Gobi Group', isImg: false, icon: <UlziiSymbol className="w-8 h-8 md:w-10 md:h-10 text-brand-ink" /> },
                   { name: 'Verein für aktiv Leben und Bildung', isImg: true, src: logo2 },
                   { name: 'Khaan Holdings', isImg: false, icon: <SoyomboSymbol className="w-6 h-10 md:w-8 md:h-12 text-brand-ink" /> },
-                  { name: 'Tengri Partners', isImg: false, icon: <ArcherSymbol className="w-8 h-8 md:w-12 md:h-12 text-brand-ink" /> },
+                  { name: 'Verein der mongolischen StudentInnen in Österreich', isImg: true, src: logo3 },
                   { name: 'Altai Ventures', isImg: false, icon: <Shield strokeWidth={1.5} className="w-8 h-8 md:w-10 md:h-10 text-brand-ink" /> },
                   { name: 'Nomad Global', isImg: false, icon: <Star strokeWidth={1.5} className="w-8 h-8 md:w-10 md:h-10 text-brand-ink" /> },
                 ].map((partner, idx) => (
