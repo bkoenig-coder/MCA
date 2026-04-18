@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../components/MongolianDesign';
 import { db, collection, onSnapshot, query, orderBy, limit, handleFirestoreError, OperationType } from '../firebase';
-import logo1 from '../assets/media/org-group-1.jpg';
-import logo2 from '../assets/media/org-group-2.png';
-import logo3 from '../assets/media/org-group-3.png';
+import logo1 from '../assets/media/art-item-1.jpg';
+import logo2 from '../assets/media/art-item-2.png';
+import logo3 from '../assets/media/art-item-3.png';
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -291,7 +291,18 @@ export default function Home() {
                         <img 
                           src={partner.src} 
                           alt={partner.name} 
-                          className="h-full w-auto object-contain mix-blend-multiply" 
+                          className="h-full w-auto object-contain max-h-[100%] max-w-[100%]" 
+                          onError={(e) => {
+                            console.error(`Failed to load image: ${partner.src}`);
+                            e.currentTarget.style.display = 'none'; // Hide the ugly broken icon
+                            if (e.currentTarget.parentElement) {
+                               // Fallback to text initials if image fails completely
+                               const fallbackText = document.createElement('div');
+                               fallbackText.className = "flex items-center justify-center w-12 h-12 rounded-full border border-gray-200 text-gray-400 font-bold tracking-widest text-xs";
+                               fallbackText.innerText = partner.name.substring(0, 2).toUpperCase();
+                               e.currentTarget.parentElement.appendChild(fallbackText);
+                            }
+                          }}
                         />
                       ) : (
                         partner.icon
