@@ -255,7 +255,14 @@ export default function Home() {
       </section>
 
       {/* Partners Marquee Section - Corporate Refactor */}
-      <section className="py-8 md:py-10 bg-gray-50 relative overflow-hidden border-y border-gray-200">
+      <section className="py-10 md:py-12 bg-gray-50 relative overflow-hidden border-y border-gray-200">
+        <div className="text-center mb-10 relative z-20">
+          <h3 className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-gray-500">
+            Our partners & sponsors
+          </h3>
+          <div className="w-12 h-0.5 bg-brand-gold/50 mx-auto mt-4" />
+        </div>
+
         {/* Gradient Fades for Smooth Edges */}
         <div className="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-gray-50 to-transparent z-10 pointer-events-none" />
         <div className="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-gray-50 to-transparent z-10 pointer-events-none" />
