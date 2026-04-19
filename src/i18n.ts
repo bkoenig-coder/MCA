@@ -38,39 +38,39 @@ const resources = {
         tag: 'Vienna • Austria',
         title: 'Bridging Cultures,',
         titleItalic: 'Building Community',
-        subtitle: 'Welcome to the official platform of the Mongolian Cultural Center Vienna. We are a Non-Governmental Organization dedicated to preserving our rich cultural heritage and fostering community cooperation in Austria. Through this website, you can explore our ongoing initiatives, view the schedule of upcoming cultural events, register online, and stay updated with our latest news and projects.',
+        subtitle: 'Welcome to the official platform of the Mongolian Cultural Center Vienna. We are a Non-Governmental Organization dedicated to preserving our rich cultural heritage and fostering strong community ties in Austria. Through this website, you can explore our ongoing initiatives, view the schedule of upcoming cultural events, complete your registrations online, and stay updated with our latest news, projects, and organizational developments.',
         ctaEvents: 'Explore Events',
-        ctaImpact: 'Our Impact',
-        ctaStory: 'Our Story',
-        established: 'Established'
+        ctaImpact: 'Our Mission',
+        ctaStory: 'Our Heritage',
+        established: 'Founded in'
       },
       pillars: {
-        title: 'Our Core Pillars',
+        title: 'Strategic Pillars',
         community: {
-          title: 'Community Hub',
-          desc: 'A space where Mongolians and locals connect through networking and shared experiences.'
+          title: 'Community Engagement',
+          desc: 'Fostering a premier network where Mongolian professionals, students, and local Austrian partners connect and collaborate.'
         },
         arts: {
-          title: 'Arts & Gallery',
-          desc: 'Showcasing traditional and contemporary Mongolian artists in cross-cultural exhibitions.'
+          title: 'Cultural Diplomacy',
+          desc: 'Elevating both traditional and contemporary Mongolian artistry through high-profile, cross-cultural exhibitions in Europe.'
         },
         impact: {
-          title: 'Social Impact',
-          desc: 'Fostering solidarity through donation initiatives supporting causes in Austria and Mongolia.'
+          title: 'Sustainable Impact',
+          desc: 'Driving meaningful social change and civic solidarity through targeted philanthropic initiatives in Austria and Mongolia.'
         }
       },
       legacy: {
-        title: 'Legacy of the',
-        titleItalic: 'Great Steppe',
-        quote: '"From the vast horizons of the Mongolian plateau to the heart of Vienna, we carry the spirit of the nomad—resilient, free, and deeply connected to our roots."',
-        archery: 'Archery',
-        tradition: 'Tradition',
-        horsemanship: 'Horsemanship',
-        freedom: 'Freedom',
-        wrestling: 'Wrestling',
-        strength: 'Strength',
-        wisdom: 'Wisdom',
-        heritage: 'Heritage'
+        title: 'A Call for',
+        titleItalic: 'Collaboration',
+        quote: 'We believe the greatest legacies are built together. We invite innovators, cultural leaders, and organizations to partner with us in forging a dynamic, collaborative bridge between Austria and Mongolia.',
+        archery: 'Partnership',
+        tradition: 'Unity',
+        horsemanship: 'Innovation',
+        freedom: 'Future',
+        wrestling: 'Exchange',
+        strength: 'Growth',
+        wisdom: 'Vision',
+        heritage: 'Impact'
       },
       highlight: {
         tag: 'Highlight',
@@ -83,30 +83,30 @@ const resources = {
         cta: 'View All Events'
       },
       impactCta: {
-        title: 'Make an Impact Together',
-        desc: 'Your support helps us maintain this cultural bridge and fund social initiatives in both Austria and Mongolia.',
-        cta: 'Support Our Initiatives'
+        title: 'Drive Global Impact',
+        desc: 'Partner with us to sustain this vital cultural bridge and sponsor bilateral social initiatives that generate measurable results.',
+        cta: 'Partner With Us'
       },
       about: {
         tag: 'Our Story',
         story: 'Our Story &',
-        mission: 'Mission',
-        bridging: 'Bridging',
-        cultures: 'Cultures',
-        founded: 'Founded in Vienna, the Mongolian Center in Austria emerged from a vision to create a dedicated home for cultural exchange, artistic expression, and community solidarity.',
-        heritage: 'Our Heritage',
-        hubTitle: 'A Vibrant Hub in Vienna',
-        hubDesc1: 'The Mongolian Center in Austria is a dynamic NGO based in Vienna, dedicated to building a vibrant cultural and community hub for Mongolians and locals alike. It serves as a space where people can connect, experience, and celebrate Mongolian culture through thoughtfully curated events.',
-        hubDesc2: 'Our activities range from high-level networking gatherings that foster professional connections to colorful cultural festivals and educational workshops that keep our traditions alive for the next generation.',
-        hubDesc3: 'We believe that culture is a living, breathing entity. By bringing Mongolian traditions to the heart of Europe, we create a dialogue that enriches both communities.',
+        mission: 'Vision',
+        bridging: 'Forging',
+        cultures: 'Alliances',
+        founded: 'Established in Vienna, the Mongolian Cultural Center Austria emerged from a strategic vision to cultivate a premier platform for bilateral cultural exchange, diplomatic relations, and socioeconomic solidarity.',
+        heritage: 'Our Strategy',
+        hubTitle: 'A Hub for Bilateral Excellence',
+        hubDesc1: 'Operating from the heart of Europe, our NGO serves as a dynamic nexus connecting Mongolian heritage with European innovation. We facilitate high-leverage networking, cultural showcases, and collaborative ventures.',
+        hubDesc2: 'Our portfolio spans executive networking symposiums, contemporary cultural diplomacy events, and academic workshops designed to foster long-term partnerships between Austria and Mongolia.',
+        hubDesc3: 'We view culture as the ultimate foundation for mutual trust. By integrating Mongolian traditions with European contexts, we engineer alliances that yield both cultural enrichment and strategic growth.',
         vision: {
-          title: 'Our Vision',
-          desc: 'To be the primary bridge between Austria and Mongolia, fostering a world where cultural diversity is celebrated and community bonds are unbreakable.'
+          title: 'Our Strategic Vision',
+          desc: 'To stand as the definitive bridge connecting Austrian and Mongolian interests—advancing a future built on mutual respect, cultural diversity, and unbreakable strategic partnerships.'
         },
         values: {
           tag: 'Core Principles',
           title: 'Our Values',
-          desc: 'Solidarity, cultural integrity, social responsibility, and artistic excellence guide every initiative we undertake.'
+          desc: 'Integrity, cultural diplomacy, corporate responsibility, and artistic excellence dictate every strategic initiative we manage.'
         },
         impact: {
           title: 'Our Impact',
@@ -286,31 +286,31 @@ const resources = {
       },
       contact: {
         tag: 'Get in Touch',
-        title: 'Connect with',
+        title: 'Partner with',
         titleItalic: 'Us',
-        subtitle: 'Have questions or want to get involved? Reach out to our team in Vienna.',
+        subtitle: 'Looking to collaborate, sponsor an initiative, or explore cultural and economic opportunities? Connect directly with our executive team in Vienna.',
         info: {
-          location: 'Location',
+          location: 'Headquarters',
           vienna: 'Vienna, Austria',
-          hub: 'Cultural Hub & Gallery',
-          email: 'Email',
-          phone: 'Phone',
+          hub: 'Cultural & Business Hub',
+          email: 'Executive Contact',
+          phone: 'Direct Line',
           hours: 'Mon-Fri, 10:00 - 18:00',
-          quote: '"Bridging cultures through meaningful dialogue and sustainable partnerships."'
+          quote: '"Bridging markets and cultures through meaningful dialogue and high-value sustainable partnerships."'
         },
         form: {
-          title: 'Send us a Message',
+          title: 'Initiate a Partnership',
           firstName: 'First Name',
           lastName: 'Last Name',
-          email: 'Email Address',
-          subject: 'Subject',
-          message: 'Message',
-          send: 'Send Message',
+          email: 'Business Email',
+          subject: 'Area of Interest',
+          message: 'Proposal / Inquiry',
+          send: 'Send Inquiry',
           placeholders: {
             firstName: 'John',
             lastName: 'Doe',
-            email: 'john@example.com',
-            message: 'How can we help you?'
+            email: 'john@company.com',
+            message: 'How can we partner to generate mutual impact?'
           },
           subjects: {
             general: 'General Inquiry',
@@ -319,8 +319,8 @@ const resources = {
             events: 'Event Collaboration'
           }
         },
-        success: 'Message sent successfully!',
-        error: 'Failed to send message. Please try again.'
+        success: 'Your inquiry has been received. Our team will contact you shortly.',
+        error: 'Failed to submit inquiry. Please try again or contact us directly.'
       },
       cookies: {
         title: 'Privacy & Heritage',
@@ -377,40 +377,40 @@ const resources = {
       hero: {
         tag: 'Wien • Österreich',
         title: 'Kulturen verbinden,',
-        titleItalic: 'Gemeinschaft aufbauen',
-        subtitle: 'Willkommen auf der offiziellen Plattform des Mongolischen Kulturzentrums Wien. Wir sind eine Nichtregierungsorganisation (NRO), die sich der Bewahrung unseres reichen kulturellen Erbes und der Förderung der Zusammenarbeit in Österreich widmet. Nutzen Sie diese Website, um unsere aktuellen Initiativen zu erkunden, den Zeitplan für kommende Veranstaltungen einzusehen, sich online zu registrieren und sich über Neuigkeiten zu informieren.',
-        ctaEvents: 'Veranstaltungen erkunden',
-        ctaImpact: 'Unsere Wirkung',
+        titleItalic: 'Gemeinschaft leben',
+        subtitle: 'Willkommen auf der offiziellen Plattform des Mongolischen Kulturzentrums Wien. Als Nichtregierungsorganisation (NRO) widmen wir uns der Bewahrung unseres vielfältigen kulturellen Erbes und der Stärkung des gemeinschaftlichen Zusammenhalts in Österreich. Auf dieser Website können Sie unsere aktuellen Projekte entdecken, den Veranstaltungskalender einsehen, sich komfortabel online registrieren und stets über unsere neuesten Entwicklungen und Initiativen informiert bleiben.',
+        ctaEvents: 'Veranstaltungen',
+        ctaImpact: 'Unsere Mission',
         ctaStory: 'Unsere Geschichte',
-        established: 'Gegründet'
+        established: 'Gegründet im Jahr'
       },
       pillars: {
-        title: 'Unsere Kernsäulen',
+        title: 'Unsere strategischen Säulen',
         community: {
-          title: 'Gemeinschaftszentrum',
-          desc: 'Ein Raum, in dem sich Mongolen und Einheimische durch Networking und gemeinsame Erfahrungen vernetzen.'
+          title: 'Netzwerk & Gemeinschaft',
+          desc: 'Aufbau eines erstklassigen Netzwerks, in dem mongolische Fachkräfte, Studierende und österreichische Partner kooperieren.'
         },
         arts: {
-          title: 'Kunst & Galerie',
-          desc: 'Präsentation traditioneller und zeitgenössischer mongolischer Künstler in interkulturellen Ausstellungen.'
+          title: 'Kulturdiplomatie',
+          desc: 'Förderung traditioneller und zeitgenössischer mongolischer Kunst durch hochkarätige, interkulturelle Ausstellungen in Europa.'
         },
         impact: {
-          title: 'Soziale Wirkung',
-          desc: 'Förderung der Solidarität durch Spendeninitiativen zur Unterstützung von Anliegen in Österreich und der Mongolei.'
+          title: 'Nachhaltige Wirkung',
+          desc: 'Förderung von sozialem Wandel und zivilgesellschaftlicher Solidarität durch gezielte philanthropische Initiativen.'
         }
       },
       legacy: {
-        title: 'Das Erbe der',
-        titleItalic: 'Großen Steppe',
-        quote: '"Vom weiten Horizont des mongolischen Plateaus bis ins Herz Wiens tragen wir den Geist der Nomaden in uns – widerstandsfähig, frei und tief mit unseren Wurzeln verbunden."',
-        archery: 'Bogenschießen',
-        tradition: 'Tradition',
-        horsemanship: 'Reitkunst',
-        freedom: 'Freiheit',
-        wrestling: 'Ringen',
-        strength: 'Stärke',
-        wisdom: 'Weisheit',
-        heritage: 'Erbe'
+        title: 'Ein Aufruf zur',
+        titleItalic: 'Zusammenarbeit',
+        quote: 'Wir glauben, dass die größten Vermächtnisse gemeinsam geschaffen werden. Wir laden Innovatoren, Kulturschaffende und Organisationen ein, als Partner mit uns eine dynamische Brücke zwischen Österreich und der Mongolei zu bauen.',
+        archery: 'Partnerschaft',
+        tradition: 'Einheit',
+        horsemanship: 'Innovation',
+        freedom: 'Zukunft',
+        wrestling: 'Austausch',
+        strength: 'Wachstum',
+        wisdom: 'Vision',
+        heritage: 'Wirkung'
       },
       highlight: {
         tag: 'Highlight',
@@ -423,30 +423,30 @@ const resources = {
         cta: 'Alle Veranstaltungen ansehen'
       },
       impactCta: {
-        title: 'Gemeinsam etwas bewirken',
-        desc: 'Ihre Unterstützung hilft uns, diese kulturelle Brücke aufrechtzuerhalten und soziale Initiativen sowohl in Österreich als auch in der Mongolei zu finanzieren.',
-        cta: 'Unsere Initiativen unterstützen'
+        title: 'Gemeinsam Wirkung erzielen',
+        desc: 'Werden Sie Partner, um diese wichtige kulturelle Brücke zu erhalten und bilaterale soziale Initiativen mit messbaren Ergebnissen zu fördern.',
+        cta: 'Mit uns zusammenarbeiten'
       },
       about: {
         tag: 'Unsere Geschichte',
         story: 'Unsere Geschichte &',
-        mission: 'Mission',
-        bridging: 'Brücken',
-        cultures: 'bauen',
-        founded: 'Gegründet in Wien, entstand das Mongolische Zentrum in Österreich aus der Vision, ein engagiertes Zuhause für kulturellen Austausch, künstlerischen Ausdruck und gemeinschaftliche Solidarität zu schaffen.',
-        heritage: 'Unser Erbe',
-        hubTitle: 'Ein lebendiger Knotenpunkt in Wien',
-        hubDesc1: 'Das Mongolische Zentrum in Österreich ist eine dynamische NGO mit Sitz in Wien, die sich dem Aufbau eines lebendigen Kultur- und Gemeinschaftszentrums für Mongolen und Einheimische widmet. Es dient als Raum, in dem Menschen durch sorgfältig kuratierte Veranstaltungen in Kontakt treten, die mongolische Kultur erleben und feiern können.',
-        hubDesc2: 'Unsere Aktivitäten reichen von hochkarätigen Networking-Treffen, die berufliche Verbindungen fördern, bis hin zu farbenfrohen Kulturfestivals und Bildungs-Workshops, die unsere Traditionen für die nächste Generation am Leben erhalten.',
-        hubDesc3: 'Wir glauben, dass Kultur ein lebendiges, atmendes Wesen ist. Indem wir mongolische Traditionen in das Herz Europas bringen, schaffen wir einen Dialog, der beide Gemeinschaften bereichert.',
+        mission: 'Vision',
+        bridging: 'Allianzen',
+        cultures: 'schmieden',
+        founded: 'Gegründet in Wien, entstand das Mongolische Kulturzentrum Österreich aus der strategischen Vision, eine erstklassige Plattform für bilateralen Kulturaustausch, diplomatische Beziehungen und sozioökonomische Solidarität zu schaffen.',
+        heritage: 'Unsere Strategie',
+        hubTitle: 'Ein Zentrum für bilaterale Exzellenz',
+        hubDesc1: 'Als im Herzen Europas agierende NGO fungieren wir als dynamischer Knotenpunkt, der mongolisches Erbe mit europäischer Innovation verbindet. Wir fördern hochgradiges Networking, kulturelle Präsentationen und gemeinsame Unternehmungen.',
+        hubDesc2: 'Unser Portfolio umfasst exklusive Networking-Symposien, moderne Veranstaltungen zur Kulturdiplomatie und akademische Workshops, die darauf abzielen, langfristige Partnerschaften aufzubauen.',
+        hubDesc3: 'Wir betrachten Kultur als das ultimative Fundament für gegenseitiges Vertrauen. Durch die Verbindung mongolischer Traditionen mit europäischen Kontexten schaffen wir Allianzen, die kulturelle Bereicherung und strategisches Wachstum fördern.',
         vision: {
-          title: 'Unsere Vision',
-          desc: 'Die primäre Brücke zwischen Österreich und der Mongolei zu sein und eine Welt zu fördern, in der kulturelle Vielfalt gefeiert wird und Gemeinschaftsbindungen unzerbrechlich sind.'
+          title: 'Unsere strategische Vision',
+          desc: 'Die maßgebliche Brücke zwischen österreichischen und mongolischen Interessen zu sein – und eine Zukunft zu fördern, die auf gegenseitigem Respekt, kultureller Vielfalt und unzerbrechlichen strategischen Partnerschaften aufbaut.'
         },
         values: {
-          tag: 'Grundprinzipien',
+          tag: 'Kernprinzipien',
           title: 'Unsere Werte',
-          desc: 'Solidarität, kulturelle Integrität, soziale Verantwortung und künstlerische Exzellenz leiten jede unserer Initiativen.'
+          desc: 'Integrität, Kulturdiplomatie, unternehmerische Verantwortung und künstlerische Exzellenz bestimmen jede unserer strategischen Initiativen.'
         },
         impact: {
           title: 'Unsere Wirkung',
@@ -626,31 +626,31 @@ const resources = {
       },
       contact: {
         tag: 'Kontakt aufnehmen',
-        title: 'Verbinden Sie sich mit',
-        titleItalic: 'uns',
-        subtitle: 'Haben Sie Fragen oder möchten Sie sich engagieren? Kontaktieren Sie unser Team in Wien.',
+        title: 'Partner',
+        titleItalic: 'Werden',
+        subtitle: 'Möchten Sie zusammenarbeiten, eine Initiative sponsern oder kulturelle und wirtschaftliche Möglichkeiten ausloten? Verbinden Sie sich direkt mit unserem Führungsteam in Wien.',
         info: {
-          location: 'Standort',
+          location: 'Hauptsitz',
           vienna: 'Wien, Österreich',
-          hub: 'Kulturzentrum & Galerie',
-          email: 'E-Mail',
-          phone: 'Telefon',
+          hub: 'Kultur- & Geschäftszentrum',
+          email: 'Executive Kontakt',
+          phone: 'Direktwahl',
           hours: 'Mo-Fr, 10:00 - 18:00',
-          quote: '"Kulturen durch bedeutungsvollen Dialog und nachhaltige Partnerschaften verbinden."'
+          quote: '"Brückenbau zwischen Märkten und Kulturen durch bedeutungsvollen Dialog und hochwertige, nachhaltige Partnerschaften."'
         },
         form: {
-          title: 'Schreiben Sie uns eine Nachricht',
+          title: 'Partnerschaft initiieren',
           firstName: 'Vorname',
           lastName: 'Nachname',
-          email: 'E-Mail-Adresse',
-          subject: 'Betreff',
-          message: 'Nachricht',
-          send: 'Nachricht senden',
+          email: 'Geschäftliche E-Mail',
+          subject: 'Interessensgebiet',
+          message: 'Vorschlag / Anfrage',
+          send: 'Anfrage senden',
           placeholders: {
             firstName: 'Max',
             lastName: 'Mustermann',
-            email: 'max@beispiel.de',
-            message: 'Wie können wir Ihnen helfen?'
+            email: 'max@unternehmen.de',
+            message: 'Wie können wir zusammenarbeiten, um gegenseitige Vorteile zu generieren?'
           },
           subjects: {
             general: 'Allgemeine Anfrage',
@@ -659,8 +659,8 @@ const resources = {
             events: 'Veranstaltungszusammenarbeit'
           }
         },
-        success: 'Nachricht erfolgreich gesendet!',
-        error: 'Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.'
+        success: 'Ihre Anfrage wurde empfangen. Unser Team wird sich in Kürze bei Ihnen melden.',
+        error: 'Fehler beim Senden der Anfrage. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.'
       },
       cookies: {
         title: 'Datenschutz & Erbe',
@@ -718,39 +718,39 @@ const resources = {
         tag: 'Вена • Австри',
         title: 'Соёлыг холбож,',
         titleItalic: 'Хамт олныг бүтээе',
-        subtitle: 'Вена дахь Монгол Төвийн албан ёсны цахим платформоор зочилж буй танд баярлалаа. Бид Монголын баялаг өв соёлыг сурталчлан таниулах, олон нийтийн эв нэгдэл, хамтын ажиллагааг дэмжих зорилготой Төрийн Бус Байгууллага юм. Энэхүү цахим хуудсаар дамжуулан та манай байгууллагын үйл ажиллагаа, удахгүй зохион байгуулагдах арга хэмжээнүүдийн хуваарьтай танилцах, онлайн бүртгэл хийлгэх болон төслийн мэдээллүүдийг цаг тухайд нь авах боломжтой.',
-        ctaEvents: 'Арга хэмжээ үзэх',
-        ctaImpact: 'Бидний нөлөө',
+        subtitle: 'Вена дахь Монгол Төвийн албан ёсны цахим платформд тавтай морилно уу. Бид Монгол орныхоо баялаг өв соёлыг түгээн дэлгэрүүлэх, Австри улс дахь монгол иргэдийнхээ эв нэгдэл, хамтын ажиллагааг бэхжүүлэх зорилготой төрийн бус байгууллага юм. Энэхүү цахим хуудсаар дамжуулан та манай байгууллагын хэрэгжүүлж буй төсөл хөтөлбөрүүдтэй танилцах, удахгүй болох соёлын арга хэмжээний хуваарийг харах, цахимаар бүртгүүлэх болон хамгийн сүүлийн үеийн мэдээ мэдээллийг хүлээн авах боломжтой.',
+        ctaEvents: 'Арга хэмжээнүүд',
+        ctaImpact: 'Бидний зорилго',
         ctaStory: 'Бидний түүх',
-        established: 'Байгуулагдсан'
+        established: 'Үүсгэн байгуулагдсан он'
       },
       pillars: {
-        title: 'Бидний тулгуур багана',
+        title: 'Стратегийн тулгуур',
         community: {
-          title: 'Хамт олны төв',
-          desc: 'Монголчууд болон нутгийн иргэд хоорондоо танилцаж, туршлага хуваалцах орон зай.'
+          title: 'Олон нийтийн хамтын ажиллагаа',
+          desc: 'Монголын мэргэжилтнүүд, оюутан залуус болон Австри улс дахь түншүүдийг холбосон дээд зэрэглэлийн сүлжээг бүтээн байгуулах.'
         },
         arts: {
-          title: 'Урлаг ба Галлерей',
-          desc: 'Монголын уламжлалт болон орчин үеийн уран бүтээлчдийг олон улсын үзэсгэлэнд танилцуулах.'
+          title: 'Соёлын дипломат харилцаа',
+          desc: 'Монголын уламжлалт болон орчин үеийн урлагийг Европ дахь өндөр зэрэглэлийн, олон улсын үзэсгэлэнгээр дамжуулан сурталчлах.'
         },
         impact: {
-          title: 'Нийгмийн нөлөө',
-          desc: 'Австри болон Монгол дахь сайн үйлсийн аяныг дэмжих замаар эв нэгдлийг бэхжүүлэх.'
+          title: 'Тогтвортой нөлөөлөл',
+          desc: 'Австри болон Монгол улсад чиглэсэн зорилтот сайн үйлсийн санаачилгуудаар дамжуулан нийгмийн бодит өөрчлөлтийг хөтлөх.'
         }
       },
       legacy: {
-        title: 'Их талын',
-        titleItalic: 'Өв соёл',
-        quote: '"Монголын өргөн уудам тал нутгаас Вена хотын зүрх хүртэл бид нүүдэлчин соёлынхоо тэсвэр хатуужил, эрх чөлөө, язгуур үндэснийхээ үзэл санааг тээж явна."',
-        archery: 'Сур харваа',
-        tradition: 'Уламжлал',
-        horsemanship: 'Морин спорт',
-        freedom: 'Эрх чөлөө',
-        wrestling: 'Бөх',
-        strength: 'Хүч чадал',
-        wisdom: 'Мэргэн ухаан',
-        heritage: 'Өв соёл'
+        title: 'Хамтын ажиллагааны',
+        titleItalic: 'Урилга',
+        quote: 'Аугаа үйл хэрэг хамтын хүчээр бүтдэг гэдэгт бид итгэдэг. Тиймээс шинийг санаачлагчид, соёлын зүтгэлтнүүд болон байгууллагуудыг Австри, Монгол хоёр орныг холбох гүүрийг хамтдаа хамтран бүтээхийг урьж байна.',
+        archery: 'Түншлэл',
+        tradition: 'Эв нэгдэл',
+        horsemanship: 'Инноваци',
+        freedom: 'Ирээдүй',
+        wrestling: 'Солилцоо',
+        strength: 'Өсөлт',
+        wisdom: 'Алсын хараа',
+        heritage: 'Нөлөөлөл'
       },
       highlight: {
         tag: 'Онцлох',
@@ -763,30 +763,30 @@ const resources = {
         cta: 'Бүх арга хэмжээг үзэх'
       },
       impactCta: {
-        title: 'Хамтдаа өөрчлөлтийг бүтээе',
-        desc: 'Таны дэмжлэг бидэнд соёлын гүүрийг хадгалах, Австри болон Монгол дахь нийгмийн санаачилгыг санхүүжүүлэхэд тусална.',
-        cta: 'Биднийг дэмжих'
+        title: 'Хамтдаа бодит өөрчлөлтийг бүтээцгээе',
+        desc: 'Энэхүү соёлын гүүрийг улам бэхжүүлж, хоёр орны нийгэмд бодит үр өгөөжөө өгөх төслүүдийг хамтран хэрэгжүүлэх урилга.',
+        cta: 'Бидэнтэй түншлэх'
       },
       about: {
         tag: 'Бидний түүх',
         story: 'Бидний түүх ба',
-        mission: 'Зорилго',
-        bridging: 'Соёлыг',
-        cultures: 'холбоно',
-        founded: 'Вена хотод байгуулагдсан Австри дахь Монгол Төв нь соёлын солилцоо, уран сайхны илэрхийлэл, хамт олны эв нэгдлийн төлөөх алсын хараанаас үүссэн юм.',
-        heritage: 'Бидний өв уламжлал',
-        hubTitle: 'Вена дахь эрч хүчтэй төв',
-        hubDesc1: 'Австри дахь Монгол Төв нь Вена хотод төвтэй, монголчууд болон нутгийн иргэдэд зориулсан соёл, хамт олны төвийг байгуулах зорилготой идэвхтэй ТББ юм. Энэ нь хүмүүс хоорондоо холбогдож, монгол соёлыг мэдэрч, тэмдэглэх орон зай юм.',
-        hubDesc2: 'Бидний үйл ажиллагаа нь мэргэжлийн харилцааг дэмжих уулзалтуудаас эхлээд соёлын наадам, уламжлалаа хойч үедээ өвлүүлэн үлдээх сургалт семинар хүртэл өргөн хүрээг хамардаг.',
-        hubDesc3: 'Соёл бол амьд оршихуй гэдэгт бид итгэдэг. Монгол уламжлалыг Европын зүрхэнд авчирснаар бид хоёр орны хамт олныг баяжуулах яриа хэлцлийг бий болгодог.',
+        mission: 'Алсын хараа',
+        bridging: 'Түншлэлийг',
+        cultures: 'бэхжүүлнэ',
+        founded: 'Австри дахь Монгол Төв нь хоёр орны соёлын солилцоо, дипломат харилцааг өргөжүүлэх, нийгэм-эдийн засгийн хамтын ажиллагааг хөгжүүлэх стратегийн алсын харааны үндсэн дээр Вена хотноо байгуулагдсан.',
+        heritage: 'Бидний Стратеги',
+        hubTitle: 'Хоёр талт харилцааны шилдэг төв',
+        hubDesc1: 'Европын зүрхэнд үйл ажиллагаагаа явуулдаг манай байгууллага нь Монголын өв соёлыг Европын инновацитай холбогч динамик зангилаа юм. Бид дээд түвшний сүлжээ, соёлын арга хэмжээ, хамтарсан төслүүдийг хэрэгжүүлдэг.',
+        hubDesc2: 'Бидний үйл ажиллагаа нь Австри болон Монгол улсын хооронд урт хугацааны түншлэлийг бий болгох зорилготой бизнес уулзалт, орчин үеийн соёлын арга хэмжээ болон академик сургалтуудаас бүрддэг.',
+        hubDesc3: 'Соёл бол харилцан итгэлцлийн хамгийн бат бөх суурь гэж бид үздэг. Монгол уламжлалыг Европын хэв маягтай уялдуулснаар бид эдийн засаг болон соёлын өсөлтийг авчрах стратегийн түншлэлийг байгуулахыг зорьдог.',
         vision: {
-          title: 'Алсын хараа',
-          desc: 'Австри болон Монгол улсын хоорондох гол гүүр болж, соёлын олон янз байдлыг тэмдэглэдэг, хамт олны хэлхээ холбоо бат бөх ертөнцийг цогцлоох.'
+          title: 'Бидний зорилго',
+          desc: 'Австри, Монголын нийтлэг эрх ашгийг холбогч гол гүүр нь байж—харилцан хүндэтгэл, соёлын олон талт байдал, бат бэх стратегийн түншлэлд суурилсан ирээдүйг цогцлоох.'
         },
         values: {
           tag: 'Үндсэн зарчим',
           title: 'Үнэт зүйлс',
-          desc: 'Эв нэгдэл, соёлын бүрэн бүтэн байдал, нийгмийн хариуцлага, уран сайхны шилдэг байдал нь бидний санаачилга бүрийн үндэс юм.'
+          desc: 'Шударга байдал, соёлын дипломат харилцаа, нийгмийн хариуцлага бөгөөд мэргэжлийн өндөр түвшин нь бидний бүх санаачилгыг удирдан чиглүүлдэг.'
         },
         impact: {
           title: 'Бидний нөлөө',
@@ -967,30 +967,30 @@ const resources = {
       contact: {
         tag: 'Холбоо барих',
         title: 'Бидэнтэй',
-        titleItalic: 'холбогдох',
-        subtitle: 'Асуух зүйл байна уу эсвэл хамтран ажиллахыг хүсэж байна уу? Вена дахь манай багтай холбогдоорой.',
+        titleItalic: 'Түншлэх',
+        subtitle: 'Та бидэнтэй хамтран ажиллах, төсөл хөтөлбөр ивээн тэтгэх эсвэл соёл, эдийн засгийн боломжуудыг судлахыг хүсэж байна уу? Вена дахь манай гүйцэтгэх багтай шууд холбогдоно уу.',
         info: {
-          location: 'Байршил',
+          location: 'Төв оффис',
           vienna: 'Вена, Австри',
-          hub: 'Соёлын төв ба Галлерей',
-          email: 'Имэйл',
-          phone: 'Утас',
+          hub: 'Соёл ба Бизнесийн Төв',
+          email: 'Гүйцэтгэх багийн имэйл',
+          phone: 'Шууд холбогдох утас',
           hours: 'Да-Ба, 10:00 - 18:00',
-          quote: '"Утга учиртай яриа хэлцэл, тогтвортой түншлэлээр дамжуулан соёлыг холбоно."'
+          quote: '"Утга учиртай яриа хэлцэл, өндөр үнэ цэнэ бүхий тогтвортой түншлэлээр дамжуулан зах зээл болон соёлыг холбоно."'
         },
         form: {
-          title: 'Зурвас илгээх',
+          title: 'Түншлэл эхлүүлэх',
           firstName: 'Нэр',
           lastName: 'Овог',
-          email: 'Имэйл хаяг',
-          subject: 'Гарчиг',
-          message: 'Зурвас',
-          send: 'Зурвас илгээх',
+          email: 'Албаны имэйл',
+          subject: 'Сонирхсон чиглэл',
+          message: 'Санал / Хүсэлт',
+          send: 'Хүсэлт илгээх',
           placeholders: {
             firstName: 'Бат',
             lastName: 'Болд',
-            email: 'bat@example.com',
-            message: 'Бид танд хэрхэн туслах вэ?'
+            email: 'bat@company.com',
+            message: 'Харилцан ашигтай нөлөөллийг бий болгохын тулд бид хэрхэн хамтран ажиллах вэ?'
           },
           subjects: {
             general: 'Ерөнхий асуулга',
@@ -999,8 +999,8 @@ const resources = {
             events: 'Арга хэмжээний хамтын ажиллагаа'
           }
         },
-        success: 'Зурвас амжилттай илгээгдлээ!',
-        error: 'Зурвас илгээхэд алдаа гарлаа. Дахин оролдоно уу.'
+        success: 'Таны хүсэлтийг хүлээн авлаа. Манай баг тун удахгүй тантай холбогдох болно.',
+        error: 'Хүсэлт илгээхэд алдаа гарлаа. Дахин оролдоно уу эсвэл бидэнтэй шууд холбогдоно уу.'
       },
       cookies: {
         title: 'Нууцлал ба Өв соёл',

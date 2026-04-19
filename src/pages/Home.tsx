@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { useState, useEffect } from 'react';
 import { cn } from '../lib/utils';
-import { ArrowRight, Calendar, Palette, Heart, Users, Shield, Sword, Clock, MapPin, Loader2, Info, Star } from 'lucide-react';
+import { ArrowRight, Calendar, Palette, Heart, Users, Shield, Sword, Clock, MapPin, Loader2, Info, Star, Handshake, Lightbulb, ArrowRightLeft, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../components/MongolianDesign';
@@ -687,16 +687,16 @@ export default function Home() {
               transition={{ duration: 1, delay: 0.7 }}
               className="text-2xl md:text-4xl text-white/70 font-serif leading-relaxed max-w-4xl mx-auto italic font-light"
             >
-              "{t('legacy.quote')}"
+              {t('legacy.quote')}
             </motion.p>
           </div>
           
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-12 lg:gap-16">
             {[
-              { label: t('legacy.archery'), value: t('legacy.tradition'), icon: <Sword size={24} /> },
-              { label: t('legacy.horsemanship'), value: t('legacy.freedom'), icon: <Shield size={24} /> },
-              { label: t('legacy.wrestling'), value: t('legacy.strength'), icon: <Users size={24} /> },
-              { label: t('legacy.wisdom'), value: t('legacy.heritage'), icon: <Palette size={24} /> }
+              { label: t('legacy.archery'), value: t('legacy.tradition'), icon: <Handshake size={24} /> },
+              { label: t('legacy.horsemanship'), value: t('legacy.freedom'), icon: <Lightbulb size={24} /> },
+              { label: t('legacy.wrestling'), value: t('legacy.strength'), icon: <ArrowRightLeft size={24} /> },
+              { label: t('legacy.wisdom'), value: t('legacy.heritage'), icon: <TrendingUp size={24} /> }
             ].map((item, i) => (
               <motion.div 
                 key={i}
