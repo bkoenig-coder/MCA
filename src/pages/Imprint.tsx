@@ -37,8 +37,8 @@ export default function Imprint() {
                   </h2>
                   <div className="space-y-2">
                     <p className="font-bold text-brand-ink">Mongolian Cultural Center Vienna</p>
-                    <p>ZVR-Zahl: 123456789 (Vereinsregister)</p>
-                    <p>UID-Nummer: ATU12345678</p>
+                    <p>ZVR-Zahl: Waiting approval from Magistrat der Stadt Wien (Vereinsregister)</p>
+                    <p>UID-Nummer: Waiting approval from Magistrat der Stadt Wien</p>
                   </div>
                 </section>
 
