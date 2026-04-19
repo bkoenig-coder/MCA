@@ -64,20 +64,21 @@ export default function Home() {
                       </span>
                     </div>
                     <h1 className={cn(
-                      "font-serif font-normal mb-8 md:mb-10 tracking-tight text-brand-ink md:whitespace-nowrap -mt-[26px]",
-                      "text-[36px] leading-[36px]"
+                      "font-serif font-normal mb-8 md:mb-10 tracking-tight text-brand-ink md:whitespace-nowrap -mt-[26px] md:mt-0",
+                      "text-[30px] leading-[36px] -mr-[74px]",
+                      "md:text-5xl lg:text-6xl xl:text-[80px] md:leading-[1.1] md:mr-0"
                     )}>
                       {t('hero.title')} <br />
                       <span className="italic text-brand-gold font-light">{t('hero.titleItalic')}</span>
                     </h1>
-                    <p className="text-[12px] text-brand-ink/60 max-w-2xl mb-10 md:mb-12 leading-relaxed font-normal -mr-[39px] -mt-[30px] pt-0">
+                    <p className="text-[12px] md:text-base lg:text-lg text-brand-ink/60 max-w-2xl mb-10 md:mb-12 leading-relaxed font-normal -mr-[39px] md:mr-0 -mt-[6px] md:mt-0 pt-0">
                       {t('hero.subtitle')}
                     </p>
                   </motion.div>
                 </div>
 
                 {/* Official Plaque - Vertical Mongolian Script Style (Mobile) */}
-                <div className="lg:hidden relative flex-shrink-0 pt-12">
+                <div className="lg:hidden relative flex-shrink-0 pt-12 -z-10">
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ 
@@ -135,7 +136,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.5 }}
-                className="flex flex-col sm:flex-row flex-wrap xl:flex-nowrap gap-3 md:gap-4 -mt-[28px]"
+                className="flex flex-col sm:flex-row flex-wrap xl:flex-nowrap gap-3 md:gap-4 -mt-[28px] relative z-20"
               >
                 <Link to="/events" className="w-full sm:w-auto flex-1 text-center bg-brand-ink text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-gold transition-all shadow-xl group whitespace-nowrap">
                   {t('hero.ctaEvents')}
