@@ -91,8 +91,8 @@ const resources = {
         tag: 'Our Story',
         story: 'Our Story &',
         mission: 'Vision',
-        bridging: 'About',
-        cultures: 'Us',
+        bridging: 'Forging',
+        cultures: 'Alliances',
         founded: 'Established in Vienna, the Mongolian Cultural Center Austria emerged from a strategic vision to cultivate a premier platform for bilateral cultural exchange, diplomatic relations, and socioeconomic solidarity.',
         heritage: 'Our Strategy',
         hubTitle: 'A Hub for Bilateral Excellence',
@@ -117,8 +117,8 @@ const resources = {
           title: 'Our Team',
           quote: '"Dedicated professionals committed to the preservation and promotion of Mongolian heritage in Europe."',
           roles: {
-            director: 'Founder',
-            manager: 'Founder',
+            director: 'Co-founder',
+            manager: 'Co-founder',
             outreach: 'Community Outreach'
           }
         },
@@ -171,8 +171,8 @@ const resources = {
       },
       news: {
         tag: 'Journal',
-        title: 'Stay &',
-        titleItalic: 'Informed',
+        title: 'Insights &',
+        titleItalic: 'Updates',
         subtitle: 'Stay informed about our community activities, cultural insights, and organizational updates.',
         readMore: 'Read More',
         readFull: 'Read Full Story',
@@ -771,8 +771,8 @@ const resources = {
         tag: 'Бидний түүх',
         story: 'Бидний түүх ба',
         mission: 'Алсын хараа',
-        bridging: 'Бидний',
-        cultures: 'тухай',
+        bridging: 'Түншлэлийг',
+        cultures: 'бэхжүүлнэ',
         founded: 'Австри дахь Монгол Төв нь хоёр орны соёлын солилцоо, дипломат харилцааг өргөжүүлэх, нийгэм-эдийн засгийн хамтын ажиллагааг хөгжүүлэх стратегийн алсын харааны үндсэн дээр Вена хотноо байгуулагдсан.',
         heritage: 'Бидний Стратеги',
         hubTitle: 'Хоёр талт харилцааны төв',
@@ -953,7 +953,7 @@ const resources = {
         }
       },
       footer: {
-        desc: 'Вена хот дахь нэр хүндтэй соёлын байгууллага бөгөөд урлаг, дипломат харилцаа, хамт олноор дамжуулан Монголын баялаг өв соёлыг хадгалах, түншлэлийг дэмжих зорилготой.',
+        desc: 'Вена хот дахь Монгол соёлын байгууллага бөгөөд урлаг, дипломат харилцаа, хамт олноор дамжуулан Монголын баялаг өв соёлыг хадгалах, түншлэлийг дэмжих зорилготой.',
         navTitle: 'Цэс',
         legalTitle: 'Хууль эрх зүй',
         privacy: 'Нууцлалын бодлого',
