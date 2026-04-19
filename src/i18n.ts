@@ -117,8 +117,8 @@ const resources = {
           title: 'Our Team',
           quote: '"Dedicated professionals committed to the preservation and promotion of Mongolian heritage in Europe."',
           roles: {
-            director: 'Executive Director',
-            manager: 'Cultural Program Manager',
+            director: 'Founder',
+            manager: 'Founder',
             outreach: 'Community Outreach'
           }
         },
