@@ -3,9 +3,6 @@ import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { Shield, Heart, Users, Sparkles, Send, Star } from 'lucide-react';
 import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../components/MongolianDesign';
-import berniPic from '../assets/media/berni-pic.jpeg';
-import MargadPic from '../assets/media/margad.png';
-import ChingisPic from '../assets/media/chinggis.jpg';
 
 export default function About() {
   const { t } = useTranslation();
@@ -136,9 +133,9 @@ export default function About() {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
             {[
-              { name: "Margad-Erdene Ganbold", role: t('about.team.roles.director'), image: MargadPic },
-              { name: "Bernadette König", role: t('about.team.roles.manager'), image: berniPic },
-              { name: "M. Ganzorig", role: t('about.team.roles.outreach'), image: ChingisPic }
+              { name: "Margad-Erdene Ganbold", role: t('about.team.roles.director'), image: '/media/margad.png' },
+              { name: "Bernadette König", role: t('about.team.roles.manager'), image: '/media/berni-pic.jpeg' },
+              { name: "M. Ganzorig", role: t('about.team.roles.outreach'), image: '/media/chinggis.jpg' }
             ].map((member, idx) => (
               <motion.div
                 key={idx}
