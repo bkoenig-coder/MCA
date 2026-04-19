@@ -117,8 +117,8 @@ const resources = {
           title: 'Our Team',
           quote: '"Dedicated professionals committed to the preservation and promotion of Mongolian heritage in Europe."',
           roles: {
-            director: 'Executive Director',
-            manager: 'Cultural Program Manager',
+            director: 'Co-founder',
+            manager: 'Co-founder',
             outreach: 'Community Outreach'
           }
         },
@@ -457,8 +457,8 @@ const resources = {
           title: 'Unser Team',
           quote: '"Engagierte Fachleute, die sich für die Bewahrung und Förderung des mongolischen Erbes in Europa einsetzen."',
           roles: {
-            director: 'Geschäftsführender Direktor',
-            manager: 'Kulturprogramm-Manager',
+            director: 'Direktor',
+            manager: 'Manager',
             outreach: 'Gemeinschaftsarbeit'
           }
         },
@@ -797,8 +797,8 @@ const resources = {
           title: 'Манай баг',
           quote: '"Европ дахь Монгол өв соёлыг хадгалан хамгаалах, сурталчлах үйлсэд зүтгэж буй мэргэжлийн баг хамт олон."',
           roles: {
-            director: 'Гүйцэтгэх захирал',
-            manager: 'Соёлын хөтөлбөрийн менежер',
+            director: 'Үүсгэн байгуулагч',
+            manager: 'Үүсгэн байгуулагч',
             outreach: 'Олон нийтийн харилцаа'
           }
         },
