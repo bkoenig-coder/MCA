@@ -26,7 +26,7 @@ export default function TermsOfService() {
             
             <div className="prose prose-lg prose-brand max-w-none text-brand-ink/70 font-light leading-relaxed space-y-8">
               <p className="text-xl text-brand-ink font-normal italic">
-                Last updated: March 2024. These terms apply to all visitors and users of the Mongolian Cultural Center Vienna platform.
+                Last updated: April 2026. These terms apply to all visitors and users of the Mongolian Cultural Center Vienna platform.
               </p>
 
               <div className="grid md:grid-cols-2 gap-8 my-16">
@@ -87,7 +87,7 @@ export default function TermsOfService() {
               <section className="pt-12 border-t border-brand-ink/10">
                 <h2 className="text-2xl font-serif text-brand-ink mb-4">Questions about our Terms?</h2>
                 <p className="font-medium">Mongolian Cultural Center Vienna</p>
-                <p>Email: legal@mongoliancenter.at</p>
+                <p>Email: info@mongoliancenter.org</p>
               </section>
             </div>
           </motion.div>

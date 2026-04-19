@@ -38,7 +38,7 @@ const resources = {
         tag: 'Vienna • Austria',
         title: 'Bridging Cultures,',
         titleItalic: 'Building Community',
-        subtitle: 'Welcome to the official website of the Mongolian Center in Vienna. We are a vibrant cultural hub dedicated to preserving our heritage, fostering community integration, and celebrating the rich tapestry of Mongolian traditions in the heart of Austria.',
+        subtitle: 'Welcome to the official platform of the Mongolian Cultural Center Vienna. We are a Non-Governmental Organization dedicated to preserving our rich cultural heritage and fostering community cooperation in Austria. Through this website, you can explore our ongoing initiatives, view the schedule of upcoming cultural events, register online, and stay updated with our latest news and projects.',
         ctaEvents: 'Explore Events',
         ctaImpact: 'Our Impact',
         ctaStory: 'Our Story',
@@ -222,7 +222,7 @@ const resources = {
         title: 'Measurable',
         titleItalic: 'Impact',
         subtitle: 'At our core, we are driven by impact. Through our donation initiatives, we foster a spirit of solidarity, cultural exchange, and social responsibility.',
-        totalImpact: 'Total Impact in 2025',
+        totalImpact: 'Total Impact in 2026',
         initiatives: {
           tag: 'Core',
           title: 'Initiatives',
@@ -242,7 +242,7 @@ const resources = {
           desc: 'As a non-profit organization, we maintain the highest standards of financial accountability and ethical governance. Our annual reports are available for public review.',
           cta: 'Download Annual Report'
         },
-        report: 'Download 2025 Impact Report (PDF)',
+        report: 'Download 2026 Impact Report (PDF)',
         stats: {
           events: 'Cultural Events',
           members: 'Community Members',
@@ -378,7 +378,7 @@ const resources = {
         tag: 'Wien • Österreich',
         title: 'Kulturen verbinden,',
         titleItalic: 'Gemeinschaft aufbauen',
-        subtitle: 'Willkommen auf der offiziellen Website des Mongolischen Zentrums in Wien. Wir sind ein lebendiges kulturelles Zentrum, das sich der Bewahrung unseres Erbes, der Förderung der Gemeinschaftsintegration und der Feier der vielfältigen mongolischen Traditionen im Herzen Österreichs widmet.',
+        subtitle: 'Willkommen auf der offiziellen Plattform des Mongolischen Kulturzentrums Wien. Wir sind eine Nichtregierungsorganisation (NRO), die sich der Bewahrung unseres reichen kulturellen Erbes und der Förderung der Zusammenarbeit in Österreich widmet. Nutzen Sie diese Website, um unsere aktuellen Initiativen zu erkunden, den Zeitplan für kommende Veranstaltungen einzusehen, sich online zu registrieren und sich über Neuigkeiten zu informieren.',
         ctaEvents: 'Veranstaltungen erkunden',
         ctaImpact: 'Unsere Wirkung',
         ctaStory: 'Unsere Geschichte',
@@ -562,7 +562,7 @@ const resources = {
         title: 'Messbare',
         titleItalic: 'Wirkung',
         subtitle: 'Im Kern sind wir von Wirkung getrieben. Durch unsere Spendeninitiativen fördern wir einen Geist der Solidarität, des kulturellen Austauschs und der sozialen Verantwortung.',
-        totalImpact: 'Gesamtwirkung im Jahr 2025',
+        totalImpact: 'Gesamtwirkung im Jahr 2026',
         initiatives: {
           tag: 'Kern-',
           title: 'Initiativen',
@@ -582,7 +582,7 @@ const resources = {
           desc: 'Als gemeinnützige Organisation halten wir höchste Standards an finanzieller Rechenschaftspflicht und ethischer Führung ein. Unsere Jahresberichte stehen zur öffentlichen Einsichtnahme zur Verfügung.',
           cta: 'Jahresbericht herunterladen'
         },
-        report: 'Impact Report 2025 herunterladen (PDF)',
+        report: 'Impact Report 2026 herunterladen (PDF)',
         stats: {
           events: 'Kulturveranstaltungen',
           members: 'Community-Mitglieder',
@@ -718,7 +718,7 @@ const resources = {
         tag: 'Вена • Австри',
         title: 'Соёлыг холбож,',
         titleItalic: 'Хамт олныг бүтээнэ',
-        subtitle: 'Вена дахь Монгол Төвийн албан ёсны цахим хуудсанд тавтай морилно уу. Бид Австри улсын зүрхэнд монгол соёлын баялаг өв уламжлалыг хадгалан хамгаалах, хамт олны эв нэгдлийг дэмжих, тэмдэглэн өнгөрүүлэх зорилготой эрч хүчтэй соёлын төв юм.',
+        subtitle: 'Вена дахь Монгол Төвийн албан ёсны цахим платформоор зочилж буй танд баярлалаа. Бид Монголын баялаг өв соёлыг сурталчлан таниулах, олон нийтийн эв нэгдэл, хамтын ажиллагааг дэмжих зорилготой Төрийн Бус Байгууллага юм. Энэхүү цахим хуудсаар дамжуулан та манай байгууллагын үйл ажиллагаа, удахгүй зохион байгуулагдах арга хэмжээнүүдийн хуваарьтай танилцах, онлайн бүртгэл хийлгэх болон төслийн мэдээллүүдийг цаг тухайд нь авах боломжтой.',
         ctaEvents: 'Арга хэмжээ үзэх',
         ctaImpact: 'Бидний нөлөө',
         ctaStory: 'Бидний түүх',
@@ -902,7 +902,7 @@ const resources = {
         title: 'Хэмжигдэхүйц',
         titleItalic: 'Нөлөөлөл',
         subtitle: 'Бидний үйл ажиллагааны цөм нь нөлөөлөл юм. Сайн үйлсийн аянаараа дамжуулан бид эв нэгдэл, соёлын солилцоо, нийгмийн хариуцлагыг дэмждэг.',
-        totalImpact: '2025 оны нийт нөлөөлөл',
+        totalImpact: '2026 оны нийт нөлөөлөл',
         initiatives: {
           tag: 'Үндсэн',
           title: 'Санаачилга',
@@ -922,7 +922,7 @@ const resources = {
           desc: 'Ашгийн бус байгууллагын хувьд бид санхүүгийн хариуцлага, ёс зүйн засаглалын хамгийн өндөр стандартыг баримталдаг. Манай жилийн тайлангууд олон нийтэд нээлттэй.',
           cta: 'Жилийн тайлан татах'
         },
-        report: '2025 оны нөлөөллийн тайлан татах (PDF)',
+        report: '2026 оны нөлөөллийн тайлан татах (PDF)',
         stats: {
           events: 'Соёлын арга хэмжээ',
           members: 'Хамт олны гишүүд',

@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../components/MongolianDesign';
 import { db, collection, onSnapshot, query, orderBy, limit, handleFirestoreError, OperationType } from '../firebase';
+import orgGroup1 from '../assets/media/org-group-1.jpg';
+import orgGroup2 from '../assets/media/org-group-2.png';
+import orgGroup3 from '../assets/media/org-group-3.png';
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -61,13 +64,13 @@ export default function Home() {
                       </span>
                     </div>
                     <h1 className={cn(
-                      "font-serif font-normal leading-[0.9] mb-8 md:mb-10 tracking-tight text-brand-ink md:whitespace-nowrap -mt-[26px]",
-                      i18n.language === 'en' ? "text-5xl md:text-7xl lg:text-[82px]" : "text-4xl md:text-6xl lg:text-[64px]"
+                      "font-serif font-normal mb-8 md:mb-10 tracking-tight text-brand-ink md:whitespace-nowrap -mt-[26px]",
+                      "text-[36px] leading-[36px]"
                     )}>
                       {t('hero.title')} <br />
                       <span className="italic text-brand-gold font-light">{t('hero.titleItalic')}</span>
                     </h1>
-                    <p className="text-[12px] text-brand-ink/60 max-w-2xl mb-10 md:mb-12 leading-relaxed font-normal -mr-[27px]">
+                    <p className="text-[12px] text-brand-ink/60 max-w-2xl mb-10 md:mb-12 leading-relaxed font-normal -mr-[39px] -mt-[30px] pt-0">
                       {t('hero.subtitle')}
                     </p>
                   </motion.div>
@@ -85,7 +88,7 @@ export default function Home() {
                       opacity: { duration: 0.8 },
                       y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
                     }}
-                    className="relative flex flex-col items-center p-4 py-16 border border-brand-gold/30 bg-white/60 backdrop-blur-xl rounded-full shadow-xl overflow-hidden min-w-[100px] -mt-[89px]"
+                    className="relative flex flex-col items-center p-4 py-16 border border-brand-gold/30 bg-white/60 backdrop-blur-xl rounded-full shadow-xl overflow-hidden min-w-[100px] -mt-[89px] ml-[23px] -mr-[15px] h-[400px]"
                   >
                     {/* Subtle Background Pattern */}
                     <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
@@ -274,11 +277,11 @@ export default function Home() {
             {[...Array(2)].map((_, groupIndex) => (
               <div key={groupIndex} className="flex items-center gap-12 md:gap-20 px-6 md:px-10">
                 {[
-                  { name: 'Deutschothek Sprachschule', isImg: true, src: '/media/org-group-1.jpg' },
+                  { name: 'Deutschothek Sprachschule', isImg: true, src: orgGroup1 },
                   { name: 'Gobi Group', isImg: false, icon: <UlziiSymbol className="w-8 h-8 md:w-10 md:h-10 text-brand-ink" /> },
-                  { name: 'Verein für aktiv Leben und Bildung', isImg: true, src: '/media/org-group-2.png' },
+                  { name: 'Verein für aktiv Leben und Bildung', isImg: true, src: orgGroup2 },
                   { name: 'Khaan Holdings', isImg: false, icon: <SoyomboSymbol className="w-6 h-10 md:w-8 md:h-12 text-brand-ink" /> },
-                  { name: 'Verein der mongolischen StudentInnen in Österreich', isImg: true, src: '/media/org-group-3.png' },
+                  { name: 'Verein der mongolischen StudentInnen in Österreich', isImg: true, src: orgGroup3 },
                   { name: 'Altai Ventures', isImg: false, icon: <Shield strokeWidth={1.5} className="w-8 h-8 md:w-10 md:h-10 text-brand-ink" /> },
                   { name: 'Nomad Global', isImg: false, icon: <Star strokeWidth={1.5} className="w-8 h-8 md:w-10 md:h-10 text-brand-ink" /> },
                 ].map((partner, idx) => (

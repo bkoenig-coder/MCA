@@ -26,7 +26,7 @@ export default function PrivacyPolicy() {
             
             <div className="prose prose-lg prose-brand max-w-none text-brand-ink/70 font-light leading-relaxed space-y-8">
               <p className="text-xl text-brand-ink font-normal italic">
-                Last updated: March 2024. This policy is designed to comply with the Austrian Data Protection Act (DSGVO).
+                Last updated: April 2026. This policy is designed to comply with the Austrian Data Protection Act (DSGVO).
               </p>
 
               <div className="grid md:grid-cols-2 gap-8 my-16">
@@ -93,7 +93,7 @@ export default function PrivacyPolicy() {
               <section className="pt-12 border-t border-brand-ink/10">
                 <h2 className="text-2xl font-serif text-brand-ink mb-4">Contact for Data Protection</h2>
                 <p className="font-medium">Mongolian Cultural Center Vienna</p>
-                <p>Email: privacy@mongoliancenter.at</p>
+                <p>Email: info@mongoliancenter.org</p>
                 <p>Address: Vienna, Austria</p>
               </section>
             </div>

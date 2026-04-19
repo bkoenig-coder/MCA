@@ -118,8 +118,7 @@ export default function Contact() {
                   <div>
                     <h4 className="text-[10px] uppercase tracking-widest font-bold text-brand-ink/40 mb-2 md:mb-4">{t('contact.info.location')}</h4>
                     <p className="text-xl md:text-2xl font-serif text-brand-ink leading-relaxed">
-                      {t('contact.info.vienna')}<br />
-                      {t('contact.info.hub')}
+                      Vienna, Austria
                     </p>
                   </div>
                 </div>
@@ -131,8 +130,7 @@ export default function Contact() {
                   <div>
                     <h4 className="text-[10px] uppercase tracking-widest font-bold text-brand-ink/40 mb-2 md:mb-4">{t('contact.info.email')}</h4>
                     <p className="text-xl md:text-2xl font-serif text-brand-ink leading-relaxed break-all">
-                      hello@mongoliancenter.at<br />
-                      partnerships@mongoliancenter.at
+                      info@mongoliancenter.org
                     </p>
                   </div>
                 </div>
@@ -144,8 +142,7 @@ export default function Contact() {
                   <div>
                     <h4 className="text-[10px] uppercase tracking-widest font-bold text-brand-ink/40 mb-2 md:mb-4">{t('contact.info.phone')}</h4>
                     <p className="text-xl md:text-2xl font-serif text-brand-ink leading-relaxed">
-                      +43 1 234 5678<br />
-                      {t('contact.info.hours')}
+                      +4367761160389
                     </p>
                   </div>
                 </div>

@@ -49,8 +49,6 @@ export default function Imprint() {
                   </h2>
                   <div className="space-y-2">
                     <p>Vienna, Austria</p>
-                    <p>Specific Street Address (Placeholder)</p>
-                    <p>Postal Code, City</p>
                   </div>
                 </section>
 
@@ -60,9 +58,9 @@ export default function Imprint() {
                     Contact
                   </h2>
                   <div className="space-y-2">
-                    <p>Phone: +43 1 234 5678</p>
-                    <p>Email: hello@mongoliancenter.at</p>
-                    <p>Web: www.mongoliancenter.at</p>
+                    <p>Phone: +4367761160389</p>
+                    <p>Email: info@mongoliancenter.org</p>
+                    <p>Web: www.mongoliancenter.org</p>
                   </div>
                 </section>
 

@@ -65,15 +65,15 @@ export default function Footer() {
             <ul className="space-y-6 md:space-y-8 text-sm text-brand-ink/60 font-light">
               <li className="flex items-start gap-4">
                 <MapPin size={18} className="text-brand-gold shrink-0" />
-                <span className="leading-relaxed">{t('contact.info.location.city')}<br />{t('contact.info.location.desc')}</span>
+                <span className="leading-relaxed">Vienna, Austria</span>
               </li>
               <li className="flex items-center gap-4">
                 <Phone size={18} className="text-brand-gold shrink-0" />
-                <span>+43 1 234 5678</span>
+                <span>+4367761160389</span>
               </li>
               <li className="flex items-center gap-4">
                 <Mail size={18} className="text-brand-gold shrink-0" />
-                <span>hello@mongoliancenter.at</span>
+                <span>info@mongoliancenter.org</span>
               </li>
             </ul>
           </div>

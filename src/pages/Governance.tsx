@@ -80,7 +80,7 @@ export default function Governance() {
               <section className="pt-12 border-t border-brand-ink/10">
                 <h2 className="text-2xl font-serif text-brand-ink mb-4">Governance Inquiries</h2>
                 <p className="font-medium">Mongolian Cultural Center Vienna</p>
-                <p>Email: governance@mongoliancenter.at</p>
+                <p>Email: info@mongoliancenter.org</p>
               </section>
             </div>
           </motion.div>
