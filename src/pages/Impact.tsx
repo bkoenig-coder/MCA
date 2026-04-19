@@ -95,17 +95,17 @@ export default function Impact() {
     {
       title: t('impact.initiatives.preservation'),
       desc: t('impact.initiatives.preservationDesc'),
-      image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1000&auto=format&fit=crop"
+      image: "https://media.istockphoto.com/id/1737179506/photo/mongolian-nomad-woman-preparing-traditional-milk-tea-for-guest-inside-ger.webp?s=2048x2048&w=is&k=20&c=lr2AWFcNSdClTHk-F0HyPFZapgAbhFm8rs_xu9JC0ys="
     },
     {
       title: t('impact.initiatives.bridge'),
       desc: t('impact.initiatives.bridgeDesc'),
-      image: "https://images.unsplash.com/photo-1523733230464-4744307a8963?q=80&w=1000&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1623266880158-c683344cd073?q=80&w=765&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
       title: t('impact.initiatives.exchange'),
       desc: t('impact.initiatives.exchangeDesc'),
-      image: "https://images.unsplash.com/photo-1605509818829-ac62b9142944?q=80&w=1000&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1645539818874-1801c031a86a?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     }
   ];
 
