@@ -95,7 +95,7 @@ export default function Impact() {
     {
       title: t('impact.initiatives.preservation'),
       desc: t('impact.initiatives.preservationDesc'),
-      image: "https://media.istockphoto.com/id/1737179506/photo/mongolian-nomad-woman-preparing-traditional-milk-tea-for-guest-inside-ger.webp?s=2048x2048&w=is&k=20&c=lr2AWFcNSdClTHk-F0HyPFZapgAbhFm8rs_xu9JC0ys="
+      image: "https://images.unsplash.com/photo-1745155541633-da6d9bb28f5c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
       title: t('impact.initiatives.bridge'),
