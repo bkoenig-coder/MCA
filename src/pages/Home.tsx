@@ -279,12 +279,18 @@ export default function Home() {
             {[...Array(2)].map((_, groupIndex) => (
               <div key={groupIndex} className="flex items-center gap-12 md:gap-20 px-6 md:px-10">
                 {[
-                  { name: 'Deutschothek Sprachschule', isImg: true, src: deutschotekLogo },
-                  { name: 'Verein für aktiv Leben und Bildung', isImg: true, src: euActiveLogo },
-                  { name: 'Verein der mongolischen StudentInnen in Österreich', isImg: true, src: amoxLogo },
-                  { name: 'MCA', isImg: true, src: mcaLogo },
+                  { name: 'Deutschothek Sprachschule', src: deutschotekLogo, url: 'https://deutschothek.com/' },
+                  { name: 'Verein für aktiv Leben und Bildung', src: euActiveLogo, url: 'https://www.euactive.org/' },
+                  { name: 'Verein der mongolischen StudentInnen in Österreich', src: amoxLogo, url: 'https://www.facebook.com/MongolianStudentAssociationInAustria' },
+                  { name: 'MCA', src: mcaLogo, url: 'https://mongoliancenter.org/' },
                 ].map((partner, idx) => (
-                  <div key={`${groupIndex}-${idx}`} className="flex flex-col items-center gap-4 group cursor-pointer opacity-80 hover:opacity-100 transition-all duration-500">
+                  <a 
+                    key={`${groupIndex}-${idx}`} 
+                    href={partner.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col items-center gap-4 group cursor-pointer opacity-80 hover:opacity-100 transition-all duration-500 hover:scale-105"
+                  >
                     <div className="flex items-center justify-center h-12 md:h-16 min-w-[140px] md:min-w-[160px] group-hover:-translate-y-1 transition-transform duration-500 will-change-transform">
                       <img 
                         src={partner.src} 
@@ -292,10 +298,10 @@ export default function Home() {
                         className="h-full w-auto object-contain" 
                       />
                     </div>
-                    <span className="font-sans font-semibold text-[10px] md:text-xs tracking-widest uppercase whitespace-nowrap text-[#ffffff] group-hover:text-brand-ink transition-colors duration-500">
+                    <span className="font-sans font-semibold text-[10px] md:text-xs tracking-widest uppercase whitespace-nowrap text-black transition-colors duration-500 group-hover:text-brand-gold">
                       {partner.name}
                     </span>
-                  </div>
+                  </a>
                 ))}
               </div>
             ))}
