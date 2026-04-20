@@ -286,13 +286,13 @@ export default function Home() {
                   { name: 'Altai Ventures', isImg: false, icon: <Shield strokeWidth={1.5} className="w-8 h-8 md:w-10 md:h-10 text-brand-ink" /> },
                   { name: 'Nomad Global', isImg: false, icon: <Star strokeWidth={1.5} className="w-8 h-8 md:w-10 md:h-10 text-brand-ink" /> },
                 ].map((partner, idx) => (
-                  <div key={`${groupIndex}-${idx}`} className="flex flex-col items-center gap-4 group cursor-pointer grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+                  <div key={`${groupIndex}-${idx}`} className="flex flex-col items-center gap-4 group cursor-pointer opacity-80 hover:opacity-100 transition-all duration-500">
                     <div className="flex items-center justify-center h-12 md:h-16 min-w-[140px] md:min-w-[160px] group-hover:-translate-y-1 transition-transform duration-500 will-change-transform">
                       {partner.isImg ? (
                         <img 
                           src={partner.src} 
                           alt={partner.name} 
-                          className="h-full w-auto object-contain mix-blend-multiply" 
+                          className="h-full w-auto object-contain" 
                         />
                       ) : (
                         partner.icon
