@@ -7,9 +7,9 @@ import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../components/MongolianDesign';
 import { db, collection, onSnapshot, query, orderBy, limit, handleFirestoreError, OperationType } from '../firebase';
 
-const orgGroup1 = '/media/org-group-1.jpg';
-const orgGroup2 = '/media/org-group-2.png';
-const orgGroup3 = '/media/org-group-3.png';
+const orgGroup1 = new URL('../assets/media/org-group-1.jpg', import.meta.url).href;
+const orgGroup2 = new URL('../assets/media/org-group-2.png', import.meta.url).href;
+const orgGroup3 = new URL('../assets/media/org-group-3.png', import.meta.url).href;
 
 export default function Home() {
   const { t, i18n } = useTranslation();

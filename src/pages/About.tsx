@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { Shield, Heart, Users, Sparkles, Send, Star } from 'lucide-react';
 import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../components/MongolianDesign';
 
-const margadPic = '/media/margad.png';
-const berniPic = '/media/berni-pic.jpeg';
-const chinggisPic = '/media/chinggis.jpg';
+const margadPic = new URL('../assets/media/margad.png', import.meta.url).href;
+const berniPic = new URL('../assets/media/berni-pic.jpeg', import.meta.url).href;
+const chinggisPic = new URL('../assets/media/chinggis.jpg', import.meta.url).href;
 
 export default function About() {
   const { t } = useTranslation();
