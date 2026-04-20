@@ -3,9 +3,10 @@ import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { Shield, Heart, Users, Sparkles, Send, Star } from 'lucide-react';
 import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../components/MongolianDesign';
-import margadPic from '../assets/media/margad.png';
-import berniPic from '../assets/media/berni-pic.jpeg';
-import chinggisPic from '../assets/media/chinggis.jpg';
+
+const margadPic = '/media/margad.png';
+const berniPic = '/media/berni-pic.jpeg';
+const chinggisPic = '/media/chinggis.jpg';
 
 export default function About() {
   const { t } = useTranslation();
