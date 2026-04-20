@@ -8,6 +8,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { signInWithGoogle, logOut, db, collection, query, where, orderBy, onSnapshot, handleFirestoreError, OperationType } from '../firebase';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol } from './MongolianDesign';
+import mcaLogo from '../assets/media/mcalogo-1.png';
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇬🇧' },
@@ -214,8 +215,8 @@ export default function Navbar() {
             <div className="flex justify-center z-50">
               <Link to="/" className="flex items-center gap-4 md:gap-6 group">
                 <div className="relative">
-                  <div className="w-12 h-12 md:w-16 md:h-16 border border-[#C5A059]/20 rounded-full flex items-center justify-center text-[#ffa800] transition-all duration-1000 group-hover:border-[#C5A059] group-hover:rotate-[360deg] bg-white/10 backdrop-blur-sm shadow-sm">
-                    <UlziiSymbol className="w-6 h-6 md:w-8 md:h-8" />
+                  <div className="w-14 h-14 md:w-20 md:h-20 border border-[#C5A059]/20 rounded-full flex items-center justify-center transition-all duration-1000 group-hover:border-[#C5A059] group-hover:rotate-[360deg] bg-white backdrop-blur-sm shadow-sm overflow-hidden p-1">
+                    <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain" />
                   </div>
                   <div className="absolute -inset-2 border border-[#C5A059]/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-1000" />
                 </div>
@@ -338,8 +339,8 @@ export default function Navbar() {
             {/* Mobile Logo */}
             <div className="flex justify-center z-50">
               <Link to="/" className="flex items-center gap-3 group ml-[42px]">
-                <div className="w-10 h-10 border border-[#C5A059]/20 rounded-full flex items-center justify-center text-[#ffa800] bg-white/10 backdrop-blur-sm shadow-sm">
-                  <UlziiSymbol className="w-5 h-5" />
+                <div className="w-12 h-12 border border-[#C5A059]/20 rounded-full flex items-center justify-center bg-white backdrop-blur-sm shadow-sm overflow-hidden p-1">
+                  <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain" />
                 </div>
                 <div className="flex flex-col">
                   <span className={cn(

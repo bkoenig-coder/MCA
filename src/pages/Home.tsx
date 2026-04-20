@@ -9,7 +9,7 @@ import { db, collection, onSnapshot, query, orderBy, limit, handleFirestoreError
 import deutschotekLogo from '../assets/media/deutschoteklogo.jpg';
 import euActiveLogo from '../assets/media/euactivelogo.png';
 import amoxLogo from '../assets/media/amoxlogo.png';
-import mcaLogo from '../assets/media/mcalogo.png';
+import mcaLogo from '../assets/media/mcalogo-1.png';
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -263,7 +263,7 @@ export default function Home() {
           <h3 className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-gray-500">
             Our partners & sponsors
           </h3>
-          <div className="w-12 h-0.5 bg-brand-gold/50 mx-auto mt-4" />
+          <div className="w-12 h-0.5 bg-[#760000] mx-auto mt-4" />
         </div>
 
         {/* Gradient Fades for Smooth Edges */}
@@ -286,17 +286,13 @@ export default function Home() {
                 ].map((partner, idx) => (
                   <div key={`${groupIndex}-${idx}`} className="flex flex-col items-center gap-4 group cursor-pointer opacity-80 hover:opacity-100 transition-all duration-500">
                     <div className="flex items-center justify-center h-12 md:h-16 min-w-[140px] md:min-w-[160px] group-hover:-translate-y-1 transition-transform duration-500 will-change-transform">
-                      {partner.isImg ? (
-                        <img 
-                          src={partner.src} 
-                          alt={partner.name} 
-                          className="h-full w-auto object-contain" 
-                        />
-                      ) : (
-                        partner.icon
-                      )}
+                      <img 
+                        src={partner.src} 
+                        alt={partner.name} 
+                        className="h-full w-auto object-contain" 
+                      />
                     </div>
-                    <span className="font-sans font-semibold text-[10px] md:text-xs tracking-widest uppercase whitespace-nowrap text-gray-400 group-hover:text-brand-ink transition-colors duration-500">
+                    <span className="font-sans font-semibold text-[10px] md:text-xs tracking-widest uppercase whitespace-nowrap text-[#ffffff] group-hover:text-brand-ink transition-colors duration-500">
                       {partner.name}
                     </span>
                   </div>

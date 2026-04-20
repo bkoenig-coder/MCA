@@ -2,6 +2,7 @@ import { Globe, Mail, MapPin, Phone, Instagram, Facebook, Twitter } from 'lucide
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, SoyomboSymbol } from './MongolianDesign';
+import mcaLogo from '../assets/media/mcalogo-1.png';
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -16,8 +17,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-20 mb-16 md:mb-24">
           <div className="lg:col-span-5">
             <Link to="/" className="flex items-center gap-4 mb-8 md:mb-10">
-              <div className="w-10 h-10 md:w-12 md:h-12 bg-brand-ink rounded-full flex items-center justify-center text-brand-gold shadow-xl">
-                <SoyomboSymbol className="w-5 h-5 md:w-6 md:h-6" />
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center shadow-xl overflow-hidden p-1">
+                <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain" />
               </div>
               <span className="font-serif text-2xl md:text-3xl font-light tracking-tight text-brand-ink uppercase">
                 {t('nav.mongolian')} <span className="italic text-brand-gold">{t('nav.center')}</span>
