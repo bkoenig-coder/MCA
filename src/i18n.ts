@@ -273,7 +273,7 @@ const resources = {
         }
       },
       footer: {
-        desc: 'A prestigious cultural institution in Vienna, dedicated to fostering elite partnerships and preserving the rich heritage of Mongolia through art, diplomacy, and community.',
+        desc: 'The Mongolian Cultural Center Vienna is a non-governmental organization dedicated to bilateral cultural diplomacy, strategic community engagement, and the preservation of Mongolian heritage through high-leverage partnerships.',
         navTitle: 'Navigation',
         legalTitle: 'Legal',
         privacy: 'Privacy Policy',
@@ -613,7 +613,7 @@ const resources = {
         }
       },
       footer: {
-        desc: 'Eine renommierte Kulturinstitution in Wien, die sich der Förderung hochkarätiger Partnerschaften und der Bewahrung des reichen Erbes der Mongolei durch Kunst, Diplomatie und Gemeinschaft widmet.',
+        desc: 'Das Mongolische Kulturzentrum Wien ist eine Nichtregierungsorganisation, die sich der bilateralen Kulturdiplomatie, dem strategischen Engagement der Gemeinschaft und der Bewahrung des mongolischen Erbes durch hochkarätige Partnerschaften widmet.',
         navTitle: 'Navigation',
         legalTitle: 'Rechtliches',
         privacy: 'Datenschutzerklärung',
@@ -953,7 +953,7 @@ const resources = {
         }
       },
       footer: {
-        desc: 'Вена хот дахь Монгол соёлын байгууллага бөгөөд урлаг, дипломат харилцаа, хамт олноор дамжуулан Монголын баялаг өв соёлыг хадгалах, түншлэлийг дэмжих зорилготой.',
+        desc: 'Австри дахь Монгол Төв нь хоёр орны соёлын дипломат харилцааг өргөжүүлэх, стратегийн түншлэлийг дэмжих, соёлын өвийг хамгаалах чиглэлээр үйл ажиллагаа явуулдаг төрийн бус байгууллага юм.',
         navTitle: 'Цэс',
         legalTitle: 'Хууль эрх зүй',
         privacy: 'Нууцлалын бодлого',

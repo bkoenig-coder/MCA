@@ -24,7 +24,7 @@ export default function Footer() {
                 {t('nav.mongolian')} <span className="italic text-brand-gold">{t('nav.center')}</span>
               </span>
             </Link>
-            <p className="text-base md:text-lg text-brand-ink/60 font-light leading-relaxed max-w-md mb-8 md:mb-12">
+            <p className="text-sm md:text-base text-brand-ink/80 font-normal leading-relaxed max-w-md mb-8 md:mb-12">
               {t('footer.desc')}
             </p>
             <div className="flex gap-4 md:gap-6">
