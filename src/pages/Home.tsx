@@ -6,10 +6,9 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../components/MongolianDesign';
 import { db, collection, onSnapshot, query, orderBy, limit, handleFirestoreError, OperationType } from '../firebase';
-
-const orgGroup1 = new URL('../assets/media/org-group-1.jpg', import.meta.url).href;
-const orgGroup2 = new URL('../assets/media/org-group-2.png', import.meta.url).href;
-const orgGroup3 = new URL('../assets/media/org-group-3.png', import.meta.url).href;
+import deutschotekLogo from '../assets/media/deutschoteklogo.jpg';
+import euActiveLogo from '../assets/media/euactivelogo.png';
+import amoxLogo from '../assets/media/amoxlogo.png';
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -279,11 +278,11 @@ export default function Home() {
             {[...Array(2)].map((_, groupIndex) => (
               <div key={groupIndex} className="flex items-center gap-12 md:gap-20 px-6 md:px-10">
                 {[
-                  { name: 'Deutschothek Sprachschule', isImg: true, src: orgGroup1 },
+                  { name: 'Deutschothek Sprachschule', isImg: true, src: deutschotekLogo },
                   { name: 'Gobi Group', isImg: false, icon: <UlziiSymbol className="w-8 h-8 md:w-10 md:h-10 text-brand-ink" /> },
-                  { name: 'Verein für aktiv Leben und Bildung', isImg: true, src: orgGroup2 },
+                  { name: 'Verein für aktiv Leben und Bildung', isImg: true, src: euActiveLogo },
                   { name: 'Khaan Holdings', isImg: false, icon: <SoyomboSymbol className="w-6 h-10 md:w-8 md:h-12 text-brand-ink" /> },
-                  { name: 'Verein der mongolischen StudentInnen in Österreich', isImg: true, src: orgGroup3 },
+                  { name: 'Verein der mongolischen StudentInnen in Österreich', isImg: true, src: amoxLogo },
                   { name: 'Altai Ventures', isImg: false, icon: <Shield strokeWidth={1.5} className="w-8 h-8 md:w-10 md:h-10 text-brand-ink" /> },
                   { name: 'Nomad Global', isImg: false, icon: <Star strokeWidth={1.5} className="w-8 h-8 md:w-10 md:h-10 text-brand-ink" /> },
                 ].map((partner, idx) => (
