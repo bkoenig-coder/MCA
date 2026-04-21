@@ -89,7 +89,7 @@ export default function NewsDetails() {
             <img 
               src={post.imageUrl} 
               alt={post.title} 
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain bg-brand-paper/30"
               referrerPolicy="no-referrer"
             />
             <div className="absolute top-6 left-6 md:top-8 md:left-8">

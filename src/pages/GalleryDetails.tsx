@@ -63,7 +63,7 @@ export default function GalleryDetails() {
               <img 
                 src={item.imageUrl} 
                 alt={item.title} 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain bg-white"
                 referrerPolicy="no-referrer"
               />
             </div>

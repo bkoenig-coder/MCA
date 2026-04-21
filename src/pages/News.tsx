@@ -72,7 +72,7 @@ export default function News() {
                   <img 
                     src={posts[0].imageUrl} 
                     alt={posts[0].title} 
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                    className="w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
                     referrerPolicy="no-referrer"
                   />
                   <div className="absolute inset-0 bg-brand-ink/20 group-hover:bg-transparent transition-colors duration-700" />
@@ -114,7 +114,7 @@ export default function News() {
                       <img 
                         src={post.imageUrl} 
                         alt={post.title} 
-                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                        className="w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
                         referrerPolicy="no-referrer"
                       />
                       <div className="absolute inset-0 bg-brand-ink/10 group-hover:bg-transparent transition-colors duration-700" />
