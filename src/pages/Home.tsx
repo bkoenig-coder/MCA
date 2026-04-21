@@ -11,10 +11,17 @@ import euActiveLogo from '../assets/media/euactivelogo.png';
 import amoxLogo from '../assets/media/amoxlogo.png';
 import mcaLogo from '../assets/media/mcalogo-1.png';
 
+import { Canvas } from '@react-three/fiber';
+import { DioramaScene } from '../components/diorama/DioramaScene';
+import { Overlay } from '../components/diorama/Overlay';
+import { AudioSetup } from '../components/diorama/AudioSetup';
+import { MapControls } from '@react-three/drei';
+
 export default function Home() {
   const { t, i18n } = useTranslation();
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activePopup, setActivePopup] = useState<string | null>(null);
 
   useEffect(() => {
     const q = query(collection(db, 'events'), orderBy('createdAt', 'desc'), limit(3));
@@ -32,27 +39,51 @@ export default function Home() {
     <div className="pt-20">
       
       {/* Hero Section */}
-      <section className="relative min-h-[85vh] md:h-[95vh] flex items-center px-6 overflow-hidden bg-brand-paper">
+      <section className="relative min-h-[85vh] md:h-[95vh] flex items-center px-6 overflow-hidden bg-slate-900 group">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-paper via-brand-paper/80 to-transparent z-10" />
-          <img 
-            src="https://plus.unsplash.com/premium_photo-1692895424097-a195cfa8a0c6?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-            alt="Mongolian Steppe" 
-            className="w-full h-full object-cover opacity-40 scale-105"
-            referrerPolicy="no-referrer"
-          />
+          {/* Subtle gradient overlay to ensure text readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent z-10 pointer-events-none" />
           
-          {/* Subtle Mongolian Design Accents */}
-          <div className="absolute top-40 right-40 opacity-[0.03] rotate-12">
+          <div className="w-full h-full absolute inset-0 mix-blend-screen opacity-50 md:opacity-100 transition-opacity duration-1000 group-hover:opacity-100">
+            <Canvas shadows camera={{ position: [15, 15, 15], fov: 45 }}>
+              {/* Dimmer ambient and directional lights for moody atmosphere matching easter egg */}
+              <ambientLight intensity={0.15} />
+              <directionalLight
+                castShadow
+                position={[10, 5, 10]}
+                intensity={0.5}
+                color="#ffcfaa"
+                shadow-mapSize={[2048, 2048]}
+                shadow-camera-left={-20}
+                shadow-camera-right={20}
+                shadow-camera-top={20}
+                shadow-camera-bottom={-20}
+              />
+              
+              <DioramaScene onSelect={setActivePopup} />
+              
+              <MapControls 
+                enableZoom={false}
+                minPolarAngle={Math.PI / 6} 
+                maxPolarAngle={Math.PI / 2.5} 
+                target={[0, 0, 0]}
+              />
+            </Canvas>
+          </div>
+          
+          {/* Subtle Mongolian Design Accents blending into dark bg */}
+          <div className="absolute top-40 right-40 opacity-[0.02] rotate-12 pointer-events-none">
             <UlziiSymbol className="w-[800px] h-[800px] text-brand-gold" />
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto w-full z-20 relative py-20 md:py-0">
+        <Overlay activePopup={activePopup} onClose={() => setActivePopup(null)} />
+
+        <div className="max-w-7xl mx-auto w-full z-20 relative py-20 md:py-0 pointer-events-none">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="flex flex-col">
               <div className="flex items-start gap-6 md:gap-0">
-                <div className="flex-1">
+                <div className="flex-1 pointer-events-auto">
                   <motion.div
                     initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -65,14 +96,14 @@ export default function Home() {
                       </span>
                     </div>
                     <h1 className={cn(
-                      "font-serif font-normal mb-8 md:mb-10 tracking-tight text-brand-ink md:whitespace-nowrap -mt-[26px] md:mt-0",
+                      "font-serif font-normal mb-8 md:mb-10 tracking-tight text-white md:whitespace-nowrap -mt-[26px] md:mt-0 drop-shadow-lg",
                       "text-[30px] leading-[36px] -mr-[74px]",
                       "md:text-5xl lg:text-6xl xl:text-[80px] md:leading-[1.1] md:mr-0"
                     )}>
                       {t('hero.title')} <br />
                       <span className="italic text-brand-gold font-light">{t('hero.titleItalic')}</span>
                     </h1>
-                    <p className="text-[12px] md:text-base lg:text-lg text-brand-ink/60 max-w-2xl mb-10 md:mb-12 leading-relaxed font-normal -mr-[39px] md:mr-0 -mt-[6px] md:mt-0 pt-0">
+                    <p className="text-[12px] md:text-base lg:text-lg text-white/80 max-w-2xl mb-10 md:mb-12 leading-relaxed font-normal -mr-[39px] md:mr-0 -mt-[6px] md:mt-0 pt-0 drop-shadow-md">
                       {t('hero.subtitle')}
                     </p>
                   </motion.div>
@@ -90,7 +121,7 @@ export default function Home() {
                       opacity: { duration: 0.8 },
                       y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
                     }}
-                    className="relative flex flex-col items-center p-4 py-16 border border-brand-gold/30 bg-white/60 backdrop-blur-xl rounded-full shadow-xl overflow-hidden min-w-[100px] -mt-[89px] ml-[23px] -mr-[15px] h-[400px]"
+                    className="relative flex flex-col items-center p-4 py-16 border border-brand-gold/30 bg-slate-800/60 backdrop-blur-xl rounded-full shadow-xl overflow-hidden min-w-[100px] -mt-[89px] ml-[23px] -mr-[15px] h-[400px]"
                   >
                     {/* Subtle Background Pattern */}
                     <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
@@ -104,12 +135,12 @@ export default function Home() {
                       </div>
                       
                       <div className="flex flex-col items-center gap-0.5 mb-4">
-                        <span className="text-[5px] uppercase tracking-[0.3em] text-brand-ink/40 font-bold">Est. 2026</span>
+                        <span className="text-[5px] uppercase tracking-[0.3em] text-white/50 font-bold">Est. 2026</span>
                         <div className="h-10 w-px bg-brand-gold/30" />
                       </div>
 
                       <h2 
-                        className="text-4xl md:text-5xl font-serif text-brand-gold text-center tracking-tighter leading-none relative"
+                        className="text-4xl md:text-5xl font-serif text-brand-gold text-center tracking-tighter leading-none relative drop-shadow-md"
                         style={{ writingMode: 'vertical-lr' }}
                       >
                         <span className="relative z-10">ᠮᠣᠩᠣᠯ ᠲᠥᠸ</span>
@@ -117,7 +148,7 @@ export default function Home() {
                         <motion.div 
                           animate={{ top: ['-100%', '200%'] }}
                           transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                          className="absolute inset-0 bg-gradient-to-b from-transparent via-white/60 to-transparent pointer-events-none z-20"
+                          className="absolute inset-0 bg-gradient-to-b from-transparent via-white/40 to-transparent pointer-events-none z-20"
                           style={{ mixBlendMode: 'overlay' }}
                         />
                       </h2>
@@ -137,23 +168,23 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.5 }}
-                className="flex flex-col sm:flex-row flex-wrap xl:flex-nowrap gap-3 md:gap-4 -mt-[28px] relative z-20"
+                className="flex flex-col sm:flex-row flex-wrap xl:flex-nowrap gap-3 md:gap-4 -mt-[28px] relative z-20 pointer-events-auto"
               >
-                <Link to="/events" className="w-full sm:w-auto flex-1 text-center bg-brand-ink text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-gold transition-all shadow-xl group whitespace-nowrap">
+                <Link to="/events" className="w-full sm:w-auto flex-1 text-center bg-brand-ink text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-gold transition-all shadow-xl group whitespace-nowrap border border-white/10">
                   {t('hero.ctaEvents')}
                 </Link>
-                <Link to="/diorama" className="w-full sm:w-auto flex-1 text-center bg-gradient-to-r from-brand-gold to-amber-600 text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all shadow-xl flex items-center justify-center gap-2 group border border-amber-400/30 whitespace-nowrap">
+                <Link to="/diorama" className="w-full sm:w-auto flex-1 text-center bg-gradient-to-r from-brand-gold to-amber-600 text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all shadow-xl flex items-center justify-center gap-2 group border border-amber-400/30 whitespace-nowrap hidden lg:flex">
                   <SoyomboSymbol className="w-3 h-3 lg:w-4 lg:h-4 group-hover:rotate-12 transition-transform duration-300" />
-                  Explore 3D
+                  Full Screen 3D
                 </Link>
-                <Link to="/about" className="w-full sm:w-auto flex-1 text-center border border-brand-ink/20 px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold hover:text-brand-gold transition-all whitespace-nowrap">
+                <Link to="/about" className="w-full sm:w-auto flex-1 text-center border border-white/20 px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold text-white hover:text-brand-gold transition-all whitespace-nowrap bg-white/5 backdrop-blur-sm">
                   {t('hero.ctaStory')}
                 </Link>
               </motion.div>
             </div>
 
             {/* Official Plaque - Vertical Mongolian Script Style (Desktop) */}
-            <div className="hidden lg:flex items-center justify-center relative min-h-[600px] w-full py-4">
+            <div className="hidden lg:flex items-center justify-center relative min-h-[600px] w-full py-4 pointer-events-none">
               <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ 
@@ -166,7 +197,7 @@ export default function Home() {
                   y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
                   rotateZ: { duration: 10, repeat: Infinity, ease: "easeInOut" }
                 }}
-                className="relative flex flex-col items-center p-10 py-20 border-[1px] border-brand-gold/30 bg-white/40 backdrop-blur-3xl rounded-full shadow-[0_50px_90px_-20px_rgba(0,0,0,0.12)] group overflow-hidden min-w-[280px] h-fit mt-16"
+                className="relative flex flex-col items-center p-10 py-20 border-[1px] border-brand-gold/30 bg-slate-800/40 backdrop-blur-xl rounded-full shadow-[0_50px_90px_-20px_rgba(0,0,0,0.5)] group overflow-hidden min-w-[280px] h-fit mt-16 pointer-events-auto"
               >
                 {/* Upgraded Stable Glow Effect */}
                 <motion.div 
@@ -208,8 +239,8 @@ export default function Home() {
                   
                   {/* Horizontal Established Text with Border */}
                   <div className="flex flex-col items-center gap-3 mb-4">
-                    <div className="px-4 py-1.5 border border-brand-gold/20 rounded-md bg-white/30 backdrop-blur-sm">
-                      <span className="text-[10px] uppercase tracking-[0.4em] text-brand-ink/60 font-bold">Established 2026</span>
+                    <div className="px-4 py-1.5 border border-brand-gold/20 rounded-md bg-slate-800/50 backdrop-blur-sm">
+                      <span className="text-[10px] uppercase tracking-[0.4em] text-white/50 font-bold">Established 2026</span>
                     </div>
                     <div className="h-12 w-px bg-brand-gold/20" />
                   </div>
@@ -217,7 +248,7 @@ export default function Home() {
                   {/* Main Vertical Title with Shimmer */}
                   <div className="relative">
                     <h2 
-                      className="text-6xl md:text-9xl lg:text-[180px] font-serif text-brand-gold text-center tracking-tighter leading-none select-none relative z-10"
+                      className="text-6xl md:text-9xl lg:text-[180px] font-serif text-brand-gold text-center tracking-tighter leading-none select-none relative z-10 drop-shadow-2xl"
                       style={{ writingMode: 'vertical-lr' }}
                     >
                       ᠮᠣᠩᠣᠯ ᠲᠥᠸ
@@ -226,7 +257,7 @@ export default function Home() {
                     <motion.div 
                       animate={{ top: ['-100%', '200%'] }}
                       transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                      className="absolute inset-0 bg-gradient-to-b from-transparent via-white/80 to-transparent pointer-events-none z-20"
+                      className="absolute inset-0 bg-gradient-to-b from-transparent via-white/40 to-transparent pointer-events-none z-20"
                       style={{ mixBlendMode: 'overlay' }}
                     />
                   </div>

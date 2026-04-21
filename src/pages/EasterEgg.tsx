@@ -10,26 +10,26 @@ export default function EasterEgg() {
   const [activePopup, setActivePopup] = useState<string | null>(null);
 
   return (
-    <div className="w-full h-screen bg-slate-800 relative overflow-hidden">
+    <div className="w-full h-screen bg-slate-900 relative overflow-hidden">
       <Suspense fallback={
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-800 z-50">
-          <Loader className="w-12 h-12 text-amber-500 animate-spin mb-4" />
-          <p className="text-amber-400 font-medium font-serif">Loading the Steppe...</p>
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900 z-50">
+          <Loader className="w-12 h-12 text-amber-600 animate-spin mb-4" />
+          <p className="text-amber-800 font-medium font-serif">Loading the Steppe...</p>
         </div>
       }>
         <Canvas shadows camera={{ position: [15, 15, 15], fov: 45 }}>
           <AudioSetup />
           <color attach="background" args={['#1e293b']} />
-          <fog attach="fog" args={['#1e293b', 20, 60]} />
-          {/* Early evening / sunset sky */}
-          <Sky sunPosition={[100, 5, 100]} turbidity={5} rayleigh={2} />
+          <fog attach="fog" args={['#1e293b', 20, 50]} />
+          {/* Sunset sky */}
+          <Sky sunPosition={[100, 2, 100]} turbidity={10} rayleigh={3} />
           
-          {/* Dimmer ambient and directional lights for mood, but kept bright enough to see details */}
-          <ambientLight intensity={0.25} />
+          {/* Dimmer ambient and directional lights for moody atmosphere */}
+          <ambientLight intensity={0.15} />
           <directionalLight
             castShadow
-            position={[10, 10, 10]}
-            intensity={0.8}
+            position={[10, 5, 10]}
+            intensity={0.5}
             color="#ffcfaa"
             shadow-mapSize={[2048, 2048]}
             shadow-camera-left={-20}
