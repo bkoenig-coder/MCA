@@ -44,30 +44,28 @@ export default function Home() {
           {/* Subtle gradient overlay to ensure text readability */}
           <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent z-10 pointer-events-none" />
           
-          <div className="w-full h-full absolute inset-0 mix-blend-screen opacity-50 md:opacity-100 transition-opacity duration-1000 group-hover:opacity-100">
-            <Canvas shadows camera={{ position: [15, 15, 15], fov: 45 }}>
-              {/* Dimmer ambient and directional lights for moody atmosphere matching easter egg */}
+          <div className="w-full h-full absolute inset-0 mix-blend-screen opacity-50 md:opacity-100 transition-opacity duration-1000 group-hover:opacity-100 pointer-events-none">
+            {/* Optimized Canvas for performance: limited DPR, no pointer events, no controls */}
+            <Canvas 
+              shadows 
+              dpr={[1, 1.5]} 
+              camera={{ position: [15, 15, 15], fov: 45 }}
+              gl={{ powerPreference: "high-performance", antialias: false }}
+            >
               <ambientLight intensity={0.15} />
               <directionalLight
                 castShadow
                 position={[10, 5, 10]}
                 intensity={0.5}
                 color="#ffcfaa"
-                shadow-mapSize={[2048, 2048]}
+                shadow-mapSize={[1024, 1024]}
                 shadow-camera-left={-20}
                 shadow-camera-right={20}
                 shadow-camera-top={20}
                 shadow-camera-bottom={-20}
               />
               
-              <DioramaScene onSelect={setActivePopup} />
-              
-              <MapControls 
-                enableZoom={false}
-                minPolarAngle={Math.PI / 6} 
-                maxPolarAngle={Math.PI / 2.5} 
-                target={[0, 0, 0]}
-              />
+              <DioramaScene onSelect={undefined} />
             </Canvas>
           </div>
           
@@ -431,32 +429,32 @@ export default function Home() {
       </section>
 
       {/* Featured Events Preview - Dynamic List */}
-      <section className="py-24 md:py-40 px-6 bg-brand-paper relative overflow-hidden">
+      <section className="py-16 md:py-24 px-4 md:px-6 bg-brand-paper relative overflow-hidden">
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-16 md:mb-24 -mt-[80px]">
-            <div className="flex items-center justify-center gap-4 mb-6 md:mb-8">
-              <div className="h-px w-12 bg-brand-gold/40" />
-              <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">{t('highlight.tag')}</span>
-              <div className="h-px w-12 bg-brand-gold/40" />
+          <div className="text-center mb-12 md:mb-16 -mt-[40px] md:-mt-[40px]">
+            <div className="flex items-center justify-center gap-2 md:gap-4 mb-4 md:mb-6">
+              <div className="h-px w-8 md:w-12 bg-brand-gold/40" />
+              <span className="text-[9px] md:text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">{t('highlight.tag')}</span>
+              <div className="h-px w-8 md:w-12 bg-brand-gold/40" />
             </div>
-            <h2 className="text-4xl md:text-7xl font-serif leading-tight text-brand-ink mb-8">
-              {t('highlight.title')} <br />
-              <span className="italic text-brand-gold">{t('highlight.titleItalic')}</span>
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif leading-tight text-brand-ink mb-6 md:mb-8">
+              {t('highlight.title')} <br className="hidden md:block"/>
+              <span className="italic text-brand-gold"> {t('highlight.titleItalic')}</span>
             </h2>
-            <Link to="/events" className="inline-flex items-center gap-4 text-brand-ink font-bold text-xs uppercase tracking-[0.3em] group">
+            <Link to="/events" className="inline-flex items-center gap-3 md:gap-4 text-brand-ink font-bold text-[10px] md:text-xs uppercase tracking-[0.3em] group">
               {t('highlight.cta')}
-              <div className="w-10 h-10 md:w-12 md:h-12 border border-brand-ink/10 rounded-full flex items-center justify-center group-hover:border-brand-gold group-hover:text-brand-gold transition-all">
+              <div className="w-8 h-8 md:w-12 md:h-12 border border-brand-ink/10 rounded-full flex items-center justify-center group-hover:border-brand-gold group-hover:text-brand-gold transition-all">
                 <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </div>
             </Link>
           </div>
 
           {loading ? (
-            <div className="flex justify-center py-20 -mt-[50px]">
+            <div className="flex justify-center py-20 -mt-[30px] md:-mt-[50px]">
               <Loader2 className="animate-spin text-brand-gold" size={40} />
             </div>
           ) : (
-            <div className="grid md:grid-cols-3 gap-8 md:gap-12 -mt-[50px]">
+            <div className="grid md:grid-cols-3 gap-6 md:gap-8 -mt-[30px] md:-mt-[20px]">
               {events.map((event, idx) => (
                 <motion.div 
                   key={event.id}
@@ -464,70 +462,70 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: idx * 0.1 }}
-                  className="group bg-white rounded-[40px] overflow-hidden border border-brand-ink/5 shadow-sm hover:shadow-2xl transition-all duration-700 flex flex-col"
+                  className="group bg-white rounded-[30px] md:rounded-[40px] overflow-hidden border border-brand-ink/5 shadow-sm hover:shadow-2xl transition-all duration-700 flex flex-col"
                 >
                   {/* Image Section */}
-                  <div className="relative overflow-hidden aspect-[4/5]">
+                  <div className="relative overflow-hidden aspect-[16/10] sm:aspect-[4/5]">
                     <img 
                       src={event.imageUrl} 
                       alt={event.title} 
-                      className="absolute inset-0 w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                       referrerPolicy="no-referrer"
                     />
                     <div className="absolute inset-0 bg-brand-ink/20 group-hover:bg-transparent transition-colors duration-700" />
                     
                     {/* Floating Date Badge */}
-                    <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl shadow-xl flex flex-col items-center min-w-[60px]">
-                      <span className="text-[10px] uppercase tracking-widest font-bold text-brand-gold">
+                    <div className="absolute top-4 left-4 md:top-6 md:left-6 bg-white/90 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-xl md:rounded-2xl shadow-xl flex flex-col items-center min-w-[50px] md:min-w-[60px]">
+                      <span className="text-[9px] md:text-[10px] uppercase tracking-widest font-bold text-brand-gold">
                         {new Date(event.date).toLocaleDateString(t('common.locale'), { month: 'short' })}
                       </span>
-                      <span className="text-2xl font-serif font-bold text-brand-ink">
+                      <span className="text-xl md:text-2xl font-serif font-bold text-brand-ink">
                         {new Date(event.date).getDate()}
                       </span>
                     </div>
 
                     {/* Category Tag */}
-                    <div className="absolute bottom-6 left-6">
-                      <span className="px-4 py-1.5 bg-brand-gold text-brand-ink rounded-full text-[9px] uppercase tracking-[0.2em] font-black shadow-lg">
+                    <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6">
+                      <span className="px-3 py-1 md:px-4 md:py-1.5 bg-brand-gold text-brand-ink rounded-full text-[8px] md:text-[9px] uppercase tracking-[0.2em] font-black shadow-lg">
                         {event.category || t('events.defaultCategory')}
                       </span>
                     </div>
                   </div>
                   
                   {/* Content Section */}
-                  <div className="p-8 md:p-10 flex flex-col flex-grow">
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="flex items-center gap-2 text-brand-gold">
-                        <Star size={14} fill="currentColor" />
-                        <span className="text-[10px] uppercase tracking-widest font-bold">Featured Event</span>
+                  <div className="p-6 md:p-10 flex flex-col flex-grow">
+                    <div className="flex items-center justify-between mb-4 md:mb-6">
+                      <div className="flex items-center gap-1.5 md:gap-2 text-brand-gold">
+                        <Star size={12} className="md:w-[14px] md:h-[14px]" fill="currentColor" />
+                        <span className="text-[9px] md:text-[10px] uppercase tracking-widest font-bold">Featured Event</span>
                       </div>
-                      <span className="font-serif text-xl text-brand-ink font-bold">
+                      <span className="font-serif text-lg md:text-xl text-brand-ink font-bold">
                         {event.price === 0 ? 'Free' : `€${(event.price / 100).toFixed(2)}`}
                       </span>
                     </div>
                     
-                    <h3 className="text-2xl md:text-3xl font-serif text-brand-ink mb-4 group-hover:text-brand-gold transition-colors duration-500 leading-tight">
+                    <h3 className="text-xl md:text-3xl font-serif text-brand-ink mb-3 md:mb-4 group-hover:text-brand-gold transition-colors duration-500 leading-tight">
                       {event.title}
                     </h3>
                     
-                    <p className="text-brand-ink/60 font-light leading-relaxed mb-8 line-clamp-3 text-sm">
+                    <p className="text-brand-ink/60 font-light leading-relaxed mb-6 md:mb-8 line-clamp-2 md:line-clamp-3 text-xs md:text-sm">
                       {event.description}
                     </p>
                     
-                    <div className="mt-auto space-y-4">
-                      <div className="flex items-center gap-4 text-brand-ink/40">
-                        <div className="w-8 h-8 rounded-full bg-brand-paper flex items-center justify-center text-brand-gold shrink-0">
-                          <Clock size={14} />
+                    <div className="mt-auto space-y-3 md:space-y-4">
+                      <div className="flex items-center gap-3 md:gap-4 text-brand-ink/40">
+                        <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-brand-paper flex items-center justify-center text-brand-gold shrink-0">
+                          <Clock size={12} className="md:w-[14px] md:h-[14px]" />
                         </div>
-                        <span className="text-[10px] uppercase tracking-widest font-bold">
+                        <span className="text-[9px] md:text-[10px] uppercase tracking-widest font-bold">
                           {event.time || t('events.tba')}
                         </span>
                       </div>
-                      <div className="flex items-center gap-4 text-brand-ink/40">
-                        <div className="w-8 h-8 rounded-full bg-brand-paper flex items-center justify-center text-brand-gold shrink-0">
-                          <MapPin size={14} />
+                      <div className="flex items-center gap-3 md:gap-4 text-brand-ink/40">
+                        <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-brand-paper flex items-center justify-center text-brand-gold shrink-0">
+                          <MapPin size={12} className="md:w-[14px] md:h-[14px]" />
                         </div>
-                        <span className="text-[10px] uppercase tracking-widest font-bold truncate">
+                        <span className="text-[9px] md:text-[10px] uppercase tracking-widest font-bold truncate">
                           {event.location || t('events.vienna')}
                         </span>
                       </div>
@@ -535,10 +533,10 @@ export default function Home() {
                     
                     <Link 
                       to={`/events/${event.id}`}
-                      className="mt-10 w-full bg-brand-paper text-brand-ink px-8 py-5 rounded-2xl text-[10px] uppercase tracking-widest font-bold hover:bg-brand-ink hover:text-white transition-all duration-500 text-center flex items-center justify-center gap-3 group/btn"
+                      className="mt-6 md:mt-10 w-full bg-brand-paper text-brand-ink px-6 py-4 md:px-8 md:py-5 rounded-xl md:rounded-2xl text-[9px] md:text-[10px] uppercase tracking-widest font-bold hover:bg-brand-ink hover:text-white transition-all duration-500 text-center flex items-center justify-center gap-2 md:gap-3 group/btn"
                     >
                       {t('events.viewDetails')} 
-                      <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                      <ArrowRight size={12} className="group-hover/btn:translate-x-1 transition-transform md:w-[14px] md:h-[14px]" />
                     </Link>
                   </div>
                 </motion.div>
@@ -658,7 +656,7 @@ export default function Home() {
         </div>
       </section>
 {/* Legacy Section - Immersive Heritage */}
-      <section className="py-32 md:py-56 px-6 bg-brand-ink text-white relative overflow-hidden">
+      <section className="py-20 md:py-32 px-4 md:px-6 bg-brand-ink text-white relative overflow-hidden">
         {/* Atmospheric Background */}
         <div className="absolute inset-0 z-0">
           <motion.div 
@@ -681,15 +679,15 @@ export default function Home() {
         {/* Floating Decorative Elements Removed */}
 
         <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-20 md:mb-32">
+          <div className="text-center mb-16 md:mb-24">
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-              className="w-20 h-20 md:w-28 md:h-28 border border-brand-gold/20 rounded-full flex items-center justify-center mx-auto mb-10 md:mb-14 text-brand-gold bg-brand-gold/5 backdrop-blur-sm"
+              className="w-16 h-16 md:w-20 md:h-20 border border-brand-gold/20 rounded-full flex items-center justify-center mx-auto mb-8 md:mb-10 text-brand-gold bg-brand-gold/5 backdrop-blur-sm"
             >
-              <SoyomboSymbol className="w-10 h-10 md:w-14 md:h-14" />
+              <SoyomboSymbol className="w-8 h-8 md:w-10 md:h-10" />
             </motion.div>
             
             <motion.h2 
@@ -697,7 +695,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-5xl md:text-8xl font-serif mb-10 md:mb-12 tracking-tight leading-[0.9]"
+              className="text-4xl md:text-7xl font-serif mb-8 md:mb-10 tracking-tight leading-[1] md:leading-[0.9]"
             >
               {t('legacy.title')} <br />
               <span className="italic text-brand-gold font-light">{t('legacy.titleItalic')}</span>
@@ -705,10 +703,10 @@ export default function Home() {
 
             <motion.div 
               initial={{ width: 0 }}
-              whileInView={{ width: "120px" }}
+              whileInView={{ width: "80px" }}
               viewport={{ once: true }}
               transition={{ duration: 1, delay: 0.5 }}
-              className="h-px bg-gradient-to-r from-transparent via-brand-gold/50 to-transparent mx-auto mb-12 md:mb-16" 
+              className="h-px bg-gradient-to-r from-transparent via-brand-gold/50 to-transparent mx-auto mb-8 md:mb-12 md:!w-[120px]" 
             />
 
             <motion.p 
@@ -716,18 +714,18 @@ export default function Home() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1, delay: 0.7 }}
-              className="text-2xl md:text-4xl text-white/70 font-serif leading-relaxed max-w-4xl mx-auto italic font-light"
+              className="text-lg md:text-3xl text-white/70 font-serif leading-relaxed max-w-4xl mx-auto italic font-light px-4 md:px-0"
             >
               {t('legacy.quote')}
             </motion.p>
           </div>
           
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-12 lg:gap-16">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-10 md:gap-8 lg:gap-12">
             {[
-              { label: t('legacy.archery'), value: t('legacy.tradition'), icon: <Handshake size={24} /> },
-              { label: t('legacy.horsemanship'), value: t('legacy.freedom'), icon: <Lightbulb size={24} /> },
-              { label: t('legacy.wrestling'), value: t('legacy.strength'), icon: <ArrowRightLeft size={24} /> },
-              { label: t('legacy.wisdom'), value: t('legacy.heritage'), icon: <TrendingUp size={24} /> }
+              { label: t('legacy.archery'), value: t('legacy.tradition'), icon: <Handshake className="w-5 h-5 md:w-6 md:h-6" /> },
+              { label: t('legacy.horsemanship'), value: t('legacy.freedom'), icon: <Lightbulb className="w-5 h-5 md:w-6 md:h-6" /> },
+              { label: t('legacy.wrestling'), value: t('legacy.strength'), icon: <ArrowRightLeft className="w-5 h-5 md:w-6 md:h-6" /> },
+              { label: t('legacy.wisdom'), value: t('legacy.heritage'), icon: <TrendingUp className="w-5 h-5 md:w-6 md:h-6" /> }
             ].map((item, i) => (
               <motion.div 
                 key={i}
@@ -737,12 +735,12 @@ export default function Home() {
                 transition={{ duration: 0.6, delay: 0.8 + (i * 0.1) }}
                 className="flex flex-col items-center text-center group cursor-default"
               >
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-gold/10 flex items-center justify-center text-brand-gold mb-4 md:mb-6 group-hover:bg-brand-gold group-hover:text-brand-ink transition-all duration-500">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-gold/10 flex items-center justify-center text-brand-gold mb-3 md:mb-6 group-hover:bg-brand-gold group-hover:text-brand-ink transition-all duration-500">
                   {item.icon}
                 </div>
-                <span className="text-[9px] md:text-[11px] uppercase tracking-[0.3em] md:tracking-[0.5em] text-brand-gold font-bold mb-2 md:mb-4 opacity-70">{item.label}</span>
-                <span className="font-serif text-lg md:text-3xl text-white/40 group-hover:text-white transition-colors duration-500">{item.value}</span>
-                <div className="mt-4 md:mt-6 w-0 group-hover:w-12 h-px bg-brand-gold transition-all duration-500" />
+                <span className="text-[8px] md:text-[11px] uppercase tracking-[0.3em] md:tracking-[0.5em] text-brand-gold font-bold mb-1 md:mb-4 opacity-70">{item.label}</span>
+                <span className="font-serif text-sm md:text-3xl text-white/40 group-hover:text-white transition-colors duration-500">{item.value}</span>
+                <div className="mt-3 md:mt-6 w-0 group-hover:w-8 md:group-hover:w-12 h-px bg-brand-gold transition-all duration-500" />
               </motion.div>
             ))}
           </div>
