@@ -173,7 +173,7 @@ export default function Home() {
                 </Link>
                 <Link to="/diorama" className="w-full sm:w-auto flex-1 text-center bg-gradient-to-r from-brand-gold to-amber-600 text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all shadow-xl flex items-center justify-center gap-2 group border border-amber-400/30 whitespace-nowrap hidden lg:flex">
                   <SoyomboSymbol className="w-3 h-3 lg:w-4 lg:h-4 group-hover:rotate-12 transition-transform duration-300" />
-                  Full Screen 3D
+                 {t('Full Screen 3D')}
                 </Link>
                 <Link to="/about" className="w-full sm:w-auto flex-1 text-center border border-white/20 px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold text-white hover:text-brand-gold transition-all whitespace-nowrap bg-white/5 backdrop-blur-sm">
                   {t('hero.ctaStory')}
