@@ -8,7 +8,7 @@ import { UlziiSymbol, SoyomboSymbol, MongolianLine, ArcherSymbol } from '../comp
 import NewsletterForm from '../components/NewsletterForm';
 
 export default function News() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -68,41 +68,55 @@ export default function News() {
                 viewport={{ once: true }}
                 className="grid md:grid-cols-2 gap-12 md:gap-20 items-center"
               >
-                <Link to={`/news/${posts[0].id}`} className="aspect-[16/10] rounded-[40px] md:rounded-[60px] overflow-hidden shadow-2xl relative group block">
-                  <img 
-                    src={posts[0].imageUrl} 
-                    alt={posts[0].title} 
-                    className="w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-brand-ink/20 group-hover:bg-transparent transition-colors duration-700" />
-                </Link>
-                <div>
-                  <div className="flex items-center gap-4 mb-6 md:mb-8">
-                    <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-gold">{t('news.featured')}</span>
-                    <div className="h-px w-8 bg-brand-gold/30" />
-                    <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-ink/40">
-                      {posts[0].createdAt?.toDate().toLocaleDateString(t('common.locale'), { month: 'long', day: 'numeric', year: 'numeric' })}
-                    </span>
-                  </div>
-                  <Link to={`/news/${posts[0].id}`}>
-                    <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-6 md:mb-8 leading-tight group-hover:text-brand-gold transition-colors duration-500">{posts[0].title}</h2>
-                  </Link>
-                  <p className="text-lg md:text-xl text-brand-ink/60 font-light leading-relaxed mb-10 md:mb-12 line-clamp-4">
-                    {posts[0].content}
-                  </p>
-                  <Link to={`/news/${posts[0].id}`} className="inline-flex items-center gap-4 text-[10px] uppercase tracking-[0.3em] font-bold text-brand-ink group/btn">
-                    {t('news.readFull')}
-                    <div className="w-10 h-10 md:w-12 md:h-12 border border-brand-ink/10 rounded-full flex items-center justify-center group-hover/btn:border-brand-gold group-hover/btn:text-brand-gold transition-all">
-                      <ArrowRight size={16} />
-                    </div>
-                  </Link>
-                </div>
+                {(() => {
+                  const p = posts[0];
+                  const lang = i18n.language;
+                  const dTitle = lang === 'mn' ? (p.titleMn || p.title) : lang === 'de' ? (p.titleDe || p.title) : (p.titleEn || p.title);
+                  const dContent = lang === 'mn' ? (p.contentMn || p.content) : lang === 'de' ? (p.contentDe || p.content) : (p.contentEn || p.content);
+                  return (
+                    <>
+                      <Link to={`/news/${p.id}`} className="aspect-[16/10] rounded-[40px] md:rounded-[60px] overflow-hidden shadow-2xl relative group block">
+                        <img 
+                          src={p.imageUrl} 
+                          alt={dTitle} 
+                          className="w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
+                          referrerPolicy="no-referrer"
+                        />
+                        <div className="absolute inset-0 bg-brand-ink/20 group-hover:bg-transparent transition-colors duration-700" />
+                      </Link>
+                      <div>
+                        <div className="flex items-center gap-4 mb-6 md:mb-8">
+                          <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-gold">{t('news.featured')}</span>
+                          <div className="h-px w-8 bg-brand-gold/30" />
+                          <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-ink/40">
+                            {p.createdAt?.toDate().toLocaleDateString(t('common.locale'), { month: 'long', day: 'numeric', year: 'numeric' })}
+                          </span>
+                        </div>
+                        <Link to={`/news/${p.id}`}>
+                          <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-6 md:mb-8 leading-tight group-hover:text-brand-gold transition-colors duration-500">{dTitle}</h2>
+                        </Link>
+                        <p className="text-lg md:text-xl text-brand-ink/60 font-light leading-relaxed mb-10 md:mb-12 line-clamp-4">
+                          {dContent}
+                        </p>
+                        <Link to={`/news/${p.id}`} className="inline-flex items-center gap-4 text-[10px] uppercase tracking-[0.3em] font-bold text-brand-ink group/btn">
+                          {t('news.readFull')}
+                          <div className="w-10 h-10 md:w-12 md:h-12 border border-brand-ink/10 rounded-full flex items-center justify-center group-hover/btn:border-brand-gold group-hover/btn:text-brand-gold transition-all">
+                            <ArrowRight size={16} />
+                          </div>
+                        </Link>
+                      </div>
+                    </>
+                  );
+                })()}
               </motion.article>
 
               {/* Other Posts Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-20">
-                {posts.slice(1).map((post) => (
+                {posts.slice(1).map((post) => {
+                  const lang = i18n.language;
+                  const dTitle = lang === 'mn' ? (post.titleMn || post.title) : lang === 'de' ? (post.titleDe || post.title) : (post.titleEn || post.title);
+                  const dContent = lang === 'mn' ? (post.contentMn || post.content) : lang === 'de' ? (post.contentDe || post.content) : (post.contentEn || post.content);
+                  return (
                   <motion.article 
                     key={post.id}
                     initial={{ opacity: 0, y: 40 }}
@@ -113,7 +127,7 @@ export default function News() {
                     <Link to={`/news/${post.id}`} className="aspect-[16/10] rounded-[32px] md:rounded-[40px] overflow-hidden mb-8 md:mb-10 shadow-lg relative block">
                       <img 
                         src={post.imageUrl} 
-                        alt={post.title} 
+                        alt={dTitle} 
                         className="w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
                         referrerPolicy="no-referrer"
                       />
@@ -127,16 +141,17 @@ export default function News() {
                       </span>
                     </div>
                     <Link to={`/news/${post.id}`}>
-                      <h3 className="text-2xl md:text-3xl font-serif text-brand-ink mb-4 md:mb-6 group-hover:text-brand-gold transition-colors duration-500">{post.title}</h3>
+                      <h3 className="text-2xl md:text-3xl font-serif text-brand-ink mb-4 md:mb-6 group-hover:text-brand-gold transition-colors duration-500">{dTitle}</h3>
                     </Link>
                     <p className="text-sm md:text-base text-brand-ink/60 font-light leading-relaxed mb-6 md:mb-8 line-clamp-3">
-                      {post.content}
+                      {dContent}
                     </p>
                     <Link to={`/news/${post.id}`} className="inline-block text-[10px] uppercase tracking-[0.3em] font-bold text-brand-ink border-b border-brand-ink/10 pb-2 hover:border-brand-gold hover:text-brand-gold transition-all">
                       {t('news.readMore')}
                     </Link>
                   </motion.article>
-                ))}
+                );
+                })}
               </div>
             </div>
           ) : (

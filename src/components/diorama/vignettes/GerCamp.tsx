@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { ZoneLabel } from './ZoneLabel';
 
-export function GerCamp({ onSelect }: { onSelect: () => void }) {
+export function GerCamp({ onSelect, hideLabels }: { onSelect: () => void; hideLabels?: boolean }) {
   const smokeRef = useRef<THREE.Group>(null);
 
   useFrame((state) => {
@@ -23,7 +23,7 @@ export function GerCamp({ onSelect }: { onSelect: () => void }) {
       onPointerOver={() => document.body.style.cursor = 'pointer'} 
       onPointerOut={() => document.body.style.cursor = 'auto'}
     >
-      <ZoneLabel title="The Ger" position={[0, 4.5, 0]} />
+      <ZoneLabel title="The Ger" position={[0, 4.5, 0]} hide={hideLabels} />
       {/* Ger Base */}
       <mesh castShadow receiveShadow position={[0, 0.8, 0]}>
         <cylinderGeometry args={[2, 2, 1.6, 32]} />

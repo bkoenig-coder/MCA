@@ -42,9 +42,9 @@ export default function Home() {
       <section className="relative min-h-[85vh] md:h-[95vh] flex items-center px-6 overflow-hidden bg-slate-900 group">
         <div className="absolute inset-0 z-0">
           {/* Subtle gradient overlay to ensure text readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent z-10 pointer-events-none" />
           
-          <div className="w-full h-full absolute inset-0 mix-blend-screen opacity-50 md:opacity-100 transition-opacity duration-1000 group-hover:opacity-100 pointer-events-none">
+          <div className="w-full h-full absolute inset-0 opacity-80 md:opacity-100 transition-opacity duration-1000 group-hover:opacity-100 pointer-events-none">
             {/* Optimized Canvas for performance: limited DPR, no pointer events, no controls */}
             <Canvas 
               shadows 
@@ -52,11 +52,11 @@ export default function Home() {
               camera={{ position: [15, 15, 15], fov: 45 }}
               gl={{ powerPreference: "high-performance", antialias: false }}
             >
-              <ambientLight intensity={0.15} />
+              <ambientLight intensity={0.4} />
               <directionalLight
                 castShadow
                 position={[10, 5, 10]}
-                intensity={0.5}
+                intensity={0.8}
                 color="#ffcfaa"
                 shadow-mapSize={[1024, 1024]}
                 shadow-camera-left={-20}
@@ -65,7 +65,7 @@ export default function Home() {
                 shadow-camera-bottom={-20}
               />
               
-              <DioramaScene onSelect={undefined} />
+              <DioramaScene onSelect={() => {}} hideLabels={true} />
             </Canvas>
           </div>
           
@@ -171,7 +171,7 @@ export default function Home() {
                 <Link to="/events" className="w-full sm:w-auto flex-1 text-center bg-brand-ink text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-gold transition-all shadow-xl group whitespace-nowrap border border-white/10">
                   {t('hero.ctaEvents')}
                 </Link>
-                <Link to="/diorama" className="w-full sm:w-auto flex-1 text-center bg-gradient-to-r from-brand-gold to-amber-600 text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all shadow-xl flex items-center justify-center gap-2 group border border-amber-400/30 whitespace-nowrap hidden lg:flex">
+                <Link to="/diorama" className="w-full sm:w-auto flex-1 text-center bg-gradient-to-r from-brand-gold to-amber-600 text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all shadow-xl flex items-center justify-center gap-2 group border border-amber-400/30 whitespace-nowrap flex">
                   <SoyomboSymbol className="w-3 h-3 lg:w-4 lg:h-4 group-hover:rotate-12 transition-transform duration-300" />
                  {t('Full Screen 3D')}
                 </Link>
@@ -455,7 +455,14 @@ export default function Home() {
             </div>
           ) : (
             <div className="grid md:grid-cols-3 gap-6 md:gap-8 -mt-[30px] md:-mt-[20px]">
-              {events.map((event, idx) => (
+              {events.map((event, idx) => {
+                const lang = i18n.language;
+                const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : (event.titleEn || event.title);
+                const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : (event.descriptionEn || event.description);
+                const dLocation = lang === 'mn' ? (event.locationMn || event.location) : lang === 'de' ? (event.locationDe || event.location) : (event.locationEn || event.location);
+                const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : (event.categoryEn || event.category);
+
+                return (
                 <motion.div 
                   key={event.id}
                   initial={{ opacity: 0, y: 30 }}
@@ -468,7 +475,7 @@ export default function Home() {
                   <div className="relative overflow-hidden aspect-[16/10] sm:aspect-[4/5]">
                     <img 
                       src={event.imageUrl} 
-                      alt={event.title} 
+                      alt={dTitle} 
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                       referrerPolicy="no-referrer"
                     />
@@ -487,7 +494,7 @@ export default function Home() {
                     {/* Category Tag */}
                     <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6">
                       <span className="px-3 py-1 md:px-4 md:py-1.5 bg-brand-gold text-brand-ink rounded-full text-[8px] md:text-[9px] uppercase tracking-[0.2em] font-black shadow-lg">
-                        {event.category || t('events.defaultCategory')}
+                        {dCat || t('events.defaultCategory')}
                       </span>
                     </div>
                   </div>
@@ -505,11 +512,11 @@ export default function Home() {
                     </div>
                     
                     <h3 className="text-xl md:text-3xl font-serif text-brand-ink mb-3 md:mb-4 group-hover:text-brand-gold transition-colors duration-500 leading-tight">
-                      {event.title}
+                      {dTitle}
                     </h3>
                     
                     <p className="text-brand-ink/60 font-light leading-relaxed mb-6 md:mb-8 line-clamp-2 md:line-clamp-3 text-xs md:text-sm">
-                      {event.description}
+                      {dDesc}
                     </p>
                     
                     <div className="mt-auto space-y-3 md:space-y-4">
@@ -526,7 +533,7 @@ export default function Home() {
                           <MapPin size={12} className="md:w-[14px] md:h-[14px]" />
                         </div>
                         <span className="text-[9px] md:text-[10px] uppercase tracking-widest font-bold truncate">
-                          {event.location || t('events.vienna')}
+                          {dLocation || t('events.vienna')}
                         </span>
                       </div>
                     </div>
@@ -540,7 +547,8 @@ export default function Home() {
                     </Link>
                   </div>
                 </motion.div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>

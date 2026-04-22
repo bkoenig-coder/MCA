@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { ZoneLabel } from './ZoneLabel';
 
-export function PlayZone({ onSelect }: { onSelect: () => void }) {
+export function PlayZone({ onSelect, hideLabels }: { onSelect: () => void; hideLabels?: boolean }) {
   const groupRef = useRef<THREE.Group>(null);
 
   useFrame((state) => {
@@ -18,7 +18,7 @@ export function PlayZone({ onSelect }: { onSelect: () => void }) {
       onPointerOver={() => document.body.style.cursor = 'pointer'} 
       onPointerOut={() => document.body.style.cursor = 'auto'}
     >
-      <ZoneLabel title="Shagai Play" position={[0, 1.8, 0]} />
+      <ZoneLabel title="Shagai Play" position={[0, 1.8, 0]} hide={hideLabels} />
       
       {/* Invisible Hitbox for easier clicking */}
       <mesh position={[0, 0.5, 0]}>

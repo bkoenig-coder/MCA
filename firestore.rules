@@ -143,17 +143,29 @@ service cloud.firestore {
     }
 
     function isValidEvent(data) {
-      return hasOnlyAllowedFields(['title', 'description', 'price', 'capacity', 'date', 'time', 'location', 'imageUrl', 'category', 'whatsIncluded', 'registeredCount', 'createdAt', 'updatedAt']) &&
+      return hasOnlyAllowedFields(['title', 'titleEn', 'titleMn', 'titleDe', 'description', 'descriptionEn', 'descriptionMn', 'descriptionDe', 'price', 'capacity', 'date', 'time', 'location', 'locationEn', 'locationMn', 'locationDe', 'imageUrl', 'category', 'categoryEn', 'categoryMn', 'categoryDe', 'whatsIncluded', 'registeredCount', 'createdAt', 'updatedAt']) &&
              hasRequiredFields(['title', 'description', 'price', 'date', 'imageUrl', 'createdAt']) &&
              validString(data.title, 1, 200) &&
+             validOptionalString('titleEn', 1, 1000) &&
+             validOptionalString('titleMn', 1, 1000) &&
+             validOptionalString('titleDe', 1, 1000) &&
              validString(data.description, 1, 5000) &&
+             validOptionalString('descriptionEn', 1, 50000) &&
+             validOptionalString('descriptionMn', 1, 50000) &&
+             validOptionalString('descriptionDe', 1, 50000) &&
              data.price is number && data.price >= 0 &&
              (!( 'capacity' in data ) || (data.capacity is number && data.capacity >= 0)) &&
              validString(data.date, 1, 50) &&
              validOptionalString('time', 0, 50) &&
              validOptionalString('location', 0, 200) &&
+             validOptionalString('locationEn', 0, 1000) &&
+             validOptionalString('locationMn', 0, 1000) &&
+             validOptionalString('locationDe', 0, 1000) &&
              isValidUrl(data.imageUrl) &&
              validOptionalString('category', 0, 100) &&
+             validOptionalString('categoryEn', 0, 200) &&
+             validOptionalString('categoryMn', 0, 200) &&
+             validOptionalString('categoryDe', 0, 200) &&
              (!( 'whatsIncluded' in data ) || (data.whatsIncluded is list && data.whatsIncluded.size() <= 20)) &&
              (!( 'registeredCount' in data ) || (data.registeredCount is number && data.registeredCount >= 0)) &&
              data.createdAt is timestamp &&
@@ -178,10 +190,16 @@ service cloud.firestore {
     }
 
     function isValidPost(data) {
-      return hasOnlyAllowedFields(['title', 'content', 'imageUrl', 'authorId', 'createdAt', 'updatedAt']) &&
+      return hasOnlyAllowedFields(['title', 'titleEn', 'titleMn', 'titleDe', 'content', 'contentEn', 'contentMn', 'contentDe', 'imageUrl', 'authorId', 'createdAt', 'updatedAt']) &&
              hasRequiredFields(['title', 'content', 'authorId', 'createdAt']) &&
              validString(data.title, 1, 200) &&
+             validOptionalString('titleEn', 1, 1000) &&
+             validOptionalString('titleMn', 1, 1000) &&
+             validOptionalString('titleDe', 1, 1000) &&
              validString(data.content, 1, 10000) &&
+             validOptionalString('contentEn', 1, 50000) &&
+             validOptionalString('contentMn', 1, 50000) &&
+             validOptionalString('contentDe', 1, 50000) &&
              (!( 'imageUrl' in data ) || isValidUrl(data.imageUrl)) &&
              validString(data.authorId, 1, 128) &&
              data.createdAt is timestamp &&
@@ -194,14 +212,26 @@ service cloud.firestore {
     }
 
     function isValidGalleryItem(data) {
-      return hasOnlyAllowedFields(['title', 'artist', 'year', 'description', 'imageUrl', 'category', 'createdAt', 'updatedAt']) &&
+      return hasOnlyAllowedFields(['title', 'titleEn', 'titleMn', 'titleDe', 'artist', 'artistEn', 'artistMn', 'artistDe', 'year', 'description', 'descriptionEn', 'descriptionMn', 'descriptionDe', 'imageUrl', 'category', 'categoryEn', 'categoryMn', 'categoryDe', 'createdAt', 'updatedAt']) &&
              hasRequiredFields(['title', 'imageUrl', 'createdAt']) &&
              validString(data.title, 1, 200) &&
+             validOptionalString('titleEn', 1, 1000) &&
+             validOptionalString('titleMn', 1, 1000) &&
+             validOptionalString('titleDe', 1, 1000) &&
              validOptionalString('artist', 0, 200) &&
+             validOptionalString('artistEn', 0, 500) &&
+             validOptionalString('artistMn', 0, 500) &&
+             validOptionalString('artistDe', 0, 500) &&
              validOptionalString('year', 0, 50) &&
              validOptionalString('description', 0, 2000) &&
+             validOptionalString('descriptionEn', 0, 10000) &&
+             validOptionalString('descriptionMn', 0, 10000) &&
+             validOptionalString('descriptionDe', 0, 10000) &&
              isValidUrl(data.imageUrl) &&
              validOptionalString('category', 0, 100) &&
+             validOptionalString('categoryEn', 0, 200) &&
+             validOptionalString('categoryMn', 0, 200) &&
+             validOptionalString('categoryDe', 0, 200) &&
              data.createdAt is timestamp &&
              (!( 'updatedAt' in data ) || data.updatedAt is timestamp);
     }

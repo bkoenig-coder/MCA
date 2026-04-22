@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { ZoneLabel } from './ZoneLabel';
 
-export function HerdingZone({ onSelect }: { onSelect: () => void }) {
+export function HerdingZone({ onSelect, hideLabels }: { onSelect: () => void; hideLabels?: boolean }) {
   const armRef = useRef<THREE.Group>(null);
 
   useFrame((state) => {
@@ -18,7 +18,7 @@ export function HerdingZone({ onSelect }: { onSelect: () => void }) {
       onPointerOver={() => document.body.style.cursor = 'pointer'} 
       onPointerOut={() => document.body.style.cursor = 'auto'}
     >
-      <ZoneLabel title="The Herds" position={[0, 2.2, 0]} />
+      <ZoneLabel title="The Herds" position={[0, 2.2, 0]} hide={hideLabels} />
       {/* Mother (kneeling in Deel) */}
       <mesh castShadow position={[-1, 0.4, 0]}>
         <capsuleGeometry args={[0.25, 0.3, 4, 8]} />

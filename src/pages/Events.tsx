@@ -9,7 +9,7 @@ import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../comp
 import { cn } from '@/src/lib/utils';
 
 export default function Events() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user } = useAuth();
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -225,7 +225,14 @@ export default function Events() {
             </div>
           ) : (
             <div className="space-y-8 md:space-y-12">
-              {events.map((event, idx) => (
+              {events.map((event, idx) => {
+                const lang = i18n.language;
+                const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : (event.titleEn || event.title);
+                const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : (event.descriptionEn || event.description);
+                const dLocation = lang === 'mn' ? (event.locationMn || event.location) : lang === 'de' ? (event.locationDe || event.location) : (event.locationEn || event.location);
+                const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : (event.categoryEn || event.category);
+
+                return (
                 <motion.div 
                   key={event.id}
                   initial={{ opacity: 0, y: 10 }}
@@ -238,7 +245,7 @@ export default function Events() {
                   <div className="md:w-[40%] relative overflow-hidden aspect-[16/10] md:aspect-auto min-h-[250px] md:min-h-full">
                     <img 
                       src={event.imageUrl} 
-                      alt={event.title} 
+                      alt={dTitle} 
                       className="absolute inset-0 w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
                       referrerPolicy="no-referrer"
                     />
@@ -250,7 +257,7 @@ export default function Events() {
                     <div className="flex items-center justify-between mb-6">
                       <div className="flex items-center gap-3">
                         <span className="px-4 py-1.5 bg-brand-paper rounded-full text-[10px] uppercase tracking-widest font-bold text-brand-gold">
-                          {event.category || t('events.defaultCategory')}
+                          {dCat || t('events.defaultCategory')}
                         </span>
                         {event.capacity > 0 && (
                           <span className="px-4 py-1.5 bg-brand-ink/5 rounded-full text-[10px] uppercase tracking-widest font-bold text-brand-ink/60">
@@ -264,11 +271,11 @@ export default function Events() {
                     </div>
                     
                     <h3 className="text-3xl md:text-4xl font-serif text-brand-ink mb-4 group-hover:text-brand-gold transition-colors duration-500">
-                      {event.title}
+                      {dTitle}
                     </h3>
                     
                     <p className="text-brand-ink/60 font-light leading-relaxed mb-8 line-clamp-2">
-                      {event.description}
+                      {dDesc}
                     </p>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
@@ -287,7 +294,7 @@ export default function Events() {
                       <div className="flex items-center gap-3 text-brand-ink/60">
                         <MapPin size={16} className="text-brand-gold" />
                         <span className="text-[11px] uppercase tracking-widest font-medium truncate">
-                          {event.location || t('events.vienna')}
+                          {dLocation || t('events.vienna')}
                         </span>
                       </div>
                     </div>
@@ -315,7 +322,8 @@ export default function Events() {
                     </div>
                   </div>
                 </motion.div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>

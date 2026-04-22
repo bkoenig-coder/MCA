@@ -7,7 +7,7 @@ import { UlziiSymbol, SoyomboSymbol, MongolianLine } from '../components/Mongoli
 import { useTranslation } from 'react-i18next';
 
 export default function NewsDetails() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const [post, setPost] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -54,6 +54,10 @@ export default function NewsDetails() {
     );
   }
 
+  const lang = i18n.language;
+  const dTitle = lang === 'mn' ? (post.titleMn || post.title) : lang === 'de' ? (post.titleDe || post.title) : (post.titleEn || post.title);
+  const dContent = lang === 'mn' ? (post.contentMn || post.content) : lang === 'de' ? (post.contentDe || post.content) : (post.contentEn || post.content);
+
   return (
     <div className="pt-24 md:pt-32 pb-16 md:pb-20 px-6 relative overflow-hidden bg-white">
       {/* Background Symbols */}
@@ -81,14 +85,14 @@ export default function NewsDetails() {
             </div>
             
             <h1 className="text-4xl md:text-6xl font-serif leading-tight mb-8 text-brand-ink">
-              {post.title}
+              {dTitle}
             </h1>
           </div>
 
           <div className="aspect-[16/9] md:aspect-[21/9] rounded-[32px] md:rounded-[48px] overflow-hidden shadow-2xl mb-12 md:mb-16 relative">
             <img 
               src={post.imageUrl} 
-              alt={post.title} 
+              alt={dTitle} 
               className="w-full h-full object-contain bg-brand-paper/30"
               referrerPolicy="no-referrer"
             />
@@ -99,7 +103,7 @@ export default function NewsDetails() {
 
           <div className="prose prose-lg md:prose-xl max-w-none text-brand-ink/80 font-light leading-relaxed">
             {/* Split content by newlines to render paragraphs */}
-            {post.content.split('\n').map((paragraph: string, idx: number) => (
+            {dContent.split('\n').map((paragraph: string, idx: number) => (
               paragraph.trim() ? <p key={idx} className="mb-6">{paragraph}</p> : null
             ))}
           </div>

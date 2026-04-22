@@ -8,6 +8,7 @@ import { TrainingZone } from './vignettes/TrainingZone';
 
 interface DioramaSceneProps {
   onSelect: (id: string) => void;
+  hideLabels?: boolean;
 }
 
 function InstancedGrass() {
@@ -62,7 +63,7 @@ function InstancedGrass() {
   );
 }
 
-export function DioramaScene({ onSelect }: DioramaSceneProps) {
+export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
   const islandRef = useRef<THREE.Group>(null);
 
   // Subtle floating animation for the whole island
@@ -100,19 +101,19 @@ export function DioramaScene({ onSelect }: DioramaSceneProps) {
 
       {/* Vignettes */}
       <group position={[-4, 0.1, -4]}>
-        <GerCamp onSelect={() => onSelect('ger')} />
+        <GerCamp onSelect={() => onSelect('ger')} hideLabels={hideLabels} />
       </group>
       
       <group position={[4, 0.1, -4]}>
-        <PlayZone onSelect={() => onSelect('play')} />
+        <PlayZone onSelect={() => onSelect('play')} hideLabels={hideLabels} />
       </group>
       
       <group position={[-4, 0.1, 4]}>
-        <HerdingZone onSelect={() => onSelect('herding')} />
+        <HerdingZone onSelect={() => onSelect('herding')} hideLabels={hideLabels} />
       </group>
       
       <group position={[4, 0.1, 4]}>
-        <TrainingZone onSelect={() => onSelect('training')} />
+        <TrainingZone onSelect={() => onSelect('training')} hideLabels={hideLabels} />
       </group>
       
       {/* State Suld - Nine White Banners */}
@@ -235,44 +236,80 @@ function FlyingEagle() {
 
 function BannerFlame({ position, scale = 1, isCenter = false }: { position: [number, number, number], scale?: number, isCenter?: boolean }) {
   const lightRef = useRef<THREE.PointLight>(null);
-  const matRef = useRef<THREE.MeshBasicMaterial>(null);
-  const meshRef = useRef<THREE.Mesh>(null);
+  const flameGroupRef = useRef<THREE.Group>(null);
+  const outerMatRef = useRef<THREE.MeshBasicMaterial>(null);
+  const innerMatRef = useRef<THREE.MeshBasicMaterial>(null);
 
   useFrame((state) => {
     const time = state.clock.elapsedTime;
-    const offset = position[0] + position[2]; // random looking offset
+    const offset = position[0] + position[2]; // random offset
     
-    // Dynamic pulsing calculation
-    const baseIntensity = isCenter ? 1.5 : 0.6;
-    const pulseAmplitude = isCenter ? 0.5 : 0.2;
+    const baseIntensity = isCenter ? 2.5 : 1.2;
+    const pulseAmplitude = isCenter ? 0.8 : 0.4;
     
+    // Light pulse
     if (lightRef.current) {
-      lightRef.current.intensity = (baseIntensity + Math.sin(time * 15 + offset) * pulseAmplitude) * scale;
+      lightRef.current.intensity = (baseIntensity + Math.sin(time * 12 + offset) * pulseAmplitude) * scale;
     }
-    if (matRef.current) {
-      matRef.current.opacity = 0.7 + Math.sin(time * 20 + offset) * 0.2;
+    
+    // Material pulse
+    if (outerMatRef.current) {
+      outerMatRef.current.opacity = 0.6 + Math.sin(time * 18 + offset) * 0.2;
     }
-    if (meshRef.current) {
-      meshRef.current.scale.y = 1 + Math.sin(time * 25 + offset) * 0.2;
+    
+    // Chaotic flame animation
+    if (flameGroupRef.current) {
+      flameGroupRef.current.children.forEach((mesh, index) => {
+        // Individual flame licking
+        mesh.scale.y = 1 + Math.sin(time * (15 + index * 5) + offset) * 0.3;
+        mesh.scale.x = 1 + Math.cos(time * (10 + index * 3) + offset) * 0.15;
+        mesh.scale.z = 1 + Math.sin(time * (12 + index * 4) + offset) * 0.15;
+        
+        // Swaying
+        mesh.rotation.z = Math.sin(time * 8 + offset + index) * 0.15;
+        mesh.rotation.x = Math.cos(time * 7 + offset + index) * 0.15;
+      });
     }
   });
 
   return (
     <group position={position} scale={scale}>
-      {/* Flame Core */}
-      <mesh ref={meshRef} position={[0, 0.1, 0]}>
-        <capsuleGeometry args={[0.03, 0.1, 4, 8]} />
-        <meshBasicMaterial color="#ffffaa" />
-      </mesh>
-      {/* Flame Glow Base */}
+      <group ref={flameGroupRef} position={[0, 0.05, 0]}>
+        {/* Core hot flame */}
+        <mesh position={[0, 0.08, 0]}>
+          <coneGeometry args={[0.04, 0.25, 5]} />
+          <meshBasicMaterial ref={innerMatRef} color="#ffffff" />
+        </mesh>
+        
+        {/* Outer mid-orange flame */}
+        <mesh position={[0, 0.1, 0]}>
+          <coneGeometry args={[0.08, 0.35, 6]} />
+          <meshBasicMaterial color="#ffaa00" transparent opacity={0.8} blending={THREE.AdditiveBlending} depthWrite={false} />
+        </mesh>
+        
+        {/* Licking side flame 1 */}
+        <mesh position={[-0.03, 0.05, 0.02]} rotation={[0, 0, 0.2]}>
+          <coneGeometry args={[0.05, 0.2, 4]} />
+          <meshBasicMaterial color="#ff5500" transparent opacity={0.7} blending={THREE.AdditiveBlending} depthWrite={false} />
+        </mesh>
+
+        {/* Licking side flame 2 */}
+        <mesh position={[0.03, 0.06, -0.02]} rotation={[0.1, 0, -0.2]}>
+          <coneGeometry args={[0.04, 0.25, 4]} />
+          <meshBasicMaterial color="#ff3300" transparent opacity={0.6} blending={THREE.AdditiveBlending} depthWrite={false} />
+        </mesh>
+      </group>
+      
+      {/* Base ambient glow */}
       <mesh position={[0, 0.05, 0]}>
-        <sphereGeometry args={[0.08, 8, 8]} />
-        <meshBasicMaterial ref={matRef} color={isCenter ? "#ff4400" : "#ff3300"} transparent opacity={0.8} />
+        <sphereGeometry args={[0.12, 8, 8]} />
+        <meshBasicMaterial ref={outerMatRef} color={isCenter ? "#ff2200" : "#ff1100"} transparent opacity={0.5} blending={THREE.AdditiveBlending} depthWrite={false} />
       </mesh>
+      
       <pointLight 
         ref={lightRef} 
-        color={isCenter ? "#ff8800" : "#ff6600"} 
-        distance={isCenter ? 6 : 3} 
+        color="#ff8800" 
+        distance={isCenter ? 8 : 4} 
         castShadow={false} 
       />
     </group>

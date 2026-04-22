@@ -7,7 +7,7 @@ import { cn } from '@/src/lib/utils';
 import { db, collection, onSnapshot, query, orderBy, handleFirestoreError, OperationType } from '../firebase';
 
 export default function Gallery() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [filter, setFilter] = useState('All');
   const [artworks, setArtworks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -99,7 +99,12 @@ export default function Gallery() {
           ) : filteredArt.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
               <AnimatePresence mode="popLayout">
-                {filteredArt.map((art) => (
+                {filteredArt.map((art) => {
+                  const lang = i18n.language;
+                  const dTitle = lang === 'mn' ? (art.titleMn || art.title) : lang === 'de' ? (art.titleDe || art.title) : (art.titleEn || art.title);
+                  const dArtist = lang === 'mn' ? (art.artistMn || art.artist) : lang === 'de' ? (art.artistDe || art.artist) : (art.artistEn || art.artist);
+                  const dCat = lang === 'mn' ? (art.categoryMn || art.category) : lang === 'de' ? (art.categoryDe || art.category) : (art.categoryEn || art.category);
+                  return (
                   <motion.div
                     key={art.id}
                     layout
@@ -112,23 +117,24 @@ export default function Gallery() {
                       <div className="aspect-[16/10] rounded-[40px] md:rounded-[60px] overflow-hidden shadow-2xl relative">
                         <img 
                           src={art.imageUrl} 
-                          alt={art.title} 
+                          alt={dTitle} 
                           className="w-full h-full object-contain bg-brand-paper/20 transition-transform duration-1000 group-hover:scale-105"
                           referrerPolicy="no-referrer"
                         />
                         <div className="absolute inset-0 bg-brand-ink/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
                           <div className="text-center text-white p-6 md:p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                             <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold mb-4 block">
-                              {art.category}
+                              {dCat}
                             </span>
-                            <h3 className="text-3xl md:text-4xl font-serif mb-4">{art.title}</h3>
-                            <p className="text-sm md:text-base text-white/60 font-light italic">{t('gallery.by')} {art.artist} • {art.year}</p>
+                            <h3 className="text-3xl md:text-4xl font-serif mb-4">{dTitle}</h3>
+                            <p className="text-sm md:text-base text-white/60 font-light italic">{t('gallery.by')} {dArtist} • {art.year}</p>
                           </div>
                         </div>
                       </div>
                     </Link>
                   </motion.div>
-                ))}
+                );
+                })}
               </AnimatePresence>
             </div>
           ) : (

@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { ZoneLabel } from './ZoneLabel';
 
-export function TrainingZone({ onSelect }: { onSelect: () => void }) {
+export function TrainingZone({ onSelect, hideLabels }: { onSelect: () => void; hideLabels?: boolean }) {
   const wrestler1Ref = useRef<THREE.Mesh>(null);
   const wrestler2Ref = useRef<THREE.Mesh>(null);
 
@@ -24,7 +24,7 @@ export function TrainingZone({ onSelect }: { onSelect: () => void }) {
       onPointerOver={() => document.body.style.cursor = 'pointer'} 
       onPointerOut={() => document.body.style.cursor = 'auto'}
     >
-      <ZoneLabel title="Three Manly Skills" position={[0, 2.2, 0]} />
+      <ZoneLabel title="Three Manly Skills" position={[0, 2.2, 0]} hide={hideLabels} />
       {/* Wrestler 1 (Red Zodog/Shuudag) */}
       <group ref={wrestler1Ref} position={[-0.4, 0.6, 0]}>
         <mesh castShadow position={[0, 0, 0]}>

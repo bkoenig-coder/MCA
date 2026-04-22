@@ -8,7 +8,7 @@ import { SoyomboSymbol } from '../components/MongolianDesign';
 
 export default function GalleryDetails() {
   const { id } = useParams();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [item, setItem] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -41,6 +41,12 @@ export default function GalleryDetails() {
 
   if (!item) return null;
 
+  const lang = i18n.language;
+  const dTitle = lang === 'mn' ? (item.titleMn || item.title) : lang === 'de' ? (item.titleDe || item.title) : (item.titleEn || item.title);
+  const dArtist = lang === 'mn' ? (item.artistMn || item.artist) : lang === 'de' ? (item.artistDe || item.artist) : (item.artistEn || item.artist);
+  const dDesc = lang === 'mn' ? (item.descriptionMn || item.description) : lang === 'de' ? (item.descriptionDe || item.description) : (item.descriptionEn || item.description);
+  const dCat = lang === 'mn' ? (item.categoryMn || item.category) : lang === 'de' ? (item.categoryDe || item.category) : (item.categoryEn || item.category);
+
   return (
     <div className="pt-32 pb-20 bg-brand-paper min-h-screen">
       <div className="max-w-7xl mx-auto px-6">
@@ -62,7 +68,7 @@ export default function GalleryDetails() {
             <div className="aspect-[4/5] rounded-[40px] md:rounded-[60px] overflow-hidden shadow-2xl border-8 border-white">
               <img 
                 src={item.imageUrl} 
-                alt={item.title} 
+                alt={dTitle} 
                 className="w-full h-full object-contain bg-white"
                 referrerPolicy="no-referrer"
               />
@@ -81,16 +87,16 @@ export default function GalleryDetails() {
             <div>
               <div className="flex items-center gap-4 mb-6">
                 <span className="px-4 py-1.5 bg-brand-gold/10 text-brand-gold text-[10px] font-bold uppercase tracking-widest rounded-full border border-brand-gold/20">
-                  {item.category}
+                  {dCat}
                 </span>
               </div>
               <h1 className="text-5xl md:text-7xl font-serif text-brand-ink mb-6 leading-tight">
-                {item.title}
+                {dTitle}
               </h1>
               <div className="flex flex-wrap gap-8 text-brand-ink/60">
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4 text-brand-gold" />
-                  <span className="text-sm italic">{item.artist}</span>
+                  <span className="text-sm italic">{dArtist}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-brand-gold" />
@@ -104,7 +110,7 @@ export default function GalleryDetails() {
             <div className="space-y-6">
               <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-brand-ink/40">About this piece</h3>
               <p className="text-lg text-brand-ink/70 font-light leading-relaxed whitespace-pre-wrap">
-                {item.description || "No description provided for this artwork."}
+                {dDesc || "No description provided for this artwork."}
               </p>
             </div>
 
@@ -112,8 +118,8 @@ export default function GalleryDetails() {
               <button 
                 onClick={() => {
                   navigator.share?.({
-                    title: item.title,
-                    text: `Check out this artwork: ${item.title} by ${item.artist}`,
+                    title: dTitle,
+                    text: `Check out this artwork: ${dTitle} by ${dArtist}`,
                     url: window.location.href
                   }).catch(() => {
                     navigator.clipboard.writeText(window.location.href);

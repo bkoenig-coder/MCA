@@ -5,9 +5,11 @@ import { motion } from 'motion/react';
 interface ZoneLabelProps {
   title: string;
   position: [number, number, number];
+  hide?: boolean;
 }
 
-export function ZoneLabel({ title, position }: ZoneLabelProps) {
+export function ZoneLabel({ title, position, hide }: ZoneLabelProps) {
+  if (hide) return null;
   return (
     <Html position={position} center distanceFactor={15} zIndexRange={[10, 0]} style={{ pointerEvents: 'none' }}>
       <motion.div 

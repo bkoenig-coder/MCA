@@ -8,6 +8,7 @@ import { Plus, Calendar, FileText, Users, User as UserIcon, TrendingUp, Image as
 import { deleteDoc, doc, updateDoc, setDoc } from 'firebase/firestore';
 import { toast } from 'sonner';
 import Modal from '../components/Modal';
+import { autoTranslateRecord } from '../services/translationService';
 
 export default function AdminDashboard() {
   const { user } = useAuth();
@@ -114,7 +115,7 @@ export default function AdminDashboard() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const data = {
+      const baseData = {
         title: eventForm.title,
         description: eventForm.description,
         date: eventForm.date,
@@ -127,6 +128,8 @@ export default function AdminDashboard() {
         whatsIncluded: eventForm.whatsIncluded.split(',').map(s => s.trim()).filter(s => s !== ''),
         updatedAt: serverTimestamp(),
       };
+      
+      const data = await autoTranslateRecord(baseData, ['title', 'description', 'location', 'category']);
 
       if (isEditing && eventForm.id) {
         await setDoc(doc(db, 'events', eventForm.id), data, { merge: true });
@@ -150,12 +153,14 @@ export default function AdminDashboard() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const data = {
+      const baseData = {
         title: postForm.title,
         content: postForm.content,
         imageUrl: postForm.imageUrl,
         updatedAt: serverTimestamp(),
       };
+      
+      const data = await autoTranslateRecord(baseData, ['title', 'content']);
 
       if (isEditing && postForm.id) {
         await setDoc(doc(db, 'posts', postForm.id), data, { merge: true });
@@ -179,7 +184,7 @@ export default function AdminDashboard() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const data = {
+      const baseData = {
         title: galleryForm.title,
         artist: galleryForm.artist,
         year: galleryForm.year,
@@ -188,6 +193,8 @@ export default function AdminDashboard() {
         category: galleryForm.category,
         updatedAt: serverTimestamp(),
       };
+      
+      const data = await autoTranslateRecord(baseData, ['title', 'artist', 'description', 'category']);
 
       if (isEditing && galleryForm.id) {
         await setDoc(doc(db, 'gallery', galleryForm.id), data, { merge: true });
@@ -501,6 +508,27 @@ export default function AdminDashboard() {
                           value={eventForm.date}
                           onChange={e => setEventForm({...eventForm, date: e.target.value})}
                           className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Time</label>
+                        <input 
+                          required
+                          type="time"
+                          value={eventForm.time}
+                          onChange={e => setEventForm({...eventForm, time: e.target.value})}
+                          className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Location</label>
+                        <input 
+                          value={eventForm.location}
+                          onChange={e => setEventForm({...eventForm, location: e.target.value})}
+                          className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                          placeholder="e.g. Ulaanbaatar"
                         />
                       </div>
                       <div>

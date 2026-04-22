@@ -8,7 +8,7 @@ import { UlziiSymbol, SoyomboSymbol, ArcherSymbol, MongolianLine } from '../comp
 import { useTranslation } from 'react-i18next';
 
 export default function EventDetails() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
   const [event, setEvent] = useState<any>(null);
@@ -148,6 +148,21 @@ export default function EventDetails() {
     );
   }
 
+  const lang = i18n.language;
+  const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : (event.titleEn || event.title);
+  const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : (event.descriptionEn || event.description);
+  const dLocation = lang === 'mn' ? (event.locationMn || event.location) : lang === 'de' ? (event.locationDe || event.location) : (event.locationEn || event.location);
+  const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : (event.categoryEn || event.category);
+  
+  // Format title for styling (split last word)
+  let titleParts = dTitle.split(' ');
+  let titleStart = dTitle;
+  let titleEnd = '';
+  if (titleParts.length > 1) {
+    titleEnd = titleParts.pop() || '';
+    titleStart = titleParts.join(' ');
+  }
+
   return (
     <div className="pt-24 md:pt-32 pb-16 md:pb-20 px-6 relative overflow-hidden">
       {/* Background Symbols */}
@@ -168,7 +183,7 @@ export default function EventDetails() {
           >
             <img 
               src={event.imageUrl} 
-              alt={event.title} 
+              alt={dTitle} 
               className="w-full h-full object-contain bg-brand-paper/30"
               referrerPolicy="no-referrer"
             />
@@ -185,7 +200,7 @@ export default function EventDetails() {
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-4 md:mb-6">
                 <span className="inline-block px-4 py-1.5 rounded-full bg-brand-gold/10 text-brand-gold text-xs font-bold uppercase tracking-widest">
-                  {event.category || t('events.details.category')}
+                  {dCat || t('events.details.category')}
                 </span>
                 {event.capacity > 0 && (
                   <span className="inline-block px-4 py-1.5 rounded-full bg-brand-ink/5 text-brand-ink/60 text-xs font-bold uppercase tracking-widest">
@@ -195,10 +210,10 @@ export default function EventDetails() {
                 <ArcherSymbol className="w-5 h-5 text-brand-gold opacity-50 ml-auto" />
               </div>
               <h1 className="text-4xl md:text-6xl font-serif leading-tight mb-6">
-                {event.title.split(' ').slice(0, -1).join(' ')} <span className="italic text-brand-gold">{event.title.split(' ').pop()}</span>
+                {titleStart} <span className="italic text-brand-gold">{titleEnd}</span>
               </h1>
               <p className="text-xl md:text-2xl text-brand-ink/70 leading-relaxed font-light">
-                {event.description}
+                {dDesc}
               </p>
             </div>
 
@@ -227,7 +242,7 @@ export default function EventDetails() {
                 </div>
                 <div>
                   <p className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-ink/40 mb-1">{t('events.details.location')}</p>
-                  <p className="text-sm md:text-base font-medium">{event.location || t('events.vienna')}</p>
+                  <p className="text-sm md:text-base font-medium">{dLocation || t('events.vienna')}</p>
                 </div>
               </div>
             </div>
