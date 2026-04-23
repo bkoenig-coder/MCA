@@ -27,6 +27,7 @@ import { Toaster } from 'sonner';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import AIAssistant from './components/AIAssistant';
 import ToonoIntro from './components/ToonoIntro';
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -71,6 +72,7 @@ export default function App() {
             </main>
             <Footer />
             <AIAssistant />
+            <SpeedInsights />
           </div>
         </Router>
       </AuthProvider>

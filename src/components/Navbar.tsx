@@ -486,18 +486,18 @@ export default function Navbar() {
                         CONNECT
                       </div>
                       <div className="flex flex-col gap-4 text-brand-ink/70 text-sm font-sans font-bold uppercase tracking-[0.1em]">
-                        <span className="hover:text-brand-gold transition-colors cursor-pointer w-max flex items-center gap-2 group">
+                        <a href="https://www.instagram.com/mncenteraustria/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-gold transition-colors cursor-pointer w-max flex items-center gap-2 group">
                           <ArrowRight size={14} className="text-brand-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"/>
                           Instagram
-                        </span>
-                        <span className="hover:text-brand-gold transition-colors cursor-pointer w-max flex items-center gap-2 group">
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=61568045031863" target="_blank" rel="noopener noreferrer" className="hover:text-brand-gold transition-colors cursor-pointer w-max flex items-center gap-2 group">
                           <ArrowRight size={14} className="text-brand-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"/>
                           Facebook
-                        </span>
-                        <span className="hover:text-brand-gold transition-colors cursor-pointer w-max flex items-center gap-2 group">
+                        </a>
+                        <a href="https://www.linkedin.com/company/mongolian-center-in-austria/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-gold transition-colors cursor-pointer w-max flex items-center gap-2 group">
                           <ArrowRight size={14} className="text-brand-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"/>
-                          Newsletter
-                        </span>
+                          LinkedIn
+                        </a>
                       </div>
                     </div>
 

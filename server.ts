@@ -5,6 +5,7 @@ import Stripe from "stripe";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
+import nodemailer from "nodemailer";
 
 dotenv.config();
 
@@ -28,6 +29,9 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
+  // Trust proxy for correct IP detection behind load balancers/proxies
+  app.set('trust proxy', 1);
+
   // Security Middleware
   app.use(helmet({
     contentSecurityPolicy: false, // Disabled to prevent conflicts with Vite dev server and inline scripts
@@ -41,12 +45,46 @@ async function startServer() {
     message: "Too many requests from this IP, please try again after 15 minutes",
     standardHeaders: true,
     legacyHeaders: false,
+    validate: {
+      trustProxy: false,
+      xForwardedForHeader: false,
+    },
   });
 
   app.use(express.json({ limit: '10kb' })); // Limit body size to prevent payload too large attacks
 
   // Apply rate limiter to all API routes
   app.use("/api/", apiLimiter);
+
+  // Setup Hostinger SMTP Transporter via Nodemailer
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST || 'smtp.hostinger.com',
+    port: parseInt(process.env.SMTP_PORT || '465'),
+    secure: process.env.SMTP_PORT === '465' || process.env.SMTP_PORT === undefined, // 465 uses TLS
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+
+  // Helper to send email notification to info@mongoliancenter.org
+  async function notifyAdmin(subject: string, htmlContent: string) {
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.log("No SMTP credentials set, skipping email notification.");
+      return;
+    }
+    try {
+      await transporter.sendMail({
+        from: `"Website Notification" <${process.env.SMTP_USER}>`,
+        to: "info@mongoliancenter.org",
+        subject: subject,
+        html: htmlContent
+      });
+      console.log(`Admin notification sent successfully: ${subject}`);
+    } catch (e) {
+      console.error("Error sending admin notification:", e);
+    }
+  }
 
   // API routes
   app.post("/api/newsletter/subscribe", async (req, res) => {
@@ -56,40 +94,14 @@ async function startServer() {
       return res.status(400).json({ error: "Email is required" });
     }
 
-    const API_KEY = process.env.BREVO_API_KEY;
-    const LIST_ID = process.env.BREVO_LIST_ID;
-
-    if (!API_KEY) {
-      console.error("Brevo configuration is missing");
-      return res.status(500).json({ error: "Newsletter service is not configured" });
-    }
-
     try {
-      const response = await fetch(
-        "https://api.brevo.com/v3/contacts",
-        {
-          method: "POST",
-          headers: {
-            "api-key": API_KEY,
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-          },
-          body: JSON.stringify({
-            email: email,
-            listIds: LIST_ID ? [parseInt(LIST_ID)] : [],
-            updateEnabled: true,
-          }),
-        }
+      // Send notification via Hostinger SMTP
+      // This will send the notification email to info@mongoliancenter.org directly
+      await notifyAdmin(
+        "New Newsletter Subscriber",
+        `<p>A new user has subscribed to the newsletter!</p>
+         <p><strong>Email:</strong> ${email}</p>`
       );
-
-      const data = await response.json();
-
-      if (response.status >= 400) {
-        // Brevo error
-        return res.status(400).json({ 
-          error: data.message || "There was an error subscribing to the newsletter." 
-        });
-      }
 
       res.status(201).json({ message: "Successfully subscribed!" });
     } catch (error: any) {
@@ -106,8 +118,16 @@ async function startServer() {
     console.log(`Subject: ${subject}`);
     console.log(`Message: ${message}`);
 
-    // In a real production app, you would use a service like Resend, SendGrid, or Nodemailer here.
-    // For now, we simulate success.
+    await notifyAdmin(
+      `New Website Contact: ${subject}`,
+      `<h2>New Contact Form Submission</h2>
+       <p><strong>Name:</strong> ${firstName} ${lastName || ''}</p>
+       <p><strong>Email:</strong> ${email}</p>
+       <p><strong>Subject:</strong> ${subject}</p>
+       <p><strong>Message:</strong></p>
+       <p>${message.replace(/\n/g, '<br/>')}</p>`
+    );
+
     res.status(200).json({ message: "Message received! We will get back to you soon." });
   });
 
