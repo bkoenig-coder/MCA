@@ -1,4 +1,4 @@
-import { Globe, Mail, MapPin, Phone, Instagram, Facebook, Twitter } from 'lucide-react';
+import { Globe, Mail, MapPin, Phone, Instagram, Facebook, Linkedin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, SoyomboSymbol } from './MongolianDesign';
@@ -7,6 +7,12 @@ import mcaLogo from '../assets/media/mcalogo-1.png';
 export default function Footer() {
   const { t } = useTranslation();
 
+  const socialLinks = [
+    { icon: Instagram, url: 'https://www.instagram.com/mncenteraustria/' },
+    { icon: Facebook, url: 'https://www.facebook.com/profile.php?id=61568045031863' },
+    { icon: Linkedin, url: 'https://www.linkedin.com/company/mongolian-center-in-austria/' }
+  ];
+
   return (
     <footer className="bg-brand-paper border-t border-brand-ink/5 pt-24 md:pt-20 pb-12 px-6 mt-24 md:mt-24 relative overflow-hidden">
       <div className="absolute top-0 left-0 opacity-[0.02] -translate-x-1/4 -translate-y-1/4">
@@ -14,8 +20,8 @@ export default function Footer() {
       </div>
       
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid grid-cols-3 lg:grid-cols-12 gap-x-4 gap-y-12 lg:gap-16 mb-16 md:mb-16">
-          <div className="col-span-3 lg:col-span-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-12 gap-x-4 gap-y-12 lg:gap-16 mb-16 md:mb-16">
+          <div className="col-span-2 md:col-span-3 lg:col-span-5">
             <Link to="/" className="flex items-center gap-4 mb-8 md:mb-8">
               <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center shadow-xl overflow-hidden p-1">
                 <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain" />
@@ -28,10 +34,12 @@ export default function Footer() {
               {t('footer.desc')}
             </p>
             <div className="flex gap-4 md:gap-6">
-              {[Instagram, Facebook, Twitter].map((Icon, idx) => (
+              {socialLinks.map(({ icon: Icon, url }, idx) => (
                 <a 
                   key={idx}
-                  href="#" 
+                  href={url} 
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/40 hover:border-brand-gold hover:text-brand-gold hover:bg-white transition-all duration-500 shadow-sm"
                 >
                   <Icon size={18} className="md:w-5 md:h-5" />
@@ -40,7 +48,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="col-span-1 lg:col-span-2">
+          <div className="col-span-1 md:col-span-1 lg:col-span-2">
             <h4 className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-brand-gold mb-6 md:mb-10 truncate">{t('footer.navTitle')}</h4>
             <ul className="space-y-4 md:space-y-6 text-xs md:text-sm text-brand-ink/60 font-light">
               <li><Link to="/about" className="hover:text-brand-gold transition-colors">{t('nav.about')}</Link></li>
@@ -51,7 +59,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="col-span-1 lg:col-span-2">
+          <div className="col-span-1 md:col-span-1 lg:col-span-2">
             <h4 className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-brand-gold mb-6 md:mb-10 truncate">{t('footer.legalTitle')}</h4>
             <ul className="space-y-4 md:space-y-6 text-xs md:text-sm text-brand-ink/60 font-light">
               <li><Link to="/privacy" className="hover:text-brand-gold transition-colors">{t('footer.privacy')}</Link></li>
@@ -61,20 +69,20 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="col-span-1 lg:col-span-3">
-            <h4 className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-brand-gold mb-6 md:mb-10 truncate">{t('nav.contact')}</h4>
-            <ul className="space-y-4 md:space-y-8 text-xs md:text-sm text-brand-ink/60 font-light">
-              <li className="flex flex-col xl:flex-row items-start gap-2 md:gap-4">
+          <div className="col-span-2 md:col-span-1 lg:col-span-3 max-w-full mt-6 md:mt-0">
+            <h4 className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-brand-gold mb-6 md:mb-10">{t('nav.contact')}</h4>
+            <ul className="space-y-4 md:space-y-8 text-xs md:text-sm text-brand-ink/60 font-light w-full">
+              <li className="flex flex-col lg:flex-row items-start gap-2 md:gap-4 w-full">
                 <MapPin size={16} className="text-brand-gold shrink-0 md:w-[18px] md:h-[18px]" />
-                <span className="leading-relaxed break-words">Vienna, Austria</span>
+                <span className="leading-tight md:leading-relaxed break-words w-full">Vienna, Austria</span>
               </li>
-              <li className="flex flex-col xl:flex-row items-start gap-2 md:gap-4">
+              <li className="flex flex-col lg:flex-row items-start gap-2 md:gap-4 w-full">
                 <Phone size={16} className="text-brand-gold shrink-0 md:w-[18px] md:h-[18px]" />
-                <span className="break-all">+4367761160389</span>
+                <span className="break-all w-full">+4367761160389</span>
               </li>
-              <li className="flex flex-col xl:flex-row items-start gap-2 md:gap-4">
+              <li className="flex flex-col lg:flex-row items-start gap-2 md:gap-4 w-full">
                 <Mail size={16} className="text-brand-gold shrink-0 md:w-[18px] md:h-[18px]" />
-                <span className="break-all">info@mongoliancenter.org</span>
+                <span className="break-all w-full">info@mongoliancenter.org</span>
               </li>
             </ul>
           </div>

@@ -472,14 +472,14 @@ export default function Home() {
                   className="group bg-white rounded-[30px] md:rounded-[40px] overflow-hidden border border-brand-ink/5 shadow-sm hover:shadow-2xl transition-all duration-700 flex flex-col"
                 >
                   {/* Image Section */}
-                  <div className="relative overflow-hidden aspect-[16/10] sm:aspect-[4/5]">
+                  <div className="relative overflow-hidden aspect-[16/10] sm:aspect-[4/3] sm:bg-brand-ink/5 flex items-center justify-center">
                     <img 
                       src={event.imageUrl} 
                       alt={dTitle} 
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                      className="absolute inset-0 w-full h-full object-cover sm:object-contain transition-transform duration-1000 group-hover:scale-105"
                       referrerPolicy="no-referrer"
                     />
-                    <div className="absolute inset-0 bg-brand-ink/20 group-hover:bg-transparent transition-colors duration-700" />
+                    <div className="absolute inset-0 bg-brand-ink/20 group-hover:bg-transparent transition-colors duration-700 pointer-events-none" />
                     
                     {/* Floating Date Badge */}
                     <div className="absolute top-4 left-4 md:top-6 md:left-6 bg-white/90 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-xl md:rounded-2xl shadow-xl flex flex-col items-center min-w-[50px] md:min-w-[60px]">
@@ -664,91 +664,106 @@ export default function Home() {
         </div>
       </section>
 {/* Legacy Section - Immersive Heritage */}
-      <section className="py-20 md:py-32 px-4 md:px-6 bg-brand-ink text-white relative overflow-hidden">
-        {/* Atmospheric Background */}
+      <section className="py-24 md:py-40 px-4 md:px-6 bg-[#050507] text-white relative overflow-hidden flex items-center min-h-[90vh]">
+        {/* Cinematic Atmospheric Background */}
         <div className="absolute inset-0 z-0">
+           {/* Slowly shifting traditional motifs */}
+           <motion.div 
+             animate={{ rotate: 360 }}
+             transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
+             className="absolute top-0 right-0 opacity-[0.03] pointer-events-none translate-x-1/2 -translate-y-1/3"
+           >
+             <UlziiSymbol className="w-[1200px] h-[1200px] text-brand-gold" />
+           </motion.div>
+           <div className="absolute bottom-0 left-0 opacity-[0.02] pointer-events-none -translate-x-1/4 translate-y-1/3">
+             <MongolianLine className="w-full text-brand-gold" />
+           </div>
+
+          {/* Cinematic Pan Image */}
           <motion.div 
-            initial={{ scale: 1.1 }}
-            whileInView={{ scale: 1 }}
-            transition={{ duration: 2, ease: "easeOut" }}
-            className="absolute inset-0 opacity-20"
+            animate={{ scale: [1.05, 1.15] }}
+            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", repeatType: "reverse" }}
+            className="absolute inset-0 opacity-[0.25]"
           >
             <img 
-              src="https://images.unsplash.com/photo-1684814833784-c9c8cdba1d20?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-              alt="Mongolian History" 
-              className="w-full h-full object-cover"
+              src="https://images.unsplash.com/photo-1684814833784-c9c8cdba1d20?q=80&w=2000&auto=format&fit=crop" 
+              alt="Ulaanbaatar Cinematic" 
+              className="w-full h-full object-cover grayscale mix-blend-overlay"
               referrerPolicy="no-referrer"
             />
           </motion.div>
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-ink via-transparent to-brand-ink" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.1),transparent_70%)]" />
+          
+          {/* Deep Vignette & Studio Lighting FX */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050507] via-transparent to-[#050507]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#050507] via-transparent to-[#050507]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.08)_0%,transparent_70%)] blur-3xl rounded-full" />
         </div>
 
-        {/* Floating Decorative Elements Removed */}
-
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-16 md:mb-24">
+        <div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col items-center">
+          <div className="text-center mb-20 md:mb-32 w-full">
+            {/* Elegant Floating Logo */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-              className="w-16 h-16 md:w-20 md:h-20 border border-brand-gold/20 rounded-full flex items-center justify-center mx-auto mb-8 md:mb-10 text-brand-gold bg-brand-gold/5 backdrop-blur-sm"
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-12"
             >
-              <SoyomboSymbol className="w-8 h-8 md:w-10 md:h-10" />
+              <div className="absolute inset-0 bg-brand-gold rounded-full blur-[20px] opacity-20 animate-pulse" />
+              <div className="relative w-full h-full border border-white/10 rounded-full flex items-center justify-center bg-black/50 backdrop-blur-md overflow-hidden p-3 shadow-2xl">
+                <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
+              </div>
+              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[1px] h-16 bg-gradient-to-b from-brand-gold/50 to-transparent" />
             </motion.div>
             
             <motion.h2 
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl md:text-7xl font-serif mb-8 md:mb-10 tracking-tight leading-[1] md:leading-[0.9]"
+              transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="text-4xl md:text-6xl lg:text-[85px] font-serif font-light mb-8 md:mb-12 tracking-tight leading-[1.1] relative"
             >
-              {t('legacy.title')} <br />
-              <span className="italic text-brand-gold font-light">{t('legacy.titleItalic')}</span>
+              <span className="text-white/90 drop-shadow-lg">{t('legacy.title')}</span> <br />
+              <span className="block mt-4 italic text-brand-gold font-medium tracking-normal drop-shadow-[0_0_30px_rgba(212,175,55,0.2)]">{t('legacy.titleItalic')}</span>
             </motion.h2>
 
-            <motion.div 
-              initial={{ width: 0 }}
-              whileInView={{ width: "80px" }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.5 }}
-              className="h-px bg-gradient-to-r from-transparent via-brand-gold/50 to-transparent mx-auto mb-8 md:mb-12 md:!w-[120px]" 
-            />
-
             <motion.p 
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.7 }}
-              className="text-lg md:text-3xl text-white/70 font-serif leading-relaxed max-w-4xl mx-auto italic font-light px-4 md:px-0"
+              transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="text-lg md:text-2xl text-white/60 font-serif leading-relaxed max-w-4xl mx-auto italic font-light px-4 md:px-0"
             >
               {t('legacy.quote')}
             </motion.p>
           </div>
           
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-10 md:gap-8 lg:gap-12">
+          <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-10">
             {[
-              { label: t('legacy.archery'), value: t('legacy.tradition'), icon: <Handshake className="w-5 h-5 md:w-6 md:h-6" /> },
-              { label: t('legacy.horsemanship'), value: t('legacy.freedom'), icon: <Lightbulb className="w-5 h-5 md:w-6 md:h-6" /> },
-              { label: t('legacy.wrestling'), value: t('legacy.strength'), icon: <ArrowRightLeft className="w-5 h-5 md:w-6 md:h-6" /> },
-              { label: t('legacy.wisdom'), value: t('legacy.heritage'), icon: <TrendingUp className="w-5 h-5 md:w-6 md:h-6" /> }
+              { label: t('legacy.archery'), value: t('legacy.tradition'), icon: <Handshake className="w-7 h-7 md:w-9 md:h-9" /> },
+              { label: t('legacy.horsemanship'), value: t('legacy.freedom'), icon: <Lightbulb className="w-7 h-7 md:w-9 md:h-9" /> },
+              { label: t('legacy.wrestling'), value: t('legacy.strength'), icon: <ArrowRightLeft className="w-7 h-7 md:w-9 md:h-9" /> },
+              { label: t('legacy.wisdom'), value: t('legacy.heritage'), icon: <TrendingUp className="w-7 h-7 md:w-9 md:h-9" /> }
             ].map((item, i) => (
               <motion.div 
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.8 + (i * 0.1) }}
-                className="flex flex-col items-center text-center group cursor-default"
+                transition={{ duration: 0.8, delay: 0.6 + (i * 0.15), ease: [0.22, 1, 0.36, 1] }}
+                className="relative flex flex-col items-center text-center group cursor-pointer p-6 md:p-8 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-all duration-700 overflow-hidden"
               >
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-gold/10 flex items-center justify-center text-brand-gold mb-3 md:mb-6 group-hover:bg-brand-gold group-hover:text-brand-ink transition-all duration-500">
-                  {item.icon}
+                {/* Hover gradient sweep */}
+                <div className="absolute inset-0 bg-gradient-to-b from-brand-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-brand-gold/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
+
+                <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full bg-black/40 border border-white/10 flex items-center justify-center text-white/50 mb-6 md:mb-8 shadow-[0_4px_20px_rgba(0,0,0,0.5)] group-hover:border-brand-gold/40 group-hover:text-brand-gold group-hover:shadow-[0_0_30px_rgba(212,175,55,0.2)] transition-all duration-700 z-10">
+                  <div className="absolute inset-0 rounded-full bg-brand-gold/5 scale-0 group-hover:scale-100 transition-transform duration-700" />
+                  <div className="relative z-10">{item.icon}</div>
                 </div>
-                <span className="text-[8px] md:text-[11px] uppercase tracking-[0.3em] md:tracking-[0.5em] text-brand-gold font-bold mb-1 md:mb-4 opacity-70">{item.label}</span>
-                <span className="font-serif text-sm md:text-3xl text-white/40 group-hover:text-white transition-colors duration-500">{item.value}</span>
-                <div className="mt-3 md:mt-6 w-0 group-hover:w-8 md:group-hover:w-12 h-px bg-brand-gold transition-all duration-500" />
+                
+                <span className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-white/40 group-hover:text-brand-gold/80 font-semibold mb-3 transition-colors duration-700 relative z-10">{item.label}</span>
+                <span className="font-serif text-xl md:text-3xl text-white/80 group-hover:text-white transition-colors duration-700 font-medium relative z-10">{item.value}</span>
               </motion.div>
             ))}
           </div>
