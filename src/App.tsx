@@ -31,8 +31,8 @@ const Profile = lazy(() => import('./pages/Profile'));
 const EasterEgg = lazy(() => import('./pages/EasterEgg'));
 
 const PageLoader = () => (
-  <div className="flex h-[80vh] items-center justify-center bg-transparent">
-    <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
+  <div className="flex min-h-screen bg-transparent">
+    {/* Loading SVG removed intentionally */}
   </div>
 );
 

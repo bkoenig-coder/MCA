@@ -433,8 +433,8 @@ export default function Home() {
           </div>
 
           {loading ? (
-            <div className="flex justify-center py-20 -mt-[30px] md:-mt-[50px]">
-              <Loader2 className="animate-spin text-brand-gold" size={40} />
+            <div className="flex justify-center py-20 -mt-[30px] md:-mt-[50px] min-h-[200px]">
+              {/* Spinner removed */}
             </div>
           ) : (
             <div className="grid md:grid-cols-3 gap-6 md:gap-8 -mt-[30px] md:-mt-[20px]">
@@ -548,7 +548,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-brand-ink rounded-[60px] md:rounded-[100px] overflow-hidden flex flex-col lg:flex-row shadow-[0_80px_150px_-30px_rgba(0,0,0,0.6)] relative"
+            className="bg-brand-ink rounded-[60px] md:rounded-[100px] overflow-hidden flex flex-col lg:flex-row shadow-[0_80px_150px_-30px_rgba(0,0,0,0.6)] relative transform-gpu will-change-transform"
           >
             {/* Decorative Symbol Overlay */}
             <div className="absolute top-10 right-10 opacity-[0.03] pointer-events-none">
@@ -565,7 +565,7 @@ export default function Home() {
               >
                 <div className="h-px w-12 bg-brand-gold/40" />
                 <span className="text-[10px] md:text-[11px] uppercase tracking-[0.6em] font-bold text-brand-gold">
-                  {t('impactCta.tag')}
+                  Donation
                 </span>
               </motion.div>
 
@@ -618,6 +618,7 @@ export default function Home() {
                 <img 
                   src="https://plus.unsplash.com/premium_photo-1734713079348-ea48690b11b1?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
                   alt="Impact" 
+                  loading="lazy"
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
                 />
@@ -631,7 +632,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 1, duration: 1, ease: "easeOut" }}
-                className="absolute bottom-10 right-10 left-10 lg:left-auto lg:w-80 bg-white/10 backdrop-blur-2xl border border-white/10 p-10 rounded-[40px] text-white z-20 shadow-2xl"
+                className="absolute bottom-10 right-10 left-10 lg:left-auto lg:w-80 bg-white/10 backdrop-blur-md border border-white/10 p-10 rounded-[40px] text-white z-20 shadow-2xl"
               >
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-12 h-12 rounded-full bg-brand-gold flex items-center justify-center text-brand-ink shadow-lg">

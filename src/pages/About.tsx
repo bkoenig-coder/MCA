@@ -16,16 +16,37 @@ const toggleActive = (entry: any, force: boolean) => {
 
 const EMBER_PARTICLES = Array.from({ length: 40 }).map((_, i) => ({
   id: i,
-  size: Math.random() * 3 + 1, // 1px to 4px
+  size: Math.random() * 3 + 1,
   left: `${Math.random() * 100}%`,
-  top: `${10 + Math.random() * 90}%`, // Start mostly below the top
-  duration: Math.random() * 5 + 4, // 4 to 9 seconds
-  delay: Math.random() * 5, // 0 to 5 seconds delay
-  xDrift: (Math.random() - 0.5) * 100, // Drift horizontally
-  yDistance: -(Math.random() * 200 + 150), // Distance upwards (negative)
+  top: `${10 + Math.random() * 90}%`,
+  duration: `${Math.random() * 5 + 4}s`,
+  delay: `${Math.random() * 5}s`,
+  xMove: `${(Math.random() - 0.5) * 100}px`,
+  yMove: `${-(Math.random() * 200 + 150)}px`,
   color: ['bg-orange-500', 'bg-amber-400', 'bg-rose-500', 'bg-yellow-500'][Math.floor(Math.random() * 4)],
   blur: Math.random() > 0.5 ? 'blur-[1px]' : 'blur-[2px]',
 }));
+
+const EmberBackground = () => (
+  <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+    {EMBER_PARTICLES.map((p) => (
+      <div
+        key={`ember-${p.id}`}
+        className={`absolute rounded-full animate-ember ${p.color} ${p.blur}`}
+        style={{
+          left: p.left,
+          top: p.top,
+          width: `${p.size}px`,
+          height: `${p.size}px`,
+          '--x-move': p.xMove,
+          '--y-move': p.yMove,
+          '--duration': p.duration,
+          '--delay': p.delay,
+        } as React.CSSProperties}
+      />
+    ))}
+  </div>
+);
 
 export default function About() {
   const { t } = useTranslation();
@@ -106,19 +127,7 @@ export default function About() {
           className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(190,18,60,0.15)_0%,transparent_70%)] rounded-full blur-[100px] pointer-events-none mix-blend-screen"
         />
 
-        {/* Ember Particles Background */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          {EMBER_PARTICLES.map((p) => (
-            <motion.div
-              key={`mission-ember-${p.id}`}
-              initial={{ opacity: 0, x: 0, y: 0 }}
-              animate={{ opacity: [0, 0.7, 0], y: [0, p.yDistance * 1.3], x: [0, p.xDrift] }}
-              transition={{ duration: p.duration, repeat: Infinity, ease: "easeOut", delay: p.delay }}
-              className={`absolute rounded-full ${p.color} ${p.blur}`}
-              style={{ left: p.left, top: p.top, width: `${p.size}px`, height: `${p.size}px` }}
-            />
-          ))}
-        </div>
+        <EmberBackground />
         
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 md:gap-32 items-center relative z-10">
           <motion.div
@@ -187,19 +196,7 @@ export default function About() {
       {/* Values - Cinematic Grid */}
       <section className="py-24 md:py-40 px-6 bg-[#020202] relative text-white overflow-hidden">
         
-        {/* Ember Particles Background */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          {EMBER_PARTICLES.map((p) => (
-            <motion.div
-              key={`values-ember-${p.id}`}
-              initial={{ opacity: 0, x: 0, y: 0 }}
-              animate={{ opacity: [0, 0.8, 0], y: [0, p.yDistance], x: [0, p.xDrift] }}
-              transition={{ duration: p.duration, repeat: Infinity, ease: "easeOut", delay: p.delay }}
-              className={`absolute rounded-full ${p.color} ${p.blur}`}
-              style={{ left: p.left, top: p.top, width: `${p.size}px`, height: `${p.size}px` }}
-            />
-          ))}
-        </div>
+        <EmberBackground />
 
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-16 md:mb-32 text-center md:text-left">
@@ -245,19 +242,7 @@ export default function About() {
       <section className="py-24 md:py-40 px-6 bg-[#050507] relative overflow-hidden text-white">
         <div className="absolute inset-0 bg-gradient-to-b from-[#020202] to-transparent opacity-80 pointer-events-none" />
         
-        {/* Ember Particles Background */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          {EMBER_PARTICLES.map((p) => (
-            <motion.div
-              key={`team-ember-${p.id}`}
-              initial={{ opacity: 0, x: 0, y: 0 }}
-              animate={{ opacity: [0, 0.6, 0], y: [0, p.yDistance * 1.5], x: [0, p.xDrift * 1.2] }}
-              transition={{ duration: p.duration, repeat: Infinity, ease: "easeOut", delay: p.delay + 1 }}
-              className={`absolute rounded-full ${p.color} ${p.blur}`}
-              style={{ left: p.left, top: p.top, width: `${p.size}px`, height: `${p.size}px` }}
-            />
-          ))}
-        </div>
+        <EmberBackground />
 
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-16 md:mb-24 text-center">
@@ -316,19 +301,7 @@ export default function About() {
       <section className="py-24 md:py-40 px-6 bg-[#020202] relative overflow-hidden text-white border-t border-white/5">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.05),transparent_70%)] pointer-events-none" />
 
-        {/* Ember Particles Background */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          {EMBER_PARTICLES.map((p) => (
-            <motion.div
-              key={`join-ember-${p.id}`}
-              initial={{ opacity: 0, x: 0, y: 0 }}
-              animate={{ opacity: [0, 0.9, 0], y: [0, p.yDistance * 1.2], x: [0, p.xDrift] }}
-              transition={{ duration: p.duration, repeat: Infinity, ease: "easeOut", delay: p.delay + 2 }}
-              className={`absolute rounded-full ${p.color} ${p.blur}`}
-              style={{ left: p.left, top: p.top, width: `${p.size}px`, height: `${p.size}px` }}
-            />
-          ))}
-        </div>
+        <EmberBackground />
 
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="text-center mb-16 md:mb-24">
