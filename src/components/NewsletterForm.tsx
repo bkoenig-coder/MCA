@@ -25,7 +25,12 @@ export default function NewsletterForm({ variant = 'dark' }: NewsletterFormProps
         body: JSON.stringify({ email }),
       });
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch (e) {
+        data = { error: 'Failed to process response.' };
+      }
 
       if (response.ok) {
         setStatus('success');
