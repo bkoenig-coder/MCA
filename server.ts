@@ -59,12 +59,15 @@ async function startServer() {
   // Setup Hostinger SMTP Transporter via Nodemailer
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST || 'smtp.hostinger.com',
-    port: parseInt(process.env.SMTP_PORT || '465'),
-    secure: process.env.SMTP_PORT === '465' || process.env.SMTP_PORT === undefined, // 465 uses TLS
+    port: parseInt(process.env.SMTP_PORT || '587'),
+    secure: process.env.SMTP_PORT === '465', // Using 587 standard which starts with STARTTLS
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
+    tls: {
+      rejectUnauthorized: false, // Help with Hostinger SSL issues
+    }
   });
 
   // Helper to send email notification to info@mongoliancenter.org

@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { useState, useEffect } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { cn } from '../lib/utils';
 import { ArrowRight, Calendar, Palette, Heart, Users, Shield, Sword, Clock, MapPin, Loader2, Info, Star, Handshake, Lightbulb, ArrowRightLeft, TrendingUp, Instagram } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -11,11 +11,11 @@ import euActiveLogo from '../assets/media/euactivelogo.png';
 import amoxLogo from '../assets/media/amoxlogo.png';
 import mcaLogo from '../assets/media/mcalogo-1.png';
 
-import { Canvas } from '@react-three/fiber';
-import { DioramaScene } from '../components/diorama/DioramaScene';
 import { Overlay } from '../components/diorama/Overlay';
 import { AudioSetup } from '../components/diorama/AudioSetup';
-import { MapControls } from '@react-three/drei';
+
+const HeroCanvas = lazy(() => import('../components/diorama/HeroCanvas'));
+
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -46,27 +46,9 @@ export default function Home() {
           
           <div className="w-full h-full absolute inset-0 opacity-80 md:opacity-100 transition-opacity duration-1000 group-hover:opacity-100 pointer-events-none">
             {/* Optimized Canvas for performance: limited DPR, no pointer events, no controls */}
-            <Canvas 
-              shadows 
-              dpr={[1, 1.5]} 
-              camera={{ position: [15, 15, 15], fov: 45 }}
-              gl={{ powerPreference: "high-performance", antialias: false }}
-            >
-              <ambientLight intensity={0.4} />
-              <directionalLight
-                castShadow
-                position={[10, 5, 10]}
-                intensity={0.8}
-                color="#ffcfaa"
-                shadow-mapSize={[1024, 1024]}
-                shadow-camera-left={-20}
-                shadow-camera-right={20}
-                shadow-camera-top={20}
-                shadow-camera-bottom={-20}
-              />
-              
-              <DioramaScene onSelect={() => {}} hideLabels={true} />
-            </Canvas>
+            <Suspense fallback={null}>
+              <HeroCanvas />
+            </Suspense>
           </div>
           
           {/* Subtle Mongolian Design Accents blending into dark bg */}
@@ -311,7 +293,7 @@ export default function Home() {
                   { name: 'Deutschothek Sprachschule', src: deutschotekLogo, url: 'https://deutschothek.com/' },
                   { name: 'Verein für aktiv Leben und Bildung', src: euActiveLogo, url: 'https://www.euactive.org/' },
                   { name: 'Verein der mongolischen StudentInnen in Österreich', src: amoxLogo, url: 'https://www.facebook.com/MongolianStudentAssociationInAustria' },
-                  { name: 'Made by Tushig Togtokh', src: mcaLogo, url: 'https://www.instagram.com/tushiggggggg/' },
+                  { name: 'Made by Margad-Erdene Ganbold', src: mcaLogo, url: 'https://www.instagram.com/emeraldtorstein/' },
                 ].map((partner, idx) => (
                   <a 
                     key={`${groupIndex}-${idx}`} 
@@ -324,6 +306,7 @@ export default function Home() {
                       <img 
                         src={partner.src} 
                         alt={partner.name} 
+                        loading="lazy"
                         className="h-full w-auto object-contain" 
                       />
                     </div>
@@ -711,7 +694,7 @@ export default function Home() {
             >
               <div className="absolute inset-0 bg-brand-gold rounded-full blur-[20px] opacity-20 animate-pulse" />
               <div className="relative w-full h-full border border-white/10 rounded-full flex items-center justify-center bg-black/50 backdrop-blur-md overflow-hidden p-3 shadow-2xl">
-                <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
+                <img src={mcaLogo} alt="MCA Logo" loading="lazy" className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
               </div>
               <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[1px] h-16 bg-gradient-to-b from-brand-gold/50 to-transparent" />
             </motion.div>

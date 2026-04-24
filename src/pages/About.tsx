@@ -143,6 +143,7 @@ export default function About() {
               <img 
                 src="https://plus.unsplash.com/premium_photo-1716932567535-6bb42a3f38ff?q=80&w=1332&auto=format&fit=crop" 
                 alt="Community" 
+                loading="lazy"
                 className="w-full h-full object-cover scale-105 md:group-hover:scale-100 max-md:group-[.is-active]:scale-100 grayscale md:group-hover:grayscale-0 max-md:group-[.is-active]:grayscale-0 transition-all duration-1000"
                 referrerPolicy="no-referrer"
               />
@@ -166,6 +167,7 @@ export default function About() {
               <img 
                 src="https://images.unsplash.com/photo-1625862849881-64c93500d0a5?q=80&w=880&auto=format&fit=crop" 
                 alt="Vision" 
+                loading="lazy"
                 className="w-full h-full object-cover scale-105 md:group-hover:scale-100 max-md:group-[.is-active]:scale-100 grayscale md:group-hover:grayscale-0 max-md:group-[.is-active]:grayscale-0 transition-all duration-1000"
                 referrerPolicy="no-referrer"
               />
@@ -290,6 +292,7 @@ export default function About() {
                   <img 
                     src={member.image} 
                     alt={member.name} 
+                    loading="lazy"
                     className="w-full h-full object-cover grayscale opacity-80 md:group-hover:grayscale-0 max-md:group-[.is-active]:grayscale-0 md:group-hover:opacity-100 max-md:group-[.is-active]:opacity-100 md:group-hover:scale-105 max-md:group-[.is-active]:scale-105 transition-all duration-1000"
                     referrerPolicy="no-referrer"
                   />

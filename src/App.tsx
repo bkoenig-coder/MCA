@@ -1,25 +1,7 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import Home from './pages/Home';
-import About from './pages/About';
-import Events from './pages/Events';
-import Gallery from './pages/Gallery';
-import Impact from './pages/Impact';
-import Contact from './pages/Contact';
-import News from './pages/News';
-import NewsDetails from './pages/NewsDetails';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import TermsOfService from './pages/TermsOfService';
-import Imprint from './pages/Imprint';
-import Governance from './pages/Governance';
-import AdminDashboard from './pages/AdminDashboard';
-import EventDetails from './pages/EventDetails';
-import GalleryDetails from './pages/GalleryDetails';
-import Profile from './pages/Profile';
-import EasterEgg from './pages/EasterEgg';
 import { AuthProvider } from './contexts/AuthContext';
 import AnalyticsTracker from './components/AnalyticsTracker';
 import CookieConsent from './components/CookieConsent';
@@ -28,6 +10,31 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import AIAssistant from './components/AIAssistant';
 import ToonoIntro from './components/ToonoIntro';
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Loader2 } from 'lucide-react';
+
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+const Events = lazy(() => import('./pages/Events'));
+const Gallery = lazy(() => import('./pages/Gallery'));
+const Impact = lazy(() => import('./pages/Impact'));
+const Contact = lazy(() => import('./pages/Contact'));
+const News = lazy(() => import('./pages/News'));
+const NewsDetails = lazy(() => import('./pages/NewsDetails'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const TermsOfService = lazy(() => import('./pages/TermsOfService'));
+const Imprint = lazy(() => import('./pages/Imprint'));
+const Governance = lazy(() => import('./pages/Governance'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+const EventDetails = lazy(() => import('./pages/EventDetails'));
+const GalleryDetails = lazy(() => import('./pages/GalleryDetails'));
+const Profile = lazy(() => import('./pages/Profile'));
+const EasterEgg = lazy(() => import('./pages/EasterEgg'));
+
+const PageLoader = () => (
+  <div className="flex h-[80vh] items-center justify-center bg-transparent">
+    <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
+  </div>
+);
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -50,25 +57,27 @@ export default function App() {
             <ScrollToTop />
             <Navbar />
             <main className="flex-grow">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/events" element={<Events />} />
-                <Route path="/events/:id" element={<EventDetails />} />
-                <Route path="/news" element={<News />} />
-                <Route path="/news/:id" element={<NewsDetails />} />
-                <Route path="/gallery" element={<Gallery />} />
-                <Route path="/gallery/:id" element={<GalleryDetails />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/impact" element={<Impact />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/privacy" element={<PrivacyPolicy />} />
-                <Route path="/terms" element={<TermsOfService />} />
-                <Route path="/imprint" element={<Imprint />} />
-                <Route path="/governance" element={<Governance />} />
-                <Route path="/admin" element={<AdminDashboard />} />
-                <Route path="/diorama" element={<EasterEgg />} />
-              </Routes>
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/events" element={<Events />} />
+                  <Route path="/events/:id" element={<EventDetails />} />
+                  <Route path="/news" element={<News />} />
+                  <Route path="/news/:id" element={<NewsDetails />} />
+                  <Route path="/gallery" element={<Gallery />} />
+                  <Route path="/gallery/:id" element={<GalleryDetails />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/impact" element={<Impact />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/privacy" element={<PrivacyPolicy />} />
+                  <Route path="/terms" element={<TermsOfService />} />
+                  <Route path="/imprint" element={<Imprint />} />
+                  <Route path="/governance" element={<Governance />} />
+                  <Route path="/admin" element={<AdminDashboard />} />
+                  <Route path="/diorama" element={<EasterEgg />} />
+                </Routes>
+              </Suspense>
             </main>
             <Footer />
             <AIAssistant />
