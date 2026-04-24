@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { Heart, Globe, ShieldCheck, TrendingUp, ArrowRight, Loader2, CheckCircle2, AlertCircle, Sparkles } from 'lucide-react';
+import { Heart, Globe, ShieldCheck, TrendingUp, ArrowRight, Loader2, CheckCircle2, AlertCircle, Sparkles, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, SoyomboSymbol, ArcherSymbol, MongolianLine } from '../components/MongolianDesign';
 import { useAuth } from '../contexts/AuthContext';
@@ -212,84 +212,23 @@ export default function Impact() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-white rounded-[40px] md:rounded-[48px] p-8 md:p-12 text-brand-ink shadow-2xl relative overflow-hidden"
+              className="bg-white rounded-[40px] md:rounded-[48px] p-8 md:p-12 text-brand-ink shadow-2xl relative overflow-hidden flex flex-col justify-center min-h-[500px]"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-brand-gold/5 rounded-bl-full pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-40 h-40 bg-brand-indigo/5 rounded-tr-full pointer-events-none" />
               
-              <div className="text-center mb-10 relative z-10">
-                <h3 className="text-3xl md:text-4xl font-serif mb-3">{t('impact.donation.chooseAmount')}</h3>
-                <p className="text-xs text-brand-ink/50 uppercase tracking-[0.2em] font-bold">{t('impact.donation.oneTime')}</p>
-              </div>
-
-              {error && (
-                <div className="mb-8 p-4 bg-red-50 text-red-600 rounded-2xl flex items-center gap-3 text-sm border border-red-100 relative z-10">
-                  <AlertCircle size={18} className="shrink-0" />
-                  <p>{error}</p>
+              <div className="text-center relative z-10 space-y-6">
+                <div className="mx-auto w-16 h-16 bg-brand-gold/10 text-brand-gold rounded-full flex items-center justify-center mb-6">
+                  <Clock size={32} />
                 </div>
-              )}
-
-              <form onSubmit={handleDonateSubmit} className="relative z-10">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-                  {donationAmounts.map((amount) => (
-                    <button
-                      key={amount.value}
-                      type="button"
-                      onClick={() => {
-                        setSelectedAmount(amount.value);
-                        setCustomAmount('');
-                      }}
-                      className={`py-4 rounded-2xl border transition-all duration-300 text-center font-serif text-xl ${
-                        selectedAmount === amount.value 
-                          ? 'bg-brand-ink text-brand-gold border-brand-ink shadow-lg' 
-                          : 'bg-brand-paper text-brand-ink border-brand-ink/10 hover:border-brand-ink/30'
-                      }`}
-                    >
-                      {amount.label}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="relative mb-8">
-                  <span className={`absolute left-6 top-1/2 -translate-y-1/2 font-serif text-xl transition-colors ${selectedAmount === 'custom' ? 'text-brand-ink' : 'text-brand-ink/40'}`}>€</span>
-                  <input
-                    type="number"
-                    min="1"
-                    step="0.01"
-                    value={customAmount}
-                    onChange={(e) => {
-                      setCustomAmount(e.target.value);
-                      setSelectedAmount('custom');
-                    }}
-                    onFocus={() => setSelectedAmount('custom')}
-                    placeholder={t('impact.donation.customPlaceholder')}
-                    className={`w-full pl-12 pr-6 py-5 rounded-2xl border transition-all font-serif text-xl focus:outline-none ${
-                      selectedAmount === 'custom'
-                        ? 'bg-white border-brand-gold ring-1 ring-brand-gold shadow-md'
-                        : 'bg-brand-paper border-brand-ink/10 hover:border-brand-ink/30'
-                    }`}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={loadingAmount !== null || (selectedAmount === 'custom' && !customAmount)}
-                  className="w-full bg-brand-ink text-white py-5 rounded-2xl font-bold hover:bg-brand-gold transition-all flex items-center justify-center gap-3 disabled:opacity-50 shadow-xl shadow-brand-ink/10 group"
-                >
-                  {loadingAmount !== null ? (
-                    <Loader2 className="animate-spin" size={24} />
-                  ) : (
-                    <>
-                      {t('impact.donation.customCta')} {selectedAmount !== 'custom' ? `(€${selectedAmount / 100})` : ''}
-                      <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                    </>
-                  )}
-                </button>
-              </form>
-
-              <div className="mt-10 pt-8 border-t border-brand-ink/10 text-center relative z-10">
-                <div className="flex items-center justify-center gap-3 text-brand-ink/40 mb-4">
-                  <ShieldCheck size={18} />
-                  <span className="text-[10px] uppercase tracking-[0.2em] font-bold">{t('impact.donation.secure')}</span>
+                <h3 className="text-4xl md:text-5xl font-serif mb-4">Coming Soon!</h3>
+                <p className="text-brand-ink/60 max-w-sm mx-auto leading-relaxed">
+                  We are currently processing our donation platform. Check back shortly to support our initiatives!
+                </p>
+                <div className="mt-8 flex justify-center">
+                  <span className="inline-block px-5 py-2 rounded-full border border-brand-ink/10 text-[10px] uppercase tracking-[0.2em] font-bold text-brand-ink/50">
+                    Stay Tuned
+                  </span>
                 </div>
               </div>
             </motion.div>
