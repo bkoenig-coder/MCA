@@ -555,7 +555,7 @@ export default function Home() {
               <UlziiSymbol className="w-64 h-64 text-brand-gold" />
             </div>
 
-            <div className="lg:w-3/5 p-10 md:p-20 lg:p-28 flex flex-col justify-center relative z-10">
+            <div className="lg:w-3/5 p-6 md:p-20 lg:p-28 flex flex-col justify-center relative z-10">
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -623,7 +623,7 @@ export default function Home() {
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-brand-ink/40 mix-blend-multiply" />
-                <div className="absolute inset-0 bg-gradient-to-r from-brand-ink via-brand-ink/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-brand-ink via-brand-ink/40 to-transparent" />
               </motion.div>
               
               {/* Floating Stat Card */}
@@ -679,7 +679,7 @@ export default function Home() {
           
           {/* Deep Vignette & Studio Lighting FX */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#050507] via-transparent to-[#050507]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#050507] via-transparent to-[#050507]" />
+          <div className="absolute inset-0 hidden md:block bg-gradient-to-r from-[#050507] via-transparent to-[#050507]" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.08)_0%,transparent_70%)] blur-3xl rounded-full" />
         </div>
 
