@@ -39,10 +39,10 @@ export default function Home() {
     <div className="pt-20">
       
       {/* Hero Section */}
-      <section className="relative min-h-[85vh] md:h-[95vh] flex items-center px-6 overflow-hidden bg-slate-900 group">
+      <section className="relative min-h-[85vh] md:h-[95vh] flex items-center px-6 overflow-hidden bg-[#0A1128] group">
         <div className="absolute inset-0 z-0">
           {/* Subtle gradient overlay to ensure text readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0A1128]/90 via-[#0A1128]/40 to-transparent z-10 pointer-events-none" />
           
           <div className="w-full h-full absolute inset-0 opacity-80 md:opacity-100 transition-opacity duration-1000 group-hover:opacity-100 pointer-events-none">
             {/* Optimized Canvas for performance: limited DPR, no pointer events, no controls */}
@@ -101,7 +101,7 @@ export default function Home() {
                       opacity: { duration: 0.8 },
                       y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
                     }}
-                    className="relative flex flex-col items-center p-4 py-16 border border-brand-gold/30 bg-slate-800/60 backdrop-blur-xl rounded-full shadow-xl overflow-hidden min-w-[100px] -mt-[89px] ml-[23px] -mr-[15px] h-[400px]"
+                    className="relative flex flex-col items-center p-4 py-16 border border-brand-gold/30 bg-slate-800/80 md:bg-slate-800/60 md:backdrop-blur-xl rounded-full shadow-lg md:shadow-xl overflow-hidden min-w-[100px] -mt-[89px] ml-[23px] -mr-[15px] h-[400px]"
                   >
                     {/* Subtle Background Pattern */}
                     <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
@@ -129,7 +129,6 @@ export default function Home() {
                           animate={{ top: ['-100%', '200%'] }}
                           transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
                           className="absolute inset-0 bg-gradient-to-b from-transparent via-white/40 to-transparent pointer-events-none z-20"
-                          style={{ mixBlendMode: 'overlay' }}
                         />
                       </h2>
 
@@ -157,7 +156,7 @@ export default function Home() {
                   <SoyomboSymbol className="w-3 h-3 lg:w-4 lg:h-4 group-hover:rotate-12 transition-transform duration-300" />
                  {t('Full Screen 3D')}
                 </Link>
-                <Link to="/about" className="w-full sm:w-auto flex-1 text-center border border-white/20 px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold text-white hover:text-brand-gold transition-all whitespace-nowrap bg-white/5 backdrop-blur-sm">
+                <Link to="/about" className="w-full sm:w-auto flex-1 text-center border border-white/20 px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold text-white hover:text-brand-gold transition-all whitespace-nowrap bg-white/10 md:bg-white/5 md:backdrop-blur-sm">
                   {t('hero.ctaStory')}
                 </Link>
               </motion.div>
@@ -177,7 +176,7 @@ export default function Home() {
                   y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
                   rotateZ: { duration: 10, repeat: Infinity, ease: "easeInOut" }
                 }}
-                className="relative flex flex-col items-center p-10 py-20 border-[1px] border-brand-gold/30 bg-slate-800/40 backdrop-blur-xl rounded-full shadow-[0_50px_90px_-20px_rgba(0,0,0,0.5)] group overflow-hidden min-w-[280px] h-fit mt-16 pointer-events-auto"
+                className="relative flex flex-col items-center p-10 py-20 border-[1px] border-brand-gold/30 bg-[#151a25]/90 md:bg-slate-800/40 md:backdrop-blur-xl rounded-full shadow-2xl md:shadow-[0_50px_90px_-20px_rgba(0,0,0,0.5)] group overflow-hidden min-w-[280px] h-fit mt-16 pointer-events-auto"
               >
                 {/* Upgraded Stable Glow Effect */}
                 <motion.div 
@@ -219,7 +218,7 @@ export default function Home() {
                   
                   {/* Horizontal Established Text with Border */}
                   <div className="flex flex-col items-center gap-3 mb-4">
-                    <div className="px-4 py-1.5 border border-brand-gold/20 rounded-md bg-slate-800/50 backdrop-blur-sm">
+                    <div className="px-4 py-1.5 border border-brand-gold/20 rounded-md bg-slate-800/80 md:bg-slate-800/50 md:backdrop-blur-sm">
                       <span className="text-[10px] uppercase tracking-[0.4em] text-white/50 font-bold">Established 2026</span>
                     </div>
                     <div className="h-12 w-px bg-brand-gold/20" />
@@ -452,7 +451,7 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: idx * 0.1 }}
-                  className="group bg-white rounded-[30px] md:rounded-[40px] overflow-hidden border border-brand-ink/5 shadow-sm hover:shadow-2xl transition-all duration-700 flex flex-col"
+                  className="group bg-white rounded-[30px] md:rounded-[40px] overflow-hidden border border-brand-ink/5 shadow-sm md:hover:shadow-2xl transition-all duration-700 flex flex-col"
                 >
                   {/* Image Section */}
                   <div className="relative overflow-hidden aspect-[16/10] sm:aspect-[4/3] sm:bg-brand-ink/5 flex items-center justify-center">
@@ -465,7 +464,7 @@ export default function Home() {
                     <div className="absolute inset-0 bg-brand-ink/20 group-hover:bg-transparent transition-colors duration-700 pointer-events-none" />
                     
                     {/* Floating Date Badge */}
-                    <div className="absolute top-4 left-4 md:top-6 md:left-6 bg-white/90 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-xl md:rounded-2xl shadow-xl flex flex-col items-center min-w-[50px] md:min-w-[60px]">
+                    <div className="absolute top-4 left-4 md:top-6 md:left-6 bg-white md:bg-white/90 md:backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-xl md:rounded-2xl shadow-md md:shadow-xl flex flex-col items-center min-w-[50px] md:min-w-[60px]">
                       <span className="text-[9px] md:text-[10px] uppercase tracking-widest font-bold text-brand-gold">
                         {new Date(event.date).toLocaleDateString(t('common.locale'), { month: 'short' })}
                       </span>
@@ -548,7 +547,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-brand-ink rounded-[60px] md:rounded-[100px] overflow-hidden flex flex-col lg:flex-row shadow-[0_80px_150px_-30px_rgba(0,0,0,0.6)] relative transform-gpu will-change-transform"
+            className="bg-brand-ink rounded-[60px] md:rounded-[100px] overflow-hidden flex flex-col lg:flex-row shadow-2xl md:shadow-[0_80px_150px_-30px_rgba(0,0,0,0.6)] relative md:transform-gpu md:will-change-transform"
           >
             {/* Decorative Symbol Overlay */}
             <div className="absolute top-10 right-10 opacity-[0.03] pointer-events-none">
@@ -622,7 +621,7 @@ export default function Home() {
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
                 />
-                <div className="absolute inset-0 bg-brand-ink/40 mix-blend-multiply" />
+                <div className="absolute inset-0 bg-brand-ink/40 md:mix-blend-multiply" />
                 <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-brand-ink via-brand-ink/40 to-transparent" />
               </motion.div>
               
@@ -632,7 +631,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 1, duration: 1, ease: "easeOut" }}
-                className="absolute bottom-10 right-10 left-10 lg:left-auto lg:w-80 bg-white/10 backdrop-blur-md border border-white/10 p-10 rounded-[40px] text-white z-20 shadow-2xl"
+                className="absolute bottom-10 right-10 left-10 lg:left-auto lg:w-80 bg-[#151a25]/90 md:bg-white/10 md:backdrop-blur-md border border-white/10 p-10 rounded-[40px] text-white z-20 shadow-xl md:shadow-2xl"
               >
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-12 h-12 rounded-full bg-brand-gold flex items-center justify-center text-brand-ink shadow-lg">
@@ -672,7 +671,7 @@ export default function Home() {
             <img 
               src="https://images.unsplash.com/photo-1684814833784-c9c8cdba1d20?q=80&w=2000&auto=format&fit=crop" 
               alt="Ulaanbaatar Cinematic" 
-              className="w-full h-full object-cover grayscale mix-blend-overlay"
+              className="w-full h-full object-cover grayscale md:mix-blend-overlay opacity-50 md:opacity-100"
               referrerPolicy="no-referrer"
             />
           </motion.div>
@@ -680,7 +679,7 @@ export default function Home() {
           {/* Deep Vignette & Studio Lighting FX */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#050507] via-transparent to-[#050507]" />
           <div className="absolute inset-0 hidden md:block bg-gradient-to-r from-[#050507] via-transparent to-[#050507]" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.08)_0%,transparent_70%)] blur-3xl rounded-full" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.08)_0%,transparent_70%)] hidden md:block blur-3xl rounded-full" />
         </div>
 
         <div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col items-center">
@@ -694,7 +693,7 @@ export default function Home() {
               className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-12"
             >
               <div className="absolute inset-0 bg-brand-gold rounded-full blur-[20px] opacity-20 animate-pulse" />
-              <div className="relative w-full h-full border border-white/10 rounded-full flex items-center justify-center bg-black/50 backdrop-blur-md overflow-hidden p-3 shadow-2xl">
+              <div className="relative w-full h-full border border-white/10 rounded-full flex items-center justify-center bg-black/80 md:bg-black/50 md:backdrop-blur-md overflow-hidden p-3 shadow-xl md:shadow-2xl">
                 <img src={mcaLogo} alt="MCA Logo" loading="lazy" className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
               </div>
               <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[1px] h-16 bg-gradient-to-b from-brand-gold/50 to-transparent" />

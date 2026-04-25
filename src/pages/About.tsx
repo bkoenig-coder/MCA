@@ -111,7 +111,7 @@ export default function About() {
       {/* Mission & Vision - Cinematic Layout */}
       <section className="py-24 md:py-40 px-6 bg-[#050507] relative overflow-hidden text-white">
         {/* Cinematic Backdrop Pattern & Fire Light */}
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay">
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none md:mix-blend-overlay">
           <UlziiSymbol className="w-[800px] h-[800px] text-white absolute -top-[10%] -right-[10%] animate-[spin_200s_linear_infinite]" />
         </div>
         
@@ -119,12 +119,12 @@ export default function About() {
         <motion.div
           animate={{ opacity: [0.2, 0.4, 0.2], scale: [1, 1.1, 1] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-0 right-1/4 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(234,88,12,0.1)_0%,transparent_70%)] rounded-full blur-[120px] pointer-events-none"
+          className="absolute top-0 right-1/4 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(234,88,12,0.1)_0%,transparent_70%)] rounded-full md:blur-[120px] blur-[80px] pointer-events-none"
         />
         <motion.div
           animate={{ opacity: [0.1, 0.3, 0.1], scale: [1.1, 0.9, 1.1] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(190,18,60,0.15)_0%,transparent_70%)] rounded-full blur-[100px] pointer-events-none mix-blend-screen"
+          className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(190,18,60,0.15)_0%,transparent_70%)] rounded-full md:blur-[100px] blur-[60px] pointer-events-none md:mix-blend-screen"
         />
 
         <EmberBackground />
@@ -146,7 +146,7 @@ export default function About() {
               viewport={{ amount: 0.4 }}
               onViewportEnter={(e) => toggleActive(e, true)}
               onViewportLeave={(e) => toggleActive(e, false)}
-              className="aspect-[4/5] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-brand-gold/10 relative group"
+              className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl md:shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-brand-gold/10 relative group"
             >
               <div className="absolute inset-0 bg-brand-gold/20 mix-blend-overlay z-10 md:group-hover:bg-transparent max-md:group-[.is-active]:bg-transparent transition-all duration-700" />
               <img 
@@ -170,9 +170,9 @@ export default function About() {
                viewport={{ amount: 0.4 }}
                onViewportEnter={(e) => toggleActive(e, true)}
                onViewportLeave={(e) => toggleActive(e, false)}
-               className="aspect-[4/5] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-brand-gold/10 relative group mb-8 md:mb-12 mt-12 md:mt-0"
+               className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl md:shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-brand-gold/10 relative group mb-8 md:mb-12 mt-12 md:mt-0"
             >
-               <div className="absolute inset-0 bg-brand-gold/20 mix-blend-overlay z-10 md:group-hover:bg-transparent max-md:group-[.is-active]:bg-transparent transition-all duration-700" />
+               <div className="absolute inset-0 bg-brand-gold/20 md:mix-blend-overlay z-10 md:group-hover:bg-transparent max-md:group-[.is-active]:bg-transparent transition-all duration-700" />
               <img 
                 src="https://images.unsplash.com/photo-1625862849881-64c93500d0a5?q=80&w=880&auto=format&fit=crop" 
                 alt="Vision" 
@@ -218,10 +218,10 @@ export default function About() {
                 onViewportEnter={(e) => toggleActive(e, true)}
                 onViewportLeave={(e) => toggleActive(e, false)}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
-                className="group p-8 md:p-12 rounded-[40px] bg-white/5 border border-white/5 md:hover:border-orange-500/30 max-md:group-[.is-active]:border-orange-500/30 md:hover:bg-white/10 max-md:group-[.is-active]:bg-white/10 transition-all duration-500 backdrop-blur-sm relative overflow-hidden"
+                className="group p-8 md:p-12 rounded-[40px] bg-white/5 border border-white/5 md:hover:border-orange-500/30 max-md:group-[.is-active]:border-orange-500/30 md:hover:bg-white/10 max-md:group-[.is-active]:bg-white/10 transition-all duration-500 md:backdrop-blur-sm relative overflow-hidden"
               >
                 {/* Fire Glow sweep */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-orange-600/0 via-orange-500/10 to-amber-400/0 opacity-0 md:group-hover:opacity-100 max-md:group-[.is-active]:opacity-100 transition-opacity duration-1000 blur-xl" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-orange-600/0 via-orange-500/10 to-amber-400/0 opacity-0 md:group-hover:opacity-100 max-md:group-[.is-active]:opacity-100 transition-opacity duration-1000 md:blur-xl" />
                 
                 <div className="relative z-10">
                   <div className="w-20 h-20 rounded-full border border-brand-gold/20 flex items-center justify-center text-brand-gold mb-10 md:group-hover:scale-110 max-md:group-[.is-active]:scale-110 md:group-hover:bg-gradient-to-tr max-md:group-[.is-active]:bg-gradient-to-tr md:group-hover:from-orange-600 max-md:group-[.is-active]:from-orange-600 md:group-hover:to-amber-500 max-md:group-[.is-active]:to-amber-500 md:group-hover:border-transparent max-md:group-[.is-active]:border-transparent md:group-hover:text-white max-md:group-[.is-active]:text-white md:group-hover:shadow-[0_0_30px_rgba(234,88,12,0.5)] max-md:group-[.is-active]:shadow-[0_0_30px_rgba(234,88,12,0.5)] transition-all duration-500 bg-[#050507]">
@@ -273,7 +273,7 @@ export default function About() {
                 transition={{ duration: 0.8, delay: idx * 0.2 }}
                 className="group relative cursor-pointer block"
               >
-                <div className="aspect-[3/4] rounded-3xl overflow-hidden mb-8 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5 relative bg-[#020202]">
+                <div className="aspect-[3/4] rounded-3xl overflow-hidden mb-8 shadow-2xl md:shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5 relative bg-[#020202]">
                   <img 
                     src={member.image} 
                     alt={member.name} 
@@ -284,7 +284,7 @@ export default function About() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-[#020202]/40 to-transparent opacity-80 md:group-hover:opacity-60 max-md:group-[.is-active]:opacity-60 transition-opacity duration-700 pointer-events-none" />
                   
                   {/* Subtle bottom fire glow */}
-                  <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-orange-600/30 to-transparent mix-blend-overlay opacity-0 md:group-hover:opacity-100 max-md:group-[.is-active]:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+                  <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-orange-600/30 to-transparent md:mix-blend-overlay opacity-0 md:group-hover:opacity-100 max-md:group-[.is-active]:opacity-100 transition-opacity duration-1000 pointer-events-none" />
                   
                   <div className="absolute bottom-10 left-10 right-10 pointer-events-none">
                     <h3 className="text-3xl font-serif text-white mb-3 md:group-hover:text-brand-gold max-md:group-[.is-active]:text-brand-gold transition-colors duration-500 drop-shadow-md">{member.name}</h3>
@@ -309,7 +309,7 @@ export default function About() {
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               viewport={{ once: true }}
-              className="inline-flex items-center justify-center gap-3 mb-8 border border-brand-gold/30 px-6 py-2 rounded-full backdrop-blur-sm"
+              className="inline-flex items-center justify-center gap-3 mb-8 border border-brand-gold/30 px-6 py-2 rounded-full bg-black/20 md:bg-transparent md:backdrop-blur-sm"
             >
               <Heart className="text-brand-gold" size={16} fill="currentColor" />
               <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-gold">{t('about.join.tag')}</span>
@@ -326,11 +326,11 @@ export default function About() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="p-8 md:p-16 rounded-[40px] bg-white/5 border border-white/5 backdrop-blur-xl relative overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
+            className="p-8 md:p-16 rounded-[40px] bg-white/5 border border-white/5 md:backdrop-blur-xl relative overflow-hidden shadow-2xl md:shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
           >
             {/* Form Fire Glow */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-orange-600/10 rounded-full blur-[100px] pointer-events-none mix-blend-screen" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-rose-600/10 rounded-full blur-[80px] pointer-events-none mix-blend-screen" />
+            <div className="absolute top-0 right-0 w-96 h-96 bg-orange-600/10 rounded-full md:blur-[100px] blur-[60px] pointer-events-none md:mix-blend-screen" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-rose-600/10 rounded-full md:blur-[80px] blur-[40px] pointer-events-none md:mix-blend-screen" />
 
             {isSuccess ? (
               <motion.div 
