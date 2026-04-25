@@ -261,7 +261,7 @@ export default function About() {
             {[
               { name: "Margad-Erdene Ganbold", role: t('about.team.roles.director'), image: margadPic },
               { name: "Bernadette König", role: t('about.team.roles.manager'), image: berniPic },
-              { name: "M. Ganzorig", role: t('about.team.roles.outreach'), image: chinggisPic }
+              { name: "Batmunkh Unenbaatar", role: t('about.team.roles.outreach'), image: chinggisPic }
             ].map((member, idx) => (
               <motion.div
                 key={idx}
