@@ -29,6 +29,8 @@ const EventDetails = lazy(() => import('./pages/EventDetails'));
 const GalleryDetails = lazy(() => import('./pages/GalleryDetails'));
 const Profile = lazy(() => import('./pages/Profile'));
 const EasterEgg = lazy(() => import('./pages/EasterEgg'));
+const TeamMember = lazy(() => import('./pages/TeamMember'));
+const InitiativeDetails = lazy(() => import('./pages/InitiativeDetails'));
 
 const PageLoader = () => (
   <div className="flex min-h-screen bg-transparent">
@@ -75,6 +77,8 @@ export default function App() {
                   <Route path="/imprint" element={<Imprint />} />
                   <Route path="/governance" element={<Governance />} />
                   <Route path="/admin" element={<AdminDashboard />} />
+                  <Route path="/team/:id" element={<TeamMember />} />
+                  <Route path="/initiative/:id" element={<InitiativeDetails />} />
                   <Route path="/diorama" element={<EasterEgg />} />
                 </Routes>
               </Suspense>

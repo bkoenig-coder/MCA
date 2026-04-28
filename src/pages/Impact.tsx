@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Heart, Globe, ShieldCheck, TrendingUp, ArrowRight, Loader2, CheckCircle2, AlertCircle, Sparkles, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -93,16 +93,19 @@ export default function Impact() {
 
   const initiatives = [
     {
+      id: "preservation",
       title: t('impact.initiatives.preservation'),
       desc: t('impact.initiatives.preservationDesc'),
       image: "https://images.unsplash.com/photo-1745155541633-da6d9bb28f5c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
+      id: "bridge",
       title: t('impact.initiatives.bridge'),
       desc: t('impact.initiatives.bridgeDesc'),
       image: "https://images.unsplash.com/photo-1623266880158-c683344cd073?q=80&w=765&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
+      id: "exchange",
       title: t('impact.initiatives.exchange'),
       desc: t('impact.initiatives.exchangeDesc'),
       image: "https://images.unsplash.com/photo-1645539818874-1801c031a86a?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -338,10 +341,10 @@ export default function Impact() {
                     {item.desc}
                   </p>
                   <div className="pt-4">
-                    <button className="inline-flex items-center gap-3 text-brand-gold font-bold uppercase tracking-widest text-xs hover:text-brand-ink transition-colors group">
+                    <Link to={`/initiative/${item.id}`} className="inline-flex items-center gap-3 text-brand-gold font-bold uppercase tracking-widest text-xs hover:text-brand-ink transition-colors group">
                       Learn More
                       <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </motion.div>

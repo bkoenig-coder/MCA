@@ -212,7 +212,7 @@ export default function EventDetails() {
               <h1 className="text-4xl md:text-6xl font-serif leading-tight mb-6">
                 {titleStart} <span className="italic text-brand-gold">{titleEnd}</span>
               </h1>
-              <p className="text-xl md:text-2xl text-brand-ink/70 leading-relaxed font-light">
+              <p className="text-xl md:text-2xl text-brand-ink/70 leading-relaxed font-light whitespace-pre-wrap">
                 {dDesc}
               </p>
             </div>

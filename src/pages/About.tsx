@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Shield, Heart, Users, Sparkles, Send, Star } from 'lucide-react';
 import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../components/MongolianDesign';
@@ -259,9 +260,9 @@ export default function About() {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
             {[
-              { name: "Margad-Erdene Ganbold", role: t('about.team.roles.director'), image: margadPic },
-              { name: "Bernadette König", role: t('about.team.roles.manager'), image: berniPic },
-              { name: "Batmunkh Unenbaatar", role: t('about.team.roles.outreach'), image: chinggisPic }
+              { id: "margad-erdene-ganbold", name: "Margad-Erdene Ganbold", role: t('about.team.roles.director'), image: margadPic },
+              { id: "bernadette-konig", name: "Bernadette König", role: t('about.team.roles.manager'), image: berniPic },
+              { id: "batmunkh-unenbaatar", name: "Batmunkh Unenbaatar", role: t('about.team.roles.outreach'), image: chinggisPic }
             ].map((member, idx) => (
               <motion.div
                 key={idx}
@@ -273,24 +274,26 @@ export default function About() {
                 transition={{ duration: 0.8, delay: idx * 0.2 }}
                 className="group relative cursor-pointer block"
               >
-                <div className="aspect-[3/4] rounded-3xl overflow-hidden mb-8 shadow-2xl md:shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5 relative bg-[#020202]">
-                  <img 
-                    src={member.image} 
-                    alt={member.name} 
-                    loading="lazy"
-                    className="w-full h-full object-cover grayscale opacity-80 md:group-hover:grayscale-0 max-md:group-[.is-active]:grayscale-0 md:group-hover:opacity-100 max-md:group-[.is-active]:opacity-100 md:group-hover:scale-105 max-md:group-[.is-active]:scale-105 transition-all duration-1000"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-[#020202]/40 to-transparent opacity-80 md:group-hover:opacity-60 max-md:group-[.is-active]:opacity-60 transition-opacity duration-700 pointer-events-none" />
-                  
-                  {/* Subtle bottom fire glow */}
-                  <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-orange-600/30 to-transparent md:mix-blend-overlay opacity-0 md:group-hover:opacity-100 max-md:group-[.is-active]:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-                  
-                  <div className="absolute bottom-10 left-10 right-10 pointer-events-none">
-                    <h3 className="text-3xl font-serif text-white mb-3 md:group-hover:text-brand-gold max-md:group-[.is-active]:text-brand-gold transition-colors duration-500 drop-shadow-md">{member.name}</h3>
-                    <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-gold/70 md:group-hover:text-brand-gold max-md:group-[.is-active]:text-brand-gold transition-colors duration-500">{member.role}</p>
+                <Link to={`/team/${member.id}`} className="block">
+                  <div className="aspect-[3/4] rounded-3xl overflow-hidden mb-8 shadow-2xl md:shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5 relative bg-[#020202]">
+                    <img 
+                      src={member.image} 
+                      alt={member.name} 
+                      loading="lazy"
+                      className="w-full h-full object-cover grayscale opacity-80 md:group-hover:grayscale-0 max-md:group-[.is-active]:grayscale-0 md:group-hover:opacity-100 max-md:group-[.is-active]:opacity-100 md:group-hover:scale-105 max-md:group-[.is-active]:scale-105 transition-all duration-1000"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-[#020202]/40 to-transparent opacity-80 md:group-hover:opacity-60 max-md:group-[.is-active]:opacity-60 transition-opacity duration-700 pointer-events-none" />
+                    
+                    {/* Subtle bottom fire glow */}
+                    <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-orange-600/30 to-transparent md:mix-blend-overlay opacity-0 md:group-hover:opacity-100 max-md:group-[.is-active]:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+                    
+                    <div className="absolute bottom-10 left-10 right-10 pointer-events-none">
+                      <h3 className="text-3xl font-serif text-white mb-3 md:group-hover:text-brand-gold max-md:group-[.is-active]:text-brand-gold transition-colors duration-500 drop-shadow-md">{member.name}</h3>
+                      <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-gold/70 md:group-hover:text-brand-gold max-md:group-[.is-active]:text-brand-gold transition-colors duration-500">{member.role}</p>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </motion.div>
             ))}
           </div>

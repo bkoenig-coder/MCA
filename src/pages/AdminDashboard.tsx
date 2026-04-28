@@ -30,8 +30,8 @@ export default function AdminDashboard() {
   // Form States
   const [eventForm, setEventForm] = useState({ 
     id: '',
-    title: '', 
-    description: '', 
+    titleEn: '', titleMn: '', titleDe: '',
+    descriptionEn: '', descriptionMn: '', descriptionDe: '',
     date: '', 
     time: '',
     location: '',
@@ -41,8 +41,8 @@ export default function AdminDashboard() {
     imageUrl: '',
     whatsIncluded: ''
   });
-  const [postForm, setPostForm] = useState({ id: '', title: '', content: '', imageUrl: '' });
-  const [galleryForm, setGalleryForm] = useState({ id: '', title: '', artist: '', year: '', description: '', imageUrl: '', category: '' });
+  const [postForm, setPostForm] = useState({ id: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '' });
+  const [galleryForm, setGalleryForm] = useState({ id: '', titleEn: '', titleMn: '', titleDe: '', artistEn: '', artistMn: '', artistDe: '', year: '', descriptionEn: '', descriptionMn: '', descriptionDe: '', imageUrl: '', category: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   
@@ -116,8 +116,14 @@ export default function AdminDashboard() {
     setIsSubmitting(true);
     try {
       const baseData = {
-        title: eventForm.title,
-        description: eventForm.description,
+        titleEn: eventForm.titleEn,
+        titleMn: eventForm.titleMn,
+        titleDe: eventForm.titleDe,
+        title: eventForm.titleEn,
+        descriptionEn: eventForm.descriptionEn,
+        descriptionMn: eventForm.descriptionMn,
+        descriptionDe: eventForm.descriptionDe,
+        description: eventForm.descriptionEn,
         date: eventForm.date,
         time: eventForm.time,
         location: eventForm.location,
@@ -129,7 +135,7 @@ export default function AdminDashboard() {
         updatedAt: serverTimestamp(),
       };
       
-      const data = await autoTranslateRecord(baseData, ['title', 'description', 'location', 'category']);
+      const data = await autoTranslateRecord(baseData, ['location', 'category']);
 
       if (isEditing && eventForm.id) {
         await setDoc(doc(db, 'events', eventForm.id), data, { merge: true });
@@ -139,7 +145,7 @@ export default function AdminDashboard() {
         toast.success('Event created successfully');
       }
 
-      setEventForm({ id: '', title: '', description: '', date: '', time: '', location: '', category: '', price: 0, capacity: 0, imageUrl: '', whatsIncluded: '' });
+      setEventForm({ id: '', titleEn: '', titleMn: '', titleDe: '', descriptionEn: '', descriptionMn: '', descriptionDe: '', date: '', time: '', location: '', category: '', price: 0, capacity: 0, imageUrl: '', whatsIncluded: '' });
       setIsEditing(false);
     } catch (error) {
       toast.error('Failed to save event');
@@ -153,15 +159,19 @@ export default function AdminDashboard() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const baseData = {
-        title: postForm.title,
-        content: postForm.content,
+      const data = {
+        titleEn: postForm.titleEn,
+        titleMn: postForm.titleMn,
+        titleDe: postForm.titleDe,
+        title: postForm.titleEn,
+        contentEn: postForm.contentEn,
+        contentMn: postForm.contentMn,
+        contentDe: postForm.contentDe,
+        content: postForm.contentEn,
         imageUrl: postForm.imageUrl,
         updatedAt: serverTimestamp(),
       };
       
-      const data = await autoTranslateRecord(baseData, ['title', 'content']);
-
       if (isEditing && postForm.id) {
         await setDoc(doc(db, 'posts', postForm.id), data, { merge: true });
         toast.success('Post updated successfully');
@@ -170,7 +180,7 @@ export default function AdminDashboard() {
         toast.success('Post published successfully');
       }
 
-      setPostForm({ id: '', title: '', content: '', imageUrl: '' });
+      setPostForm({ id: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '' });
       setIsEditing(false);
     } catch (error) {
       toast.error('Failed to save post');
@@ -185,16 +195,25 @@ export default function AdminDashboard() {
     setIsSubmitting(true);
     try {
       const baseData = {
-        title: galleryForm.title,
-        artist: galleryForm.artist,
+        titleEn: galleryForm.titleEn,
+        titleMn: galleryForm.titleMn,
+        titleDe: galleryForm.titleDe,
+        title: galleryForm.titleEn,
+        artistEn: galleryForm.artistEn,
+        artistMn: galleryForm.artistMn,
+        artistDe: galleryForm.artistDe,
+        artist: galleryForm.artistEn,
         year: galleryForm.year,
-        description: galleryForm.description,
+        descriptionEn: galleryForm.descriptionEn,
+        descriptionMn: galleryForm.descriptionMn,
+        descriptionDe: galleryForm.descriptionDe,
+        description: galleryForm.descriptionEn,
         imageUrl: galleryForm.imageUrl,
         category: galleryForm.category,
         updatedAt: serverTimestamp(),
       };
       
-      const data = await autoTranslateRecord(baseData, ['title', 'artist', 'description', 'category']);
+      const data = await autoTranslateRecord(baseData, ['category']);
 
       if (isEditing && galleryForm.id) {
         await setDoc(doc(db, 'gallery', galleryForm.id), data, { merge: true });
@@ -204,7 +223,7 @@ export default function AdminDashboard() {
         toast.success('Gallery item added successfully');
       }
 
-      setGalleryForm({ id: '', title: '', artist: '', year: '', description: '', imageUrl: '', category: '' });
+      setGalleryForm({ id: '', titleEn: '', titleMn: '', titleDe: '', artistEn: '', artistMn: '', artistDe: '', year: '', descriptionEn: '', descriptionMn: '', descriptionDe: '', imageUrl: '', category: '' });
       setIsEditing(false);
     } catch (error) {
       toast.error('Failed to save gallery item');
@@ -236,8 +255,12 @@ export default function AdminDashboard() {
   const editEvent = (event: any) => {
     setEventForm({
       id: event.id,
-      title: event.title,
-      description: event.description,
+      titleEn: event.titleEn || event.title || '',
+      titleMn: event.titleMn || event.title || '',
+      titleDe: event.titleDe || event.title || '',
+      descriptionEn: event.descriptionEn || event.description || '',
+      descriptionMn: event.descriptionMn || event.description || '',
+      descriptionDe: event.descriptionDe || event.description || '',
       date: event.date,
       time: event.time || '',
       location: event.location || '',
@@ -255,9 +278,13 @@ export default function AdminDashboard() {
   const editPost = (post: any) => {
     setPostForm({
       id: post.id,
-      title: post.title,
-      content: post.content,
-      imageUrl: post.imageUrl
+      titleEn: post.titleEn || post.title || '',
+      titleMn: post.titleMn || post.title || '',
+      titleDe: post.titleDe || post.title || '',
+      contentEn: post.contentEn || post.content || '',
+      contentMn: post.contentMn || post.content || '',
+      contentDe: post.contentDe || post.content || '',
+      imageUrl: post.imageUrl || ''
     });
     setIsEditing(true);
     setActiveTab('posts');
@@ -267,10 +294,16 @@ export default function AdminDashboard() {
   const editGalleryItem = (item: any) => {
     setGalleryForm({
       id: item.id,
-      title: item.title,
-      artist: item.artist || '',
+      titleEn: item.titleEn || item.title || '',
+      titleMn: item.titleMn || item.title || '',
+      titleDe: item.titleDe || item.title || '',
+      artistEn: item.artistEn || item.artist || '',
+      artistMn: item.artistMn || item.artist || '',
+      artistDe: item.artistDe || item.artist || '',
       year: item.year || '',
-      description: item.description || '',
+      descriptionEn: item.descriptionEn || item.description || '',
+      descriptionMn: item.descriptionMn || item.description || '',
+      descriptionDe: item.descriptionDe || item.description || '',
       imageUrl: item.imageUrl,
       category: item.category || ''
     });
@@ -480,25 +513,65 @@ export default function AdminDashboard() {
                   </h3>
                   <form onSubmit={handleAddEvent} className="space-y-6">
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Event Title</label>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Event Title (English)</label>
                       <input 
                         required
-                        value={eventForm.title}
-                        onChange={e => setEventForm({...eventForm, title: e.target.value})}
+                        value={eventForm.titleEn}
+                        onChange={e => setEventForm({...eventForm, titleEn: e.target.value})}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                         placeholder="e.g. Naadam Festival 2026"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Description</label>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Description (English)</label>
                       <textarea 
                         required
-                        value={eventForm.description}
-                        onChange={e => setEventForm({...eventForm, description: e.target.value})}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar"
+                        value={eventForm.descriptionEn}
+                        onChange={e => setEventForm({...eventForm, descriptionEn: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar whitespace-pre-wrap"
                         placeholder="Describe the cultural significance..."
                       />
                     </div>
+                    
+                    <div className="h-px w-full bg-brand-ink/5" />
+
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Event Title (Mongolian)</label>
+                      <input 
+                        value={eventForm.titleMn}
+                        onChange={e => setEventForm({...eventForm, titleMn: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Description (Mongolian)</label>
+                      <textarea 
+                        value={eventForm.descriptionMn}
+                        onChange={e => setEventForm({...eventForm, descriptionMn: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar whitespace-pre-wrap"
+                      />
+                    </div>
+
+                    <div className="h-px w-full bg-brand-ink/5" />
+
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Event Title (German)</label>
+                      <input 
+                        value={eventForm.titleDe}
+                        onChange={e => setEventForm({...eventForm, titleDe: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Description (German)</label>
+                      <textarea 
+                        value={eventForm.descriptionDe}
+                        onChange={e => setEventForm({...eventForm, descriptionDe: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar whitespace-pre-wrap"
+                      />
+                    </div>
+                    
+                    <div className="h-px w-full bg-brand-ink/5" />
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Date</label>
@@ -659,23 +732,64 @@ export default function AdminDashboard() {
                   </h3>
                   <form onSubmit={handleAddPost} className="space-y-6">
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Post Title</label>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Post Title (English)</label>
                       <input 
                         required
-                        value={postForm.title}
-                        onChange={e => setPostForm({...postForm, title: e.target.value})}
+                        value={postForm.titleEn}
+                        onChange={e => setPostForm({...postForm, titleEn: e.target.value})}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Content</label>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Content (English)</label>
                       <textarea 
                         required
-                        value={postForm.content}
-                        onChange={e => setPostForm({...postForm, content: e.target.value})}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-48 no-scrollbar"
+                        value={postForm.contentEn}
+                        onChange={e => setPostForm({...postForm, contentEn: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar"
                       />
                     </div>
+
+                    <div className="h-px w-full bg-brand-ink/5" />
+
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Post Title (Mongolian)</label>
+                      <input 
+                        value={postForm.titleMn}
+                        onChange={e => setPostForm({...postForm, titleMn: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Content (Mongolian)</label>
+                      <textarea 
+                        value={postForm.contentMn}
+                        onChange={e => setPostForm({...postForm, contentMn: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar"
+                      />
+                    </div>
+
+                    <div className="h-px w-full bg-brand-ink/5" />
+
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Post Title (German)</label>
+                      <input 
+                        value={postForm.titleDe}
+                        onChange={e => setPostForm({...postForm, titleDe: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Content (German)</label>
+                      <textarea 
+                        value={postForm.contentDe}
+                        onChange={e => setPostForm({...postForm, contentDe: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar"
+                      />
+                    </div>
+
+                    <div className="h-px w-full bg-brand-ink/5" />
+
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Cover Image URL</label>
                       <input 
@@ -689,7 +803,7 @@ export default function AdminDashboard() {
                       {isEditing && (
                         <button 
                           type="button"
-                          onClick={() => { setIsEditing(false); setPostForm({ id: '', title: '', content: '', imageUrl: '' }); }}
+                          onClick={() => { setIsEditing(false); setPostForm({ id: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '' }); }}
                           className="flex-1 bg-brand-paper text-brand-ink py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-sand transition-all"
                         >
                           Cancel
@@ -760,25 +874,92 @@ export default function AdminDashboard() {
                   </h3>
                   <form onSubmit={handleAddGalleryItem} className="space-y-6">
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Title</label>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Title (English)</label>
                       <input 
                         required
-                        value={galleryForm.title}
-                        onChange={e => setGalleryForm({...galleryForm, title: e.target.value})}
+                        value={galleryForm.titleEn}
+                        onChange={e => setGalleryForm({...galleryForm, titleEn: e.target.value})}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                         placeholder="Artwork title"
                       />
                     </div>
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Description (English)</label>
+                      <textarea 
+                        required
+                        value={galleryForm.descriptionEn}
+                        onChange={e => setGalleryForm({...galleryForm, descriptionEn: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar whitespace-pre-wrap"
+                        placeholder="Tell the story behind this piece..."
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Artist (English)</label>
+                      <input 
+                        value={galleryForm.artistEn}
+                        onChange={e => setGalleryForm({...galleryForm, artistEn: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                        placeholder="Artist name"
+                      />
+                    </div>
+
+                    <div className="h-px w-full bg-brand-ink/5" />
+
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Title (Mongolian)</label>
+                      <input 
+                        value={galleryForm.titleMn}
+                        onChange={e => setGalleryForm({...galleryForm, titleMn: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Description (Mongolian)</label>
+                      <textarea 
+                        value={galleryForm.descriptionMn}
+                        onChange={e => setGalleryForm({...galleryForm, descriptionMn: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar whitespace-pre-wrap"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Artist (Mongolian)</label>
+                      <input 
+                        value={galleryForm.artistMn}
+                        onChange={e => setGalleryForm({...galleryForm, artistMn: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                      />
+                    </div>
+
+                    <div className="h-px w-full bg-brand-ink/5" />
+
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Title (German)</label>
+                      <input 
+                        value={galleryForm.titleDe}
+                        onChange={e => setGalleryForm({...galleryForm, titleDe: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Description (German)</label>
+                      <textarea 
+                        value={galleryForm.descriptionDe}
+                        onChange={e => setGalleryForm({...galleryForm, descriptionDe: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar whitespace-pre-wrap"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Artist (German)</label>
+                      <input 
+                        value={galleryForm.artistDe}
+                        onChange={e => setGalleryForm({...galleryForm, artistDe: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                      />
+                    </div>
+
+                    <div className="h-px w-full bg-brand-ink/5" />
+
                     <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Artist</label>
-                        <input 
-                          value={galleryForm.artist}
-                          onChange={e => setGalleryForm({...galleryForm, artist: e.target.value})}
-                          className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
-                          placeholder="Artist name"
-                        />
-                      </div>
                       <div>
                         <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Year</label>
                         <input 
@@ -810,15 +991,6 @@ export default function AdminDashboard() {
                         onChange={e => setGalleryForm({...galleryForm, imageUrl: e.target.value})}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                         placeholder="https://images.unsplash.com/..."
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Description</label>
-                      <textarea 
-                        value={galleryForm.description}
-                        onChange={e => setGalleryForm({...galleryForm, description: e.target.value})}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar"
-                        placeholder="Tell the story behind this piece..."
                       />
                     </div>
                     <div className="flex gap-4">
