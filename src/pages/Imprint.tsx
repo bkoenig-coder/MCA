@@ -36,8 +36,8 @@ export default function Imprint() {
                     Operator Information
                   </h2>
                   <div className="space-y-2">
-                    <p className="font-bold text-brand-ink">Mongolian Center in Vienna</p>
-                    <p>ZVR-Zahl: 1673049268 from Magistrat der Stadt Wien (Vereinsregister)</p>
+                    <p className="font-bold text-brand-ink">Mongolian Center in Vienna i.G.</p>
+                    <p>ZVR-Zahl: 1673049268 i.G. from Magistrat der Stadt Wien (Vereinsregister)</p>
                   </div>
                 </section>
 
