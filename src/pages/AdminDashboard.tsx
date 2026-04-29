@@ -655,7 +655,7 @@ export default function AdminDashboard() {
                       {isEditing && (
                         <button 
                           type="button"
-                          onClick={() => { setIsEditing(false); setEventForm({ id: '', title: '', description: '', date: '', time: '', location: '', category: '', price: 0, capacity: 0, imageUrl: '', whatsIncluded: '' }); }}
+                          onClick={() => { setIsEditing(false); setEventForm({ id: '', titleEn: '', titleMn: '', titleDe: '', descriptionEn: '', descriptionMn: '', descriptionDe: '', date: '', time: '', location: '', category: '', price: 0, capacity: 0, imageUrl: '', whatsIncluded: '' }); }}
                           className="flex-1 bg-brand-paper text-brand-ink py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-sand transition-all"
                         >
                           Cancel
@@ -997,7 +997,7 @@ export default function AdminDashboard() {
                       {isEditing && (
                         <button 
                           type="button"
-                          onClick={() => { setIsEditing(false); setGalleryForm({ id: '', title: '', artist: '', year: '', description: '', imageUrl: '', category: '' }); }}
+                          onClick={() => { setIsEditing(false); setGalleryForm({ id: '', titleEn: '', titleMn: '', titleDe: '', artistEn: '', artistMn: '', artistDe: '', year: '', descriptionEn: '', descriptionMn: '', descriptionDe: '', imageUrl: '', category: '' }); }}
                           className="flex-1 bg-brand-paper text-brand-ink py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-sand transition-all"
                         >
                           Cancel

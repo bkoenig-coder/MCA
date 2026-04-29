@@ -59,7 +59,10 @@ export default function PrivacyPolicy() {
               <section>
                 <h2 className="text-3xl font-serif text-brand-ink mb-6">3. Data Storage</h2>
                 <p>
-                  We point out that for the purpose of a simpler shopping process and for later contract processing by the web shop operator in the context of cookies, the IP data of the connection owner are stored, as well as the name, address and credit card number of the buyer.
+                  For contract processing, we also process the following personal data: name, postal address, email address, and, where necessary, telephone number and billing details.
+                </p>
+                <p>
+                  Payment processing is carried out via our payment service provider (e.g. Stripe/PayPal). In this context, payment data (such as credit card details) are processed directly by the payment service provider; we do not store full credit card numbers ourselves.
                 </p>
                 <p>
                   In addition, for the purpose of contract processing, the following data is also stored by us: Name, Address, Email. The data provided by you is necessary for the fulfillment of the contract or for the implementation of pre-contractual measures. Without this data we cannot conclude the contract with you.
@@ -86,13 +89,16 @@ export default function PrivacyPolicy() {
               <section>
                 <h2 className="text-3xl font-serif text-brand-ink mb-6">6. Your Rights</h2>
                 <p>
-                  In principle, you have the rights to information, correction, deletion, restriction, data portability, revocation and objection. If you believe that the processing of your data violates data protection law or your data protection claims have otherwise been violated in some way, you can complain to the supervisory authority. In Austria, this is the Data Protection Authority (Datenschutzbehörde).
-                </p>
+Here are the updated versions incorporating the email address for data removal:
+
+Option 1: Clear and User-Friendly
+
+You have the right to access, correct, delete, or restrict the processing of your personal data. You also have the right to data portability, and you can revoke your consent or object to data processing at any time. To request the removal of your data, please contact us at info@mongoliancenter.org.                </p>
               </section>
 
               <section className="pt-12 border-t border-brand-ink/10">
                 <h2 className="text-2xl font-serif text-brand-ink mb-4">Contact for Data Protection</h2>
-                <p className="font-medium">Mongolian Cultural Center Vienna</p>
+                <p className="font-medium">Mongolian Center in Vienna</p>
                 <p>Email: info@mongoliancenter.org</p>
                 <p>Address: Vienna, Austria</p>
               </section>

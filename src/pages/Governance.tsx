@@ -26,7 +26,7 @@ export default function Governance() {
             
             <div className="prose prose-lg prose-brand max-w-none text-brand-ink/70 font-light leading-relaxed space-y-12">
               <p className="text-xl text-brand-ink font-normal italic">
-                The Mongolian Cultural Center Vienna is committed to the highest standards of transparency, accountability, and ethical conduct in all its operations.
+                The Mongolian Center in Vienna is committed to the highest standards of transparency, accountability, and ethical conduct in all its operations.
               </p>
 
               <div className="grid md:grid-cols-2 gap-8 my-16">
@@ -79,7 +79,7 @@ export default function Governance() {
 
               <section className="pt-12 border-t border-brand-ink/10">
                 <h2 className="text-2xl font-serif text-brand-ink mb-4">Governance Inquiries</h2>
-                <p className="font-medium">Mongolian Cultural Center Vienna</p>
+                <p className="font-medium">Mongolian Center in Vienna</p>
                 <p>Email: info@mongoliancenter.org</p>
               </section>
             </div>
