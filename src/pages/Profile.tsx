@@ -81,8 +81,13 @@ export default function Profile() {
                   <UserIcon size={48} />
                 )}
               </div>
-              {profile?.role === 'admin' && (
-                <div className="absolute -bottom-2 -right-2 bg-brand-ink text-brand-gold p-2 rounded-xl shadow-lg">
+              {(profile?.role === 'admin' || user.email?.toLowerCase() === 'emeraldtorstein@gmail.com' || user.email?.toLowerCase() === 'batmunkh.unen@gmail.com') && (
+                <div className="absolute -bottom-2 -right-2 bg-brand-ink text-brand-gold p-2 rounded-xl shadow-lg" title="Admin">
+                  <Shield size={16} />
+                </div>
+              )}
+              {profile?.role === 'moderator' && (
+                <div className="absolute -bottom-2 -right-2 bg-blue-500 text-white p-2 rounded-xl shadow-lg" title="Moderator">
                   <Shield size={16} />
                 </div>
               )}

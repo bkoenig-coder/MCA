@@ -74,7 +74,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [nextEvent, setNextEvent] = useState<any>(null);
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const langRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -97,7 +97,11 @@ export default function Navbar() {
     { name: 'Explore 3D Diorama', path: '/diorama', icon: Compass },
   ];
 
-  if (user?.email === 'emeraldtorstein@gmail.com') {
+  const isSuperAdmin = user?.email?.toLowerCase() === 'emeraldtorstein@gmail.com';
+  const isAdminUser = isSuperAdmin || user?.email?.toLowerCase() === 'batmunkh.unen@gmail.com' || profile?.role === 'admin';
+  const isEditor = isAdminUser || profile?.role === 'moderator';
+
+  if (isEditor) {
     navItems.push({ name: t('nav.admin'), path: '/admin', icon: Shield });
   }
 

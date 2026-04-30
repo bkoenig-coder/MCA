@@ -89,11 +89,26 @@ service cloud.firestore {
       return isAuthenticated() && request.auth.uid == userId;
     }
 
+    function isSuperAdmin() {
+      return isAuthenticated() && request.auth.token.email.lower() == "emeraldtorstein@gmail.com";
+    }
+
     function isAdmin() {
       return isAuthenticated() && 
         ((exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
           get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
-         request.auth.token.email == "emeraldtorstein@gmail.com");
+         isSuperAdmin() ||
+         request.auth.token.email.lower() == "batmunkh.unen@gmail.com");
+    }
+
+    function isModerator() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'moderator';
+    }
+
+    function isEditor() {
+      return isAdmin() || isModerator();
     }
 
     function hasRequiredFields(fields) {
@@ -138,7 +153,7 @@ service cloud.firestore {
              isValidEmail(data.email) &&
              validOptionalString('displayName', 0, 100) &&
              (!( 'photoURL' in data ) || isValidUrl(data.photoURL)) &&
-             data.role in ['user', 'admin'] &&
+             data.role in ['user', 'admin', 'moderator'] &&
              isValidDateString(data.createdAt);
     }
 
@@ -249,23 +264,23 @@ service cloud.firestore {
       allow create: if isOwner(userId) && 
                        isValidUser(request.resource.data) && 
                        request.resource.data.uid == userId &&
-                       (request.resource.data.role == 'user' || isAdmin());
+                       (request.resource.data.role == 'user' || isSuperAdmin());
       allow update: if (isOwner(userId) || isAdmin()) && 
                        isValidUser(request.resource.data) && 
                        areImmutableFieldsUnchanged(['uid', 'createdAt']) &&
-                       (isAdmin() || request.resource.data.role == resource.data.role);
+                       (isSuperAdmin() || request.resource.data.role == resource.data.role);
     }
 
     match /events/{eventId} {
       allow read: if true;
-      allow create: if isAdmin() && isValidEvent(request.resource.data);
-      allow update: if (isAdmin() && isValidEvent(request.resource.data)) || (
+      allow create: if isEditor() && isValidEvent(request.resource.data);
+      allow update: if (isEditor() && isValidEvent(request.resource.data)) || (
         isAuthenticated() &&
         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['registeredCount']) &&
         request.resource.data.registeredCount == resource.data.get('registeredCount', 0) + 1 &&
         isValidEvent(request.resource.data)
       );
-      allow delete: if isAdmin();
+      allow delete: if isEditor();
     }
 
     match /registrations/{regId} {
@@ -285,9 +300,9 @@ service cloud.firestore {
 
     match /posts/{postId} {
       allow read: if true;
-      allow create: if isAdmin() && isValidPost(request.resource.data);
-      allow update: if isAdmin() && isValidPost(request.resource.data) && areImmutableFieldsUnchanged(['authorId', 'createdAt']);
-      allow delete: if isAdmin();
+      allow create: if isEditor() && isValidPost(request.resource.data);
+      allow update: if isEditor() && isValidPost(request.resource.data) && areImmutableFieldsUnchanged(['authorId', 'createdAt']);
+      allow delete: if isEditor();
     }
 
     match /analytics/{viewId} {
@@ -297,9 +312,9 @@ service cloud.firestore {
 
     match /gallery/{itemId} {
       allow read: if true;
-      allow create: if isAdmin() && isValidGalleryItem(request.resource.data);
-      allow update: if isAdmin() && isValidGalleryItem(request.resource.data) && areImmutableFieldsUnchanged(['createdAt']);
-      allow delete: if isAdmin();
+      allow create: if isEditor() && isValidGalleryItem(request.resource.data);
+      allow update: if isEditor() && isValidGalleryItem(request.resource.data) && areImmutableFieldsUnchanged(['createdAt']);
+      allow delete: if isEditor();
     }
   }
 }

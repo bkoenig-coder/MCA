@@ -23,10 +23,12 @@ export async function signInWithGoogle() {
       const userSnap = await getDoc(userRef);
       
       if (!userSnap.exists()) {
+        const isSuperAdmin = user.email?.toLowerCase() === 'emeraldtorstein@gmail.com';
+        const isDefaultAdmin = user.email?.toLowerCase() === 'batmunkh.unen@gmail.com';
         const userData: any = {
           uid: user.uid,
           email: user.email || '',
-          role: 'user',
+          role: isSuperAdmin || isDefaultAdmin ? 'admin' : 'user',
           createdAt: new Date().toISOString()
         };
         if (user.displayName) userData.displayName = user.displayName;

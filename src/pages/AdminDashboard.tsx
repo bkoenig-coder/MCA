@@ -11,8 +11,10 @@ import Modal from '../components/Modal';
 import { autoTranslateRecord } from '../services/translationService';
 
 export default function AdminDashboard() {
-  const { user } = useAuth();
-  const isAdmin = user?.email === 'emeraldtorstein@gmail.com';
+  const { user, profile } = useAuth();
+  const isSuperAdmin = user?.email?.toLowerCase() === 'emeraldtorstein@gmail.com';
+  const isAdminUser = isSuperAdmin || user?.email?.toLowerCase() === 'batmunkh.unen@gmail.com' || profile?.role === 'admin';
+  const isEditor = isAdminUser || profile?.role === 'moderator';
 
   const [activeTab, setActiveTab] = useState<'analytics' | 'events' | 'posts' | 'registrations' | 'gallery' | 'users'>('analytics');
   
@@ -52,7 +54,7 @@ export default function AdminDashboard() {
   const [regSearch, setRegSearch] = useState('');
 
   useEffect(() => {
-    if (!isAdmin) return;
+    if (!isEditor) return;
 
     // Fetch Analytics
     const qAnalytics = query(collection(db, 'analytics'), orderBy('timestamp', 'desc'), limit(1000));
@@ -109,7 +111,17 @@ export default function AdminDashboard() {
       unsubscribeUsers();
       unsubscribeGallery();
     };
-  }, [isAdmin]);
+  }, [isEditor]);
+
+  const handleRoleChange = async (userId: string, newRole: string) => {
+    try {
+      await updateDoc(doc(db, 'users', userId), { role: newRole });
+      toast.success('User role updated');
+    } catch (error) {
+      toast.error('Failed to update user role');
+      handleFirestoreError(error, OperationType.WRITE, 'users');
+    }
+  };
 
   const handleAddEvent = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -363,7 +375,7 @@ export default function AdminDashboard() {
     return email.includes(search) || title.includes(search) || reg.status.toLowerCase().includes(search);
   });
 
-  if (!isAdmin) {
+  if (!isEditor) {
     return (
       <div className="pt-32 px-6 text-center">
         <h1 className="text-2xl font-serif">Access Denied</h1>
@@ -393,7 +405,7 @@ export default function AdminDashboard() {
               { id: 'posts', icon: <FileText size={16} />, label: 'Posts' },
               { id: 'gallery', icon: <ImageIcon size={16} />, label: 'Gallery' },
               { id: 'registrations', icon: <Users size={16} />, label: 'Registrations' },
-              { id: 'users', icon: <Shield size={16} />, label: 'Users' },
+              ...(isAdminUser ? [{ id: 'users', icon: <Shield size={16} />, label: 'Users' }] : []),
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -1197,12 +1209,21 @@ export default function AdminDashboard() {
                         </td>
                         <td className="px-10 py-8 text-sm text-brand-ink/60 font-medium">{u.email}</td>
                         <td className="px-10 py-8">
-                          <span className={cn(
-                            "px-4 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-widest",
-                            u.role === 'admin' ? "bg-brand-gold/10 text-brand-gold border border-brand-gold/20" : "bg-brand-ink/5 text-brand-ink/40"
-                          )}>
-                            {u.role}
-                          </span>
+                          <select
+                            value={u.role}
+                            onChange={(e) => handleRoleChange(u.id, e.target.value)}
+                            disabled={!isSuperAdmin || u.email?.toLowerCase() === 'emeraldtorstein@gmail.com'}
+                            className={cn(
+                              "px-4 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-widest outline-none cursor-pointer appearance-none",
+                              u.role === 'admin' ? "bg-brand-gold/10 text-brand-gold border border-brand-gold/20" : 
+                              u.role === 'moderator' ? "bg-blue-500/10 text-blue-500 border border-blue-500/20" : 
+                              "bg-brand-ink/5 text-brand-ink/40 border-none"
+                            )}
+                          >
+                            <option value="user">User</option>
+                            <option value="moderator">Moderator</option>
+                            <option value="admin">Admin</option>
+                          </select>
                         </td>
                         <td className="px-10 py-8 text-brand-ink/40 text-[10px] font-bold uppercase tracking-widest">
                           {u.createdAt?.toDate ? u.createdAt.toDate().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : 'N/A'}
