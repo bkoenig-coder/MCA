@@ -158,7 +158,7 @@ service cloud.firestore {
     }
 
     function isValidEvent(data) {
-      return hasOnlyAllowedFields(['title', 'titleEn', 'titleMn', 'titleDe', 'description', 'descriptionEn', 'descriptionMn', 'descriptionDe', 'price', 'capacity', 'date', 'time', 'location', 'locationEn', 'locationMn', 'locationDe', 'imageUrl', 'category', 'categoryEn', 'categoryMn', 'categoryDe', 'whatsIncluded', 'registeredCount', 'createdAt', 'updatedAt']) &&
+      return hasOnlyAllowedFields(['title', 'titleEn', 'titleMn', 'titleDe', 'description', 'descriptionEn', 'descriptionMn', 'descriptionDe', 'price', 'capacity', 'date', 'time', 'location', 'locationEn', 'locationMn', 'locationDe', 'imageUrl', 'galleryImages', 'category', 'categoryEn', 'categoryMn', 'categoryDe', 'whatsIncluded', 'registeredCount', 'createdAt', 'updatedAt']) &&
              hasRequiredFields(['title', 'description', 'price', 'date', 'imageUrl', 'createdAt']) &&
              validString(data.title, 1, 200) &&
              validOptionalString('titleEn', 1, 1000) &&
@@ -177,6 +177,7 @@ service cloud.firestore {
              validOptionalString('locationMn', 0, 1000) &&
              validOptionalString('locationDe', 0, 1000) &&
              isValidUrl(data.imageUrl) &&
+             (!( 'galleryImages' in data ) || (data.galleryImages is list && data.galleryImages.size() <= 20)) &&
              validOptionalString('category', 0, 100) &&
              validOptionalString('categoryEn', 0, 200) &&
              validOptionalString('categoryMn', 0, 200) &&

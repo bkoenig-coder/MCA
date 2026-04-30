@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { db, doc, getDoc, OperationType, handleFirestoreError, signInWithGoogle, addDoc, collection, serverTimestamp, writeBatch, increment } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
-import { Calendar, MapPin, Clock, ArrowLeft, CheckCircle2, Loader2, AlertCircle, X } from 'lucide-react';
+import { Calendar, MapPin, Clock, ArrowLeft, CheckCircle2, Loader2, AlertCircle, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { UlziiSymbol, SoyomboSymbol, ArcherSymbol, MongolianLine } from '../components/MongolianDesign';
 import { useTranslation } from 'react-i18next';
 
@@ -18,6 +18,7 @@ export default function EventDetails() {
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
   const [registrationForm, setRegistrationForm] = useState({ name: '', email: '', phone: '', notes: '' });
   const [isRegisteringFree, setIsRegisteringFree] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
   useEffect(() => {
@@ -128,6 +129,16 @@ export default function EventDetails() {
     }
   };
 
+  const allImages = event ? [event.imageUrl, ...(event.galleryImages || [])] : [];
+
+  useEffect(() => {
+    if (allImages.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [allImages.length, currentImageIndex]);
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -153,7 +164,7 @@ export default function EventDetails() {
   const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : (event.descriptionEn || event.description);
   const dLocation = lang === 'mn' ? (event.locationMn || event.location) : lang === 'de' ? (event.locationDe || event.location) : (event.locationEn || event.location);
   const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : (event.categoryEn || event.category);
-  
+
   // Format title for styling (split last word)
   let titleParts = dTitle.split(' ');
   let titleStart = dTitle;
@@ -179,17 +190,64 @@ export default function EventDetails() {
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            className="rounded-[32px] md:rounded-[48px] overflow-hidden shadow-2xl aspect-[4/5] lg:aspect-auto lg:h-[700px] relative"
+            className="rounded-[32px] md:rounded-[48px] overflow-hidden shadow-2xl aspect-[4/5] lg:aspect-auto lg:h-[700px] relative group"
           >
-            <img 
-              src={event.imageUrl} 
-              alt={dTitle} 
-              className="w-full h-full object-contain bg-brand-paper/30"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute top-6 left-6 md:top-8 md:left-8">
-              <SoyomboSymbol className="w-12 h-12 md:w-16 md:h-16 text-white/30" />
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.img 
+                key={currentImageIndex}
+                initial={{ opacity: 0, scale: 1.05 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+                src={allImages[currentImageIndex]} 
+                alt={dTitle} 
+                className="w-full h-full object-contain bg-brand-paper/30 absolute inset-0 cursor-grab active:cursor-grabbing"
+                referrerPolicy="no-referrer"
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.2}
+                onDragEnd={(e, { offset, velocity }) => {
+                  const swipe = offset.x;
+                  if (swipe < -50) {
+                    setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
+                  } else if (swipe > 50) {
+                    setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
+                  }
+                }}
+              />
+            </AnimatePresence>
+
+            {allImages.length > 1 && (
+              <>
+                <div className="absolute inset-x-0 bottom-0 top-0 flex items-center justify-between p-4 pointer-events-none">
+                  <button 
+                    onClick={() => setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length)}
+                    className="p-3 bg-brand-ink/30 backdrop-blur text-white rounded-full hover:bg-brand-gold transition-colors pointer-events-auto"
+                    aria-label="Previous image"
+                  >
+                    <ChevronLeft size={24} />
+                  </button>
+                  <button 
+                    onClick={() => setCurrentImageIndex((prev) => (prev + 1) % allImages.length)}
+                    className="p-3 bg-brand-ink/30 backdrop-blur text-white rounded-full hover:bg-brand-gold transition-colors pointer-events-auto"
+                    aria-label="Next image"
+                  >
+                    <ChevronRight size={24} />
+                  </button>
+                </div>
+                
+                <div className="absolute bottom-6 inset-x-0 flex justify-center gap-2 z-10">
+                  {allImages.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrentImageIndex(i)}
+                      className={`w-2 h-2 rounded-full transition-all ${i === currentImageIndex ? 'w-6 bg-brand-gold' : 'bg-white/50 hover:bg-white'}`}
+                      aria-label={`Go to slide ${i + 1}`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
           </motion.div>
 
           <motion.div
@@ -212,39 +270,40 @@ export default function EventDetails() {
               <h1 className="text-4xl md:text-6xl font-serif leading-tight mb-6">
                 {titleStart} <span className="italic text-brand-gold">{titleEnd}</span>
               </h1>
+              
+              <div className="grid sm:grid-cols-2 gap-6 md:gap-8 mb-10 mt-8">
+                <div className="flex items-start gap-4 p-5 md:p-6 bg-brand-sand/20 rounded-2xl md:rounded-3xl border border-brand-ink/5 hover:bg-brand-sand/40 transition-colors">
+                  <div className="bg-white p-3 rounded-xl md:rounded-2xl shadow-sm text-brand-gold flex-shrink-0">
+                    <Calendar size={20} className="md:w-6 md:h-6" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-ink/40 mb-1">{t('events.details.date')}</p>
+                    <p className="text-sm md:text-base font-medium">{new Date(event.date).toLocaleDateString(t('common.locale'), { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4 p-5 md:p-6 bg-brand-sand/20 rounded-2xl md:rounded-3xl border border-brand-ink/5 hover:bg-brand-sand/40 transition-colors">
+                  <div className="bg-white p-3 rounded-xl md:rounded-2xl shadow-sm text-brand-gold flex-shrink-0">
+                    <Clock size={20} className="md:w-6 md:h-6" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-ink/40 mb-1">{t('events.details.time')}</p>
+                    <p className="text-sm md:text-base font-medium">{event.time || t('events.tba')}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4 p-5 md:p-6 bg-brand-sand/20 rounded-2xl md:rounded-3xl sm:col-span-2 border border-brand-ink/5 hover:bg-brand-sand/40 transition-colors">
+                  <div className="bg-white p-3 rounded-xl md:rounded-2xl shadow-sm text-brand-gold flex-shrink-0">
+                    <MapPin size={20} className="md:w-6 md:h-6" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-ink/40 mb-1">{t('events.details.location')}</p>
+                    <p className="text-sm md:text-base font-medium">{dLocation || t('events.vienna')}</p>
+                  </div>
+                </div>
+              </div>
+
               <p className="text-xl md:text-2xl text-brand-ink/70 leading-relaxed font-light whitespace-pre-wrap">
                 {dDesc}
               </p>
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-6 md:gap-8 mb-10 md:mb-12">
-              <div className="flex items-start gap-4 p-5 md:p-6 bg-brand-sand/20 rounded-2xl md:rounded-3xl border border-brand-ink/5 hover:bg-brand-sand/40 transition-colors">
-                <div className="bg-white p-3 rounded-xl md:rounded-2xl shadow-sm text-brand-gold flex-shrink-0">
-                  <Calendar size={20} className="md:w-6 md:h-6" />
-                </div>
-                <div>
-                  <p className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-ink/40 mb-1">{t('events.details.date')}</p>
-                  <p className="text-sm md:text-base font-medium">{new Date(event.date).toLocaleDateString(t('common.locale'), { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4 p-5 md:p-6 bg-brand-sand/20 rounded-2xl md:rounded-3xl border border-brand-ink/5 hover:bg-brand-sand/40 transition-colors">
-                <div className="bg-white p-3 rounded-xl md:rounded-2xl shadow-sm text-brand-gold flex-shrink-0">
-                  <Clock size={20} className="md:w-6 md:h-6" />
-                </div>
-                <div>
-                  <p className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-ink/40 mb-1">{t('events.details.time')}</p>
-                  <p className="text-sm md:text-base font-medium">{event.time || t('events.tba')}</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4 p-5 md:p-6 bg-brand-sand/20 rounded-2xl md:rounded-3xl sm:col-span-2 border border-brand-ink/5 hover:bg-brand-sand/40 transition-colors">
-                <div className="bg-white p-3 rounded-xl md:rounded-2xl shadow-sm text-brand-gold flex-shrink-0">
-                  <MapPin size={20} className="md:w-6 md:h-6" />
-                </div>
-                <div>
-                  <p className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-ink/40 mb-1">{t('events.details.location')}</p>
-                  <p className="text-sm md:text-base font-medium">{dLocation || t('events.vienna')}</p>
-                </div>
-              </div>
             </div>
 
             {event.whatsIncluded && event.whatsIncluded.length > 0 && (

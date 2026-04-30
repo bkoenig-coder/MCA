@@ -41,7 +41,8 @@ export default function AdminDashboard() {
     price: 0, 
     capacity: 0,
     imageUrl: '',
-    whatsIncluded: ''
+    whatsIncluded: '',
+    galleryImages: ''
   });
   const [postForm, setPostForm] = useState({ id: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '' });
   const [galleryForm, setGalleryForm] = useState({ id: '', titleEn: '', titleMn: '', titleDe: '', artistEn: '', artistMn: '', artistDe: '', year: '', descriptionEn: '', descriptionMn: '', descriptionDe: '', imageUrl: '', category: '' });
@@ -143,6 +144,7 @@ export default function AdminDashboard() {
         price: Number(eventForm.price) * 100,
         capacity: Number(eventForm.capacity) || 0,
         imageUrl: eventForm.imageUrl,
+        galleryImages: eventForm.galleryImages ? eventForm.galleryImages.split(',').map(s => s.trim()).filter(s => s !== '') : [],
         whatsIncluded: eventForm.whatsIncluded.split(',').map(s => s.trim()).filter(s => s !== ''),
         updatedAt: serverTimestamp(),
       };
@@ -157,7 +159,7 @@ export default function AdminDashboard() {
         toast.success('Event created successfully');
       }
 
-      setEventForm({ id: '', titleEn: '', titleMn: '', titleDe: '', descriptionEn: '', descriptionMn: '', descriptionDe: '', date: '', time: '', location: '', category: '', price: 0, capacity: 0, imageUrl: '', whatsIncluded: '' });
+      setEventForm({ id: '', titleEn: '', titleMn: '', titleDe: '', descriptionEn: '', descriptionMn: '', descriptionDe: '', date: '', time: '', location: '', category: '', price: 0, capacity: 0, imageUrl: '', galleryImages: '', whatsIncluded: '' });
       setIsEditing(false);
     } catch (error) {
       toast.error('Failed to save event');
@@ -280,6 +282,7 @@ export default function AdminDashboard() {
       price: event.price / 100,
       capacity: event.capacity || 0,
       imageUrl: event.imageUrl,
+      galleryImages: Array.isArray(event.galleryImages) ? event.galleryImages.join(', ') : '',
       whatsIncluded: Array.isArray(event.whatsIncluded) ? event.whatsIncluded.join(', ') : ''
     });
     setIsEditing(true);
@@ -663,11 +666,29 @@ export default function AdminDashboard() {
                         placeholder="https://images.unsplash.com/..."
                       />
                     </div>
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Gallery Images (Comma separated URLs)</label>
+                      <textarea 
+                        value={eventForm.galleryImages}
+                        onChange={e => setEventForm({...eventForm, galleryImages: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-24 no-scrollbar"
+                        placeholder="https://images.unsplash.com/..., https://images.unsplash.com/..."
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">What's Included (Comma separated)</label>
+                      <textarea 
+                        value={eventForm.whatsIncluded}
+                        onChange={e => setEventForm({...eventForm, whatsIncluded: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-24 no-scrollbar"
+                        placeholder="e.g. Traditional Lunch, Guided Tour, Exhibition Entry"
+                      />
+                    </div>
                     <div className="flex gap-4">
                       {isEditing && (
                         <button 
                           type="button"
-                          onClick={() => { setIsEditing(false); setEventForm({ id: '', titleEn: '', titleMn: '', titleDe: '', descriptionEn: '', descriptionMn: '', descriptionDe: '', date: '', time: '', location: '', category: '', price: 0, capacity: 0, imageUrl: '', whatsIncluded: '' }); }}
+                          onClick={() => { setIsEditing(false); setEventForm({ id: '', titleEn: '', titleMn: '', titleDe: '', descriptionEn: '', descriptionMn: '', descriptionDe: '', date: '', time: '', location: '', category: '', price: 0, capacity: 0, imageUrl: '', galleryImages: '', whatsIncluded: '' }); }}
                           className="flex-1 bg-brand-paper text-brand-ink py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-sand transition-all"
                         >
                           Cancel
