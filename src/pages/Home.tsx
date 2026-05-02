@@ -5,7 +5,7 @@ import { ArrowRight, Calendar, Palette, Heart, Users, Shield, Sword, Clock, MapP
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../components/MongolianDesign';
-import { db, collection, onSnapshot, query, orderBy, limit, handleFirestoreError, OperationType } from '../firebase';
+import { db, collection, onSnapshot, query, orderBy, limit, where, handleFirestoreError, OperationType } from '../firebase';
 import deutschotekLogo from '../assets/media/deutschoteklogo.jpg';
 import euActiveLogo from '../assets/media/euactivelogo.png';
 import amoxLogo from '../assets/media/amoxlogo.png';
@@ -24,7 +24,8 @@ export default function Home() {
   const [activePopup, setActivePopup] = useState<string | null>(null);
 
   useEffect(() => {
-    const q = query(collection(db, 'events'), orderBy('createdAt', 'desc'), limit(3));
+    const today = new Date().toISOString().split('T')[0];
+    const q = query(collection(db, 'events'), where('date', '>=', today), orderBy('date', 'asc'), limit(3));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setEvents(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       setLoading(false);

@@ -224,106 +224,204 @@ export default function Events() {
               <Loader2 className="animate-spin text-brand-gold" size={48} />
             </div>
           ) : (
-            <div className="space-y-8 md:space-y-12">
-              {events.map((event, idx) => {
-                const lang = i18n.language;
-                const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : (event.titleEn || event.title);
-                const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : (event.descriptionEn || event.description);
-                const dLocation = lang === 'mn' ? (event.locationMn || event.location) : lang === 'de' ? (event.locationDe || event.location) : (event.locationEn || event.location);
-                const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : (event.categoryEn || event.category);
+            <div className="space-y-24 md:space-y-40">
+              {/* Upcoming Events */}
+              <div>
+                <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-12">Upcoming Events</h2>
+                <div className="space-y-8 md:space-y-12">
+                  {events.filter(e => new Date(e.date).getTime() >= new Date().setHours(0, 0, 0, 0)).length === 0 ? (
+                    <p className="text-brand-ink/60 font-medium">No upcoming events at the moment.</p>
+                  ) : events.filter(e => new Date(e.date).getTime() >= new Date().setHours(0, 0, 0, 0)).map((event, idx) => {
+                    const lang = i18n.language;
+                    const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : (event.titleEn || event.title);
+                    const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : (event.descriptionEn || event.description);
+                    const dLocation = lang === 'mn' ? (event.locationMn || event.location) : lang === 'de' ? (event.locationDe || event.location) : (event.locationEn || event.location);
+                    const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : (event.categoryEn || event.category);
 
-                return (
-                <motion.div 
-                  key={event.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: idx * 0.05 }}
-                  className="group bg-white rounded-[32px] md:rounded-[48px] overflow-hidden border border-brand-ink/5 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row"
-                >
-                  {/* Image Section */}
-                  <div className="md:w-[40%] relative overflow-hidden aspect-[16/10] md:aspect-auto min-h-[250px] md:min-h-full">
-                    <img 
-                      src={event.imageUrl} 
-                      alt={dTitle} 
-                      className="absolute inset-0 w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-brand-ink/10 group-hover:bg-transparent transition-colors duration-700" />
-                  </div>
-                  
-                  {/* Content Section */}
-                  <div className="md:w-[60%] p-8 md:p-12 flex flex-col justify-center">
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="flex items-center gap-3">
-                        <span className="px-4 py-1.5 bg-brand-paper rounded-full text-[10px] uppercase tracking-widest font-bold text-brand-gold">
-                          {dCat || t('events.defaultCategory')}
-                        </span>
-                        {event.capacity > 0 && (
-                          <span className="px-4 py-1.5 bg-brand-ink/5 rounded-full text-[10px] uppercase tracking-widest font-bold text-brand-ink/60">
-                            {event.registeredCount || 0}/{event.capacity} Spots Filled
+                    return (
+                    <motion.div 
+                      key={event.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: idx * 0.05 }}
+                      className="group bg-white rounded-[32px] md:rounded-[48px] overflow-hidden border border-brand-ink/5 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row"
+                    >
+                      {/* Image Section */}
+                      <div className="md:w-[40%] relative overflow-hidden aspect-[16/10] md:aspect-auto min-h-[250px] md:min-h-full">
+                        <img 
+                          src={event.imageUrl} 
+                          alt={dTitle} 
+                          className="absolute inset-0 w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
+                          referrerPolicy="no-referrer"
+                        />
+                        <div className="absolute inset-0 bg-brand-ink/10 group-hover:bg-transparent transition-colors duration-700" />
+                      </div>
+                      
+                      {/* Content Section */}
+                      <div className="md:w-[60%] p-8 md:p-12 flex flex-col justify-center">
+                        <div className="flex items-center justify-between mb-6">
+                          <div className="flex items-center gap-3">
+                            <span className="px-4 py-1.5 bg-brand-paper rounded-full text-[10px] uppercase tracking-widest font-bold text-brand-gold">
+                              {dCat || t('events.defaultCategory')}
+                            </span>
+                            {event.capacity > 0 && (
+                              <span className="px-4 py-1.5 bg-brand-ink/5 rounded-full text-[10px] uppercase tracking-widest font-bold text-brand-ink/60">
+                                {event.registeredCount || 0}/{event.capacity} Spots Filled
+                              </span>
+                            )}
+                          </div>
+                          <span className="font-serif text-xl text-brand-ink">
+                            {event.price === 0 ? 'Free' : `€${(event.price / 100).toFixed(2)}`}
                           </span>
-                        )}
+                        </div>
+                        
+                        <h3 className="text-3xl md:text-4xl font-serif text-brand-ink mb-4 group-hover:text-brand-gold transition-colors duration-500">
+                          {dTitle}
+                        </h3>
+                        
+                        <p className="text-brand-ink/60 font-light leading-relaxed mb-8 line-clamp-2">
+                          {dDesc}
+                        </p>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+                          <div className="flex items-center gap-3 text-brand-ink/60">
+                            <Calendar size={16} className="text-brand-gold" />
+                            <span className="text-[11px] uppercase tracking-widest font-medium">
+                              {new Date(event.date).toLocaleDateString(t('common.locale'), { day: 'numeric', month: 'short', year: 'numeric' })}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-3 text-brand-ink/60">
+                            <Clock size={16} className="text-brand-gold" />
+                            <span className="text-[11px] uppercase tracking-widest font-medium">
+                              {event.time || t('events.tba')}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-3 text-brand-ink/60">
+                            <MapPin size={16} className="text-brand-gold" />
+                            <span className="text-[11px] uppercase tracking-widest font-medium truncate">
+                              {dLocation || t('events.vienna')}
+                            </span>
+                          </div>
+                        </div>
+                        
+                        <div className="mt-auto flex flex-col sm:flex-row gap-4">
+                          <button 
+                            onClick={() => handleRegister(event)}
+                            disabled={loadingId === event.id || (event.capacity > 0 && (event.registeredCount || 0) >= event.capacity)}
+                            className="flex-1 bg-brand-ink text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-gold transition-all shadow-xl disabled:opacity-50 flex items-center justify-center gap-3"
+                          >
+                            {loadingId === event.id ? (
+                              <Loader2 className="animate-spin" size={14} />
+                            ) : (event.capacity > 0 && (event.registeredCount || 0) >= event.capacity) ? (
+                              <>Sold Out <X size={14} /></>
+                            ) : (
+                              <>{t('events.register')} <ArrowRight size={14} /></>
+                            )}
+                          </button>
+                          <Link 
+                            to={`/events/${event.id}`}
+                            className="flex-1 border border-brand-ink/20 text-brand-ink px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold hover:text-brand-gold transition-all text-center flex items-center justify-center gap-3"
+                          >
+                            {t('events.viewDetails')} <Info size={14} />
+                          </Link>
+                        </div>
                       </div>
-                      <span className="font-serif text-xl text-brand-ink">
-                        {event.price === 0 ? 'Free' : `€${(event.price / 100).toFixed(2)}`}
-                      </span>
-                    </div>
-                    
-                    <h3 className="text-3xl md:text-4xl font-serif text-brand-ink mb-4 group-hover:text-brand-gold transition-colors duration-500">
-                      {dTitle}
-                    </h3>
-                    
-                    <p className="text-brand-ink/60 font-light leading-relaxed mb-8 line-clamp-2">
-                      {dDesc}
-                    </p>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-                      <div className="flex items-center gap-3 text-brand-ink/60">
-                        <Calendar size={16} className="text-brand-gold" />
-                        <span className="text-[11px] uppercase tracking-widest font-medium">
-                          {new Date(event.date).toLocaleDateString(t('common.locale'), { day: 'numeric', month: 'short', year: 'numeric' })}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-3 text-brand-ink/60">
-                        <Clock size={16} className="text-brand-gold" />
-                        <span className="text-[11px] uppercase tracking-widest font-medium">
-                          {event.time || t('events.tba')}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-3 text-brand-ink/60">
-                        <MapPin size={16} className="text-brand-gold" />
-                        <span className="text-[11px] uppercase tracking-widest font-medium truncate">
-                          {dLocation || t('events.vienna')}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <div className="mt-auto flex flex-col sm:flex-row gap-4">
-                      <button 
-                        onClick={() => handleRegister(event)}
-                        disabled={loadingId === event.id || (event.capacity > 0 && (event.registeredCount || 0) >= event.capacity)}
-                        className="flex-1 bg-brand-ink text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-gold transition-all shadow-xl disabled:opacity-50 flex items-center justify-center gap-3"
+                    </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Past Events */}
+              {events.filter(e => new Date(e.date).getTime() < new Date().setHours(0, 0, 0, 0)).length > 0 && (
+                <div>
+                  <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-12">Past Events</h2>
+                  <div className="space-y-8 md:space-y-12">
+                    {events.filter(e => new Date(e.date).getTime() < new Date().setHours(0, 0, 0, 0)).map((event, idx) => {
+                      const lang = i18n.language;
+                      const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : (event.titleEn || event.title);
+                      const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : (event.descriptionEn || event.description);
+                      const dLocation = lang === 'mn' ? (event.locationMn || event.location) : lang === 'de' ? (event.locationDe || event.location) : (event.locationEn || event.location);
+                      const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : (event.categoryEn || event.category);
+
+                      return (
+                      <motion.div 
+                        key={event.id}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, delay: idx * 0.05 }}
+                        className="group bg-white rounded-[32px] md:rounded-[48px] overflow-hidden border border-brand-ink/5 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row opacity-80"
                       >
-                        {loadingId === event.id ? (
-                          <Loader2 className="animate-spin" size={14} />
-                        ) : (event.capacity > 0 && (event.registeredCount || 0) >= event.capacity) ? (
-                          <>Sold Out <X size={14} /></>
-                        ) : (
-                          <>{t('events.register')} <ArrowRight size={14} /></>
-                        )}
-                      </button>
-                      <Link 
-                        to={`/events/${event.id}`}
-                        className="flex-1 border border-brand-ink/20 text-brand-ink px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold hover:text-brand-gold transition-all text-center flex items-center justify-center gap-3"
-                      >
-                        {t('events.viewDetails')} <Info size={14} />
-                      </Link>
-                    </div>
+                        {/* Image Section */}
+                        <div className="md:w-[40%] relative overflow-hidden aspect-[16/10] md:aspect-auto min-h-[250px] md:min-h-full grayscale-[30%]">
+                          <img 
+                            src={event.imageUrl} 
+                            alt={dTitle} 
+                            className="absolute inset-0 w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
+                            referrerPolicy="no-referrer"
+                          />
+                          <div className="absolute inset-0 bg-brand-ink/10 group-hover:bg-transparent transition-colors duration-700" />
+                        </div>
+                        
+                        {/* Content Section */}
+                        <div className="md:w-[60%] p-8 md:p-12 flex flex-col justify-center">
+                          <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-3">
+                              <span className="px-4 py-1.5 bg-brand-paper rounded-full text-[10px] uppercase tracking-widest font-bold text-brand-gold">
+                                {dCat || t('events.defaultCategory')}
+                              </span>
+                            </div>
+                            <span className="font-serif text-[10px] uppercase tracking-widest font-bold text-brand-ink/40">
+                              Completed
+                            </span>
+                          </div>
+                          
+                          <h3 className="text-3xl md:text-4xl font-serif text-brand-ink mb-4 group-hover:text-brand-gold transition-colors duration-500">
+                            {dTitle}
+                          </h3>
+                          
+                          <p className="text-brand-ink/60 font-light leading-relaxed mb-8 line-clamp-2">
+                            {dDesc}
+                          </p>
+                          
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+                            <div className="flex items-center gap-3 text-brand-ink/60">
+                              <Calendar size={16} className="text-brand-gold border border-brand-gold rounded-full p-0.5" />
+                              <span className="text-[11px] uppercase tracking-widest font-medium">
+                                {new Date(event.date).toLocaleDateString(t('common.locale'), { day: 'numeric', month: 'short', year: 'numeric' })}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-3 text-brand-ink/60">
+                              <Clock size={16} className="text-brand-gold border border-brand-gold rounded-full p-0.5" />
+                              <span className="text-[11px] uppercase tracking-widest font-medium">
+                                {event.time || t('events.tba')}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-3 text-brand-ink/60">
+                              <MapPin size={16} className="text-brand-gold border border-brand-gold rounded-full p-0.5" />
+                              <span className="text-[11px] uppercase tracking-widest font-medium truncate">
+                                {dLocation || t('events.vienna')}
+                              </span>
+                            </div>
+                          </div>
+                          
+                          <div className="mt-auto flex flex-col sm:flex-row gap-4">
+                            <Link 
+                              to={`/events/${event.id}`}
+                              className="w-full bg-brand-sand/50 text-brand-ink px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-sand transition-all text-center flex items-center justify-center gap-3"
+                            >
+                              View Event Details & Photos <ArrowRight size={14} />
+                            </Link>
+                          </div>
+                        </div>
+                      </motion.div>
+                      );
+                    })}
                   </div>
-                </motion.div>
-                );
-              })}
+                </div>
+              )}
             </div>
           )}
         </div>

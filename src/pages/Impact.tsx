@@ -85,10 +85,9 @@ export default function Impact() {
   };
 
   const stats = [
-    { label: t('impact.stats.events'), value: "150+", icon: <Globe className="w-6 h-6" /> },
+    { label: t('impact.stats.events'), value: "3+", icon: <Globe className="w-6 h-6" /> },
     { label: t('impact.stats.members'), value: "5,000+", icon: <Heart className="w-6 h-6" /> },
-    { label: t('impact.stats.scholarships'), value: "25", icon: <ShieldCheck className="w-6 h-6" /> },
-    { label: t('impact.stats.partnerships'), value: "40+", icon: <TrendingUp className="w-6 h-6" /> }
+    { label: t('impact.stats.partnerships'), value: "+5", icon: <TrendingUp className="w-6 h-6" /> }
   ];
 
   const initiatives = [
@@ -239,60 +238,6 @@ export default function Impact() {
         </div>
       </section>
 
-      {/* Stats Bento Grid */}
-      <section className="py-24 md:py-40 px-6 bg-brand-paper relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent" />
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-16 md:mb-24">
-            <div className="inline-flex items-center gap-3 mb-6">
-              <div className="h-px w-8 bg-brand-gold/40" />
-              <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-gold">{t('impact.tag')}</span>
-              <div className="h-px w-8 bg-brand-gold/40" />
-            </div>
-            <h2 className="text-4xl md:text-6xl font-serif text-brand-ink tracking-tight">{t('impact.totalImpact')}</h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {stats.map((stat, idx) => {
-              const bentoClasses = [
-                "md:col-span-2 bg-brand-ink text-white",
-                "bg-brand-gold text-brand-ink",
-                "bg-brand-paper text-brand-ink border border-brand-ink/10 shadow-xl shadow-brand-ink/5",
-                "md:col-span-2 bg-white text-brand-ink border border-brand-ink/10 shadow-xl shadow-brand-ink/5"
-              ];
-              const iconColors = [
-                "text-brand-gold",
-                "text-brand-ink",
-                "text-brand-gold",
-                "text-brand-gold"
-              ];
-              
-              return (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
-                  className={`p-10 md:p-12 rounded-[40px] group relative overflow-hidden transition-transform duration-500 hover:-translate-y-2 ${bentoClasses[idx % 4]}`}
-                >
-                  <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity duration-500 transform group-hover:scale-110 group-hover:rotate-12">
-                    {stat.icon}
-                  </div>
-                  <div className={`mb-8 md:mb-12 relative z-10 ${iconColors[idx % 4]}`}>
-                    {stat.icon}
-                  </div>
-                  <div className="mt-auto relative z-10">
-                    <div className="text-5xl md:text-7xl font-serif mb-4 tracking-tight">{stat.value}</div>
-                    <div className="text-xs md:text-sm uppercase tracking-[0.2em] font-bold opacity-70">{stat.label}</div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       {/* Initiatives */}
       <section className="py-24 md:py-40 px-6 bg-white relative overflow-hidden">
         {/* Background Symbol */}
@@ -349,6 +294,58 @@ export default function Impact() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Bento Grid */}
+      <section className="py-24 md:py-40 px-6 bg-brand-paper relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-gold/20 to-transparent" />
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-16 md:mb-24">
+            <div className="inline-flex items-center gap-3 mb-6">
+              <div className="h-px w-8 bg-brand-gold/40" />
+              <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-gold">{t('impact.tag')}</span>
+              <div className="h-px w-8 bg-brand-gold/40" />
+            </div>
+            <h2 className="text-4xl md:text-6xl font-serif text-brand-ink tracking-tight">{t('impact.totalImpact')}</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            {stats.map((stat, idx) => {
+              const bentoClasses = [
+                "md:col-span-2 bg-brand-ink text-white",
+                "bg-brand-gold text-brand-ink",
+                "md:col-span-3 bg-brand-paper text-brand-ink border border-brand-ink/10 shadow-xl shadow-brand-ink/5"
+              ];
+              const iconColors = [
+                "text-brand-gold",
+                "text-brand-ink",
+                "text-brand-gold"
+              ];
+              
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
+                  className={`p-10 md:p-12 rounded-[40px] group relative overflow-hidden transition-transform duration-500 hover:-translate-y-2 ${bentoClasses[idx % 3]}`}
+                >
+                  <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity duration-500 transform group-hover:scale-110 group-hover:rotate-12">
+                    {stat.icon}
+                  </div>
+                  <div className={`mb-8 md:mb-12 relative z-10 ${iconColors[idx % 4]}`}>
+                    {stat.icon}
+                  </div>
+                  <div className="mt-auto relative z-10">
+                    <div className="text-5xl md:text-7xl font-serif mb-4 tracking-tight">{stat.value}</div>
+                    <div className="text-xs md:text-sm uppercase tracking-[0.2em] font-bold opacity-70">{stat.label}</div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
