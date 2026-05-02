@@ -38,7 +38,7 @@ const resources = {
         tag: 'Vienna • Austria',
         title: 'Bridging Cultures,',
         titleItalic: 'Building Community',
-        subtitle: 'Welcome to the official platform of the Mongolian Center in Vienna. We are a Non-Governmental Organization dedicated to preserving our cultural heritage and fostering strong community ties in Austria. Through this website, you can explore our ongoing initiatives, view the schedule of upcoming cultural events, complete your registrations online, and stay updated with our latest news, projects, and organizational developments.',
+        subtitle: 'Welcome to the platform of the Mongolian Center in Vienna (in formation). We are an initiative currently working toward the establishment of a Verein, with the goal of preserving our cultural heritage and fostering strong community connections in Austria. Through this website, you can explore our planned initiatives, learn about upcoming events, and follow the development of our project.',
         ctaEvents: 'Explore Events',
         ctaImpact: 'Our Mission',
         ctaStory: 'Our Heritage',
@@ -273,7 +273,7 @@ const resources = {
         }
       },
       footer: {
-        desc: 'The Mongolian Center in Austria is a non-governmental organization dedicated to bilateral cultural diplomacy, strategic community engagement, and the preservation of Mongolian heritage through high-leverage partnerships.',
+        desc: 'The Mongolian Center in Austria (in formation) is a non-governmental organization dedicated to bilateral cultural diplomacy, strategic community engagement, and the preservation of Mongolian heritage through high-leverage partnerships.',
         navTitle: 'Navigation',
         legalTitle: 'Legal',
         privacy: 'Privacy Policy',
@@ -378,7 +378,7 @@ const resources = {
         tag: 'Wien • Österreich',
         title: 'Kulturen verbinden,',
         titleItalic: 'Gemeinschaft leben',
-        subtitle: 'Willkommen auf der offiziellen Plattform des Mongolischen Zentrums in Wien. Wir sind eine Nichtregierungsorganisation (NGO), die sich der Bewahrung unseres kulturellen Erbes sowie der Förderung starker Gemeinschaftsbindungen in Österreich widmet. Über diese Website können Sie unsere laufenden Initiativen erkunden, den Zeitplan kommender kultureller Veranstaltungen einsehen, sich online registrieren und sich über unsere neuesten Nachrichten, Projekte und organisatorischen Entwicklungen auf dem Laufenden halten.',
+        subtitle: 'Willkommen auf der offiziellen Plattform des Mongolischen Zentrums in Wien(in Gründung). Wir sind eine Initiative, die derzeit an der Gründung eines Vereins arbeitet, mit dem Ziel, unser kulturelles Erbe zu bewahren und starke Gemeinschaftsbindungen in Österreich zu fördern. Über diese Website können Sie mehr über unsere geplanten Initiativen erfahren, sich über kommende Veranstaltungen informieren und die Entwicklung unseres Projekts verfolgen.',
         ctaEvents: 'Veranstaltungen',
         ctaImpact: 'Unsere Mission',
         ctaStory: 'Unsere Geschichte',
@@ -613,7 +613,7 @@ const resources = {
         }
       },
       footer: {
-        desc: 'Das Mongolische Kulturzentrum Wien ist eine Nichtregierungsorganisation, die sich der bilateralen Kulturdiplomatie, dem strategischen Engagement der Gemeinschaft und der Bewahrung des mongolischen Erbes durch hochkarätige Partnerschaften widmet.',
+        desc: 'Das Mongolische Kulturzentrum Wien (in Gründung) ist eine Initiative, die sich der bilateralen Kulturdiplomatie, dem strategischen Engagement der Gemeinschaft und der Bewahrung des mongolischen Erbes durch den Aufbau hochwertiger Partnerschaften widmet.',
         navTitle: 'Navigation',
         legalTitle: 'Rechtliches',
         privacy: 'Datenschutzerklärung',

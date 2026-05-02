@@ -1131,6 +1131,7 @@ export default function AdminDashboard() {
                       <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Contact Info</th>
                       <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Status</th>
                       <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Registration Date</th>
+                      <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Action</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-brand-ink/5">
@@ -1170,6 +1171,15 @@ export default function AdminDashboard() {
                         </td>
                         <td className="px-10 py-8 text-brand-ink/40 text-[10px] font-bold uppercase tracking-widest">
                           {reg.createdAt?.toDate().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                        </td>
+                        <td className="px-10 py-8">
+                          <button 
+                            onClick={() => { setItemToDelete({ id: reg.id, collection: 'registrations' }); setIsDeleteModalOpen(true); }}
+                            className="w-10 h-10 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/40 hover:text-red-500 hover:border-red-500 hover:bg-red-50 transition-all group"
+                            title="Delete Registration"
+                          >
+                            <Trash2 size={16} className="group-hover:scale-110 transition-transform" />
+                          </button>
                         </td>
                       </tr>
                     ))}
