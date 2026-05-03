@@ -299,6 +299,22 @@ export default function EventDetails() {
                 </div>
               </div>
 
+              <div className="mb-10 pb-10 border-b border-brand-ink/5 flex flex-col sm:flex-row items-center justify-between gap-8">
+                <div className="text-center sm:text-left">
+                  <p className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-ink/40 mb-1">{t('events.details.fee')}</p>
+                  <p className="text-3xl md:text-4xl font-serif font-bold text-brand-gold">
+                    {event.price === 0 ? 'Free' : `€${(event.price / 100).toFixed(2)}`}
+                  </p>
+                </div>
+                <button
+                  onClick={handleRegister}
+                  disabled={registering || (event.capacity > 0 && (event.registeredCount || 0) >= event.capacity)}
+                  className="w-full sm:w-auto bg-brand-ink text-white px-12 py-5 rounded-2xl font-bold hover:bg-brand-gold transition-all flex items-center justify-center gap-3 disabled:opacity-50 shadow-xl shadow-brand-ink/20"
+                >
+                  {registering ? <Loader2 className="animate-spin" size={24} /> : (event.capacity > 0 && (event.registeredCount || 0) >= event.capacity) ? 'Sold Out' : t('events.details.cta')}
+                </button>
+              </div>
+
               <p className="text-xl md:text-2xl text-brand-ink/70 leading-relaxed font-light whitespace-pre-wrap">
                 {dDesc}
               </p>
@@ -321,21 +337,7 @@ export default function EventDetails() {
               </div>
             )}
 
-            <div className="mt-auto pt-10 md:pt-12 border-t border-brand-ink/5 flex flex-col sm:flex-row items-center justify-between gap-8">
-              <div className="text-center sm:text-left">
-                <p className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-brand-ink/40 mb-1">{t('events.details.fee')}</p>
-                <p className="text-3xl md:text-4xl font-serif font-bold text-brand-gold">
-                  {event.price === 0 ? 'Free' : `€${(event.price / 100).toFixed(2)}`}
-                </p>
-              </div>
-              <button
-                onClick={handleRegister}
-                disabled={registering || (event.capacity > 0 && (event.registeredCount || 0) >= event.capacity)}
-                className="w-full sm:w-auto bg-brand-ink text-white px-12 py-5 rounded-2xl font-bold hover:bg-brand-gold transition-all flex items-center justify-center gap-3 disabled:opacity-50 shadow-xl shadow-brand-ink/20"
-              >
-                {registering ? <Loader2 className="animate-spin" size={24} /> : (event.capacity > 0 && (event.registeredCount || 0) >= event.capacity) ? 'Sold Out' : t('events.details.cta')}
-              </button>
-            </div>
+
           </motion.div>
         </div>
 
