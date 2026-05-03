@@ -285,11 +285,10 @@ service cloud.firestore {
     }
 
     match /registrations/{regId} {
-      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow create: if isAuthenticated() && 
-                       isValidRegistration(request.resource.data) && 
-                       request.resource.data.userId == request.auth.uid;
-      allow update: if (isAdmin() || (isAuthenticated() && resource.data.userId == request.auth.uid)) && 
+      allow read: if (isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin())) || resource.data.userId == 'guest';
+      allow create: if isValidRegistration(request.resource.data) && 
+                       ((isAuthenticated() && request.resource.data.userId == request.auth.uid) || request.resource.data.userId == 'guest');
+      allow update: if (isAdmin() || (isAuthenticated() && resource.data.userId == request.auth.uid) || resource.data.userId == 'guest') && 
                        isValidRegistration(request.resource.data) &&
                        areImmutableFieldsUnchanged(['eventId', 'userId', 'createdAt']) &&
                        (isAdmin() || (

@@ -43,51 +43,49 @@ export default function EventDetails() {
   }, [id]);
 
   const handleRegister = async () => {
-    if (!user) {
-      try {
-        await signInWithGoogle();
-      } catch (err) {
-        setError(t('common.error.signIn'));
-      }
-      return;
-    }
-
-    if (event.price === 0) {
-      setRegistrationForm({ ...registrationForm, name: user.displayName || '', email: user.email || '' });
-      setShowRegistrationModal(true);
-      return;
-    }
-
-    setRegistering(true);
-    try {
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          eventId: event.id,
-          eventTitle: event.title,
-          price: event.price,
-          userId: user.uid,
-          userEmail: user.email,
-        }),
-      });
-
-      const data = await response.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        throw new Error(data.error || t('common.error.checkout'));
-      }
-    } catch (err: any) {
-      setError(err.message || t('common.error.unexpected'));
-    } finally {
-      setRegistering(false);
-    }
+    setRegistrationForm({ ...registrationForm, name: user?.displayName || '', email: user?.email || '' });
+    setShowRegistrationModal(true);
   };
 
-  const submitFreeRegistration = async (e: React.FormEvent) => {
+  const submitRegistration = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !event) return;
+    if (!event) return;
+
+    if (event.price > 0) {
+       setRegistering(true);
+       try {
+          localStorage.setItem('guest_registration', JSON.stringify({
+            name: registrationForm.name,
+            email: registrationForm.email,
+            phone: registrationForm.phone,
+            notes: registrationForm.notes,
+          }));
+
+          const response = await fetch('/api/create-checkout-session', {
+             method: 'POST',
+             headers: { 'Content-Type': 'application/json' },
+             body: JSON.stringify({
+                eventId: event.id,
+                eventTitle: event.title,
+                price: event.price,
+                userId: user ? user.uid : 'guest',
+                userEmail: registrationForm.email,
+             })
+          });
+          const data = await response.json();
+          if (data.url) {
+             window.location.href = data.url;
+          } else {
+             throw new Error(data.error || t('common.error.checkout'));
+          }
+       } catch (err: any) {
+          setError(err.message || t('common.error.unexpected'));
+       } finally {
+          setRegistering(false);
+          setShowRegistrationModal(false);
+       }
+       return;
+    }
 
     setIsRegisteringFree(true);
     try {
@@ -97,8 +95,8 @@ export default function EventDetails() {
       batch.set(regRef, {
         eventId: event.id,
         eventTitle: event.title,
-        userId: user.uid,
-        userEmail: user.email,
+        userId: user ? user.uid : 'guest',
+        userEmail: registrationForm.email,
         name: registrationForm.name,
         email: registrationForm.email,
         phone: registrationForm.phone,
@@ -389,13 +387,13 @@ export default function EventDetails() {
                 <>
                   <div className="mb-8">
                     <span className="inline-block px-3 py-1 bg-brand-gold/10 text-brand-gold rounded-full text-[10px] uppercase tracking-widest font-bold mb-4">
-                      Free Event Registration
+                      {event.price === 0 ? 'Free Event Registration' : 'Event Registration'}
                     </span>
                     <h3 className="text-3xl font-serif text-brand-ink mb-2">{event.title}</h3>
                     <p className="text-brand-ink/60 text-sm">Please provide your details to secure your spot.</p>
                   </div>
 
-                  <form onSubmit={submitFreeRegistration} className="space-y-5">
+                  <form onSubmit={submitRegistration} className="space-y-5">
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Full Name</label>
                       <input 

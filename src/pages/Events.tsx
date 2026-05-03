@@ -27,28 +27,40 @@ export default function Events() {
       const isSuccess = searchParams.get('success') === 'true';
       const eventId = searchParams.get('event_id');
       
-      if (isSuccess && eventId && user) {
+      const guestDataRaw = localStorage.getItem('guest_registration');
+      const guestData = guestDataRaw ? JSON.parse(guestDataRaw) : { name: 'Guest', email: 'guest@example.com' };
+      
+      if (isSuccess && eventId) {
         try {
+          const uid = user ? user.uid : 'guest';
+          const email = user ? user.email : guestData.email;
+          const name = user ? user.displayName : guestData.name;
+
           // Check if already registered
-          const q = query(collection(db, 'registrations'), where('eventId', '==', eventId), where('userId', '==', user.uid));
-          const snapshot = await getDocs(q);
+          let isAlreadyRegistered = false;
+          if (uid !== 'guest') {
+             const q = query(collection(db, 'registrations'), where('eventId', '==', eventId), where('userId', '==', uid));
+             const snapshot = await getDocs(q);
+             isAlreadyRegistered = !snapshot.empty;
+          }
           
-          if (snapshot.empty) {
+          if (!isAlreadyRegistered) {
             // Find event details
             const event = events.find(e => e.id === eventId);
             if (event) {
+              setSelectedEvent(event);
               const batch = writeBatch(db);
               
               const regRef = doc(collection(db, 'registrations'));
               batch.set(regRef, {
                 eventId: event.id,
                 eventTitle: event.title,
-                userId: user.uid,
-                userEmail: user.email,
-                name: user.displayName || '',
-                email: user.email || '',
-                phone: '',
-                notes: '',
+                userId: uid,
+                userEmail: email || '',
+                name: name || '',
+                email: email || '',
+                phone: guestData.phone || '',
+                notes: guestData.notes || '',
                 status: 'paid',
                 amount: event.price,
                 createdAt: serverTimestamp(),
@@ -61,12 +73,21 @@ export default function Events() {
 
               await batch.commit();
             }
+          } else {
+             const event = events.find(e => e.id === eventId);
+             if (event) setSelectedEvent(event);
           }
           
           // Clear URL params
           setSearchParams({});
+          setShowRegistrationModal(true);
           setRegistrationSuccess(true);
-          setTimeout(() => setRegistrationSuccess(false), 5000);
+          localStorage.removeItem('guest_registration');
+          setTimeout(() => {
+             setRegistrationSuccess(false);
+             setShowRegistrationModal(false);
+             setSelectedEvent(null);
+          }, 5000);
         } catch (error) {
           console.error("Error processing successful registration:", error);
         }
@@ -92,60 +113,60 @@ export default function Events() {
 
   const handleRegister = async (event: any) => {
     setError(null);
-    if (!user) {
-      try {
-        await signInWithGoogle();
-      } catch (err) {
-        setError(t('common.error.signIn'));
-      }
-      return;
-    }
-
-    if (event.price === 0) {
-      setSelectedEvent(event);
-      setRegistrationForm({ ...registrationForm, name: user.displayName || '', email: user.email || '' });
-      setShowRegistrationModal(true);
-      return;
-    }
-
-    setLoadingId(event.id);
-    
-    try {
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          eventId: event.id,
-          eventTitle: event.title,
-          price: event.price,
-          userId: user.uid,
-          userEmail: user.email,
-        }),
-      });
-
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.error || t('common.error.server'));
-      }
-
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        throw new Error(t('common.error.checkout'));
-      }
-    } catch (err: any) {
-      setError(err.message || t('common.error.unexpected'));
-    } finally {
-      setLoadingId(null);
-    }
+    setSelectedEvent(event);
+    setRegistrationForm({ ...registrationForm, name: user?.displayName || '', email: user?.email || '' });
+    setShowRegistrationModal(true);
   };
 
-  const submitFreeRegistration = async (e: React.FormEvent) => {
+  const submitRegistration = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !selectedEvent) return;
+    if (!selectedEvent) return;
+
+    if (selectedEvent.price > 0) {
+      setLoadingId(selectedEvent.id);
+      setIsRegistering(true);
+      try {
+        localStorage.setItem('guest_registration', JSON.stringify({
+          name: registrationForm.name,
+          email: registrationForm.email,
+          phone: registrationForm.phone,
+          notes: registrationForm.notes,
+        }));
+
+        const response = await fetch('/api/create-checkout-session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            eventId: selectedEvent.id,
+            eventTitle: selectedEvent.title,
+            price: selectedEvent.price,
+            userId: user ? user.uid : 'guest',
+            userEmail: registrationForm.email,
+          }),
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || t('common.error.server'));
+        }
+
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          throw new Error(t('common.error.checkout'));
+        }
+      } catch (err: any) {
+        setError(err.message || t('common.error.unexpected'));
+      } finally {
+        setLoadingId(null);
+        setIsRegistering(false);
+        setShowRegistrationModal(false);
+      }
+      return;
+    }
 
     setIsRegistering(true);
     try {
@@ -155,8 +176,8 @@ export default function Events() {
       batch.set(regRef, {
         eventId: selectedEvent.id,
         eventTitle: selectedEvent.title,
-        userId: user.uid,
-        userEmail: user.email,
+        userId: user ? user.uid : 'guest',
+        userEmail: registrationForm.email,
         name: registrationForm.name,
         email: registrationForm.email,
         phone: registrationForm.phone,
@@ -488,13 +509,13 @@ export default function Events() {
                 <>
                   <div className="mb-8">
                     <span className="inline-block px-3 py-1 bg-brand-gold/10 text-brand-gold rounded-full text-[10px] uppercase tracking-widest font-bold mb-4">
-                      Free Event Registration
+                      {selectedEvent.price === 0 ? 'Free Event Registration' : 'Event Registration'}
                     </span>
                     <h3 className="text-3xl font-serif text-brand-ink mb-2">{selectedEvent.title}</h3>
                     <p className="text-brand-ink/60 text-sm">Please provide your details to secure your spot.</p>
                   </div>
 
-                  <form onSubmit={submitFreeRegistration} className="space-y-5">
+                  <form onSubmit={submitRegistration} className="space-y-5">
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Full Name</label>
                       <input 
