@@ -228,7 +228,7 @@ export default function Navbar() {
                   <span className={cn(
                     "font-[Arial] font-bold italic text-xl md:text-3xl leading-none tracking-tight uppercase transition-colors duration-300 text-brand-ink no-underline"
                   )}>
-                    {t('nav.mongolian')} <span className="text-[#ffa700] border-[#ff0000]">{t('nav.center')}</span>
+                    {t('nav.mongolian')} <span className="text-[#ffa700]">{t('nav.center')}</span>
                   </span>
                   <span className={cn(
                     "text-[8px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.5em] font-bold mt-1.5 md:mt-2 transition-colors duration-300 text-[#ffbc00] opacity-70"
@@ -342,15 +342,16 @@ export default function Navbar() {
 
             {/* Mobile Logo */}
             <div className="flex justify-center z-50">
-              <Link to="/" className="flex items-center gap-3 group ml-[42px]">
-                <div className="w-12 h-12 border border-[#C5A059]/20 rounded-full flex items-center justify-center bg-white backdrop-blur-sm shadow-sm overflow-hidden p-1">
+              <Link to="/" className="flex items-center gap-3 group lg:hidden">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 border border-[#C5A059]/20 rounded-full flex items-center justify-center bg-white backdrop-blur-sm shadow-sm overflow-hidden p-1 flex-shrink-0">
                   <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain" />
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col items-start justify-center">
                   <span className={cn(
-                    "font-[Arial] font-bold italic text-lg leading-none tracking-tight uppercase transition-colors duration-300 text-brand-ink no-underline"
+                    "font-[Arial] font-bold italic text-[15px] sm:text-lg leading-tight tracking-tight uppercase transition-colors duration-300 text-brand-ink no-underline flex flex-col"
                   )}>
-                    {t('nav.mongolian')} <span className="text-[#ffa700] border-[#ff0000]">{t('nav.center')}</span>
+                    <span>{t('nav.mongolian')}</span>
+                    <span className="text-[#ffa700]">{t('nav.center')}</span>
                   </span>
                 </div>
               </Link>

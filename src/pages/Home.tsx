@@ -51,11 +51,6 @@ export default function Home() {
               <HeroCanvas />
             </Suspense>
           </div>
-          
-          {/* Subtle Mongolian Design Accents blending into dark bg */}
-          <div className="absolute top-40 right-40 opacity-[0.02] rotate-12 pointer-events-none">
-            <UlziiSymbol className="w-[800px] h-[800px] text-brand-gold" />
-          </div>
         </div>
 
         <Overlay activePopup={activePopup} onClose={() => setActivePopup(null)} />
@@ -102,26 +97,19 @@ export default function Home() {
                       opacity: { duration: 0.8 },
                       y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
                     }}
-                    className="relative flex flex-col items-center p-4 py-16 border border-brand-gold/30 bg-slate-800/80 md:bg-slate-800/60 md:backdrop-blur-xl rounded-full shadow-lg md:shadow-xl overflow-hidden min-w-[100px] -mt-[89px] ml-[23px] -mr-[15px] h-[400px]"
+                    className="relative flex flex-col items-center p-4 py-8 border-2 border-brand-gold/50 bg-[#151a25]/90 md:bg-[#151a25]/80 md:backdrop-blur-xl rounded shadow-lg md:shadow-xl overflow-hidden min-w-[100px] -mt-[60px] ml-[23px] -mr-[15px] h-fit min-h-[450px]"
                   >
-                    {/* Subtle Background Pattern */}
-                    <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
-                      <UlziiSymbol className="w-full h-full text-brand-gold scale-150" />
-                    </div>
-
                     <div className="flex flex-col items-center relative z-10">
-                      {/* Top Badge as part of flex flow */}
-                      <div className="w-6 h-6 bg-brand-gold rounded-full flex items-center justify-center text-white text-[10px] shadow-lg z-10 border border-white mb-4">
-                        🇲🇳
-                      </div>
                       
-                      <div className="flex flex-col items-center gap-0.5 mb-4">
-                        <span className="text-[5px] uppercase tracking-[0.3em] text-white/50 font-bold">Est. 2026</span>
-                        <div className="h-10 w-px bg-brand-gold/30" />
+                      <div className="flex flex-col items-center gap-3 mb-4">
+                        <div className="px-3 py-1 border border-brand-gold/40 rounded-sm bg-[#151a25]/90">
+                          <span className="text-[6px] uppercase tracking-[0.4em] text-brand-gold font-bold whitespace-nowrap">Est. 2026</span>
+                        </div>
+                        <div className="h-8 w-px bg-brand-gold/40" />
                       </div>
 
                       <h2 
-                        className="text-4xl md:text-5xl font-serif text-brand-gold text-center tracking-tighter leading-none relative drop-shadow-md"
+                        className="text-6xl md:text-7xl font-serif text-brand-gold text-center tracking-tighter leading-none relative drop-shadow-md"
                         style={{ writingMode: 'vertical-lr' }}
                       >
                         <span className="relative z-10">ᠮᠣᠩᠣᠯ ᠲᠥᠸ</span>
@@ -133,11 +121,11 @@ export default function Home() {
                         />
                       </h2>
 
-                      <div className="h-10 w-px bg-brand-gold/30 mt-4" />
-                      
-                      {/* Bottom Seal as part of flex flow */}
-                      <div className="w-6 h-6 bg-brand-ink rounded-full flex items-center justify-center text-brand-gold text-[10px] shadow-lg border border-brand-gold mt-4">
-                        <UlziiSymbol className="w-3 h-3" />
+                      <div className="flex flex-col items-center gap-3 mt-4">
+                        <div className="h-8 w-px bg-brand-gold/40" />
+                        <div className="px-3 py-1 border-2 border-brand-gold/60 rounded-sm bg-[#151a25]/90">
+                          <span className="text-[8px] uppercase tracking-[0.4em] text-brand-gold font-bold">Official</span>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
@@ -177,7 +165,7 @@ export default function Home() {
                   y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
                   rotateZ: { duration: 10, repeat: Infinity, ease: "easeInOut" }
                 }}
-                className="relative flex flex-col items-center p-10 py-20 border-[1px] border-brand-gold/30 bg-[#151a25]/90 md:bg-slate-800/40 md:backdrop-blur-xl rounded-full shadow-2xl md:shadow-[0_50px_90px_-20px_rgba(0,0,0,0.5)] group overflow-hidden min-w-[280px] h-fit mt-16 pointer-events-auto"
+                className="relative flex flex-col items-center p-10 py-20 border-2 border-brand-gold/60 bg-[#151a25]/90 md:bg-[#151a25]/80 md:backdrop-blur-xl rounded-sm shadow-2xl md:shadow-[0_50px_90px_-20px_rgba(0,0,0,0.5)] group overflow-hidden min-w-[280px] h-fit mt-16 pointer-events-auto"
               >
                 {/* Upgraded Stable Glow Effect */}
                 <motion.div 
@@ -193,7 +181,7 @@ export default function Home() {
                 <motion.div 
                   animate={{ opacity: [0, 0.5, 0] }}
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute inset-0 border-2 border-brand-gold/30 rounded-full pointer-events-none"
+                  className="absolute inset-0 border-4 border-brand-gold/30 rounded-sm pointer-events-none"
                 />
 
                 {/* Dynamic Light Sweep */}
@@ -203,26 +191,14 @@ export default function Home() {
                   className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 pointer-events-none z-10"
                 />
 
-                {/* Subtle Background Pattern */}
-                <div className="absolute inset-0 opacity-[0.04] pointer-events-none group-hover:scale-110 transition-transform duration-[4s]">
-                  <UlziiSymbol className="w-full h-full text-brand-gold" />
-                </div>
-
                 <div className="flex flex-col items-center relative z-10">
-                  {/* Top Badge as part of flex flow */}
-                  <motion.div 
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    className="w-24 h-24 bg-brand-gold rounded-full flex items-center justify-center text-white text-5xl shadow-2xl z-20 border-4 border-white cursor-pointer mb-6"
-                  >
-                    🇲🇳
-                  </motion.div>
                   
                   {/* Horizontal Established Text with Border */}
                   <div className="flex flex-col items-center gap-3 mb-4">
-                    <div className="px-4 py-1.5 border border-brand-gold/20 rounded-md bg-slate-800/80 md:bg-slate-800/50 md:backdrop-blur-sm">
-                      <span className="text-[10px] uppercase tracking-[0.4em] text-white/50 font-bold">Established 2026</span>
+                    <div className="px-4 py-1.5 border border-brand-gold/40 rounded-sm bg-[#151a25]/90">
+                      <span className="text-[10px] uppercase tracking-[0.4em] text-brand-gold font-bold">Established 2026</span>
                     </div>
-                    <div className="h-12 w-px bg-brand-gold/20" />
+                    <div className="h-12 w-px bg-brand-gold/40" />
                   </div>
 
                   {/* Main Vertical Title with Shimmer */}
@@ -244,19 +220,10 @@ export default function Home() {
                   
                   {/* Bottom Accents and Seal */}
                   <div className="flex flex-col items-center gap-5 mt-4">
-                    <div className="h-12 w-px bg-brand-gold/20" />
-                    <div className="px-6 py-2 border border-brand-gold/20 rounded-full bg-white/50">
+                    <div className="h-12 w-px bg-brand-gold/40" />
+                    <div className="px-6 py-2 border-2 border-brand-gold/60 rounded-sm bg-[#151a25]/90">
                       <span className="text-xs uppercase tracking-[0.6em] text-brand-gold font-bold">Official</span>
                     </div>
-                    
-                    {/* Bottom Seal as part of flex flow */}
-                    <motion.div 
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                      className="w-32 h-32 bg-brand-ink rounded-full flex items-center justify-center text-brand-gold shadow-2xl z-20 border-4 border-white mt-5"
-                    >
-                      <UlziiSymbol className="w-16 h-16" />
-                    </motion.div>
                   </div>
                 </div>
 
