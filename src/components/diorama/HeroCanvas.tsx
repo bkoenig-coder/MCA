@@ -6,10 +6,10 @@ export default function HeroCanvas() {
   return (
     <Canvas 
       shadows 
-      dpr={[0.5, 1]} 
+      dpr={[1, 2]} 
       performance={{ min: 0.5 }}
       camera={{ position: [15, 15, 15], fov: 45 }}
-      gl={{ powerPreference: "high-performance", antialias: false, pixelRatio: 1 }}
+      gl={{ powerPreference: "high-performance", antialias: true }}
     >
       <fog attach="fog" args={['#0A1128', 15, 45]} />
       <ambientLight intensity={0.15} />

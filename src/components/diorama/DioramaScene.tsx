@@ -16,7 +16,7 @@ interface DioramaSceneProps {
 }
 
 function InstancedGrass() {
-  const count = 500;
+  const count = 400;
   const meshRef = useRef<THREE.InstancedMesh>(null);
   
   const dummy = useMemo(() => new THREE.Object3D(), []);
@@ -42,13 +42,13 @@ function InstancedGrass() {
   useEffect(() => {
     if (!meshRef.current) return;
     for (let i = 0; i < count; i++) {
-      const r = 11 * Math.sqrt(Math.random());
+      const r = 48 * Math.sqrt(Math.random());
       const theta = Math.random() * 2 * Math.PI;
       const x = r * Math.cos(theta);
       const z = r * Math.sin(theta);
       
       // Avoid dirt paths
-      if (Math.abs(x) < 2 || Math.abs(z) < 2) continue;
+      if (Math.abs(x) < 3 || Math.abs(z) < 3) continue;
       
       dummy.position.set(x, 0.1, z);
       dummy.rotation.set(0, Math.random() * Math.PI, 0);
@@ -81,13 +81,13 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
     <group ref={islandRef}>
       {/* Floating Island Base */}
       <mesh receiveShadow position={[0, -2, 0]}>
-        <cylinderGeometry args={[12, 10, 4, 32]} />
+        <cylinderGeometry args={[50, 46, 4, 12]} />
         <meshStandardMaterial color="#2d3748" roughness={0.9} />
       </mesh>
       
       {/* Grass Top */}
       <mesh receiveShadow position={[0, 0.01, 0]}>
-        <cylinderGeometry args={[12, 12, 0.1, 32]} />
+        <cylinderGeometry args={[50, 50, 0.1, 12]} />
         <meshStandardMaterial color="#1a202c" roughness={0.8} />
       </mesh>
 
@@ -95,11 +95,11 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
 
       {/* Dirt Path */}
       <mesh receiveShadow position={[0, 0.07, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[20, 4]} />
+        <planeGeometry args={[90, 6]} />
         <meshStandardMaterial color="#111111" roughness={1} />
       </mesh>
       <mesh receiveShadow position={[0, 0.07, 0]} rotation={[-Math.PI / 2, 0, Math.PI / 2]}>
-        <planeGeometry args={[20, 4]} />
+        <planeGeometry args={[90, 6]} />
         <meshStandardMaterial color="#111111" roughness={1} />
       </mesh>
 
@@ -121,43 +121,23 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
       </group>
       
       {/* Imperial Court Island (East) */}
-      <group position={[35, 0, 0]} >
+      <group position={[34, 0, 0]} >
         <ImperialZone onSelect={() => onSelect('imperial')} hideLabels={hideLabels} />
-        {/* Connection bridge */}
-        <mesh receiveShadow castShadow position={[-17.5, 0.05, 0]}>
-          <boxGeometry args={[11, 0.2, 4]} />
-          <meshStandardMaterial color="#111111" roughness={0.8} />
-        </mesh>
       </group>
 
       {/* Nomadic Village Island (South) */}
-      <group position={[0, 0, 35]} >
+      <group position={[0, 0, 34]} >
         <NomadicZone onSelect={() => onSelect('nomadic')} hideLabels={hideLabels} />
-        {/* Connection bridge */}
-        <mesh receiveShadow castShadow position={[0, 0.05, -17.5]}>
-          <boxGeometry args={[4, 0.2, 11]} />
-          <meshStandardMaterial color="#111111" roughness={0.9} />
-        </mesh>
       </group>
 
       {/* Sky & Spirits Island (North) */}
-      <group position={[0, 0, -35]} >
+      <group position={[0, 0, -34]} >
         <SpiritZone onSelect={() => onSelect('spirit')} hideLabels={hideLabels} />
-        {/* Connection bridge */}
-        <mesh receiveShadow castShadow position={[0, 0.05, 17.5]}>
-          <boxGeometry args={[4, 0.2, 11]} />
-          <meshStandardMaterial color="#111111" roughness={0.9} />
-        </mesh>
       </group>
 
       {/* Naadam Festival Island (West) */}
-      <group position={[-35, 0, 0]} >
+      <group position={[-34, 0, 0]} >
         <NaadamZone onSelect={() => onSelect('naadam')} hideLabels={hideLabels} />
-        {/* Connection bridge */}
-        <mesh receiveShadow castShadow position={[17.5, 0.05, 0]}>
-          <boxGeometry args={[11, 0.2, 4]} />
-          <meshStandardMaterial color="#111111" roughness={0.9} />
-        </mesh>
       </group>
 
       {/* State Suld - Nine White Banners */}
@@ -378,12 +358,12 @@ function NineWhiteBanners() {
       </mesh>
       {/* Ring & White Horse Hair */}
       <mesh castShadow position={[0, 3, 0]}>
-        <cylinderGeometry args={[0.4, 0.45, 1.2, 16]} />
+        <cylinderGeometry args={[0.4, 0.45, 1.2, 8]} />
         <meshStandardMaterial color="#f8f9fa" roughness={1} />
       </mesh>
       {/* Platform/Tier below the hair */}
       <mesh castShadow position={[0, 3.6, 0]}>
-        <cylinderGeometry args={[0.42, 0.42, 0.05, 16]} />
+        <cylinderGeometry args={[0.42, 0.42, 0.05, 8]} />
         <meshStandardMaterial color="#2d2d2d" metalness={0.8} />
       </mesh>
       {/* Flame on top */}
@@ -412,12 +392,12 @@ function NineWhiteBanners() {
         </mesh>
         {/* Ring & White Horse Hair */}
         <mesh castShadow position={[0, 2.1, 0]}>
-          <cylinderGeometry args={[0.25, 0.28, 0.8, 16]} />
+          <cylinderGeometry args={[0.25, 0.28, 0.8, 8]} />
           <meshStandardMaterial color="#f8f9fa" roughness={1} />
         </mesh>
         {/* Platform top */}
         <mesh castShadow position={[0, 2.5, 0]}>
-          <cylinderGeometry args={[0.27, 0.27, 0.05, 16]} />
+          <cylinderGeometry args={[0.27, 0.27, 0.05, 8]} />
           <meshStandardMaterial color="#2d2d2d" metalness={0.8} />
         </mesh>
         {/* Flame on top */}

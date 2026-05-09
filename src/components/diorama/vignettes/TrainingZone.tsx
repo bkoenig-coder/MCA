@@ -70,7 +70,7 @@ const wrestler1Ref = useRef<THREE.Mesh>(null);
         {/* Surs (Targets) */}
         {[...Array(5)].map((_, i) => (
           <mesh key={i} castShadow position={[-0.6 + i * 0.3, 0.5, 0]} rotation={[Math.PI / 2, 0, 0]}>
-            <cylinderGeometry args={[0.1, 0.1, 0.15, 16]} />
+            <cylinderGeometry args={[0.1, 0.1, 0.15, 8]} />
             <meshStandardMaterial color={i === 2 ? "#c0392b" : "#bdc3c7"} />
           </mesh>
         ))}

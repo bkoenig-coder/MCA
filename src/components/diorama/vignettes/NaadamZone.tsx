@@ -15,19 +15,12 @@ const groupRef = useRef<THREE.Group>(null);
 
   return (
     <group ref={groupRef} onClick={onSelect} onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }} onPointerOut={(e) => { setHovered(false); document.body.style.cursor = 'auto'; }}>
-      {/* Base Platform */}
-      <mesh receiveShadow position={[0, -0.5, 0]}>
-        <cylinderGeometry args={[16, 15.5, 1, 32]} />
-        <meshStandardMaterial color="#2d3748" roughness={0.9} />
-      </mesh>
-      <mesh receiveShadow position={[0, 0.01, 0]}>
-        <cylinderGeometry args={[16, 16, 0.1, 32]} />
-        <meshStandardMaterial color="#1a202c" roughness={0.8} />
-      </mesh>
+      
+      
 
       {/* Festival Ground Center (Arena) */}
       <mesh receiveShadow position={[0, 0.06, 0]}>
-        <cylinderGeometry args={[8, 8, 0.05, 32]} />
+        <cylinderGeometry args={[8, 8, 0.05, 12]} />
         <meshStandardMaterial color="#111111" roughness={0.9} />
       </mesh>
       

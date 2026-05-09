@@ -19,10 +19,10 @@ export default function EasterEgg() {
       }>
         <Canvas 
           shadows 
-          dpr={[0.5, 1]} 
+          dpr={[1, 2]} 
           performance={{ min: 0.5 }}
           camera={{ position: [15, 15, 15], fov: 45 }}
-          gl={{ powerPreference: "high-performance", antialias: false, pixelRatio: 1 }}
+          gl={{ powerPreference: "high-performance", antialias: true }}
         >
           <AudioSetup />
           <color attach="background" args={['#0A1128']} />
@@ -35,7 +35,7 @@ export default function EasterEgg() {
             position={[10, 5, 10]}
             intensity={0.4}
             color="#ffcfaa"
-            shadow-mapSize={[1024, 1024]}
+            shadow-mapSize={[512, 512]}
             shadow-camera-left={-20}
             shadow-camera-right={20}
             shadow-camera-top={20}
@@ -49,7 +49,7 @@ export default function EasterEgg() {
             minPolarAngle={Math.PI / 6} 
             maxPolarAngle={Math.PI / 2.5} 
             minDistance={10}
-            maxDistance={40}
+            maxDistance={120}
             target={[0, 0, 0]}
           />
 

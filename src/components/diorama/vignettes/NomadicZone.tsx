@@ -15,21 +15,14 @@ const groupRef = useRef<THREE.Group>(null);
 
   return (
     <group ref={groupRef} onClick={onSelect} onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }} onPointerOut={(e) => { setHovered(false); document.body.style.cursor = 'auto'; }}>
-      {/* Base Platform */}
-      <mesh receiveShadow position={[0, -0.5, 0]}>
-        <cylinderGeometry args={[15, 14.5, 1, 32]} />
-        <meshStandardMaterial color="#2d3748" roughness={0.9} />
-      </mesh>
+      
       
       {/* Grass Top */}
-      <mesh receiveShadow position={[0, 0.01, 0]}>
-        <cylinderGeometry args={[15, 15, 0.1, 32]} />
-        <meshStandardMaterial color="#1a202c" roughness={0.8} />
-      </mesh>
+      
 
       {/* Dirt path through village */}
       <mesh receiveShadow position={[0, 0.06, 0]}>
-        <cylinderGeometry args={[8, 8, 0.05, 32]} />
+        <cylinderGeometry args={[8, 8, 0.05, 12]} />
         <meshStandardMaterial color="#111111" roughness={0.9} />
       </mesh>
 
@@ -86,17 +79,17 @@ function VillageGer({ position }: { position: [number, number, number] }) {
     <group position={position}>
       {/* Ger Walls */}
       <mesh castShadow receiveShadow position={[0, 1, 0]}>
-        <cylinderGeometry args={[2.5, 2.5, 2, 16]} />
+        <cylinderGeometry args={[2.5, 2.5, 2, 8]} />
         <meshStandardMaterial color="#f5f6fa" roughness={0.9} />
       </mesh>
       {/* Roof */}
       <mesh castShadow receiveShadow position={[0, 2.5, 0]}>
-        <coneGeometry args={[2.7, 1.2, 16]} />
+        <coneGeometry args={[2.7, 1.2, 8]} />
         <meshStandardMaterial color="#f5f6fa" roughness={0.9} />
       </mesh>
       {/* Toono */}
       <mesh position={[0, 3.15, 0]}>
-        <cylinderGeometry args={[0.5, 0.5, 0.1, 16]} />
+        <cylinderGeometry args={[0.5, 0.5, 0.1, 8]} />
         <meshStandardMaterial color="#e1b12c" />
       </mesh>
       {/* Door */}
@@ -130,7 +123,7 @@ function Campfire() {
     <group>
       {/* Stones */}
       <mesh castShadow receiveShadow position={[0, 0.1, 0]}>
-         <torusGeometry args={[0.6, 0.1, 8, 16]} />
+         <torusGeometry args={[0.6, 0.1, 8, 8]} />
          <meshStandardMaterial color="#7f8fa6" />
       </mesh>
       {/* Wood */}
@@ -167,12 +160,12 @@ function Person({ position, rotation, color, scale = 1 }: { position: [number, n
     <group position={position} rotation={rotation} scale={[scale, scale, scale]}>
       {/* Sitting Body */}
       <mesh castShadow position={[0, 0.4, 0]}>
-         <cylinderGeometry args={[0.3, 0.4, 0.8, 16]} />
+         <cylinderGeometry args={[0.3, 0.4, 0.8, 8]} />
          <meshStandardMaterial color={color} />
       </mesh>
       {/* Head */}
       <mesh castShadow position={[0, 1, 0]}>
-         <sphereGeometry args={[0.25, 16, 16]} />
+         <sphereGeometry args={[0.25, 16, 8]} />
          <meshStandardMaterial color="#f5cd79" />
       </mesh>
     </group>
@@ -291,19 +284,19 @@ function StorageCart({ position }: { position: [number, number, number] }) {
       </mesh>
       {/* Wheels */}
       <mesh castShadow position={[-0.6, 0.5, 0.7]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.5, 0.5, 0.1, 16]} />
+        <cylinderGeometry args={[0.5, 0.5, 0.1, 8]} />
         <meshStandardMaterial color="#303952" />
       </mesh>
       <mesh castShadow position={[0.6, 0.5, 0.7]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.5, 0.5, 0.1, 16]} />
+        <cylinderGeometry args={[0.5, 0.5, 0.1, 8]} />
         <meshStandardMaterial color="#303952" />
       </mesh>
       <mesh castShadow position={[-0.6, 0.5, -0.7]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.5, 0.5, 0.1, 16]} />
+        <cylinderGeometry args={[0.5, 0.5, 0.1, 8]} />
         <meshStandardMaterial color="#303952" />
       </mesh>
       <mesh castShadow position={[0.6, 0.5, -0.7]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.5, 0.5, 0.1, 16]} />
+        <cylinderGeometry args={[0.5, 0.5, 0.1, 8]} />
         <meshStandardMaterial color="#303952" />
       </mesh>
       {/* Supplies */}

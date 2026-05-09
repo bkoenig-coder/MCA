@@ -15,17 +15,10 @@ const groupRef = useRef<THREE.Group>(null);
 
   return (
     <group ref={groupRef} onClick={onSelect} onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }} onPointerOut={(e) => { setHovered(false); document.body.style.cursor = 'auto'; }}>
-      {/* Imperial Base Platform */}
-      <mesh receiveShadow position={[0, -0.5, 0]}>
-        <cylinderGeometry args={[14, 13, 1, 32]} />
-        <meshStandardMaterial color="#1a1a1a" roughness={0.9} />
-      </mesh>
+      
       
       {/* Stone Floor Top */}
-      <mesh receiveShadow position={[0, 0.01, 0]}>
-        <cylinderGeometry args={[14, 14, 0.1, 32]} />
-        <meshStandardMaterial color="#2d3436" roughness={0.7} />
-      </mesh>
+      
 
       {/* Grand Path to Throne */}
       <mesh receiveShadow position={[0, 0.06, 6]}>
@@ -104,31 +97,31 @@ function ImperialGer({ position }: { position: [number, number, number] }) {
     <group position={position}>
       {/* Mega Ger Walls */}
       <mesh castShadow receiveShadow position={[0, 2, 0]}>
-        <cylinderGeometry args={[6, 6, 4, 32]} />
+        <cylinderGeometry args={[6, 6, 4, 12]} />
         <meshStandardMaterial color="#fdfbf7" roughness={0.9} />
       </mesh>
       
       {/* Mega Ger Roof */}
       <mesh castShadow receiveShadow position={[0, 5, 0]}>
-        <coneGeometry args={[6.5, 2.5, 32]} />
+        <coneGeometry args={[6.5, 2.5, 12]} />
         <meshStandardMaterial color="#fdfbf7" roughness={0.9} />
       </mesh>
 
       {/* Gold Trim Base */}
       <mesh castShadow position={[0, 0.1, 0]}>
-        <cylinderGeometry args={[6.1, 6.1, 0.2, 32]} />
+        <cylinderGeometry args={[6.1, 6.1, 0.2, 12]} />
         <meshStandardMaterial color="#d4af37" metalness={0.8} />
       </mesh>
 
       {/* Gold Trim Roof */}
       <mesh castShadow position={[0, 4, 0]}>
-        <cylinderGeometry args={[6.1, 6.1, 0.2, 32]} />
+        <cylinderGeometry args={[6.1, 6.1, 0.2, 12]} />
         <meshStandardMaterial color="#d4af37" metalness={0.8} />
       </mesh>
 
       {/* Toono Window */}
       <mesh position={[0, 6.3, 0]}>
-        <cylinderGeometry args={[1.5, 1.5, 0.2, 16]} />
+        <cylinderGeometry args={[1.5, 1.5, 0.2, 8]} />
         <meshStandardMaterial color="#d4af37" />
       </mesh>
 
@@ -216,16 +209,16 @@ function ChinggisKhan() {
       </mesh>
       {/* Head */}
       <mesh castShadow position={[0, 1.8, -0.1]}>
-        <sphereGeometry args={[0.35, 16, 16]} />
+        <sphereGeometry args={[0.35, 16, 8]} />
         <meshStandardMaterial color="#d2b48c" />
       </mesh>
       {/* Crown/Helmet */}
       <mesh castShadow position={[0, 2.15, -0.1]}>
-        <coneGeometry args={[0.4, 0.4, 16]} />
+        <coneGeometry args={[0.4, 0.4, 8]} />
         <meshStandardMaterial color="#111111" metalness={0.4} />
       </mesh>
       <mesh castShadow position={[0, 2, -0.1]}>
-        <cylinderGeometry args={[0.42, 0.42, 0.1, 16]} />
+        <cylinderGeometry args={[0.42, 0.42, 0.1, 8]} />
         <meshStandardMaterial color="#d4af37" metalness={0.8} />
       </mesh>
     </group>
@@ -242,12 +235,12 @@ function SuldeBanner({ position }: { position: [number, number, number] }) {
       </mesh>
       {/* Ring base for hair */}
       <mesh castShadow position={[0, 5.5, 0]}>
-         <torusGeometry args={[0.4, 0.05, 8, 16]} />
+         <torusGeometry args={[0.4, 0.05, 8, 8]} />
          <meshStandardMaterial color="#d4af37" metalness={0.8} />
       </mesh>
       {/* Horse hair top (simplified as a cone/cylinder cluster) */}
       <mesh castShadow position={[0, 4.5, 0]}>
-         <cylinderGeometry args={[0.4, 0.6, 2, 16]} />
+         <cylinderGeometry args={[0.4, 0.6, 2, 8]} />
          <meshStandardMaterial color="#ffffff" roughness={1} /> // Nine White Banners style
       </mesh>
       {/* Spear tip */}
@@ -332,17 +325,17 @@ function Warrior() {
       </mesh>
       {/* Head */}
       <mesh castShadow position={[0, 1.6, 0]}>
-        <sphereGeometry args={[0.2, 16, 16]} />
+        <sphereGeometry args={[0.2, 16, 8]} />
         <meshStandardMaterial color="#d2b48c" />
       </mesh>
       {/* Elite Helmet */}
       <mesh castShadow position={[0, 1.75, 0]}>
-        <coneGeometry args={[0.25, 0.4, 16]} />
+        <coneGeometry args={[0.25, 0.4, 8]} />
         <meshStandardMaterial color="#222222" metalness={0.8} />
       </mesh>
       {/* Shield */}
       <mesh castShadow position={[0.4, 0.8, 0.3]} rotation={[0, Math.PI/2, Math.PI/2]}>
-        <cylinderGeometry args={[0.4, 0.4, 0.1, 16]} />
+        <cylinderGeometry args={[0.4, 0.4, 0.1, 8]} />
         <meshStandardMaterial color="#111111" metalness={0.8} />
       </mesh>
       {/* Spear */}

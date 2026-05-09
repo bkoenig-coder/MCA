@@ -15,17 +15,10 @@ const groupRef = useRef<THREE.Group>(null);
 
   return (
     <group ref={groupRef} onClick={onSelect} onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }} onPointerOut={(e) => { setHovered(false); document.body.style.cursor = 'auto'; }}>
-      {/* Base Platform */}
-      <mesh receiveShadow position={[0, -0.5, 0]}>
-        <cylinderGeometry args={[18, 17.5, 1, 32]} />
-        <meshStandardMaterial color="#192a56" roughness={0.8} />
-      </mesh>
+      
       
       {/* Mystical Grass/Moss Top */}
-      <mesh receiveShadow position={[0, 0.01, 0]}>
-        <cylinderGeometry args={[18, 18, 0.1, 32]} />
-        <meshStandardMaterial color="#2f3640" roughness={0.9} />
-      </mesh>
+      
 
       {/* Gigantic Ancient Sacred Tree / Central Ovoo */}
       <SacredTree position={[0, 0.1, 0]} />
@@ -96,7 +89,7 @@ function SacredTree({ position }: { position: [number, number, number] }) {
     <group position={position}>
       {/* Massive Trunk */}
       <mesh castShadow receiveShadow position={[0, 4, 0]}>
-        <cylinderGeometry args={[1.5, 3, 8, 16]} />
+        <cylinderGeometry args={[1.5, 3, 8, 8]} />
         <meshStandardMaterial color="#2d3436" roughness={1} />
       </mesh>
       
@@ -159,12 +152,12 @@ function Shaman({ position, rotation }: { position: [number, number, number], ro
     <group position={position} rotation={rotation}>
       {/* Robes */}
       <mesh castShadow position={[0, 1, 0]}>
-        <coneGeometry args={[0.6, 2, 16]} />
+        <coneGeometry args={[0.6, 2, 8]} />
         <meshStandardMaterial color="#2f3542" />
       </mesh>
       {/* Head / Antler Headdress */}
       <mesh castShadow position={[0, 2.2, 0]}>
-        <sphereGeometry args={[0.25, 16, 16]} />
+        <sphereGeometry args={[0.25, 16, 8]} />
         <meshStandardMaterial color="#1e272e" />
       </mesh>
       <mesh position={[-0.3, 2.6, 0]} rotation={[0, 0, Math.PI/4]}>
@@ -203,7 +196,7 @@ function RitualFire({ position }: { position: [number, number, number] }) {
     <group position={position}>
       {/* Stones */}
       <mesh castShadow receiveShadow position={[0, 0.1, 0]}>
-        <torusGeometry args={[0.8, 0.15, 8, 16]} />
+        <torusGeometry args={[0.8, 0.15, 8, 8]} />
         <meshStandardMaterial color="#2f3542" />
       </mesh>
       {/* Blue Fire */}
@@ -273,7 +266,7 @@ function AncestralRiders() {
     riders.push(
       <group key={`rider-${i}`} position={[Math.cos(angle)*12, 0, Math.sin(angle)*12]} rotation={[0, -angle + Math.PI/2, 0]}>
         <mesh position={[0, 1, 0]}>
-          <capsuleGeometry args={[0.4, 1.5, 8, 16]} />
+          <capsuleGeometry args={[0.4, 1.5, 8, 8]} />
           <meshStandardMaterial color="#00a8ff" transparent opacity={0.2} emissive="#00a8ff" emissiveIntensity={0.5} blending={THREE.AdditiveBlending} depthWrite={false} />
         </mesh>
         <mesh position={[0, 2.5, 0]}>

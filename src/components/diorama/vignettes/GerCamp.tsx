@@ -30,12 +30,12 @@ export function GerCamp({ onSelect, hideLabels }: { onSelect: () => void; hideLa
       <ZoneLabel title="The Ger" position={[0, 4.5, 0]} hide={hideLabels} />
       {/* Ger Base */}
       <mesh castShadow receiveShadow position={[0, 0.8, 0]}>
-        <cylinderGeometry args={[2, 2, 1.6, 32]} />
+        <cylinderGeometry args={[2, 2, 1.6, 12]} />
         <meshStandardMaterial color="#fdfbf7" roughness={0.9} />
       </mesh>
       {/* Ger Roof */}
       <mesh castShadow receiveShadow position={[0, 2.1, 0]}>
-        <coneGeometry args={[2.1, 1.2, 32]} />
+        <coneGeometry args={[2.1, 1.2, 12]} />
         <meshStandardMaterial color="#fdfbf7" roughness={0.9} />
       </mesh>
       {/* Toono (Roof Ring) */}

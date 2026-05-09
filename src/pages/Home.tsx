@@ -47,7 +47,12 @@ export default function Home() {
           
           <div className="w-full h-full absolute inset-0 opacity-80 md:opacity-100 transition-opacity duration-1000 group-hover:opacity-100 pointer-events-none">
             {/* Optimized Canvas for performance: limited DPR, no pointer events, no controls */}
-            <Suspense fallback={null}>
+            <Suspense fallback={
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0A1128]/50 backdrop-blur-sm z-50">
+                <Loader2 className="w-8 h-8 text-brand-gold animate-spin mb-4" />
+                <p className="text-brand-gold/60 font-medium font-serif text-xs uppercase tracking-widest">Loading Experience...</p>
+              </div>
+            }>
               <HeroCanvas />
             </Suspense>
           </div>
