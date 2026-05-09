@@ -1,16 +1,19 @@
 import { Canvas } from '@react-three/fiber';
 import { DioramaScene } from './DioramaScene';
-import { BakeShadows, Preload, AdaptiveDpr, AdaptiveEvents } from '@react-three/drei';
+import { BakeShadows, Preload, AdaptiveEvents, PerformanceMonitor } from '@react-three/drei';
+import { useState } from 'react';
 
 export default function HeroCanvas() {
+  const [dpr, setDpr] = useState(1.5);
   return (
     <Canvas 
       shadows 
-      dpr={[1, 2]} 
+      dpr={dpr} 
       performance={{ min: 0.5 }}
-      camera={{ position: [15, 15, 15], fov: 45 }}
-      gl={{ powerPreference: "high-performance", antialias: true }}
+      camera={{ position: [10, 10, 10], fov: 45 }}
+      gl={{ powerPreference: "high-performance", antialias: false }}
     >
+      <PerformanceMonitor onIncline={() => setDpr(2)} onDecline={() => setDpr(1)} />
       <fog attach="fog" args={['#0A1128', 15, 45]} />
       <ambientLight intensity={0.15} />
       <directionalLight
@@ -27,7 +30,6 @@ export default function HeroCanvas() {
       <DioramaScene onSelect={() => {}} hideLabels={true} />
       <BakeShadows />
       <Preload all />
-      <AdaptiveDpr pixelated />
       <AdaptiveEvents />
     </Canvas>
   );

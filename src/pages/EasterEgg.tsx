@@ -1,6 +1,6 @@
 import React, { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { MapControls, Sky, BakeShadows, Preload, AdaptiveDpr, AdaptiveEvents } from '@react-three/drei';
+import { MapControls, Sky, BakeShadows, Preload, AdaptiveEvents, PerformanceMonitor } from '@react-three/drei';
 import { DioramaScene } from '../components/diorama/DioramaScene';
 import { Overlay } from '../components/diorama/Overlay';
 import { AudioSetup } from '../components/diorama/AudioSetup';
@@ -8,6 +8,7 @@ import { Loader } from 'lucide-react';
 
 export default function EasterEgg() {
   const [activePopup, setActivePopup] = useState<string | null>(null);
+  const [dpr, setDpr] = useState(1.5);
 
   return (
     <div className="w-full h-screen bg-slate-900 relative overflow-hidden">
@@ -19,11 +20,12 @@ export default function EasterEgg() {
       }>
         <Canvas 
           shadows 
-          dpr={[1, 2]} 
+          dpr={dpr} 
           performance={{ min: 0.5 }}
-          camera={{ position: [15, 15, 15], fov: 45 }}
-          gl={{ powerPreference: "high-performance", antialias: true }}
+          camera={{ position: [10, 10, 10], fov: 45 }}
+          gl={{ powerPreference: "high-performance", antialias: false }}
         >
+          <PerformanceMonitor onIncline={() => setDpr(2)} onDecline={() => setDpr(1)} />
           <AudioSetup />
           <color attach="background" args={['#0A1128']} />
           <fog attach="fog" args={['#0A1128', 15, 45]} />
@@ -48,14 +50,13 @@ export default function EasterEgg() {
             makeDefault 
             minPolarAngle={Math.PI / 6} 
             maxPolarAngle={Math.PI / 2.5} 
-            minDistance={10}
-            maxDistance={120}
+            minDistance={5}
+            maxDistance={60}
             target={[0, 0, 0]}
           />
 
           <BakeShadows />
           <Preload all />
-          <AdaptiveDpr pixelated />
           <AdaptiveEvents />
         </Canvas>
       </Suspense>

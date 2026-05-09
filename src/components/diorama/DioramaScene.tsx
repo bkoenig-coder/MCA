@@ -16,7 +16,7 @@ interface DioramaSceneProps {
 }
 
 function InstancedGrass() {
-  const count = 400;
+  const count = 150;
   const meshRef = useRef<THREE.InstancedMesh>(null);
   
   const dummy = useMemo(() => new THREE.Object3D(), []);
@@ -42,13 +42,13 @@ function InstancedGrass() {
   useEffect(() => {
     if (!meshRef.current) return;
     for (let i = 0; i < count; i++) {
-      const r = 48 * Math.sqrt(Math.random());
+      const r = 25 * Math.sqrt(Math.random());
       const theta = Math.random() * 2 * Math.PI;
       const x = r * Math.cos(theta);
       const z = r * Math.sin(theta);
       
       // Avoid dirt paths
-      if (Math.abs(x) < 3 || Math.abs(z) < 3) continue;
+      if (Math.abs(x) < 2.5 || Math.abs(z) < 2.5) continue;
       
       dummy.position.set(x, 0.1, z);
       dummy.rotation.set(0, Math.random() * Math.PI, 0);
@@ -81,13 +81,13 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
     <group ref={islandRef}>
       {/* Floating Island Base */}
       <mesh receiveShadow position={[0, -2, 0]}>
-        <cylinderGeometry args={[50, 46, 4, 12]} />
+        <cylinderGeometry args={[26, 24, 4, 12]} />
         <meshStandardMaterial color="#2d3748" roughness={0.9} />
       </mesh>
       
       {/* Grass Top */}
       <mesh receiveShadow position={[0, 0.01, 0]}>
-        <cylinderGeometry args={[50, 50, 0.1, 12]} />
+        <cylinderGeometry args={[26, 26, 0.1, 12]} />
         <meshStandardMaterial color="#1a202c" roughness={0.8} />
       </mesh>
 
@@ -95,11 +95,11 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
 
       {/* Dirt Path */}
       <mesh receiveShadow position={[0, 0.07, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[90, 6]} />
+        <planeGeometry args={[48, 5]} />
         <meshStandardMaterial color="#111111" roughness={1} />
       </mesh>
       <mesh receiveShadow position={[0, 0.07, 0]} rotation={[-Math.PI / 2, 0, Math.PI / 2]}>
-        <planeGeometry args={[90, 6]} />
+        <planeGeometry args={[48, 5]} />
         <meshStandardMaterial color="#111111" roughness={1} />
       </mesh>
 
@@ -121,22 +121,22 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
       </group>
       
       {/* Imperial Court Island (East) */}
-      <group position={[34, 0, 0]} >
+      <group position={[17, 0, 0]} >
         <ImperialZone onSelect={() => onSelect('imperial')} hideLabels={hideLabels} />
       </group>
 
       {/* Nomadic Village Island (South) */}
-      <group position={[0, 0, 34]} >
+      <group position={[0, 0, 17]} >
         <NomadicZone onSelect={() => onSelect('nomadic')} hideLabels={hideLabels} />
       </group>
 
       {/* Sky & Spirits Island (North) */}
-      <group position={[0, 0, -34]} >
+      <group position={[0, 0, -17]} >
         <SpiritZone onSelect={() => onSelect('spirit')} hideLabels={hideLabels} />
       </group>
 
       {/* Naadam Festival Island (West) */}
-      <group position={[-34, 0, 0]} >
+      <group position={[-17, 0, 0]} >
         <NaadamZone onSelect={() => onSelect('naadam')} hideLabels={hideLabels} />
       </group>
 
