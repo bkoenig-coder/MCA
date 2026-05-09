@@ -7,7 +7,6 @@ import { HerdingZone } from './vignettes/HerdingZone';
 import { TrainingZone } from './vignettes/TrainingZone';
 import { ImperialZone } from './vignettes/ImperialZone';
 import { NomadicZone } from './vignettes/NomadicZone';
-import { SpiritZone } from './vignettes/SpiritZone';
 import { NaadamZone } from './vignettes/NaadamZone';
 
 interface DioramaSceneProps {
@@ -130,10 +129,7 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
         <NomadicZone onSelect={() => onSelect('nomadic')} hideLabels={hideLabels} />
       </group>
 
-      {/* Sky & Spirits Island (North) */}
-      <group position={[0, 0, -17]} >
-        <SpiritZone onSelect={() => onSelect('spirit')} hideLabels={hideLabels} />
-      </group>
+      {/* Removed Sky & Spirits Island */}
 
       {/* Naadam Festival Island (West) */}
       <group position={[-17, 0, 0]} >
