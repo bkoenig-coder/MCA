@@ -19,17 +19,15 @@ export default function EasterEgg() {
       }>
         <Canvas shadows camera={{ position: [15, 15, 15], fov: 45 }}>
           <AudioSetup />
-          <color attach="background" args={['#1e293b']} />
-          <fog attach="fog" args={['#1e293b', 20, 50]} />
-          {/* Sunset sky */}
-          <Sky sunPosition={[100, 2, 100]} turbidity={10} rayleigh={3} />
+          <color attach="background" args={['#0A1128']} />
+          <fog attach="fog" args={['#0A1128', 15, 45]} />
           
           {/* Dimmer ambient and directional lights for moody atmosphere */}
-          <ambientLight intensity={0.15} />
+          <ambientLight intensity={0.10} />
           <directionalLight
             castShadow
             position={[10, 5, 10]}
-            intensity={0.5}
+            intensity={0.4}
             color="#ffcfaa"
             shadow-mapSize={[2048, 2048]}
             shadow-camera-left={-20}

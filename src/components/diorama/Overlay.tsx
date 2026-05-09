@@ -23,6 +23,22 @@ const popups: Record<string, { title: string; content: string }> = {
   training: {
     title: 'The Three Manly Skills',
     content: 'Bökh (wrestling), archery, and horse riding are known as the "Three Manly Skills" (Eriin Gurvan Naadam). These martial disciplines were essential for survival and formed the backbone of the Mongol military prowess.'
+  },
+  naadam: {
+    title: 'Naadam Festival',
+    content: 'Step into the energetic summer festival of the Mongolian steppe. Witness wrestlers engaging in the eagle dance, rapid horse races, skilled archers, and colorful cultural celebrations!'
+  },
+  imperial: {
+    title: 'The Imperial Court',
+    content: 'Step into the heart of the Mongol Empire. Chinggis Khan sits upon the throne, surrounded by elite guards, gigantic braziers, and the Nine White Banners. Feel the legendary power of a nation that united the world.'
+  },
+  nomadic: {
+    title: 'Nomadic Life',
+    content: 'Experience the warm, peaceful rhythm of traditional Mongolian daily life. Families gather around campfires in their ger camps, while herders, playing children, and diverse livestock bring the vibrant steppe village to life.'
+  },
+  spirit: {
+    title: 'Sky & Spirits',
+    content: 'Enter the mystical realm of Tengriism. Under the glow of the eternal blue sky, ancestral spirits roam among giant ovoo shrines. Shamans perform ancient rituals as the veil between the physical and spiritual worlds thins.'
   }
 };
 

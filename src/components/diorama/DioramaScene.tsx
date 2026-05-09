@@ -5,6 +5,10 @@ import { GerCamp } from './vignettes/GerCamp';
 import { PlayZone } from './vignettes/PlayZone';
 import { HerdingZone } from './vignettes/HerdingZone';
 import { TrainingZone } from './vignettes/TrainingZone';
+import { ImperialZone } from './vignettes/ImperialZone';
+import { NomadicZone } from './vignettes/NomadicZone';
+import { SpiritZone } from './vignettes/SpiritZone';
+import { NaadamZone } from './vignettes/NaadamZone';
 
 interface DioramaSceneProps {
   onSelect: (id: string) => void;
@@ -78,13 +82,13 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
       {/* Floating Island Base */}
       <mesh receiveShadow position={[0, -2, 0]}>
         <cylinderGeometry args={[12, 10, 4, 64]} />
-        <meshStandardMaterial color="#4a3b2c" roughness={0.9} />
+        <meshStandardMaterial color="#2d3748" roughness={0.9} />
       </mesh>
       
       {/* Grass Top */}
       <mesh receiveShadow position={[0, 0.01, 0]}>
         <cylinderGeometry args={[12, 12, 0.1, 64]} />
-        <meshStandardMaterial color="#5b8c5a" roughness={0.8} />
+        <meshStandardMaterial color="#1a202c" roughness={0.8} />
       </mesh>
 
       <InstancedGrass />
@@ -92,11 +96,11 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
       {/* Dirt Path */}
       <mesh receiveShadow position={[0, 0.07, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[20, 4]} />
-        <meshStandardMaterial color="#8b6b4a" roughness={1} />
+        <meshStandardMaterial color="#111111" roughness={1} />
       </mesh>
       <mesh receiveShadow position={[0, 0.07, 0]} rotation={[-Math.PI / 2, 0, Math.PI / 2]}>
         <planeGeometry args={[20, 4]} />
-        <meshStandardMaterial color="#8b6b4a" roughness={1} />
+        <meshStandardMaterial color="#111111" roughness={1} />
       </mesh>
 
       {/* Vignettes */}
@@ -116,6 +120,46 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
         <TrainingZone onSelect={() => onSelect('training')} hideLabels={hideLabels} />
       </group>
       
+      {/* Imperial Court Island (East) */}
+      <group position={[35, 0, 0]} >
+        <ImperialZone onSelect={() => onSelect('imperial')} hideLabels={hideLabels} />
+        {/* Connection bridge */}
+        <mesh receiveShadow castShadow position={[-17.5, 0.05, 0]}>
+          <boxGeometry args={[11, 0.2, 4]} />
+          <meshStandardMaterial color="#111111" roughness={0.8} />
+        </mesh>
+      </group>
+
+      {/* Nomadic Village Island (South) */}
+      <group position={[0, 0, 35]} >
+        <NomadicZone onSelect={() => onSelect('nomadic')} hideLabels={hideLabels} />
+        {/* Connection bridge */}
+        <mesh receiveShadow castShadow position={[0, 0.05, -17.5]}>
+          <boxGeometry args={[4, 0.2, 11]} />
+          <meshStandardMaterial color="#111111" roughness={0.9} />
+        </mesh>
+      </group>
+
+      {/* Sky & Spirits Island (North) */}
+      <group position={[0, 0, -35]} >
+        <SpiritZone onSelect={() => onSelect('spirit')} hideLabels={hideLabels} />
+        {/* Connection bridge */}
+        <mesh receiveShadow castShadow position={[0, 0.05, 17.5]}>
+          <boxGeometry args={[4, 0.2, 11]} />
+          <meshStandardMaterial color="#111111" roughness={0.9} />
+        </mesh>
+      </group>
+
+      {/* Naadam Festival Island (West) */}
+      <group position={[-35, 0, 0]} >
+        <NaadamZone onSelect={() => onSelect('naadam')} hideLabels={hideLabels} />
+        {/* Connection bridge */}
+        <mesh receiveShadow castShadow position={[17.5, 0.05, 0]}>
+          <boxGeometry args={[11, 0.2, 4]} />
+          <meshStandardMaterial color="#111111" roughness={0.9} />
+        </mesh>
+      </group>
+
       {/* State Suld - Nine White Banners */}
       <NineWhiteBanners />
 
