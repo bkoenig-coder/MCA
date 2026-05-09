@@ -1,7 +1,8 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { ZoneLabel } from './ZoneLabel';
+import { CinematicFocusLight } from '../CinematicFocusLight';
 
 interface NomadicZoneProps {
   onSelect?: () => void;
@@ -9,19 +10,20 @@ interface NomadicZoneProps {
 }
 
 export function NomadicZone({ onSelect, hideLabels }: NomadicZoneProps) {
-  const groupRef = useRef<THREE.Group>(null);
+    const [hovered, setHovered] = useState(false);
+const groupRef = useRef<THREE.Group>(null);
 
   return (
-    <group ref={groupRef} onClick={onSelect} onPointerOver={(e) => { e.stopPropagation(); document.body.style.cursor = 'pointer'; }} onPointerOut={(e) => { document.body.style.cursor = 'auto'; }}>
+    <group ref={groupRef} onClick={onSelect} onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }} onPointerOut={(e) => { setHovered(false); document.body.style.cursor = 'auto'; }}>
       {/* Base Platform */}
       <mesh receiveShadow position={[0, -0.5, 0]}>
-        <cylinderGeometry args={[15, 14.5, 1, 64]} />
+        <cylinderGeometry args={[15, 14.5, 1, 32]} />
         <meshStandardMaterial color="#2d3748" roughness={0.9} />
       </mesh>
       
       {/* Grass Top */}
       <mesh receiveShadow position={[0, 0.01, 0]}>
-        <cylinderGeometry args={[15, 15, 0.1, 64]} />
+        <cylinderGeometry args={[15, 15, 0.1, 32]} />
         <meshStandardMaterial color="#1a202c" roughness={0.8} />
       </mesh>
 
@@ -67,10 +69,13 @@ export function NomadicZone({ onSelect, hideLabels }: NomadicZoneProps) {
       <pointLight position={[0, 2, 0]} intensity={1.5} color="#ffa502" distance={15} />
 
       {/* Weather particles (golden fog/dust) */}
-      <DustParticles count={200} />
+      <DustParticles count={50} />
 
       {!hideLabels && (
-        <ZoneLabel title="Nomadic Life" position={[0, 6, 0]} hide={hideLabels} />
+        <>
+          <CinematicFocusLight hovered={hovered} color="#d4af37" position={[0, 8, 0]} />
+          <ZoneLabel title="Nomadic Life" position={[0, 6, 0]} hide={hideLabels} />
+        </>
       )}
     </group>
   );
@@ -419,7 +424,7 @@ function ChimneySmoke({ position }: { position: [number, number, number] }) {
         child.position.y += 0.02;
         child.position.x += Math.sin(state.clock.elapsedTime * 2 + i) * 0.01;
         child.scale.setScalar(1 + child.position.y * 0.2);
-        (child as THREE.Mesh).material.opacity = Math.max(0, 0.6 - child.position.y * 0.2);
+        ((child as THREE.Mesh).material as THREE.Material).opacity = Math.max(0, 0.6 - child.position.y * 0.2);
         
         if (child.position.y > 3) {
           child.position.y = 0;

@@ -1,7 +1,8 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { ZoneLabel } from './ZoneLabel';
+import { CinematicFocusLight } from '../CinematicFocusLight';
 
 interface SpiritZoneProps {
   onSelect?: () => void;
@@ -9,19 +10,20 @@ interface SpiritZoneProps {
 }
 
 export function SpiritZone({ onSelect, hideLabels }: SpiritZoneProps) {
-  const groupRef = useRef<THREE.Group>(null);
+    const [hovered, setHovered] = useState(false);
+const groupRef = useRef<THREE.Group>(null);
 
   return (
-    <group ref={groupRef} onClick={onSelect} onPointerOver={(e) => { e.stopPropagation(); document.body.style.cursor = 'pointer'; }} onPointerOut={(e) => { document.body.style.cursor = 'auto'; }}>
+    <group ref={groupRef} onClick={onSelect} onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }} onPointerOut={(e) => { setHovered(false); document.body.style.cursor = 'auto'; }}>
       {/* Base Platform */}
       <mesh receiveShadow position={[0, -0.5, 0]}>
-        <cylinderGeometry args={[18, 17.5, 1, 64]} />
+        <cylinderGeometry args={[18, 17.5, 1, 32]} />
         <meshStandardMaterial color="#192a56" roughness={0.8} />
       </mesh>
       
       {/* Mystical Grass/Moss Top */}
       <mesh receiveShadow position={[0, 0.01, 0]}>
-        <cylinderGeometry args={[18, 18, 0.1, 64]} />
+        <cylinderGeometry args={[18, 18, 0.1, 32]} />
         <meshStandardMaterial color="#2f3640" roughness={0.9} />
       </mesh>
 
@@ -45,7 +47,7 @@ export function SpiritZone({ onSelect, hideLabels }: SpiritZoneProps) {
       <AncestralRiders />
 
       {/* Floating Runes */}
-      <FloatingRunes count={20} />
+      <FloatingRunes count={6} />
 
       {/* Circling Eagles */}
       <CirclingEagles />
@@ -60,10 +62,10 @@ export function SpiritZone({ onSelect, hideLabels }: SpiritZoneProps) {
       <Totem position={[0, 0.1, 10]} />
 
       {/* Floating Lanterns */}
-      <FloatingLanterns count={30} />
+      <FloatingLanterns count={10} />
 
       {/* Blue Spirit Particles */}
-      <SpiritParticles count={300} />
+      <SpiritParticles count={50} />
 
       {/* Northern Lights / Aurora Effect */}
       <AuroraBorealis />
@@ -72,7 +74,10 @@ export function SpiritZone({ onSelect, hideLabels }: SpiritZoneProps) {
       <pointLight position={[0, 8, 0]} intensity={3} color="#00a8ff" distance={30} />
 
       {!hideLabels && (
-        <ZoneLabel title="Sky & Spirits" position={[0, 12, 0]} hide={hideLabels} />
+        <>
+          <CinematicFocusLight hovered={hovered} color="#d4af37" position={[0, 8, 0]} />
+          <ZoneLabel title="Sky & Spirits" position={[0, 12, 0]} hide={hideLabels} />
+        </>
       )}
     </group>
   );

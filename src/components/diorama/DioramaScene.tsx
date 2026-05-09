@@ -16,7 +16,7 @@ interface DioramaSceneProps {
 }
 
 function InstancedGrass() {
-  const count = 2000;
+  const count = 500;
   const meshRef = useRef<THREE.InstancedMesh>(null);
   
   const dummy = useMemo(() => new THREE.Object3D(), []);
@@ -63,7 +63,7 @@ function InstancedGrass() {
   const material = useMemo(() => new THREE.MeshStandardMaterial({ color: "#6b9c6a", side: THREE.DoubleSide, roughness: 1 }), []);
 
   return (
-    <instancedMesh ref={meshRef} args={[geometry, material, count]} castShadow receiveShadow />
+    <instancedMesh ref={meshRef} args={[geometry, material, count]} />
   );
 }
 
@@ -81,13 +81,13 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
     <group ref={islandRef}>
       {/* Floating Island Base */}
       <mesh receiveShadow position={[0, -2, 0]}>
-        <cylinderGeometry args={[12, 10, 4, 64]} />
+        <cylinderGeometry args={[12, 10, 4, 32]} />
         <meshStandardMaterial color="#2d3748" roughness={0.9} />
       </mesh>
       
       {/* Grass Top */}
       <mesh receiveShadow position={[0, 0.01, 0]}>
-        <cylinderGeometry args={[12, 12, 0.1, 64]} />
+        <cylinderGeometry args={[12, 12, 0.1, 32]} />
         <meshStandardMaterial color="#1a202c" roughness={0.8} />
       </mesh>
 
@@ -181,40 +181,40 @@ function DecorativeElements() {
       {/* Ovoo (Sacred Stone Heap) */}
       <group position={[7, 0.1, 7]}>
         {/* Stones */}
-        <mesh castShadow receiveShadow position={[0, 0.3, 0]}>
+        <mesh position={[0, 0.3, 0]}>
           <dodecahedronGeometry args={[0.8, 1]} />
           <meshStandardMaterial color="#888c8d" roughness={0.9} />
         </mesh>
-        <mesh castShadow receiveShadow position={[0.4, 0.2, 0.4]}>
+        <mesh position={[0.4, 0.2, 0.4]}>
           <dodecahedronGeometry args={[0.5, 1]} />
           <meshStandardMaterial color="#7a7d7e" roughness={0.9} />
         </mesh>
-        <mesh castShadow receiveShadow position={[-0.4, 0.2, -0.3]}>
+        <mesh position={[-0.4, 0.2, -0.3]}>
           <dodecahedronGeometry args={[0.6, 1]} />
           <meshStandardMaterial color="#919596" roughness={0.9} />
         </mesh>
         {/* Central Pole */}
-        <mesh castShadow receiveShadow position={[0, 1.2, 0]}>
+        <mesh position={[0, 1.2, 0]}>
           <cylinderGeometry args={[0.05, 0.05, 2]} />
           <meshStandardMaterial color="#5c4033" />
         </mesh>
         {/* Khadag (Blue Silk Scarves) */}
-        <mesh castShadow position={[0, 1.5, 0.2]} rotation={[0, 0, Math.PI / 4]}>
+        <mesh position={[0, 1.5, 0.2]} rotation={[0, 0, Math.PI / 4]}>
           <planeGeometry args={[0.1, 0.8]} />
           <meshStandardMaterial color="#0066cc" side={THREE.DoubleSide} />
         </mesh>
-        <mesh castShadow position={[0.2, 1.3, 0]} rotation={[0, Math.PI / 2, -Math.PI / 4]}>
+        <mesh position={[0.2, 1.3, 0]} rotation={[0, Math.PI / 2, -Math.PI / 4]}>
           <planeGeometry args={[0.1, 0.6]} />
           <meshStandardMaterial color="#0066cc" side={THREE.DoubleSide} />
         </mesh>
       </group>
 
       {/* Scattered Rocks */}
-      <mesh castShadow receiveShadow position={[-9, 0.2, 2]}>
+      <mesh position={[-9, 0.2, 2]}>
         <dodecahedronGeometry args={[0.4, 1]} />
         <meshStandardMaterial color="#7a8b7a" />
       </mesh>
-      <mesh castShadow receiveShadow position={[2, 0.1, -9]}>
+      <mesh position={[2, 0.1, -9]}>
         <dodecahedronGeometry args={[0.3, 1]} />
         <meshStandardMaterial color="#7a8b7a" />
       </mesh>
@@ -260,17 +260,17 @@ function FlyingEagle() {
         <meshStandardMaterial color="#3a2a1a" />
       </mesh>
       {/* Tail */}
-      <mesh castShadow position={[0, 0, -0.6]}>
+      <mesh position={[0, 0, -0.6]}>
         <boxGeometry args={[0.6, 0.02, 0.5]} />
         <meshStandardMaterial color="#3a2a1a" />
       </mesh>
       {/* Head */}
-      <mesh castShadow position={[0, 0, 0.6]}>
+      <mesh position={[0, 0, 0.6]}>
         <boxGeometry args={[0.25, 0.2, 0.3]} />
         <meshStandardMaterial color="#222" />
       </mesh>
       {/* Beak */}
-      <mesh castShadow position={[0, 0, 0.8]} rotation={[-Math.PI / 6, 0, 0]}>
+      <mesh position={[0, 0, 0.8]} rotation={[-Math.PI / 6, 0, 0]}>
         <coneGeometry args={[0.08, 0.2, 4]} />
         <meshStandardMaterial color="#d4a017" />
       </mesh>
@@ -450,7 +450,7 @@ function NineWhiteBanners() {
 }
 
 function AtmosphericEmbers() {
-  const count = 50;
+  const count = 15;
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const dummy = useMemo(() => new THREE.Object3D(), []);
   const seeds = useMemo(() => new Float32Array(count).map(() => Math.random()), []);

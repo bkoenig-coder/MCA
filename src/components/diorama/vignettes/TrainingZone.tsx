@@ -1,10 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { ZoneLabel } from './ZoneLabel';
+import { CinematicFocusLight } from '../CinematicFocusLight';
 
 export function TrainingZone({ onSelect, hideLabels }: { onSelect: () => void; hideLabels?: boolean }) {
-  const wrestler1Ref = useRef<THREE.Mesh>(null);
+    const [hovered, setHovered] = useState(false);
+const wrestler1Ref = useRef<THREE.Mesh>(null);
   const wrestler2Ref = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
@@ -21,9 +23,10 @@ export function TrainingZone({ onSelect, hideLabels }: { onSelect: () => void; h
   return (
     <group 
       onClick={(e) => { e.stopPropagation(); onSelect(); }} 
-      onPointerOver={() => document.body.style.cursor = 'pointer'} 
-      onPointerOut={() => document.body.style.cursor = 'auto'}
+      onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }} 
+      onPointerOut={(e) => { setHovered(false); document.body.style.cursor = 'auto'; }}
     >
+      <CinematicFocusLight hovered={hovered} color="#d4af37" position={[0, 8, 0]} />
       <ZoneLabel title="Three Manly Skills" position={[0, 2.2, 0]} hide={hideLabels} />
       {/* Wrestler 1 (Red Zodog/Shuudag) */}
       <group ref={wrestler1Ref} position={[-0.4, 0.6, 0]}>

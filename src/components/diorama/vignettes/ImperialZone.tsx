@@ -1,7 +1,8 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { ZoneLabel } from './ZoneLabel';
+import { CinematicFocusLight } from '../CinematicFocusLight';
 
 interface ImperialZoneProps {
   onSelect?: () => void;
@@ -9,19 +10,20 @@ interface ImperialZoneProps {
 }
 
 export function ImperialZone({ onSelect, hideLabels }: ImperialZoneProps) {
-  const groupRef = useRef<THREE.Group>(null);
+    const [hovered, setHovered] = useState(false);
+const groupRef = useRef<THREE.Group>(null);
 
   return (
-    <group ref={groupRef} onClick={onSelect} onPointerOver={(e) => { e.stopPropagation(); document.body.style.cursor = 'pointer'; }} onPointerOut={(e) => { document.body.style.cursor = 'auto'; }}>
+    <group ref={groupRef} onClick={onSelect} onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }} onPointerOut={(e) => { setHovered(false); document.body.style.cursor = 'auto'; }}>
       {/* Imperial Base Platform */}
       <mesh receiveShadow position={[0, -0.5, 0]}>
-        <cylinderGeometry args={[14, 13, 1, 64]} />
+        <cylinderGeometry args={[14, 13, 1, 32]} />
         <meshStandardMaterial color="#1a1a1a" roughness={0.9} />
       </mesh>
       
       {/* Stone Floor Top */}
       <mesh receiveShadow position={[0, 0.01, 0]}>
-        <cylinderGeometry args={[14, 14, 0.1, 64]} />
+        <cylinderGeometry args={[14, 14, 0.1, 32]} />
         <meshStandardMaterial color="#2d3436" roughness={0.7} />
       </mesh>
 
@@ -77,10 +79,13 @@ export function ImperialZone({ onSelect, hideLabels }: ImperialZoneProps) {
       <pointLight position={[0, 3, 10]} intensity={1.0} color="#4ea8de" distance={25} />
       
       {/* Floating Embers */}
-      <EmbersParticles count={150} />
+      <EmbersParticles count={30} />
 
       {!hideLabels && (
-        <ZoneLabel title="Imperial Court" position={[0, 9, 0]} hide={hideLabels} />
+        <>
+          <CinematicFocusLight hovered={hovered} color="#d4af37" position={[0, 8, 0]} />
+          <ZoneLabel title="Imperial Court" position={[0, 9, 0]} hide={hideLabels} />
+        </>
       )}
     </group>
   );

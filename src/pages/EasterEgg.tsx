@@ -1,6 +1,6 @@
 import React, { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { MapControls, Sky } from '@react-three/drei';
+import { MapControls, Sky, BakeShadows, Preload, AdaptiveDpr, AdaptiveEvents } from '@react-three/drei';
 import { DioramaScene } from '../components/diorama/DioramaScene';
 import { Overlay } from '../components/diorama/Overlay';
 import { AudioSetup } from '../components/diorama/AudioSetup';
@@ -17,7 +17,13 @@ export default function EasterEgg() {
           <p className="text-amber-800 font-medium font-serif">Loading the Steppe...</p>
         </div>
       }>
-        <Canvas shadows camera={{ position: [15, 15, 15], fov: 45 }}>
+        <Canvas 
+          shadows 
+          dpr={[0.5, 1]} 
+          performance={{ min: 0.5 }}
+          camera={{ position: [15, 15, 15], fov: 45 }}
+          gl={{ powerPreference: "high-performance", antialias: false, pixelRatio: 1 }}
+        >
           <AudioSetup />
           <color attach="background" args={['#0A1128']} />
           <fog attach="fog" args={['#0A1128', 15, 45]} />
@@ -29,7 +35,7 @@ export default function EasterEgg() {
             position={[10, 5, 10]}
             intensity={0.4}
             color="#ffcfaa"
-            shadow-mapSize={[2048, 2048]}
+            shadow-mapSize={[1024, 1024]}
             shadow-camera-left={-20}
             shadow-camera-right={20}
             shadow-camera-top={20}
@@ -46,6 +52,11 @@ export default function EasterEgg() {
             maxDistance={40}
             target={[0, 0, 0]}
           />
+
+          <BakeShadows />
+          <Preload all />
+          <AdaptiveDpr pixelated />
+          <AdaptiveEvents />
         </Canvas>
       </Suspense>
 

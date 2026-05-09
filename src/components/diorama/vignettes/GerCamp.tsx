@@ -1,12 +1,15 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { ZoneLabel } from './ZoneLabel';
+import { CinematicFocusLight } from '../CinematicFocusLight';
 
 export function GerCamp({ onSelect, hideLabels }: { onSelect: () => void; hideLabels?: boolean }) {
   const smokeRef = useRef<THREE.Group>(null);
+  const [hovered, setHovered] = useState(false);
 
   useFrame((state) => {
+
     if (smokeRef.current) {
       smokeRef.current.children.forEach((particle, i) => {
         particle.position.y += 0.02;
@@ -20,9 +23,10 @@ export function GerCamp({ onSelect, hideLabels }: { onSelect: () => void; hideLa
   return (
     <group 
       onClick={(e) => { e.stopPropagation(); onSelect(); }} 
-      onPointerOver={() => document.body.style.cursor = 'pointer'} 
-      onPointerOut={() => document.body.style.cursor = 'auto'}
+      onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }} 
+      onPointerOut={() => { setHovered(false); document.body.style.cursor = 'auto'; }}
     >
+      <CinematicFocusLight hovered={hovered} color="#d4af37" position={[0, 8, 0]} />
       <ZoneLabel title="The Ger" position={[0, 4.5, 0]} hide={hideLabels} />
       {/* Ger Base */}
       <mesh castShadow receiveShadow position={[0, 0.8, 0]}>

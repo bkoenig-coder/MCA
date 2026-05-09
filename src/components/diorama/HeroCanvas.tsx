@@ -1,13 +1,15 @@
 import { Canvas } from '@react-three/fiber';
 import { DioramaScene } from './DioramaScene';
+import { BakeShadows, Preload, AdaptiveDpr, AdaptiveEvents } from '@react-three/drei';
 
 export default function HeroCanvas() {
   return (
     <Canvas 
       shadows 
-      dpr={[1, 1.5]} 
+      dpr={[0.5, 1]} 
+      performance={{ min: 0.5 }}
       camera={{ position: [15, 15, 15], fov: 45 }}
-      gl={{ powerPreference: "high-performance", antialias: false }}
+      gl={{ powerPreference: "high-performance", antialias: false, pixelRatio: 1 }}
     >
       <fog attach="fog" args={['#0A1128', 15, 45]} />
       <ambientLight intensity={0.15} />
@@ -16,13 +18,17 @@ export default function HeroCanvas() {
         position={[10, 5, 10]}
         intensity={0.5}
         color="#ffcfaa"
-        shadow-mapSize={[1024, 1024]}
+        shadow-mapSize={[512, 512]}
         shadow-camera-left={-20}
         shadow-camera-right={20}
         shadow-camera-top={20}
         shadow-camera-bottom={-20}
       />
       <DioramaScene onSelect={() => {}} hideLabels={true} />
+      <BakeShadows />
+      <Preload all />
+      <AdaptiveDpr pixelated />
+      <AdaptiveEvents />
     </Canvas>
   );
 }
