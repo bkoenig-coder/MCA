@@ -377,141 +377,115 @@ export default function Navbar() {
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed inset-0 min-h-screen w-full bg-white z-[110] flex flex-col pt-[90px] md:pt-[110px] overflow-y-auto"
-              style={{ willChange: 'transform, opacity', backfaceVisibility: 'hidden' }}
+              initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+              animate={{ opacity: 1, backdropFilter: 'blur(20px)' }}
+              exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="fixed inset-0 min-h-screen w-full bg-white/95 z-[110] flex flex-col pt-[110px] sm:pt-[120px] md:pt-[140px]"
+              style={{ willChange: 'opacity' }}
             >
-              <div className="flex-1 w-full max-w-[1600px] mx-auto px-4 sm:px-8 md:px-12 lg:px-24 flex flex-col justify-between pb-12 relative h-full min-h-[min-content]">
-                {/* Subtle Decorative Accents */}
-                <div className="absolute top-0 right-12 opacity-[0.03] pointer-events-none hidden md:block">
-                  <svg width='800' height='800' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg' className="-mt-32">
-                    <g fill='none' stroke='#040A1A' strokeWidth='0.5'>
-                      <path d='M10,0 V10 H0 M40,10 H30 V0 M30,40 V30 H40 M0,30 H10 V40'/>
-                      <rect x='10' y='10' width='20' height='20'/>
-                      <rect x='15' y='15' width='10' height='10'/>
-                    </g>
-                  </svg>
-                </div>
+              <div className="flex-1 w-full max-w-[1600px] mx-auto px-6 sm:px-8 md:px-16 flex flex-col justify-between pb-6 md:pb-8 h-full min-h-[min-content] relative">
                 
-                <div className="flex-1 flex flex-col md:flex-row gap-12 md:gap-24 relative z-10 w-full mt-4 md:mt-8">
-                  {/* Left Column: Primary Navigation Links */}
-                  <nav className="flex-1 flex flex-col justify-start">
+                {/* Decorative Line */}
+                <motion.div 
+                  initial={{ scaleY: 0 }}
+                  animate={{ scaleY: 1 }}
+                  transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute top-0 bottom-0 left-1/2 w-px bg-brand-ink/5 hidden md:block origin-top"
+                />
+
+                <div className="flex-1 flex flex-col items-center justify-center relative w-full my-auto">
+                  <nav className="flex flex-col items-center justify-center w-full gap-2 md:gap-4">
                     {navItems.map((item, idx) => {
                       const isActive = location.pathname === item.path;
                       return (
-                        <Link
-                          key={item.path}
-                          to={item.path}
-                          className={cn(
-                            'group flex items-center w-max transition-all duration-300 relative py-2 lg:py-3',
-                            isActive ? 'text-brand-gold' : 'text-brand-ink/90 hover:text-brand-gold md:hover:translate-x-6'
-                          )}
-                          onClick={() => setIsOpen(false)}
-                        >
-                          <span className="font-sans font-black text-3xl sm:text-4xl md:text-5xl lg:text-[60px] uppercase tracking-[-0.03em] leading-[1.1]">
-                            {item.name}
-                          </span>
-                          {item.path === '/events' && (
-                            <span className="ml-4 md:ml-6 flex-shrink-0 text-[9px] md:text-xs bg-brand-gold text-brand-ink px-2 md:px-3 py-1 -mt-4 md:-mt-8 uppercase tracking-[0.2em] font-sans font-bold shadow-md transform rotate-[4deg]">
-                              UPCOMING
-                            </span>
-                          )}
-                        </Link>
+                        <div key={item.path} className="overflow-hidden py-1 px-4 md:px-8">
+                          <motion.div
+                            initial={{ opacity: 0, y: 60 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -40 }}
+                            transition={{ duration: 0.7, delay: 0.1 + idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                          >
+                            <Link
+                              to={item.path}
+                              className={cn(
+                                'group flex items-center justify-center w-max mx-auto relative transition-colors duration-500',
+                              )}
+                              onClick={() => setIsOpen(false)}
+                            >
+                              <span className={cn(
+                                "font-[Arial] font-bold italic text-3xl sm:text-4xl md:text-5xl lg:text-[60px] tracking-tight leading-none group-hover:text-[#C5A059] transition-all duration-500 uppercase",
+                                isActive ? "text-[#C5A059] translate-x-2" : "text-brand-ink"
+                              )}>
+                                {item.name}
+                              </span>
+                              {item.path === '/events' && (
+                                <span className="absolute top-0 -right-6 md:top-1 md:-right-10 flex-shrink-0 text-[7px] md:text-[9px] bg-brand-gold text-brand-ink px-2 md:px-2.5 py-0.5 md:py-1 uppercase tracking-[0.2em] font-sans font-bold shadow-sm transform rotate-[4deg]">
+                                  UPCOMING
+                                </span>
+                              )}
+                            </Link>
+                          </motion.div>
+                        </div>
                       );
                     })}
                   </nav>
-
-                  {/* Right Column: Information & Secondary Utilities */}
-                  <div className="w-full md:w-80 lg:w-96 flex flex-col gap-8 md:gap-12 pb-8">
-                    {/* User Profile / Login Block */}
-                    <div className="flex flex-col gap-6">
-                      <div className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-ink/40 border-b border-brand-ink/10 pb-3">
-                        {user ? 'YOUR PROFILE' : 'MEMBERSHIP'}
-                      </div>
-                      
-                      {user ? (
-                        <div className="flex flex-col gap-6">
-                          <Link 
-                            to="/profile" 
-                            onClick={() => setIsOpen(false)}
-                            className="flex items-center gap-4 group transition-colors"
-                          >
-                            {user.photoURL ? (
-                              <img src={user.photoURL} alt="" className="w-14 h-14 rounded-full border-2 border-brand-gold/30 shadow-sm" />
-                            ) : (
-                              <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-brand-gold border-2 border-brand-gold/30 shadow-sm">
-                                <UserIcon size={24} />
-                              </div>
-                            )}
-                            <div className="flex flex-col text-left">
-                              <span className="font-serif text-lg text-brand-ink group-hover:text-brand-gold transition-colors">{user.displayName}</span>
-                              <span className="text-[10px] uppercase tracking-[0.3em] text-brand-ink/50 font-bold mt-1">{t('nav.member')}</span>
-                            </div>
-                          </Link>
-                          
-                          <button 
-                            onClick={() => { logOut(); setIsOpen(false); }} 
-                            className="flex items-center justify-center gap-2 px-6 py-4 w-full md:w-auto rounded-xl text-white bg-brand-ink text-[11px] font-bold uppercase tracking-[0.2em] shadow-md hover:bg-black transition-all hover:-translate-y-0.5"
-                          >
-                            <LogOut size={16} />
-                            <span>{t('nav.signOut')}</span>
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="flex flex-col gap-4">
-                          <p className="text-sm font-serif text-brand-ink/70">Join our community to engage with events and connect to Mongolian culture.</p>
-                          <button
-                            onClick={async () => {
-                              try {
-                                await signInWithGoogle();
-                                setIsOpen(false);
-                              } catch (error: any) {
-                                if (error?.code === 'auth/popup-blocked') {
-                                  toast.error('Login popup blocked by your browser. Please allow popups or open the app in a new tab.');
-                                } else if (error?.code !== 'auth/popup-closed-by-user') {
-                                  toast.error(`Sign in failed: ${error.message || 'Unknown error. Try opening in a new tab.'}`);
-                                }
-                              }
-                            }}
-                            className="w-full bg-brand-ink text-white hover:bg-brand-gold px-8 py-5 text-[11px] uppercase tracking-[0.2em] font-bold flex items-center justify-center gap-3 shadow-[0_4px_15px_rgba(4,10,26,0.1)] hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
-                          >
-                            <LogIn size={18} />
-                            {t('nav.signIn')}
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                
-                    {/* Socials Block */}
-                    <div className="flex flex-col gap-6">
-                      <div className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-ink/40 border-b border-brand-ink/10 pb-3">
-                        CONNECT
-                      </div>
-                      <div className="flex flex-col gap-4 text-brand-ink/70 text-sm font-sans font-bold uppercase tracking-[0.1em]">
-                        <a href="https://www.instagram.com/mncenteraustria/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-gold transition-colors cursor-pointer w-max flex items-center gap-2 group">
-                          <ArrowRight size={14} className="text-brand-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"/>
-                          Instagram
-                        </a>
-                        <a href="https://www.facebook.com/profile.php?id=61568045031863" target="_blank" rel="noopener noreferrer" className="hover:text-brand-gold transition-colors cursor-pointer w-max flex items-center gap-2 group">
-                          <ArrowRight size={14} className="text-brand-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"/>
-                          Facebook
-                        </a>
-                        <a href="https://www.linkedin.com/company/mongolian-center-in-austria/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-gold transition-colors cursor-pointer w-max flex items-center gap-2 group">
-                          <ArrowRight size={14} className="text-brand-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"/>
-                          LinkedIn
-                        </a>
-                      </div>
-                    </div>
-
-                    {/* Bottom Established Stamp */}
-                    <div className="mt-8 pt-8 border-t border-brand-ink/10 text-[9px] uppercase tracking-[0.4em] font-bold text-brand-ink/30">
-                      ESTABLISHED 2026 • VIENNA, AUSTRIA
-                    </div>
-                  </div>
                 </div>
+
+                {/* Footer Section */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                  className="w-full grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-0 mt-5 md:mt-6 pt-5 border-t border-brand-ink/10 relative z-10"
+                >
+                  {/* Left: Socials */}
+                  <div className="flex flex-col gap-3 items-center md:items-start">
+                     <span className="text-[9px] uppercase tracking-[0.3em] font-bold text-brand-ink/40">Connect</span>
+                     <div className="flex gap-6 text-[10px] md:text-[11px] font-sans font-bold uppercase tracking-[0.15em] text-brand-ink/70">
+                        <a href="https://www.instagram.com/mncenteraustria/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-gold transition-colors">Instagram</a>
+                        <a href="https://www.facebook.com/profile.php?id=61568045031863" target="_blank" rel="noopener noreferrer" className="hover:text-brand-gold transition-colors">Facebook</a>
+                        <a href="https://www.linkedin.com/company/mongolian-center-in-austria/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-gold transition-colors">LinkedIn</a>
+                     </div>
+                  </div>
+
+                  {/* Center: Established */}
+                  <div className="flex flex-col justify-end items-center text-[9px] uppercase tracking-[0.4em] font-bold text-brand-ink/30 order-last md:order-none">
+                     ESTABLISHED 2026<br/>VIENNA, AUSTRIA
+                  </div>
+
+                  {/* Right: User */}
+                  <div className="flex flex-col gap-3 items-center md:items-end">
+                     <span className="text-[9px] uppercase tracking-[0.3em] font-bold text-brand-ink/40">Membership</span>
+                     {user ? (
+                       <div className="flex items-center gap-3">
+                          <Link to="/profile" onClick={() => setIsOpen(false)} className="flex flex-col text-right group">
+                            <span className="font-serif text-sm text-brand-ink group-hover:text-brand-gold transition-colors">{user.displayName}</span>
+                          </Link>
+                          <div className="w-px h-4 bg-brand-ink/20 mx-1" />
+                          <button onClick={() => { logOut(); setIsOpen(false); }} className="text-[10px] uppercase tracking-[0.2em] font-bold text-brand-ink/50 hover:text-brand-ink transition-colors flex items-center gap-1.5">
+                            <LogOut size={12} /> Sign Out
+                          </button>
+                       </div>
+                     ) : (
+                       <button
+                         onClick={async () => {
+                            try {
+                              await signInWithGoogle();
+                              setIsOpen(false);
+                            } catch (error: any) {
+                              if (error?.code !== 'auth/popup-closed-by-user') {
+                                toast.error('Login failed, try opening in a new tab.');
+                              }
+                            }
+                         }}
+                         className="flex items-center gap-2 text-[10px] md:text-[11px] font-sans font-bold uppercase tracking-[0.1em] text-brand-ink hover:text-brand-gold transition-colors"
+                       >
+                         <LogIn size={14} /> Member Access
+                       </button>
+                     )}
+                  </div>
+                </motion.div>
               </div>
             </motion.div>
           )}

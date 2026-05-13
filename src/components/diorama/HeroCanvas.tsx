@@ -12,6 +12,7 @@ export default function HeroCanvas() {
       performance={{ min: 0.1 }}
       camera={{ position: [25, 20, 25], fov: 45 }}
       gl={{ powerPreference: "high-performance", antialias: false }}
+      style={{ pointerEvents: 'none', touchAction: 'auto' }}
     >
       <color attach="background" args={['#e8955c']} />
       <PerformanceMonitor onIncline={() => setDpr(1.2)} onDecline={() => setDpr(0.5)} />
@@ -34,7 +35,8 @@ export default function HeroCanvas() {
          autoRotate 
          autoRotateSpeed={0.5} 
          enableZoom={false} 
-         enablePan={false} 
+         enablePan={false}
+         enableRotate={false} 
          maxPolarAngle={Math.PI / 2.2} 
          minPolarAngle={Math.PI / 4}
       />
