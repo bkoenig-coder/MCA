@@ -24,6 +24,14 @@ export default function Home() {
   const [gallery, setGallery] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [activePopup, setActivePopup] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const newsScrollRef = useRef<HTMLDivElement>(null);
   const galleryScrollRef = useRef<HTMLDivElement>(null);
@@ -292,7 +300,7 @@ export default function Home() {
         <div className="flex overflow-hidden relative">
           <motion.div 
             animate={{ x: ["0%", "-50%"] }}
-            transition={{ duration: 45, ease: "linear", repeat: Infinity }}
+            transition={{ duration: isMobile ? 15 : 45, ease: "linear", repeat: Infinity }}
             className="flex w-max relative z-20"
           >
             {[...Array(2)].map((_, groupIndex) => (
@@ -813,15 +821,9 @@ export default function Home() {
                 </span>
               </motion.div>
 
-              <motion.h2 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                className="text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-10 md:mb-14 leading-[0.9] tracking-tight"
-              >
+              <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-10 md:mb-14 leading-[0.9] tracking-tight transition-all duration-500 hover:text-brand-gold hover:drop-shadow-lg">
                 {t('impactCta.title')}
-              </motion.h2>
+              </h2>
 
               <motion.p 
                 initial={{ opacity: 0 }}
