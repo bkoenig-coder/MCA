@@ -274,9 +274,7 @@ export default function Contact() {
 
       {/* Newsletter Section */}
       <section className="py-24 md:py-40 px-6 bg-brand-ink text-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 opacity-[0.05] translate-x-1/4 -translate-y-1/4">
-          <UlziiSymbol className="w-[400px] md:w-[600px] h-[400px] md:h-[600px] text-brand-gold" />
-        </div>
+
         
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <h2 className="text-4xl md:text-6xl font-serif mb-8 md:mb-10 tracking-tight">

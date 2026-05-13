@@ -391,7 +391,7 @@ export default function Navbar() {
                   initial={{ scaleY: 0 }}
                   animate={{ scaleY: 1 }}
                   transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute top-0 bottom-0 left-1/2 w-px bg-brand-ink/5 hidden md:block origin-top"
+                  className="absolute top-0 bottom-0 left-1/2 w-px bg-brand-ink/5 origin-top"
                 />
 
                 <div className="flex-1 flex flex-col items-center justify-center relative w-full my-auto">

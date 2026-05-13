@@ -631,9 +631,7 @@ export default function Home() {
             className="bg-brand-ink rounded-[60px] md:rounded-[100px] overflow-hidden flex flex-col lg:flex-row shadow-2xl md:shadow-[0_80px_150px_-30px_rgba(0,0,0,0.6)] relative md:transform-gpu md:will-change-transform"
           >
             {/* Decorative Symbol Overlay */}
-            <div className="absolute top-10 right-10 opacity-[0.03] pointer-events-none">
-              <UlziiSymbol className="w-64 h-64 text-brand-gold" />
-            </div>
+
 
             <div className="lg:w-3/5 p-6 md:p-20 lg:p-28 flex flex-col justify-center relative z-10">
               <motion.div
@@ -732,13 +730,7 @@ export default function Home() {
         {/* Cinematic Atmospheric Background */}
         <div className="absolute inset-0 z-0">
            {/* Slowly shifting traditional motifs */}
-           <motion.div 
-             animate={{ rotate: 360 }}
-             transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
-             className="absolute top-0 right-0 opacity-[0.03] pointer-events-none translate-x-1/2 -translate-y-1/3"
-           >
-             <UlziiSymbol className="w-[1200px] h-[1200px] text-brand-gold" />
-           </motion.div>
+
            <div className="absolute bottom-0 left-0 opacity-[0.02] pointer-events-none -translate-x-1/4 translate-y-1/3">
              <MongolianLine className="w-full text-brand-gold" />
            </div>

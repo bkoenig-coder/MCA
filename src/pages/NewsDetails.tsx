@@ -61,9 +61,7 @@ export default function NewsDetails() {
   return (
     <div className="pt-24 md:pt-32 pb-16 md:pb-20 px-6 relative overflow-hidden bg-white">
       {/* Background Symbols */}
-      <div className="absolute top-20 right-0 opacity-[0.02] pointer-events-none">
-        <UlziiSymbol className="w-[400px] md:w-[800px] h-[400px] md:h-[800px] text-brand-gold" />
-      </div>
+
 
       <div className="max-w-4xl mx-auto relative z-10">
         <Link to="/news" className="inline-flex items-center gap-2 text-brand-ink/50 hover:text-brand-gold transition-colors mb-8 md:mb-12 font-medium group">

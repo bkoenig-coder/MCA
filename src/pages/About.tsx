@@ -112,9 +112,7 @@ export default function About() {
       {/* Mission & Vision - Cinematic Layout */}
       <section className="py-24 md:py-40 px-6 bg-[#050507] relative overflow-hidden text-white">
         {/* Cinematic Backdrop Pattern & Fire Light */}
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none md:mix-blend-overlay">
-          <UlziiSymbol className="w-[800px] h-[800px] text-white absolute -top-[10%] -right-[10%] animate-[spin_200s_linear_infinite]" />
-        </div>
+
         
         {/* Fire Gradient Light */}
         <motion.div
