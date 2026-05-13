@@ -1,6 +1,6 @@
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Globe, LogIn, LogOut, User as UserIcon, ChevronDown, Calendar, ArrowRight, Info, Newspaper, Image as ImageIcon, Heart, Mail, Compass, Shield } from 'lucide-react';
+import { Menu, X, Globe, LogIn, LogOut, User as UserIcon, ChevronDown, Calendar, ArrowRight, Info, Newspaper, Image as ImageIcon, Heart, Mail, Compass, Shield, Award } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState, useEffect, useRef } from 'react';
 import { cn } from '@/src/lib/utils';
@@ -90,6 +90,7 @@ export default function Navbar() {
   const navItems = [
     { name: t('nav.about'), path: '/about', icon: Info },
     { name: t('nav.events'), path: '/events', icon: Calendar },
+    { name: t('nav.membership', { defaultValue: 'Membership' }), path: '/membership', icon: Award },
     { name: t('nav.news'), path: '/news', icon: Newspaper },
     { name: t('nav.gallery'), path: '/gallery', icon: ImageIcon },
     { name: t('nav.impact'), path: '/impact', icon: Heart },

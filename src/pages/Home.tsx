@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import React, { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import { cn } from '../lib/utils';
-import { ArrowRight, Calendar, Palette, Heart, Users, Shield, Sword, Clock, MapPin, Loader2, Info, Star, Handshake, Lightbulb, ArrowRightLeft, TrendingUp, Instagram, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, Calendar, Palette, Heart, Users, Shield, Sword, Clock, MapPin, Loader2, Info, Star, Handshake, Lightbulb, ArrowRightLeft, TrendingUp, Instagram, ChevronLeft, ChevronRight, Award, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../components/MongolianDesign';
@@ -275,6 +275,9 @@ export default function Home() {
 
       {/* Partners Marquee Section - Corporate Refactor */}
       <section className="py-10 md:py-12 bg-gray-50 relative overflow-hidden border-y border-gray-200">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] z-0 pointer-events-none" />
+        <div className="absolute top-1/2 right-1/4 w-[300px] h-[300px] bg-white/80 blur-[100px] rounded-full pointer-events-none z-0 -translate-y-1/2" />
+        <div className="absolute top-1/2 left-1/4 w-[300px] h-[300px] bg-brand-gold/5 blur-[100px] rounded-full pointer-events-none z-0 -translate-y-1/2" />
         <div className="text-center mb-10 relative z-20">
           <h3 className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-gray-500">
             Our partners & sponsors
@@ -326,9 +329,100 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Membership Highlights CTA Section */}
+      <section className="py-24 md:py-32 px-6 bg-brand-ink relative overflow-hidden text-white border-b border-white/5">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] z-0" />
+        <div className="absolute top-0 right-0 w-2/3 h-full bg-brand-gold/5 blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold/10 blur-[100px] rounded-full pointer-events-none mix-blend-overlay" />
+        
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-24 relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="flex-1 max-w-2xl"
+          >
+            <div className="flex items-center gap-4 mb-8">
+              <div className="h-px w-10 bg-brand-gold" />
+              <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold drop-shadow-sm">Official Membership</span>
+            </div>
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif mb-8 leading-[1.1] drop-shadow-lg">
+              Become a <span className="italic text-brand-gold">Member</span>
+            </h2>
+            <p className="text-lg md:text-xl text-white/70 font-light leading-relaxed mb-12 max-w-lg">
+              Join a growing platform connecting Austria and Mongolia. Gain access to a premium network, exclusive cultural events, and high-level bilateral opportunities.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+              <Link to="/membership" className="group inline-flex items-center justify-center gap-4 bg-brand-gold text-brand-ink px-8 py-5 rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white transition-all duration-700 shadow-[0_0_30px_rgba(212,175,55,0.2)] hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] w-full sm:w-auto">
+                Explore Benefits
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+              </Link>
+            </div>
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95, y: 40 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            className="flex-1 w-full lg:w-auto relative"
+          >
+            {/* Elegant glassmorphism card stack */}
+            <div className="relative w-full max-w-md mx-auto mt-8 lg:mt-0">
+              {/* Back card 1 */}
+              <div className="absolute inset-0 bg-brand-gold/10 border border-brand-gold/20 rounded-[32px] transform rotate-[8deg] translate-x-4 translate-y-2 blur-[1px] transition-transform duration-700 hover:rotate-[12deg] pointer-events-none" />
+              
+              {/* Back card 2 */}
+              <div className="absolute inset-0 bg-white/5 border border-white/10 rounded-[32px] transform -rotate-[4deg] -translate-x-2 translate-y-4 transition-transform duration-700 hover:-rotate-[6deg] pointer-events-none" />
+              
+              {/* Main Card */}
+              <Link to="/membership" className="relative block bg-white/10 backdrop-blur-xl border border-white/20 p-10 md:p-12 rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.4)] overflow-hidden group hover:bg-white/[0.15] transition-all duration-700">
+                <div className="absolute top-0 right-0 w-40 h-40 bg-brand-gold/20 rounded-full blur-[50px] -mr-16 -mt-16 group-hover:bg-brand-gold/30 transition-colors duration-700" />
+                
+                {/* Noise overlay for glass effect */}
+                <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
+
+                <div className="relative z-10">
+                  <div className="w-14 h-14 bg-brand-ink/50 backdrop-blur-md rounded-2xl flex items-center justify-center mb-8 border border-white/10 group-hover:border-brand-gold/30 transition-colors duration-500">
+                    <Award size={24} className="text-brand-gold" />
+                  </div>
+                  
+                  <h3 className="text-2xl md:text-3xl font-serif mb-4 drop-shadow-md text-white">Professional Community</h3>
+                  
+                  <ul className="space-y-4 mb-10">
+                    {[
+                      "International network access",
+                      "Exclusive event invitations",
+                      "Priority forum registration",
+                      "Cultural & professional exchange"
+                    ].map((benefit, i) => (
+                      <li key={i} className="flex items-start gap-4">
+                        <CheckCircle2 size={18} className="text-brand-gold shrink-0 mt-0.5 opacity-90" />
+                        <span className="text-white/80 font-light text-sm">{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  
+                  <div className="pt-8 border-t border-white/10 flex items-center justify-between group-hover:border-white/20 transition-colors duration-500">
+                    <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-white/50 group-hover:text-brand-gold transition-colors duration-500">Multiple Tiers Available</span>
+                    <div className="w-10 h-10 rounded-full bg-brand-gold/10 flex items-center justify-center group-hover:bg-brand-gold group-hover:scale-110 transition-all duration-500">
+                      <Users size={16} className="text-brand-gold group-hover:text-brand-ink transition-colors duration-500" />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Featured News Carousel */}
       <section className="py-24 bg-brand-paper relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] z-0 pointer-events-none" />
+        <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-white/80 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
+        <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] bg-brand-gold/10 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
+        <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 relative z-10">
           <div>
             <div className="flex items-center gap-4 mb-3">
               <div className="h-px w-8 bg-brand-gold/40" />
@@ -349,23 +443,44 @@ export default function Home() {
             className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 hide-scrollbar"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {news.map((item) => (
-              <div key={item.id} className="min-w-[85vw] md:min-w-[400px] snap-center shrink-0">
-                  <Link to={`/news/${item.id}`} className="group relative rounded-3xl overflow-hidden h-[400px] block bg-brand-ink">
+            {news.map((item, index) => (
+              <motion.div 
+                key={item.id} 
+                className="min-w-[85vw] md:min-w-[350px] snap-center shrink-0"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.8, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
+              >
+                  <Link to={`/news/${item.id}`} className="group relative rounded-3xl overflow-hidden h-[450px] block bg-brand-ink shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_60px_-20px_rgba(0,0,0,0.25)] ring-1 ring-black/5 hover:ring-white/20 transition-all duration-300">
+                    {/* Background Noise Texture */}
+                    <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
+
                     {item.imageUrl && (
-                      <img src={item.imageUrl} alt={item.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-60" referrerPolicy="no-referrer" />
+                      <motion.img 
+                        initial={{ scale: 1.2, filter: "blur(10px)" }}
+                        whileInView={{ scale: 1, filter: "blur(0px)" }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                        src={item.imageUrl} alt={item.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60" referrerPolicy="no-referrer" />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-brand-ink via-brand-ink/40 to-transparent opacity-90" />
-                    <div className="absolute top-6 left-6 bg-brand-gold px-4 py-1.5 rounded-full z-10">
-                      <span className="text-[9px] uppercase font-bold text-brand-ink tracking-widest">Featured</span>
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-ink via-brand-ink/40 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-80" />
+                    
+                    {/* Subtle Border Glow */}
+                    <div className="absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/10 group-hover:ring-white/20 transition-colors duration-300 pointer-events-none" />
+
+                    {/* Glassmorphism Tag */}
+                    <div className="absolute top-6 left-6 bg-white/10 backdrop-blur-md border border-white/20 shadow-xl px-4 py-1.5 rounded-full z-10">
+                      <span className="text-[9px] uppercase font-bold text-white drop-shadow-sm tracking-widest">Featured</span>
                     </div>
-                    <div className="absolute bottom-6 left-6 right-6 z-10">
-                      <h3 className="text-xl md:text-2xl font-serif text-white mb-4 line-clamp-2 md:leading-tight">{item.title}</h3>
-                      <p className="text-brand-paper/80 font-light text-sm line-clamp-2 mb-6">{item.excerpt || item.content}</p>
-                      <div className="flex items-center gap-2 text-brand-gold font-bold text-[9px] uppercase tracking-widest group-hover:translate-x-2 transition-transform">Read Story <ArrowRight size={12}/></div>
+                    
+                    <div className="absolute bottom-6 left-6 right-6 z-10 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      <h3 className="text-xl md:text-2xl font-serif text-white mb-4 line-clamp-2 md:leading-tight drop-shadow-lg">{item.title}</h3>
+                      <p className="text-brand-paper/80 font-light text-sm line-clamp-2 mb-6 opacity-70 group-hover:opacity-100 transition-opacity duration-300">{item.excerpt || item.content}</p>
+                      <div className="flex items-center gap-2 text-brand-gold font-bold text-[9px] uppercase tracking-widest group-hover:translate-x-2 transition-transform duration-300 drop-shadow-sm">Read Story <ArrowRight size={12}/></div>
                     </div>
                   </Link>
-              </div>
+              </motion.div>
             ))}
           </div>
           
@@ -382,7 +497,10 @@ export default function Home() {
 
       {/* Featured Gallery Carousel */}
       <section className="py-24 bg-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] z-0 pointer-events-none" />
+        <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-brand-paper/80 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-brand-gold/5 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
+        <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 relative z-10">
           <div>
             <div className="flex items-center gap-4 mb-3">
               <div className="h-px w-8 bg-brand-gold/40" />
@@ -403,17 +521,38 @@ export default function Home() {
             className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 hide-scrollbar"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {gallery.map((item) => (
-              <div key={item.id} className="min-w-[85vw] md:min-w-[350px] snap-center shrink-0">
-                  <Link to={`/gallery/${item.id}`} className="group relative rounded-3xl overflow-hidden h-[450px] block bg-brand-ink">
-                    <img src={item.imageUrl} alt={item.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" referrerPolicy="no-referrer" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/90 via-black/20 to-transparent" />
-                    <div className="absolute bottom-6 left-6 right-6 z-10">
-                      <h3 className="text-xl font-serif text-white mb-2 line-clamp-2">{item.title}</h3>
-                      <div className="flex items-center gap-2 text-brand-gold font-bold text-[9px] uppercase tracking-widest group-hover:translate-x-2 transition-transform">View Capture <ArrowRight size={12}/></div>
+            {gallery.map((item, index) => (
+              <motion.div 
+                key={item.id} 
+                className="min-w-[85vw] md:min-w-[350px] snap-center shrink-0"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.8, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
+              >
+                  <Link to={`/gallery/${item.id}`} className="group relative rounded-3xl overflow-hidden h-[450px] block bg-brand-ink shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_60px_-20px_rgba(0,0,0,0.25)] ring-1 ring-black/5 hover:ring-white/20 transition-all duration-300">
+                    {/* Background Noise Texture */}
+                    <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
+
+                    {item.imageUrl && (
+                      <motion.img 
+                        initial={{ scale: 1.2, filter: "blur(10px)" }}
+                        whileInView={{ scale: 1, filter: "blur(0px)" }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                        src={item.imageUrl} alt={item.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" referrerPolicy="no-referrer" />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/90 via-black/20 to-transparent transition-opacity duration-300 group-hover:opacity-80" />
+                    
+                    {/* Subtle Border Glow */}
+                    <div className="absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/10 group-hover:ring-white/20 transition-colors duration-300 pointer-events-none" />
+
+                    <div className="absolute bottom-6 left-6 right-6 z-10 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      <h3 className="text-xl font-serif text-white mb-2 line-clamp-2 drop-shadow-md">{item.title}</h3>
+                      <div className="flex items-center gap-2 text-brand-gold font-bold text-[9px] uppercase tracking-widest group-hover:translate-x-2 transition-transform duration-300 drop-shadow-sm">View Capture <ArrowRight size={12}/></div>
                     </div>
                   </Link>
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -430,6 +569,9 @@ export default function Home() {
 
       {/* Featured Events Preview - Dynamic List */}
       <section className="py-16 md:py-24 px-4 md:px-6 bg-brand-paper relative overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] z-0 pointer-events-none" />
+        <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-white/80 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-brand-gold/10 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-12 md:mb-16 -mt-[40px] md:-mt-[40px]">
             <div className="flex items-center justify-center gap-2 md:gap-4 mb-4 md:mb-6">
@@ -460,7 +602,7 @@ export default function Home() {
                 className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 hide-scrollbar -mt-[30px] md:-mt-[20px]"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
-                {events.map((event, idx) => {
+                {events.map((event, index) => {
                   const lang = i18n.language;
                   const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : (event.titleEn || event.title);
                   const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : (event.descriptionEn || event.description);
@@ -468,13 +610,31 @@ export default function Home() {
                   const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : (event.categoryEn || event.category);
 
                   return (
-                  <div key={event.id} className="min-w-[85vw] md:min-w-[350px] snap-center shrink-0">
-                      <Link to={`/events/${event.id}`} className="group relative rounded-3xl overflow-hidden h-[450px] block bg-brand-ink">
-                        <img src={event.imageUrl} alt={dTitle} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" referrerPolicy="no-referrer" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/90 via-brand-ink/40 to-transparent opacity-90" />
+                  <motion.div 
+                    key={event.id} 
+                    className="min-w-[85vw] md:min-w-[350px] snap-center shrink-0"
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.8, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                      <Link to={`/events/${event.id}`} className="group relative rounded-3xl overflow-hidden h-[450px] block bg-brand-ink shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_60px_-20px_rgba(0,0,0,0.25)] ring-1 ring-black/5 hover:ring-white/20 transition-all duration-300">
+                        {/* Background Noise Texture */}
+                        <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
+
+                        <motion.img 
+                          initial={{ scale: 1.2, filter: "blur(10px)" }}
+                          whileInView={{ scale: 1, filter: "blur(0px)" }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                          src={event.imageUrl} alt={dTitle} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" referrerPolicy="no-referrer" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/90 via-brand-ink/40 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-80" />
+                        
+                        {/* Subtle Border Glow */}
+                        <div className="absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/10 group-hover:ring-white/20 transition-colors duration-300 pointer-events-none" />
                         
                         {/* Floating Date Badge */}
-                        <div className="absolute top-6 left-6 bg-brand-gold text-brand-ink px-4 py-2 rounded-xl shadow-md flex flex-col items-center min-w-[56px] z-10">
+                        <div className="absolute top-6 left-6 bg-brand-gold text-brand-ink px-4 py-2 rounded-xl shadow-md flex flex-col items-center min-w-[56px] z-10 transition-transform duration-300">
                           <span className="text-[9px] uppercase tracking-widest font-bold">
                             {new Date(event.date).toLocaleDateString(t('common.locale'), { month: 'short' })}
                           </span>
@@ -483,34 +643,34 @@ export default function Home() {
                           </span>
                         </div>
 
-                        <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full z-10">
-                          <span className="text-[8px] uppercase font-bold text-brand-ink tracking-widest">{dCat || t('events.defaultCategory')}</span>
+                        <div className="absolute top-6 right-6 bg-white/10 backdrop-blur-md border border-white/20 shadow-xl px-3 py-1 rounded-full z-10">
+                          <span className="text-[8px] uppercase font-bold text-white tracking-widest drop-shadow-sm">{dCat || t('events.defaultCategory')}</span>
                         </div>
 
-                        <div className="absolute bottom-6 left-6 right-6 z-10">
+                        <div className="absolute bottom-6 left-6 right-6 z-10 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                           <div className="flex items-center gap-2 text-brand-gold mb-2">
                              <Star size={10} className="w-[10px] h-[10px]" fill="currentColor" />
-                             <span className="text-[8px] uppercase tracking-widest font-bold">Featured Event</span>
+                             <span className="text-[8px] uppercase tracking-widest font-bold drop-shadow-sm">Featured Event</span>
                           </div>
-                          <h3 className="text-2xl font-serif text-white mb-2 line-clamp-2">{dTitle}</h3>
-                          <p className="text-brand-paper/80 font-light text-sm line-clamp-2 mb-4">{dDesc}</p>
+                          <h3 className="text-2xl font-serif text-white mb-2 line-clamp-2 drop-shadow-lg">{dTitle}</h3>
+                          <p className="text-brand-paper/80 font-light text-sm line-clamp-2 mb-4 opacity-70 group-hover:opacity-100 transition-opacity duration-300">{dDesc}</p>
                           
-                          <div className="flex items-center gap-4 text-brand-paper/80 mb-6 text-[9px] uppercase tracking-widest font-bold">
+                          <div className="flex items-center gap-4 text-brand-paper/80 mb-6 text-[9px] uppercase tracking-widest font-bold opacity-70 group-hover:opacity-100 transition-opacity duration-300">
                             <div className="flex items-center gap-1.5"><Clock size={10}/> {event.time || t('events.tba')}</div>
                             <div className="flex items-center gap-1.5 truncate"><MapPin size={10}/> {dLocation || t('events.vienna')}</div>
                           </div>
 
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2 text-brand-gold font-bold text-[9px] uppercase tracking-widest group-hover:translate-x-2 transition-transform">
+                            <div className="flex items-center gap-2 text-brand-gold font-bold text-[9px] uppercase tracking-widest group-hover:translate-x-2 transition-transform duration-300 drop-shadow-sm">
                               {t('events.viewDetails')} <ArrowRight size={12}/>
                             </div>
-                            <span className="font-serif text-lg text-white font-bold">
+                            <span className="font-serif text-lg text-white font-bold drop-shadow-md">
                               {event.price === 0 ? 'Free' : `€${(event.price / 100).toFixed(2)}`}
                             </span>
                           </div>
                         </div>
                       </Link>
-                  </div>
+                  </motion.div>
                   );
                 })}
               </div>
@@ -529,6 +689,9 @@ export default function Home() {
 
       {/* Pillars Section - Redesigned for Prestige & Impact */}
       <section className="py-24 md:py-40 px-6 bg-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] z-0 pointer-events-none" />
+        <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-brand-paper/80 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
+        <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] bg-brand-gold/5 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
         <div className="max-w-[1600px] mx-auto relative z-10">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
@@ -620,6 +783,9 @@ export default function Home() {
       {/* Impact CTA - Immersive & Urgent */}
       <section className="py-24 md:py-48 px-6 bg-white relative overflow-hidden">
         {/* Subtle Background Accents */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] z-0 pointer-events-none" />
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-brand-paper/80 blur-[150px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-brand-gold/5 blur-[150px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
         <div className="absolute top-0 right-0 w-1/3 h-full bg-brand-paper/50 -skew-x-12 translate-x-1/2 z-0" />
         
         <div className="max-w-7xl mx-auto relative z-10">

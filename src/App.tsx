@@ -31,6 +31,7 @@ const Profile = lazy(() => import('./pages/Profile'));
 const EasterEgg = lazy(() => import('./pages/EasterEgg'));
 const TeamMember = lazy(() => import('./pages/TeamMember'));
 const InitiativeDetails = lazy(() => import('./pages/InitiativeDetails'));
+const Membership = lazy(() => import('./pages/Membership'));
 
 const PageLoader = () => (
   <div className="flex min-h-screen bg-transparent">
@@ -72,6 +73,7 @@ export default function App() {
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/impact" element={<Impact />} />
                   <Route path="/contact" element={<Contact />} />
+                  <Route path="/membership" element={<Membership />} />
                   <Route path="/privacy" element={<PrivacyPolicy />} />
                   <Route path="/terms" element={<TermsOfService />} />
                   <Route path="/imprint" element={<Imprint />} />

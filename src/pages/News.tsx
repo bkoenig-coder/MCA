@@ -79,10 +79,10 @@ export default function News() {
                         <img 
                           src={p.imageUrl} 
                           alt={dTitle} 
-                          className="w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
+                          className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
                           referrerPolicy="no-referrer"
                         />
-                        <div className="absolute inset-0 bg-brand-ink/20 group-hover:bg-transparent transition-colors duration-700" />
+                        <div className="absolute inset-0 bg-brand-ink/20 group-hover:bg-transparent transition-colors duration-300" />
                       </Link>
                       <div>
                         <div className="flex items-center gap-4 mb-6 md:mb-8">
@@ -93,7 +93,7 @@ export default function News() {
                           </span>
                         </div>
                         <Link to={`/news/${p.id}`}>
-                          <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-6 md:mb-8 leading-tight group-hover:text-brand-gold transition-colors duration-500">{dTitle}</h2>
+                          <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-6 md:mb-8 leading-tight group-hover:text-brand-gold transition-colors duration-300">{dTitle}</h2>
                         </Link>
                         <p className="text-lg md:text-xl text-brand-ink/60 font-light leading-relaxed mb-10 md:mb-12 line-clamp-4">
                           {dContent}
@@ -112,7 +112,7 @@ export default function News() {
 
               {/* Other Posts Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-20">
-                {posts.slice(1).map((post) => {
+                {posts.slice(1).map((post, index) => {
                   const lang = i18n.language;
                   const dTitle = lang === 'mn' ? (post.titleMn || post.title) : lang === 'de' ? (post.titleDe || post.title) : (post.titleEn || post.title);
                   const dContent = lang === 'mn' ? (post.contentMn || post.content) : lang === 'de' ? (post.contentDe || post.content) : (post.contentEn || post.content);
@@ -121,17 +121,24 @@ export default function News() {
                     key={post.id}
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.8, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
                     className="group"
                   >
-                    <Link to={`/news/${post.id}`} className="aspect-[16/10] rounded-[32px] md:rounded-[40px] overflow-hidden mb-8 md:mb-10 shadow-lg relative block">
-                      <img 
+                    <Link to={`/news/${post.id}`} className="aspect-[16/10] rounded-[32px] md:rounded-[40px] overflow-hidden mb-8 md:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_60px_-20px_rgba(0,0,0,0.25)] ring-1 ring-black/5 hover:ring-brand-gold/30 relative block transition-all duration-300 bg-brand-ink/5">
+                      {/* Background Noise Texture */}
+                      <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none z-10" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
+                      <motion.img 
+                        initial={{ scale: 1.1, filter: "blur(5px)" }}
+                        whileInView={{ scale: 1, filter: "blur(0px)" }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                         src={post.imageUrl} 
                         alt={dTitle} 
-                        className="w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
+                        className="w-full h-full object-cover md:object-contain transition-transform duration-500 group-hover:scale-105"
                         referrerPolicy="no-referrer"
                       />
-                      <div className="absolute inset-0 bg-brand-ink/10 group-hover:bg-transparent transition-colors duration-700" />
+                      <div className="absolute inset-0 bg-brand-ink/10 group-hover:bg-transparent transition-colors duration-300 z-10" />
                     </Link>
                     <div className="flex items-center gap-4 mb-4 md:mb-6">
                       <span className="text-[9px] uppercase tracking-[0.3em] font-bold text-brand-gold">{t('news.update')}</span>
