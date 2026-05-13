@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { ZoneLabel } from './ZoneLabel';
 import { CinematicFocusLight } from '../CinematicFocusLight';
+import { VolumetricGlow } from './VolumetricGlow';
 
 interface NomadicZoneProps {
   onSelect?: () => void;
@@ -22,7 +23,7 @@ const groupRef = useRef<THREE.Group>(null);
 
       {/* Dirt path through village */}
       <mesh receiveShadow position={[0, 0.06, 0]}>
-        <cylinderGeometry args={[8, 8, 0.05, 12]} />
+        <cylinderGeometry args={[8, 8, 0.05, 6]} />
         <meshStandardMaterial color="#111111" roughness={0.9} />
       </mesh>
 
@@ -62,7 +63,7 @@ const groupRef = useRef<THREE.Group>(null);
       <pointLight position={[0, 2, 0]} intensity={1.5} color="#ffa502" distance={15} />
 
       {/* Weather particles (golden fog/dust) */}
-      <DustParticles count={50} />
+      <DustParticles count={15} />
 
       {!hideLabels && (
         <>
@@ -79,17 +80,17 @@ function VillageGer({ position }: { position: [number, number, number] }) {
     <group position={position}>
       {/* Ger Walls */}
       <mesh castShadow receiveShadow position={[0, 1, 0]}>
-        <cylinderGeometry args={[2.5, 2.5, 2, 8]} />
+        <cylinderGeometry args={[2.5, 2.5, 2, 6]} />
         <meshStandardMaterial color="#f5f6fa" roughness={0.9} />
       </mesh>
       {/* Roof */}
       <mesh castShadow receiveShadow position={[0, 2.5, 0]}>
-        <coneGeometry args={[2.7, 1.2, 8]} />
+        <coneGeometry args={[2.7, 1.2, 6]} />
         <meshStandardMaterial color="#f5f6fa" roughness={0.9} />
       </mesh>
       {/* Toono */}
       <mesh position={[0, 3.15, 0]}>
-        <cylinderGeometry args={[0.5, 0.5, 0.1, 8]} />
+        <cylinderGeometry args={[0.5, 0.5, 0.1, 6]} />
         <meshStandardMaterial color="#e1b12c" />
       </mesh>
       {/* Door */}
@@ -128,18 +129,19 @@ function Campfire() {
       </mesh>
       {/* Wood */}
       <mesh castShadow position={[0, 0.2, 0]} rotation={[0, 0, Math.PI / 4]}>
-         <cylinderGeometry args={[0.05, 0.05, 0.8]} />
+         <cylinderGeometry args={[0.05, 0.05, 0.8, 6]} />
          <meshStandardMaterial color="#353b48" />
       </mesh>
       <mesh castShadow position={[0, 0.2, 0]} rotation={[0, Math.PI / 2, Math.PI / 4]}>
-         <cylinderGeometry args={[0.05, 0.05, 0.8]} />
+         <cylinderGeometry args={[0.05, 0.05, 0.8, 6]} />
          <meshStandardMaterial color="#353b48" />
       </mesh>
       {/* Fire */}
       <mesh ref={fireRef} position={[0, 0.5, 0]}>
-         <coneGeometry args={[0.4, 0.8, 8]} />
+         <coneGeometry args={[0.4, 0.8, 6]} />
          <meshStandardMaterial color="#e84118" emissive="#e84118" emissiveIntensity={2} />
       </mesh>
+      <VolumetricGlow position={[0, 0.9, 0]} color="#ffaa55" height={5} radius={2} opacity={0.3} />
       <pointLight ref={lightRef} position={[0, 1, 0]} color="#ff7f50" distance={8} />
     </group>
   );
@@ -160,12 +162,12 @@ function Person({ position, rotation, color, scale = 1 }: { position: [number, n
     <group position={position} rotation={rotation} scale={[scale, scale, scale]}>
       {/* Sitting Body */}
       <mesh castShadow position={[0, 0.4, 0]}>
-         <cylinderGeometry args={[0.3, 0.4, 0.8, 8]} />
+         <cylinderGeometry args={[0.3, 0.4, 0.8, 6]} />
          <meshStandardMaterial color={color} />
       </mesh>
       {/* Head */}
       <mesh castShadow position={[0, 1, 0]}>
-         <sphereGeometry args={[0.25, 16, 8]} />
+         <sphereGeometry args={[0.25, 4, 4]} />
          <meshStandardMaterial color="#f5cd79" />
       </mesh>
     </group>
@@ -176,19 +178,19 @@ function HitchingPost({ position }: { position: [number, number, number] }) {
   return (
     <group position={position} rotation={[0, Math.PI / 4, 0]}>
       <mesh castShadow position={[-1.5, 0.8, 0]}>
-        <cylinderGeometry args={[0.05, 0.05, 1.6]} />
+        <cylinderGeometry args={[0.05, 0.05, 1.6, 6]} />
         <meshStandardMaterial color="#7158e2" />
       </mesh>
       <mesh castShadow position={[1.5, 0.8, 0]}>
-        <cylinderGeometry args={[0.05, 0.05, 1.6]} />
+        <cylinderGeometry args={[0.05, 0.05, 1.6, 6]} />
         <meshStandardMaterial color="#7158e2" />
       </mesh>
       <mesh castShadow position={[0, 1.4, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.05, 0.05, 3]} />
+        <cylinderGeometry args={[0.05, 0.05, 3, 6]} />
         <meshStandardMaterial color="#7158e2" />
       </mesh>
       {/* Tied Horse */}
-      <Horse position={[0, 0, -1]} rotation={[0, -Math.PI / 2, 0]} />
+      <Horse position={[0, 6, -1]} rotation={[0, -Math.PI / 2, 0]} />
     </group>
   );
 }
@@ -284,19 +286,19 @@ function StorageCart({ position }: { position: [number, number, number] }) {
       </mesh>
       {/* Wheels */}
       <mesh castShadow position={[-0.6, 0.5, 0.7]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.5, 0.5, 0.1, 8]} />
+        <cylinderGeometry args={[0.5, 0.5, 0.1, 6]} />
         <meshStandardMaterial color="#303952" />
       </mesh>
       <mesh castShadow position={[0.6, 0.5, 0.7]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.5, 0.5, 0.1, 8]} />
+        <cylinderGeometry args={[0.5, 0.5, 0.1, 6]} />
         <meshStandardMaterial color="#303952" />
       </mesh>
       <mesh castShadow position={[-0.6, 0.5, -0.7]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.5, 0.5, 0.1, 8]} />
+        <cylinderGeometry args={[0.5, 0.5, 0.1, 6]} />
         <meshStandardMaterial color="#303952" />
       </mesh>
       <mesh castShadow position={[0.6, 0.5, -0.7]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.5, 0.5, 0.1, 8]} />
+        <cylinderGeometry args={[0.5, 0.5, 0.1, 6]} />
         <meshStandardMaterial color="#303952" />
       </mesh>
       {/* Supplies */}
@@ -315,7 +317,7 @@ function EagleHunter({ position }: { position: [number, number, number] }) {
       <Person position={[0, 0, 0]} rotation={[0, 0, 0]} color="#192a56" />
       {/* Arm outstretched */}
       <mesh castShadow position={[0.4, 0.8, 0]} rotation={[0, 0, -Math.PI / 4]}>
-        <cylinderGeometry args={[0.08, 0.08, 0.6]} />
+        <cylinderGeometry args={[0.08, 0.08, 0.6, 6]} />
         <meshStandardMaterial color="#192a56" />
       </mesh>
       {/* Eagle */}
@@ -432,7 +434,7 @@ function ChimneySmoke({ position }: { position: [number, number, number] }) {
     <group position={position} ref={smokeRef}>
       {[0, 1, 2].map((i) => (
         <mesh key={i} position={[0, i * 1, 0]}>
-          <sphereGeometry args={[0.3, 8, 8]} />
+          <sphereGeometry args={[0.3, 4, 4]} />
           <meshBasicMaterial color="#dfe6e9" transparent opacity={0.6} />
         </mesh>
       ))}

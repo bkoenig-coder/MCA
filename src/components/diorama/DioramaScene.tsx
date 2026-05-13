@@ -1,10 +1,6 @@
-import React, { useRef, useMemo, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { GerCamp } from './vignettes/GerCamp';
-import { PlayZone } from './vignettes/PlayZone';
-import { HerdingZone } from './vignettes/HerdingZone';
-import { TrainingZone } from './vignettes/TrainingZone';
 import { ImperialZone } from './vignettes/ImperialZone';
 import { NomadicZone } from './vignettes/NomadicZone';
 import { NaadamZone } from './vignettes/NaadamZone';
@@ -14,138 +10,75 @@ interface DioramaSceneProps {
   hideLabels?: boolean;
 }
 
-function InstancedGrass() {
-  const count = 150;
-  const meshRef = useRef<THREE.InstancedMesh>(null);
-  
-  const dummy = useMemo(() => new THREE.Object3D(), []);
-  
-  useFrame((state) => {
-    if (!meshRef.current) return;
-    const time = state.clock.elapsedTime;
-    
-    for (let i = 0; i < count; i++) {
-      meshRef.current.getMatrixAt(i, dummy.matrix);
-      dummy.matrix.decompose(dummy.position, dummy.quaternion, dummy.scale);
-      
-      // Simple wind sway
-      dummy.rotation.x = Math.sin(time * 2 + dummy.position.x) * 0.1;
-      dummy.rotation.z = Math.cos(time * 2 + dummy.position.z) * 0.1;
-      
-      dummy.updateMatrix();
-      meshRef.current.setMatrixAt(i, dummy.matrix);
-    }
-    meshRef.current.instanceMatrix.needsUpdate = true;
-  });
-
-  useEffect(() => {
-    if (!meshRef.current) return;
-    for (let i = 0; i < count; i++) {
-      const r = 25 * Math.sqrt(Math.random());
-      const theta = Math.random() * 2 * Math.PI;
-      const x = r * Math.cos(theta);
-      const z = r * Math.sin(theta);
-      
-      // Avoid dirt paths
-      if (Math.abs(x) < 2.5 || Math.abs(z) < 2.5) continue;
-      
-      dummy.position.set(x, 0.1, z);
-      dummy.rotation.set(0, Math.random() * Math.PI, 0);
-      dummy.scale.set(1, 1 + Math.random(), 1);
-      dummy.updateMatrix();
-      meshRef.current.setMatrixAt(i, dummy.matrix);
-    }
-    meshRef.current.instanceMatrix.needsUpdate = true;
-  }, [dummy]);
-
-  const geometry = useMemo(() => new THREE.PlaneGeometry(0.1, 0.4), []);
-  const material = useMemo(() => new THREE.MeshStandardMaterial({ color: "#6b9c6a", side: THREE.DoubleSide, roughness: 1 }), []);
-
-  return (
-    <instancedMesh ref={meshRef} args={[geometry, material, count]} />
-  );
-}
-
 export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
-  const islandRef = useRef<THREE.Group>(null);
+  const archipelagoRef = useRef<THREE.Group>(null);
 
-  // Subtle floating animation for the whole island
+  // Subtle floating animation for the whole archipelago
   useFrame((state) => {
-    if (islandRef.current) {
-      islandRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.2;
+    if (archipelagoRef.current) {
+      archipelagoRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.5;
     }
   });
 
   return (
-    <group ref={islandRef}>
-      {/* Floating Island Base */}
-      <mesh receiveShadow position={[0, -2, 0]}>
-        <cylinderGeometry args={[26, 24, 4, 12]} />
-        <meshStandardMaterial color="#2d3748" roughness={0.9} />
-      </mesh>
+    <group ref={archipelagoRef}>
       
-      {/* Grass Top */}
-      <mesh receiveShadow position={[0, 0.01, 0]}>
-        <cylinderGeometry args={[26, 26, 0.1, 12]} />
-        <meshStandardMaterial color="#1a202c" roughness={0.8} />
-      </mesh>
+      {/* Central Hub Island (State Suld / Flags) */}
+      <group position={[0, 0, 0]}>
+         <mesh receiveShadow position={[0, -2, 0]}>
+           <cylinderGeometry args={[4, 2.5, 4, 8]} />
+           <meshStandardMaterial color="#2d3748" roughness={0.9} />
+         </mesh>
+         <mesh receiveShadow position={[0, 0.01, 0]}>
+           <cylinderGeometry args={[4, 4, 0.1, 8]} />
+           <meshStandardMaterial color="#1a202c" roughness={0.8} />
+         </mesh>
+         <NineWhiteBanners />
+      </group>
 
-      <InstancedGrass />
+      {/* Nomadic Village Island (South-West) */}
+      <group position={[-12, -1, 12]}>
+         <mesh receiveShadow position={[0, -2, 0]}>
+           <cylinderGeometry args={[11, 8, 4, 8]} />
+           <meshStandardMaterial color="#2d3748" roughness={0.9} />
+         </mesh>
+         <mesh receiveShadow position={[0, 0.01, 0]}>
+           <cylinderGeometry args={[11, 11, 0.1, 8]} />
+           <meshStandardMaterial color="#1a202c" roughness={0.8} />
+         </mesh>
+         <NomadicZone onSelect={() => onSelect('nomadic')} hideLabels={hideLabels} />
+      </group>
 
-      {/* Dirt Path */}
-      <mesh receiveShadow position={[0, 0.07, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[48, 5]} />
-        <meshStandardMaterial color="#111111" roughness={1} />
-      </mesh>
-      <mesh receiveShadow position={[0, 0.07, 0]} rotation={[-Math.PI / 2, 0, Math.PI / 2]}>
-        <planeGeometry args={[48, 5]} />
-        <meshStandardMaterial color="#111111" roughness={1} />
-      </mesh>
-
-      {/* Vignettes */}
-      <group position={[-4, 0.1, -4]}>
-        <GerCamp onSelect={() => onSelect('ger')} hideLabels={hideLabels} />
-      </group>
-      
-      <group position={[4, 0.1, -4]}>
-        <PlayZone onSelect={() => onSelect('play')} hideLabels={hideLabels} />
-      </group>
-      
-      <group position={[-4, 0.1, 4]}>
-        <HerdingZone onSelect={() => onSelect('herding')} hideLabels={hideLabels} />
-      </group>
-      
-      <group position={[4, 0.1, 4]}>
-        <TrainingZone onSelect={() => onSelect('training')} hideLabels={hideLabels} />
-      </group>
-      
       {/* Imperial Court Island (East) */}
-      <group position={[17, 0, 0]} >
-        <ImperialZone onSelect={() => onSelect('imperial')} hideLabels={hideLabels} />
+      <group position={[16, 2, 2]}>
+         <mesh receiveShadow position={[0, -2, 0]}>
+           <cylinderGeometry args={[12.5, 9, 4, 8]} />
+           <meshStandardMaterial color="#2d3748" roughness={0.9} />
+         </mesh>
+         <mesh receiveShadow position={[0, 0.01, 0]}>
+           <cylinderGeometry args={[12.5, 12.5, 0.1, 8]} />
+           <meshStandardMaterial color="#1a202c" roughness={0.8} />
+         </mesh>
+         <ImperialZone onSelect={() => onSelect('imperial')} hideLabels={hideLabels} />
       </group>
 
-      {/* Nomadic Village Island (South) */}
-      <group position={[0, 0, 17]} >
-        <NomadicZone onSelect={() => onSelect('nomadic')} hideLabels={hideLabels} />
+      {/* Naadam Festival Island (North) */}
+      <group position={[-2, 1, -16]}>
+         <mesh receiveShadow position={[0, -2, 0]}>
+           <cylinderGeometry args={[10, 7, 4, 8]} />
+           <meshStandardMaterial color="#2d3748" roughness={0.9} />
+         </mesh>
+         <mesh receiveShadow position={[0, 0.01, 0]}>
+           <cylinderGeometry args={[10, 10, 0.1, 8]} />
+           <meshStandardMaterial color="#1a202c" roughness={0.8} />
+         </mesh>
+         <NaadamZone onSelect={() => onSelect('naadam')} hideLabels={hideLabels} />
       </group>
 
-      {/* Removed Sky & Spirits Island */}
-
-      {/* Naadam Festival Island (West) */}
-      <group position={[-17, 0, 0]} >
-        <NaadamZone onSelect={() => onSelect('naadam')} hideLabels={hideLabels} />
-      </group>
-
-      {/* State Suld - Nine White Banners */}
-      <NineWhiteBanners />
-
-      {/* Atmospheric Embers */}
-      <AtmosphericEmbers />
-
-      {/* Flying Eagle */}
+      {/* Flying Eagle weaving through the islands */}
       <FlyingEagle />
       
-      {/* Decorative Trees/Rocks */}
+      {/* Decorative Bridges / Floating Rocks */}
       <DecorativeElements />
     </group>
   );
@@ -154,45 +87,34 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
 function DecorativeElements() {
   return (
     <group>
-      {/* Ovoo (Sacred Stone Heap) */}
-      <group position={[7, 0.1, 7]}>
-        {/* Stones */}
-        <mesh position={[0, 0.3, 0]}>
-          <dodecahedronGeometry args={[0.8, 1]} />
-          <meshStandardMaterial color="#888c8d" roughness={0.9} />
-        </mesh>
-        <mesh position={[0.4, 0.2, 0.4]}>
-          <dodecahedronGeometry args={[0.5, 1]} />
-          <meshStandardMaterial color="#7a7d7e" roughness={0.9} />
-        </mesh>
-        <mesh position={[-0.4, 0.2, -0.3]}>
-          <dodecahedronGeometry args={[0.6, 1]} />
-          <meshStandardMaterial color="#919596" roughness={0.9} />
-        </mesh>
-        {/* Central Pole */}
-        <mesh position={[0, 1.2, 0]}>
-          <cylinderGeometry args={[0.05, 0.05, 2]} />
-          <meshStandardMaterial color="#5c4033" />
-        </mesh>
-        {/* Khadag (Blue Silk Scarves) */}
-        <mesh position={[0, 1.5, 0.2]} rotation={[0, 0, Math.PI / 4]}>
-          <planeGeometry args={[0.1, 0.8]} />
-          <meshStandardMaterial color="#0066cc" side={THREE.DoubleSide} />
-        </mesh>
-        <mesh position={[0.2, 1.3, 0]} rotation={[0, Math.PI / 2, -Math.PI / 4]}>
-          <planeGeometry args={[0.1, 0.6]} />
-          <meshStandardMaterial color="#0066cc" side={THREE.DoubleSide} />
-        </mesh>
-      </group>
-
-      {/* Scattered Rocks */}
-      <mesh position={[-9, 0.2, 2]}>
-        <dodecahedronGeometry args={[0.4, 1]} />
+      {/* Floating steps from Center to Imperial Island */}
+      <mesh position={[6, 0.5, 0.5]}>
+        <dodecahedronGeometry args={[0.8, 0]} />
         <meshStandardMaterial color="#7a8b7a" />
       </mesh>
-      <mesh position={[2, 0.1, -9]}>
-        <dodecahedronGeometry args={[0.3, 1]} />
+      <mesh position={[10, 1.2, 1]}>
+        <dodecahedronGeometry args={[1.2, 0]} />
         <meshStandardMaterial color="#7a8b7a" />
+      </mesh>
+
+      {/* Floating steps from Center to Nomadic Island */}
+      <mesh position={[-5, -0.2, 5]}>
+        <dodecahedronGeometry args={[0.9, 0]} />
+        <meshStandardMaterial color="#6a7a6a" />
+      </mesh>
+      <mesh position={[-8, -0.5, 8]}>
+        <dodecahedronGeometry args={[1, 0]} />
+        <meshStandardMaterial color="#6a7a6a" />
+      </mesh>
+
+      {/* Floating steps from Center to Naadam Island */}
+      <mesh position={[-1, 0.4, -6]}>
+        <dodecahedronGeometry args={[0.7, 0]} />
+        <meshStandardMaterial color="#8a9a8a" />
+      </mesh>
+      <mesh position={[-1.5, 0.7, -10]}>
+        <dodecahedronGeometry args={[1.1, 0]} />
+        <meshStandardMaterial color="#8a9a8a" />
       </mesh>
     </group>
   );
@@ -203,10 +125,11 @@ function FlyingEagle() {
   
   useFrame((state) => {
     if (eagleRef.current) {
-      const time = state.clock.elapsedTime * 0.5;
-      eagleRef.current.position.x = Math.cos(time) * 10;
-      eagleRef.current.position.z = Math.sin(time) * 10;
-      eagleRef.current.position.y = 8 + Math.sin(time * 2) * 1;
+      const time = state.clock.elapsedTime * 0.3;
+      // Fly in a wide circle around the archipelago
+      eagleRef.current.position.x = Math.cos(time) * 18;
+      eagleRef.current.position.z = Math.sin(time) * 18;
+      eagleRef.current.position.y = 12 + Math.sin(time * 2) * 2;
       eagleRef.current.rotation.y = -time + Math.PI; // Face the direction of flight
       
       // Wing flapping
@@ -221,17 +144,17 @@ function FlyingEagle() {
   return (
     <group ref={eagleRef} scale={0.5}>
       {/* Body */}
-      <mesh castShadow position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
+      <mesh position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
         <capsuleGeometry args={[0.2, 0.8, 4, 8]} />
         <meshStandardMaterial color="#4a3b2c" />
       </mesh>
       {/* Left Wing */}
-      <mesh castShadow position={[0.5, 0, -0.2]} rotation={[0, 0, -Math.PI / 8]}>
+      <mesh position={[0.5, 0, -0.2]} rotation={[0, 0, -Math.PI / 8]}>
         <boxGeometry args={[2, 0.05, 0.6]} />
         <meshStandardMaterial color="#3a2a1a" />
       </mesh>
       {/* Right Wing */}
-      <mesh castShadow position={[-0.5, 0, -0.2]} rotation={[0, 0, Math.PI / 8]}>
+      <mesh position={[-0.5, 0, -0.2]} rotation={[0, 0, Math.PI / 8]}>
         <boxGeometry args={[2, 0.05, 0.6]} />
         <meshStandardMaterial color="#3a2a1a" />
       </mesh>
@@ -247,7 +170,7 @@ function FlyingEagle() {
       </mesh>
       {/* Beak */}
       <mesh position={[0, 0, 0.8]} rotation={[-Math.PI / 6, 0, 0]}>
-        <coneGeometry args={[0.08, 0.2, 4]} />
+        <coneGeometry args={[0.08, 0.2, 6]} />
         <meshStandardMaterial color="#d4a017" />
       </mesh>
     </group>
@@ -297,7 +220,7 @@ function BannerFlame({ position, scale = 1, isCenter = false }: { position: [num
       <group ref={flameGroupRef} position={[0, 0.05, 0]}>
         {/* Core hot flame */}
         <mesh position={[0, 0.08, 0]}>
-          <coneGeometry args={[0.04, 0.25, 5]} />
+          <coneGeometry args={[0.04, 0.25, 6]} />
           <meshBasicMaterial ref={innerMatRef} color="#ffffff" />
         </mesh>
         
@@ -309,20 +232,20 @@ function BannerFlame({ position, scale = 1, isCenter = false }: { position: [num
         
         {/* Licking side flame 1 */}
         <mesh position={[-0.03, 0.05, 0.02]} rotation={[0, 0, 0.2]}>
-          <coneGeometry args={[0.05, 0.2, 4]} />
+          <coneGeometry args={[0.05, 0.2, 6]} />
           <meshBasicMaterial color="#ff5500" transparent opacity={0.7} blending={THREE.AdditiveBlending} depthWrite={false} />
         </mesh>
 
         {/* Licking side flame 2 */}
         <mesh position={[0.03, 0.06, -0.02]} rotation={[0.1, 0, -0.2]}>
-          <coneGeometry args={[0.04, 0.25, 4]} />
+          <coneGeometry args={[0.04, 0.25, 6]} />
           <meshBasicMaterial color="#ff3300" transparent opacity={0.6} blending={THREE.AdditiveBlending} depthWrite={false} />
         </mesh>
       </group>
       
       {/* Base ambient glow */}
       <mesh position={[0, 0.05, 0]}>
-        <sphereGeometry args={[0.12, 8, 8]} />
+        <sphereGeometry args={[0.12, 4, 4]} />
         <meshBasicMaterial ref={outerMatRef} color={isCenter ? "#ff2200" : "#ff1100"} transparent opacity={0.5} blending={THREE.AdditiveBlending} depthWrite={false} />
       </mesh>
       
@@ -344,22 +267,22 @@ function NineWhiteBanners() {
     <group key="center" position={[0, 0, 0]}>
       {/* Spear tip */}
       <mesh castShadow position={[0, 3.6, 0]}>
-        <coneGeometry args={[0.08, 0.4, 4]} />
+        <coneGeometry args={[0.08, 0.4, 6]} />
         <meshStandardMaterial color="#c0c0c0" metalness={0.8} />
       </mesh>
       {/* Center Pole */}
       <mesh castShadow position={[0, 1.8, 0]}>
-        <cylinderGeometry args={[0.05, 0.05, 3.6]} />
+        <cylinderGeometry args={[0.05, 0.05, 3.6, 6]} />
         <meshStandardMaterial color="#5c4033" />
       </mesh>
       {/* Ring & White Horse Hair */}
-      <mesh castShadow position={[0, 3, 0]}>
-        <cylinderGeometry args={[0.4, 0.45, 1.2, 8]} />
+      <mesh castShadow position={[0, 6, 0]}>
+        <cylinderGeometry args={[0.4, 0.45, 1.2, 6]} />
         <meshStandardMaterial color="#f8f9fa" roughness={1} />
       </mesh>
       {/* Platform/Tier below the hair */}
       <mesh castShadow position={[0, 3.6, 0]}>
-        <cylinderGeometry args={[0.42, 0.42, 0.05, 8]} />
+        <cylinderGeometry args={[0.42, 0.42, 0.05, 6]} />
         <meshStandardMaterial color="#2d2d2d" metalness={0.8} />
       </mesh>
       {/* Flame on top */}
@@ -378,22 +301,22 @@ function NineWhiteBanners() {
       <group key={`banner-${i}`} position={[x, 0, z]}>
         {/* Spear tip */}
         <mesh castShadow position={[0, 2.6, 0]}>
-          <coneGeometry args={[0.05, 0.3, 4]} />
+          <coneGeometry args={[0.05, 0.3, 6]} />
           <meshStandardMaterial color="#c0c0c0" metalness={0.8} />
         </mesh>
         {/* Pole */}
         <mesh castShadow position={[0, 1.3, 0]}>
-          <cylinderGeometry args={[0.03, 0.03, 2.6]} />
+          <cylinderGeometry args={[0.03, 0.03, 2.6, 6]} />
           <meshStandardMaterial color="#5c4033" />
         </mesh>
         {/* Ring & White Horse Hair */}
         <mesh castShadow position={[0, 2.1, 0]}>
-          <cylinderGeometry args={[0.25, 0.28, 0.8, 8]} />
+          <cylinderGeometry args={[0.25, 0.28, 0.8, 6]} />
           <meshStandardMaterial color="#f8f9fa" roughness={1} />
         </mesh>
         {/* Platform top */}
         <mesh castShadow position={[0, 2.5, 0]}>
-          <cylinderGeometry args={[0.27, 0.27, 0.05, 8]} />
+          <cylinderGeometry args={[0.27, 0.27, 0.05, 6]} />
           <meshStandardMaterial color="#2d2d2d" metalness={0.8} />
         </mesh>
         {/* Flame on top */}
@@ -406,11 +329,11 @@ function NineWhiteBanners() {
     <group position={[0, 0.1, 0]}>
       {/* Stone base for the banners */}
       <mesh receiveShadow castShadow position={[0, 0.1, 0]}>
-        <cylinderGeometry args={[1.8, 2, 0.2, 8]} />
+        <cylinderGeometry args={[1.8, 2, 0.2, 6]} />
         <meshStandardMaterial color="#d2b48c" roughness={0.9} />
       </mesh>
       <mesh receiveShadow castShadow position={[0, 0.25, 0]}>
-        <cylinderGeometry args={[1.5, 1.6, 0.1, 8]} />
+        <cylinderGeometry args={[1.5, 1.6, 0.1, 6]} />
         <meshStandardMaterial color="#bdaa88" roughness={0.9} />
       </mesh>
       
@@ -425,57 +348,3 @@ function NineWhiteBanners() {
   );
 }
 
-function AtmosphericEmbers() {
-  const count = 15;
-  const meshRef = useRef<THREE.InstancedMesh>(null);
-  const dummy = useMemo(() => new THREE.Object3D(), []);
-  const seeds = useMemo(() => new Float32Array(count).map(() => Math.random()), []);
-
-  useEffect(() => {
-    if (!meshRef.current) return;
-    for (let i = 0; i < count; i++) {
-      // Spawn around the banners
-      dummy.position.set(
-        (Math.random() - 0.5) * 4,
-        Math.random() * 3 + 2,
-        (Math.random() - 0.5) * 4
-      );
-      dummy.scale.setScalar(Math.random() * 0.5 + 0.5);
-      dummy.updateMatrix();
-      meshRef.current.setMatrixAt(i, dummy.matrix);
-    }
-    meshRef.current.instanceMatrix.needsUpdate = true;
-  }, [dummy]);
-
-  useFrame((state) => {
-    if (!meshRef.current) return;
-    const time = state.clock.elapsedTime;
-    for (let i = 0; i < count; i++) {
-      meshRef.current.getMatrixAt(i, dummy.matrix);
-      dummy.matrix.decompose(dummy.position, dummy.quaternion, dummy.scale);
-      
-      // Float up and drift
-      dummy.position.y += 0.01 * seeds[i] + 0.005;
-      dummy.position.x += Math.sin(time + seeds[i] * 10) * 0.01;
-      dummy.position.z += Math.cos(time + seeds[i] * 10) * 0.01;
-      
-      // Reset if too high
-      if (dummy.position.y > 5.5) {
-        dummy.position.set(
-          (Math.random() - 0.5) * 3,
-          2.5 + Math.random(), // Start near banner tops
-          (Math.random() - 0.5) * 3
-        );
-      }
-      
-      dummy.updateMatrix();
-      meshRef.current.setMatrixAt(i, dummy.matrix);
-    }
-    meshRef.current.instanceMatrix.needsUpdate = true;
-  });
-
-  const geo = useMemo(() => new THREE.IcosahedronGeometry(0.02, 0), []);
-  const mat = useMemo(() => new THREE.MeshBasicMaterial({ color: "#ff8800", transparent: true, opacity: 0.8 }), []);
-
-  return <instancedMesh ref={meshRef} args={[geo, mat, count]} />;
-}

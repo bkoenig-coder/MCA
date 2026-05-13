@@ -35,10 +35,6 @@ const popups: Record<string, { title: string; content: string }> = {
   nomadic: {
     title: 'Nomadic Life',
     content: 'Experience the warm, peaceful rhythm of traditional Mongolian daily life. Families gather around campfires in their ger camps, while herders, playing children, and diverse livestock bring the vibrant steppe village to life.'
-  },
-  spirit: {
-    title: 'Sky & Spirits',
-    content: 'Enter the mystical realm of Tengriism. Under the glow of the eternal blue sky, ancestral spirits roam among giant ovoo shrines. Shamans perform ancient rituals as the veil between the physical and spiritual worlds thins.'
   }
 };
 

@@ -1,33 +1,43 @@
 import { Canvas } from '@react-three/fiber';
 import { DioramaScene } from './DioramaScene';
-import { BakeShadows, Preload, AdaptiveEvents, PerformanceMonitor } from '@react-three/drei';
+import { BakeShadows, Preload, AdaptiveEvents, PerformanceMonitor, OrbitControls } from '@react-three/drei';
 import { useState } from 'react';
 
 export default function HeroCanvas() {
-  const [dpr, setDpr] = useState(1.5);
+  const [dpr, setDpr] = useState(1);
   return (
     <Canvas 
       shadows 
       dpr={dpr} 
-      performance={{ min: 0.5 }}
-      camera={{ position: [10, 10, 10], fov: 45 }}
+      performance={{ min: 0.1 }}
+      camera={{ position: [25, 20, 25], fov: 45 }}
       gl={{ powerPreference: "high-performance", antialias: false }}
     >
-      <PerformanceMonitor onIncline={() => setDpr(2)} onDecline={() => setDpr(1)} />
-      <fog attach="fog" args={['#0A1128', 15, 45]} />
-      <ambientLight intensity={0.15} />
+      <color attach="background" args={['#e8955c']} />
+      <PerformanceMonitor onIncline={() => setDpr(1.2)} onDecline={() => setDpr(0.5)} />
+      <fog attach="fog" args={['#e8955c', 20, 75]} />
+      <ambientLight intensity={0.25} />
       <directionalLight
         castShadow
-        position={[10, 5, 10]}
-        intensity={0.5}
-        color="#ffcfaa"
-        shadow-mapSize={[512, 512]}
-        shadow-camera-left={-20}
-        shadow-camera-right={20}
-        shadow-camera-top={20}
-        shadow-camera-bottom={-20}
+        position={[25, 20, 15]}
+        intensity={0.65}
+        color="#ffccaa"
+        shadow-mapSize={[1024, 1024]}
+        shadow-camera-left={-30}
+        shadow-camera-right={30}
+        shadow-camera-top={30}
+        shadow-camera-bottom={-30}
+        shadow-bias={-0.0005}
       />
       <DioramaScene onSelect={() => {}} hideLabels={true} />
+      <OrbitControls 
+         autoRotate 
+         autoRotateSpeed={0.5} 
+         enableZoom={false} 
+         enablePan={false} 
+         maxPolarAngle={Math.PI / 2.2} 
+         minPolarAngle={Math.PI / 4}
+      />
       <BakeShadows />
       <Preload all />
       <AdaptiveEvents />

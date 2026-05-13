@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
-import React, { lazy, Suspense, useState, useEffect } from 'react';
+import React, { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import { cn } from '../lib/utils';
-import { ArrowRight, Calendar, Palette, Heart, Users, Shield, Sword, Clock, MapPin, Loader2, Info, Star, Handshake, Lightbulb, ArrowRightLeft, TrendingUp, Instagram } from 'lucide-react';
+import { ArrowRight, Calendar, Palette, Heart, Users, Shield, Sword, Clock, MapPin, Loader2, Info, Star, Handshake, Lightbulb, ArrowRightLeft, TrendingUp, Instagram, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../components/MongolianDesign';
@@ -20,8 +20,26 @@ const HeroCanvas = lazy(() => import('../components/diorama/HeroCanvas'));
 export default function Home() {
   const { t, i18n } = useTranslation();
   const [events, setEvents] = useState<any[]>([]);
+  const [news, setNews] = useState<any[]>([]);
+  const [gallery, setGallery] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [activePopup, setActivePopup] = useState<string | null>(null);
+
+  const newsScrollRef = useRef<HTMLDivElement>(null);
+  const galleryScrollRef = useRef<HTMLDivElement>(null);
+  const eventsScrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = (ref: React.RefObject<HTMLDivElement>) => {
+    if (ref.current) {
+      ref.current.scrollBy({ left: -400, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = (ref: React.RefObject<HTMLDivElement>) => {
+    if (ref.current) {
+      ref.current.scrollBy({ left: 400, behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
@@ -33,7 +51,22 @@ export default function Home() {
       handleFirestoreError(error, OperationType.GET, 'events');
       setLoading(false);
     });
-    return () => unsubscribe();
+
+    const qNews = query(collection(db, 'posts'), orderBy('createdAt', 'desc'), limit(12));
+    const unsubNews = onSnapshot(qNews, (snapshot) => {
+      setNews(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    }, (error) => {
+      handleFirestoreError(error, OperationType.GET, 'posts');
+    });
+
+    const qGallery = query(collection(db, 'gallery'), orderBy('createdAt', 'desc'), limit(12));
+    const unsubGallery = onSnapshot(qGallery, (snapshot) => {
+      setGallery(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    }, (error) => {
+      handleFirestoreError(error, OperationType.GET, 'gallery');
+    });
+
+    return () => { unsubscribe(); unsubNews(); unsubGallery(); };
   }, []);
 
   return (
@@ -293,6 +326,207 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Featured News Carousel */}
+      <section className="py-24 bg-brand-paper relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+          <div>
+            <div className="flex items-center gap-4 mb-3">
+              <div className="h-px w-8 bg-brand-gold/40" />
+              <span className="text-[9px] uppercase tracking-[0.5em] font-bold text-brand-gold">Our Voice</span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-serif leading-tight text-brand-ink">
+              Featured <span className="italic text-brand-gold">News</span>
+            </h2>
+          </div>
+          <div className="flex gap-4 sm:gap-6">
+            <Link to="/news" className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold text-brand-ink hover:text-brand-gold transition-colors flex items-center gap-2 border-b border-brand-ink/10 pb-1">All News <ArrowRight size={12}/></Link>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 relative">
+          <div 
+            ref={newsScrollRef}
+            className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 hide-scrollbar"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {news.map((item) => (
+              <div key={item.id} className="min-w-[85vw] md:min-w-[400px] snap-center shrink-0">
+                  <Link to={`/news/${item.id}`} className="group relative rounded-3xl overflow-hidden h-[400px] block bg-brand-ink">
+                    {item.imageUrl && (
+                      <img src={item.imageUrl} alt={item.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-60" referrerPolicy="no-referrer" />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-ink via-brand-ink/40 to-transparent opacity-90" />
+                    <div className="absolute top-6 left-6 bg-brand-gold px-4 py-1.5 rounded-full z-10">
+                      <span className="text-[9px] uppercase font-bold text-brand-ink tracking-widest">Featured</span>
+                    </div>
+                    <div className="absolute bottom-6 left-6 right-6 z-10">
+                      <h3 className="text-xl md:text-2xl font-serif text-white mb-4 line-clamp-2 md:leading-tight">{item.title}</h3>
+                      <p className="text-brand-paper/80 font-light text-sm line-clamp-2 mb-6">{item.excerpt || item.content}</p>
+                      <div className="flex items-center gap-2 text-brand-gold font-bold text-[9px] uppercase tracking-widest group-hover:translate-x-2 transition-transform">Read Story <ArrowRight size={12}/></div>
+                    </div>
+                  </Link>
+              </div>
+            ))}
+          </div>
+          
+          <div className="flex justify-center gap-4 mt-4">
+             <button onClick={() => scrollLeft(newsScrollRef)} className="w-12 h-12 rounded-full border border-brand-ink/20 flex items-center justify-center hover:bg-brand-ink hover:text-white transition-colors duration-300">
+                <ChevronLeft className="w-5 h-5" />
+             </button>
+             <button onClick={() => scrollRight(newsScrollRef)} className="w-12 h-12 rounded-full border border-brand-ink/20 flex items-center justify-center hover:bg-brand-ink hover:text-white transition-colors duration-300">
+                <ChevronRight className="w-5 h-5" />
+             </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Gallery Carousel */}
+      <section className="py-24 bg-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+          <div>
+            <div className="flex items-center gap-4 mb-3">
+              <div className="h-px w-8 bg-brand-gold/40" />
+              <span className="text-[9px] uppercase tracking-[0.5em] font-bold text-brand-gold">Our Vision</span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-serif leading-tight text-brand-ink">
+              Featured <span className="italic text-brand-gold">Gallery</span>
+            </h2>
+          </div>
+          <div className="flex gap-4 sm:gap-6">
+              <Link to="/gallery" className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold text-brand-ink hover:text-brand-gold transition-colors flex items-center gap-2 border-b border-brand-ink/10 pb-1">All Gallery <ArrowRight size={12}/></Link>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 relative">
+          <div 
+            ref={galleryScrollRef}
+            className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 hide-scrollbar"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {gallery.map((item) => (
+              <div key={item.id} className="min-w-[85vw] md:min-w-[350px] snap-center shrink-0">
+                  <Link to={`/gallery/${item.id}`} className="group relative rounded-3xl overflow-hidden h-[450px] block bg-brand-ink">
+                    <img src={item.imageUrl} alt={item.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" referrerPolicy="no-referrer" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/90 via-black/20 to-transparent" />
+                    <div className="absolute bottom-6 left-6 right-6 z-10">
+                      <h3 className="text-xl font-serif text-white mb-2 line-clamp-2">{item.title}</h3>
+                      <div className="flex items-center gap-2 text-brand-gold font-bold text-[9px] uppercase tracking-widest group-hover:translate-x-2 transition-transform">View Capture <ArrowRight size={12}/></div>
+                    </div>
+                  </Link>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex justify-center gap-4 mt-4">
+             <button onClick={() => scrollLeft(galleryScrollRef)} className="w-12 h-12 rounded-full border border-brand-ink/20 flex items-center justify-center hover:bg-brand-ink hover:text-white transition-colors duration-300">
+                <ChevronLeft className="w-5 h-5" />
+             </button>
+             <button onClick={() => scrollRight(galleryScrollRef)} className="w-12 h-12 rounded-full border border-brand-ink/20 flex items-center justify-center hover:bg-brand-ink hover:text-white transition-colors duration-300">
+                <ChevronRight className="w-5 h-5" />
+             </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Events Preview - Dynamic List */}
+      <section className="py-16 md:py-24 px-4 md:px-6 bg-brand-paper relative overflow-hidden">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-12 md:mb-16 -mt-[40px] md:-mt-[40px]">
+            <div className="flex items-center justify-center gap-2 md:gap-4 mb-4 md:mb-6">
+              <div className="h-px w-8 md:w-12 bg-brand-gold/40" />
+              <span className="text-[9px] md:text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">{t('highlight.tag')}</span>
+              <div className="h-px w-8 md:w-12 bg-brand-gold/40" />
+            </div>
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif leading-tight text-brand-ink mb-6 md:mb-8">
+              {t('highlight.title')} <br className="hidden md:block"/>
+              <span className="italic text-brand-gold"> {t('highlight.titleItalic')}</span>
+            </h2>
+            <Link to="/events" className="inline-flex items-center gap-3 md:gap-4 text-brand-ink font-bold text-[10px] md:text-xs uppercase tracking-[0.3em] group">
+              {t('highlight.cta')}
+              <div className="w-8 h-8 md:w-12 md:h-12 border border-brand-ink/10 rounded-full flex items-center justify-center group-hover:border-brand-gold group-hover:text-brand-gold transition-all">
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </div>
+            </Link>
+          </div>
+
+          {loading ? (
+            <div className="flex justify-center py-20 -mt-[30px] md:-mt-[50px] min-h-[200px]">
+              {/* Spinner removed */}
+            </div>
+          ) : (
+            <div className="relative">
+              <div 
+                ref={eventsScrollRef}
+                className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 hide-scrollbar -mt-[30px] md:-mt-[20px]"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
+                {events.map((event, idx) => {
+                  const lang = i18n.language;
+                  const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : (event.titleEn || event.title);
+                  const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : (event.descriptionEn || event.description);
+                  const dLocation = lang === 'mn' ? (event.locationMn || event.location) : lang === 'de' ? (event.locationDe || event.location) : (event.locationEn || event.location);
+                  const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : (event.categoryEn || event.category);
+
+                  return (
+                  <div key={event.id} className="min-w-[85vw] md:min-w-[350px] snap-center shrink-0">
+                      <Link to={`/events/${event.id}`} className="group relative rounded-3xl overflow-hidden h-[450px] block bg-brand-ink">
+                        <img src={event.imageUrl} alt={dTitle} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" referrerPolicy="no-referrer" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/90 via-brand-ink/40 to-transparent opacity-90" />
+                        
+                        {/* Floating Date Badge */}
+                        <div className="absolute top-6 left-6 bg-brand-gold text-brand-ink px-4 py-2 rounded-xl shadow-md flex flex-col items-center min-w-[56px] z-10">
+                          <span className="text-[9px] uppercase tracking-widest font-bold">
+                            {new Date(event.date).toLocaleDateString(t('common.locale'), { month: 'short' })}
+                          </span>
+                          <span className="text-xl font-serif font-bold">
+                            {new Date(event.date).getDate()}
+                          </span>
+                        </div>
+
+                        <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full z-10">
+                          <span className="text-[8px] uppercase font-bold text-brand-ink tracking-widest">{dCat || t('events.defaultCategory')}</span>
+                        </div>
+
+                        <div className="absolute bottom-6 left-6 right-6 z-10">
+                          <div className="flex items-center gap-2 text-brand-gold mb-2">
+                             <Star size={10} className="w-[10px] h-[10px]" fill="currentColor" />
+                             <span className="text-[8px] uppercase tracking-widest font-bold">Featured Event</span>
+                          </div>
+                          <h3 className="text-2xl font-serif text-white mb-2 line-clamp-2">{dTitle}</h3>
+                          <p className="text-brand-paper/80 font-light text-sm line-clamp-2 mb-4">{dDesc}</p>
+                          
+                          <div className="flex items-center gap-4 text-brand-paper/80 mb-6 text-[9px] uppercase tracking-widest font-bold">
+                            <div className="flex items-center gap-1.5"><Clock size={10}/> {event.time || t('events.tba')}</div>
+                            <div className="flex items-center gap-1.5 truncate"><MapPin size={10}/> {dLocation || t('events.vienna')}</div>
+                          </div>
+
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-brand-gold font-bold text-[9px] uppercase tracking-widest group-hover:translate-x-2 transition-transform">
+                              {t('events.viewDetails')} <ArrowRight size={12}/>
+                            </div>
+                            <span className="font-serif text-lg text-white font-bold">
+                              {event.price === 0 ? 'Free' : `€${(event.price / 100).toFixed(2)}`}
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                  </div>
+                  );
+                })}
+              </div>
+              <div className="flex justify-center gap-4 mt-4">
+                <button onClick={() => scrollLeft(eventsScrollRef)} className="w-12 h-12 rounded-full border border-brand-ink/20 flex items-center justify-center hover:bg-brand-ink hover:text-white transition-colors duration-300">
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button onClick={() => scrollRight(eventsScrollRef)} className="w-12 h-12 rounded-full border border-brand-ink/20 flex items-center justify-center hover:bg-brand-ink hover:text-white transition-colors duration-300">
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
       {/* Pillars Section - Redesigned for Prestige & Impact */}
       <section className="py-24 md:py-40 px-6 bg-white relative overflow-hidden">
         <div className="max-w-[1600px] mx-auto relative z-10">
@@ -380,132 +614,6 @@ export default function Home() {
               </Link>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Featured Events Preview - Dynamic List */}
-      <section className="py-16 md:py-24 px-4 md:px-6 bg-brand-paper relative overflow-hidden">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-12 md:mb-16 -mt-[40px] md:-mt-[40px]">
-            <div className="flex items-center justify-center gap-2 md:gap-4 mb-4 md:mb-6">
-              <div className="h-px w-8 md:w-12 bg-brand-gold/40" />
-              <span className="text-[9px] md:text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">{t('highlight.tag')}</span>
-              <div className="h-px w-8 md:w-12 bg-brand-gold/40" />
-            </div>
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif leading-tight text-brand-ink mb-6 md:mb-8">
-              {t('highlight.title')} <br className="hidden md:block"/>
-              <span className="italic text-brand-gold"> {t('highlight.titleItalic')}</span>
-            </h2>
-            <Link to="/events" className="inline-flex items-center gap-3 md:gap-4 text-brand-ink font-bold text-[10px] md:text-xs uppercase tracking-[0.3em] group">
-              {t('highlight.cta')}
-              <div className="w-8 h-8 md:w-12 md:h-12 border border-brand-ink/10 rounded-full flex items-center justify-center group-hover:border-brand-gold group-hover:text-brand-gold transition-all">
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </div>
-            </Link>
-          </div>
-
-          {loading ? (
-            <div className="flex justify-center py-20 -mt-[30px] md:-mt-[50px] min-h-[200px]">
-              {/* Spinner removed */}
-            </div>
-          ) : (
-            <div className="grid md:grid-cols-3 gap-6 md:gap-8 -mt-[30px] md:-mt-[20px]">
-              {events.map((event, idx) => {
-                const lang = i18n.language;
-                const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : (event.titleEn || event.title);
-                const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : (event.descriptionEn || event.description);
-                const dLocation = lang === 'mn' ? (event.locationMn || event.location) : lang === 'de' ? (event.locationDe || event.location) : (event.locationEn || event.location);
-                const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : (event.categoryEn || event.category);
-
-                return (
-                <motion.div 
-                  key={event.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: idx * 0.1 }}
-                  className="group bg-white rounded-[30px] md:rounded-[40px] overflow-hidden border border-brand-ink/5 shadow-sm md:hover:shadow-2xl transition-all duration-700 flex flex-col"
-                >
-                  {/* Image Section */}
-                  <div className="relative overflow-hidden aspect-[16/10] sm:aspect-[4/3] sm:bg-brand-ink/5 flex items-center justify-center">
-                    <img 
-                      src={event.imageUrl} 
-                      alt={dTitle} 
-                      className="absolute inset-0 w-full h-full object-cover sm:object-contain transition-transform duration-1000 group-hover:scale-105"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-brand-ink/20 group-hover:bg-transparent transition-colors duration-700 pointer-events-none" />
-                    
-                    {/* Floating Date Badge */}
-                    <div className="absolute top-4 left-4 md:top-6 md:left-6 bg-white md:bg-white/90 md:backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-xl md:rounded-2xl shadow-md md:shadow-xl flex flex-col items-center min-w-[50px] md:min-w-[60px]">
-                      <span className="text-[9px] md:text-[10px] uppercase tracking-widest font-bold text-brand-gold">
-                        {new Date(event.date).toLocaleDateString(t('common.locale'), { month: 'short' })}
-                      </span>
-                      <span className="text-xl md:text-2xl font-serif font-bold text-brand-ink">
-                        {new Date(event.date).getDate()}
-                      </span>
-                    </div>
-
-                    {/* Category Tag */}
-                    <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6">
-                      <span className="px-3 py-1 md:px-4 md:py-1.5 bg-brand-gold text-brand-ink rounded-full text-[8px] md:text-[9px] uppercase tracking-[0.2em] font-black shadow-lg">
-                        {dCat || t('events.defaultCategory')}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  {/* Content Section */}
-                  <div className="p-6 md:p-10 flex flex-col flex-grow">
-                    <div className="flex items-center justify-between mb-4 md:mb-6">
-                      <div className="flex items-center gap-1.5 md:gap-2 text-brand-gold">
-                        <Star size={12} className="md:w-[14px] md:h-[14px]" fill="currentColor" />
-                        <span className="text-[9px] md:text-[10px] uppercase tracking-widest font-bold">Featured Event</span>
-                      </div>
-                      <span className="font-serif text-lg md:text-xl text-brand-ink font-bold">
-                        {event.price === 0 ? 'Free' : `€${(event.price / 100).toFixed(2)}`}
-                      </span>
-                    </div>
-                    
-                    <h3 className="text-xl md:text-3xl font-serif text-brand-ink mb-3 md:mb-4 group-hover:text-brand-gold transition-colors duration-500 leading-tight">
-                      {dTitle}
-                    </h3>
-                    
-                    <p className="text-brand-ink/60 font-light leading-relaxed mb-6 md:mb-8 line-clamp-2 md:line-clamp-3 text-xs md:text-sm">
-                      {dDesc}
-                    </p>
-                    
-                    <div className="mt-auto space-y-3 md:space-y-4">
-                      <div className="flex items-center gap-3 md:gap-4 text-brand-ink/40">
-                        <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-brand-paper flex items-center justify-center text-brand-gold shrink-0">
-                          <Clock size={12} className="md:w-[14px] md:h-[14px]" />
-                        </div>
-                        <span className="text-[9px] md:text-[10px] uppercase tracking-widest font-bold">
-                          {event.time || t('events.tba')}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-3 md:gap-4 text-brand-ink/40">
-                        <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-brand-paper flex items-center justify-center text-brand-gold shrink-0">
-                          <MapPin size={12} className="md:w-[14px] md:h-[14px]" />
-                        </div>
-                        <span className="text-[9px] md:text-[10px] uppercase tracking-widest font-bold truncate">
-                          {dLocation || t('events.vienna')}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <Link 
-                      to={`/events/${event.id}`}
-                      className="mt-6 md:mt-10 w-full bg-brand-paper text-brand-ink px-6 py-4 md:px-8 md:py-5 rounded-xl md:rounded-2xl text-[9px] md:text-[10px] uppercase tracking-widest font-bold hover:bg-brand-ink hover:text-white transition-all duration-500 text-center flex items-center justify-center gap-2 md:gap-3 group/btn"
-                    >
-                      {t('events.viewDetails')} 
-                      <ArrowRight size={12} className="group-hover/btn:translate-x-1 transition-transform md:w-[14px] md:h-[14px]" />
-                    </Link>
-                  </div>
-                </motion.div>
-                );
-              })}
-            </div>
-          )}
         </div>
       </section>
 

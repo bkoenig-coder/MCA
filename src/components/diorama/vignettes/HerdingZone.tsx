@@ -30,14 +30,14 @@ const armRef = useRef<THREE.Group>(null);
       {/* Milking Arm */}
       <group position={[-0.8, 0.5, 0]} ref={armRef}>
         <mesh castShadow position={[0.2, -0.1, 0]} rotation={[0, 0, Math.PI / 4]}>
-          <cylinderGeometry args={[0.05, 0.05, 0.4]} />
+          <cylinderGeometry args={[0.05, 0.05, 0.4, 6]} />
           <meshStandardMaterial color="#f39c12" />
         </mesh>
       </group>
       
       {/* Wooden Bucket */}
       <mesh castShadow position={[-0.5, 0.15, 0]}>
-        <cylinderGeometry args={[0.15, 0.1, 0.3]} />
+        <cylinderGeometry args={[0.15, 0.1, 0.3, 6]} />
         <meshStandardMaterial color="#8b5a2b" />
       </mesh>
 

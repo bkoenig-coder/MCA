@@ -35,11 +35,11 @@ const wrestler1Ref = useRef<THREE.Mesh>(null);
           <meshStandardMaterial color="#d35400" />
         </mesh>
         <mesh castShadow position={[0, 0.2, 0]}>
-          <cylinderGeometry args={[0.26, 0.26, 0.2]} />
+          <cylinderGeometry args={[0.26, 0.26, 0.2, 6]} />
           <meshStandardMaterial color="#c0392b" />
         </mesh>
         <mesh castShadow position={[0, -0.2, 0]}>
-          <cylinderGeometry args={[0.26, 0.26, 0.15]} />
+          <cylinderGeometry args={[0.26, 0.26, 0.15, 6]} />
           <meshStandardMaterial color="#2980b9" />
         </mesh>
       </group>
@@ -51,11 +51,11 @@ const wrestler1Ref = useRef<THREE.Mesh>(null);
           <meshStandardMaterial color="#d35400" />
         </mesh>
         <mesh castShadow position={[0, 0.2, 0]}>
-          <cylinderGeometry args={[0.26, 0.26, 0.2]} />
+          <cylinderGeometry args={[0.26, 0.26, 0.2, 6]} />
           <meshStandardMaterial color="#2980b9" />
         </mesh>
         <mesh castShadow position={[0, -0.2, 0]}>
-          <cylinderGeometry args={[0.26, 0.26, 0.15]} />
+          <cylinderGeometry args={[0.26, 0.26, 0.15, 6]} />
           <meshStandardMaterial color="#c0392b" />
         </mesh>
       </group>
@@ -70,7 +70,7 @@ const wrestler1Ref = useRef<THREE.Mesh>(null);
         {/* Surs (Targets) */}
         {[...Array(5)].map((_, i) => (
           <mesh key={i} castShadow position={[-0.6 + i * 0.3, 0.5, 0]} rotation={[Math.PI / 2, 0, 0]}>
-            <cylinderGeometry args={[0.1, 0.1, 0.15, 8]} />
+            <cylinderGeometry args={[0.1, 0.1, 0.15, 6]} />
             <meshStandardMaterial color={i === 2 ? "#c0392b" : "#bdc3c7"} />
           </mesh>
         ))}

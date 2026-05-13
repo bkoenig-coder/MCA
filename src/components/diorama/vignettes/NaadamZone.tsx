@@ -20,7 +20,7 @@ const groupRef = useRef<THREE.Group>(null);
 
       {/* Festival Ground Center (Arena) */}
       <mesh receiveShadow position={[0, 0.06, 0]}>
-        <cylinderGeometry args={[8, 8, 0.05, 12]} />
+        <cylinderGeometry args={[8, 8, 0.05, 6]} />
         <meshStandardMaterial color="#111111" roughness={0.9} />
       </mesh>
       
@@ -95,39 +95,39 @@ function Wrestlers() {
     <group position={[0, 0.1, 0]}>
       {/* Umpire (Zasuul) */}
       <group position={[0, 0, -3]}>
-        <mesh castShadow position={[0, 0.8, 0]}><cylinderGeometry args={[0.3, 0.4, 1.4, 8]}/><meshStandardMaterial color="#2c3e50"/></mesh>
-        <mesh castShadow position={[0, 1.7, 0]}><sphereGeometry args={[0.2, 8, 8]}/><meshStandardMaterial color="#f5cd79"/></mesh>
+        <mesh castShadow position={[0, 0.8, 0]}><cylinderGeometry args={[0.3, 0.4, 1.4, 6]}/><meshStandardMaterial color="#2c3e50"/></mesh>
+        <mesh castShadow position={[0, 1.7, 0]}><sphereGeometry args={[0.2, 4, 4]}/><meshStandardMaterial color="#f5cd79"/></mesh>
         {/* Zasuul hat */}
-        <mesh castShadow position={[0, 1.9, 0]}><coneGeometry args={[0.3, 0.4, 8]}/><meshStandardMaterial color="#e74c3c"/></mesh>
+        <mesh castShadow position={[0, 1.9, 0]}><coneGeometry args={[0.3, 0.4, 6]}/><meshStandardMaterial color="#e74c3c"/></mesh>
         {/* Holding wrestler's hat */}
-        <mesh castShadow position={[0.4, 1, 0.3]} rotation={[Math.PI/4, 0, 0]}><cylinderGeometry args={[0.1, 0.1, 0.6]}/><meshStandardMaterial color="#c0392b"/></mesh>
-        <mesh castShadow position={[0.4, 1.4, 0.4]}><cylinderGeometry args={[0.2, 0.2, 0.1]}/><meshStandardMaterial color="#c0392b"/></mesh>
+        <mesh castShadow position={[0.4, 1, 0.3]} rotation={[Math.PI/4, 0, 0]}><cylinderGeometry args={[0.1, 0.1, 0.6, 6]}/><meshStandardMaterial color="#c0392b"/></mesh>
+        <mesh castShadow position={[0.4, 1.4, 0.4]}><cylinderGeometry args={[0.2, 0.2, 0.1, 6]}/><meshStandardMaterial color="#c0392b"/></mesh>
       </group>
 
       {/* Wrestler 1 (Red/Blue Zodog) doing Eagle Dance */}
-      <group ref={w1Ref} position={[-2, 0, 0]} rotation={[0, Math.PI/2, 0]}>
+      <group ref={w1Ref} position={[-2, 6, 0]} rotation={[0, Math.PI/2, 0]}>
         {/* Boots (Gutal) */}
-        <mesh castShadow position={[0.2, 0.2, 0]}><cylinderGeometry args={[0.12, 0.1, 0.4]}/><meshStandardMaterial color="#2d3436"/></mesh>
-        <mesh castShadow position={[-0.2, 0.2, 0]}><cylinderGeometry args={[0.12, 0.1, 0.4]}/><meshStandardMaterial color="#2d3436"/></mesh>
+        <mesh castShadow position={[0.2, 0.2, 0]}><cylinderGeometry args={[0.12, 0.1, 0.4, 6]}/><meshStandardMaterial color="#2d3436"/></mesh>
+        <mesh castShadow position={[-0.2, 0.2, 0]}><cylinderGeometry args={[0.12, 0.1, 0.4, 6]}/><meshStandardMaterial color="#2d3436"/></mesh>
         {/* Briefs (Shuudag) */}
         <mesh castShadow position={[0, 0.6, 0]}><boxGeometry args={[0.5, 0.4, 0.3]}/><meshStandardMaterial color="#c0392b"/></mesh>
         {/* Torso/Chest (exposed) */}
-        <mesh castShadow position={[0, 1.0, 0]}><cylinderGeometry args={[0.3, 0.3, 0.6, 8]}/><meshStandardMaterial color="#f5cd79"/></mesh>
+        <mesh castShadow position={[0, 1.0, 0]}><cylinderGeometry args={[0.3, 0.3, 0.6, 6]}/><meshStandardMaterial color="#f5cd79"/></mesh>
         {/* Jacket (Zodog) sleeves */}
         <mesh castShadow position={[0.7, 1.1, 0]} rotation={[0, 0, Math.PI/3]}><cylinderGeometry args={[0.15, 0.15, 0.8, 6]}/><meshStandardMaterial color="#c0392b"/></mesh>
         <mesh castShadow position={[-0.7, 1.1, 0]} rotation={[0, 0, -Math.PI/3]}><cylinderGeometry args={[0.15, 0.15, 0.8, 6]}/><meshStandardMaterial color="#c0392b"/></mesh>
         {/* Head */}
-        <mesh castShadow position={[0, 1.5, 0]}><sphereGeometry args={[0.25, 8, 8]}/><meshStandardMaterial color="#f5cd79"/></mesh>
+        <mesh castShadow position={[0, 1.5, 0]}><sphereGeometry args={[0.25, 4, 4]}/><meshStandardMaterial color="#f5cd79"/></mesh>
       </group>
       {/* Wrestler 2 (Blue Zodog) */}
       <group ref={w2Ref} position={[2, 0, 0]} rotation={[0, -Math.PI/2, 0]}>
-        <mesh castShadow position={[0.2, 0.2, 0]}><cylinderGeometry args={[0.12, 0.1, 0.4]}/><meshStandardMaterial color="#2d3436"/></mesh>
-        <mesh castShadow position={[-0.2, 0.2, 0]}><cylinderGeometry args={[0.12, 0.1, 0.4]}/><meshStandardMaterial color="#2d3436"/></mesh>
+        <mesh castShadow position={[0.2, 0.2, 0]}><cylinderGeometry args={[0.12, 0.1, 0.4, 6]}/><meshStandardMaterial color="#2d3436"/></mesh>
+        <mesh castShadow position={[-0.2, 0.2, 0]}><cylinderGeometry args={[0.12, 0.1, 0.4, 6]}/><meshStandardMaterial color="#2d3436"/></mesh>
         <mesh castShadow position={[0, 0.6, 0]}><boxGeometry args={[0.5, 0.4, 0.3]}/><meshStandardMaterial color="#2980b9"/></mesh>
-        <mesh castShadow position={[0, 1.0, 0]}><cylinderGeometry args={[0.3, 0.3, 0.6, 8]}/><meshStandardMaterial color="#f5cd79"/></mesh>
+        <mesh castShadow position={[0, 1.0, 0]}><cylinderGeometry args={[0.3, 0.3, 0.6, 6]}/><meshStandardMaterial color="#f5cd79"/></mesh>
         <mesh castShadow position={[0.7, 1.1, 0]} rotation={[0, 0, Math.PI/3]}><cylinderGeometry args={[0.15, 0.15, 0.8, 6]}/><meshStandardMaterial color="#2980b9"/></mesh>
         <mesh castShadow position={[-0.7, 1.1, 0]} rotation={[0, 0, -Math.PI/3]}><cylinderGeometry args={[0.15, 0.15, 0.8, 6]}/><meshStandardMaterial color="#2980b9"/></mesh>
-        <mesh castShadow position={[0, 1.5, 0]}><sphereGeometry args={[0.25, 8, 8]}/><meshStandardMaterial color="#f5cd79"/></mesh>
+        <mesh castShadow position={[0, 1.5, 0]}><sphereGeometry args={[0.25, 4, 4]}/><meshStandardMaterial color="#f5cd79"/></mesh>
       </group>
     </group>
   );
@@ -202,17 +202,17 @@ function Racers() {
 
                {/* Child Jockey */}
                <mesh castShadow position={[-0.2, 0.8, 0]} rotation={[0, 0, Math.PI/8]}>
-                 <cylinderGeometry args={[0.2, 0.2, 0.8, 8]} />
+                 <cylinderGeometry args={[0.2, 0.2, 0.8, 6]} />
                  <meshStandardMaterial color={jockeyColor} />
                </mesh>
                {/* Jockey Head */}
                <mesh castShadow position={[-0.4, 1.3, 0]}>
-                 <sphereGeometry args={[0.3, 8, 8]} />
+                 <sphereGeometry args={[0.3, 4, 4]} />
                  <meshStandardMaterial color="#f5cd79" />
                </mesh>
                {/* Jockey Hat/Bandana */}
                <mesh castShadow position={[-0.4, 1.45, 0]}>
-                 <cylinderGeometry args={[0.3, 0.3, 0.15, 8]} />
+                 <cylinderGeometry args={[0.3, 0.3, 0.15, 6]} />
                  <meshStandardMaterial color={jockeyColor} />
                </mesh>
              </group>
@@ -242,7 +242,7 @@ function Banners() {
         return (
           <group key={i} position={[Math.cos(angle)*7.5, 0, Math.sin(angle)*7.5]}>
             <mesh position={[0, 1.5, 0]} castShadow>
-               <cylinderGeometry args={[0.05, 0.05, 3]} />
+               <cylinderGeometry args={[0.05, 0.05, 3, 6]} />
                <meshStandardMaterial color="#7f8c8d" />
             </mesh>
             <mesh position={[0.5, 2.5, 0]} castShadow>
@@ -266,16 +266,16 @@ function Archers() {
          {/* Sur Targets (leather cylinders in a row) */}
          {surs.map((_, i) => (
            <mesh key={i} castShadow position={[0, 0.15, -4 + i*0.3]}>
-              <cylinderGeometry args={[0.1, 0.1, 0.3, 8]} />
+              <cylinderGeometry args={[0.1, 0.1, 0.3, 6]} />
               <meshStandardMaterial color="#8b4513" />
            </mesh>
          ))}
          
          {/* Archer in Deel and Hat */}
-         <mesh castShadow position={[0, 0.7, 0]}><cylinderGeometry args={[0.3, 0.4, 1.4, 8]}/><meshStandardMaterial color="#2980b9"/></mesh>
+         <mesh castShadow position={[0, 0.7, 0]}><cylinderGeometry args={[0.3, 0.4, 1.4, 6]}/><meshStandardMaterial color="#2980b9"/></mesh>
          {/* Archer Hat (Loovuuz or Malgai) */}
-         <mesh castShadow position={[0, 1.5, 0]}><sphereGeometry args={[0.2, 8, 8]}/><meshStandardMaterial color="#f5cd79"/></mesh>
-         <mesh castShadow position={[0, 1.8, 0]}><coneGeometry args={[0.25, 0.3, 8]}/><meshStandardMaterial color="#e74c3c"/></mesh>
+         <mesh castShadow position={[0, 1.5, 0]}><sphereGeometry args={[0.2, 4, 4]}/><meshStandardMaterial color="#f5cd79"/></mesh>
+         <mesh castShadow position={[0, 1.8, 0]}><coneGeometry args={[0.25, 0.3, 6]}/><meshStandardMaterial color="#e74c3c"/></mesh>
          {/* Bow */}
          <mesh castShadow position={[0.4, 1.1, -0.4]} rotation={[0, Math.PI/2, Math.PI/6]}>
             <torusGeometry args={[0.5, 0.05, 4, 16, Math.PI]} />
@@ -300,7 +300,7 @@ function Crowd() {
          return (
            <group key={i} position={[Math.cos(angle)*dist, 0.8, Math.sin(angle)*dist]} rotation={[0, -angle + Math.PI/2, 0]}>
               <mesh castShadow><boxGeometry args={[0.3, 0.6, 0.3]} /><meshStandardMaterial color={["#1abc9c", "#9b59b6", "#e67e22", "#34495e"][i%4]}/></mesh>
-              <mesh castShadow position={[0, 0.4, 0]}><sphereGeometry args={[0.15, 6, 6]}/><meshStandardMaterial color="#f5cd79"/></mesh>
+              <mesh castShadow position={[0, 0.4, 0]}><sphereGeometry args={[0.15, 4, 4]}/><meshStandardMaterial color="#f5cd79"/></mesh>
            </group>
          )
        })}
@@ -313,14 +313,14 @@ function Musicians() {
     <group position={[6, 0.1, 8]} rotation={[0, -Math.PI/6, 0]}>
       {/* Musician seated */}
       <mesh castShadow position={[0, 0.4, 0]}><boxGeometry args={[0.5, 0.8, 0.5]}/><meshStandardMaterial color="#8e44ad"/></mesh>
-      <mesh castShadow position={[0, 0.9, 0]}><sphereGeometry args={[0.2, 8, 8]}/><meshStandardMaterial color="#f5cd79"/></mesh>
+      <mesh castShadow position={[0, 0.9, 0]}><sphereGeometry args={[0.2, 4, 4]}/><meshStandardMaterial color="#f5cd79"/></mesh>
       {/* Morin Khuur (Horse-head Fiddle) */}
       <mesh castShadow position={[0.2, 0.7, 0.4]} rotation={[Math.PI/6, 0, 0]}>
         <boxGeometry args={[0.3, 0.3, 0.1]}/>
         <meshStandardMaterial color="#c0392b"/>
       </mesh>
       <mesh castShadow position={[0.2, 1.2, 0.4]} rotation={[Math.PI/6, 0, 0]}>
-        <cylinderGeometry args={[0.02, 0.02, 0.8]}/>
+        <cylinderGeometry args={[0.02, 0.02, 0.8, 6]}/>
         <meshStandardMaterial color="#c0392b"/>
       </mesh>
     </group>
@@ -341,20 +341,20 @@ function Ger({ position, color }: { position: [number, number, number], color: s
   return (
     <group position={position}>
       <mesh castShadow receiveShadow position={[0, 1, 0]}>
-        <cylinderGeometry args={[2, 2, 2, 12]} />
+        <cylinderGeometry args={[2, 2, 2, 6]} />
         <meshStandardMaterial color="#f5f6fa" roughness={0.9} />
       </mesh>
       <mesh castShadow receiveShadow position={[0, 2.5, 0]}>
-        <coneGeometry args={[2.2, 1, 12]} />
+        <coneGeometry args={[2.2, 1, 6]} />
         <meshStandardMaterial color="#f5f6fa" roughness={0.9} />
       </mesh>
       {/* Colorful Trim */}
       <mesh position={[0, 0.2, 0]}>
-        <cylinderGeometry args={[2.05, 2.05, 0.2, 12]} />
+        <cylinderGeometry args={[2.05, 2.05, 0.2, 6]} />
         <meshStandardMaterial color={color} />
       </mesh>
       <mesh position={[0, 1.9, 0]}>
-        <cylinderGeometry args={[2.05, 2.05, 0.2, 12]} />
+        <cylinderGeometry args={[2.05, 2.05, 0.2, 6]} />
         <meshStandardMaterial color={color} />
       </mesh>
     </group>

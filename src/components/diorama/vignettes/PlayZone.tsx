@@ -25,7 +25,7 @@ const groupRef = useRef<THREE.Group>(null);
       
       {/* Invisible Hitbox for easier clicking */}
       <mesh position={[0, 0.5, 0]}>
-        <cylinderGeometry args={[2, 2, 1.5, 8]} />
+        <cylinderGeometry args={[2, 2, 1.5, 6]} />
         <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
 

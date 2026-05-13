@@ -8,7 +8,7 @@ import { Loader } from 'lucide-react';
 
 export default function EasterEgg() {
   const [activePopup, setActivePopup] = useState<string | null>(null);
-  const [dpr, setDpr] = useState(1.5);
+  const [dpr, setDpr] = useState(1);
 
   return (
     <div className="w-full h-screen bg-slate-900 relative overflow-hidden">
@@ -21,27 +21,28 @@ export default function EasterEgg() {
         <Canvas 
           shadows 
           dpr={dpr} 
-          performance={{ min: 0.5 }}
-          camera={{ position: [10, 10, 10], fov: 45 }}
+          performance={{ min: 0.1 }}
+          camera={{ position: [25, 20, 25], fov: 45 }}
           gl={{ powerPreference: "high-performance", antialias: false }}
         >
-          <PerformanceMonitor onIncline={() => setDpr(2)} onDecline={() => setDpr(1)} />
+          <PerformanceMonitor onIncline={() => setDpr(1.2)} onDecline={() => setDpr(0.5)} />
           <AudioSetup />
-          <color attach="background" args={['#0A1128']} />
-          <fog attach="fog" args={['#0A1128', 15, 45]} />
+          <color attach="background" args={['#d88c5e']} />
+          <fog attach="fog" args={['#d88c5e', 20, 85]} />
           
           {/* Dimmer ambient and directional lights for moody atmosphere */}
-          <ambientLight intensity={0.10} />
+          <ambientLight intensity={0.2} />
           <directionalLight
             castShadow
-            position={[10, 5, 10]}
-            intensity={0.4}
-            color="#ffcfaa"
-            shadow-mapSize={[512, 512]}
-            shadow-camera-left={-20}
-            shadow-camera-right={20}
-            shadow-camera-top={20}
-            shadow-camera-bottom={-20}
+            position={[25, 20, 15]}
+            intensity={0.6}
+            color="#ffd0aa"
+            shadow-mapSize={[1024, 1024]}
+            shadow-camera-left={-30}
+            shadow-camera-right={30}
+            shadow-camera-top={30}
+            shadow-camera-bottom={-30}
+            shadow-bias={-0.0005}
           />
           
           <DioramaScene onSelect={setActivePopup} />
