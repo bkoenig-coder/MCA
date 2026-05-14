@@ -190,7 +190,7 @@ function HitchingPost({ position }: { position: [number, number, number] }) {
         <meshStandardMaterial color="#7158e2" />
       </mesh>
       {/* Tied Horse */}
-      <Horse position={[0, 6, -1]} rotation={[0, -Math.PI / 2, 0]} />
+      <Horse position={[0, 0.1, -1]} rotation={[0, -Math.PI / 2, 0]} />
     </group>
   );
 }

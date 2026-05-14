@@ -276,7 +276,7 @@ function NineWhiteBanners() {
         <meshStandardMaterial color="#5c4033" />
       </mesh>
       {/* Ring & White Horse Hair */}
-      <mesh castShadow position={[0, 6, 0]}>
+      <mesh castShadow position={[0, 3.0, 0]}>
         <cylinderGeometry args={[0.4, 0.45, 1.2, 6]} />
         <meshStandardMaterial color="#f8f9fa" roughness={1} />
       </mesh>

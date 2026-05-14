@@ -105,7 +105,7 @@ function Wrestlers() {
       </group>
 
       {/* Wrestler 1 (Red/Blue Zodog) doing Eagle Dance */}
-      <group ref={w1Ref} position={[-2, 6, 0]} rotation={[0, Math.PI/2, 0]}>
+      <group ref={w1Ref} position={[-2, 0, 0]} rotation={[0, Math.PI/2, 0]}>
         {/* Boots (Gutal) */}
         <mesh castShadow position={[0.2, 0.2, 0]}><cylinderGeometry args={[0.12, 0.1, 0.4, 6]}/><meshStandardMaterial color="#2d3436"/></mesh>
         <mesh castShadow position={[-0.2, 0.2, 0]}><cylinderGeometry args={[0.12, 0.1, 0.4, 6]}/><meshStandardMaterial color="#2d3436"/></mesh>

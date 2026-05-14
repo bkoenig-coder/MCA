@@ -1,11 +1,11 @@
 import { Globe, Mail, MapPin, Phone, Instagram, Facebook, Linkedin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'motion/react';
+import { motion, Variants } from 'motion/react';
 import { UlziiSymbol } from './MongolianDesign';
 import mcaLogo from '../assets/media/mcalogo-1.png';
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -16,7 +16,7 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: { 
     opacity: 1, 

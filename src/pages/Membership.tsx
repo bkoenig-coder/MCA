@@ -3,6 +3,18 @@ import { motion } from 'motion/react';
 import { ArrowRight, Globe, Users, Calendar, Award, CheckCircle2, ChevronRight, Building2, GraduationCap, Briefcase } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+import amoxLogo from '../assets/media/amoxlogo.png';
+import deutschotekLogo from '../assets/media/deutschoteklogo.jpg';
+import euactiveLogo from '../assets/media/euactivelogo.png';
+import mcaLogo from '../assets/media/mcalogo-1.png';
+
+const partners = [
+  { name: "AMOX", logo: amoxLogo },
+  { name: "Deutschothek", logo: deutschotekLogo },
+  { name: "EU Active", logo: euactiveLogo },
+  { name: "MCA", logo: mcaLogo },
+];
+
 export default function Membership() {
   return (
     <div className="min-h-screen bg-brand-paper pt-24 md:pt-32">
@@ -119,6 +131,73 @@ export default function Membership() {
                 <p className="text-brand-ink/60 font-light leading-relaxed relative z-10">{feature.desc}</p>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Corporate Value Proposition */}
+      <section className="py-24 bg-white px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-6 leading-tight">
+                Empowering Your <br/>
+                <span className="italic text-brand-gold">Corporate Vision</span>
+              </h2>
+              <p className="text-lg text-brand-ink/60 font-light mb-8 leading-relaxed">
+                We bridge the gap between Austrian precision and Mongolian potential. As a corporate partner, you gain direct access to political, economic, and cultural stakeholders in both markets. 
+              </p>
+              
+              <ul className="space-y-6">
+                {[
+                  { title: "Bilateral Trade Network", desc: "Access verified business contacts and navigate new market opportunities with our institutional support." },
+                  { title: "Brand Elevation", desc: "Showcase your organization's commitment to international cooperation across our premium communications." },
+                  { title: "Talent & Mobility", desc: "Connect with high-potential bilingual professionals and students bridging both cultures." }
+                ].map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-4">
+                    <div className="w-8 h-8 rounded-full bg-brand-gold/10 flex items-center justify-center shrink-0 mt-1">
+                      <div className="w-2.5 h-2.5 rounded-full bg-brand-gold" />
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-serif text-brand-ink mb-1">{item.title}</h4>
+                      <p className="text-sm text-brand-ink/60 font-light leading-relaxed">{item.desc}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative aspect-[4/5] rounded-[32px] overflow-hidden"
+            >
+              <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=1200" alt="Corporate Meeting" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/80 via-transparent to-brand-ink/20" />
+              <div className="absolute bottom-0 left-0 right-0 p-10">
+                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 rounded-full bg-brand-gold flex items-center justify-center text-brand-ink">
+                      <Award size={24} />
+                    </div>
+                    <div>
+                      <h5 className="text-white font-bold tracking-wider uppercase text-xs">Excellence Guarantee</h5>
+                      <div className="text-white/60 font-light text-xs">Verified by the Board</div>
+                    </div>
+                  </div>
+                  <p className="text-white/80 font-light text-sm italic">
+                    "Partnering with the Center has opened unprecedented doors for our cross-border projects, providing cultural context and essential business diplomacy."
+                  </p>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -247,28 +326,55 @@ export default function Membership() {
         </div>
       </section>
 
-      {/* Founding Members Section */}
+      {/* Trusted Partners Section */}
       <section className="py-24 md:py-32 px-6 bg-brand-ink text-white relative border-y border-white/5">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem]" />
         
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-serif mb-6 inline-flex flex-col items-center">
-              <span className="text-brand-gold block mb-2 text-sm uppercase tracking-[0.5em] font-sans font-bold">Inaugural Cohort</span>
-              Founding Members 2026
+              <span className="text-brand-gold block mb-2 text-sm uppercase tracking-[0.5em] font-sans font-bold">Trusted By</span>
+              Our Corporate & Institutional Partners
             </h2>
             <p className="text-lg text-white/60 font-light max-w-2xl mx-auto">
-              Become part of the first generation shaping the future of Austria–Mongolia cooperation.
+              Join a distinguished network of organizations committed to fostering bilateral relationships, cultural exchange, and sustainable growth.
             </p>
           </div>
 
-          {/* Placeholder Logos Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 opacity-50 grayscale hover:grayscale-0 transition-all duration-700">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="aspect-[3/2] flex items-center justify-center border border-white/10 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors duration-500 group cursor-pointer">
-                <span className="font-serif text-white/40 group-hover:text-brand-gold transition-colors">Institutional Partner</span>
-              </div>
-            ))}
+          {/* Partner & Corporate Logos Marquee */}
+          <div className="relative w-full overflow-hidden flex bg-white/5 py-12 rounded-[32px] border border-white/10">
+            {/* Gradient masks for smooth fade on edges */}
+            <div className="absolute top-0 bottom-0 left-0 w-24 bg-gradient-to-r from-brand-ink to-transparent z-10" />
+            <div className="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-brand-ink to-transparent z-10" />
+            
+            <motion.div 
+              className="flex items-center gap-16 md:gap-32 w-max px-8"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{
+                repeat: Infinity,
+                ease: "linear",
+                duration: 20
+              }}
+            >
+              {/* First set of logos */}
+              {partners.map((partner, idx) => (
+                <div key={`partner-1-${idx}`} className="flex items-center justify-center w-40 md:w-56 h-24 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-500">
+                  <img src={partner.logo} alt={partner.name} className="max-w-full max-h-full object-contain" />
+                </div>
+              ))}
+              {/* Duplicate set for seamless loop */}
+              {partners.map((partner, idx) => (
+                <div key={`partner-2-${idx}`} className="flex items-center justify-center w-40 md:w-56 h-24 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-500">
+                  <img src={partner.logo} alt={partner.name} className="max-w-full max-h-full object-contain" />
+                </div>
+              ))}
+              {/* Triple set to ensure no empty space on large screens */}
+              {partners.map((partner, idx) => (
+                <div key={`partner-3-${idx}`} className="flex items-center justify-center w-40 md:w-56 h-24 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-500">
+                  <img src={partner.logo} alt={partner.name} className="max-w-full max-h-full object-contain" />
+                </div>
+              ))}
+            </motion.div>
           </div>
         </div>
       </section>

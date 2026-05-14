@@ -300,7 +300,7 @@ export default function Home() {
         <div className="flex overflow-hidden relative">
           <motion.div 
             animate={{ x: ["0%", "-50%"] }}
-            transition={{ duration: isMobile ? 15 : 45, ease: "linear", repeat: Infinity }}
+            transition={{ duration: isMobile ? 8 : 20, ease: "linear", repeat: Infinity }}
             className="flex w-max relative z-20"
           >
             {[...Array(2)].map((_, groupIndex) => (

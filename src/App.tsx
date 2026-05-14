@@ -8,9 +8,10 @@ import CookieConsent from './components/CookieConsent';
 import { Toaster } from 'sonner';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import AIAssistant from './components/AIAssistant';
-import ToonoIntro from './components/ToonoIntro';
+import CarpetIntro from './components/CarpetIntro';
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Loader2 } from 'lucide-react';
+import Lenis from 'lenis';
 
 const Home = lazy(() => import('./pages/Home'));
 const About = lazy(() => import('./pages/About'));
@@ -47,15 +48,32 @@ function ScrollToTop() {
   return null;
 }
 
+function SmoothScroll() {
+  useEffect(() => {
+    const lenis = new Lenis({
+      autoRaf: true,
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+    });
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
+  
+  return null;
+}
+
 export default function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
         <Router>
+          <SmoothScroll />
           <Toaster position="top-center" richColors />
           <AnalyticsTracker />
           <CookieConsent />
-          <ToonoIntro />
+          <CarpetIntro />
           <div className="min-h-screen flex flex-col selection:bg-brand-indigo/20 selection:text-brand-indigo">
             <ScrollToTop />
             <Navbar />
