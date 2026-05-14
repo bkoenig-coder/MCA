@@ -86,7 +86,7 @@ const resources = {
       impactCta: {
         title: 'Drive Global Impact',
         desc: 'Partner with us to sustain this vital cultural bridge and sponsor bilateral social initiatives that generate measurable results.',
-        cta: 'Partner With Us'
+        cta: 'Donate to us!'
       },
       about: {
         tag: 'Our Story',
@@ -427,7 +427,7 @@ const resources = {
       impactCta: {
         title: 'Gemeinsam Wirkung erzielen',
         desc: 'Werden Sie Partner, um diese wichtige kulturelle Brücke zu erhalten und bilaterale soziale Initiativen mit messbaren Ergebnissen zu fördern.',
-        cta: 'Mit uns zusammenarbeiten'
+        cta: 'Spenden Sie an uns!'
       },
       about: {
         tag: 'Unsere Geschichte',
@@ -768,7 +768,7 @@ const resources = {
       impactCta: {
         title: 'Хамтдаа бодит өөрчлөлтийг бүтээцгээе',
         desc: 'Энэхүү соёлын гүүрийг улам бэхжүүлж, хоёр орны нийгэмд бодит үр өгөөжөө өгөх төслүүдийг хамтран хэрэгжүүлэх урилга.',
-        cta: 'Бидэнтэй түншлэх'
+        cta: 'Бидэнд хандив өргөх!'
       },
       about: {
         tag: 'Бидний түүх',

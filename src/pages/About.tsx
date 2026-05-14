@@ -237,6 +237,79 @@ export default function About() {
         </div>
       </section>
 
+      {/* Benefits - Cinematic Grid */}
+      <section className="py-24 md:py-32 px-6 bg-[#020202] relative text-white overflow-hidden border-t border-white/5">
+        <EmberBackground />
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="mb-16 md:mb-24 text-center md:text-left">
+            <span className="inline-block text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold mb-6">Missions & Benefits</span>
+            <h2 className="text-4xl md:text-6xl font-serif leading-tight drop-shadow-xl">Why join our network?</h2>
+            <p className="mt-8 text-lg md:text-xl text-white/50 leading-relaxed font-light max-w-3xl">
+              Following the framework of global chambers, the Mongolian Center offers unparalleled opportunities to connect, learn, and grow. Our mission is to foster strong bilateral relations between Austria and Mongolia while delivering tangible benefits to our community.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {[
+              { 
+                title: "Networking & Connections", 
+                desc: "Build lasting relationships with Mongolian professionals, cultural ambassadors, and Austrian partners in a high-level networking environment.", 
+                icon: <Users className="w-6 h-6" /> 
+              },
+              { 
+                title: "Exclusive Events", 
+                desc: "Gain priority access to our cultural festivals, closed-door workshops, and VIP gatherings before they are released to the public.", 
+                icon: <Star className="w-6 h-6" /> 
+              },
+              { 
+                title: "Visibility & Promotion", 
+                desc: "Showcase your heritage-aligned projects or business initiatives through our digital platforms and community events.", 
+                icon: <Sparkles className="w-6 h-6" /> 
+              },
+              { 
+                title: "Cultural Insights", 
+                desc: "Receive deep, expert-level insights into Mongolian history, modern developments, and economic relations.", 
+                icon: <Shield className="w-6 h-6" /> 
+              },
+              { 
+                title: "Advocacy & Voice", 
+                desc: "Add your voice to our collective effort to support the Mongolian diaspora and promote fair, culturally respectful policies.", 
+                icon: <Send className="w-6 h-6" /> 
+              },
+              { 
+                title: "Mentorship", 
+                desc: "Connect with established professionals for guidance, career development, and integration support in Central Europe.", 
+                icon: <Heart className="w-6 h-6" /> 
+              }
+            ].map((benefit, idx) => (
+              <motion.div 
+                key={idx} 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+                onViewportEnter={(e) => toggleActive(e, true)}
+                onViewportLeave={(e) => toggleActive(e, false)}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="group p-8 rounded-[30px] bg-white/5 border border-white/5 md:hover:border-brand-gold/30 max-md:group-[.is-active]:border-brand-gold/30 md:hover:bg-white/10 max-md:group-[.is-active]:bg-white/10 transition-all duration-500 relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-tr from-brand-gold/0 via-brand-gold/5 to-amber-400/0 opacity-0 md:group-hover:opacity-100 max-md:group-[.is-active]:opacity-100 transition-opacity duration-1000" />
+                
+                <div className="relative z-10">
+                  <div className="w-14 h-14 rounded-full border border-brand-gold/20 flex items-center justify-center text-brand-gold mb-8 md:group-hover:scale-110 max-md:group-[.is-active]:scale-110 md:group-hover:bg-brand-gold max-md:group-[.is-active]:bg-brand-gold md:group-hover:text-black max-md:group-[.is-active]:text-black transition-all duration-500 bg-[#050507]">
+                    {benefit.icon}
+                  </div>
+                  <h3 className="text-2xl font-serif mb-4 text-white">{benefit.title}</h3>
+                  <p className="text-white/50 leading-relaxed font-light text-sm">
+                    {benefit.desc}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Team - Cinematic Portraits */}
       <section className="py-24 md:py-40 px-6 bg-[#050507] relative overflow-hidden text-white">
         <div className="absolute inset-0 bg-gradient-to-b from-[#020202] to-transparent opacity-80 pointer-events-none" />

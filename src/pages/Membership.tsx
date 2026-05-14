@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, Globe, Users, Calendar, Award, CheckCircle2, ChevronRight, Building2, GraduationCap, Briefcase } from 'lucide-react';
+import { ArrowRight, Globe, Users, Calendar, Award, CheckCircle2, ChevronRight, Building2, GraduationCap, Briefcase, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import amoxLogo from '../assets/media/amoxlogo.png';
@@ -19,14 +19,13 @@ export default function Membership() {
   return (
     <div className="min-h-screen bg-brand-paper pt-24 md:pt-32">
       {/* Hero Section */}
-      <section className="relative px-6 py-20 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-brand-ink">
-          <img 
-            src="https://images.unsplash.com/photo-1577563908411-5079b62ca060?auto=format&fit=crop&q=80&w=2000" 
-            alt="Diplomacy and Networking" 
-            className="w-full h-full object-cover opacity-30 mix-blend-luminosity"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-ink/80 via-brand-ink/50 to-brand-ink" />
+      <section className="relative px-6 py-24 md:py-40 overflow-hidden bg-[#020202]">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.08),transparent_70%)]" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-gold/10 blur-[120px] rounded-[100%] pointer-events-none" />
+          <div className="absolute bottom-0 right-0 w-[50%] h-[50%] bg-brand-gold/5 blur-[100px] rounded-[100%] pointer-events-none" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+          
           {/* Subtle noise texture */}
           <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
         </div>
@@ -67,137 +66,137 @@ export default function Membership() {
             transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
             className="flex flex-col sm:flex-row items-center justify-center gap-6"
           >
-            <button className="w-full sm:w-auto px-8 py-4 bg-brand-gold text-brand-ink rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white transition-all duration-500 shadow-[0_0_40px_rgba(212,175,55,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.4)] flex items-center justify-center gap-3 group">
+            <Link to="/membership/apply-individual" className="w-full sm:w-auto px-8 py-4 bg-brand-gold text-brand-ink rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white transition-all duration-500 shadow-[0_0_40px_rgba(212,175,55,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.4)] flex items-center justify-center gap-3 group">
               Individual Membership
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/20 text-white rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white/10 hover:border-white/40 transition-all duration-500 flex items-center justify-center gap-3">
+            </Link>
+            <Link to="/membership/apply-institutional" className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/20 text-white rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white/10 hover:border-white/40 transition-all duration-500 flex items-center justify-center gap-3">
               Institutional Partnership
-            </button>
+            </Link>
           </motion.div>
         </div>
       </section>
 
-      {/* Why Join Section */}
-      <section className="py-24 md:py-40 px-6 bg-brand-paper relative">
+      {/* Benefits Section */}
+      <section className="py-24 md:py-32 px-6 bg-brand-paper relative">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20 md:mb-32">
-            <h2 className="text-4xl md:text-6xl font-serif text-brand-ink mb-6">
-              Why <span className="italic text-brand-gold">Join Us?</span>
-            </h2>
-            <p className="text-xl text-brand-ink/60 font-light max-w-2xl mx-auto">
-              Unlock exclusive opportunities and become part of a premier bilateral network.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                icon: <Users size={24} />,
-                title: "Professional Network",
-                desc: "Connect with professionals, students, institutions, and cultural leaders."
-              },
-              {
-                icon: <Calendar size={24} />,
-                title: "Exclusive Events",
-                desc: "Access forums, conferences, cultural evenings, and networking receptions."
-              },
-              {
-                icon: <Globe size={24} />,
-                title: "International Cooperation",
-                desc: "Participate in Austria–Mongolia initiatives and collaborations."
-              },
-              {
-                icon: <Award size={24} />,
-                title: "Community & Identity",
-                desc: "Become part of a modern Mongolia-focused international community in Austria."
-              }
-            ].map((feature, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.8, delay: idx * 0.1, ease: "easeOut" }}
-                className="group bg-white p-10 rounded-[32px] border border-brand-ink/5 hover:border-brand-gold/30 hover:shadow-[0_40px_60px_-15px_rgba(0,0,0,0.05)] transition-all duration-500 relative overflow-hidden"
+          <div className="flex flex-col md:flex-row gap-16 items-start">
+            <div className="w-full md:w-1/3 md:sticky md:top-32">
+              <span className="inline-block text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold mb-6 relative">
+                <span className="absolute -left-12 top-1/2 -translate-y-1/2 w-8 h-px bg-brand-gold hidden md:block" />
+                Value Proposition
+              </span>
+              <h2 className="text-4xl md:text-5xl font-serif text-brand-ink mb-6">
+                Become a member and <span className="italic text-brand-gold">benefit</span> from our offerings
+              </h2>
+              <p className="text-xl text-brand-ink/60 font-light mb-8">
+                Unlock exclusive opportunities and become part of a premier bilateral network connecting Austria and Mongolia.
+              </p>
+              <button 
+                onClick={() => {
+                  document.getElementById('membership-tiers')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="hidden md:inline-flex items-center gap-3 px-8 py-4 bg-brand-ink text-brand-paper rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-brand-gold transition-colors duration-300 group"
               >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-brand-gold/5 rounded-bl-full -mr-10 -mt-10 transition-transform duration-700 group-hover:scale-150" />
-                
-                <div className="w-16 h-16 rounded-2xl bg-brand-ink/5 text-brand-gold flex items-center justify-center mb-8 relative z-10 group-hover:bg-brand-gold group-hover:text-brand-ink transition-colors duration-500">
-                  {feature.icon}
-                </div>
-                
-                <h3 className="text-xl font-serif text-brand-ink mb-4 relative z-10">{feature.title}</h3>
-                <p className="text-brand-ink/60 font-light leading-relaxed relative z-10">{feature.desc}</p>
-              </motion.div>
-            ))}
+                View Plans <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
+            
+            <div className="w-full md:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {[
+                {
+                  icon: <Users size={24} />,
+                  title: "Networking opportunities & events",
+                  desc: "Connect with professionals, diplomats, and business leaders through our exclusive forums, cultural evenings, and networking receptions."
+                },
+                {
+                  icon: <Globe size={24} />,
+                  title: "Access to inclusive information",
+                  desc: "Stay informed with detailed insights into bilateral relations, cultural developments, and economic opportunities."
+                },
+                {
+                  icon: <Building2 size={24} />,
+                  title: "Access to embassy & decision makers",
+                  desc: "Direct channels to the Mongolian Embassy in Vienna and high-level political decision makers in both nations."
+                },
+                {
+                  icon: <Award size={24} />,
+                  title: "Advocacy & Lobbying",
+                  desc: "A collective voice representing the interests of the Mongolian-Austrian community in business and cultural spheres."
+                },
+                {
+                  icon: <Sparkles size={24} />,
+                  title: "And many more...",
+                  desc: "From mentorship programs to priority access for collaborative initiatives and community projects."
+                }
+              ].map((feature, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: idx * 0.1, ease: "easeOut" }}
+                  className="group bg-white p-8 rounded-[32px] border border-brand-ink/5 hover:border-brand-gold/30 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] transition-all duration-500"
+                >
+                  <div className="w-14 h-14 rounded-2xl bg-brand-ink/5 text-brand-gold flex items-center justify-center mb-6 transition-colors duration-500 group-hover:bg-brand-gold group-hover:text-brand-ink">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-xl font-serif text-brand-ink mb-3">{feature.title}</h3>
+                  <p className="text-brand-ink/60 font-light leading-relaxed text-sm">{feature.desc}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Corporate Value Proposition */}
+      {/* Application Process */}
       <section className="py-24 bg-white px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-6 leading-tight">
-                Empowering Your <br/>
-                <span className="italic text-brand-gold">Corporate Vision</span>
-              </h2>
-              <p className="text-lg text-brand-ink/60 font-light mb-8 leading-relaxed">
-                We bridge the gap between Austrian precision and Mongolian potential. As a corporate partner, you gain direct access to political, economic, and cultural stakeholders in both markets. 
-              </p>
-              
-              <ul className="space-y-6">
-                {[
-                  { title: "Bilateral Trade Network", desc: "Access verified business contacts and navigate new market opportunities with our institutional support." },
-                  { title: "Brand Elevation", desc: "Showcase your organization's commitment to international cooperation across our premium communications." },
-                  { title: "Talent & Mobility", desc: "Connect with high-potential bilingual professionals and students bridging both cultures." }
-                ].map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-4">
-                    <div className="w-8 h-8 rounded-full bg-brand-gold/10 flex items-center justify-center shrink-0 mt-1">
-                      <div className="w-2.5 h-2.5 rounded-full bg-brand-gold" />
-                    </div>
-                    <div>
-                      <h4 className="text-xl font-serif text-brand-ink mb-1">{item.title}</h4>
-                      <p className="text-sm text-brand-ink/60 font-light leading-relaxed">{item.desc}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-6">
+              How to <span className="italic text-brand-gold">Apply</span>
+            </h2>
+            <p className="text-lg text-brand-ink/60 font-light max-w-2xl mx-auto">
+              Joining the Mongolian Center is a straightforward process designed to ensure our community remains vibrant and engaged.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            <div className="hidden md:block absolute top-[28px] left-1/6 right-1/6 h-[1px] bg-brand-ink/10" />
             
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative aspect-[4/5] rounded-[32px] overflow-hidden"
-            >
-              <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=1200" alt="Corporate Meeting" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/80 via-transparent to-brand-ink/20" />
-              <div className="absolute bottom-0 left-0 right-0 p-10">
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-full bg-brand-gold flex items-center justify-center text-brand-ink">
-                      <Award size={24} />
-                    </div>
-                    <div>
-                      <h5 className="text-white font-bold tracking-wider uppercase text-xs">Excellence Guarantee</h5>
-                      <div className="text-white/60 font-light text-xs">Verified by the Board</div>
-                    </div>
-                  </div>
-                  <p className="text-white/80 font-light text-sm italic">
-                    "Partnering with the Center has opened unprecedented doors for our cross-border projects, providing cultural context and essential business diplomacy."
-                  </p>
+            {[
+              {
+                step: "01",
+                title: "Submit Application",
+                desc: "Complete our online membership application form with your details and professional background."
+              },
+              {
+                step: "02",
+                title: "Board Review",
+                desc: "Our board reviews applications monthly to ensure alignment with our values and goals."
+              },
+              {
+                step: "03",
+                title: "Welcome aboard!",
+                desc: "Upon approval, you'll receive your membership welcome package and access to the network."
+              }
+            ].map((item, idx) => (
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="relative text-center px-4"
+              >
+                <div className="w-14 h-14 mx-auto bg-brand-gold text-brand-ink rounded-full flex items-center justify-center font-serif text-xl relative z-10 mb-6 shadow-lg shadow-brand-gold/20">
+                  {item.step}
                 </div>
-              </div>
-            </motion.div>
+                <h3 className="text-xl font-serif text-brand-ink mb-3">{item.title}</h3>
+                <p className="text-brand-ink/60 font-light text-sm">{item.desc}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -251,9 +250,9 @@ export default function Membership() {
                   </div>
                 ))}
               </div>
-              <button className="w-full py-4 rounded-full border border-brand-ink/20 text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-brand-ink hover:text-white transition-colors duration-300">
+              <Link to="/membership/apply-student" className="w-full flex items-center justify-center py-4 rounded-full border border-brand-ink/20 text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-brand-ink hover:text-white transition-colors duration-300">
                 Apply Now
-              </button>
+              </Link>
             </motion.div>
 
             {/* Tier 2: Professional (Highlighted) */}
@@ -289,9 +288,9 @@ export default function Membership() {
                   </div>
                 ))}
               </div>
-              <button className="w-full py-5 rounded-full bg-brand-gold text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white transition-colors duration-300 shadow-xl relative z-10">
+              <Link to="/membership/apply-professional" className="w-full flex items-center justify-center py-5 rounded-full bg-brand-gold text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white transition-colors duration-300 shadow-xl relative z-10">
                 Apply as Professional
-              </button>
+              </Link>
             </motion.div>
 
             {/* Tier 3: Institutional */}
@@ -318,9 +317,9 @@ export default function Membership() {
                   </div>
                 ))}
               </div>
-              <button className="w-full py-4 rounded-full border border-brand-ink/20 text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-brand-ink hover:text-white transition-colors duration-300">
+              <Link to="/membership/apply-institutional" className="w-full flex items-center justify-center py-4 rounded-full border border-brand-ink/20 text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-brand-ink hover:text-white transition-colors duration-300">
                 Contact Foundation
-              </button>
+              </Link>
             </motion.div>
           </div>
         </div>
@@ -379,6 +378,26 @@ export default function Membership() {
         </div>
       </section>
 
+      {/* Directory Access */}
+      <section className="py-24 bg-brand-ink text-white px-6 text-center relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-ink via-brand-ink to-[#1a1f33] z-0" />
+        <div className="max-w-3xl mx-auto relative z-10">
+          <h2 className="text-3xl md:text-5xl font-serif mb-6 text-white drop-shadow-lg">
+            Explore Our <span className="italic text-brand-gold">Community</span>
+          </h2>
+          <p className="text-lg text-white/70 font-light mb-10 leading-relaxed max-w-2xl mx-auto">
+            Our members range from students to diplomats, artists to corporate leaders. Browse our directory to see who is already making an impact in the Austria-Mongolia network.
+          </p>
+          <Link 
+            to="/members"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-transparent border border-brand-gold text-brand-gold rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-brand-gold hover:text-brand-ink transition-all duration-300"
+          >
+            View Members Directory
+            <ArrowRight size={14} />
+          </Link>
+        </div>
+      </section>
+
       {/* Final CTA */}
       <section className="py-32 md:py-48 px-6 bg-brand-paper relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-gold/10 rounded-full blur-[120px] pointer-events-none" />
@@ -401,16 +420,21 @@ export default function Membership() {
           >
             Become part of a platform for cultural exchange, professional collaboration, and international connection.
           </motion.p>
-          <motion.button 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="px-10 py-5 bg-brand-ink text-brand-paper rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-brand-gold hover:text-brand-ink transition-all duration-500 shadow-xl flex items-center gap-4 mx-auto group"
+            className="flex justify-center"
           >
-            Apply for Membership
-            <ChevronRight size={16} className="group-hover:translate-x-2 transition-transform" />
-          </motion.button>
+            <Link 
+              to="/membership/apply-individual"
+              className="px-10 py-5 bg-brand-ink text-brand-paper rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-brand-gold hover:text-brand-ink transition-all duration-500 shadow-xl flex items-center gap-4 group"
+            >
+              Apply for Membership
+              <ChevronRight size={16} className="group-hover:translate-x-2 transition-transform" />
+            </Link>
+          </motion.div>
         </div>
       </section>
 
