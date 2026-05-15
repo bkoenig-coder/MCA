@@ -70,11 +70,16 @@ export default function EventDetails() {
                 price: event.price,
                 userId: user ? user.uid : 'guest',
                 userEmail: registrationForm.email,
+                returnUrl: window.location.origin
              })
           });
           const data = await response.json();
           if (data.url) {
-             window.location.href = data.url;
+            if (window !== window.top) {
+               window.open(data.url, '_blank');
+            } else {
+               window.location.href = data.url;
+            }
           } else {
              throw new Error(data.error || t('common.error.checkout'));
           }

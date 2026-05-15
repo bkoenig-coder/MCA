@@ -66,10 +66,10 @@ export default function Membership() {
             transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
             className="flex flex-col sm:flex-row items-center justify-center gap-6"
           >
-            <Link to="/membership/apply-individual" className="w-full sm:w-auto px-8 py-4 bg-brand-gold text-brand-ink rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white transition-all duration-500 shadow-[0_0_40px_rgba(212,175,55,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.4)] flex items-center justify-center gap-3 group">
+            <a href="#tiers" className="w-full sm:w-auto px-8 py-4 bg-brand-gold text-brand-ink rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white transition-all duration-500 shadow-[0_0_40px_rgba(212,175,55,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.4)] flex items-center justify-center gap-3 group">
               Individual Membership
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-            </Link>
+            </a>
             <Link to="/membership/apply-institutional" className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/20 text-white rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white/10 hover:border-white/40 transition-all duration-500 flex items-center justify-center gap-3">
               Institutional Partnership
             </Link>
@@ -427,13 +427,13 @@ export default function Membership() {
             transition={{ delay: 0.2 }}
             className="flex justify-center"
           >
-            <Link 
-              to="/membership/apply-individual"
+            <a 
+              href="#tiers"
               className="px-10 py-5 bg-brand-ink text-brand-paper rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-brand-gold hover:text-brand-ink transition-all duration-500 shadow-xl flex items-center gap-4 group"
             >
               Apply for Membership
               <ChevronRight size={16} className="group-hover:translate-x-2 transition-transform" />
-            </Link>
+            </a>
           </motion.div>
         </div>
       </section>

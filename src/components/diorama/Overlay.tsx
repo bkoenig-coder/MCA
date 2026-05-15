@@ -35,6 +35,10 @@ const popups: Record<string, { title: string; content: string }> = {
   nomadic: {
     title: 'Nomadic Life',
     content: 'Experience the warm, peaceful rhythm of traditional Mongolian daily life. Families gather around campfires in their ger camps, while herders, playing children, and diverse livestock bring the vibrant steppe village to life.'
+  },
+  center: {
+    title: 'The Nine White Banners',
+    content: 'The Nine White Banners (Yisün Tsagaan Süld) represent the spirit of the Mongolian state and its peacetime. Made from the tail hair of white horses, these totems embody the protective genius of Chinggis Khan and the nation\'s enduring sovereignty.'
   }
 };
 

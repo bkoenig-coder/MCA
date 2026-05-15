@@ -1,9 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { Sparkles } from '@react-three/drei';
 import * as THREE from 'three';
-import { ImperialZone } from './vignettes/ImperialZone';
+import { ImperialZone, Brazier } from './vignettes/ImperialZone';
 import { NomadicZone } from './vignettes/NomadicZone';
 import { NaadamZone } from './vignettes/NaadamZone';
+import { ZoneLabel } from './vignettes/ZoneLabel';
+import { CinematicFocusLight } from './CinematicFocusLight';
 
 interface DioramaSceneProps {
   onSelect: (id: string) => void;
@@ -12,6 +15,7 @@ interface DioramaSceneProps {
 
 export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
   const archipelagoRef = useRef<THREE.Group>(null);
+  const [centerHovered, setCenterHovered] = useState(false);
 
   // Subtle floating animation for the whole archipelago
   useFrame((state) => {
@@ -23,28 +27,46 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
   return (
     <group ref={archipelagoRef}>
       
+      {/* Cinematic Fog / Dust Elements */}
+      <Sparkles count={800} scale={[45, 12, 45]} size={8} speed={0.4} color="#ffd8a8" opacity={0.4} position={[0, 4, 0]} noise={1.5} />
+      
       {/* Central Hub Island (State Suld / Flags) */}
-      <group position={[0, 0, 0]}>
+      <group position={[0, 0, 0]} onClick={() => onSelect('center')} onPointerOver={(e) => { e.stopPropagation(); setCenterHovered(true); document.body.style.cursor = 'pointer'; }} onPointerOut={(e) => { setCenterHovered(false); document.body.style.cursor = 'auto'; }}>
          <mesh receiveShadow position={[0, -2, 0]}>
            <cylinderGeometry args={[4, 2.5, 4, 8]} />
-           <meshStandardMaterial color="#2d3748" roughness={0.9} />
+           <meshStandardMaterial color="#5c4033" roughness={0.9} />
          </mesh>
          <mesh receiveShadow position={[0, 0.01, 0]}>
            <cylinderGeometry args={[4, 4, 0.1, 8]} />
-           <meshStandardMaterial color="#1a202c" roughness={0.8} />
+           <meshStandardMaterial color="#538032" roughness={0.8} />
          </mesh>
          <NineWhiteBanners />
+         
+         <Brazier position={[0, 0.1, 0]} />
+         
+         <pointLight position={[0, 5, 0]} intensity={2.5} color="#ffaa00" distance={20} />
+         {!hideLabels && (
+           <>
+             <CinematicFocusLight hovered={centerHovered} color="#d4af37" position={[0, 5, 0]} />
+             <ZoneLabel 
+               title="Nine White Banners" 
+               description="The Spirit of the State"
+               position={[0, 6, 0]} 
+               hide={hideLabels} 
+             />
+           </>
+         )}
       </group>
 
       {/* Nomadic Village Island (South-West) */}
       <group position={[-12, -1, 12]}>
          <mesh receiveShadow position={[0, -2, 0]}>
            <cylinderGeometry args={[11, 8, 4, 8]} />
-           <meshStandardMaterial color="#2d3748" roughness={0.9} />
+           <meshStandardMaterial color="#5c4033" roughness={0.9} />
          </mesh>
          <mesh receiveShadow position={[0, 0.01, 0]}>
            <cylinderGeometry args={[11, 11, 0.1, 8]} />
-           <meshStandardMaterial color="#1a202c" roughness={0.8} />
+           <meshStandardMaterial color="#538032" roughness={0.8} />
          </mesh>
          <NomadicZone onSelect={() => onSelect('nomadic')} hideLabels={hideLabels} />
       </group>
@@ -53,11 +75,11 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
       <group position={[16, 2, 2]}>
          <mesh receiveShadow position={[0, -2, 0]}>
            <cylinderGeometry args={[12.5, 9, 4, 8]} />
-           <meshStandardMaterial color="#2d3748" roughness={0.9} />
+           <meshStandardMaterial color="#5c4033" roughness={0.9} />
          </mesh>
          <mesh receiveShadow position={[0, 0.01, 0]}>
            <cylinderGeometry args={[12.5, 12.5, 0.1, 8]} />
-           <meshStandardMaterial color="#1a202c" roughness={0.8} />
+           <meshStandardMaterial color="#538032" roughness={0.8} />
          </mesh>
          <ImperialZone onSelect={() => onSelect('imperial')} hideLabels={hideLabels} />
       </group>
@@ -66,11 +88,11 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
       <group position={[-2, 1, -16]}>
          <mesh receiveShadow position={[0, -2, 0]}>
            <cylinderGeometry args={[10, 7, 4, 8]} />
-           <meshStandardMaterial color="#2d3748" roughness={0.9} />
+           <meshStandardMaterial color="#5c4033" roughness={0.9} />
          </mesh>
          <mesh receiveShadow position={[0, 0.01, 0]}>
            <cylinderGeometry args={[10, 10, 0.1, 8]} />
-           <meshStandardMaterial color="#1a202c" roughness={0.8} />
+           <meshStandardMaterial color="#538032" roughness={0.8} />
          </mesh>
          <NaadamZone onSelect={() => onSelect('naadam')} hideLabels={hideLabels} />
       </group>
@@ -78,8 +100,49 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
       {/* Flying Eagle weaving through the islands */}
       <FlyingEagle />
       
+      {/* Subtle floating volumetric fog planes */}
+      <CinematicPatchyFog />
+      
       {/* Decorative Bridges / Floating Rocks */}
       <DecorativeElements />
+    </group>
+  );
+}
+
+function CinematicPatchyFog() {
+  const fogRef = useRef<THREE.Group>(null);
+  
+  useFrame((state) => {
+    if (fogRef.current) {
+      fogRef.current.rotation.y = state.clock.elapsedTime * 0.05;
+      fogRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.2) * 1;
+    }
+  });
+
+  return (
+    <group ref={fogRef} position={[0, -2, 0]} pointerEvents="none">
+      {/* Several large transparent planes floating for a low-cost volumetric fog effect */}
+      {[...Array(8)].map((_, i) => (
+        <mesh 
+          key={i} 
+          position={[
+            Math.sin(i * Math.PI * 2 / 8) * 15,
+            Math.random() * 2 + 1,
+            Math.cos(i * Math.PI * 2 / 8) * 15
+          ]}
+          rotation={[Math.PI / 2, 0, Math.random() * Math.PI]}
+        >
+          <planeGeometry args={[30, 30]} />
+          <meshBasicMaterial 
+            color="#ffeab3" 
+            transparent 
+            opacity={0.015} 
+            depthWrite={false}
+            blending={THREE.AdditiveBlending}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+      ))}
     </group>
   );
 }
@@ -248,13 +311,6 @@ function BannerFlame({ position, scale = 1, isCenter = false }: { position: [num
         <sphereGeometry args={[0.12, 4, 4]} />
         <meshBasicMaterial ref={outerMatRef} color={isCenter ? "#ff2200" : "#ff1100"} transparent opacity={0.5} blending={THREE.AdditiveBlending} depthWrite={false} />
       </mesh>
-      
-      <pointLight 
-        ref={lightRef} 
-        color="#ff8800" 
-        distance={isCenter ? 8 : 4} 
-        castShadow={false} 
-      />
     </group>
   );
 }

@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { ZoneLabel } from './ZoneLabel';
 import { CinematicFocusLight } from '../CinematicFocusLight';
+import { Brazier } from './ImperialZone';
 
 interface NaadamZoneProps {
   onSelect?: () => void;
@@ -21,7 +22,7 @@ const groupRef = useRef<THREE.Group>(null);
       {/* Festival Ground Center (Arena) */}
       <mesh receiveShadow position={[0, 0.06, 0]}>
         <cylinderGeometry args={[8, 8, 0.05, 6]} />
-        <meshStandardMaterial color="#111111" roughness={0.9} />
+        <meshStandardMaterial color="#8b5a2b" roughness={0.9} />
       </mesh>
       
       {/* Wooden stands/fence around arena */}
@@ -36,8 +37,11 @@ const groupRef = useRef<THREE.Group>(null);
       <ColorfulGers />
 
       {/* Lighting */}
-      <pointLight position={[0, 5, 0]} intensity={1.5} color="#e056fd" distance={25} />
-
+      <pointLight position={[0, 8, 0]} intensity={2.5} color="#ffcc88" distance={30} />
+      
+      {/* Central/Arena Braziers */}
+      <Brazier position={[0, 0.1, 0]} />
+      
       {/* Festival Particles */}
       <FestivalDust count={30} />
 

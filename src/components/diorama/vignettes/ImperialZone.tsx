@@ -51,10 +51,7 @@ const groupRef = useRef<THREE.Group>(null);
       <SuldeBanner position={[4, 0.1, -1]} />
 
       {/* Massive Braziers */}
-      <Brazier position={[-3, 0.1, 4]} />
-      <Brazier position={[3, 0.1, 4]} />
-      <Brazier position={[-5, 0.1, 0]} />
-      <Brazier position={[5, 0.1, 0]} />
+      <Brazier position={[0, 0.1, 0]} />
 
       {/* Elite Warriors lining the path */}
       <EliteWarriorsPath />
@@ -68,12 +65,11 @@ const groupRef = useRef<THREE.Group>(null);
       {/* Mounted Horse Guards Patrol */}
       <PatrolGuards radius={11} count={6} />
 
-      {/* Cinematic Lighting & Fog Atmosphere */}
-      <pointLight position={[0, 6, -2]} intensity={2.5} color="#ffd700" distance={20} />
-      <pointLight position={[0, 3, 10]} intensity={1.0} color="#4ea8de" distance={25} />
-      
       {/* Floating Embers */}
       <EmbersParticles count={30} />
+      
+      {/* The single light under the text */}
+      <pointLight position={[0, 8, 0]} intensity={2.5} color="#ffaa00" distance={20} />
 
       {!hideLabels && (
         <>
@@ -86,14 +82,6 @@ const groupRef = useRef<THREE.Group>(null);
 }
 
 function ImperialGer({ position }: { position: [number, number, number] }) {
-  const outerGlowRef = useRef<THREE.PointLight>(null);
-  
-  useFrame((state) => {
-    if (outerGlowRef.current) {
-      outerGlowRef.current.intensity = 2.5 + Math.sin(state.clock.elapsedTime * 3) * 0.5;
-    }
-  });
-
   return (
     <group position={position}>
       {/* Mega Ger Walls */}
@@ -141,15 +129,6 @@ function ImperialGer({ position }: { position: [number, number, number] }) {
          <planeGeometry args={[0.8, 3]} />
          <meshStandardMaterial color="#c0392b" side={THREE.DoubleSide} />
       </mesh>
-
-      {/* Warm internal firelight spilling out */}
-      <pointLight 
-        ref={outerGlowRef} 
-        color="#ff7f50" 
-        distance={25} 
-        position={[0, 2, 6.5]} 
-        castShadow={false}
-      />
     </group>
   );
 }
@@ -253,17 +232,13 @@ function SuldeBanner({ position }: { position: [number, number, number] }) {
   );
 }
 
-function Brazier({ position }: { position: [number, number, number] }) {
+export function Brazier({ position }: { position: [number, number, number] }) {
   const fireRef = useRef<THREE.Mesh>(null);
-  const lightRef = useRef<THREE.PointLight>(null);
 
   useFrame((state) => {
     if (fireRef.current) {
       fireRef.current.scale.y = 1 + Math.sin(state.clock.elapsedTime * 8) * 0.1;
       fireRef.current.rotation.y = state.clock.elapsedTime * 2;
-    }
-    if (lightRef.current) {
-      lightRef.current.intensity = 2 + Math.sin(state.clock.elapsedTime * 10) * 0.5;
     }
   });
 
@@ -285,7 +260,6 @@ function Brazier({ position }: { position: [number, number, number] }) {
          <meshStandardMaterial color="#ff4500" emissive="#ff4500" emissiveIntensity={2} />
       </mesh>
       <VolumetricGlow position={[0, 2, 0]} color="#ffa050" height={6} radius={2.5} opacity={0.35} />
-      <pointLight ref={lightRef} position={[0, 2, 0]} color="#ff6b00" distance={10} />
     </group>
   );
 }

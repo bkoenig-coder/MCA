@@ -22,21 +22,21 @@ export default function EasterEgg() {
           shadows 
           dpr={dpr} 
           performance={{ min: 0.1 }}
-          camera={{ position: [25, 20, 25], fov: 45 }}
+          camera={{ position: [0, 38, 1], fov: 45 }}
           gl={{ powerPreference: "high-performance", antialias: false }}
         >
           <PerformanceMonitor onIncline={() => setDpr(1.2)} onDecline={() => setDpr(0.5)} />
           <AudioSetup />
-          <color attach="background" args={['#d88c5e']} />
-          <fog attach="fog" args={['#d88c5e', 20, 85]} />
+          <color attach="background" args={['#0f1a2c']} />
+          <fog attach="fog" args={['#0f1a2c', 20, 85]} />
           
-          {/* Dimmer ambient and directional lights for moody atmosphere */}
-          <ambientLight intensity={0.2} />
+          {/* Brighter ambient and directional lights for positive atmosphere */}
+          <ambientLight intensity={0.5} />
           <directionalLight
             castShadow
             position={[25, 20, 15]}
-            intensity={0.6}
-            color="#ffd0aa"
+            intensity={1.0}
+            color="#fff9e6"
             shadow-mapSize={[1024, 1024]}
             shadow-camera-left={-30}
             shadow-camera-right={30}
@@ -49,7 +49,7 @@ export default function EasterEgg() {
           
           <MapControls 
             makeDefault 
-            minPolarAngle={Math.PI / 6} 
+            minPolarAngle={0} 
             maxPolarAngle={Math.PI / 2.5} 
             minDistance={5}
             maxDistance={60}

@@ -5,6 +5,8 @@ import { ZoneLabel } from './ZoneLabel';
 import { CinematicFocusLight } from '../CinematicFocusLight';
 import { VolumetricGlow } from './VolumetricGlow';
 
+import { Brazier } from './ImperialZone';
+
 interface NomadicZoneProps {
   onSelect?: () => void;
   hideLabels?: boolean;
@@ -24,7 +26,7 @@ const groupRef = useRef<THREE.Group>(null);
       {/* Dirt path through village */}
       <mesh receiveShadow position={[0, 0.06, 0]}>
         <cylinderGeometry args={[8, 8, 0.05, 6]} />
-        <meshStandardMaterial color="#111111" roughness={0.9} />
+        <meshStandardMaterial color="#8b5a2b" roughness={0.9} />
       </mesh>
 
       {/* Gers */}
@@ -36,7 +38,7 @@ const groupRef = useRef<THREE.Group>(null);
 
       {/* Center Campfire */}
       <group position={[0, 0.1, 0]}>
-        <Campfire />
+        <Brazier position={[0, 0, 0]} />
         <FamilyAroundFire />
       </group>
 
@@ -60,7 +62,7 @@ const groupRef = useRef<THREE.Group>(null);
       <MorinKhuurPlayer position={[3, 0.1, 5]} />
 
       {/* Lighting */}
-      <pointLight position={[0, 2, 0]} intensity={1.5} color="#ffa502" distance={15} />
+      <pointLight position={[0, 8, 0]} intensity={2.5} color="#ffaa00" distance={20} />
 
       {/* Weather particles (golden fog/dust) */}
       <DustParticles count={15} />
@@ -68,7 +70,7 @@ const groupRef = useRef<THREE.Group>(null);
       {!hideLabels && (
         <>
           <CinematicFocusLight hovered={hovered} color="#d4af37" position={[0, 8, 0]} />
-          <ZoneLabel title="Nomadic Life" position={[0, 6, 0]} hide={hideLabels} />
+          <ZoneLabel title="Nomadic Life" position={[0, 9, 0]} hide={hideLabels} />
         </>
       )}
     </group>
@@ -98,8 +100,6 @@ function VillageGer({ position }: { position: [number, number, number] }) {
         <boxGeometry args={[1, 1.6, 0.1]} />
         <meshStandardMaterial color="#c23616" />
       </mesh>
-      {/* Light inside */}
-      <pointLight position={[0, 1.5, 0]} intensity={1.0} color="#ff9f43" distance={5} />
       {/* Smoke */}
       <ChimneySmoke position={[0, 3.5, 0]} />
     </group>
@@ -142,7 +142,6 @@ function Campfire() {
          <meshStandardMaterial color="#e84118" emissive="#e84118" emissiveIntensity={2} />
       </mesh>
       <VolumetricGlow position={[0, 0.9, 0]} color="#ffaa55" height={5} radius={2} opacity={0.3} />
-      <pointLight ref={lightRef} position={[0, 1, 0]} color="#ff7f50" distance={8} />
     </group>
   );
 }

@@ -4,14 +4,44 @@ import { useAuth } from '../contexts/AuthContext';
 import { auth, db, logOut } from '../firebase';
 import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { toast } from 'sonner';
-import { User as UserIcon, LogOut, Save, Shield, Mail, Calendar } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { User as UserIcon, LogOut, Save, Shield, Mail, Calendar, Award } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function Profile() {
   const { user, profile, loading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [displayName, setDisplayName] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [isCanceling, setIsCanceling] = useState(false);
+
+  const handleCancelSubscription = async () => {
+    if (!profile?.stripeSessionId) return;
+    if (!window.confirm("Are you sure you want to cancel your membership? There are no refunds, but you'll retain access until the end of your billing period.")) return;
+    
+    setIsCanceling(true);
+    try {
+      const res = await fetch('/api/cancel-subscription', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId: profile.stripeSessionId })
+      });
+      if (!res.ok) {
+        throw new Error("Failed to cancel subscription");
+      }
+      
+      await updateDoc(doc(db, 'users', user.uid), {
+        membershipStatus: 'canceled',
+        updatedAt: serverTimestamp()
+      });
+      toast.success("Your membership has been canceled.");
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.message || "Something went wrong.");
+    } finally {
+      setIsCanceling(false);
+    }
+  };
 
   useEffect(() => {
     if (profile) {
@@ -24,6 +54,31 @@ export default function Profile() {
       navigate('/');
     }
   }, [user, loading, navigate]);
+
+  useEffect(() => {
+    // Handle Stripe success redirect
+    const query = new URLSearchParams(location.search);
+    if (query.get('success') === 'true' && query.get('membership')) {
+      const membership = query.get('membership');
+      const sessionId = query.get('session_id');
+      toast.success(`Successfully subscribed to ${membership} membership!`);
+      
+      // Update user doc with membership info
+      if (user) {
+        updateDoc(doc(db, 'users', user.uid), {
+          membershipTier: membership,
+          membershipStatus: 'active',
+          ...(sessionId ? { stripeSessionId: sessionId } : {}),
+          membershipUpdatedAt: serverTimestamp()
+        }).catch(err => {
+          console.error("Failed to update membership in firestore", err);
+        });
+      }
+      
+      // Remove query params
+      navigate('/profile', { replace: true });
+    }
+  }, [location, user, navigate]);
 
   if (loading) {
     return (
@@ -92,7 +147,7 @@ export default function Profile() {
                 </div>
               )}
             </div>
-            <div className="text-center md:text-left">
+            <div className="text-center md:text-left flex-1">
               <h1 className="text-3xl md:text-4xl font-serif text-brand-ink mb-2">
                 {profile?.displayName || 'Welcome Back'}
               </h1>
@@ -100,6 +155,12 @@ export default function Profile() {
                 <Mail size={14} />
                 {user.email}
               </p>
+              {profile?.membershipTier && (
+                <div className="mt-4 inline-flex items-center gap-2 px-3 py-1 bg-brand-gold/10 text-brand-gold rounded-full border border-brand-gold/20">
+                  <Award size={14} />
+                  <span className="text-xs font-bold uppercase tracking-widest">{profile.membershipTier} Member</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -138,6 +199,32 @@ export default function Profile() {
               </button>
             </div>
           </form>
+
+          {profile?.membershipTier && (
+            <div className="mt-12 pt-12 border-t border-brand-ink/5">
+              <h3 className="text-xl font-serif text-brand-ink mb-2">Subscription</h3>
+              <div className="bg-brand-paper rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 border border-brand-ink/5">
+                <div>
+                  <p className="font-bold text-brand-ink capitalize">{profile.membershipTier} Member</p>
+                  <p className="text-sm font-medium text-brand-ink/60 mt-1">
+                    Status: <span className={profile.membershipStatus === 'canceled' ? 'text-brand-ink/40' : 'text-green-600'}>{profile.membershipStatus === 'canceled' ? 'Canceled (Active until period ends)' : 'Active'}</span>
+                  </p>
+                  <p className="text-xs text-brand-ink/40 mt-2 max-w-sm">
+                    No refunds are provided based on our refund policy. You'll retain access until the end of your billing cycle.
+                  </p>
+                </div>
+                {profile.membershipStatus === 'active' && profile.stripeSessionId && (
+                  <button
+                    onClick={handleCancelSubscription}
+                    disabled={isCanceling}
+                    className="shrink-0 px-6 py-3 bg-white text-brand-ink rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-red-50 hover:text-red-600 transition-colors shadow-sm disabled:opacity-50"
+                  >
+                    {isCanceling ? 'Canceling...' : 'Cancel Membership'}
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
 
           <div className="mt-12 pt-12 border-t border-brand-ink/5">
             <div className="flex items-center gap-4 text-brand-ink/40">

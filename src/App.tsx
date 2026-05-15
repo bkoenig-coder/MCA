@@ -38,7 +38,6 @@ const MembersDirectory = lazy(() => import('./pages/MembersDirectory'));
 const ApplyStudent = lazy(() => import('./pages/ApplyStudent'));
 const ApplyProfessional = lazy(() => import('./pages/ApplyProfessional'));
 const ApplyInstitutional = lazy(() => import('./pages/ApplyInstitutional'));
-const ApplyIndividual = lazy(() => import('./pages/ApplyIndividual'));
 
 const PageLoader = () => (
   <div className="flex min-h-screen bg-transparent">
@@ -101,7 +100,6 @@ export default function App() {
                   <Route path="/membership/apply-student" element={<ApplyStudent />} />
                   <Route path="/membership/apply-professional" element={<ApplyProfessional />} />
                   <Route path="/membership/apply-institutional" element={<ApplyInstitutional />} />
-                  <Route path="/membership/apply-individual" element={<ApplyIndividual />} />
                   <Route path="/members" element={<MembersDirectory />} />
                   <Route path="/privacy" element={<PrivacyPolicy />} />
                   <Route path="/terms" element={<TermsOfService />} />

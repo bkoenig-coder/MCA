@@ -430,6 +430,11 @@ export default function Navbar() {
                                   BECOME A MEMBER
                                 </span>
                               )}
+                              {item.path === '/impact' && (
+                                <span className="absolute top-0 -right-6 md:top-1 md:-right-10 flex-shrink-0 text-[7px] md:text-[9px] bg-[#DA2032] text-white px-2 md:px-2.5 py-0.5 md:py-1 uppercase tracking-[0.2em] font-sans font-bold shadow-sm transform rotate-[4deg] whitespace-nowrap z-10">
+                                  MAKE AN IMPACT
+                                </span>
+                              )}
                             </Link>
                           </motion.div>
                         </div>

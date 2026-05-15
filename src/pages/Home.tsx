@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import React, { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import { cn } from '../lib/utils';
 import { ArrowRight, Calendar, Palette, Heart, Users, Shield, Sword, Clock, MapPin, Loader2, Info, Star, Handshake, Lightbulb, ArrowRightLeft, TrendingUp, Instagram, ChevronLeft, ChevronRight, Award, CheckCircle2 } from 'lucide-react';
@@ -12,9 +12,9 @@ import amoxLogo from '../assets/media/amoxlogo.png';
 import mcaLogo from '../assets/media/mcalogo-1.png';
 
 import { Overlay } from '../components/diorama/Overlay';
-import { AudioSetup } from '../components/diorama/AudioSetup';
 
-const HeroCanvas = lazy(() => import('../components/diorama/HeroCanvas'));
+// Removed lazy loading
+import HeroCanvas from '../components/diorama/HeroCanvas';
 
 
 export default function Home() {
@@ -25,6 +25,63 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [activePopup, setActivePopup] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [activeMembershipIndex, setActiveMembershipIndex] = useState(0);
+
+  const membershipSlides = [
+    {
+      icon: Award,
+      title: "Professional Community",
+      benefits: [
+        "International network access",
+        "Exclusive event invitations",
+        "Priority forum registration",
+        "Cultural & professional exchange"
+      ],
+      path: "/membership/apply-professional",
+      color: "text-brand-gold",
+      bgClass: "bg-brand-gold",
+      accentBorder: "border-brand-gold/30",
+      accentBgHover: "group-hover:bg-brand-gold/30"
+    },
+    {
+      icon: Users,
+      title: "Student Membership",
+      benefits: [
+        "Access to junior network",
+        "Mentorship opportunities",
+        "Discounted event tickets",
+        "Career development support"
+      ],
+      path: "/membership/apply-student",
+      color: "text-blue-400",
+      bgClass: "bg-blue-400",
+      accentBorder: "border-blue-400/30",
+      accentBgHover: "group-hover:bg-blue-400/30"
+    },
+    {
+      icon: Handshake,
+      title: "Institutional Partner",
+      benefits: [
+        "Brand visibility",
+        "Bespoke B2B introductions",
+        "Co-hosting opportunities",
+        "Strategic advisory access"
+      ],
+      path: "/membership/apply-institutional",
+      color: "text-emerald-400",
+      bgClass: "bg-emerald-400",
+      accentBorder: "border-emerald-400/30",
+      accentBgHover: "group-hover:bg-emerald-400/30"
+    }
+  ];
+
+  const handleNextMembership = () => {
+    setActiveMembershipIndex((prev) => (prev + 1) % membershipSlides.length);
+  };
+
+  const handlePrevMembership = () => {
+    setActiveMembershipIndex((prev) => (prev - 1 + membershipSlides.length) % membershipSlides.length);
+  };
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -88,14 +145,7 @@ export default function Home() {
           
           <div className="w-full h-full absolute inset-0 opacity-80 md:opacity-100 transition-opacity duration-1000 group-hover:opacity-100 pointer-events-none">
             {/* Optimized Canvas for performance: limited DPR, no pointer events, no controls */}
-            <Suspense fallback={
-              <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0A1128]/50 backdrop-blur-sm z-50">
-                <Loader2 className="w-8 h-8 text-brand-gold animate-spin mb-4" />
-                <p className="text-brand-gold/60 font-medium font-serif text-xs uppercase tracking-widest">Loading Experience...</p>
-              </div>
-            }>
-              <HeroCanvas />
-            </Suspense>
+            <HeroCanvas />
           </div>
         </div>
 
@@ -191,8 +241,8 @@ export default function Home() {
                   <SoyomboSymbol className="w-3 h-3 lg:w-4 lg:h-4 group-hover:rotate-12 transition-transform duration-300" />
                  {t('Full Screen 3D')}
                 </Link>
-                <Link to="/about" className="w-full sm:w-auto flex-1 text-center border border-white/20 px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold text-white hover:text-brand-gold transition-all whitespace-nowrap bg-white/10 md:bg-white/5 md:backdrop-blur-sm">
-                  {t('hero.ctaStory')}
+                <Link to="/membership" className="w-full sm:w-auto flex-1 text-center border border-white/20 px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold text-white hover:text-brand-gold transition-all whitespace-nowrap bg-white/10 md:bg-white/5 md:backdrop-blur-sm">
+                  Become a Member
                 </Link>
               </motion.div>
             </div>
@@ -385,41 +435,80 @@ export default function Home() {
               <div className="absolute inset-0 bg-white/5 border border-white/10 rounded-[32px] transform -rotate-[4deg] -translate-x-2 translate-y-4 transition-transform duration-700 hover:-rotate-[6deg] pointer-events-none" />
               
               {/* Main Card */}
-              <Link to="/membership" className="relative block bg-white/10 backdrop-blur-xl border border-white/20 p-10 md:p-12 rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.4)] overflow-hidden group hover:bg-white/[0.15] transition-all duration-700">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-brand-gold/20 rounded-full blur-[50px] -mr-16 -mt-16 group-hover:bg-brand-gold/30 transition-colors duration-700" />
-                
-                {/* Noise overlay for glass effect */}
-                <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeMembershipIndex}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Link to={membershipSlides[activeMembershipIndex].path} className="relative block bg-white/10 backdrop-blur-xl border border-white/20 p-10 md:p-12 rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.4)] overflow-hidden group hover:bg-white/[0.15] transition-all duration-700">
+                    <div className={cn("absolute top-0 right-0 w-40 h-40 rounded-full blur-[50px] -mr-16 -mt-16 transition-colors duration-700 opacity-20", membershipSlides[activeMembershipIndex].bgClass, membershipSlides[activeMembershipIndex].accentBgHover)} />
+                    
+                    {/* Noise overlay for glass effect */}
+                    <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
 
-                <div className="relative z-10">
-                  <div className="w-14 h-14 bg-brand-ink/50 backdrop-blur-md rounded-2xl flex items-center justify-center mb-8 border border-white/10 group-hover:border-brand-gold/30 transition-colors duration-500">
-                    <Award size={24} className="text-brand-gold" />
-                  </div>
-                  
-                  <h3 className="text-2xl md:text-3xl font-serif mb-4 drop-shadow-md text-white">Professional Community</h3>
-                  
-                  <ul className="space-y-4 mb-10">
-                    {[
-                      "International network access",
-                      "Exclusive event invitations",
-                      "Priority forum registration",
-                      "Cultural & professional exchange"
-                    ].map((benefit, i) => (
-                      <li key={i} className="flex items-start gap-4">
-                        <CheckCircle2 size={18} className="text-brand-gold shrink-0 mt-0.5 opacity-90" />
-                        <span className="text-white/80 font-light text-sm">{benefit}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  
-                  <div className="pt-8 border-t border-white/10 flex items-center justify-between group-hover:border-white/20 transition-colors duration-500">
-                    <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-white/50 group-hover:text-brand-gold transition-colors duration-500">Multiple Tiers Available</span>
-                    <div className="w-10 h-10 rounded-full bg-brand-gold/10 flex items-center justify-center group-hover:bg-brand-gold group-hover:scale-110 transition-all duration-500">
-                      <Users size={16} className="text-brand-gold group-hover:text-brand-ink transition-colors duration-500" />
+                    <div className="relative z-10">
+                      <div className={cn("w-14 h-14 bg-brand-ink/50 backdrop-blur-md rounded-2xl flex items-center justify-center mb-8 border border-white/10 transition-colors duration-500", "group-hover:" + membershipSlides[activeMembershipIndex].accentBorder)}>
+                        {React.createElement(membershipSlides[activeMembershipIndex].icon, { 
+                          size: 24, 
+                          className: membershipSlides[activeMembershipIndex].color 
+                        })}
+                      </div>
+                      
+                      <h3 className="text-2xl md:text-3xl font-serif mb-4 drop-shadow-md text-white">{membershipSlides[activeMembershipIndex].title}</h3>
+                      
+                      <ul className="space-y-4 mb-10">
+                        {membershipSlides[activeMembershipIndex].benefits.map((benefit, i) => (
+                          <li key={i} className="flex items-start gap-4">
+                            <CheckCircle2 size={18} className={cn("shrink-0 mt-0.5 opacity-90", membershipSlides[activeMembershipIndex].color)} />
+                            <span className="text-white/80 font-light text-sm">{benefit}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      
+                      <div className="pt-8 border-t border-white/10 flex items-center justify-between group-hover:border-white/20 transition-colors duration-500">
+                        <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-white/50 group-hover:text-white transition-colors duration-500">Apply Now</span>
+                        <div className={cn("w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 bg-white/10 group-hover:scale-110", "group-hover:" + membershipSlides[activeMembershipIndex].bgClass)}>
+                          <ArrowRight size={16} className="text-white transition-colors duration-500" />
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Slider Controls */}
+              <div className="flex items-center justify-center gap-4 mt-8">
+                <button 
+                  onClick={handlePrevMembership}
+                  className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 hover:border-white/40 transition-all duration-300"
+                  aria-label="Previous membership tier"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <div className="flex gap-2">
+                  {membershipSlides.map((_, i) => (
+                    <button 
+                      key={i} 
+                      onClick={() => setActiveMembershipIndex(i)}
+                      className={cn(
+                        "w-2 h-2 rounded-full transition-all duration-300",
+                        i === activeMembershipIndex ? "bg-brand-gold w-4" : "bg-white/20 hover:bg-white/40"
+                      )}
+                      aria-label={`Go to slide ${i + 1}`}
+                    />
+                  ))}
                 </div>
-              </Link>
+                <button 
+                  onClick={handleNextMembership}
+                  className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 hover:border-white/40 transition-all duration-300"
+                  aria-label="Next membership tier"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -455,10 +544,10 @@ export default function Home() {
               <motion.div 
                 key={item.id} 
                 className="min-w-[85vw] md:min-w-[350px] snap-center shrink-0"
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.8, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
               >
                   <Link to={`/news/${item.id}`} className="group relative rounded-3xl overflow-hidden h-[450px] block bg-brand-ink shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_60px_-20px_rgba(0,0,0,0.25)] ring-1 ring-black/5 hover:ring-white/20 transition-all duration-300">
                     {/* Background Noise Texture */}
@@ -466,10 +555,10 @@ export default function Home() {
 
                     {item.imageUrl && (
                       <motion.img 
-                        initial={{ scale: 1.2, filter: "blur(10px)" }}
-                        whileInView={{ scale: 1, filter: "blur(0px)" }}
+                        initial={{ scale: 1.1, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
                         src={item.imageUrl} alt={item.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60" referrerPolicy="no-referrer" />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-ink via-brand-ink/40 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-80" />
@@ -533,10 +622,10 @@ export default function Home() {
               <motion.div 
                 key={item.id} 
                 className="min-w-[85vw] md:min-w-[350px] snap-center shrink-0"
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.8, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
               >
                   <Link to={`/gallery/${item.id}`} className="group relative rounded-3xl overflow-hidden h-[450px] block bg-brand-ink shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_60px_-20px_rgba(0,0,0,0.25)] ring-1 ring-black/5 hover:ring-white/20 transition-all duration-300">
                     {/* Background Noise Texture */}
@@ -544,10 +633,10 @@ export default function Home() {
 
                     {item.imageUrl && (
                       <motion.img 
-                        initial={{ scale: 1.2, filter: "blur(10px)" }}
-                        whileInView={{ scale: 1, filter: "blur(0px)" }}
+                        initial={{ scale: 1.1, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
                         src={item.imageUrl} alt={item.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" referrerPolicy="no-referrer" />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/90 via-black/20 to-transparent transition-opacity duration-300 group-hover:opacity-80" />
@@ -621,20 +710,20 @@ export default function Home() {
                   <motion.div 
                     key={event.id} 
                     className="min-w-[85vw] md:min-w-[350px] snap-center shrink-0"
-                    initial={{ opacity: 0, y: 40 }}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.8, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
                   >
                       <Link to={`/events/${event.id}`} className="group relative rounded-3xl overflow-hidden h-[450px] block bg-brand-ink shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_60px_-20px_rgba(0,0,0,0.25)] ring-1 ring-black/5 hover:ring-white/20 transition-all duration-300">
                         {/* Background Noise Texture */}
                         <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
 
                         <motion.img 
-                          initial={{ scale: 1.2, filter: "blur(10px)" }}
-                          whileInView={{ scale: 1, filter: "blur(0px)" }}
+                          initial={{ scale: 1.1, opacity: 0 }}
+                          whileInView={{ scale: 1, opacity: 1 }}
                           viewport={{ once: true }}
-                          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                          transition={{ duration: 0.6, ease: "easeOut" }}
                           src={event.imageUrl} alt={dTitle} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" referrerPolicy="no-referrer" />
                         <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/90 via-brand-ink/40 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-80" />
                         
@@ -971,10 +1060,10 @@ export default function Home() {
             ].map((item, i) => (
               <motion.div 
                 key={i}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.6 + (i * 0.15), ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.4, delay: i * 0.1, ease: "easeOut" }}
                 className="relative flex flex-col items-center text-center group cursor-pointer p-6 md:p-8 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-all duration-700 overflow-hidden"
               >
                 {/* Hover gradient sweep */}

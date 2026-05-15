@@ -137,13 +137,13 @@ async function startServer() {
   app.post("/api/create-donation-session", async (req, res) => {
     console.log("Received donation request:", req.body);
     try {
-      const { amount, userId, userEmail, message } = req.body;
+      const { amount, userId, userEmail, message, returnUrl } = req.body;
       
       if (!amount) {
         return res.status(400).json({ error: "Missing required fields: amount" });
       }
 
-      const baseUrl = process.env.APP_URL || req.headers.origin || `http://localhost:${PORT}`;
+      const baseUrl = returnUrl || process.env.APP_URL || req.headers.origin || `http://localhost:${PORT}`;
 
       let stripeClient;
       try {
@@ -186,17 +186,116 @@ async function startServer() {
     }
   });
 
+  app.post("/api/cancel-subscription", async (req, res) => {
+    try {
+      const { sessionId } = req.body;
+      if (!sessionId) {
+        return res.status(400).json({ error: "Missing session ID" });
+      }
+
+      let stripeClient;
+      try {
+        stripeClient = getStripe();
+      } catch (e) {
+        console.warn("Stripe is not configured. Mocking cancelation...");
+        return res.status(200).json({ success: true });
+      }
+
+      const session = await stripeClient.checkout.sessions.retrieve(sessionId);
+      if (session.subscription) {
+        await stripeClient.subscriptions.update(session.subscription as string, {
+          cancel_at_period_end: true,
+        });
+        res.json({ success: true });
+      } else {
+        res.status(400).json({ error: "No subscription found for this session." });
+      }
+    } catch (error: any) {
+      console.error("Cancel subscription error:", error);
+      res.status(500).json({ error: error.message || "Internal server error" });
+    }
+  });
+
+  app.post("/api/create-membership-subscription", async (req, res) => {
+    console.log("Received membership subscription request:", req.body);
+    try {
+      const { tier, email, userId, firstName, lastName, returnUrl } = req.body;
+      
+      let price;
+      let description;
+      
+      if (tier === 'professional') {
+        price = 8000; // 80 EUR
+        description = "Professional Membership";
+      } else if (tier === 'student') {
+        price = 2500; // 25 EUR
+        description = "Student Membership";
+      } else if (tier === 'institutional') {
+        price = 25000; // 250 EUR
+        description = "Institutional Partner";
+      } else {
+        return res.status(400).json({ error: "Invalid membership tier" });
+      }
+
+      const baseUrl = returnUrl || process.env.APP_URL || req.headers.origin || `http://localhost:${PORT}`;
+
+      let stripeClient;
+      try {
+        stripeClient = getStripe();
+      } catch (e) {
+        console.warn("Stripe is not configured. Mocking subscription checkout session...", e);
+        return res.status(200).json({ url: `${baseUrl}/profile?success=true&membership=${tier}` });
+      }
+
+      const session = await stripeClient.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: [
+          {
+            price_data: {
+              currency: "eur",
+              product_data: {
+                name: description,
+                description: `Annual ${description}`,
+              },
+              unit_amount: price,
+              recurring: {
+                interval: "year",
+              },
+            },
+            quantity: 1,
+          },
+        ],
+        mode: "subscription",
+        success_url: `${baseUrl}/profile?success=true&session_id={CHECKOUT_SESSION_ID}&membership=${tier}`,
+        cancel_url: `${baseUrl}?cancelled=true`,
+        ...(email ? { customer_email: email } : {}),
+        metadata: {
+          type: "membership",
+          tier,
+          userId: userId || "",
+          firstName,
+          lastName
+        },
+      });
+
+      res.json({ id: session.id, url: session.url });
+    } catch (error: any) {
+      console.error("Stripe subscription error:", error);
+      res.status(500).json({ error: error.message || "Internal server error" });
+    }
+  });
+
   app.post("/api/create-checkout-session", async (req, res) => {
     console.log("Received checkout request:", req.body);
     try {
-      const { eventId, eventTitle, price, userId, userEmail } = req.body;
+      const { eventId, eventTitle, price, userId, userEmail, returnUrl } = req.body;
       
       if (!eventId || !price || !userId) {
         return res.status(400).json({ error: "Missing required fields: eventId, price, or userId" });
       }
 
       // Use APP_URL from env, fallback to origin header if absolutely necessary for dev
-      const baseUrl = process.env.APP_URL || req.headers.origin || `http://localhost:${PORT}`;
+      const baseUrl = returnUrl || process.env.APP_URL || req.headers.origin || `http://localhost:${PORT}`;
       console.log("Using base URL for Stripe redirect:", baseUrl);
 
       let stripeClient;

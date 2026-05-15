@@ -12,7 +12,7 @@ const resources = {
         membership: 'Membership',
         news: 'News',
         gallery: 'Gallery',
-        impact: 'Impact',
+        impact: 'Donation',
         contact: 'Contact',
         signIn: 'Sign In',
         signOut: 'Log Out',
@@ -219,9 +219,9 @@ const resources = {
         }
       },
       impact: {
-        tag: 'Our Legacy',
-        title: 'Measurable',
-        titleItalic: 'Impact',
+        tag: 'Your Support',
+        title: 'Make a',
+        titleItalic: 'Donation',
         subtitle: 'At our core, we are driven by impact. Through our donation initiatives, we foster a spirit of solidarity, cultural exchange, and social responsibility.',
         totalImpact: 'Total Impact in 2026',
         initiatives: {
@@ -353,7 +353,7 @@ const resources = {
         membership: 'Mitgliedschaft',
         news: 'Neuigkeiten',
         gallery: 'Galerie',
-        impact: 'Wirkung',
+        impact: 'Spende',
         contact: 'Kontakt',
         signIn: 'Anmelden',
         signOut: 'Abmelden',
@@ -560,9 +560,9 @@ const resources = {
         }
       },
       impact: {
-        tag: 'Unser Erbe',
-        title: 'Messbare',
-        titleItalic: 'Wirkung',
+        tag: 'Ihre Unterstützung',
+        title: 'Machen Sie eine',
+        titleItalic: 'Spende',
         subtitle: 'Im Kern sind wir von Wirkung getrieben. Durch unsere Spendeninitiativen fördern wir einen Geist der Solidarität, des kulturellen Austauschs und der sozialen Verantwortung.',
         totalImpact: 'Gesamtwirkung im Jahr 2026',
         initiatives: {
@@ -694,7 +694,7 @@ const resources = {
         membership: 'Гишүүнчлэл',
         news: 'Мэдээ',
         gallery: 'Галлерей',
-        impact: 'Нөлөөлөл',
+        impact: 'Хандив',
         contact: 'Холбоо барих',
         signIn: 'Нэвтрэх',
         signOut: 'Гарах',
@@ -901,9 +901,9 @@ const resources = {
         }
       },
       impact: {
-        tag: 'Бидний өв',
-        title: 'Хэмжигдэхүйц',
-        titleItalic: 'Нөлөөлөл',
+        tag: 'Таны дэмжлэг',
+        title: 'Хандив',
+        titleItalic: 'Өргөх',
         subtitle: 'Бидний үйл ажиллагааны цөм нь нөлөөлөл юм. Сайн үйлсийн аянаараа дамжуулан бид эв нэгдэл, соёлын солилцоо, нийгмийн хариуцлагыг дэмждэг.',
         totalImpact: '2026 оны нийт нөлөөлөл',
         initiatives: {

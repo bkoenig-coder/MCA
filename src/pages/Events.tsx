@@ -144,6 +144,7 @@ export default function Events() {
             price: selectedEvent.price,
             userId: user ? user.uid : 'guest',
             userEmail: registrationForm.email,
+            returnUrl: window.location.origin
           }),
         });
 
@@ -154,7 +155,11 @@ export default function Events() {
         }
 
         if (data.url) {
-          window.location.href = data.url;
+          if (window !== window.top) {
+             window.open(data.url, '_blank');
+          } else {
+             window.location.href = data.url;
+          }
         } else {
           throw new Error(t('common.error.checkout'));
         }
