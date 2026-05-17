@@ -44,7 +44,7 @@ export default function AdminDashboard() {
     whatsIncluded: '',
     galleryImages: ''
   });
-  const [postForm, setPostForm] = useState({ id: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '' });
+  const [postForm, setPostForm] = useState({ id: '', slug: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '' });
   const [galleryForm, setGalleryForm] = useState({ id: '', titleEn: '', titleMn: '', titleDe: '', artistEn: '', artistMn: '', artistDe: '', year: '', descriptionEn: '', descriptionMn: '', descriptionDe: '', imageUrl: '', category: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -178,6 +178,7 @@ export default function AdminDashboard() {
         titleMn: postForm.titleMn,
         titleDe: postForm.titleDe,
         title: postForm.titleEn,
+        slug: postForm.slug || postForm.titleEn.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''),
         contentEn: postForm.contentEn,
         contentMn: postForm.contentMn,
         contentDe: postForm.contentDe,
@@ -194,7 +195,7 @@ export default function AdminDashboard() {
         toast.success('Post published successfully');
       }
 
-      setPostForm({ id: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '' });
+      setPostForm({ id: '', slug: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '' });
       setIsEditing(false);
     } catch (error) {
       toast.error('Failed to save post');
@@ -293,6 +294,7 @@ export default function AdminDashboard() {
   const editPost = (post: any) => {
     setPostForm({
       id: post.id,
+      slug: post.slug || '',
       titleEn: post.titleEn || post.title || '',
       titleMn: post.titleMn || post.title || '',
       titleDe: post.titleDe || post.title || '',
@@ -774,6 +776,16 @@ export default function AdminDashboard() {
                       />
                     </div>
                     <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">URL Slug (Optional)</label>
+                      <input 
+                        value={postForm.slug}
+                        onChange={e => setPostForm({...postForm, slug: e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')})}
+                        placeholder="e.g. latest-news-update"
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                      />
+                      <p className="text-[10px] text-brand-ink/40 mt-2">Leave blank to auto-generate from title</p>
+                    </div>
+                    <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Content (English)</label>
                       <textarea 
                         required
@@ -836,7 +848,7 @@ export default function AdminDashboard() {
                       {isEditing && (
                         <button 
                           type="button"
-                          onClick={() => { setIsEditing(false); setPostForm({ id: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '' }); }}
+                          onClick={() => { setIsEditing(false); setPostForm({ id: '', slug: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '' }); }}
                           className="flex-1 bg-brand-paper text-brand-ink py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-sand transition-all"
                         >
                           Cancel

@@ -73,9 +73,10 @@ export default function News() {
                   const lang = i18n.language;
                   const dTitle = lang === 'mn' ? (p.titleMn || p.title) : lang === 'de' ? (p.titleDe || p.title) : (p.titleEn || p.title);
                   const dContent = lang === 'mn' ? (p.contentMn || p.content) : lang === 'de' ? (p.contentDe || p.content) : (p.contentEn || p.content);
+                  const linkUrl = `/news/${p.slug || p.id}`;
                   return (
                     <>
-                      <Link to={`/news/${p.id}`} className="aspect-[16/10] rounded-[40px] md:rounded-[60px] overflow-hidden shadow-2xl relative group block">
+                      <Link to={linkUrl} className="aspect-[16/10] rounded-[40px] md:rounded-[60px] overflow-hidden shadow-2xl relative group block">
                         <img 
                           src={p.imageUrl} 
                           alt={dTitle} 
@@ -92,13 +93,13 @@ export default function News() {
                             {p.createdAt?.toDate().toLocaleDateString(t('common.locale'), { month: 'long', day: 'numeric', year: 'numeric' })}
                           </span>
                         </div>
-                        <Link to={`/news/${p.id}`}>
+                        <Link to={linkUrl}>
                           <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-6 md:mb-8 leading-tight group-hover:text-brand-gold transition-colors duration-300">{dTitle}</h2>
                         </Link>
                         <p className="text-lg md:text-xl text-brand-ink/60 font-light leading-relaxed mb-10 md:mb-12 line-clamp-4">
                           {dContent}
                         </p>
-                        <Link to={`/news/${p.id}`} className="inline-flex items-center gap-4 text-[10px] uppercase tracking-[0.3em] font-bold text-brand-ink group/btn">
+                        <Link to={linkUrl} className="inline-flex items-center gap-4 text-[10px] uppercase tracking-[0.3em] font-bold text-brand-ink group/btn">
                           {t('news.readFull')}
                           <div className="w-10 h-10 md:w-12 md:h-12 border border-brand-ink/10 rounded-full flex items-center justify-center group-hover/btn:border-brand-gold group-hover/btn:text-brand-gold transition-all">
                             <ArrowRight size={16} />
@@ -116,6 +117,7 @@ export default function News() {
                   const lang = i18n.language;
                   const dTitle = lang === 'mn' ? (post.titleMn || post.title) : lang === 'de' ? (post.titleDe || post.title) : (post.titleEn || post.title);
                   const dContent = lang === 'mn' ? (post.contentMn || post.content) : lang === 'de' ? (post.contentDe || post.content) : (post.contentEn || post.content);
+                  const linkUrl = `/news/${post.slug || post.id}`;
                   return (
                   <motion.article 
                     key={post.id}
@@ -125,7 +127,7 @@ export default function News() {
                     transition={{ duration: 0.8, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
                     className="group"
                   >
-                    <Link to={`/news/${post.id}`} className="aspect-[16/10] rounded-[32px] md:rounded-[40px] overflow-hidden mb-8 md:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_60px_-20px_rgba(0,0,0,0.25)] ring-1 ring-black/5 hover:ring-brand-gold/30 relative block transition-all duration-300 bg-brand-ink/5">
+                    <Link to={linkUrl} className="aspect-[16/10] rounded-[32px] md:rounded-[40px] overflow-hidden mb-8 md:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_60px_-20px_rgba(0,0,0,0.25)] ring-1 ring-black/5 hover:ring-brand-gold/30 relative block transition-all duration-300 bg-brand-ink/5">
                       {/* Background Noise Texture */}
                       <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none z-10" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
                       <motion.img 
@@ -147,13 +149,13 @@ export default function News() {
                         {post.createdAt?.toDate().toLocaleDateString(t('common.locale'), { month: 'short', day: 'numeric', year: 'numeric' })}
                       </span>
                     </div>
-                    <Link to={`/news/${post.id}`}>
+                    <Link to={linkUrl}>
                       <h3 className="text-2xl md:text-3xl font-serif text-brand-ink mb-4 md:mb-6 group-hover:text-brand-gold transition-colors duration-500">{dTitle}</h3>
                     </Link>
                     <p className="text-sm md:text-base text-brand-ink/60 font-light leading-relaxed mb-6 md:mb-8 line-clamp-3">
                       {dContent}
                     </p>
-                    <Link to={`/news/${post.id}`} className="inline-block text-[10px] uppercase tracking-[0.3em] font-bold text-brand-ink border-b border-brand-ink/10 pb-2 hover:border-brand-gold hover:text-brand-gold transition-all">
+                    <Link to={linkUrl} className="inline-block text-[10px] uppercase tracking-[0.3em] font-bold text-brand-ink border-b border-brand-ink/10 pb-2 hover:border-brand-gold hover:text-brand-gold transition-all">
                       {t('news.readMore')}
                     </Link>
                   </motion.article>

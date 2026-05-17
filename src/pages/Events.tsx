@@ -243,8 +243,9 @@ export default function Events() {
       </section>
 
       {/* Events List */}
-      <section className="py-24 md:py-40 px-6 bg-brand-paper/50">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-24 md:py-40 px-6 bg-brand-paper relative">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.02)_1px,transparent_1px)] bg-[size:3rem_3rem] z-0 pointer-events-none" />
+        <div className="max-w-7xl mx-auto relative z-10">
           {loading ? (
             <div className="flex justify-center py-24 md:py-40">
               <Loader2 className="animate-spin text-brand-gold" size={48} />
@@ -274,14 +275,14 @@ export default function Events() {
                       className="group bg-white rounded-[32px] md:rounded-[48px] overflow-hidden border border-brand-ink/5 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row"
                     >
                       {/* Image Section */}
-                      <div className="md:w-[40%] relative overflow-hidden aspect-[16/10] md:aspect-auto min-h-[250px] md:min-h-full">
+                      <div className="md:w-[40%] relative overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[350px]">
                         <img 
                           src={event.imageUrl} 
                           alt={dTitle} 
-                          className="absolute inset-0 w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
+                          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                           referrerPolicy="no-referrer"
                         />
-                        <div className="absolute inset-0 bg-brand-ink/10 group-hover:bg-transparent transition-colors duration-700" />
+                        <div className="absolute inset-0 bg-brand-ink/10 group-hover:bg-transparent transition-colors duration-700 pointer-events-none" />
                       </div>
                       
                       {/* Content Section */}
@@ -381,14 +382,14 @@ export default function Events() {
                         className="group bg-white rounded-[32px] md:rounded-[48px] overflow-hidden border border-brand-ink/5 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row opacity-80"
                       >
                         {/* Image Section */}
-                        <div className="md:w-[40%] relative overflow-hidden aspect-[16/10] md:aspect-auto min-h-[250px] md:min-h-full grayscale-[30%]">
+                        <div className="md:w-[40%] relative overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[350px] grayscale-[30%]">
                           <img 
                             src={event.imageUrl} 
                             alt={dTitle} 
-                            className="absolute inset-0 w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105"
+                            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                             referrerPolicy="no-referrer"
                           />
-                          <div className="absolute inset-0 bg-brand-ink/10 group-hover:bg-transparent transition-colors duration-700" />
+                          <div className="absolute inset-0 bg-brand-ink/10 group-hover:bg-transparent transition-colors duration-700 pointer-events-none" />
                         </div>
                         
                         {/* Content Section */}

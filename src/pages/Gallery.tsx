@@ -90,8 +90,9 @@ export default function Gallery() {
       </section>
 
       {/* Gallery Grid */}
-      <section className="py-24 md:py-40 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-24 md:py-40 px-6 bg-brand-paper relative">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.02)_1px,transparent_1px)] bg-[size:3rem_3rem] z-0 pointer-events-none" />
+        <div className="max-w-7xl mx-auto relative z-10">
           {loading ? (
             <div className="flex justify-center py-20">
               <div className="w-12 h-12 border-4 border-brand-gold border-t-transparent rounded-full animate-spin" />
@@ -118,10 +119,10 @@ export default function Gallery() {
                         <img 
                           src={art.imageUrl} 
                           alt={dTitle} 
-                          className="w-full h-full object-contain bg-brand-paper/20 transition-transform duration-500 group-hover:scale-105"
+                          className="w-full h-full object-cover bg-brand-paper/20 transition-transform duration-500 group-hover:scale-105"
                           referrerPolicy="no-referrer"
                         />
-                        <div className="absolute inset-0 bg-brand-ink/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div className="absolute inset-0 bg-brand-ink/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
                           <div className="text-center text-white p-6 md:p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                             <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold mb-4 block">
                               {dCat}
