@@ -573,22 +573,21 @@ export default function LetsPlayGame() {
   };
 
   return (
-    <div className="flex flex-col xl:flex-row gap-6 my-12 w-full max-w-[1200px] mx-auto items-start">
-      <div 
-        id="lets-play-game-container" 
-        tabIndex={0} 
-        className="relative w-full xl:w-[800px] h-[600px] shrink-0 bg-brand-ink rounded-[40px] overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-brand-gold/20 outline-none focus:ring-4 focus:ring-brand-gold/50 cursor-pointer group"
-        onClick={(e) => {
-          if (gameState === 'START') startGame(e);
-        }}
-        onKeyDown={(e) => {
-          if (e.code === 'Space' && gameState !== 'PLAYING') {
-             if ((e.target as HTMLElement).tagName === 'INPUT') return;
-             startGame(e);
-          }
-        }}
-      >
-        <Canvas shadows camera={{ position: [0, 5, 8], fov: 50 }}>
+    <div 
+      id="lets-play-game-container" 
+      tabIndex={0} 
+      className="relative w-full h-[600px] bg-brand-ink rounded-[40px] overflow-hidden my-12 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-brand-gold/20 outline-none focus:ring-4 focus:ring-brand-gold/50 cursor-pointer group"
+      onClick={(e) => {
+        if (gameState === 'START') startGame(e);
+      }}
+      onKeyDown={(e) => {
+        if (e.code === 'Space' && gameState !== 'PLAYING') {
+           if ((e.target as HTMLElement).tagName === 'INPUT') return;
+           startGame(e);
+        }
+      }}
+    >
+      <Canvas shadows camera={{ position: [0, 5, 8], fov: 50 }}>
           <color attach="background" args={['#87CEEB']} /> {/* Blue sky */}
           {!isMobile && <Sky sunPosition={[100, 20, 100]} />}
           <ambientLight intensity={0.4} />
@@ -659,7 +658,7 @@ export default function LetsPlayGame() {
         )}
 
         {gameState === 'GAMEOVER' && (
-          <div className="absolute inset-0 bg-[#4a1c1d]/90 backdrop-blur-md flex flex-col items-center justify-center z-10 gap-8 pointer-events-none p-6 overflow-y-auto w-full">
+          <div className="absolute inset-0 bg-[#4a1c1d]/90 backdrop-blur-md flex flex-col md:flex-row items-center justify-center z-10 gap-8 pointer-events-none p-6 overflow-y-auto w-full">
              <div className="text-center w-full max-w-sm shrink-0">
                 <h2 className="text-5xl font-serif text-white mb-2">Game Over</h2>
                 <p className="text-2xl text-brand-gold mb-8 font-serif">Final Score: {score}</p>
@@ -692,38 +691,37 @@ export default function LetsPlayGame() {
                   Play Again
                 </button>
              </div>
+
+             {/* Leaderboard panel */}
+             <div className={`bg-brand-ink/90 border border-brand-gold/30 rounded-3xl p-6 w-full max-w-sm pointer-events-auto relative overflow-hidden ${hasSubmittedScore || score === 0 ? 'block' : 'hidden md:block'}`}>
+               {/* Decorative Background Pattern */}
+               <div className="absolute inset-0 pointer-events-none opacity-30" style={{ backgroundImage: `url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj4KICA8cGF0aCBkPSJNMCAyMCBMMjAgMCBMNDAgMjAgTDIwIDQwIFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q0YWYzNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2Utb3BhY2l0eT0iMC4yIi8+CiAgPHBhdGggZD0iTTEwIDIwIEwyMCAxMCBMMzAgMjAgTDIwIDMwIFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q0YWYzNyIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2Utb3BhY2l0eT0iMC4xIi8+CiAgPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMiIgZmlsbD0iI2Q0YWYzNyIgZmlsbC1vcGFjaXR5PSIwLjIiLz4KPC9zdmc+')`, backgroundSize: '40px 40px' }}></div>
+               
+               <h3 className="text-xl font-serif text-brand-gold mb-6 text-center flex items-center justify-center gap-2 relative z-10 shrink-0">
+                 <span className="w-8 h-[1px] bg-brand-gold/30"></span>
+                 Hall of Heroes
+                 <span className="w-8 h-[1px] bg-brand-gold/30"></span>
+               </h3>
+               <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar relative z-10">
+                 {leaderboard.length === 0 ? (
+                   <p className="text-white/50 text-center text-sm italic">No heroes recorded yet.</p>
+                 ) : (
+                   leaderboard.map((entry, i) => (
+                     <div key={i} className="flex justify-between items-center group bg-black/20 rounded-xl p-3 border border-white/5 backdrop-blur-sm">
+                       <div className="flex items-center gap-4">
+                         <span className={`font-serif ${i === 0 ? 'text-2xl text-brand-gold drop-shadow-[0_0_5px_rgba(212,175,55,0.8)]' : i === 1 ? 'text-xl text-gray-300' : i === 2 ? 'text-lg text-amber-600' : 'text-md text-white/50'} w-6 text-center`}>{i + 1}</span>
+                         <span className="text-white font-medium group-hover:text-brand-gold transition-colors">{entry.name}</span>
+                       </div>
+                       <span className="font-mono text-brand-gold/80 bg-brand-gold/10 px-3 py-1 rounded-full text-sm">{entry.score}</span>
+                     </div>
+                   ))
+                 )}
+               </div>
+               
+               <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-brand-ink to-transparent pointer-events-none"></div>
+             </div>
           </div>
         )}
-      </div>
-
-      {/* Leaderboard panel */}
-      <div className={`bg-brand-ink/90 border border-brand-gold/30 rounded-3xl p-6 w-full xl:flex-1 h-[600px] flex flex-col pointer-events-auto relative overflow-hidden xl:block`}>
-        {/* Decorative Background Pattern */}
-        <div className="absolute inset-0 pointer-events-none opacity-30 hidden md:block" style={{ backgroundImage: `url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj4KICA8cGF0aCBkPSJNMCAyMCBMMjAgMCBMNDAgMjAgTDIwIDQwIFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q0YWYzNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2Utb3BhY2l0eT0iMC4yIi8+CiAgPHBhdGggZD0iTTEwIDIwIEwyMCAxMCBMMzAgMjAgTDIwIDMwIFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q0YWYzNyIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2Utb3BhY2l0eT0iMC4xIi8+CiAgPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMiIgZmlsbD0iI2Q0YWYzNyIgZmlsbC1vcGFjaXR5PSIwLjIiLz4KPC9zdmc+')`, backgroundSize: '40px 40px' }}></div>
-        
-        <h3 className="text-xl font-serif text-brand-gold mb-6 text-center flex items-center justify-center gap-2 relative z-10 shrink-0">
-          <span className="w-8 h-[1px] bg-brand-gold/30"></span>
-          Hall of Heroes
-          <span className="w-8 h-[1px] bg-brand-gold/30"></span>
-        </h3>
-        <div className="space-y-3 flex-1 overflow-y-auto pr-2 custom-scrollbar relative z-10">
-          {leaderboard.length === 0 ? (
-            <p className="text-white/50 text-center text-sm italic">No heroes recorded yet.</p>
-          ) : (
-            leaderboard.map((entry, i) => (
-              <div key={i} className="flex justify-between items-center group bg-black/20 rounded-xl p-3 border border-white/5 backdrop-blur-sm">
-                <div className="flex items-center gap-4">
-                  <span className={`font-serif ${i === 0 ? 'text-2xl text-brand-gold drop-shadow-[0_0_5px_rgba(212,175,55,0.8)]' : i === 1 ? 'text-xl text-gray-300' : i === 2 ? 'text-lg text-amber-600' : 'text-md text-white/50'} w-6 text-center`}>{i + 1}</span>
-                  <span className="text-white font-medium group-hover:text-brand-gold transition-colors">{entry.name}</span>
-                </div>
-                <span className="font-mono text-brand-gold/80 bg-brand-gold/10 px-3 py-1 rounded-full text-sm">{entry.score}</span>
-              </div>
-            ))
-          )}
-        </div>
-        
-        <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-brand-ink to-transparent pointer-events-none"></div>
-      </div>
     </div>
   );
 }
