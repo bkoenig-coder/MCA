@@ -1,4 +1,4 @@
-import { Globe, Mail, MapPin, Phone, Instagram, Facebook, Linkedin } from 'lucide-react';
+import { Globe, Mail, MapPin, Phone, Instagram, Facebook, Linkedin, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, Variants } from 'motion/react';
@@ -162,6 +162,17 @@ export default function Footer() {
             </span>
           </div>
         </motion.div>
+        
+        {/* Back to Top */}
+        <motion.button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="absolute right-0 md:right-0 bottom-[140px] md:bottom-auto md:top-1/2 -translate-y-1/2 w-12 h-12 border border-brand-ink/10 rounded-full flex items-center justify-center hover:bg-brand-ink hover:text-white transition-colors duration-300 z-50 text-brand-ink group cursor-pointer"
+          title="Back to Top"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <ArrowRight size={16} className="-rotate-90 group-hover:-translate-y-1 transition-transform" />
+        </motion.button>
 
       </div>
     </footer>

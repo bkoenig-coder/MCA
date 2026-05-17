@@ -69,20 +69,31 @@ export default function AIAssistant() {
   return (
     <div className="font-[Arial]">
       {/* Floating Action Button */}
-      <motion.button
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={() => setIsOpen(true)}
-        className={cn(
-          "fixed bottom-6 right-6 z-50 flex items-center gap-2 px-5 py-3 bg-brand-ink text-white shadow-xl transition-all duration-300 border border-brand-ink hover:bg-white hover:text-brand-ink",
-          isOpen && "opacity-0 pointer-events-none translate-y-4"
+      <AnimatePresence>
+        {!isOpen && (
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 20, opacity: 0 }}
+            className="fixed bottom-6 right-6 z-50 flex items-center justify-center"
+          >
+            {/* Pulse effect rings */}
+            <div className="absolute inset-0 rounded-full animate-ping opacity-20 bg-brand-ink/50" />
+            <div className="absolute -inset-2 rounded-full animate-pulse opacity-10 bg-brand-gold/30" />
+            
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsOpen(true)}
+              style={{ borderRadius: '24px' }}
+              className="relative flex items-center gap-2 px-5 py-3 bg-brand-ink text-white shadow-[0_10px_20px_rgba(0,0,0,0.15)] transition-all duration-300 border border-brand-ink/20 hover:bg-white hover:text-brand-ink hover:border-brand-ink"
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span className="font-bold text-[10px] uppercase tracking-widest">Support</span>
+            </motion.button>
+          </motion.div>
         )}
-      >
-        <MessageSquare className="w-4 h-4" />
-        <span className="font-bold text-[10px] uppercase tracking-widest">Support</span>
-      </motion.button>
+      </AnimatePresence>
 
       {/* Chat Window */}
       <AnimatePresence>

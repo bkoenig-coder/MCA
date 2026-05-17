@@ -34,6 +34,7 @@ const TeamMember = lazy(() => import('./pages/TeamMember'));
 const InitiativeDetails = lazy(() => import('./pages/InitiativeDetails'));
 const Membership = lazy(() => import('./pages/Membership'));
 const MembersDirectory = lazy(() => import('./pages/MembersDirectory'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 const ApplyStudent = lazy(() => import('./pages/ApplyStudent'));
 const ApplyProfessional = lazy(() => import('./pages/ApplyProfessional'));
@@ -109,6 +110,7 @@ export default function App() {
                   <Route path="/team/:id" element={<TeamMember />} />
                   <Route path="/initiative/:id" element={<InitiativeDetails />} />
                   <Route path="/diorama" element={<EasterEgg />} />
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
             </main>

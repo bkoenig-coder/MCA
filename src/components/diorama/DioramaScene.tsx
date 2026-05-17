@@ -120,7 +120,7 @@ function CinematicPatchyFog() {
   });
 
   return (
-    <group ref={fogRef} position={[0, -2, 0]} pointerEvents="none">
+    <group ref={fogRef} position={[0, -2, 0]}>
       {/* Several large transparent planes floating for a low-cost volumetric fog effect */}
       {[...Array(8)].map((_, i) => (
         <mesh 

@@ -450,8 +450,19 @@ export default function Home() {
                     transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
                     className={cn(
                       "absolute inset-0 origin-bottom w-full",
-                      !isFront && "cursor-pointer"
+                      isFront ? "cursor-grab active:cursor-grabbing" : "cursor-pointer"
                     )}
+                    drag={isFront ? "x" : false}
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.6}
+                    onDragEnd={(_, info) => {
+                      const swipeThreshold = 50;
+                      if (info.offset.x > swipeThreshold) {
+                         handlePrevMembership();
+                      } else if (info.offset.x < -swipeThreshold) {
+                         handleNextMembership();
+                      }
+                    }}
                     onClick={() => {
                       if (!isFront) setActiveMembershipIndex(i);
                     }}
@@ -466,14 +477,14 @@ export default function Home() {
                       
                       <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
 
-                      <div className={cn("relative z-10 transition-opacity duration-500", !isFront && "opacity-80")}>
-                        <div className={cn("w-12 h-12 md:w-14 md:h-14 bg-brand-ink/50 backdrop-blur-md rounded-2xl flex items-center justify-center mb-4 md:mb-8 border border-white/10 transition-colors duration-500", isFront && "group-hover:" + slide.accentBorder)}>
+                      <div className={cn("relative z-10 flex flex-col h-full transition-opacity duration-500", !isFront && "opacity-80")}>
+                        <div className={cn("w-12 h-12 md:w-14 md:h-14 bg-brand-ink/50 backdrop-blur-md rounded-2xl flex items-center justify-center mb-4 md:mb-8 border border-white/10 shrink-0 transition-colors duration-500", isFront && "group-hover:" + slide.accentBorder)}>
                           <slide.icon size={isMobile ? 20 : 24} className={slide.color} />
                         </div>
                         
-                        <h3 className="text-xl md:text-3xl font-serif mb-3 md:mb-4 drop-shadow-md text-white">{slide.title}</h3>
+                        <h3 className="text-xl md:text-3xl font-serif mb-3 md:mb-4 drop-shadow-md text-white shrink-0">{slide.title}</h3>
                         
-                        <ul className="space-y-2 md:space-y-4 mb-4 md:mb-10">
+                        <ul className="space-y-2 md:space-y-4 mb-4 md:mb-6 flex-1 overflow-y-auto pr-2 custom-scrollbar">
                           {slide.benefits.map((benefit, idx) => (
                             <li key={idx} className="flex items-start gap-3 md:gap-4">
                               <CheckCircle2 size={16} className={cn("shrink-0 mt-0.5 opacity-90", slide.color)} />
@@ -482,19 +493,20 @@ export default function Home() {
                           ))}
                         </ul>
                         
-                        {isFront && (
-                           <Link to={slide.path} onClick={(e) => e.stopPropagation()} className="pt-4 md:pt-8 border-t border-white/10 flex items-center justify-between group-hover:border-white/20 transition-colors duration-500 block mt-auto">
-                             <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-white/50 group-hover:text-white transition-colors duration-500">Apply Now</span>
-                             <div className={cn("w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all duration-500 bg-white/10 group-hover:scale-110", "group-hover:" + slide.bgClass)}>
-                               <ArrowRight size={14} className="text-white transition-colors duration-500" />
-                             </div>
-                           </Link>
-                        )}
-                        {!isFront && (
-                          <div className="pt-4 md:pt-8 border-t border-white/10 flex items-center justify-between mt-auto">
-                            <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-brand-gold animate-pulse">Tap Card to View</span>
-                          </div>
-                        )}
+                        <div className="mt-auto pt-4 md:pt-6 border-t border-white/10 shrink-0">
+                          {isFront ? (
+                             <Link to={slide.path} onClick={(e) => e.stopPropagation()} className="flex items-center justify-between group-hover:border-white/20 transition-colors duration-500 w-full">
+                               <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-white/50 group-hover:text-white transition-colors duration-500">Apply Now</span>
+                               <div className={cn("w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all duration-500 bg-white/10 group-hover:scale-110", "group-hover:" + slide.bgClass)}>
+                                 <ArrowRight size={14} className="text-white transition-colors duration-500" />
+                               </div>
+                             </Link>
+                          ) : (
+                            <div className="flex items-center justify-between w-full">
+                              <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-brand-gold animate-pulse">Tap Card to View</span>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </motion.div>
