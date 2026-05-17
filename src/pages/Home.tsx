@@ -138,10 +138,10 @@ export default function Home() {
     <div className="pt-20">
       
       {/* Hero Section */}
-      <section className="relative min-h-[85vh] md:h-[95vh] flex items-center px-6 overflow-hidden bg-[#0A1128] group">
+      <section className="relative min-h-[85vh] md:h-[95vh] flex items-center px-6 overflow-hidden bg-[#050B14] group">
         <div className="absolute inset-0 z-0">
           {/* Subtle gradient overlay to ensure text readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0A1128]/90 via-[#0A1128]/40 to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#050B14]/95 via-[#050B14]/50 to-transparent z-10 pointer-events-none" />
           
           <div className="w-full h-full absolute inset-0 opacity-80 md:opacity-100 transition-opacity duration-1000 group-hover:opacity-100 pointer-events-none">
             {/* Optimized Canvas for performance: limited DPR, no pointer events, no controls */}
@@ -495,8 +495,8 @@ export default function Home() {
                         
                         <div className="mt-auto pt-4 md:pt-6 border-t border-white/10 shrink-0">
                           {isFront ? (
-                             <Link to={slide.path} onClick={(e) => e.stopPropagation()} className="flex items-center justify-between group-hover:border-white/20 transition-colors duration-500 w-full">
-                               <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-white/50 group-hover:text-white transition-colors duration-500">Apply Now</span>
+                             <Link to="/membership" onClick={(e) => e.stopPropagation()} className="flex items-center justify-between group-hover:border-white/20 transition-colors duration-500 w-full">
+                               <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-white/50 group-hover:text-white transition-colors duration-500">Explore Benefits</span>
                                <div className={cn("w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all duration-500 bg-white/10 group-hover:scale-110", "group-hover:" + slide.bgClass)}>
                                  <ArrowRight size={14} className="text-white transition-colors duration-500" />
                                </div>

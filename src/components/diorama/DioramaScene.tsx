@@ -28,7 +28,7 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
     <group ref={archipelagoRef}>
       
       {/* Cinematic Fog / Dust Elements */}
-      <Sparkles count={800} scale={[45, 12, 45]} size={8} speed={0.4} color="#ffd8a8" opacity={0.4} position={[0, 4, 0]} noise={1.5} />
+      <Sparkles count={1000} scale={[45, 15, 45]} size={6} speed={0.3} color="#a2bcfc" opacity={0.5} position={[0, 6, 0]} noise={1.5} />
       
       {/* Central Hub Island (State Suld / Flags) */}
       <group position={[0, 0, 0]} onClick={() => onSelect('center')} onPointerOver={(e) => { e.stopPropagation(); setCenterHovered(true); document.body.style.cursor = 'pointer'; }} onPointerOut={(e) => { setCenterHovered(false); document.body.style.cursor = 'auto'; }}>
@@ -114,7 +114,7 @@ function CinematicPatchyFog() {
   
   useFrame((state) => {
     if (fogRef.current) {
-      fogRef.current.rotation.y = state.clock.elapsedTime * 0.05;
+      fogRef.current.rotation.y = state.clock.elapsedTime * 0.03;
       fogRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.2) * 1;
     }
   });
@@ -132,11 +132,11 @@ function CinematicPatchyFog() {
           ]}
           rotation={[Math.PI / 2, 0, Math.random() * Math.PI]}
         >
-          <planeGeometry args={[30, 30]} />
+          <planeGeometry args={[35, 35]} />
           <meshBasicMaterial 
-            color="#ffeab3" 
+            color="#a2bcfc" 
             transparent 
-            opacity={0.015} 
+            opacity={0.012} 
             depthWrite={false}
             blending={THREE.AdditiveBlending}
             side={THREE.DoubleSide}
