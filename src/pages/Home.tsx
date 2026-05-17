@@ -427,7 +427,7 @@ export default function Home() {
             className="flex-1 w-full lg:w-auto relative"
           >
             {/* Elegant glassmorphism card stack */}
-            <div className="relative w-full max-w-md mx-auto mt-8 lg:mt-0" style={{ height: "480px" }}>
+            <div className="relative w-full max-w-md mx-auto mt-8 lg:mt-0" style={{ height: isMobile ? "440px" : "480px" }}>
               {membershipSlides.map((slide, i) => {
                 const offset = (i - activeMembershipIndex + membershipSlides.length) % membershipSlides.length;
                 
@@ -457,7 +457,7 @@ export default function Home() {
                     }}
                   >
                     <div className={cn(
-                      "relative block w-full h-full bg-white/10 backdrop-blur-xl border border-white/20 p-10 md:p-12 rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.4)] overflow-hidden transition-all duration-700",
+                      "relative flex flex-col justify-between w-full h-full bg-white/10 backdrop-blur-xl border border-white/20 p-6 md:p-12 rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.4)] overflow-hidden transition-all duration-700",
                       isFront && "group hover:bg-white/[0.15]"
                     )}>
                       {isFront && (
@@ -467,32 +467,32 @@ export default function Home() {
                       <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
 
                       <div className={cn("relative z-10 transition-opacity duration-500", !isFront && "opacity-80")}>
-                        <div className={cn("w-14 h-14 bg-brand-ink/50 backdrop-blur-md rounded-2xl flex items-center justify-center mb-8 border border-white/10 transition-colors duration-500", isFront && "group-hover:" + slide.accentBorder)}>
-                          <slide.icon size={24} className={slide.color} />
+                        <div className={cn("w-12 h-12 md:w-14 md:h-14 bg-brand-ink/50 backdrop-blur-md rounded-2xl flex items-center justify-center mb-4 md:mb-8 border border-white/10 transition-colors duration-500", isFront && "group-hover:" + slide.accentBorder)}>
+                          <slide.icon size={isMobile ? 20 : 24} className={slide.color} />
                         </div>
                         
-                        <h3 className="text-2xl md:text-3xl font-serif mb-4 drop-shadow-md text-white">{slide.title}</h3>
+                        <h3 className="text-xl md:text-3xl font-serif mb-3 md:mb-4 drop-shadow-md text-white">{slide.title}</h3>
                         
-                        <ul className="space-y-4 mb-10">
+                        <ul className="space-y-2 md:space-y-4 mb-4 md:mb-10">
                           {slide.benefits.map((benefit, idx) => (
-                            <li key={idx} className="flex items-start gap-4">
-                              <CheckCircle2 size={18} className={cn("shrink-0 mt-0.5 opacity-90", slide.color)} />
-                              <span className="text-white/80 font-light text-sm">{benefit}</span>
+                            <li key={idx} className="flex items-start gap-3 md:gap-4">
+                              <CheckCircle2 size={16} className={cn("shrink-0 mt-0.5 opacity-90", slide.color)} />
+                              <span className="text-white/80 font-light text-xs md:text-sm">{benefit}</span>
                             </li>
                           ))}
                         </ul>
                         
                         {isFront && (
-                           <Link to={slide.path} onClick={(e) => e.stopPropagation()} className="pt-8 border-t border-white/10 flex items-center justify-between group-hover:border-white/20 transition-colors duration-500 block">
+                           <Link to={slide.path} onClick={(e) => e.stopPropagation()} className="pt-4 md:pt-8 border-t border-white/10 flex items-center justify-between group-hover:border-white/20 transition-colors duration-500 block mt-auto">
                              <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-white/50 group-hover:text-white transition-colors duration-500">Apply Now</span>
-                             <div className={cn("w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 bg-white/10 group-hover:scale-110", "group-hover:" + slide.bgClass)}>
-                               <ArrowRight size={16} className="text-white transition-colors duration-500" />
+                             <div className={cn("w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all duration-500 bg-white/10 group-hover:scale-110", "group-hover:" + slide.bgClass)}>
+                               <ArrowRight size={14} className="text-white transition-colors duration-500" />
                              </div>
                            </Link>
                         )}
                         {!isFront && (
-                          <div className="pt-8 border-t border-white/10 flex items-center justify-between">
-                            <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-white/50">Click to View</span>
+                          <div className="pt-4 md:pt-8 border-t border-white/10 flex items-center justify-between mt-auto">
+                            <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-brand-gold animate-pulse">Tap Card to View</span>
                           </div>
                         )}
                       </div>
