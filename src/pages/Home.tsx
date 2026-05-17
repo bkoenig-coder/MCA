@@ -420,129 +420,87 @@ export default function Home() {
           </motion.div>
           
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95, y: 40 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
             className="flex-1 w-full lg:w-auto relative"
           >
-            {/* Elegant glassmorphism card stack */}
-            <div className="relative w-full max-w-md mx-auto mt-8 lg:mt-0" style={{ height: isMobile ? "440px" : "480px" }}>
+            {/* Elegant luxury accordion */}
+            <div className="w-full mt-12 lg:mt-0 border-t border-white/10">
               {membershipSlides.map((slide, i) => {
-                const offset = (i - activeMembershipIndex + membershipSlides.length) % membershipSlides.length;
+                const isActive = i === activeMembershipIndex;
                 
-                const isFront = offset === 0;
-                const isMiddle = offset === 1;
-                
-                let zIndex = 30 - offset * 10;
-                let rotate = isFront ? 0 : isMiddle ? 8 : -4;
-                let scale = isFront ? 1 : isMiddle ? 0.95 : 0.9;
-                let x = isFront ? 0 : isMiddle ? 16 : -16;
-                let y = isFront ? 0 : isMiddle ? 16 : 24;
-                let blur = isFront ? 0 : isMiddle ? 2 : 4;
-                let opacity = isFront ? 1 : isMiddle ? 0.8 : 0.5;
-
                 return (
-                  <motion.div
-                    key={slide.title}
-                    initial={false}
-                    animate={{ rotate, scale, x, y, zIndex, opacity, filter: `blur(${blur}px)` }}
-                    transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
-                    className={cn(
-                      "absolute inset-0 origin-bottom w-full",
-                      isFront ? "cursor-grab active:cursor-grabbing" : "cursor-pointer"
-                    )}
-                    drag={isFront ? "x" : false}
-                    dragConstraints={{ left: 0, right: 0 }}
-                    dragElastic={0.6}
-                    onDragEnd={(_, info) => {
-                      const swipeThreshold = 50;
-                      if (info.offset.x > swipeThreshold) {
-                         handlePrevMembership();
-                      } else if (info.offset.x < -swipeThreshold) {
-                         handleNextMembership();
-                      }
-                    }}
-                    onClick={() => {
-                      if (!isFront) setActiveMembershipIndex(i);
-                    }}
+                  <div 
+                    key={slide.title} 
+                    className="group border-b border-white/10 overflow-hidden"
                   >
-                    <div className={cn(
-                      "relative flex flex-col justify-between w-full h-full bg-white/10 backdrop-blur-xl border border-white/20 p-6 md:p-12 rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.4)] overflow-hidden transition-all duration-700",
-                      isFront && "group hover:bg-white/[0.15]"
-                    )}>
-                      {isFront && (
-                        <div className={cn("absolute top-0 right-0 w-40 h-40 rounded-full blur-[50px] -mr-16 -mt-16 transition-colors duration-700 opacity-20", slide.bgClass, slide.accentBgHover)} />
-                      )}
-                      
-                      <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
-
-                      <div className={cn("relative z-10 flex flex-col h-full transition-opacity duration-500", !isFront && "opacity-80")}>
-                        <div className={cn("w-12 h-12 md:w-14 md:h-14 bg-brand-ink/50 backdrop-blur-md rounded-2xl flex items-center justify-center mb-4 md:mb-8 border border-white/10 shrink-0 transition-colors duration-500", isFront && "group-hover:" + slide.accentBorder)}>
-                          <slide.icon size={isMobile ? 20 : 24} className={slide.color} />
-                        </div>
-                        
-                        <h3 className="text-xl md:text-3xl font-serif mb-3 md:mb-4 drop-shadow-md text-white shrink-0">{slide.title}</h3>
-                        
-                        <ul className="space-y-2 md:space-y-4 mb-4 md:mb-6 flex-1 overflow-y-auto pr-2 custom-scrollbar">
-                          {slide.benefits.map((benefit, idx) => (
-                            <li key={idx} className="flex items-start gap-3 md:gap-4">
-                              <CheckCircle2 size={16} className={cn("shrink-0 mt-0.5 opacity-90", slide.color)} />
-                              <span className="text-white/80 font-light text-xs md:text-sm">{benefit}</span>
-                            </li>
-                          ))}
-                        </ul>
-                        
-                        <div className="mt-auto pt-4 md:pt-6 border-t border-white/10 shrink-0">
-                          {isFront ? (
-                             <Link to="/membership" onClick={(e) => e.stopPropagation()} className="flex items-center justify-between group-hover:border-white/20 transition-colors duration-500 w-full">
-                               <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-white/50 group-hover:text-white transition-colors duration-500">Explore Benefits</span>
-                               <div className={cn("w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all duration-500 bg-white/10 group-hover:scale-110", "group-hover:" + slide.bgClass)}>
-                                 <ArrowRight size={14} className="text-white transition-colors duration-500" />
-                               </div>
-                             </Link>
-                          ) : (
-                            <div className="flex items-center justify-between w-full">
-                              <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-brand-gold animate-pulse">Tap Card to View</span>
-                            </div>
-                          )}
-                        </div>
+                    <button
+                      onClick={() => setActiveMembershipIndex(i)}
+                      className="w-full text-left py-8 md:py-10 px-0 flex items-center justify-between focus:outline-none"
+                    >
+                      <div className="flex items-center gap-6 md:gap-10">
+                        <span className={cn(
+                          "text-[10px] md:text-xs font-light tracking-[0.3em] transition-colors duration-500",
+                          isActive ? "text-brand-gold" : "text-white/20 group-hover:text-white/40"
+                        )}>
+                          0{i + 1}
+                        </span>
+                        <h3 className={cn(
+                          "text-2xl md:text-4xl font-serif tracking-wide transition-all duration-500",
+                          isActive ? "text-white drop-shadow-md" : "text-white/30 group-hover:text-white/50"
+                        )}>
+                          {slide.title}
+                        </h3>
                       </div>
-                    </div>
-                  </motion.div>
+                      <div className={cn(
+                        "w-10 h-10 md:w-12 md:h-12 rounded-full border flex items-center justify-center transition-all duration-500 shrink-0",
+                        isActive ? "border-brand-gold/40 bg-brand-gold/10" : "border-white/10 group-hover:border-white/30 group-hover:bg-white/5"
+                      )}>
+                        <motion.div
+                          animate={{ rotate: isActive ? 90 : 0 }}
+                          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        >
+                          <ArrowRight size={16} className={cn(
+                            "transition-colors duration-500",
+                            isActive ? "text-brand-gold" : "text-white/30 group-hover:text-white/60"
+                          )} />
+                        </motion.div>
+                      </div>
+                    </button>
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        >
+                          <div className="pb-10 flex flex-col md:flex-row gap-8 md:gap-12 md:pl-[4.5rem]">
+                            <ul className="space-y-4 flex-1">
+                              {slide.benefits.map((benefit, idx) => (
+                                <li key={idx} className="flex items-center gap-4">
+                                  <div className="w-1.5 h-1.5 rounded-full bg-brand-gold/60 shrink-0" />
+                                  <span className="text-white/70 font-light text-sm md:text-base">{benefit}</span>
+                                </li>
+                              ))}
+                            </ul>
+                            <div className="shrink-0 flex items-start">
+                              <Link 
+                                to="/membership" 
+                                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-500 border border-brand-gold/30 hover:bg-brand-gold hover:text-brand-ink text-brand-gold/90"
+                              >
+                                <span>Explore Benefits</span>
+                              </Link>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 );
               })}
-            </div>
-
-            {/* Slider Controls */}
-            <div className="flex items-center justify-center gap-4 mt-8">
-              <button 
-                onClick={handlePrevMembership}
-                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 hover:border-white/40 transition-all duration-300"
-                aria-label="Previous membership tier"
-              >
-                <ChevronLeft size={18} />
-              </button>
-              <div className="flex gap-2">
-                {membershipSlides.map((_, i) => (
-                  <button 
-                    key={i} 
-                    onClick={() => setActiveMembershipIndex(i)}
-                    className={cn(
-                      "w-2 h-2 rounded-full transition-all duration-300",
-                      i === activeMembershipIndex ? "bg-brand-gold w-4" : "bg-white/20 hover:bg-white/40"
-                    )}
-                    aria-label={`Go to slide ${i + 1}`}
-                  />
-                ))}
-              </div>
-              <button 
-                onClick={handleNextMembership}
-                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 hover:border-white/40 transition-all duration-300"
-                aria-label="Next membership tier"
-              >
-                <ChevronRight size={18} />
-              </button>
             </div>
           </motion.div>
         </div>
