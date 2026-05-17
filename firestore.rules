@@ -315,5 +315,10 @@ service cloud.firestore {
       allow update: if isEditor() && isValidGalleryItem(request.resource.data) && areImmutableFieldsUnchanged(['createdAt']);
       allow delete: if isEditor();
     }
+
+    match /game_scores/{scoreId} {
+      allow read: if true;
+      allow create: if true;
+    }
   }
 }

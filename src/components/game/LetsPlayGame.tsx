@@ -3,6 +3,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Sky, Environment, BakeShadows, Sparkles } from '@react-three/drei';
 import * as THREE from 'three';
 import { ChevronLeft, ChevronUp, ChevronRight } from 'lucide-react';
+import { db, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } from '../../firebase';
 
 // 1. Types & Constants
 const LANE_WIDTH = 2;
@@ -516,30 +517,46 @@ export default function LetsPlayGame() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem('letsPlayLeaderboard');
-    if (saved) {
-      try {
-        setLeaderboard(JSON.parse(saved));
-      } catch (e) {
-        // ignore JSON parse error
-      }
-    }
-    
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    
+    // Subscribe to Firebase leaderboard
+    const q = query(collection(db, 'game_scores'), orderBy('score', 'desc'), limit(15));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+       const scores: {name: string, score: number}[] = [];
+       snapshot.forEach((doc) => {
+         const data = doc.data();
+         scores.push({ name: data.name, score: data.score });
+       });
+       setLeaderboard(scores);
+    });
+
+    return () => {
+       window.removeEventListener('resize', checkMobile);
+       unsubscribe();
+    };
   }, []);
 
-  const saveScore = (e: React.FormEvent) => {
+  const saveScore = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!playerName.trim()) return;
+    
+    // Optimistic UI update
     const newList = [...leaderboard, { name: playerName.trim(), score }];
     newList.sort((a, b) => b.score - a.score);
-    const top10 = newList.slice(0, 10);
-    setLeaderboard(top10);
-    localStorage.setItem('letsPlayLeaderboard', JSON.stringify(top10));
+    setLeaderboard(newList.slice(0, 15));
     setHasSubmittedScore(true);
+
+    try {
+      await addDoc(collection(db, 'game_scores'), {
+         name: playerName.trim(),
+         score,
+         createdAt: serverTimestamp()
+      });
+    } catch (error) {
+      console.error("Failed to save score:", error);
+    }
   };
 
   const startGame = (e?: React.MouseEvent | React.KeyboardEvent) => {
