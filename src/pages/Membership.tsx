@@ -202,55 +202,60 @@ export default function Membership() {
       </section>
 
       {/* Membership Tiers */}
-      <section className="py-24 md:py-40 px-6 bg-white relative overflow-hidden">
+      <section className="py-24 md:py-32 px-6 bg-brand-ink relative overflow-hidden rounded-[40px] md:rounded-[80px] mx-4 md:mx-6 mb-24">
         {/* Subtle background decoration */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-brand-gold/5 rounded-[100%] blur-[100px] pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-brand-gold/20 rounded-[100%] blur-[120px] pointer-events-none" />
+        <div className="absolute inset-0 opacity-[0.02] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
         
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 md:mb-32 gap-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24 gap-8">
             <div className="max-w-2xl">
-              <h2 className="text-4xl md:text-6xl font-serif text-brand-ink mb-6">
+              <h2 className="text-4xl md:text-6xl font-serif text-white mb-6">
                 Membership <span className="italic text-brand-gold">Tiers</span>
               </h2>
-              <p className="text-xl text-brand-ink/60 font-light leading-relaxed">
+              <p className="text-xl text-white/60 font-light leading-relaxed">
                 Choose the level of engagement that best aligns with your goals and organizational structure.
               </p>
             </div>
-            <div className="flex items-center gap-4 text-[10px] uppercase tracking-[0.3em] font-bold text-brand-ink/40">
+            <div className="flex items-center gap-4 text-[10px] uppercase tracking-[0.3em] font-bold text-white/40">
               <span>Annual</span>
-              <div className="w-12 h-6 bg-brand-gold/20 rounded-full relative">
-                <div className="absolute right-1 top-1 w-4 h-4 bg-brand-gold rounded-full" />
+              <div className="w-12 h-6 bg-brand-gold/20 rounded-full relative shadow-inner">
+                <div className="absolute right-1 top-1 w-4 h-4 bg-brand-gold rounded-full shadow-[0_0_10px_rgba(212,175,55,0.8)]" />
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
             {/* Tier 1: Student */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="bg-brand-paper p-10 md:p-12 rounded-[40px] border border-brand-ink/5 hover:shadow-2xl transition-all duration-500"
+              className="bg-white/[0.02] p-10 md:p-12 rounded-[40px] border border-white/10 hover:bg-white/[0.04] hover:border-brand-gold/30 transition-all duration-500 relative flex flex-col h-full group backdrop-blur-sm"
             >
-              <div className="w-14 h-14 rounded-full bg-brand-ink/5 flex items-center justify-center text-brand-ink mb-8">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-gold/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <div className="w-14 h-14 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-white/80 mb-8 relative z-10 group-hover:text-brand-gold group-hover:scale-110 group-hover:bg-white/10 transition-all duration-500">
                 <GraduationCap size={24} />
               </div>
-              <h3 className="text-2xl font-serif text-brand-ink mb-2">Student & Youth</h3>
-              <p className="text-brand-ink/60 font-light text-sm mb-8 h-10">Affordable annual membership for students and young professionals.</p>
-              <div className="mb-8">
-                <span className="text-4xl font-serif text-brand-ink">€25</span>
-                <span className="text-brand-ink/40 font-light"> / year</span>
+              <h3 className="text-2xl font-serif text-white mb-3 relative z-10">Student & Youth</h3>
+              <p className="text-white/50 font-light text-sm mb-8 h-12 relative z-10">Affordable annual membership for students and young professionals.</p>
+              <div className="mb-10 relative z-10">
+                <span className="text-5xl font-serif text-brand-gold">€25</span>
+                <span className="text-white/40 font-light ml-1">/ year</span>
               </div>
-              <div className="space-y-4 mb-10">
+              
+              <div className="h-[1px] w-full bg-gradient-to-r from-white/10 to-transparent mb-8" />
+              
+              <div className="space-y-4 mb-auto relative z-10 pb-10">
                 {['Access to community events', 'Student networking sessions', 'Newsletter updates', 'Voting rights at general assembly'].map((benefit, i) => (
-                  <div key={i} className="flex gap-4">
-                    <CheckCircle2 size={18} className="text-brand-gold shrink-0 mt-0.5" />
-                    <span className="text-brand-ink/70 font-light text-sm">{benefit}</span>
+                  <div key={i} className="flex gap-4 items-start">
+                    <CheckCircle2 size={18} className="text-brand-gold/70 shrink-0 mt-0.5" />
+                    <span className="text-white/70 font-light text-sm">{benefit}</span>
                   </div>
                 ))}
               </div>
-              <Link to="/membership/apply-student" className="w-full flex items-center justify-center py-4 rounded-full border border-brand-ink/20 text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-brand-ink hover:text-white transition-colors duration-300">
+              <Link to="/membership/apply-student" className="w-full flex items-center justify-center py-5 rounded-full border border-white/20 text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
                 Apply Now
               </Link>
             </motion.div>
@@ -261,34 +266,38 @@ export default function Membership() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="bg-brand-ink text-white p-10 md:p-14 rounded-[40px] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.3)] relative overflow-hidden transform lg:-translate-y-4"
+              className="bg-brand-gold/5 text-white p-10 md:p-14 rounded-[40px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] relative overflow-hidden flex flex-col h-full transform lg:-translate-y-4 border border-brand-gold/30 hover:border-brand-gold/60 transition-all duration-500 group backdrop-blur-xl"
             >
               {/* Premium Background Effects */}
-              <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
-              <div className="absolute -top-32 -right-32 w-64 h-64 bg-brand-gold/20 rounded-full blur-[80px]" />
+              <div className="absolute inset-0 opacity-[0.4] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
+              <div className="absolute -top-32 -right-32 w-80 h-80 bg-brand-gold/20 rounded-full blur-[80px] group-hover:bg-brand-gold/30 transition-colors duration-700" />
+              <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-amber-500/10 rounded-full blur-[80px]" />
               
               <div className="absolute top-8 right-8">
-                <span className="bg-brand-gold text-brand-ink px-4 py-1.5 rounded-full text-[9px] uppercase tracking-[0.2em] font-bold">Recommended</span>
+                <span className="bg-gradient-to-r from-brand-gold to-amber-500 shadow-[0_0_20px_rgba(212,175,55,0.4)] text-brand-ink px-4 py-1.5 rounded-full text-[9px] uppercase tracking-[0.2em] font-bold">Recommended</span>
               </div>
 
-              <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-brand-gold mb-8 relative z-10 backdrop-blur-md">
-                <Briefcase size={24} />
+              <div className="w-16 h-16 rounded-full bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold mb-8 relative z-10 backdrop-blur-md group-hover:scale-110 group-hover:bg-brand-gold group-hover:text-brand-ink transition-all duration-500">
+                <Briefcase size={26} />
               </div>
-              <h3 className="text-3xl font-serif mb-2 relative z-10">Professional</h3>
-              <p className="text-white/60 font-light text-sm mb-8 h-10 relative z-10">For professionals, entrepreneurs, academics, and creatives.</p>
-              <div className="mb-8 relative z-10">
-                <span className="text-5xl font-serif">€80</span>
-                <span className="text-white/40 font-light"> / year</span>
+              <h3 className="text-3xl font-serif mb-3 relative z-10">Professional</h3>
+              <p className="text-white/60 font-light text-sm mb-8 h-12 relative z-10">For professionals, entrepreneurs, academics, and creatives.</p>
+              <div className="mb-10 relative z-10">
+                <span className="text-6xl font-serif text-white">€80</span>
+                <span className="text-white/40 font-light ml-2">/ year</span>
               </div>
-              <div className="space-y-4 mb-10 relative z-10">
+              
+              <div className="h-[1px] w-full bg-gradient-to-r from-brand-gold/30 to-transparent mb-8 opacity-50" />
+              
+              <div className="space-y-4 mb-auto relative z-10 pb-10">
                 {['Full access to professional network', 'Discounted event tickets', 'Exclusive networking dinners', 'Priority registration for forums', 'Directory listing', 'Voting rights at general assembly'].map((benefit, i) => (
-                  <div key={i} className="flex gap-4">
-                    <CheckCircle2 size={18} className="text-brand-gold shrink-0 mt-0.5" />
-                    <span className="text-white/80 font-light text-sm">{benefit}</span>
+                  <div key={i} className="flex gap-4 items-start">
+                    <CheckCircle2 size={18} className="text-brand-gold shrink-0 mt-0.5 drop-shadow-[0_0_8px_rgba(212,175,55,0.8)]" />
+                    <span className="text-white/90 font-light text-sm">{benefit}</span>
                   </div>
                 ))}
               </div>
-              <Link to="/membership/apply-professional" className="w-full flex items-center justify-center py-5 rounded-full bg-brand-gold text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white transition-colors duration-300 shadow-xl relative z-10">
+              <Link to="/membership/apply-professional" className="w-full flex items-center justify-center py-5 rounded-full bg-gradient-to-r from-brand-gold to-amber-500 text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] transition-all duration-500 shadow-[0_10px_20px_rgba(212,175,55,0.2)] relative z-10 mt-auto hover:scale-[1.02]">
                 Apply as Professional
               </Link>
             </motion.div>
@@ -299,25 +308,29 @@ export default function Membership() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="bg-brand-paper p-10 md:p-12 rounded-[40px] border border-brand-ink/5 hover:shadow-2xl transition-all duration-500"
+              className="bg-white/[0.02] p-10 md:p-12 rounded-[40px] border border-white/10 hover:bg-white/[0.04] hover:border-brand-gold/30 transition-all duration-500 relative flex flex-col h-full group backdrop-blur-sm"
             >
-              <div className="w-14 h-14 rounded-full bg-brand-ink/5 flex items-center justify-center text-brand-ink mb-8">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-gold/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <div className="w-14 h-14 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-white/80 mb-8 relative z-10 group-hover:text-brand-gold group-hover:scale-110 group-hover:bg-white/10 transition-all duration-500">
                 <Building2 size={24} />
               </div>
-              <h3 className="text-2xl font-serif text-brand-ink mb-2">Institutional</h3>
-              <p className="text-brand-ink/60 font-light text-sm mb-8 h-10">For companies, universities, embassies, NGOs, and organizations.</p>
-              <div className="mb-8">
-                <span className="text-4xl font-serif text-brand-ink">Custom</span>
+              <h3 className="text-2xl font-serif text-white mb-3 relative z-10">Institutional</h3>
+              <p className="text-white/50 font-light text-sm mb-8 h-12 relative z-10">For companies, universities, embassies, NGOs, and organizations.</p>
+              <div className="mb-10 relative z-10">
+                <span className="text-5xl font-serif text-brand-gold">Custom</span>
               </div>
-              <div className="space-y-4 mb-10">
+              
+              <div className="h-[1px] w-full bg-gradient-to-r from-white/10 to-transparent mb-8" />
+              
+              <div className="space-y-4 mb-auto relative z-10 pb-10">
                 {['Up to 5 delegate memberships', 'Logo placement as partner', 'Co-hosting opportunities', 'B2B/B2G matchmaking support', 'Premium directory profile'].map((benefit, i) => (
-                  <div key={i} className="flex gap-4">
-                    <CheckCircle2 size={18} className="text-brand-gold shrink-0 mt-0.5" />
-                    <span className="text-brand-ink/70 font-light text-sm">{benefit}</span>
+                  <div key={i} className="flex gap-4 items-start">
+                    <CheckCircle2 size={18} className="text-brand-gold/70 shrink-0 mt-0.5" />
+                    <span className="text-white/70 font-light text-sm">{benefit}</span>
                   </div>
                 ))}
               </div>
-              <Link to="/membership/apply-institutional" className="w-full flex items-center justify-center py-4 rounded-full border border-brand-ink/20 text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-brand-ink hover:text-white transition-colors duration-300">
+              <Link to="/membership/apply-institutional" className="w-full flex items-center justify-center py-5 rounded-full border border-white/20 text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
                 Contact Foundation
               </Link>
             </motion.div>

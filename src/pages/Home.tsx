@@ -15,7 +15,7 @@ import { Overlay } from '../components/diorama/Overlay';
 
 // Removed lazy loading
 import HeroCanvas from '../components/diorama/HeroCanvas';
-
+import LetsPlayGame from '../components/game/LetsPlayGame';
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -874,6 +874,21 @@ export default function Home() {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Mini-Game Section - Let's Play */}
+      <section className="py-24 px-6 bg-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-serif text-brand-ink mb-4">
+              Experience the <span className="italic text-brand-gold">Steppe</span>
+            </h2>
+            <p className="text-brand-ink/60 max-w-2xl mx-auto font-light leading-relaxed text-lg">
+              Take a moment to enjoy a lightweight, culturally immersive endless runner. Collect artifacts and explore the infinite Mongolian landscapes.
+            </p>
+          </div>
+          <LetsPlayGame />
         </div>
       </section>
 
