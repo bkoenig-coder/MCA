@@ -427,88 +427,110 @@ export default function Home() {
             className="flex-1 w-full lg:w-auto relative"
           >
             {/* Elegant glassmorphism card stack */}
-            <div className="relative w-full max-w-md mx-auto mt-8 lg:mt-0">
-              {/* Back card 1 */}
-              <div className="absolute inset-0 bg-brand-gold/10 border border-brand-gold/20 rounded-[32px] transform rotate-[8deg] translate-x-4 translate-y-2 blur-[1px] transition-transform duration-700 hover:rotate-[12deg] pointer-events-none" />
-              
-              {/* Back card 2 */}
-              <div className="absolute inset-0 bg-white/5 border border-white/10 rounded-[32px] transform -rotate-[4deg] -translate-x-2 translate-y-4 transition-transform duration-700 hover:-rotate-[6deg] pointer-events-none" />
-              
-              {/* Main Card */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeMembershipIndex}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <Link to={membershipSlides[activeMembershipIndex].path} className="relative block bg-white/10 backdrop-blur-xl border border-white/20 p-10 md:p-12 rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.4)] overflow-hidden group hover:bg-white/[0.15] transition-all duration-700">
-                    <div className={cn("absolute top-0 right-0 w-40 h-40 rounded-full blur-[50px] -mr-16 -mt-16 transition-colors duration-700 opacity-20", membershipSlides[activeMembershipIndex].bgClass, membershipSlides[activeMembershipIndex].accentBgHover)} />
-                    
-                    {/* Noise overlay for glass effect */}
-                    <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
+            <div className="relative w-full max-w-md mx-auto mt-8 lg:mt-0" style={{ height: "480px" }}>
+              {membershipSlides.map((slide, i) => {
+                const offset = (i - activeMembershipIndex + membershipSlides.length) % membershipSlides.length;
+                
+                const isFront = offset === 0;
+                const isMiddle = offset === 1;
+                
+                let zIndex = 30 - offset * 10;
+                let rotate = isFront ? 0 : isMiddle ? 8 : -4;
+                let scale = isFront ? 1 : isMiddle ? 0.95 : 0.9;
+                let x = isFront ? 0 : isMiddle ? 16 : -16;
+                let y = isFront ? 0 : isMiddle ? 16 : 24;
+                let blur = isFront ? 0 : isMiddle ? 2 : 4;
+                let opacity = isFront ? 1 : isMiddle ? 0.8 : 0.5;
 
-                    <div className="relative z-10">
-                      <div className={cn("w-14 h-14 bg-brand-ink/50 backdrop-blur-md rounded-2xl flex items-center justify-center mb-8 border border-white/10 transition-colors duration-500", "group-hover:" + membershipSlides[activeMembershipIndex].accentBorder)}>
-                        {React.createElement(membershipSlides[activeMembershipIndex].icon, { 
-                          size: 24, 
-                          className: membershipSlides[activeMembershipIndex].color 
-                        })}
-                      </div>
+                return (
+                  <motion.div
+                    key={slide.title}
+                    initial={false}
+                    animate={{ rotate, scale, x, y, zIndex, opacity, filter: `blur(${blur}px)` }}
+                    transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+                    className={cn(
+                      "absolute inset-0 origin-bottom w-full",
+                      !isFront && "cursor-pointer"
+                    )}
+                    onClick={() => {
+                      if (!isFront) setActiveMembershipIndex(i);
+                    }}
+                  >
+                    <div className={cn(
+                      "relative block w-full h-full bg-white/10 backdrop-blur-xl border border-white/20 p-10 md:p-12 rounded-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.4)] overflow-hidden transition-all duration-700",
+                      isFront && "group hover:bg-white/[0.15]"
+                    )}>
+                      {isFront && (
+                        <div className={cn("absolute top-0 right-0 w-40 h-40 rounded-full blur-[50px] -mr-16 -mt-16 transition-colors duration-700 opacity-20", slide.bgClass, slide.accentBgHover)} />
+                      )}
                       
-                      <h3 className="text-2xl md:text-3xl font-serif mb-4 drop-shadow-md text-white">{membershipSlides[activeMembershipIndex].title}</h3>
-                      
-                      <ul className="space-y-4 mb-10">
-                        {membershipSlides[activeMembershipIndex].benefits.map((benefit, i) => (
-                          <li key={i} className="flex items-start gap-4">
-                            <CheckCircle2 size={18} className={cn("shrink-0 mt-0.5 opacity-90", membershipSlides[activeMembershipIndex].color)} />
-                            <span className="text-white/80 font-light text-sm">{benefit}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      
-                      <div className="pt-8 border-t border-white/10 flex items-center justify-between group-hover:border-white/20 transition-colors duration-500">
-                        <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-white/50 group-hover:text-white transition-colors duration-500">Apply Now</span>
-                        <div className={cn("w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 bg-white/10 group-hover:scale-110", "group-hover:" + membershipSlides[activeMembershipIndex].bgClass)}>
-                          <ArrowRight size={16} className="text-white transition-colors duration-500" />
+                      <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
+
+                      <div className={cn("relative z-10 transition-opacity duration-500", !isFront && "opacity-80")}>
+                        <div className={cn("w-14 h-14 bg-brand-ink/50 backdrop-blur-md rounded-2xl flex items-center justify-center mb-8 border border-white/10 transition-colors duration-500", isFront && "group-hover:" + slide.accentBorder)}>
+                          <slide.icon size={24} className={slide.color} />
                         </div>
+                        
+                        <h3 className="text-2xl md:text-3xl font-serif mb-4 drop-shadow-md text-white">{slide.title}</h3>
+                        
+                        <ul className="space-y-4 mb-10">
+                          {slide.benefits.map((benefit, idx) => (
+                            <li key={idx} className="flex items-start gap-4">
+                              <CheckCircle2 size={18} className={cn("shrink-0 mt-0.5 opacity-90", slide.color)} />
+                              <span className="text-white/80 font-light text-sm">{benefit}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        
+                        {isFront && (
+                           <Link to={slide.path} onClick={(e) => e.stopPropagation()} className="pt-8 border-t border-white/10 flex items-center justify-between group-hover:border-white/20 transition-colors duration-500 block">
+                             <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-white/50 group-hover:text-white transition-colors duration-500">Apply Now</span>
+                             <div className={cn("w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 bg-white/10 group-hover:scale-110", "group-hover:" + slide.bgClass)}>
+                               <ArrowRight size={16} className="text-white transition-colors duration-500" />
+                             </div>
+                           </Link>
+                        )}
+                        {!isFront && (
+                          <div className="pt-8 border-t border-white/10 flex items-center justify-between">
+                            <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-white/50">Click to View</span>
+                          </div>
+                        )}
                       </div>
                     </div>
-                  </Link>
-                </motion.div>
-              </AnimatePresence>
+                  </motion.div>
+                );
+              })}
+            </div>
 
-              {/* Slider Controls */}
-              <div className="flex items-center justify-center gap-4 mt-8">
-                <button 
-                  onClick={handlePrevMembership}
-                  className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 hover:border-white/40 transition-all duration-300"
-                  aria-label="Previous membership tier"
-                >
-                  <ChevronLeft size={18} />
-                </button>
-                <div className="flex gap-2">
-                  {membershipSlides.map((_, i) => (
-                    <button 
-                      key={i} 
-                      onClick={() => setActiveMembershipIndex(i)}
-                      className={cn(
-                        "w-2 h-2 rounded-full transition-all duration-300",
-                        i === activeMembershipIndex ? "bg-brand-gold w-4" : "bg-white/20 hover:bg-white/40"
-                      )}
-                      aria-label={`Go to slide ${i + 1}`}
-                    />
-                  ))}
-                </div>
-                <button 
-                  onClick={handleNextMembership}
-                  className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 hover:border-white/40 transition-all duration-300"
-                  aria-label="Next membership tier"
-                >
-                  <ChevronRight size={18} />
-                </button>
+            {/* Slider Controls */}
+            <div className="flex items-center justify-center gap-4 mt-8">
+              <button 
+                onClick={handlePrevMembership}
+                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 hover:border-white/40 transition-all duration-300"
+                aria-label="Previous membership tier"
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <div className="flex gap-2">
+                {membershipSlides.map((_, i) => (
+                  <button 
+                    key={i} 
+                    onClick={() => setActiveMembershipIndex(i)}
+                    className={cn(
+                      "w-2 h-2 rounded-full transition-all duration-300",
+                      i === activeMembershipIndex ? "bg-brand-gold w-4" : "bg-white/20 hover:bg-white/40"
+                    )}
+                    aria-label={`Go to slide ${i + 1}`}
+                  />
+                ))}
               </div>
+              <button 
+                onClick={handleNextMembership}
+                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 hover:border-white/40 transition-all duration-300"
+                aria-label="Next membership tier"
+              >
+                <ChevronRight size={18} />
+              </button>
             </div>
           </motion.div>
         </div>
