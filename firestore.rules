@@ -206,12 +206,13 @@ service cloud.firestore {
     }
 
     function isValidPost(data) {
-      return hasOnlyAllowedFields(['title', 'titleEn', 'titleMn', 'titleDe', 'content', 'contentEn', 'contentMn', 'contentDe', 'imageUrl', 'authorId', 'createdAt', 'updatedAt']) &&
+      return hasOnlyAllowedFields(['title', 'titleEn', 'titleMn', 'titleDe', 'slug', 'content', 'contentEn', 'contentMn', 'contentDe', 'imageUrl', 'authorId', 'createdAt', 'updatedAt']) &&
              hasRequiredFields(['title', 'content', 'authorId', 'createdAt']) &&
              validString(data.title, 1, 200) &&
              validOptionalString('titleEn', 1, 1000) &&
              validOptionalString('titleMn', 1, 1000) &&
              validOptionalString('titleDe', 1, 1000) &&
+             validOptionalString('slug', 0, 200) &&
              validString(data.content, 1, 10000) &&
              validOptionalString('contentEn', 1, 50000) &&
              validOptionalString('contentMn', 1, 50000) &&
