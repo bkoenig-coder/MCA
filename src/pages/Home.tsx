@@ -25,7 +25,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [activePopup, setActivePopup] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [activeMembershipIndex, setActiveMembershipIndex] = useState(0);
+  const [activeMembershipIndex, setActiveMembershipIndex] = useState<number | null>(0);
 
   const membershipSlides = [
     {
@@ -437,7 +437,7 @@ export default function Home() {
                     className="group border-b border-white/10 overflow-hidden"
                   >
                     <button
-                      onClick={() => setActiveMembershipIndex(i)}
+                      onClick={() => setActiveMembershipIndex(isActive ? null : i)}
                       className="w-full text-left py-8 md:py-10 px-0 flex items-center justify-between focus:outline-none"
                     >
                       <div className="flex items-center gap-6 md:gap-10">

@@ -120,5 +120,6 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
     path
   }
   console.error('Firestore Error: ', JSON.stringify(errInfo));
-  throw new Error(JSON.stringify(errInfo));
+  // DO NOT THROW. Throwing here inside onSnapshot callbacks will crash the entire React application
+  // or cause 'Uncaught Error' runtime popups.
 }

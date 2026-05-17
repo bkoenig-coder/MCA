@@ -161,13 +161,13 @@ service cloud.firestore {
       return hasOnlyAllowedFields(['title', 'titleEn', 'titleMn', 'titleDe', 'description', 'descriptionEn', 'descriptionMn', 'descriptionDe', 'price', 'capacity', 'date', 'time', 'location', 'locationEn', 'locationMn', 'locationDe', 'imageUrl', 'galleryImages', 'category', 'categoryEn', 'categoryMn', 'categoryDe', 'whatsIncluded', 'registeredCount', 'createdAt', 'updatedAt']) &&
              hasRequiredFields(['title', 'description', 'price', 'date', 'imageUrl', 'createdAt']) &&
              validString(data.title, 1, 200) &&
-             validOptionalString('titleEn', 1, 1000) &&
-             validOptionalString('titleMn', 1, 1000) &&
-             validOptionalString('titleDe', 1, 1000) &&
+             validOptionalString('titleEn', 0, 1000) &&
+             validOptionalString('titleMn', 0, 1000) &&
+             validOptionalString('titleDe', 0, 1000) &&
              validString(data.description, 1, 5000) &&
-             validOptionalString('descriptionEn', 1, 50000) &&
-             validOptionalString('descriptionMn', 1, 50000) &&
-             validOptionalString('descriptionDe', 1, 50000) &&
+             validOptionalString('descriptionEn', 0, 50000) &&
+             validOptionalString('descriptionMn', 0, 50000) &&
+             validOptionalString('descriptionDe', 0, 50000) &&
              data.price is number && data.price >= 0 &&
              (!( 'capacity' in data ) || (data.capacity is number && data.capacity >= 0)) &&
              validString(data.date, 1, 50) &&
@@ -209,14 +209,14 @@ service cloud.firestore {
       return hasOnlyAllowedFields(['title', 'titleEn', 'titleMn', 'titleDe', 'slug', 'content', 'contentEn', 'contentMn', 'contentDe', 'imageUrl', 'authorId', 'createdAt', 'updatedAt']) &&
              hasRequiredFields(['title', 'content', 'authorId', 'createdAt']) &&
              validString(data.title, 1, 200) &&
-             validOptionalString('titleEn', 1, 1000) &&
-             validOptionalString('titleMn', 1, 1000) &&
-             validOptionalString('titleDe', 1, 1000) &&
+             validOptionalString('titleEn', 0, 1000) &&
+             validOptionalString('titleMn', 0, 1000) &&
+             validOptionalString('titleDe', 0, 1000) &&
              validOptionalString('slug', 0, 200) &&
              validString(data.content, 1, 10000) &&
-             validOptionalString('contentEn', 1, 50000) &&
-             validOptionalString('contentMn', 1, 50000) &&
-             validOptionalString('contentDe', 1, 50000) &&
+             validOptionalString('contentEn', 0, 50000) &&
+             validOptionalString('contentMn', 0, 50000) &&
+             validOptionalString('contentDe', 0, 50000) &&
              (!( 'imageUrl' in data ) || isValidUrl(data.imageUrl)) &&
              validString(data.authorId, 1, 128) &&
              data.createdAt is timestamp &&
@@ -232,9 +232,9 @@ service cloud.firestore {
       return hasOnlyAllowedFields(['title', 'titleEn', 'titleMn', 'titleDe', 'artist', 'artistEn', 'artistMn', 'artistDe', 'year', 'description', 'descriptionEn', 'descriptionMn', 'descriptionDe', 'imageUrl', 'category', 'categoryEn', 'categoryMn', 'categoryDe', 'createdAt', 'updatedAt']) &&
              hasRequiredFields(['title', 'imageUrl', 'createdAt']) &&
              validString(data.title, 1, 200) &&
-             validOptionalString('titleEn', 1, 1000) &&
-             validOptionalString('titleMn', 1, 1000) &&
-             validOptionalString('titleDe', 1, 1000) &&
+             validOptionalString('titleEn', 0, 1000) &&
+             validOptionalString('titleMn', 0, 1000) &&
+             validOptionalString('titleDe', 0, 1000) &&
              validOptionalString('artist', 0, 200) &&
              validOptionalString('artistEn', 0, 500) &&
              validOptionalString('artistMn', 0, 500) &&
