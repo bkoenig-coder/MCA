@@ -15,7 +15,7 @@ type GameState = 'START' | 'PLAYING' | 'GAMEOVER';
 
 type GameObject = {
   id: string;
-  type: 'OBSTACLE_ROCK' | 'OBSTACLE_FENCE' | 'COLLECTIBLE_BOW' | 'COLLECTIBLE_SHIELD' | 'COLLECTIBLE_MORIN';
+  type: 'OBSTACLE_ROCK' | 'OBSTACLE_FENCE' | 'COLLECTIBLE_BOW' | 'COLLECTIBLE_SHIELD' | 'COLLECTIBLE_MORIN' | 'DECORATION_GER' | 'DECORATION_TREE';
   position: [number, number, number];
   collected?: boolean;
 };
@@ -209,6 +209,25 @@ const Ger = ({ position }: { position: [number, number, number] }) => (
   </group>
 );
 
+const Tree = ({ position }: { position: [number, number, number] }) => (
+  <group position={position}>
+    {/* Trunk */}
+    <mesh position={[0, 1, 0]} castShadow receiveShadow>
+      <cylinderGeometry args={[0.3, 0.4, 2]} />
+      <meshStandardMaterial color="#4a3018" />
+    </mesh>
+    {/* Leaves */}
+    <mesh position={[0, 3, 0]} castShadow receiveShadow>
+      <coneGeometry args={[1.5, 3, 8]} />
+      <meshStandardMaterial color="#2d5a27" />
+    </mesh>
+    <mesh position={[0, 4.5, 0]} castShadow receiveShadow>
+      <coneGeometry args={[1.2, 2.5, 8]} />
+      <meshStandardMaterial color="#356b2f" />
+    </mesh>
+  </group>
+);
+
 const ObstacleRock = ({ position }: { position: [number, number, number] }) => (
   <mesh position={position} castShadow receiveShadow>
     <dodecahedronGeometry args={[0.6, 0]} />
@@ -235,15 +254,61 @@ const Collectible = ({ type, position }: { type: string, position: [number, numb
     }
   });
 
-  const color = type === 'COLLECTIBLE_BOW' ? '#f1c40f' : type === 'COLLECTIBLE_SHIELD' ? '#3498db' : '#e74c3c';
-
   return (
     <group ref={ref} position={position}>
-      <mesh castShadow>
-        <octahedronGeometry args={[0.4, 0]} />
-        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
-      </mesh>
-      <pointLight color={color} distance={3} intensity={2} />
+      {type === 'COLLECTIBLE_BOW' && (
+        <group scale={1.5} position={[0, -0.2, 0]}>
+          {/* Bow body */}
+          <mesh rotation={[0, 0, Math.PI / 2]} castShadow>
+            <torusGeometry args={[0.3, 0.05, 8, 16, Math.PI]} />
+            <meshStandardMaterial color="#8b5a2b" />
+          </mesh>
+          {/* Bow string */}
+          <mesh position={[0, -0.3, 0]} castShadow>
+            <cylinderGeometry args={[0.01, 0.01, 0.6]} />
+            <meshStandardMaterial color="#fff" />
+          </mesh>
+          <pointLight color="#f1c40f" distance={3} intensity={2} />
+          <Sparkles count={10} color="#f1c40f" scale={0.5} size={2} speed={0.4} />
+        </group>
+      )}
+      
+      {type === 'COLLECTIBLE_SHIELD' && (
+        <group rotation={[Math.PI / 2, 0, 0]} scale={1.2}>
+          <mesh castShadow>
+            <cylinderGeometry args={[0.3, 0.3, 0.1, 16]} />
+            <meshStandardMaterial color="#e67e22" metalness={0.8} roughness={0.2} />
+          </mesh>
+          <mesh position={[0, 0.06, 0]} castShadow>
+            <cylinderGeometry args={[0.1, 0.1, 0.1, 16]} />
+            <meshStandardMaterial color="#d4af37" metalness={1} roughness={0.1} />
+          </mesh>
+          <pointLight color="#e67e22" distance={3} intensity={2} />
+          <Sparkles count={10} color="#e67e22" scale={0.5} size={2} speed={0.4} />
+        </group>
+      )}
+
+      {type === 'COLLECTIBLE_MORIN' && (
+        <group scale={1.2} position={[0, -0.2, 0]}>
+          {/* Fiddle body */}
+          <mesh position={[0, -0.2, 0]} castShadow>
+            <boxGeometry args={[0.3, 0.4, 0.1]} />
+            <meshStandardMaterial color="#5c3a21" />
+          </mesh>
+          {/* Neck */}
+          <mesh position={[0, 0.2, 0]} castShadow>
+            <cylinderGeometry args={[0.03, 0.03, 0.5]} />
+            <meshStandardMaterial color="#2c1a0e" />
+          </mesh>
+          {/* Horse head top */}
+          <mesh position={[0, 0.5, 0.05]} castShadow>
+            <boxGeometry args={[0.1, 0.15, 0.15]} />
+            <meshStandardMaterial color="#8b5a2b" />
+          </mesh>
+          <pointLight color="#e74c3c" distance={3} intensity={2} />
+          <Sparkles count={10} color="#e74c3c" scale={0.5} size={2} speed={0.4} />
+        </group>
+      )}
     </group>
   );
 };
@@ -271,6 +336,9 @@ const GameLoop = ({
   // Controls
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Allow typing in inputs
+      if ((e.target as HTMLElement).tagName === 'INPUT') return;
+
       // Prevent scrolling for game keys
       if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
         e.preventDefault();
@@ -297,38 +365,37 @@ const GameLoop = ({
     const container = document.getElementById('lets-play-game-container');
     if (container) {
        container.addEventListener('keydown', handleKeyDown);
-       // when hovering start focusing it automatically to capture keys
-       container.addEventListener('mouseenter', () => container.focus());
     }
     window.addEventListener('game-action', handleCustomAction);
     
     return () => {
       if (container) {
          container.removeEventListener('keydown', handleKeyDown);
-         container.removeEventListener('mouseenter', () => container.focus());
       }
       window.removeEventListener('game-action', handleCustomAction);
     };
   }, [lane, yPos, gameState, setGameState, setScore]);
 
-  // Game tick
-  useFrame((state, delta) => {
-    if (gameState !== 'PLAYING') return;
-
-    // Physics
-    let nextY = yPos + yVel * delta;
-    let nextYVel = yVel + GRAVITY * delta;
-    if (nextY <= 0) {
-      nextY = 0;
-      nextYVel = 0;
-    }
-    setYPos(nextY);
-    setYVel(nextYVel);
-
-    // Increase speed over time
-    speedRef.current += delta * 0.2;
-
-    // Move objects
+    // Game tick
+    useFrame((state, delta) => {
+      if (gameState !== 'PLAYING') return;
+  
+      // Physics
+      let nextY = yPos + yVel * delta;
+      let nextYVel = yVel + GRAVITY * delta;
+      if (nextY <= 0) {
+        nextY = 0;
+        nextYVel = 0;
+      }
+      setYPos(nextY);
+      setYVel(nextYVel);
+  
+      // Increase speed based on score (Level up every 50 points)
+      const level = Math.floor(score / 50);
+      const targetSpeed = OBSTACLE_SPEED + level * 5;
+      speedRef.current = THREE.MathUtils.lerp(speedRef.current, targetSpeed, 0.05);
+  
+      // Move objects
     let collision = false;
     let scoreIncrease = 0;
     
@@ -364,15 +431,8 @@ const GameLoop = ({
       setScore(s => s + scoreIncrease);
     }
 
-    setObjects(remaining);
-
-    if (collision) {
-      setGameState('GAMEOVER');
-      return;
-    }
-
     // Spawn new objects
-    if (Math.random() < 0.02 * (speedRef.current / OBSTACLE_SPEED) && objects.length < 15) {
+    if (Math.random() < 0.04 * (speedRef.current / OBSTACLE_SPEED) && remaining.length < 30) {
        const spawnLane = Math.floor(Math.random() * 3) - 1; // -1, 0, 1
        const rand = Math.random();
        let type: GameObject['type'] = 'OBSTACLE_ROCK';
@@ -382,15 +442,34 @@ const GameLoop = ({
        else if (rand < 0.7) type = 'OBSTACLE_FENCE';
        
        // Prevent spawning inside another object too close
-       const tooClose = objects.some(o => Math.abs(o.position[2] - (-60)) < 5 && Math.abs((o.position[0]/LANE_WIDTH) - spawnLane) < 0.1);
+       const tooClose = remaining.some(o => Math.abs(o.position[2] - (-40)) < 6 && Math.abs((o.position[0]/LANE_WIDTH) - spawnLane) < 0.1);
        
        if (!tooClose) {
-         setObjects(prev => [...prev, {
+         remaining.push({
             id: Math.random().toString(),
             type,
-            position: [spawnLane * LANE_WIDTH, type.includes('FENCE') ? 0 : type.includes('COLLECTIBLE') ? 1 : 0.3, -60]
-         }]);
+            position: [spawnLane * LANE_WIDTH, type.includes('FENCE') ? 0 : type.includes('COLLECTIBLE') ? 1 : 0.3, -40]
+         });
        }
+    }
+
+    // Spawn decorations
+    if (Math.random() < 0.05 * (speedRef.current / OBSTACLE_SPEED)) {
+       const side = Math.random() < 0.5 ? -1 : 1;
+       const distMultiplier = 4 + Math.random() * 8; // Spawns at X = 8 to 24
+       const decorationType: GameObject['type'] = Math.random() < 0.3 ? 'DECORATION_GER' : 'DECORATION_TREE';
+       
+       remaining.push({
+          id: Math.random().toString(),
+          type: decorationType,
+          position: [side * LANE_WIDTH * distMultiplier, 0, -60] // Spawn slightly farther back
+       });
+    }
+
+    setObjects(remaining);
+
+    if (collision) {
+      setGameState('GAMEOVER');
     }
   });
 
@@ -410,16 +489,15 @@ const GameLoop = ({
         <meshStandardMaterial color="#a0785a" />
       </mesh>
 
-      {/* Static Background Scenery */}
-      <Ger position={[-15, 0, -30]} />
-      <Ger position={[12, 0, -45]} />
-      <Ger position={[-18, 0, -50]} />
+      {/* Environment (Ground path) is above */}
 
       {/* Dynamic Objects */}
       {objects.map(obj => {
          if (obj.type === 'OBSTACLE_ROCK') return <ObstacleRock key={obj.id} position={obj.position} />;
          if (obj.type === 'OBSTACLE_FENCE') return <ObstacleFence key={obj.id} position={obj.position} />;
          if (obj.type.startsWith('COLLECTIBLE')) return <Collectible key={obj.id} type={obj.type} position={obj.position} />;
+         if (obj.type === 'DECORATION_GER') return <Ger key={obj.id} position={obj.position} />;
+         if (obj.type === 'DECORATION_TREE') return <Tree key={obj.id} position={obj.position} />;
          return null;
       })}
     </>
@@ -430,6 +508,32 @@ export default function LetsPlayGame() {
   const [gameState, setGameState] = useState<GameState>('START');
   const [score, setScore] = useState(0);
   const [gameKey, setGameKey] = useState(0);
+  
+  const [playerName, setPlayerName] = useState('');
+  const [leaderboard, setLeaderboard] = useState<{name: string, score: number}[]>([]);
+  const [hasSubmittedScore, setHasSubmittedScore] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('letsPlayLeaderboard');
+    if (saved) {
+      try {
+        setLeaderboard(JSON.parse(saved));
+      } catch (e) {
+        // ignore JSON parse error
+      }
+    }
+  }, []);
+
+  const saveScore = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!playerName.trim()) return;
+    const newList = [...leaderboard, { name: playerName.trim(), score }];
+    newList.sort((a, b) => b.score - a.score);
+    const top10 = newList.slice(0, 10);
+    setLeaderboard(top10);
+    localStorage.setItem('letsPlayLeaderboard', JSON.stringify(top10));
+    setHasSubmittedScore(true);
+  };
 
   const startGame = (e?: React.MouseEvent | React.KeyboardEvent) => {
     if (e) {
@@ -439,6 +543,8 @@ export default function LetsPlayGame() {
     setScore(0);
     setGameKey(k => k + 1);
     setGameState('PLAYING');
+    setHasSubmittedScore(false);
+    setPlayerName('');
     document.getElementById('lets-play-game-container')?.focus();
   };
 
@@ -448,10 +554,13 @@ export default function LetsPlayGame() {
       tabIndex={0} 
       className="relative w-full h-[600px] bg-brand-ink rounded-[40px] overflow-hidden my-12 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-brand-gold/20 outline-none focus:ring-4 focus:ring-brand-gold/50 cursor-pointer group"
       onClick={(e) => {
-        if (gameState !== 'PLAYING') startGame(e);
+        if (gameState === 'START') startGame(e);
       }}
       onKeyDown={(e) => {
-        if (e.code === 'Space' && gameState !== 'PLAYING') startGame(e);
+        if (e.code === 'Space' && gameState !== 'PLAYING') {
+           if ((e.target as HTMLElement).tagName === 'INPUT') return;
+           startGame(e);
+        }
       }}
     >
       <Canvas shadows camera={{ position: [0, 5, 8], fov: 50 }}>
@@ -525,15 +634,68 @@ export default function LetsPlayGame() {
       )}
 
       {gameState === 'GAMEOVER' && (
-        <div className="absolute inset-0 bg-red-900/40 backdrop-blur-md flex flex-col items-center justify-center z-10 text-center pointer-events-none">
-          <h2 className="text-6xl font-serif text-white mb-2">Game Over</h2>
-          <p className="text-2xl text-brand-gold mb-8 font-serif">Final Score: {score}</p>
-          <button 
-            onClick={startGame}
-            className="bg-white text-brand-ink px-10 py-4 rounded-full text-sm uppercase tracking-[0.2em] font-bold shadow-xl pointer-events-auto hover:bg-brand-gold hover:text-white transition-all transform hover:scale-105"
-          >
-            Play Again
-          </button>
+        <div className="absolute inset-0 bg-[#4a1c1d]/90 backdrop-blur-md flex flex-col md:flex-row items-center justify-center z-10 gap-8 pointer-events-none p-6 overflow-y-auto">
+           <div className="text-center flex-1 max-w-sm">
+              <h2 className="text-5xl font-serif text-white mb-2">Game Over</h2>
+              <p className="text-2xl text-brand-gold mb-8 font-serif">Final Score: {score}</p>
+              
+              {!hasSubmittedScore && score > 0 ? (
+                 <form onSubmit={saveScore} className="mb-8 pointer-events-auto">
+                    <input 
+                      type="text" 
+                      value={playerName}
+                      onChange={e => setPlayerName(e.target.value)}
+                      placeholder="Enter your name" 
+                      className="w-full bg-black/30 border border-brand-gold/30 rounded-full px-6 py-4 text-white placeholder-white/40 focus:outline-none focus:border-brand-gold mb-4 text-center text-lg shadow-inner"
+                      maxLength={15}
+                      required
+                    />
+                    <button type="submit" className="w-full bg-brand-gold text-brand-ink px-10 py-4 rounded-full text-sm uppercase tracking-[0.2em] font-bold hover:bg-white transition-all shadow-[0_0_20px_rgba(212,175,55,0.3)]">
+                      Submit Score
+                    </button>
+                 </form>
+              ) : (
+                 <div className="mb-8 text-brand-gold/80 italic font-serif">
+                   {score > 0 ? "Score saved to the chronicles." : "A valiant effort. Try again."}
+                 </div>
+              )}
+
+              <button 
+                onClick={startGame}
+                className="bg-white text-brand-ink px-10 py-4 rounded-full text-sm uppercase tracking-[0.2em] font-bold shadow-xl pointer-events-auto hover:bg-brand-gold hover:text-white transition-all transform hover:scale-105"
+              >
+                Play Again
+              </button>
+           </div>
+
+           {/* Leaderboard panel */}
+           <div className={`bg-brand-ink/90 border border-brand-gold/30 rounded-3xl p-6 w-full max-w-sm pointer-events-auto relative overflow-hidden ${hasSubmittedScore || score === 0 ? 'block' : 'hidden md:block'}`}>
+             {/* Decorative Background Pattern */}
+             <div className="absolute inset-0 pointer-events-none opacity-30" style={{ backgroundImage: `url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj4KICA8cGF0aCBkPSJNMCAyMCBMMjAgMCBMNDAgMjAgTDIwIDQwIFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q0YWYzNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2Utb3BhY2l0eT0iMC4yIi8+CiAgPHBhdGggZD0iTTEwIDIwIEwyMCAxMCBMMzAgMjAgTDIwIDMwIFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q0YWYzNyIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2Utb3BhY2l0eT0iMC4xIi8+CiAgPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMiIgZmlsbD0iI2Q0YWYzNyIgZmlsbC1vcGFjaXR5PSIwLjIiLz4KPC9zdmc+')`, backgroundSize: '40px 40px' }}></div>
+             
+             <h3 className="text-xl font-serif text-brand-gold mb-6 text-center flex items-center justify-center gap-2 relative z-10">
+               <span className="w-8 h-[1px] bg-brand-gold/30"></span>
+               Hall of Heroes
+               <span className="w-8 h-[1px] bg-brand-gold/30"></span>
+             </h3>
+             <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar relative z-10">
+               {leaderboard.length === 0 ? (
+                 <p className="text-white/50 text-center text-sm italic">No heroes recorded yet.</p>
+               ) : (
+                 leaderboard.map((entry, i) => (
+                   <div key={i} className="flex justify-between items-center group">
+                     <div className="flex items-center gap-3">
+                       <span className={`font-serif ${i === 0 ? 'text-2xl text-brand-gold drop-shadow-[0_0_5px_rgba(212,175,55,0.8)]' : i === 1 ? 'text-xl text-gray-300' : i === 2 ? 'text-lg text-amber-600' : 'text-md text-white/50'} w-6 text-center`}>{i + 1}</span>
+                       <span className="text-white group-hover:text-brand-gold transition-colors">{entry.name}</span>
+                     </div>
+                     <span className="font-mono text-brand-gold/80">{entry.score}</span>
+                   </div>
+                 ))
+               )}
+             </div>
+             
+             <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-brand-ink/80 to-transparent pointer-events-none"></div>
+           </div>
         </div>
       )}
     </div>
