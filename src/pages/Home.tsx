@@ -356,6 +356,7 @@ export default function Home() {
             {[...Array(2)].map((_, groupIndex) => (
               <div key={groupIndex} className="flex items-center gap-12 md:gap-20 px-6 md:px-10">
                 {[
+                  { name: 'Embassy of Mongolia in Vienna', src: '/embassy logo.png', url: 'https://vienna.embassy.mn/' },
                   { name: 'Deutschothek Sprachschule', src: deutschotekLogo, url: 'https://deutschothek.com/' },
                   { name: 'Verein für aktiv Leben und Bildung', src: euActiveLogo, url: 'https://www.euactive.org/' },
                   { name: 'Verein der mongolischen StudentInnen in Österreich', src: amoxLogo, url: 'https://www.facebook.com/MongolianStudentAssociationInAustria' },

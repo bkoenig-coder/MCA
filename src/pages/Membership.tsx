@@ -9,6 +9,7 @@ import euactiveLogo from '../assets/media/euactivelogo.png';
 import mcaLogo from '../assets/media/mcalogo-1.png';
 
 const partners = [
+  { name: "Embassy of Mongolia in Vienna", logo: "/embassy logo.png" },
   { name: "AMOX", logo: amoxLogo },
   { name: "Deutschothek", logo: deutschotekLogo },
   { name: "EU Active", logo: euactiveLogo },
