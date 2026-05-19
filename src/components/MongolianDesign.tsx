@@ -16,18 +16,36 @@ export const MongolianLine = ({ className = "w-full h-4", color = "currentColor"
 );
 
 export const SoyomboSymbol = ({ className = "w-16 h-24", color = "currentColor" }) => (
-  <svg viewBox="0 0 100 150" className={className} fill={color} xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 200 320" className={className} fill={color} xmlns="http://www.w3.org/2000/svg">
     {/* Flame */}
-    <path d="M50 0C55 10 60 15 60 25C60 35 50 45 50 45C50 45 40 35 40 25C40 15 45 10 50 0Z" />
+    <path d="M 100 10 Q 115 35 100 55 Q 85 35 100 10 Z" />
+    <path d="M 100 42 Q 116 25 119 28 Q 125 45 105 55 Z" />
+    <path d="M 100 42 Q 84 25 81 28 Q 75 45 95 55 Z" />
+    
     {/* Sun and Moon */}
-    <circle cx="50" cy="55" r="10" />
-    <path d="M40 70C40 70 45 75 50 75C55 75 60 70 60 70C60 70 55 80 50 80C45 80 40 70 40 70Z" />
-    {/* Triangles and Rectangles */}
-    <rect x="20" y="85" width="60" height="5" />
-    <path d="M20 95L50 110L80 95V100L50 115L20 100V95Z" />
-    <rect x="20" y="120" width="25" height="30" />
-    <rect x="55" y="120" width="25" height="30" />
-    <rect x="20" y="155" width="60" height="5" />
+    <circle cx="100" cy="74" r="14" />
+    <path d="M 68 86 Q 100 115 132 86 Q 100 100 68 86 Z" />
+    
+    {/* Top Triangle */}
+    <polygon points="65,120 135,120 100,144" />
+    
+    {/* Top Horizontal Rectangle */}
+    <rect x="65" y="152" width="70" height="18" />
+    
+    {/* Taijitu (Yin-Yang) */}
+    <circle cx="100" cy="208" r="30" fill="none" stroke={color} strokeWidth="3" />
+    <path fillRule="evenodd" clipRule="evenodd" d="M 70 208 A 30 30 0 0 1 130 208 A 15 15 0 0 1 100 208 A 15 15 0 0 0 70 208 Z M 81 208 A 4 4 0 1 0 89 208 A 4 4 0 1 0 81 208 Z" fill={color} />
+    <circle cx="115" cy="208" r="4" fill={color} />
+    
+    {/* Bottom Horizontal Rectangle */}
+    <rect x="65" y="246" width="70" height="18" />
+    
+    {/* Bottom Triangle */}
+    <polygon points="65,272 135,272 100,296" />
+    
+    {/* Left and Right Pillars */}
+    <rect x="15" y="120" width="35" height="176" />
+    <rect x="150" y="120" width="35" height="176" />
   </svg>
 );
 
