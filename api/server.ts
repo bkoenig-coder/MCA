@@ -173,17 +173,48 @@ app.post("/api/create-checkout-session", async (req, res) => {
 
 const getFirebaseConfig = () => {
   let firebaseConfig: any = null;
-  try {
-    firebaseConfig = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'firebase-applet-config.json'), 'utf-8'));
-  } catch(e) {}
+  const paths = [
+    path.join(process.cwd(), 'firebase-applet-config.json'),
+    path.join(process.cwd(), 'api', 'firebase-applet-config.json')
+  ];
+  for (const p of paths) {
+    try {
+      if (fs.existsSync(p)) {
+        firebaseConfig = JSON.parse(fs.readFileSync(p, 'utf-8'));
+        break;
+      }
+    } catch(e) {}
+  }
   return firebaseConfig;
 };
 
 // Dynamic SSR routes for Vercel
 app.get(['/events/:id', '/news/:id', '/diorama'], async (req, res, next) => {
   try {
+    let html = "";
+    const htmlPaths = [
+      path.join(process.cwd(), 'dist', 'index.html'),
+      path.join(process.cwd(), 'index.html')
+    ];
+    for (const p of htmlPaths) {
+      try {
+        if (fs.existsSync(p)) {
+          html = fs.readFileSync(p, 'utf-8');
+          break;
+        }
+      } catch (e) {}
+    }
+
+    if (!html) {
+      console.error("DEBUG: No index.html found at absolute paths", htmlPaths);
+      return res.status(500).send("index.html not found");
+    }
+
     const config = getFirebaseConfig();
-    if (!config) return next();
+    if (!config) {
+      console.warn("DEBUG: Firebase config not found. Falling back to default index.html");
+      return res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+    }
 
     const isEvent = req.path.startsWith('/events/');
     const isNews = req.path.startsWith('/news/');
@@ -242,18 +273,6 @@ app.get(['/events/:id', '/news/:id', '/diorama'], async (req, res, next) => {
        title = "Mongolian Center - Gobi Desert Runner";
        desc = "Play our interactive Gobi Desert infinite runner game and compete for the highest score on the leaderboard!";
        image = "https://images.unsplash.com/photo-1542642596-f3310061e888?q=80&w=1170&auto=format&fit=crop";
-    }
-
-    // On Vercel, the dist folder should contain index.html, but if it doesn't work we fallback to catching the original html via fetch. Check dist index.html first.
-    let html = "";
-    try {
-      html = fs.readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf-8');
-    } catch(e) {
-      try {
-         html = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf-8');
-      } catch(e2) {
-         return next();
-      }
     }
 
     if (title) {

@@ -20,10 +20,6 @@
     {
       "source": "/diorama",
       "destination": "/api/server"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ]
 }
