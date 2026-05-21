@@ -368,6 +368,12 @@ async function startServer() {
     try {
       firebaseConfig = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'firebase-applet-config.json'), 'utf-8'));
     } catch(e) {}
+    if (!firebaseConfig && process.env.FIREBASE_PROJECT_ID) {
+      firebaseConfig = {
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        firestoreDatabaseId: process.env.FIREBASE_DATABASE_ID || "(default)"
+      };
+    }
     return firebaseConfig;
   };
 

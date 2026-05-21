@@ -185,34 +185,47 @@ const getFirebaseConfig = () => {
       }
     } catch(e) {}
   }
+  if (!firebaseConfig && process.env.FIREBASE_PROJECT_ID) {
+    firebaseConfig = {
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      firestoreDatabaseId: process.env.FIREBASE_DATABASE_ID || "(default)"
+    };
+  }
   return firebaseConfig;
 };
 
 // Dynamic SSR routes for Vercel
-app.get(['/events/:id', '/news/:id', '/diorama'], async (req, res, next) => {
+app.get('*', async (req, res, next) => {
   try {
+    const checkPath = (req.query.ssrPath as string) || req.path;
+    const isEvent = checkPath.startsWith('/events/');
+    const isNews = checkPath.startsWith('/news/');
+    const isDiorama = checkPath.startsWith('/diorama');
+
+    if (!isEvent && !isNews && !isDiorama) {
+      if (req.path.startsWith('/api/')) return next();
+      return next();
+    }
+
     let html = "";
-    const htmlPaths = [
-      path.join(process.cwd(), 'dist', 'index.html'),
-      path.join(process.cwd(), 'index.html')
-    ];
-    for (const p of htmlPaths) {
-      try {
-        if (fs.existsSync(p)) {
-          html = fs.readFileSync(p, 'utf-8');
-          break;
-        }
-      } catch (e) {}
+    
+    // Fetch the base HTML from the live production frontend, or localhost in dev
+    try {
+      const baseUrl = process.env.NODE_ENV === 'production' ? 'https://mongoliancenter.org' : `http://localhost:${process.env.PORT || 3000}`;
+      const response = await fetch(baseUrl);
+      if (response.ok) {
+        html = await response.text();
+      }
+    } catch (e) {
+      console.error("Failed to fetch base HTML:", e);
     }
 
     if (!html) {
-      console.error("DEBUG: No index.html found at absolute paths", htmlPaths);
-      return res.status(500).send("index.html not found");
+      return res.status(500).send("Base HTML not found or mongoliancenter.org is unreachable.");
     }
 
     const config = getFirebaseConfig();
     if (!config) {
-      console.warn("DEBUG: Firebase config not found. Falling back to default index.html");
       return res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
     }
 
@@ -227,7 +240,7 @@ app.get(['/events/:id', '/news/:id', '/diorama'], async (req, res, next) => {
     const databaseId = config.firestoreDatabaseId || "(default)";
 
     if (isEvent) {
-      const docId = req.params.id;
+      const docId = checkPath.split('/')[2];
       const response = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/${databaseId}/documents/events/${docId}`);
       if (response.ok) {
         const data = await response.json();
@@ -239,7 +252,7 @@ app.get(['/events/:id', '/news/:id', '/diorama'], async (req, res, next) => {
         }
       }
     } else if (isNews) {
-      const docId = req.params.id;
+      const docId = checkPath.split('/')[2];
       const queryBody = {
         structuredQuery: {
           from: [{ collectionId: "posts" }],
@@ -289,7 +302,7 @@ app.get(['/events/:id', '/news/:id', '/diorama'], async (req, res, next) => {
       html = html.replace(/<meta\s+(?:property|name)="twitter:image"\s+content="[^"]*"[^>]*>/g, `<meta name="twitter:image" content="${image}" />`);
     }
 
-    const fullUrl = `https://mongoliancenter.org${req.originalUrl}`;
+    const fullUrl = `https://mongoliancenter.org${checkPath}`;
     html = html.replace(/<meta\s+(?:property|name)="og:url"\s+content="[^"]*"[^>]*>/g, `<meta property="og:url" content="${fullUrl}" />`);
     html = html.replace(/<meta\s+(?:property|name)="twitter:url"\s+content="[^"]*"[^>]*>/g, `<meta name="twitter:url" content="${fullUrl}" />`);
 
