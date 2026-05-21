@@ -13,6 +13,7 @@ const partners = [
   { name: "AMOX", logo: amoxLogo },
   { name: "Deutschothek", logo: deutschotekLogo },
   { name: "EU Active", logo: euactiveLogo },
+  { name: "Gmax Mongolischer Kinder-und Jugendverein", logo: "/gmax logo.jpg" },
   { name: "MCA", logo: mcaLogo },
 ];
 
@@ -26,9 +27,6 @@ export default function Membership() {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-gold/10 blur-[120px] rounded-[100%] pointer-events-none" />
           <div className="absolute bottom-0 right-0 w-[50%] h-[50%] bg-brand-gold/5 blur-[100px] rounded-[100%] pointer-events-none" />
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-          
-          {/* Subtle noise texture */}
-          <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10 text-center">
@@ -206,7 +204,6 @@ export default function Membership() {
       <section className="py-24 md:py-32 px-6 bg-brand-ink relative overflow-hidden rounded-[40px] md:rounded-[80px] mx-4 md:mx-6 mb-24">
         {/* Subtle background decoration */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-brand-gold/20 rounded-[100%] blur-[120px] pointer-events-none" />
-        <div className="absolute inset-0 opacity-[0.02] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
         
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24 gap-8">
@@ -270,9 +267,9 @@ export default function Membership() {
               className="bg-brand-gold/5 text-white p-10 md:p-14 rounded-[40px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] relative overflow-hidden flex flex-col h-full transform lg:-translate-y-4 border border-brand-gold/30 hover:border-brand-gold/60 transition-all duration-500 group backdrop-blur-xl"
             >
               {/* Premium Background Effects */}
-              <div className="absolute inset-0 opacity-[0.4] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
               <div className="absolute -top-32 -right-32 w-80 h-80 bg-brand-gold/20 rounded-full blur-[80px] group-hover:bg-brand-gold/30 transition-colors duration-700" />
               <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-amber-500/10 rounded-full blur-[80px]" />
+              <div className="absolute inset-0 border-[4px] border-double border-brand-gold/10 pointer-events-none rounded-[40px] m-2"></div>
               
               <div className="absolute top-8 right-8">
                 <span className="bg-gradient-to-r from-brand-gold to-amber-500 shadow-[0_0_20px_rgba(212,175,55,0.4)] text-brand-ink px-4 py-1.5 rounded-full text-[9px] uppercase tracking-[0.2em] font-bold">Recommended</span>
