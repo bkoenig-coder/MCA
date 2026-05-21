@@ -38,6 +38,7 @@ export default function Home() {
         "Cultural & professional exchange"
       ],
       path: "/membership/apply-professional",
+      image: "https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       color: "text-brand-gold",
       bgClass: "bg-brand-gold",
       accentBorder: "border-brand-gold/30",
@@ -53,6 +54,7 @@ export default function Home() {
         "Career development support"
       ],
       path: "/membership/apply-student",
+      image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop",
       color: "text-blue-400",
       bgClass: "bg-blue-400",
       accentBorder: "border-blue-400/30",
@@ -68,6 +70,7 @@ export default function Home() {
         "Strategic advisory access"
       ],
       path: "/membership/apply-institutional",
+      image: "https://images.unsplash.com/photo-1571645163064-77faa9676a46?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       color: "text-emerald-400",
       bgClass: "bg-emerald-400",
       accentBorder: "border-emerald-400/30",
@@ -442,9 +445,9 @@ export default function Home() {
                       onClick={() => setActiveMembershipIndex(isActive ? null : i)}
                       className="w-full text-left py-8 md:py-10 px-0 flex items-center justify-between focus:outline-none"
                     >
-                      <div className="flex items-center gap-6 md:gap-10">
+                      <div className="flex items-center">
                         <span className={cn(
-                          "text-[10px] md:text-xs font-light tracking-[0.3em] transition-colors duration-500",
+                          "text-[10px] md:text-xs font-light tracking-[0.3em] transition-colors duration-500 shrink-0 mr-6 md:mr-10",
                           isActive ? "text-brand-gold" : "text-white/20 group-hover:text-white/40"
                         )}>
                           0{i + 1}
@@ -479,22 +482,31 @@ export default function Home() {
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                         >
-                          <div className="pb-10 flex flex-col md:flex-row gap-8 md:gap-12 md:pl-[4.5rem]">
-                            <ul className="space-y-4 flex-1">
-                              {slide.benefits.map((benefit, idx) => (
-                                <li key={idx} className="flex items-center gap-4">
-                                  <div className="w-1.5 h-1.5 rounded-full bg-brand-gold/60 shrink-0" />
-                                  <span className="text-white/70 font-light text-sm md:text-base">{benefit}</span>
-                                </li>
-                              ))}
-                            </ul>
-                            <div className="shrink-0 flex items-start">
-                              <Link 
-                                to="/membership" 
-                                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-500 border border-brand-gold/30 hover:bg-brand-gold hover:text-brand-ink text-brand-gold/90"
-                              >
-                                <span>Explore Benefits</span>
-                              </Link>
+                          <div className="pb-10 pl-12 md:pl-[4.5rem]">
+                            <div className="flex flex-col md:flex-row gap-8 md:gap-12 mb-8">
+                              <ul className="space-y-4 flex-1">
+                                {slide.benefits.map((benefit, idx) => (
+                                  <li key={idx} className="flex items-center gap-4">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-brand-gold/60 shrink-0" />
+                                    <span className="text-white/70 font-light text-sm md:text-base">{benefit}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                              <div className="shrink-0 flex items-start">
+                                <Link 
+                                  to="/membership" 
+                                  className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-500 border border-brand-gold/30 hover:bg-brand-gold hover:text-brand-ink text-brand-gold/90"
+                                >
+                                  <span>Explore Benefits</span>
+                                </Link>
+                              </div>
+                            </div>
+                            <div className="w-full h-48 md:h-64 rounded-xl overflow-hidden border border-brand-gold/30 p-1">
+                              <img 
+                                src={slide.image} 
+                                alt={slide.title}
+                                className="w-full h-full object-cover rounded-lg"
+                              />
                             </div>
                           </div>
                         </motion.div>

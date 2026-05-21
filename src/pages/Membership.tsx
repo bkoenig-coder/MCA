@@ -230,32 +230,44 @@ export default function Membership() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="bg-white/[0.02] p-10 md:p-12 rounded-[40px] border border-white/10 hover:bg-white/[0.04] hover:border-brand-gold/30 transition-all duration-500 relative flex flex-col h-full group backdrop-blur-sm"
+              className="bg-white/[0.02] rounded-[40px] border border-white/10 hover:bg-white/[0.04] hover:border-brand-gold/30 transition-all duration-500 relative flex flex-col h-full group backdrop-blur-sm overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-gold/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-              <div className="w-14 h-14 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-white/80 mb-8 relative z-10 group-hover:text-brand-gold group-hover:scale-110 group-hover:bg-white/10 transition-all duration-500">
-                <GraduationCap size={24} />
+              {/* Card Image Header */}
+              <div className="relative w-full h-56 md:h-64 overflow-hidden rounded-t-[40px]">
+                <div className="absolute inset-0 bg-brand-ink/40 group-hover:bg-brand-ink/10 transition-colors duration-500 z-10" />
+                <img 
+                  src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop" 
+                  alt="Student Membership" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                />
+                <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#11131c] to-transparent z-10" />
+                <div className="absolute top-6 left-6 w-12 h-12 rounded-full bg-black/40 border border-white/20 backdrop-blur-md flex items-center justify-center text-white/80 z-20 group-hover:bg-brand-gold group-hover:text-brand-ink group-hover:border-transparent transition-all duration-500">
+                  <GraduationCap size={20} />
+                </div>
               </div>
-              <h3 className="text-2xl font-serif text-white mb-3 relative z-10">Student & Youth</h3>
-              <p className="text-white/50 font-light text-sm mb-8 h-12 relative z-10">Affordable annual membership for students and young professionals.</p>
-              <div className="mb-10 relative z-10">
-                <span className="text-5xl font-serif text-brand-gold">€25</span>
-                <span className="text-white/40 font-light ml-1">/ year</span>
+
+              <div className="p-8 md:p-10 flex flex-col flex-grow bg-[#11131c]">
+                <h3 className="text-2xl font-serif text-white mb-3 relative z-10">Student & Youth</h3>
+                <p className="text-white/50 font-light text-sm mb-8 h-12 relative z-10">Affordable annual membership for students and young professionals.</p>
+                <div className="mb-10 relative z-10">
+                  <span className="text-5xl font-serif text-brand-gold">€25</span>
+                  <span className="text-white/40 font-light ml-1">/ year</span>
+                </div>
+                
+                <div className="h-[1px] w-full bg-gradient-to-r from-white/10 to-transparent mb-8" />
+                
+                <div className="space-y-4 mb-auto relative z-10 pb-10">
+                  {['Access to community events', 'Student networking sessions', 'Newsletter updates', 'Voting rights at general assembly'].map((benefit, i) => (
+                    <div key={i} className="flex gap-4 items-start">
+                      <CheckCircle2 size={18} className="text-brand-gold/70 shrink-0 mt-0.5" />
+                      <span className="text-white/70 font-light text-sm">{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+                <Link to="/contact" className="w-full flex items-center justify-center py-5 rounded-full border border-white/20 text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
+                  Contact Foundation
+                </Link>
               </div>
-              
-              <div className="h-[1px] w-full bg-gradient-to-r from-white/10 to-transparent mb-8" />
-              
-              <div className="space-y-4 mb-auto relative z-10 pb-10">
-                {['Access to community events', 'Student networking sessions', 'Newsletter updates', 'Voting rights at general assembly'].map((benefit, i) => (
-                  <div key={i} className="flex gap-4 items-start">
-                    <CheckCircle2 size={18} className="text-brand-gold/70 shrink-0 mt-0.5" />
-                    <span className="text-white/70 font-light text-sm">{benefit}</span>
-                  </div>
-                ))}
-              </div>
-              <Link to="/contact" className="w-full flex items-center justify-center py-5 rounded-full border border-white/20 text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
-                Contact Foundation
-              </Link>
             </motion.div>
 
             {/* Tier 2: Professional (Highlighted) */}
@@ -264,40 +276,53 @@ export default function Membership() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="bg-brand-gold/5 text-white p-10 md:p-14 rounded-[40px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] relative overflow-hidden flex flex-col h-full transform lg:-translate-y-4 border border-brand-gold/30 hover:border-brand-gold/60 transition-all duration-500 group backdrop-blur-xl"
+              className="bg-brand-gold/5 rounded-[40px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] relative overflow-hidden flex flex-col h-full transform lg:-translate-y-4 border border-brand-gold/30 hover:border-brand-gold/60 transition-all duration-500 group backdrop-blur-xl"
             >
               {/* Premium Background Effects */}
-              <div className="absolute -top-32 -right-32 w-80 h-80 bg-brand-gold/20 rounded-full blur-[80px] group-hover:bg-brand-gold/30 transition-colors duration-700" />
-              <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-amber-500/10 rounded-full blur-[80px]" />
-              <div className="absolute inset-0 border-[4px] border-double border-brand-gold/10 pointer-events-none rounded-[40px] m-2"></div>
+              <div className="absolute -top-32 -right-32 w-80 h-80 bg-brand-gold/20 rounded-full blur-[80px] group-hover:bg-brand-gold/30 transition-colors duration-700 pointer-events-none" />
+              <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-amber-500/10 rounded-full blur-[80px] pointer-events-none" />
+              <div className="absolute inset-0 border-[4px] border-double border-brand-gold/10 pointer-events-none rounded-[40px] m-1 z-30"></div>
               
-              <div className="absolute top-8 right-8">
+              <div className="absolute top-6 right-6 z-30 shadow-lg">
                 <span className="bg-gradient-to-r from-brand-gold to-amber-500 shadow-[0_0_20px_rgba(212,175,55,0.4)] text-brand-ink px-4 py-1.5 rounded-full text-[9px] uppercase tracking-[0.2em] font-bold">Recommended</span>
               </div>
 
-              <div className="w-16 h-16 rounded-full bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold mb-8 relative z-10 backdrop-blur-md group-hover:scale-110 group-hover:bg-brand-gold group-hover:text-brand-ink transition-all duration-500">
-                <Briefcase size={26} />
-              </div>
-              <h3 className="text-3xl font-serif mb-3 relative z-10">Professional</h3>
-              <p className="text-white/60 font-light text-sm mb-8 h-12 relative z-10">For professionals, entrepreneurs, academics, and creatives.</p>
-              <div className="mb-10 relative z-10">
-                <span className="text-6xl font-serif text-white">€80</span>
-                <span className="text-white/40 font-light ml-2">/ year</span>
+              {/* Card Image Header */}
+              <div className="relative w-full h-56 md:h-64 overflow-hidden rounded-t-[40px] z-10">
+                <div className="absolute inset-0 bg-brand-ink/30 group-hover:bg-transparent transition-colors duration-500 z-10 mix-blend-multiply" />
+                <img 
+                  src="https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                  alt="Professional Membership" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale-[30%] group-hover:grayscale-0" 
+                />
+                <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#151722] to-transparent z-10" />
+                <div className="absolute top-6 left-6 w-12 h-12 rounded-full bg-brand-gold/20 border border-brand-gold/30 backdrop-blur-md flex items-center justify-center text-brand-gold z-20 group-hover:scale-110 group-hover:bg-brand-gold group-hover:text-brand-ink transition-all duration-500 shadow-lg shadow-brand-gold/20">
+                  <Briefcase size={22} />
+                </div>
               </div>
               
-              <div className="h-[1px] w-full bg-gradient-to-r from-brand-gold/30 to-transparent mb-8 opacity-50" />
-              
-              <div className="space-y-4 mb-auto relative z-10 pb-10">
-                {['Full access to professional network', 'Discounted event tickets', 'Exclusive networking dinners', 'Priority registration for forums', 'Directory listing', 'Voting rights at general assembly'].map((benefit, i) => (
-                  <div key={i} className="flex gap-4 items-start">
-                    <CheckCircle2 size={18} className="text-brand-gold shrink-0 mt-0.5 drop-shadow-[0_0_8px_rgba(212,175,55,0.8)]" />
-                    <span className="text-white/90 font-light text-sm">{benefit}</span>
-                  </div>
-                ))}
+              <div className="p-8 md:p-10 flex flex-col flex-grow bg-gradient-to-b from-[#151722] to-[#11131c] relative z-20">
+                <h3 className="text-3xl font-serif text-white mb-3">Professional</h3>
+                <p className="text-white/60 font-light text-sm mb-8 h-12">For professionals, entrepreneurs, academics, and creatives.</p>
+                <div className="mb-10">
+                  <span className="text-6xl font-serif text-white">€80</span>
+                  <span className="text-white/40 font-light ml-2">/ year</span>
+                </div>
+                
+                <div className="h-[1px] w-full bg-gradient-to-r from-brand-gold/30 to-transparent mb-8 opacity-50" />
+                
+                <div className="space-y-4 mb-auto pb-10">
+                  {['Full access to professional network', 'Discounted event tickets', 'Exclusive networking dinners', 'Priority registration for forums', 'Directory listing', 'Voting rights at general assembly'].map((benefit, i) => (
+                    <div key={i} className="flex gap-4 items-start">
+                      <CheckCircle2 size={18} className="text-brand-gold shrink-0 mt-0.5 drop-shadow-[0_0_8px_rgba(212,175,55,0.8)]" />
+                      <span className="text-white/90 font-light text-sm">{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+                <Link to="/contact" className="w-full flex items-center justify-center py-5 rounded-full bg-gradient-to-r from-brand-gold to-amber-500 text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] transition-all duration-500 shadow-[0_10px_20px_rgba(212,175,55,0.2)] mt-auto hover:scale-[1.02]">
+                  Contact Foundation
+                </Link>
               </div>
-              <Link to="/contact" className="w-full flex items-center justify-center py-5 rounded-full bg-gradient-to-r from-brand-gold to-amber-500 text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] transition-all duration-500 shadow-[0_10px_20px_rgba(212,175,55,0.2)] relative z-10 mt-auto hover:scale-[1.02]">
-                Contact Foundation
-              </Link>
             </motion.div>
 
             {/* Tier 3: Institutional */}
@@ -306,31 +331,43 @@ export default function Membership() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="bg-white/[0.02] p-10 md:p-12 rounded-[40px] border border-white/10 hover:bg-white/[0.04] hover:border-brand-gold/30 transition-all duration-500 relative flex flex-col h-full group backdrop-blur-sm"
+              className="bg-white/[0.02] rounded-[40px] border border-white/10 hover:bg-white/[0.04] hover:border-brand-gold/30 transition-all duration-500 relative flex flex-col h-full group backdrop-blur-sm overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-gold/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-              <div className="w-14 h-14 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-white/80 mb-8 relative z-10 group-hover:text-brand-gold group-hover:scale-110 group-hover:bg-white/10 transition-all duration-500">
-                <Building2 size={24} />
+              {/* Card Image Header */}
+              <div className="relative w-full h-56 md:h-64 overflow-hidden rounded-t-[40px]">
+                <div className="absolute inset-0 bg-brand-ink/40 group-hover:bg-brand-ink/10 transition-colors duration-500 z-10" />
+                <img 
+                  src="https://images.unsplash.com/photo-1571645163064-77faa9676a46?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                  alt="Institutional Membership" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                />
+                <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#11131c] to-transparent z-10" />
+                <div className="absolute top-6 left-6 w-12 h-12 rounded-full bg-black/40 border border-white/20 backdrop-blur-md flex items-center justify-center text-white/80 z-20 group-hover:bg-brand-gold group-hover:text-brand-ink group-hover:border-transparent transition-all duration-500">
+                  <Building2 size={20} />
+                </div>
               </div>
-              <h3 className="text-2xl font-serif text-white mb-3 relative z-10">Institutional</h3>
-              <p className="text-white/50 font-light text-sm mb-8 h-12 relative z-10">For companies, universities, embassies, NGOs, and organizations.</p>
-              <div className="mb-10 relative z-10">
-                <span className="text-5xl font-serif text-brand-gold">Custom</span>
+
+              <div className="p-8 md:p-10 flex flex-col flex-grow bg-[#11131c]">
+                <h3 className="text-2xl font-serif text-white mb-3 relative z-10">Institutional</h3>
+                <p className="text-white/50 font-light text-sm mb-8 h-12 relative z-10">For companies, universities, embassies, NGOs, and organizations.</p>
+                <div className="mb-10 relative z-10">
+                  <span className="text-5xl font-serif text-brand-gold">Custom</span>
+                </div>
+                
+                <div className="h-[1px] w-full bg-gradient-to-r from-white/10 to-transparent mb-8" />
+                
+                <div className="space-y-4 mb-auto relative z-10 pb-10">
+                  {['Up to 5 delegate memberships', 'Logo placement as partner', 'Co-hosting opportunities', 'B2B/B2G matchmaking support', 'Premium directory profile'].map((benefit, i) => (
+                    <div key={i} className="flex gap-4 items-start">
+                      <CheckCircle2 size={18} className="text-brand-gold/70 shrink-0 mt-0.5" />
+                      <span className="text-white/70 font-light text-sm">{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+                <Link to="/contact" className="w-full flex items-center justify-center py-5 rounded-full border border-white/20 text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
+                  Contact Foundation
+                </Link>
               </div>
-              
-              <div className="h-[1px] w-full bg-gradient-to-r from-white/10 to-transparent mb-8" />
-              
-              <div className="space-y-4 mb-auto relative z-10 pb-10">
-                {['Up to 5 delegate memberships', 'Logo placement as partner', 'Co-hosting opportunities', 'B2B/B2G matchmaking support', 'Premium directory profile'].map((benefit, i) => (
-                  <div key={i} className="flex gap-4 items-start">
-                    <CheckCircle2 size={18} className="text-brand-gold/70 shrink-0 mt-0.5" />
-                    <span className="text-white/70 font-light text-sm">{benefit}</span>
-                  </div>
-                ))}
-              </div>
-              <Link to="/contact" className="w-full flex items-center justify-center py-5 rounded-full border border-white/20 text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
-                Contact Foundation
-              </Link>
             </motion.div>
           </div>
         </div>
