@@ -443,75 +443,64 @@ export default function Home() {
                   >
                     <button
                       onClick={() => setActiveMembershipIndex(isActive ? null : i)}
-                      className="w-full text-left py-8 md:py-10 px-0 flex items-center justify-between focus:outline-none"
+                      className="w-full text-left py-6 md:py-10 px-0 flex items-center justify-between focus:outline-none"
                     >
                       <div className="flex items-center">
                         <span className={cn(
-                          "text-[10px] md:text-xs font-light tracking-[0.3em] transition-colors duration-500 shrink-0 mr-6 md:mr-10",
+                          "text-[10px] md:text-xs font-light tracking-[0.3em] transition-colors duration-200 shrink-0 mr-4 md:mr-10",
                           isActive ? "text-brand-gold" : "text-white/20 group-hover:text-white/40"
                         )}>
                           0{i + 1}
                         </span>
                         <h3 className={cn(
-                          "text-2xl md:text-4xl font-serif tracking-wide transition-all duration-500",
+                          "text-xl md:text-4xl font-serif tracking-wide transition-all duration-200",
                           isActive ? "text-white drop-shadow-md" : "text-white/30 group-hover:text-white/50"
                         )}>
                           {slide.title}
                         </h3>
                       </div>
                       <div className={cn(
-                        "w-10 h-10 md:w-12 md:h-12 rounded-full border flex items-center justify-center transition-all duration-500 shrink-0",
+                        "w-8 h-8 md:w-12 md:h-12 rounded-full border flex items-center justify-center transition-all duration-200 shrink-0 ml-4",
                         isActive ? "border-brand-gold/40 bg-brand-gold/10" : "border-white/10 group-hover:border-white/30 group-hover:bg-white/5"
                       )}>
-                        <motion.div
-                          animate={{ rotate: isActive ? 90 : 0 }}
-                          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                        >
+                        <div className={cn("transition-transform duration-300", isActive ? "rotate-90" : "rotate-0")}>
                           <ArrowRight size={16} className={cn(
-                            "transition-colors duration-500",
+                            "transition-colors duration-200",
                             isActive ? "text-brand-gold" : "text-white/30 group-hover:text-white/60"
                           )} />
-                        </motion.div>
+                        </div>
                       </div>
                     </button>
-                    <AnimatePresence>
-                      {isActive && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                        >
-                          <div className="pb-10 pl-12 md:pl-[4.5rem]">
-                            <div className="flex flex-col md:flex-row gap-8 md:gap-12 mb-8">
-                              <ul className="space-y-4 flex-1">
-                                {slide.benefits.map((benefit, idx) => (
-                                  <li key={idx} className="flex items-center gap-4">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-brand-gold/60 shrink-0" />
-                                    <span className="text-white/70 font-light text-sm md:text-base">{benefit}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                              <div className="shrink-0 flex items-start">
-                                <Link 
-                                  to="/membership" 
-                                  className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-500 border border-brand-gold/30 hover:bg-brand-gold hover:text-brand-ink text-brand-gold/90"
-                                >
-                                  <span>Explore Benefits</span>
-                                </Link>
-                              </div>
-                            </div>
-                            <div className="w-full h-48 md:h-64 rounded-xl overflow-hidden border border-brand-gold/30 p-1">
-                              <img 
-                                src={slide.image} 
-                                alt={slide.title}
-                                className="w-full h-full object-cover rounded-lg"
-                              />
-                            </div>
+                    {isActive && (
+                      <div className="pb-8 pl-10 md:pl-[4.5rem]">
+                        <div className="flex flex-col md:flex-row gap-6 md:gap-12 mb-6">
+                          <ul className="space-y-3 flex-1">
+                            {slide.benefits.map((benefit, idx) => (
+                              <li key={idx} className="flex items-center gap-3">
+                                <div className="w-1.5 h-1.5 rounded-full bg-brand-gold/60 shrink-0" />
+                                <span className="text-white/70 font-light text-sm md:text-base">{benefit}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          <div className="shrink-0 flex items-start">
+                            <Link 
+                              to="/membership" 
+                              className="inline-flex items-center justify-center gap-3 px-6 py-3 md:px-8 md:py-4 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 border border-brand-gold/30 hover:bg-brand-gold hover:text-brand-ink text-brand-gold/90"
+                            >
+                              <span>Explore Benefits</span>
+                            </Link>
                           </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                        </div>
+                        <div className="w-full h-40 md:h-64 rounded-xl overflow-hidden border border-brand-gold/30 p-1">
+                          <img 
+                            src={slide.image} 
+                            alt={slide.title}
+                            className="w-full h-full object-cover rounded-lg"
+                            loading="lazy"
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 );
               })}
