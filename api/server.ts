@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import nodemailer from "nodemailer";
+import fs from "fs";
+import path from "path";
 
 dotenv.config();
 
@@ -166,6 +168,116 @@ app.post("/api/create-checkout-session", async (req, res) => {
     res.json({ id: session.id, url: session.url });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+const getFirebaseConfig = () => {
+  let firebaseConfig: any = null;
+  try {
+    firebaseConfig = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'firebase-applet-config.json'), 'utf-8'));
+  } catch(e) {}
+  return firebaseConfig;
+};
+
+// Dynamic SSR routes for Vercel
+app.get(['/events/:id', '/news/:id', '/diorama'], async (req, res, next) => {
+  try {
+    const config = getFirebaseConfig();
+    if (!config) return next();
+
+    const isEvent = req.path.startsWith('/events/');
+    const isNews = req.path.startsWith('/news/');
+    const isDiorama = req.path.startsWith('/diorama');
+    
+    let title = "";
+    let desc = "";
+    let image = "";
+
+    const databaseId = config.firestoreDatabaseId || "(default)";
+
+    if (isEvent) {
+      const docId = req.params.id;
+      const response = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/${databaseId}/documents/events/${docId}`);
+      if (response.ok) {
+        const data = await response.json();
+        const fields = data.fields;
+        if (fields) {
+          title = fields.title?.stringValue || "";
+          desc = fields.description?.stringValue || "";
+          image = fields.imageUrl?.stringValue || "";
+        }
+      }
+    } else if (isNews) {
+      const docId = req.params.id;
+      const queryBody = {
+        structuredQuery: {
+          from: [{ collectionId: "posts" }],
+          where: {
+            fieldFilter: {
+              field: { fieldPath: "slug" },
+              op: "EQUAL",
+              value: { stringValue: docId }
+            }
+          },
+          limit: 1
+        }
+      };
+      const response = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/${databaseId}/documents:runQuery`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(queryBody)
+      });
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.length > 0 && data[0].document) {
+          const fields = data[0].document.fields;
+          if (fields) {
+            title = fields.title?.stringValue || "";
+            desc = fields.excerpt?.stringValue || "";
+            image = fields.imageUrl?.stringValue || fields.image?.stringValue || "";
+          }
+        }
+      }
+    } else if (isDiorama) {
+       title = "Mongolian Center - Gobi Desert Runner";
+       desc = "Play our interactive Gobi Desert infinite runner game and compete for the highest score on the leaderboard!";
+       image = "https://images.unsplash.com/photo-1542642596-f3310061e888?q=80&w=1170&auto=format&fit=crop";
+    }
+
+    // On Vercel, the dist folder should contain index.html, but if it doesn't work we fallback to catching the original html via fetch. Check dist index.html first.
+    let html = "";
+    try {
+      html = fs.readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf-8');
+    } catch(e) {
+      try {
+         html = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf-8');
+      } catch(e2) {
+         return next();
+      }
+    }
+
+    if (title) {
+      html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
+      html = html.replace(/<meta\s+(?:property|name)="og:title"\s+content="[^"]*"[^>]*>/g, `<meta property="og:title" content="${title}" />`);
+      html = html.replace(/<meta\s+(?:property|name)="twitter:title"\s+content="[^"]*"[^>]*>/g, `<meta name="twitter:title" content="${title}" />`);
+    }
+    if (desc) {
+      html = html.replace(/<meta\s+(?:property|name)="og:description"\s+content="[^"]*"[^>]*>/g, `<meta property="og:description" content="${desc}" />`);
+      html = html.replace(/<meta\s+(?:property|name)="twitter:description"\s+content="[^"]*"[^>]*>/g, `<meta name="twitter:description" content="${desc}" />`);
+    }
+    if (image) {
+      html = html.replace(/<meta\s+(?:property|name)="og:image"\s+content="[^"]*"[^>]*>/g, `<meta property="og:image" content="${image}" />`);
+      html = html.replace(/<meta\s+(?:property|name)="twitter:image"\s+content="[^"]*"[^>]*>/g, `<meta name="twitter:image" content="${image}" />`);
+    }
+
+    const fullUrl = `https://mongoliancenter.org${req.originalUrl}`;
+    html = html.replace(/<meta\s+(?:property|name)="og:url"\s+content="[^"]*"[^>]*>/g, `<meta property="og:url" content="${fullUrl}" />`);
+    html = html.replace(/<meta\s+(?:property|name)="twitter:url"\s+content="[^"]*"[^>]*>/g, `<meta name="twitter:url" content="${fullUrl}" />`);
+
+    res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+  } catch (e) {
+    console.error("SSR metadata error:", e);
+    next();
   }
 });
 

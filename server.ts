@@ -372,13 +372,14 @@ async function startServer() {
   };
 
   // Dynamic SSR routes for social crawlers
-  app.get(['/events/:id', '/news/:id'], async (req, res, next) => {
+  app.get(['/events/:id', '/news/:id', '/diorama'], async (req, res, next) => {
     try {
       const config = getFirebaseConfig();
       if (!config) return next();
 
       const isEvent = req.path.startsWith('/events/');
-      const docId = req.params.id;
+      const isNews = req.path.startsWith('/news/');
+      const isDiorama = req.path.startsWith('/diorama');
       
       let title = "";
       let desc = "";
@@ -387,6 +388,7 @@ async function startServer() {
       const databaseId = config.firestoreDatabaseId || "(default)";
 
       if (isEvent) {
+        const docId = req.params.id;
         // Fetch event by ID
         const response = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/${databaseId}/documents/events/${docId}`);
         if (response.ok) {
@@ -398,7 +400,8 @@ async function startServer() {
             image = fields.imageUrl?.stringValue || "";
           }
         }
-      } else {
+      } else if (isNews) {
+        const docId = req.params.id;
         // Fetch news/post by slug using runQuery
         const queryBody = {
           structuredQuery: {
@@ -430,6 +433,10 @@ async function startServer() {
             }
           }
         }
+      } else if (isDiorama) {
+         title = "Mongolian Center - Gobi Desert Runner";
+         desc = "Play our interactive Gobi Desert infinite runner game and compete for the highest score on the leaderboard!";
+         image = "https://images.unsplash.com/photo-1542642596-f3310061e888?q=80&w=1170&auto=format&fit=crop";
       }
 
       let html = await readIndexHtml(req);

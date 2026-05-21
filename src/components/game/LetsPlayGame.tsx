@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Sky, Environment, BakeShadows, Sparkles } from '@react-three/drei';
 import * as THREE from 'three';
-import { ChevronLeft, ChevronUp, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronUp, ChevronRight, Check, Link as LinkIcon, Facebook, Twitter, Linkedin } from 'lucide-react';
 import { db, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } from '../../firebase';
 
 // 1. Types & Constants
@@ -527,6 +527,7 @@ export default function LetsPlayGame() {
   const [playerName, setPlayerName] = useState('');
   const [leaderboard, setLeaderboard] = useState<{name: string, score: number}[]>([]);
   const [hasSubmittedScore, setHasSubmittedScore] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -552,6 +553,33 @@ export default function LetsPlayGame() {
        window.dispatchEvent(new Event('game-ended'));
     };
   }, []);
+
+  const shareUrl = "https://mongoliancenter.org" + window.location.pathname;
+  const shareTitle = "I just scored " + score + " points in the Mongolian Center Steppe Runner game! Can you beat it?";
+
+  const handleShare = (platform: string) => {
+    let url = "";
+    switch (platform) {
+      case "facebook":
+        url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+        break;
+      case "twitter":
+        url = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareTitle)}`;
+        break;
+      case "linkedin":
+        url = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(shareTitle)}`;
+        break;
+    }
+    if (url) {
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+  };
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(shareUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const saveScore = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -710,6 +738,41 @@ export default function LetsPlayGame() {
                 >
                   Play Again
                 </button>
+
+                {/* Share snippet */}
+                <div className="flex flex-col gap-4 mt-8 pt-8 border-t border-brand-gold/20 pointer-events-auto">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-brand-gold/60">Share Score</span>
+                  <div className="flex gap-2 justify-center">
+                    <button
+                      onClick={() => handleShare("facebook")}
+                      className="w-10 h-10 rounded-full border border-brand-gold/20 flex items-center justify-center text-brand-gold/80 hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-colors"
+                      aria-label="Share Facebook"
+                    >
+                      <Facebook size={16} />
+                    </button>
+                    <button
+                      onClick={() => handleShare("twitter")}
+                      className="w-10 h-10 rounded-full border border-brand-gold/20 flex items-center justify-center text-brand-gold/80 hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2] transition-colors"
+                      aria-label="Share Twitter"
+                    >
+                      <Twitter size={16} />
+                    </button>
+                    <button
+                      onClick={() => handleShare("linkedin")}
+                      className="w-10 h-10 rounded-full border border-brand-gold/20 flex items-center justify-center text-brand-gold/80 hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-colors"
+                      aria-label="Share LinkedIn"
+                    >
+                      <Linkedin size={16} />
+                    </button>
+                    <button
+                      onClick={handleCopyLink}
+                      className="w-10 h-10 rounded-full border border-brand-gold/20 flex items-center justify-center text-brand-gold/80 hover:bg-brand-gold hover:text-brand-ink hover:border-brand-gold transition-colors"
+                      aria-label="Copy Link"
+                    >
+                      {copied ? <Check size={16} /> : <LinkIcon size={16} />}
+                    </button>
+                  </div>
+                </div>
              </div>
 
              {/* Leaderboard panel */}

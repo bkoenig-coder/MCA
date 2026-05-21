@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { db, doc, getDoc, OperationType, handleFirestoreError, signInWithGoogle, addDoc, collection, serverTimestamp, writeBatch, increment } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
-import { Calendar, MapPin, Clock, ArrowLeft, CheckCircle2, Loader2, AlertCircle, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Calendar, MapPin, Clock, ArrowLeft, CheckCircle2, Loader2, AlertCircle, X, ChevronLeft, ChevronRight, Check, Facebook, Twitter, Linkedin, Link as LinkIcon } from 'lucide-react';
 import { UlziiSymbol, SoyomboSymbol, ArcherSymbol, MongolianLine } from '../components/MongolianDesign';
 import { useTranslation } from 'react-i18next';
 
@@ -20,6 +20,7 @@ export default function EventDetails() {
   const [isRegisteringFree, setIsRegisteringFree] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -177,6 +178,33 @@ export default function EventDetails() {
     titleStart = titleParts.join(' ');
   }
 
+  const shareUrl = "https://mongoliancenter.org" + window.location.pathname;
+  const shareTitle = dTitle;
+
+  const handleShare = (platform: string) => {
+    let url = "";
+    switch (platform) {
+      case "facebook":
+        url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+        break;
+      case "twitter":
+        url = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareTitle)}`;
+        break;
+      case "linkedin":
+        url = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(shareTitle)}`;
+        break;
+    }
+    if (url) {
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+  };
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(shareUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <div className="pt-24 md:pt-32 pb-16 md:pb-20 px-6 relative overflow-hidden bg-brand-paper">
       {/* Background Graphic */}
@@ -324,12 +352,81 @@ export default function EventDetails() {
                  </div>
               </div>
 
+               {/* Share snippet */}
+               <div className="flex flex-col gap-4 px-2 mt-8 mb-4 border-t border-brand-ink/10 pt-8">
+                 <span className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/50">Share Event</span>
+                 <div className="flex gap-2">
+                   <button
+                     onClick={() => handleShare("facebook")}
+                     className="w-10 h-10 rounded-full border border-brand-ink/10 flex items-center justify-center hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-colors"
+                     aria-label="Share Facebook"
+                   >
+                     <Facebook size={16} />
+                   </button>
+                   <button
+                     onClick={() => handleShare("twitter")}
+                     className="w-10 h-10 rounded-full border border-brand-ink/10 flex items-center justify-center hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2] transition-colors"
+                     aria-label="Share Twitter"
+                   >
+                     <Twitter size={16} />
+                   </button>
+                   <button
+                     onClick={() => handleShare("linkedin")}
+                     className="w-10 h-10 rounded-full border border-brand-ink/10 flex items-center justify-center hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-colors"
+                     aria-label="Share LinkedIn"
+                   >
+                     <Linkedin size={16} />
+                   </button>
+                   <button
+                     onClick={handleCopyLink}
+                     className="w-10 h-10 rounded-full border border-brand-ink/10 flex items-center justify-center hover:bg-brand-ink hover:text-white hover:border-brand-ink transition-colors"
+                     aria-label="Copy Link"
+                   >
+                     {copied ? <Check size={16} /> : <LinkIcon size={16} />}
+                   </button>
+                 </div>
+               </div>
+
             </aside>
 
             {/* Content */}
             <div className="prose prose-lg md:prose-xl w-full max-w-none text-brand-ink/90 font-light leading-[1.8] prose-p:mb-8 prose-strong:font-medium prose-strong:text-brand-ink overflow-hidden">
                {/* Mobile Registration Sticky */}
               <div className="block lg:hidden w-full mb-10 pb-10 border-b border-brand-ink/10"></div> 
+
+              {/* Mobile Share Snippet */}
+              <div className="flex lg:hidden items-center justify-between border-b border-brand-ink/10 pb-10 mb-10">
+                <span className="text-[10px] uppercase tracking-widest font-bold text-brand-ink/50">
+                  Share Event
+                </span>
+                <div className="flex gap-2">
+                  <button
+                     onClick={() => handleShare("facebook")}
+                     className="w-8 h-8 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/50 hover:bg-[#1877F2] hover:text-white transition-colors"
+                  >
+                    <Facebook size={14} />
+                  </button>
+                  <button
+                     onClick={() => handleShare("twitter")}
+                     className="w-8 h-8 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/50 hover:bg-[#1DA1F2] hover:text-white transition-colors"
+                  >
+                    <Twitter size={14} />
+                  </button>
+                  <button
+                     onClick={() => handleShare("linkedin")}
+                     className="w-8 h-8 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/50 hover:bg-[#0A66C2] hover:text-white transition-colors"
+                  >
+                    <Linkedin size={14} />
+                  </button>
+                  <button
+                     onClick={handleCopyLink}
+                     className="w-8 h-8 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/50 hover:bg-brand-ink hover:text-white transition-colors"
+                     aria-label="Copy Link"
+                  >
+                    {copied ? <Check size={14} /> : <LinkIcon size={14} />}
+                  </button>
+                </div>
+              </div>
 
               {/* Description rendering */}
               {dDesc.split('\n').map((paragraph: string, idx: number) => {
