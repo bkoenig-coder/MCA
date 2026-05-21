@@ -554,8 +554,10 @@ export default function LetsPlayGame() {
     };
   }, []);
 
-  const shareUrl = "https://mongoliancenter.org" + window.location.pathname;
-  const shareTitle = "I just scored " + score + " points in the Mongolian Center Steppe Runner game! Can you beat it?";
+  const shareUrl = "https://mongoliancenter.org" + window.location.pathname + (score > 0 ? `?score=${score}` : "");
+  const shareTitle = score > 0 
+    ? `I just scored ${score} points in the Mongolian Center Steppe Runner game! Can you beat it?`
+    : `Play the Mongolian Center Steppe Runner game!`;
 
   const handleShare = (platform: string) => {
     let url = "";

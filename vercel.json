@@ -9,6 +9,10 @@
       "destination": "/api/server?ssrPath=/events/$1"
     },
     {
+      "source": "/news",
+      "destination": "/api/server?ssrPath=/news"
+    },
+    {
       "source": "/news/(.*)",
       "destination": "/api/server?ssrPath=/news/$1"
     },

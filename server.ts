@@ -378,13 +378,13 @@ async function startServer() {
   };
 
   // Dynamic SSR routes for social crawlers
-  app.get(['/events/:id', '/news/:id', '/diorama'], async (req, res, next) => {
+  app.get(['/events/:id', '/news/:id', '/news', '/diorama'], async (req, res, next) => {
     try {
       const config = getFirebaseConfig();
       if (!config) return next();
 
       const isEvent = req.path.startsWith('/events/');
-      const isNews = req.path.startsWith('/news/');
+      const isNews = req.path.startsWith('/news');
       const isDiorama = req.path.startsWith('/diorama');
       
       let title = "";
@@ -408,40 +408,78 @@ async function startServer() {
         }
       } else if (isNews) {
         const docId = req.params.id;
-        // Fetch news/post by slug using runQuery
-        const queryBody = {
-          structuredQuery: {
-            from: [{ collectionId: "posts" }],
-            where: {
-              fieldFilter: {
-                field: { fieldPath: "slug" },
-                op: "EQUAL",
-                value: { stringValue: docId }
-              }
-            },
-            limit: 1
-          }
-        };
-        const response = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/${databaseId}/documents:runQuery`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(queryBody)
-        });
-        if (response.ok) {
-          const data = await response.json();
-          // runQuery returns [{document: ...}, ...]
-          if (data && data.length > 0 && data[0].document) {
-            const fields = data[0].document.fields;
-            if (fields) {
-              title = fields.title?.stringValue || "";
-              desc = fields.excerpt?.stringValue || "";
-              image = fields.imageUrl?.stringValue || fields.image?.stringValue || "";
+        
+        if (!docId) {
+          // Just the /news section
+          title = "News & Updates | Mongolian Center in Vienna";
+          desc = "Stay up to date with the latest news, announcements, and cultural events from the Mongolian Center in Vienna.";
+        } else {
+          // Fetch news/post by slug using runQuery
+          const queryBody = {
+            structuredQuery: {
+              from: [{ collectionId: "posts" }],
+              where: {
+                fieldFilter: {
+                  field: { fieldPath: "slug" },
+                  op: "EQUAL",
+                  value: { stringValue: docId }
+                }
+              },
+              limit: 1
             }
+          };
+          
+          let found = false;
+          try {
+            const response = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/${databaseId}/documents:runQuery`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(queryBody)
+            });
+            if (response.ok) {
+              const data = await response.json();
+              // runQuery returns [{document: ...}, ...]
+              if (data && data.length > 0 && data[0].document) {
+                const fields = data[0].document.fields;
+                if (fields) {
+                  title = fields.title?.stringValue || fields.titleEn?.stringValue || "";
+                  desc = fields.content?.stringValue || fields.excerpt?.stringValue || "";
+                  image = fields.imageUrl?.stringValue || fields.image?.stringValue || "";
+                  
+                  if (desc.length > 200) desc = desc.substring(0, 197) + '...';
+                  found = true;
+                }
+              }
+            }
+          } catch(e) {}
+          
+          if (!found) {
+            // Fallback to fetch by ID
+            try {
+              const fallbackResponse = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/${databaseId}/documents/posts/${docId}`);
+              if (fallbackResponse.ok) {
+                const fallbackData = await fallbackResponse.json();
+                const fields = fallbackData.fields;
+                if (fields) {
+                  title = fields.title?.stringValue || fields.titleEn?.stringValue || "";
+                  desc = fields.content?.stringValue || fields.excerpt?.stringValue || "";
+                  image = fields.imageUrl?.stringValue || "";
+                  
+                  if (desc.length > 200) desc = desc.substring(0, 197) + '...';
+                }
+              }
+            } catch(e) {}
           }
         }
       } else if (isDiorama) {
-         title = "Mongolian Center - Gobi Desert Runner";
-         desc = "Play our interactive Gobi Desert infinite runner game and compete for the highest score on the leaderboard!";
+         const score = req.query?.score;
+         if (score) {
+           title = `I just scored ${score} points in the Gobi Desert Runner!`;
+           desc = "Can you beat my score? Play our interactive Gobi Desert infinite runner game!";
+         } else {
+           title = "Mongolian Center - Gobi Desert Runner";
+           desc = "Play our interactive Gobi Desert infinite runner game and compete for the highest score on the leaderboard!";
+         }
          image = "https://images.unsplash.com/photo-1542642596-f3310061e888?q=80&w=1170&auto=format&fit=crop";
       }
 

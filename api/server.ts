@@ -201,6 +201,8 @@ app.get('*', async (req, res, next) => {
     const isEvent = checkPath.startsWith('/events/');
     const isNews = checkPath.startsWith('/news/');
     const isDiorama = checkPath.startsWith('/diorama');
+    
+    console.log("DEBUG SSR:", { path: req.path, query: req.query, checkPath, isDiorama });
 
     if (!isEvent && !isNews && !isDiorama) {
       if (req.path.startsWith('/api/')) return next();
@@ -249,38 +251,79 @@ app.get('*', async (req, res, next) => {
       }
     } else if (isNews) {
       const docId = checkPath.split('/')[2];
-      const queryBody = {
-        structuredQuery: {
-          from: [{ collectionId: "posts" }],
-          where: {
-            fieldFilter: {
-              field: { fieldPath: "slug" },
-              op: "EQUAL",
-              value: { stringValue: docId }
-            }
-          },
-          limit: 1
-        }
-      };
-      const response = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/${databaseId}/documents:runQuery`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(queryBody)
-      });
-      if (response.ok) {
-        const data = await response.json();
-        if (data && data.length > 0 && data[0].document) {
-          const fields = data[0].document.fields;
-          if (fields) {
-            title = fields.title?.stringValue || "";
-            desc = fields.excerpt?.stringValue || "";
-            image = fields.imageUrl?.stringValue || fields.image?.stringValue || "";
+      
+      if (!docId) {
+        // Just the /news section
+        title = "News & Updates | Mongolian Center in Vienna";
+        desc = "Stay up to date with the latest news, announcements, and cultural events from the Mongolian Center in Vienna.";
+      } else {
+        // First try by slug
+        const queryBody = {
+          structuredQuery: {
+            from: [{ collectionId: "posts" }],
+            where: {
+              fieldFilter: {
+                field: { fieldPath: "slug" },
+                op: "EQUAL",
+                value: { stringValue: docId }
+              }
+            },
+            limit: 1
           }
+        };
+        
+        let found = false;
+        try {
+          const response = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/${databaseId}/documents:runQuery`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(queryBody)
+          });
+          
+          if (response.ok) {
+            const data = await response.json();
+            if (data && data.length > 0 && data[0].document) {
+              const fields = data[0].document.fields;
+              if (fields) {
+                title = fields.title?.stringValue || fields.titleEn?.stringValue || "";
+                desc = fields.content?.stringValue || fields.contentEn?.stringValue || "";
+                image = fields.imageUrl?.stringValue || "";
+                
+                // Truncate desc if too long
+                if (desc.length > 200) desc = desc.substring(0, 197) + '...';
+                found = true;
+              }
+            }
+          }
+        } catch(e) {}
+        
+        if (!found) {
+          // Fallback to fetch by document ID
+          try {
+            const fallbackResponse = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/${databaseId}/documents/posts/${docId}`);
+            if (fallbackResponse.ok) {
+              const fallbackData = await fallbackResponse.json();
+              const fields = fallbackData.fields;
+              if (fields) {
+                title = fields.title?.stringValue || fields.titleEn?.stringValue || "";
+                desc = fields.content?.stringValue || fields.contentEn?.stringValue || "";
+                image = fields.imageUrl?.stringValue || "";
+                
+                if (desc.length > 200) desc = desc.substring(0, 197) + '...';
+              }
+            }
+          } catch(e) {}
         }
       }
     } else if (isDiorama) {
-       title = "Mongolian Center - Gobi Desert Runner";
-       desc = "Play our interactive Gobi Desert infinite runner game and compete for the highest score on the leaderboard!";
+       const score = req.query?.score;
+       if (score) {
+         title = `I just scored ${score} points in the Gobi Desert Runner!`;
+         desc = "Can you beat my score? Play our interactive Gobi Desert infinite runner game!";
+       } else {
+         title = "Mongolian Center - Gobi Desert Runner";
+         desc = "Play our interactive Gobi Desert infinite runner game and compete for the highest score on the leaderboard!";
+       }
        image = "https://images.unsplash.com/photo-1542642596-f3310061e888?q=80&w=1170&auto=format&fit=crop";
     }
 
@@ -298,7 +341,10 @@ app.get('*', async (req, res, next) => {
       html = html.replace(/<meta\s+(?:property|name)="twitter:image"\s+content="[^"]*"[^>]*>/g, `<meta name="twitter:image" content="${image}" />`);
     }
 
-    const fullUrl = `https://mongoliancenter.org${checkPath}`;
+    let fullUrl = `https://mongoliancenter.org${checkPath}`;
+    if (req.query?.score) {
+      fullUrl += `?score=${req.query.score}`;
+    }
     html = html.replace(/<meta\s+(?:property|name)="og:url"\s+content="[^"]*"[^>]*>/g, `<meta property="og:url" content="${fullUrl}" />`);
     html = html.replace(/<meta\s+(?:property|name)="twitter:url"\s+content="[^"]*"[^>]*>/g, `<meta name="twitter:url" content="${fullUrl}" />`);
 
