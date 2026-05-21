@@ -202,10 +202,11 @@ app.get('*', async (req, res, next) => {
     const isNews = checkPath.startsWith('/news/');
     const isGallery = checkPath.startsWith('/gallery');
     const isDiorama = checkPath.startsWith('/diorama');
+    const hasScore = !!req.query.score;
     
-    console.log("DEBUG SSR:", { path: req.path, query: req.query, checkPath, isDiorama });
+    console.log("DEBUG SSR:", { path: req.path, query: req.query, checkPath, isDiorama, hasScore });
 
-    if (!isEvent && !isNews && !isGallery && !isDiorama) {
+    if (!isEvent && !isNews && !isGallery && !isDiorama && !hasScore) {
       if (req.path.startsWith('/api/')) return next();
       return next();
     }
@@ -351,14 +352,14 @@ app.get('*', async (req, res, next) => {
            desc = "Check out this beautiful artwork from our digital gallery.";
         }
       }
-    } else if (isDiorama) {
+    } else if (isDiorama || hasScore) {
        const score = req.query?.score;
        if (score) {
-         title = `I just scored ${score} points in the Gobi Desert Runner!`;
-         desc = "Can you beat my score? Play our interactive Gobi Desert infinite runner game!";
+         title = `I just scored ${score} points in the Mongolian Center Steppe Runner!`;
+         desc = "Can you beat my score? Play our cultural endless runner, collect artifacts and explore the infinite Mongolian steppe.";
        } else {
-         title = "Mongolian Center - Gobi Desert Runner";
-         desc = "Play our interactive Gobi Desert infinite runner game and compete for the highest score on the leaderboard!";
+         title = "Mongolian Center - Steppe Runner Game";
+         desc = "Play our culturally immersive endless runner game, collect artifacts and compete for the highest score on the leaderboard!";
        }
        image = "https://images.unsplash.com/photo-1542642596-f3310061e888?q=80&w=1170&auto=format&fit=crop";
     }

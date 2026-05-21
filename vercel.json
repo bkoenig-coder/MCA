@@ -10,6 +10,16 @@
       "destination": "/api/server"
     },
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "score"
+        }
+      ],
+      "destination": "/api/server?ssrPath=/"
+    },
+    {
       "source": "/events/(.*)",
       "destination": "/api/server?ssrPath=/events/$1"
     },

@@ -528,6 +528,7 @@ export default function LetsPlayGame() {
   const [leaderboard, setLeaderboard] = useState<{name: string, score: number}[]>([]);
   const [hasSubmittedScore, setHasSubmittedScore] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [challengeScore, setChallengeScore] = useState<number | null>(null);
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -535,6 +536,16 @@ export default function LetsPlayGame() {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
+
+    // Read score query parameter to establish challenge
+    const params = new URLSearchParams(window.location.search);
+    const scoreParam = params.get('score');
+    if (scoreParam) {
+      const parsed = parseInt(scoreParam, 10);
+      if (!isNaN(parsed) && parsed > 0) {
+        setChallengeScore(parsed);
+      }
+    }
     
     // Subscribe to Firebase leaderboard
     const q = query(collection(db, 'game_scores'), orderBy('score', 'desc'), limit(15));
@@ -690,6 +701,11 @@ export default function LetsPlayGame() {
         {gameState === 'START' && (
           <div className="absolute inset-0 bg-brand-ink/60 backdrop-blur-sm flex flex-col items-center justify-center z-10 text-center pointer-events-none">
             <h2 className="text-5xl font-serif text-brand-gold mb-4 italic">Steppe Runner</h2>
+            {challengeScore !== null && (
+              <div className="bg-brand-gold/20 border border-brand-gold/50 text-brand-gold px-6 py-2.5 rounded-2xl mb-4 animate-pulse text-sm font-semibold flex items-center gap-2 max-w-sm pointer-events-auto shadow-[0_0_15px_rgba(212,175,55,0.2)]">
+                🏆 CHALLENGE: Beat the score of {challengeScore}!
+              </div>
+            )}
             <p className="text-white/80 mb-8 max-w-md px-4">Collect cultural artifacts. Avoid obstacles. Experience the endless Mongolian steppe.</p>
             <div className="flex gap-6 mb-12 text-white/60 hidden md:flex">
               <div className="flex flex-col items-center"><span className="text-xl mb-2 text-white font-mono">A / D / ← / →</span><span>Move</span></div>
@@ -730,7 +746,13 @@ export default function LetsPlayGame() {
                    </form>
                 ) : (
                    <div className="mb-8 text-brand-gold/80 italic font-serif">
-                     {score > 0 ? "Score saved to the chronicles." : "A valiant effort. Try again."}
+                     {score > 0 && challengeScore !== null ? (
+                       score >= challengeScore 
+                         ? `🏆 Magnificent! You beat the challenge of ${challengeScore}! Chronicles saved.`
+                         : `A noble try, but you couldn't defeat the ${challengeScore} challenge. Try again!`
+                     ) : (
+                       score > 0 ? "Score saved to the chronicles." : "A valiant effort. Try again."
+                     )}
                    </div>
                 )}
 
