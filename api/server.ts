@@ -228,10 +228,6 @@ app.get('*', async (req, res, next) => {
     if (!config) {
       return res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
     }
-
-    const isEvent = req.path.startsWith('/events/');
-    const isNews = req.path.startsWith('/news/');
-    const isDiorama = req.path.startsWith('/diorama');
     
     let title = "";
     let desc = "";

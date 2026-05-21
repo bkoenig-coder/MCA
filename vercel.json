@@ -1,9 +1,4 @@
 {
-  "functions": {
-    "api/**/*": {
-      "includeFiles": "{dist/index.html,firebase-applet-config.json,index.html}"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",
