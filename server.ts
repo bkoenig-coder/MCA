@@ -384,9 +384,11 @@ async function startServer() {
       let desc = "";
       let image = "";
 
+      const databaseId = config.firestoreDatabaseId || "(default)";
+
       if (isEvent) {
         // Fetch event by ID
-        const response = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/(default)/documents/events/${docId}`);
+        const response = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/${databaseId}/documents/events/${docId}`);
         if (response.ok) {
           const data = await response.json();
           const fields = data.fields;
@@ -411,7 +413,7 @@ async function startServer() {
             limit: 1
           }
         };
-        const response = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/(default)/documents:runQuery`, {
+        const response = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/${databaseId}/documents:runQuery`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(queryBody)
@@ -424,7 +426,7 @@ async function startServer() {
             if (fields) {
               title = fields.title?.stringValue || "";
               desc = fields.excerpt?.stringValue || "";
-              image = fields.image?.stringValue || "";
+              image = fields.imageUrl?.stringValue || fields.image?.stringValue || "";
             }
           }
         }
@@ -435,17 +437,22 @@ async function startServer() {
       if (title) {
         // Update both standard title and OG tags
         html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
-        html = html.replace(/<meta\s+property="og:title"\s+content="[^"]*"/g, `<meta property="og:title" content="${title}"`);
-        html = html.replace(/<meta\s+property="twitter:title"\s+content="[^"]*"/g, `<meta property="twitter:title" content="${title}"`);
+        html = html.replace(/<meta\s+(?:property|name)="og:title"\s+content="[^"]*"[^>]*>/g, `<meta property="og:title" content="${title}" />`);
+        html = html.replace(/<meta\s+(?:property|name)="twitter:title"\s+content="[^"]*"[^>]*>/g, `<meta name="twitter:title" content="${title}" />`);
       }
       if (desc) {
-        html = html.replace(/<meta\s+property="og:description"\s+content="[^"]*"/g, `<meta property="og:description" content="${desc}"`);
-        html = html.replace(/<meta\s+property="twitter:description"\s+content="[^"]*"/g, `<meta property="twitter:description" content="${desc}"`);
+        html = html.replace(/<meta\s+(?:property|name)="og:description"\s+content="[^"]*"[^>]*>/g, `<meta property="og:description" content="${desc}" />`);
+        html = html.replace(/<meta\s+(?:property|name)="twitter:description"\s+content="[^"]*"[^>]*>/g, `<meta name="twitter:description" content="${desc}" />`);
       }
       if (image) {
-        html = html.replace(/<meta\s+property="og:image"\s+content="[^"]*"/g, `<meta property="og:image" content="${image}"`);
-        html = html.replace(/<meta\s+property="twitter:image"\s+content="[^"]*"/g, `<meta property="twitter:image" content="${image}"`);
+        html = html.replace(/<meta\s+(?:property|name)="og:image"\s+content="[^"]*"[^>]*>/g, `<meta property="og:image" content="${image}" />`);
+        html = html.replace(/<meta\s+(?:property|name)="twitter:image"\s+content="[^"]*"[^>]*>/g, `<meta name="twitter:image" content="${image}" />`);
       }
+
+      // Automatically replace og:url and twitter:url
+      const fullUrl = `https://mongoliancenter.org${req.originalUrl}`;
+      html = html.replace(/<meta\s+(?:property|name)="og:url"\s+content="[^"]*"[^>]*>/g, `<meta property="og:url" content="${fullUrl}" />`);
+      html = html.replace(/<meta\s+(?:property|name)="twitter:url"\s+content="[^"]*"[^>]*>/g, `<meta name="twitter:url" content="${fullUrl}" />`);
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
     } catch (e) {
