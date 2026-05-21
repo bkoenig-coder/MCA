@@ -20,7 +20,27 @@ export default function AIAssistant() {
     { role: 'model', text: INITIAL_MESSAGE }
   ]);
   const [isTyping, setIsTyping] = useState(false);
+  const [isGamePlaying, setIsGamePlaying] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    const handleGameStart = () => setIsGamePlaying(true);
+    const handleGameEnd = () => setIsGamePlaying(false);
+
+    window.addEventListener('game-started', handleGameStart);
+    window.addEventListener('game-ended', handleGameEnd);
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('game-started', handleGameStart);
+      window.removeEventListener('game-ended', handleGameEnd);
+    };
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -65,6 +85,10 @@ export default function AIAssistant() {
       return <span key={i} className="whitespace-pre-wrap">{part}</span>;
     });
   };
+
+  if (isMobile && isGamePlaying) {
+    return null;
+  }
 
   return (
     <div className="font-[Arial]">

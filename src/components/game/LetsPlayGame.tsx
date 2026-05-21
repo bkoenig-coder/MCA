@@ -332,6 +332,9 @@ const GameLoop = ({
   const [objects, setObjects] = useState<GameObject[]>([]);
   const speedRef = useRef(OBSTACLE_SPEED);
   
+  const jumpRequested = useRef(false);
+  const moveRequested = useRef<'left' | 'right' | null>(null);
+
   const playerZ = 0; // Player fixed Z
   
   // Controls
@@ -347,19 +350,19 @@ const GameLoop = ({
 
       if (gameState !== 'PLAYING') return;
       
-      if ((e.code === 'ArrowLeft' || e.code === 'KeyA') && lane > -MAX_LANES) setLane(l => l - 1);
-      if ((e.code === 'ArrowRight' || e.code === 'KeyD') && lane < MAX_LANES) setLane(l => l + 1);
-      if ((e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'KeyW') && yPos === 0) {
-        setYVel(JUMP_FORCE);
+      if (e.code === 'ArrowLeft' || e.code === 'KeyA') moveRequested.current = 'left';
+      if (e.code === 'ArrowRight' || e.code === 'KeyD') moveRequested.current = 'right';
+      if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'KeyW') {
+        jumpRequested.current = true;
       }
     };
 
     const handleCustomAction = (e: Event) => {
       const action = (e as CustomEvent).detail?.action;
       if (gameState !== 'PLAYING') return;
-      if (action === 'left' && lane > -MAX_LANES) setLane(l => l - 1);
-      if (action === 'right' && lane < MAX_LANES) setLane(l => l + 1);
-      if (action === 'jump' && yPos === 0) setYVel(JUMP_FORCE);
+      if (action === 'left') moveRequested.current = 'left';
+      if (action === 'right') moveRequested.current = 'right';
+      if (action === 'jump') jumpRequested.current = true;
     };
 
     // We get the element by ID we will define below to add the event listener to avoid global scroll blocking
@@ -375,15 +378,25 @@ const GameLoop = ({
       }
       window.removeEventListener('game-action', handleCustomAction);
     };
-  }, [lane, yPos, gameState, setGameState, setScore]);
+  }, [gameState]);
 
     // Game tick
     useFrame((state, delta) => {
       if (gameState !== 'PLAYING') return;
   
+      if (moveRequested.current === 'left' && lane > -MAX_LANES) setLane(l => l - 1);
+      if (moveRequested.current === 'right' && lane < MAX_LANES) setLane(l => l + 1);
+      moveRequested.current = null;
+
+      let currentYVel = yVel;
+      if (jumpRequested.current && yPos === 0) {
+        currentYVel = JUMP_FORCE;
+      }
+      jumpRequested.current = false;
+
       // Physics
-      let nextY = yPos + yVel * delta;
-      let nextYVel = yVel + GRAVITY * delta;
+      let nextY = yPos + currentYVel * delta;
+      let nextYVel = currentYVel + GRAVITY * delta;
       if (nextY <= 0) {
         nextY = 0;
         nextYVel = 0;
@@ -471,6 +484,7 @@ const GameLoop = ({
 
     if (collision) {
       setGameState('GAMEOVER');
+      window.dispatchEvent(new Event('game-ended'));
     }
   });
 
@@ -535,6 +549,7 @@ export default function LetsPlayGame() {
     return () => {
        window.removeEventListener('resize', checkMobile);
        unsubscribe();
+       window.dispatchEvent(new Event('game-ended'));
     };
   }, []);
 
@@ -569,6 +584,7 @@ export default function LetsPlayGame() {
     setGameState('PLAYING');
     setHasSubmittedScore(false);
     setPlayerName('');
+    window.dispatchEvent(new Event('game-started'));
     document.getElementById('lets-play-game-container')?.focus();
   };
 
@@ -578,7 +594,11 @@ export default function LetsPlayGame() {
       tabIndex={0} 
       className="relative w-full h-[600px] bg-brand-ink rounded-[40px] overflow-hidden my-12 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-brand-gold/20 outline-none focus:ring-4 focus:ring-brand-gold/50 cursor-pointer group"
       onClick={(e) => {
-        if (gameState === 'START') startGame(e);
+        if (gameState === 'START') {
+           startGame(e);
+        } else if (gameState === 'PLAYING') {
+           window.dispatchEvent(new CustomEvent('game-action', { detail: { action: 'jump' } }));
+        }
       }}
       onKeyDown={(e) => {
         if (e.code === 'Space' && gameState !== 'PLAYING') {
@@ -642,11 +662,11 @@ export default function LetsPlayGame() {
             <h2 className="text-5xl font-serif text-brand-gold mb-4 italic">Steppe Runner</h2>
             <p className="text-white/80 mb-8 max-w-md px-4">Collect cultural artifacts. Avoid obstacles. Experience the endless Mongolian steppe.</p>
             <div className="flex gap-6 mb-12 text-white/60 hidden md:flex">
-              <div className="flex flex-col items-center"><span className="text-2xl mb-2 text-white font-mono">A / D</span><span>Move</span></div>
-              <div className="flex flex-col items-center"><span className="text-2xl mb-2 text-white font-mono">SPACE</span><span>Jump</span></div>
+              <div className="flex flex-col items-center"><span className="text-xl mb-2 text-white font-mono">A / D / ← / →</span><span>Move</span></div>
+              <div className="flex flex-col items-center"><span className="text-xl mb-2 text-white font-mono">SPACE / ↑ / CLICK</span><span>Jump</span></div>
             </div>
             <div className="md:hidden text-white/60 mb-12 px-8 text-sm">
-              Use the on-screen buttons to steer and jump.
+              Use the on-screen buttons or tap screen to jump.
             </div>
             <button 
               onClick={startGame}
