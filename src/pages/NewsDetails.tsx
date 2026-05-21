@@ -108,7 +108,7 @@ export default function NewsDetails() {
         ? post.contentDe || post.content
         : post.contentEn || post.content;
 
-  const shareUrl = "https://mongoliancenter.org" + window.location.pathname;
+  const shareUrl = "https://mongoliancenter.org" + window.location.pathname + "?v=new";
   const shareTitle = dTitle;
 
   const handleShare = (platform: string) => {
