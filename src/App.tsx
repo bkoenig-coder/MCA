@@ -11,7 +11,6 @@ import AIAssistant from './components/AIAssistant';
 import CarpetIntro from './components/CarpetIntro';
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Loader2 } from 'lucide-react';
-import Lenis from 'lenis';
 
 import Home from './pages/Home';
 import About from './pages/About';
@@ -54,28 +53,11 @@ function ScrollToTop() {
   return null;
 }
 
-function SmoothScroll() {
-  useEffect(() => {
-    const lenis = new Lenis({
-      autoRaf: true,
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
-    });
-
-    return () => {
-      lenis.destroy();
-    };
-  }, []);
-  
-  return null;
-}
-
 export default function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
         <Router>
-          <SmoothScroll />
           <Toaster position="top-center" richColors />
           <AnalyticsTracker />
           <CookieConsent />

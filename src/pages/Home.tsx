@@ -531,13 +531,13 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 relative">
           <div 
             ref={newsScrollRef}
-            className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 hide-scrollbar"
+            className="flex gap-6 overflow-x-auto pb-8 hide-scrollbar"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {news.map((item, index) => (
               <motion.div 
                 key={item.id} 
-                className="min-w-[85vw] md:min-w-[350px] snap-center shrink-0"
+                className="min-w-[85vw] md:min-w-[350px] shrink-0"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
@@ -609,13 +609,13 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 relative">
           <div 
             ref={galleryScrollRef}
-            className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 hide-scrollbar"
+            className="flex gap-6 overflow-x-auto pb-8 hide-scrollbar"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {gallery.map((item, index) => (
               <motion.div 
                 key={item.id} 
-                className="min-w-[85vw] md:min-w-[350px] snap-center shrink-0"
+                className="min-w-[85vw] md:min-w-[350px] shrink-0"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
@@ -690,7 +690,7 @@ export default function Home() {
             <div className="relative">
               <div 
                 ref={eventsScrollRef}
-                className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 hide-scrollbar -mt-[30px] md:-mt-[20px]"
+                className="flex gap-6 overflow-x-auto pb-8 hide-scrollbar -mt-[30px] md:-mt-[20px]"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
                 {events.map((event, index) => {
@@ -703,7 +703,7 @@ export default function Home() {
                   return (
                   <motion.div 
                     key={event.id} 
-                    className="min-w-[85vw] md:min-w-[350px] snap-center shrink-0"
+                    className="min-w-[85vw] md:min-w-[350px] shrink-0"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
