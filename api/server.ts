@@ -200,11 +200,12 @@ app.get('*', async (req, res, next) => {
     const checkPath = (req.query.ssrPath as string) || req.path;
     const isEvent = checkPath.startsWith('/events/');
     const isNews = checkPath.startsWith('/news/');
+    const isGallery = checkPath.startsWith('/gallery');
     const isDiorama = checkPath.startsWith('/diorama');
     
     console.log("DEBUG SSR:", { path: req.path, query: req.query, checkPath, isDiorama });
 
-    if (!isEvent && !isNews && !isDiorama) {
+    if (!isEvent && !isNews && !isGallery && !isDiorama) {
       if (req.path.startsWith('/api/')) return next();
       return next();
     }
@@ -310,9 +311,44 @@ app.get('*', async (req, res, next) => {
                 image = fields.imageUrl?.stringValue || "";
                 
                 if (desc.length > 200) desc = desc.substring(0, 197) + '...';
+                found = true;
               }
             }
           } catch(e) {}
+        }
+        
+        if (!found) {
+           title = "News & Updates | Mongolian Center in Vienna";
+           desc = "Stay up to date with the latest news, announcements, and cultural events.";
+        }
+      }
+    } else if (isGallery) {
+      const docId = checkPath.split('/')[2];
+      
+      if (!docId) {
+        title = "Virtual Gallery | Mongolian Center in Vienna";
+        desc = "Explore our digital art gallery featuring works from Mongolian artists and cultural exhibitions.";
+      } else {
+        let foundGallery = false;
+        try {
+          const fallbackResponse = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/${databaseId}/documents/gallery/${docId}`);
+          if (fallbackResponse.ok) {
+            const fallbackData = await fallbackResponse.json();
+            const fields = fallbackData.fields;
+            if (fields) {
+              title = fields.title?.stringValue || fields.titleEn?.stringValue || "Gallery Artwork";
+              desc = fields.description?.stringValue || fields.descriptionEn?.stringValue || "";
+              image = fields.imageUrl?.stringValue || "";
+              
+              if (desc.length > 200) desc = desc.substring(0, 197) + '...';
+              foundGallery = true;
+            }
+          }
+        } catch(e) {}
+        
+        if (!foundGallery) {
+           title = "Gallery Artwork | Mongolian Center in Vienna";
+           desc = "Check out this beautiful artwork from our digital gallery.";
         }
       }
     } else if (isDiorama) {

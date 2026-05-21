@@ -17,6 +17,14 @@
       "destination": "/api/server?ssrPath=/news/$1"
     },
     {
+      "source": "/gallery",
+      "destination": "/api/server?ssrPath=/gallery"
+    },
+    {
+      "source": "/gallery/(.*)",
+      "destination": "/api/server?ssrPath=/gallery/$1"
+    },
+    {
       "source": "/diorama",
       "destination": "/api/server?ssrPath=/diorama"
     },
