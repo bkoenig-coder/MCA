@@ -96,7 +96,7 @@ export default function CarpetIntro() {
             <div className="absolute top-0 left-0 w-full h-[200%]">
               {carpetBg}
               <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
-                <div className="flex flex-col items-center -translate-y-24 md:-translate-y-36">
+                <div className="flex flex-col items-center -translate-y-36 md:-translate-y-56">
                   <SoyomboSymbol className="w-32 h-48 md:w-64 md:h-80 text-brand-gold mb-16 opacity-90 drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]" />
                   <span className="text-sm md:text-lg uppercase tracking-[0.6em] md:tracking-[0.8em] text-brand-gold/80 font-medium">Welcome To</span>
                 </div>
@@ -129,7 +129,7 @@ export default function CarpetIntro() {
             <div className="absolute bottom-0 left-0 w-full h-[200%]">
               {carpetBg}
               <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
-                <div className="flex flex-col items-center translate-y-16 md:translate-y-24">
+                <div className="flex flex-col items-center translate-y-32 md:translate-y-48">
                   <h1 className="flex flex-col items-center justify-center text-center font-serif leading-[1.1]">
                     <span className="text-4xl sm:text-6xl md:text-8xl lg:text-[100px] text-white font-light tracking-[0.15em] md:tracking-[0.2em] drop-shadow-xl mb-4">MONGOLIAN</span>
                     <span className="text-3xl sm:text-4xl md:text-6xl lg:text-[70px] text-brand-gold italic font-light tracking-[0.2em] md:tracking-[0.3em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)] pr-4">CENTER</span>
