@@ -1,6 +1,7 @@
 import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
+import fs from "fs";
 import Stripe from "stripe";
 import dotenv from "dotenv";
 import helmet from "helmet";
@@ -28,6 +29,15 @@ function getStripe() {
 async function startServer() {
   const app = express();
   const PORT = 3000;
+
+  // Set up Vite server in dev mode first to allow transformIndexHtml
+  let vite: any = null;
+  if (process.env.NODE_ENV !== "production") {
+    vite = await createViteServer({
+      server: { middlewareMode: true },
+      appType: "spa",
+    });
+  }
 
   // Trust proxy for correct IP detection behind load balancers/proxies
   app.set('trust proxy', 1);
@@ -340,12 +350,112 @@ async function startServer() {
     }
   });
 
+  // Helpers to read index.html
+  const readIndexHtml = async (req: express.Request) => {
+    const isProd = process.env.NODE_ENV === "production";
+    let template = "";
+    if (isProd) {
+      template = fs.readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf-8');
+    } else {
+      template = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf-8');
+      template = await vite.transformIndexHtml(req.url, template);
+    }
+    return template;
+  };
+
+  const getFirebaseConfig = () => {
+    let firebaseConfig: any = null;
+    try {
+      firebaseConfig = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'firebase-applet-config.json'), 'utf-8'));
+    } catch(e) {}
+    return firebaseConfig;
+  };
+
+  // Dynamic SSR routes for social crawlers
+  app.get(['/events/:id', '/news/:id'], async (req, res, next) => {
+    try {
+      const config = getFirebaseConfig();
+      if (!config) return next();
+
+      const isEvent = req.path.startsWith('/events/');
+      const docId = req.params.id;
+      
+      let title = "";
+      let desc = "";
+      let image = "";
+
+      if (isEvent) {
+        // Fetch event by ID
+        const response = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/(default)/documents/events/${docId}`);
+        if (response.ok) {
+          const data = await response.json();
+          const fields = data.fields;
+          if (fields) {
+            title = fields.title?.stringValue || "";
+            desc = fields.description?.stringValue || "";
+            image = fields.imageUrl?.stringValue || "";
+          }
+        }
+      } else {
+        // Fetch news/post by slug using runQuery
+        const queryBody = {
+          structuredQuery: {
+            from: [{ collectionId: "posts" }],
+            where: {
+              fieldFilter: {
+                field: { fieldPath: "slug" },
+                op: "EQUAL",
+                value: { stringValue: docId }
+              }
+            },
+            limit: 1
+          }
+        };
+        const response = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/(default)/documents:runQuery`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(queryBody)
+        });
+        if (response.ok) {
+          const data = await response.json();
+          // runQuery returns [{document: ...}, ...]
+          if (data && data.length > 0 && data[0].document) {
+            const fields = data[0].document.fields;
+            if (fields) {
+              title = fields.title?.stringValue || "";
+              desc = fields.excerpt?.stringValue || "";
+              image = fields.image?.stringValue || "";
+            }
+          }
+        }
+      }
+
+      let html = await readIndexHtml(req);
+
+      if (title) {
+        // Update both standard title and OG tags
+        html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
+        html = html.replace(/<meta\s+property="og:title"\s+content="[^"]*"/g, `<meta property="og:title" content="${title}"`);
+        html = html.replace(/<meta\s+property="twitter:title"\s+content="[^"]*"/g, `<meta property="twitter:title" content="${title}"`);
+      }
+      if (desc) {
+        html = html.replace(/<meta\s+property="og:description"\s+content="[^"]*"/g, `<meta property="og:description" content="${desc}"`);
+        html = html.replace(/<meta\s+property="twitter:description"\s+content="[^"]*"/g, `<meta property="twitter:description" content="${desc}"`);
+      }
+      if (image) {
+        html = html.replace(/<meta\s+property="og:image"\s+content="[^"]*"/g, `<meta property="og:image" content="${image}"`);
+        html = html.replace(/<meta\s+property="twitter:image"\s+content="[^"]*"/g, `<meta property="twitter:image" content="${image}"`);
+      }
+
+      res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+    } catch (e) {
+      console.error("SSR metadata error:", e);
+      next(); // fallback to normal SPA serving
+    }
+  });
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), 'dist');
