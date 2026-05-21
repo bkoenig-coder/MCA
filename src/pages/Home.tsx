@@ -360,6 +360,7 @@ export default function Home() {
                   { name: 'Deutschothek Sprachschule', src: deutschotekLogo, url: 'https://deutschothek.com/' },
                   { name: 'Verein für aktiv Leben und Bildung', src: euActiveLogo, url: 'https://www.euactive.org/' },
                   { name: 'Verein der mongolischen StudentInnen in Österreich', src: amoxLogo, url: 'https://www.facebook.com/MongolianStudentAssociationInAustria' },
+                  { name: 'Gmax Mongolischer Kinder-und Jugendverein', src: '/gmax logo.jpg', url: 'https://www.facebook.com/monjugendat' },
                   { name: 'Become a partner.', src: mcaLogo, url: '/contact' },
                 ].map((partner, idx) => (
                   <a 
