@@ -13,32 +13,32 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Loader2 } from 'lucide-react';
 import Lenis from 'lenis';
 
-const Home = lazy(() => import('./pages/Home'));
-const About = lazy(() => import('./pages/About'));
-const Events = lazy(() => import('./pages/Events'));
-const Gallery = lazy(() => import('./pages/Gallery'));
-const Impact = lazy(() => import('./pages/Impact'));
-const Contact = lazy(() => import('./pages/Contact'));
-const News = lazy(() => import('./pages/News'));
-const NewsDetails = lazy(() => import('./pages/NewsDetails'));
-const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
-const TermsOfService = lazy(() => import('./pages/TermsOfService'));
-const Imprint = lazy(() => import('./pages/Imprint'));
-const Governance = lazy(() => import('./pages/Governance'));
-const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
-const EventDetails = lazy(() => import('./pages/EventDetails'));
-const GalleryDetails = lazy(() => import('./pages/GalleryDetails'));
-const Profile = lazy(() => import('./pages/Profile'));
-const EasterEgg = lazy(() => import('./pages/EasterEgg'));
-const TeamMember = lazy(() => import('./pages/TeamMember'));
-const InitiativeDetails = lazy(() => import('./pages/InitiativeDetails'));
-const Membership = lazy(() => import('./pages/Membership'));
-const MembersDirectory = lazy(() => import('./pages/MembersDirectory'));
-const NotFound = lazy(() => import('./pages/NotFound'));
+import Home from './pages/Home';
+import About from './pages/About';
+import Events from './pages/Events';
+import Gallery from './pages/Gallery';
+import Impact from './pages/Impact';
+import Contact from './pages/Contact';
+import News from './pages/News';
+import NewsDetails from './pages/NewsDetails';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import Imprint from './pages/Imprint';
+import Governance from './pages/Governance';
+import AdminDashboard from './pages/AdminDashboard';
+import EventDetails from './pages/EventDetails';
+import GalleryDetails from './pages/GalleryDetails';
+import Profile from './pages/Profile';
+import EasterEgg from './pages/EasterEgg';
+import TeamMember from './pages/TeamMember';
+import InitiativeDetails from './pages/InitiativeDetails';
+import Membership from './pages/Membership';
+import MembersDirectory from './pages/MembersDirectory';
+import NotFound from './pages/NotFound';
 
-const ApplyStudent = lazy(() => import('./pages/ApplyStudent'));
-const ApplyProfessional = lazy(() => import('./pages/ApplyProfessional'));
-const ApplyInstitutional = lazy(() => import('./pages/ApplyInstitutional'));
+import ApplyStudent from './pages/ApplyStudent';
+import ApplyProfessional from './pages/ApplyProfessional';
+import ApplyInstitutional from './pages/ApplyInstitutional';
 
 const PageLoader = () => (
   <div className="flex min-h-screen bg-transparent">
@@ -84,35 +84,33 @@ export default function App() {
             <ScrollToTop />
             <Navbar />
             <main className="flex-grow">
-              <Suspense fallback={<PageLoader />}>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/events" element={<Events />} />
-                  <Route path="/events/:id" element={<EventDetails />} />
-                  <Route path="/news" element={<News />} />
-                  <Route path="/news/:id" element={<NewsDetails />} />
-                  <Route path="/gallery" element={<Gallery />} />
-                  <Route path="/gallery/:id" element={<GalleryDetails />} />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/impact" element={<Impact />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/membership" element={<Membership />} />
-                  <Route path="/membership/apply-student" element={<ApplyStudent />} />
-                  <Route path="/membership/apply-professional" element={<ApplyProfessional />} />
-                  <Route path="/membership/apply-institutional" element={<ApplyInstitutional />} />
-                  <Route path="/members" element={<MembersDirectory />} />
-                  <Route path="/privacy" element={<PrivacyPolicy />} />
-                  <Route path="/terms" element={<TermsOfService />} />
-                  <Route path="/imprint" element={<Imprint />} />
-                  <Route path="/governance" element={<Governance />} />
-                  <Route path="/admin" element={<AdminDashboard />} />
-                  <Route path="/team/:id" element={<TeamMember />} />
-                  <Route path="/initiative/:id" element={<InitiativeDetails />} />
-                  <Route path="/diorama" element={<EasterEgg />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/events" element={<Events />} />
+                <Route path="/events/:id" element={<EventDetails />} />
+                <Route path="/news" element={<News />} />
+                <Route path="/news/:id" element={<NewsDetails />} />
+                <Route path="/gallery" element={<Gallery />} />
+                <Route path="/gallery/:id" element={<GalleryDetails />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/impact" element={<Impact />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/membership" element={<Membership />} />
+                <Route path="/membership/apply-student" element={<ApplyStudent />} />
+                <Route path="/membership/apply-professional" element={<ApplyProfessional />} />
+                <Route path="/membership/apply-institutional" element={<ApplyInstitutional />} />
+                <Route path="/members" element={<MembersDirectory />} />
+                <Route path="/privacy" element={<PrivacyPolicy />} />
+                <Route path="/terms" element={<TermsOfService />} />
+                <Route path="/imprint" element={<Imprint />} />
+                <Route path="/governance" element={<Governance />} />
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/team/:id" element={<TeamMember />} />
+                <Route path="/initiative/:id" element={<InitiativeDetails />} />
+                <Route path="/diorama" element={<EasterEgg />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
             </main>
             <Footer />
             <AIAssistant />

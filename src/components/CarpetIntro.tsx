@@ -69,16 +69,11 @@ export default function CarpetIntro() {
             {/* The duplicated absolute contents structure handles the top half */}
             <div className="absolute top-0 left-0 w-full h-[200%]">
               {carpetBg}
-            </div>
-
-            <div className="absolute top-0 left-0 w-full h-[200%] flex flex-col items-center justify-center px-4 -translate-y-8 md:-translate-y-12">
-              <div className="flex flex-col items-center">
-                <SoyomboSymbol className="w-10 h-16 md:w-16 md:h-24 text-brand-gold mb-6 opacity-80" />
-                <span className="text-xs md:text-sm uppercase tracking-[0.6em] md:tracking-[0.8em] text-brand-gold/80 font-medium mb-4">Welcome To</span>
-                <h1 className="flex flex-col items-center justify-center text-center font-serif leading-[1.1]">
-                  <span className="text-4xl sm:text-6xl md:text-8xl lg:text-[100px] text-white font-light tracking-[0.15em] md:tracking-[0.2em] drop-shadow-xl">MONGOLIAN</span>
-                  <span className="text-3xl sm:text-4xl md:text-6xl lg:text-[70px] text-brand-gold italic font-light tracking-[0.2em] md:tracking-[0.3em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)] mt-2 md:mt-4 pr-4">CENTER</span>
-                </h1>
+              <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
+                <div className="flex flex-col items-center -translate-y-10 md:-translate-y-14">
+                  <SoyomboSymbol className="w-10 h-16 md:w-16 md:h-24 text-brand-gold mb-6 opacity-80" />
+                  <span className="text-xs md:text-sm uppercase tracking-[0.6em] md:tracking-[0.8em] text-brand-gold/80 font-medium">Welcome To</span>
+                </div>
               </div>
             </div>
 
@@ -107,16 +102,13 @@ export default function CarpetIntro() {
             {/* The duplicated absolute contents structure handles the bottom half */}
             <div className="absolute bottom-0 left-0 w-full h-[200%]">
               {carpetBg}
-            </div>
-            
-            <div className="absolute bottom-0 left-0 w-full h-[200%] flex flex-col items-center justify-center px-4 translate-y-8 md:translate-y-12">
-              <div className="flex flex-col items-center">
-                <SoyomboSymbol className="w-10 h-16 md:w-16 md:h-24 text-brand-gold mb-6 opacity-80" />
-                <span className="text-xs md:text-sm uppercase tracking-[0.6em] md:tracking-[0.8em] text-brand-gold/80 font-medium mb-4">Welcome To</span>
-                <h1 className="flex flex-col items-center justify-center text-center font-serif leading-[1.1]">
-                  <span className="text-4xl sm:text-6xl md:text-8xl lg:text-[100px] text-white font-light tracking-[0.15em] md:tracking-[0.2em] drop-shadow-xl">MONGOLIAN</span>
-                  <span className="text-3xl sm:text-4xl md:text-6xl lg:text-[70px] text-brand-gold italic font-light tracking-[0.2em] md:tracking-[0.3em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)] mt-2 md:mt-4 pr-4">CENTER</span>
-                </h1>
+              <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
+                <div className="flex flex-col items-center translate-y-10 md:translate-y-14">
+                  <h1 className="flex flex-col items-center justify-center text-center font-serif leading-[1.1]">
+                    <span className="text-4xl sm:text-6xl md:text-8xl lg:text-[100px] text-white font-light tracking-[0.15em] md:tracking-[0.2em] drop-shadow-xl">MONGOLIAN</span>
+                    <span className="text-3xl sm:text-4xl md:text-6xl lg:text-[70px] text-brand-gold italic font-light tracking-[0.2em] md:tracking-[0.3em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)] mt-2 md:mt-4 pr-4">CENTER</span>
+                  </h1>
+                </div>
               </div>
             </div>
 

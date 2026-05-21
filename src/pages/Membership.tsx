@@ -256,8 +256,8 @@ export default function Membership() {
                   </div>
                 ))}
               </div>
-              <Link to="/membership/apply-student" className="w-full flex items-center justify-center py-5 rounded-full border border-white/20 text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
-                Apply Now
+              <Link to="/contact" className="w-full flex items-center justify-center py-5 rounded-full border border-white/20 text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
+                Contact Foundation
               </Link>
             </motion.div>
 
@@ -298,8 +298,8 @@ export default function Membership() {
                   </div>
                 ))}
               </div>
-              <Link to="/membership/apply-professional" className="w-full flex items-center justify-center py-5 rounded-full bg-gradient-to-r from-brand-gold to-amber-500 text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] transition-all duration-500 shadow-[0_10px_20px_rgba(212,175,55,0.2)] relative z-10 mt-auto hover:scale-[1.02]">
-                Apply as Professional
+              <Link to="/contact" className="w-full flex items-center justify-center py-5 rounded-full bg-gradient-to-r from-brand-gold to-amber-500 text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] transition-all duration-500 shadow-[0_10px_20px_rgba(212,175,55,0.2)] relative z-10 mt-auto hover:scale-[1.02]">
+                Contact Foundation
               </Link>
             </motion.div>
 
@@ -331,7 +331,7 @@ export default function Membership() {
                   </div>
                 ))}
               </div>
-              <Link to="/membership/apply-institutional" className="w-full flex items-center justify-center py-5 rounded-full border border-white/20 text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
+              <Link to="/contact" className="w-full flex items-center justify-center py-5 rounded-full border border-white/20 text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
                 Contact Foundation
               </Link>
             </motion.div>
