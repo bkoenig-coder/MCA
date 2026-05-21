@@ -18,11 +18,37 @@ export default function CarpetIntro() {
   // Carpet texture overlaid on deep rich carmine red
   const carpetBg = (
     <>
-      <div className="absolute inset-0 bg-gradient-to-b from-[#5c0e0e] to-[#3a0606]" />
-      <div className="absolute inset-0 opacity-30 mix-blend-multiply bg-[url('https://www.transparenttextures.com/patterns/woven-light.png')]" />
+      {/* Base realistic carpet red */}
+      <div className="absolute inset-0 bg-[#8c0808]" /> 
+      
+      {/* Concentric circles pattern mimicking the uploaded pattern */}
+      <div 
+        className="absolute inset-0 mix-blend-color-dodge opacity-[0.15]" 
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='4' opacity='0.7'%3E%3Ccircle cx='30' cy='30' r='6'/%3E%3Ccircle cx='30' cy='30' r='16'/%3E%3Ccircle cx='30' cy='30' r='26'/%3E%3Ccircle cx='90' cy='30' r='6'/%3E%3Ccircle cx='90' cy='30' r='16'/%3E%3Ccircle cx='90' cy='30' r='26'/%3E%3Ccircle cx='30' cy='90' r='6'/%3E%3Ccircle cx='30' cy='90' r='16'/%3E%3Ccircle cx='30' cy='90' r='26'/%3E%3Ccircle cx='90' cy='90' r='6'/%3E%3Ccircle cx='90' cy='90' r='16'/%3E%3Ccircle cx='90' cy='90' r='26'/%3E%3Ccircle cx='60' cy='60' r='8'/%3E%3Ccircle cx='60' cy='60' r='20'/%3E%3Ccircle cx='60' cy='60' r='32'/%3E%3Ccircle cx='60' cy='0' r='8'/%3E%3Ccircle cx='60' cy='0' r='20'/%3E%3Ccircle cx='60' cy='0' r='32'/%3E%3Ccircle cx='60' cy='120' r='8'/%3E%3Ccircle cx='60' cy='120' r='20'/%3E%3Ccircle cx='60' cy='120' r='32'/%3E%3Ccircle cx='0' cy='60' r='8'/%3E%3Ccircle cx='0' cy='60' r='20'/%3E%3Ccircle cx='0' cy='60' r='32'/%3E%3Ccircle cx='120' cy='60' r='8'/%3E%3Ccircle cx='120' cy='60' r='20'/%3E%3Ccircle cx='120' cy='60' r='32'/%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundSize: '100px 100px'
+        }}
+      />
+      
+      <div 
+        className="absolute inset-0 opacity-[0.25] mix-blend-multiply" 
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23000000' stroke-width='4' opacity='0.7'%3E%3Ccircle cx='30' cy='30' r='6'/%3E%3Ccircle cx='30' cy='30' r='16'/%3E%3Ccircle cx='30' cy='30' r='26'/%3E%3Ccircle cx='90' cy='30' r='6'/%3E%3Ccircle cx='90' cy='30' r='16'/%3E%3Ccircle cx='90' cy='30' r='26'/%3E%3Ccircle cx='30' cy='90' r='6'/%3E%3Ccircle cx='30' cy='90' r='16'/%3E%3Ccircle cx='30' cy='90' r='26'/%3E%3Ccircle cx='90' cy='90' r='6'/%3E%3Ccircle cx='90' cy='90' r='16'/%3E%3Ccircle cx='90' cy='90' r='26'/%3E%3Ccircle cx='60' cy='60' r='8'/%3E%3Ccircle cx='60' cy='60' r='20'/%3E%3Ccircle cx='60' cy='60' r='32'/%3E%3Ccircle cx='60' cy='0' r='8'/%3E%3Ccircle cx='60' cy='0' r='20'/%3E%3Ccircle cx='60' cy='0' r='32'/%3E%3Ccircle cx='60' cy='120' r='8'/%3E%3Ccircle cx='60' cy='120' r='20'/%3E%3Ccircle cx='60' cy='120' r='32'/%3E%3Ccircle cx='0' cy='60' r='8'/%3E%3Ccircle cx='0' cy='60' r='20'/%3E%3Ccircle cx='0' cy='60' r='32'/%3E%3Ccircle cx='120' cy='60' r='8'/%3E%3Ccircle cx='120' cy='60' r='20'/%3E%3Ccircle cx='120' cy='60' r='32'/%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundSize: '100px 100px'
+        }}
+      />
+
+      {/* Noise for fabric texture */}
+      <div 
+        className="absolute inset-0 opacity-[0.25] mix-blend-overlay pointer-events-none"
+        style={{
+          backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"
+        }}
+      />
+
       {/* Golden border accents */}
-      <div className="absolute inset-x-2 inset-y-2 md:inset-x-6 md:inset-y-6 border-4 border-brand-gold/30 pointer-events-none" />
-      <div className="absolute inset-x-4 inset-y-4 md:inset-x-8 md:inset-y-8 border-[1px] border-brand-gold/40 pointer-events-none" />
+      <div className="absolute inset-x-2 inset-y-2 md:inset-x-6 md:inset-y-6 border-[6px] border-double border-brand-gold/30 pointer-events-none" />
+      <div className="absolute inset-x-5 inset-y-5 md:inset-x-9 md:inset-y-9 border-[1px] border-brand-gold/40 pointer-events-none bg-[#3a0606]/30 mix-blend-multiply" />
       
       {/* Repeating Mongolian corner frames */}
       <div className="absolute top-6 left-6 text-brand-gold/20">
@@ -70,9 +96,9 @@ export default function CarpetIntro() {
             <div className="absolute top-0 left-0 w-full h-[200%]">
               {carpetBg}
               <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
-                <div className="flex flex-col items-center -translate-y-10 md:-translate-y-14">
-                  <SoyomboSymbol className="w-10 h-16 md:w-16 md:h-24 text-brand-gold mb-6 opacity-80" />
-                  <span className="text-xs md:text-sm uppercase tracking-[0.6em] md:tracking-[0.8em] text-brand-gold/80 font-medium">Welcome To</span>
+                <div className="flex flex-col items-center -translate-y-24 md:-translate-y-36">
+                  <SoyomboSymbol className="w-32 h-48 md:w-64 md:h-80 text-brand-gold mb-16 opacity-90 drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]" />
+                  <span className="text-sm md:text-lg uppercase tracking-[0.6em] md:tracking-[0.8em] text-brand-gold/80 font-medium">Welcome To</span>
                 </div>
               </div>
             </div>
@@ -103,10 +129,10 @@ export default function CarpetIntro() {
             <div className="absolute bottom-0 left-0 w-full h-[200%]">
               {carpetBg}
               <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
-                <div className="flex flex-col items-center translate-y-10 md:translate-y-14">
+                <div className="flex flex-col items-center translate-y-16 md:translate-y-24">
                   <h1 className="flex flex-col items-center justify-center text-center font-serif leading-[1.1]">
-                    <span className="text-4xl sm:text-6xl md:text-8xl lg:text-[100px] text-white font-light tracking-[0.15em] md:tracking-[0.2em] drop-shadow-xl">MONGOLIAN</span>
-                    <span className="text-3xl sm:text-4xl md:text-6xl lg:text-[70px] text-brand-gold italic font-light tracking-[0.2em] md:tracking-[0.3em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)] mt-2 md:mt-4 pr-4">CENTER</span>
+                    <span className="text-4xl sm:text-6xl md:text-8xl lg:text-[100px] text-white font-light tracking-[0.15em] md:tracking-[0.2em] drop-shadow-xl mb-4">MONGOLIAN</span>
+                    <span className="text-3xl sm:text-4xl md:text-6xl lg:text-[70px] text-brand-gold italic font-light tracking-[0.2em] md:tracking-[0.3em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)] pr-4">CENTER</span>
                   </h1>
                 </div>
               </div>

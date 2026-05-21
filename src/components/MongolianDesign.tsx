@@ -1,11 +1,14 @@
 import React from 'react';
 
 export const UlziiSymbol = ({ className = "w-12 h-12", color = "currentColor" }) => (
-  <svg viewBox="0 0 100 100" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M50 5L95 50L50 95L5 50L50 5Z" stroke={color} strokeWidth="2" />
-    <path d="M50 20L80 50L50 80L20 50L50 20Z" stroke={color} strokeWidth="2" />
-    <path d="M50 35L65 50L50 65L35 50L50 35Z" stroke={color} strokeWidth="2" />
-    <path d="M50 5V95M5 50H95" stroke={color} strokeWidth="2" />
+  <svg viewBox="0 0 100 100" className={className} xmlns="http://www.w3.org/2000/svg">
+    <path 
+      d="M50 10 L85 45 L73 57 L50 34 L27 57 L15 45 Z M50 90 L85 55 L73 43 L50 66 L27 43 L15 55 Z M10 50 L22 38 L45 61 L33 73 Z M90 50 L78 38 L55 61 L67 73 Z M42 42 L58 58 M42 58 L58 42" 
+      fill="none" 
+      stroke={color} 
+      strokeWidth="8" 
+      strokeLinejoin="bevel" 
+    />
   </svg>
 );
 
@@ -15,39 +18,49 @@ export const MongolianLine = ({ className = "w-full h-4", color = "currentColor"
   </svg>
 );
 
-export const SoyomboSymbol = ({ className = "w-16 h-24", color = "currentColor" }) => (
+export const NineWhiteBannersSymbol = ({ className = "w-16 h-24", color = "currentColor" }) => (
   <svg viewBox="0 0 200 320" className={className} fill={color} xmlns="http://www.w3.org/2000/svg">
-    {/* Flame */}
-    <path d="M 100 10 Q 115 35 100 55 Q 85 35 100 10 Z" />
-    <path d="M 100 42 Q 116 25 119 28 Q 125 45 105 55 Z" />
-    <path d="M 100 42 Q 84 25 81 28 Q 75 45 95 55 Z" />
+    <defs>
+      <g id="tug-banner">
+        <line x1="0" y1="0" x2="0" y2="240" stroke={color} strokeWidth="4" />
+        {/* Spear Tip */}
+        <path d="M -8 15 L 0 -5 L 8 15 L 3 15 L 3 25 L -3 25 L -3 15 Z" fill={color} />
+        {/* Horse Hair Dome and Skirt */}
+        <path d="M -16 35 Q 0 15 16 35 C 25 70 20 160 12 180 Q 0 195 -12 180 C -20 160 -25 70 -16 35 Z" fill={color} opacity="0.95" />
+        {/* Decorative Binding Rings */}
+        <path d="M -15 45 Q 0 55 15 45" stroke="#ffffff" strokeWidth="1" fill="none" opacity="0.4"/>
+        <path d="M -18 60 Q 0 70 18 60" stroke="#ffffff" strokeWidth="1.5" fill="none" opacity="0.3"/>
+      </g>
+    </defs>
     
-    {/* Sun and Moon */}
-    <circle cx="100" cy="74" r="14" />
-    <path d="M 68 86 Q 100 115 132 86 Q 100 100 68 86 Z" />
+    {/* Render the 9 White Banners from back to front to create a V-shaped or circular depth */}
+    {/* Outer-most Back (Left and Right) */}
+    <use href="#tug-banner" transform="translate(20, 95) scale(0.55)" />
+    <use href="#tug-banner" transform="translate(180, 95) scale(0.55)" />
     
-    {/* Top Triangle */}
-    <polygon points="65,120 135,120 100,144" />
+    {/* Mid-Outer Back */}
+    <use href="#tug-banner" transform="translate(42, 80) scale(0.65)" />
+    <use href="#tug-banner" transform="translate(158, 80) scale(0.65)" />
+
+    {/* Mid-Inner Front */}
+    <use href="#tug-banner" transform="translate(64, 65) scale(0.75)" />
+    <use href="#tug-banner" transform="translate(136, 65) scale(0.75)" />
+
+    {/* Inner Front */}
+    <use href="#tug-banner" transform="translate(85, 45) scale(0.85)" />
+    <use href="#tug-banner" transform="translate(115, 45) scale(0.85)" />
+
+    {/* The Main Center Great Banner */}
+    <use href="#tug-banner" transform="translate(100, 20) scale(1)" />
     
-    {/* Top Horizontal Rectangle */}
-    <rect x="65" y="152" width="70" height="18" />
-    
-    {/* Taijitu (Yin-Yang) */}
-    <circle cx="100" cy="208" r="30" fill="none" stroke={color} strokeWidth="3" />
-    <path fillRule="evenodd" clipRule="evenodd" d="M 70 208 A 30 30 0 0 1 130 208 A 15 15 0 0 1 100 208 A 15 15 0 0 0 70 208 Z M 81 208 A 4 4 0 1 0 89 208 A 4 4 0 1 0 81 208 Z" fill={color} />
-    <circle cx="115" cy="208" r="4" fill={color} />
-    
-    {/* Bottom Horizontal Rectangle */}
-    <rect x="65" y="246" width="70" height="18" />
-    
-    {/* Bottom Triangle */}
-    <polygon points="65,272 135,272 100,296" />
-    
-    {/* Left and Right Pillars */}
-    <rect x="15" y="120" width="35" height="176" />
-    <rect x="150" y="120" width="35" height="176" />
+    {/* Decorative Stone/Metal Stand for the Center Banner */}
+    <path d="M 80 260 Q 100 250 120 260 L 130 275 Q 100 290 70 275 Z" fill={color} opacity="0.8" />
+    <path d="M 70 275 Q 100 290 130 275 L 125 295 Q 100 310 75 295 Z" fill={color} />
   </svg>
 );
+
+// Alias SoyomboSymbol to the new NineWhiteBannersSymbol to prevent breaking existing imports
+export const SoyomboSymbol = NineWhiteBannersSymbol;
 
 export const ArcherSymbol = ({ className = "w-24 h-24", color = "currentColor" }) => (
   <svg viewBox="0 0 100 100" className={className} fill={color} xmlns="http://www.w3.org/2000/svg">
