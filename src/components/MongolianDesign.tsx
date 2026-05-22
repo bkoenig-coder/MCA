@@ -71,3 +71,81 @@ export const ArcherSymbol = ({ className = "w-24 h-24", color = "currentColor" }
     <path d="M60 45L85 45" stroke={color} strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
+
+export const GerSymbol = ({ className = "w-32 h-24", strokeColor = "#d4af37", fillColor = "#fdfbf7" }) => (
+  <svg viewBox="0 0 200 150" className={className} xmlns="http://www.w3.org/2000/svg">
+    {/* Base Shadow */}
+    <ellipse cx="100" cy="120" rx="85" ry="8" fill="rgba(0,0,0,0.4)" />
+    
+    {/* Main Ger structure with solid background to block banners/line patterns behind */}
+    <path 
+      d="M 15 80 Q 55 47 86 35 L 114 35 Q 145 47 185 80 L 180 118 Q 100 123 20 118 Z" 
+      fill={fillColor} 
+      stroke={strokeColor} 
+      strokeWidth="2.5" 
+      strokeLinejoin="round" 
+    />
+    
+    {/* Roof Crown (Toono) */}
+    <g transform="translate(0, 5)">
+      {/* Golden crown circle */}
+      <circle cx="100" cy="30" r="14" fill="#d4af37" stroke={strokeColor} strokeWidth="1.5" />
+      {/* Spokes inside Toono */}
+      <line x1="100" y1="16" x2="100" y2="44" stroke={strokeColor} strokeWidth="1.5" />
+      <line x1="86" y1="30" x2="114" y2="30" stroke={strokeColor} strokeWidth="1.5" />
+      {/* Diagonal spokes */}
+      <line x1="90" y1="20" x2="110" y2="40" stroke={strokeColor} strokeWidth="1" />
+      <line x1="90" y1="40" x2="110" y2="20" stroke={strokeColor} strokeWidth="1" />
+      {/* Inner design circle */}
+      <circle cx="100" cy="30" r="7" fill="none" stroke={strokeColor} strokeWidth="1" />
+    </g>
+
+    {/* Uni (Roof Poles) structure radiating down */}
+    <g opacity="0.85">
+      <line x1="88" y1="36" x2="25" y2="79" stroke={strokeColor} strokeWidth="1.2" />
+      <line x1="92" y1="36" x2="52" y2="80" stroke={strokeColor} strokeWidth="1.2" />
+      <line x1="96" y1="36" x2="78" y2="80" stroke={strokeColor} strokeWidth="1.2" />
+      <line x1="104" y1="36" x2="122" y2="80" stroke={strokeColor} strokeWidth="1.2" />
+      <line x1="108" y1="36" x2="148" y2="80" stroke={strokeColor} strokeWidth="1.2" />
+      <line x1="112" y1="36" x2="175" y2="79" stroke={strokeColor} strokeWidth="1.2" />
+    </g>
+
+    {/* Roof Cover Flap (Urkh) with rope hanging */}
+    <path d="M 92 22 L 108 22 L 118 42 L 82 42 Z" fill="none" stroke={strokeColor} strokeWidth="1.2" />
+    <path d="M 82 42 Q 68 70 54 116" fill="none" stroke={strokeColor} strokeWidth="1" opacity="0.6" strokeDasharray="2,2" />
+
+    {/* Eaves (Horizontal division band) */}
+    <path d="M 15 80 Q 100 83 185 80" fill="none" stroke={strokeColor} strokeWidth="2" />
+    {/* Golden pattern / band lining the eaves */}
+    <path d="M 15 80 Q 100 83 185 80" fill="none" stroke="#d4af37" strokeWidth="1" opacity="0.5" />
+
+    {/* Horizontal bands wrapping walls representing ropes */}
+    <path d="M 17 96 Q 100 99 183 96" fill="none" stroke={strokeColor} strokeWidth="1.5" strokeDasharray="4,3" />
+    <path d="M 19 108 Q 100 111 181 108" fill="none" stroke={strokeColor} strokeWidth="1.5" strokeDasharray="4,3" />
+
+    {/* Beautiful Orange-Red and Gold Door */}
+    <g id="ger-door">
+      {/* Outer Door Golden-Orange Frame */}
+      <rect x="85" y="77" width="30" height="41" fill="#e5c158" stroke={strokeColor} strokeWidth="1.5" rx="1" />
+      {/* Inner Red Fill Panels */}
+      <rect x="88" y="80" width="24" height="35" fill="#a82b13" />
+      {/* Left Door Panel with patterns/gold color */}
+      <rect x="90" y="82" width="9" height="31" fill="#d4af37" stroke={strokeColor} strokeWidth="1" />
+      <line x1="94.5" y1="82" x2="94.5" y2="113" stroke={strokeColor} strokeWidth="0.8" strokeDasharray="2,2" />
+      {/* Right Door Panel with patterns/gold color */}
+      <rect x="101" y="82" width="9" height="31" fill="#d4af37" stroke={strokeColor} strokeWidth="1" />
+      <line x1="105.5" y1="82" x2="105.5" y2="113" stroke={strokeColor} strokeWidth="0.8" strokeDasharray="2,2" />
+      {/* Traditional Door Handles / Knobs */}
+      <circle cx="98" cy="97" r="1.2" fill="#bc341d" />
+      <circle cx="102" cy="97" r="1.2" fill="#bc341d" />
+      
+      {/* Traditional ornament pattern on the door header */}
+      <path d="M 85 77 Q 100 70 115 77" fill="none" stroke={strokeColor} strokeWidth="1.2" />
+      <path d="M 94 72 Q 100 68 106 72" fill="none" stroke="#d4af37" strokeWidth="1" />
+    </g>
+    
+    {/* Some ultra traditional Mongolian cloud pattern (horn pattern) elements on sides for extreme elegance */}
+    <path d="M 35 90 Q 40 85 45 90" fill="none" stroke="#d4af37" strokeWidth="1" opacity="0.6" />
+    <path d="M 165 90 Q 160 85 155 90" fill="none" stroke="#d4af37" strokeWidth="1" opacity="0.6" />
+  </svg>
+);

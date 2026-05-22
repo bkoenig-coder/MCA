@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { UlziiSymbol, SoyomboSymbol, MongolianLine } from './MongolianDesign';
+import { UlziiSymbol, SoyomboSymbol, MongolianLine, GerSymbol } from './MongolianDesign';
 
 export default function CarpetIntro() {
   const [isVisible, setIsVisible] = useState(true);
@@ -97,8 +97,11 @@ export default function CarpetIntro() {
               {carpetBg}
               <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
                 <div className="flex flex-col items-center -translate-y-36 md:-translate-y-56">
-                  <SoyomboSymbol className="w-32 h-48 md:w-64 md:h-80 text-brand-gold mb-16 opacity-90 drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]" />
-                  <span className="text-sm md:text-lg uppercase tracking-[0.6em] md:tracking-[0.8em] text-brand-gold/80 font-medium">Welcome To</span>
+                  <div className="relative flex flex-col items-center justify-center select-none">
+                    <SoyomboSymbol className="w-32 h-48 md:w-64 md:h-80 text-brand-gold opacity-90 drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]" />
+                    <GerSymbol className="absolute -bottom-6 md:-bottom-10 w-28 h-20 md:w-52 md:h-36 drop-shadow-[0_6px_12px_rgba(0,0,0,0.5)]" strokeColor="#d4af37" fillColor="#fdfbf7" />
+                  </div>
+                  <span className="text-sm md:text-lg uppercase tracking-[0.6em] md:tracking-[0.8em] text-brand-gold/80 font-medium mt-10 md:mt-16">Welcome To</span>
                 </div>
               </div>
             </div>
