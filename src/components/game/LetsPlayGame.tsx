@@ -635,6 +635,10 @@ export default function LetsPlayGame() {
       tabIndex={0} 
       className="relative w-full h-[600px] bg-brand-ink rounded-[40px] overflow-hidden my-12 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-brand-gold/20 outline-none focus:ring-4 focus:ring-brand-gold/50 cursor-pointer group"
       onClick={(e) => {
+        // Prevent generic jump/start click when tapping buttons or form inputs
+        if ((e.target as HTMLElement).closest('button') || (e.target as HTMLElement).closest('input') || (e.target as HTMLElement).closest('form')) {
+          return;
+        }
         if (gameState === 'START') {
            startGame(e);
         } else if (gameState === 'PLAYING') {
@@ -680,18 +684,21 @@ export default function LetsPlayGame() {
               <button 
                   className="w-16 h-16 bg-brand-ink/80 backdrop-blur border border-white/20 rounded-full flex items-center justify-center text-white pointer-events-auto active:bg-brand-gold active:text-brand-ink transition-colors shadow-lg"
                   onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); window.dispatchEvent(new CustomEvent('game-action', { detail: { action: 'left' } })); }}
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
               >
                   <ChevronLeft size={32} />
               </button>
               <button 
                   className="w-16 h-16 bg-brand-ink/80 backdrop-blur border border-white/20 rounded-full flex items-center justify-center text-white pointer-events-auto active:bg-brand-gold active:text-brand-ink transition-colors shadow-lg mx-auto"
                   onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); window.dispatchEvent(new CustomEvent('game-action', { detail: { action: 'jump' } })); }}
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
               >
                   <ChevronUp size={32} />
               </button>
               <button 
                   className="w-16 h-16 bg-brand-ink/80 backdrop-blur border border-white/20 rounded-full flex items-center justify-center text-white pointer-events-auto active:bg-brand-gold active:text-brand-ink transition-colors shadow-lg"
                   onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); window.dispatchEvent(new CustomEvent('game-action', { detail: { action: 'right' } })); }}
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
               >
                   <ChevronRight size={32} />
               </button>
