@@ -985,8 +985,8 @@ export default function Home() {
                   </div>
                   <span className="text-[10px] uppercase tracking-[0.2em] font-black text-brand-gold">Community Reach</span>
                 </div>
-                <div className="font-serif text-5xl mb-4 font-bold">5,000+</div>
-                <p className="text-sm text-white/70 font-light leading-relaxed">Lives touched through our cultural and social initiatives in 2024. Your support makes this possible.</p>
+                <div className="font-serif text-5xl mb-4 font-bold">+500</div>
+                <p className="text-sm text-white/70 font-light leading-relaxed">Lives touched through our cultural and social initiatives in 2026. Your support makes this possible.</p>
               </motion.div>
             </div>
           </motion.div>

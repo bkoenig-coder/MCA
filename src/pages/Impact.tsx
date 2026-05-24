@@ -74,7 +74,7 @@ export default function Impact() {
 
   const stats = [
     { label: t('impact.stats.events'), value: "3+", icon: <Globe className="w-6 h-6" /> },
-    { label: t('impact.stats.members'), value: "5,000+", icon: <Heart className="w-6 h-6" /> },
+    { label: t('impact.stats.members'), value: "+500", icon: <Heart className="w-6 h-6" /> },
     { label: t('impact.stats.partnerships'), value: "+5", icon: <TrendingUp className="w-6 h-6" /> }
   ];
 
