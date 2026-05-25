@@ -33,6 +33,7 @@ import TeamMember from './pages/TeamMember';
 import InitiativeDetails from './pages/InitiativeDetails';
 import Membership from './pages/Membership';
 import MembersDirectory from './pages/MembersDirectory';
+import LearnMongolian from './pages/LearnMongolian';
 import NotFound from './pages/NotFound';
 
 import ApplyStudent from './pages/ApplyStudent';
@@ -90,6 +91,7 @@ export default function App() {
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/team/:id" element={<TeamMember />} />
                 <Route path="/initiative/:id" element={<InitiativeDetails />} />
+                <Route path="/learn-mongolian" element={<LearnMongolian />} />
                 <Route path="/diorama" element={<EasterEgg />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
