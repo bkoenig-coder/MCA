@@ -1,6 +1,6 @@
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Globe, LogIn, LogOut, User as UserIcon, ChevronDown, Calendar, ArrowRight, Info, Newspaper, Image as ImageIcon, Heart, Mail, Compass, Shield, Award, BookOpen } from 'lucide-react';
+import { Menu, X, Globe, LogIn, LogOut, User as UserIcon, ChevronDown, Calendar, ArrowRight, Info, Newspaper, Image as ImageIcon, Heart, Mail, Compass, Shield, Award } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState, useEffect, useRef } from 'react';
 import { cn } from '@/src/lib/utils';
@@ -11,9 +11,9 @@ import { UlziiSymbol } from './MongolianDesign';
 import mcaLogo from '../assets/media/mcalogo-1.png';
 
 const languages = [
-  { code: 'en', name: 'English' },
-  { code: 'de', name: 'Deutsch' },
-  { code: 'mn', name: 'Монгол' },
+  { code: 'en', name: 'English', flag: '🇬🇧' },
+  { code: 'de', name: 'Deutsch', flag: '🇦🇹' },
+  { code: 'mn', name: 'Монгол', flag: '🇲🇳' },
 ];
 
 const MongolianFlagBanner = ({ className }: { className?: string }) => (
@@ -88,68 +88,14 @@ export default function Navbar() {
   const horseX = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   const navItems = [
-    { 
-      name: t('nav.about'), 
-      path: '/about', 
-      icon: Info,
-      desc: t('nav.desc.about', 'Our history, strategic pillars, and executive team')
-    },
-    { 
-      name: t('nav.events'), 
-      path: '/events', 
-      icon: Calendar,
-      desc: t('nav.desc.events', 'Bilateral networking days, Naadam, and cultural festivals'),
-      badge: 'UPCOMING',
-      badgeColor: 'bg-brand-gold text-brand-ink'
-    },
-    { 
-      name: t('nav.membership', { defaultValue: 'Membership' }), 
-      path: '/membership', 
-      icon: Award,
-      desc: t('nav.desc.membership', 'Join our network of students, professionals, and partners'),
-      badge: t('nav.badge.membership', 'JOIN US'),
-      badgeColor: 'bg-sky-500 text-white font-bold'
-    },
-    { 
-      name: t('nav.learnMongolian', { defaultValue: 'Learn Mongolian' }), 
-      path: '/learn-mongolian', 
-      icon: BookOpen,
-      desc: t('nav.desc.learnMongolian', 'Structured language courses for heritage kids and foreigners'),
-      badge: t('nav.badge.learnMongolian', 'NEW'),
-      badgeColor: 'bg-emerald-500 text-white font-bold'
-    },
-    { 
-      name: t('nav.news'), 
-      path: '/news', 
-      icon: Newspaper,
-      desc: t('nav.desc.news', 'Press releases, announcements, and cultural journals')
-    },
-    { 
-      name: t('nav.gallery'), 
-      path: '/gallery', 
-      icon: ImageIcon,
-      desc: t('nav.desc.gallery', 'High-profile photo exhibitions and traditional media archive')
-    },
-    { 
-      name: t('nav.impact'), 
-      path: '/impact', 
-      icon: Heart,
-      desc: t('nav.desc.impact', 'Support social responsibility and diplomatic initiatives'),
-      badge: t('nav.badge.impact', 'DONATE'),
-      badgeColor: 'bg-[#DA2032] text-white font-bold'
-    },
-    { 
-      name: 'Explore 3D Diorama', 
-      path: '/diorama', 
-      icon: Compass,
-      desc: t('nav.desc.diorama', 'Step inside our interactive virtual Mongolian steppe landscape')
-    },
-    { 
-      name: t('nav.contact'), 
-      path: '/contact', 
-      icon: Mail,
-      desc: t('nav.desc.contact', 'Get in touch with our representative office in Vienna')
-    },
+    { name: t('nav.about'), path: '/about', icon: Info },
+    { name: t('nav.events'), path: '/events', icon: Calendar },
+    { name: t('nav.membership', { defaultValue: 'Membership' }), path: '/membership', icon: Award },
+    { name: t('nav.news'), path: '/news', icon: Newspaper },
+    { name: t('nav.gallery'), path: '/gallery', icon: ImageIcon },
+    { name: t('nav.impact'), path: '/impact', icon: Heart },
+    { name: t('nav.contact'), path: '/contact', icon: Mail },
+    { name: 'Explore 3D Diorama', path: '/diorama', icon: Compass },
   ];
 
   const isSuperAdmin = user?.email?.toLowerCase() === 'emeraldtorstein@gmail.com';
@@ -157,12 +103,7 @@ export default function Navbar() {
   const isEditor = isAdminUser || profile?.role === 'moderator';
 
   if (isEditor) {
-    navItems.push({ 
-      name: t('nav.admin'), 
-      path: '/admin', 
-      icon: Shield,
-      desc: t('nav.desc.admin', 'Administrative dashboard for editors & center moderation')
-    });
+    navItems.push({ name: t('nav.admin'), path: '/admin', icon: Shield });
   }
 
   useEffect(() => {
@@ -267,12 +208,10 @@ export default function Navbar() {
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 className={cn(
-                  "flex items-center gap-3 text-[10px] uppercase tracking-[0.25em] font-bold transition-all hover:text-[#C5A059] text-brand-ink group"
+                  "flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] font-bold transition-all hover:text-[#C5A059] text-brand-ink"
                 )}
               >
-                <div className="w-8 h-8 rounded-full border border-brand-ink/15 flex items-center justify-center transition-all duration-300 group-hover:border-brand-gold/40 group-hover:bg-brand-paper hover:scale-105 active:scale-95">
-                  {isOpen ? <X size={14} className="transition-transform group-hover:rotate-90" /> : <Menu size={14} />}
-                </div>
+                {isOpen ? <X size={18} /> : <Menu size={18} />}
                 <span>{isOpen ? t('common.close', 'CLOSE') : 'MENU'}</span>
               </button>
             </div>
@@ -310,7 +249,7 @@ export default function Navbar() {
                       "flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] font-bold transition-colors text-brand-ink/40 hover:text-[#C5A059]"
                     )}
                   >
-                    <Globe size={13} className="text-brand-ink/30" />
+                    <span className="opacity-50 hidden md:inline">{currentLang.flag}</span>
                     <span>{currentLang.code}</span>
                     <ChevronDown size={12} className={cn('transition-transform opacity-30', isLangOpen && 'rotate-180')} />
                   </button>
@@ -336,7 +275,7 @@ export default function Navbar() {
                             )}
                           >
                             <span>{lang.name}</span>
-                            <span className="text-[9px] font-bold text-brand-ink/30">{lang.code.toUpperCase()}</span>
+                            <span className="opacity-50 grayscale hover:grayscale-0 transition-all">{lang.flag}</span>
                           </button>
                         ))}
                       </motion.div>
@@ -394,11 +333,11 @@ export default function Navbar() {
             <div className="flex justify-start">
               <button 
                 className={cn(
-                  "w-10 h-10 rounded-full border border-brand-ink/10 flex items-center justify-center transition-all duration-300 text-brand-ink bg-white/50 active:scale-95 shadow-sm"
+                  "p-1.5 md:p-2 transition-colors duration-300 text-brand-ink"
                 )} 
                 onClick={() => setIsOpen(!isOpen)}
               >
-                {isOpen ? <X size={18} /> : <Menu size={18} />}
+                {isOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             </div>
 
@@ -427,10 +366,10 @@ export default function Navbar() {
                   i18n.changeLanguage(nextLang.code);
                 }}
                 className={cn(
-                  "w-10 h-10 rounded-full border border-brand-ink/10 flex items-center justify-center text-[10px] uppercase font-bold tracking-wider transition-all duration-300 bg-white hover:bg-brand-paper shadow-sm text-brand-ink"
+                  "w-9 h-9 rounded-full border flex items-center justify-center text-base transition-colors duration-300 bg-white/50 text-brand-ink border-brand-ink/10"
                 )}
               >
-                {currentLang.code}
+                {currentLang.flag}
               </button>
             </div>
           </div>
@@ -453,95 +392,55 @@ export default function Navbar() {
                   initial={{ scaleY: 0 }}
                   animate={{ scaleY: 1 }}
                   transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute top-0 bottom-0 left-1/2 w-px bg-brand-ink/5 origin-top hidden md:block"
+                  className="absolute top-0 bottom-0 left-1/2 w-px bg-brand-ink/5 origin-top"
                 />
 
-                <div className="flex-1 flex flex-col items-center justify-center relative w-full my-auto py-8 sm:py-12 max-h-[75vh] overflow-y-auto custom-scrollbar">
-                  {(() => {
-                    const half = Math.ceil(navItems.length / 2);
-                    const leftItems = navItems.slice(0, half);
-                    const rightItems = navItems.slice(half);
-
-                    return (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 lg:gap-24 w-full max-w-5xl mx-auto px-4 relative z-10">
-                        {/* Left Column */}
-                        <div className="flex flex-col items-center md:items-end justify-center w-full gap-3 sm:gap-4 md:gap-5">
-                          {leftItems.map((item: any, idx) => {
-                            const isActive = location.pathname === item.path;
-                            return (
-                              <div key={item.path} className="py-1 px-4 md:px-8 relative">
-                                <motion.div
-                                  initial={{ opacity: 0, x: -30 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  exit={{ opacity: 0, x: -20 }}
-                                  transition={{ duration: 0.5, delay: idx * 0.04, ease: [0.22, 1, 0.36, 1] }}
-                                >
-                                  <Link
-                                    to={item.path}
-                                    className="group flex items-center justify-center md:justify-end gap-3 w-max relative transition-all duration-[400ms]"
-                                    onClick={() => setIsOpen(false)}
-                                  >
-                                    <span className={cn(
-                                      "font-[Arial] font-bold italic text-xl sm:text-2xl md:text-3xl lg:text-[40px] tracking-tight leading-none group-hover:text-[#C5A059] transition-all duration-500 uppercase text-center md:text-right",
-                                      isActive ? "text-[#C5A059] translate-x-1" : "text-brand-ink"
-                                    )}>
-                                      {item.name}
-                                    </span>
-                                    {item.badge && (
-                                      <span className={cn(
-                                        "text-[7px] md:text-[9px] px-2 py-0.5 uppercase tracking-widest font-sans font-black shadow-sm transform rotate-[4deg] rounded-sm shrink-0 whitespace-nowrap",
-                                        item.badgeColor
-                                      )}>
-                                        {item.badge}
-                                      </span>
-                                    )}
-                                  </Link>
-                                </motion.div>
-                              </div>
-                            );
-                          })}
+                <div className="flex-1 flex flex-col items-center justify-center relative w-full my-auto">
+                  <nav className="flex flex-col items-center justify-center w-full gap-2 md:gap-4">
+                    {navItems.map((item, idx) => {
+                      const isActive = location.pathname === item.path;
+                      return (
+                        <div key={item.path} className="overflow-hidden py-1 px-4 md:px-8">
+                          <motion.div
+                            initial={{ opacity: 0, y: 60 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -40 }}
+                            transition={{ duration: 0.7, delay: 0.1 + idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                          >
+                            <Link
+                              to={item.path}
+                              className={cn(
+                                'group flex items-center justify-center w-max mx-auto relative transition-colors duration-500',
+                              )}
+                              onClick={() => setIsOpen(false)}
+                            >
+                              <span className={cn(
+                                "font-[Arial] font-bold italic text-3xl sm:text-4xl md:text-5xl lg:text-[60px] tracking-tight leading-none group-hover:text-[#C5A059] transition-all duration-500 uppercase",
+                                isActive ? "text-[#C5A059] translate-x-2" : "text-brand-ink"
+                              )}>
+                                {item.name}
+                              </span>
+                              {item.path === '/events' && (
+                                <span className="absolute top-0 -right-6 md:top-1 md:-right-10 flex-shrink-0 text-[7px] md:text-[9px] bg-brand-gold text-brand-ink px-2 md:px-2.5 py-0.5 md:py-1 uppercase tracking-[0.2em] font-sans font-bold shadow-sm transform rotate-[4deg]">
+                                  UPCOMING
+                                </span>
+                              )}
+                              {item.path === '/membership' && (
+                                <span className="absolute top-0 -right-6 md:top-1 md:-right-10 flex-shrink-0 text-[7px] md:text-[9px] bg-sky-500 text-white px-2 md:px-2.5 py-0.5 md:py-1 uppercase tracking-[0.2em] font-sans font-bold shadow-sm transform -rotate-[4deg] whitespace-nowrap">
+                                  BECOME A MEMBER
+                                </span>
+                              )}
+                              {item.path === '/impact' && (
+                                <span className="absolute top-0 -right-6 md:top-1 md:-right-10 flex-shrink-0 text-[7px] md:text-[9px] bg-[#DA2032] text-white px-2 md:px-2.5 py-0.5 md:py-1 uppercase tracking-[0.2em] font-sans font-bold shadow-sm transform rotate-[4deg] whitespace-nowrap z-10">
+                                  MAKE AN IMPACT
+                                </span>
+                              )}
+                            </Link>
+                          </motion.div>
                         </div>
-
-                        {/* Right Column */}
-                        <div className="flex flex-col items-center md:items-start justify-center w-full gap-3 sm:gap-4 md:gap-5">
-                          {rightItems.map((item: any, idx) => {
-                            const isActive = location.pathname === item.path;
-                            return (
-                              <div key={item.path} className="py-1 px-4 md:px-8 relative">
-                                <motion.div
-                                  initial={{ opacity: 0, x: 30 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  exit={{ opacity: 0, x: 20 }}
-                                  transition={{ duration: 0.5, delay: (idx + half) * 0.04, ease: [0.22, 1, 0.36, 1] }}
-                                >
-                                  <Link
-                                    to={item.path}
-                                    className="group flex items-center justify-center md:justify-start gap-3 w-max relative transition-all duration-[400ms]"
-                                    onClick={() => setIsOpen(false)}
-                                  >
-                                    <span className={cn(
-                                      "font-[Arial] font-bold italic text-xl sm:text-2xl md:text-3xl lg:text-[40px] tracking-tight leading-none group-hover:text-[#C5A059] transition-all duration-500 uppercase text-center md:text-left",
-                                      isActive ? "text-[#C5A059] translate-x-1" : "text-brand-ink"
-                                    )}>
-                                      {item.name}
-                                    </span>
-                                    {item.badge && (
-                                      <span className={cn(
-                                        "text-[7px] md:text-[9px] px-2 py-0.5 uppercase tracking-widest font-sans font-black shadow-sm transform rotate-[4deg] rounded-sm shrink-0 whitespace-nowrap",
-                                        item.badgeColor
-                                      )}>
-                                        {item.badge}
-                                      </span>
-                                    )}
-                                  </Link>
-                                </motion.div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    );
-                  })()}
+                      );
+                    })}
+                  </nav>
                 </div>
 
                 {/* Footer Section */}

@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'motion/react';
 import React, { lazy, Suspense, useState, useEffect, useRef } from 'react';
-import { cn, getFadeIn, getFadeUp, getFadeSide, isMobileViewport } from '../lib/utils';
+import { cn } from '../lib/utils';
 import { ArrowRight, Calendar, Palette, Heart, Users, Shield, Sword, Clock, MapPin, Loader2, Info, Star, Handshake, Lightbulb, ArrowRightLeft, TrendingUp, Instagram, ChevronLeft, ChevronRight, Award, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -400,7 +400,10 @@ export default function Home() {
         
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-24 relative z-10">
           <motion.div 
-            {...getFadeUp(0, 40, 1)}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="flex-1 max-w-2xl"
           >
             <div className="flex items-center gap-4 mb-8">
@@ -422,7 +425,10 @@ export default function Home() {
           </motion.div>
           
           <motion.div 
-            {...getFadeUp(0, 40, 1.2)}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
             className="flex-1 w-full lg:w-auto relative"
           >
             {/* Elegant luxury accordion */}
@@ -891,10 +897,10 @@ export default function Home() {
         
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div 
-            initial={{ opacity: 0, y: isMobileViewport() ? 15 : 60, scale: isMobileViewport() ? 1 : 0.98 }}
+            initial={{ opacity: 0, y: 100, scale: 0.95 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, margin: isMobileViewport() ? "-15px" : "-100px" }}
-            transition={{ duration: isMobileViewport() ? 0.45 : 1, ease: "easeOut" }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
             className="bg-brand-ink rounded-[60px] md:rounded-[100px] overflow-hidden flex flex-col lg:flex-row shadow-2xl md:shadow-[0_80px_150px_-30px_rgba(0,0,0,0.6)] relative md:transform-gpu md:will-change-transform"
           >
             {/* Decorative Symbol Overlay */}
@@ -902,7 +908,10 @@ export default function Home() {
 
             <div className="lg:w-3/5 p-6 md:p-20 lg:p-28 flex flex-col justify-center relative z-10">
               <motion.div
-                {...getFadeSide('left', 0.25, 20)}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4, duration: 0.8 }}
                 className="flex items-center gap-4 mb-8 md:mb-12"
               >
                 <div className="h-px w-12 bg-brand-gold/40" />
@@ -916,14 +925,20 @@ export default function Home() {
               </h2>
 
               <motion.p 
-                {...getFadeIn(0.4)}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.6, duration: 1 }}
                 className="text-xl md:text-2xl text-white/50 mb-12 md:mb-16 font-light leading-relaxed max-w-2xl italic"
               >
                 {t('impactCta.desc')}
               </motion.p>
 
               <motion.div
-                {...getFadeUp(0.5, 15, 0.5)}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.7, duration: 0.5 }}
               >
                 <Link 
                   to="/impact" 
@@ -939,10 +954,10 @@ export default function Home() {
 
             <div className="lg:w-2/5 relative min-h-[400px] lg:min-h-full overflow-hidden">
               <motion.div
-                initial={{ scale: isMobileViewport() ? 1.05 : 1.2, opacity: 0 }}
+                initial={{ scale: 1.3, opacity: 0 }}
                 whileInView={{ scale: 1, opacity: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: isMobileViewport() ? 0.6 : 1.5, ease: "easeOut" }}
+                transition={{ duration: 2, ease: "easeOut" }}
                 className="absolute inset-0"
               >
                 <img 
@@ -958,10 +973,10 @@ export default function Home() {
               
               {/* Floating Stat Card */}
               <motion.div
-                initial={{ opacity: 0, x: isMobileViewport() ? 15 : 40 }}
+                initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: isMobileViewport() ? "-10px" : "-100px" }}
-                transition={{ delay: isMobileViewport() ? 0.4 : 0.8, duration: isMobileViewport() ? 0.5 : 0.8, ease: "easeOut" }}
+                viewport={{ once: true }}
+                transition={{ delay: 1, duration: 1, ease: "easeOut" }}
                 className="absolute bottom-10 right-10 left-10 lg:left-auto lg:w-80 bg-[#151a25]/90 md:bg-white/10 md:backdrop-blur-md border border-white/10 p-10 rounded-[40px] text-white z-20 shadow-xl md:shadow-2xl"
               >
                 <div className="flex items-center gap-4 mb-6">

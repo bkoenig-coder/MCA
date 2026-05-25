@@ -20,8 +20,7 @@ const resources = {
         center: 'Center',
         location: 'Vienna • Austria',
         admin: 'Admin',
-        member: 'Member',
-        learnMongolian: 'Learn Mongolian'
+        member: 'Member'
       },
       common: {
         locale: 'en-GB',
@@ -362,8 +361,7 @@ const resources = {
         center: 'Zentrum',
         location: 'Wien • Österreich',
         admin: 'Admin',
-        member: 'Mitglied',
-        learnMongolian: 'Mongolisch lernen'
+        member: 'Mitglied'
       },
       common: {
         locale: 'de-AT',
@@ -704,8 +702,7 @@ const resources = {
         center: 'Төв',
         location: 'Вена • Австри',
         admin: 'Админ',
-        member: 'Гишүүн',
-        learnMongolian: 'Монгол хэл сурах'
+        member: 'Гишүүн'
       },
       common: {
         locale: 'mn-MN',
