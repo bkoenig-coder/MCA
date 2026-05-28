@@ -146,6 +146,17 @@ export default function Navbar() {
     };
   }, []);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   const currentLang = languages.find(l => i18n.language?.startsWith(l.code)) || languages[0];
 
   return (
@@ -288,7 +299,8 @@ export default function Navbar() {
 
       <nav
         className={cn(
-          'transition-all duration-500 px-4 md:px-12 relative z-[120] w-full bg-white',
+          'transition-all duration-500 px-4 md:px-12 relative w-full bg-white',
+          isOpen ? 'z-[155]' : 'z-[120]',
           scrolled 
             ? 'py-3.5 shadow-[0_4px_30px_rgba(0,0,0,0.02)] border-b border-brand-gold/15 bg-white/95 backdrop-blur-md' 
             : 'py-5 border-b border-[#0F0F0F]/5',
@@ -411,31 +423,47 @@ export default function Navbar() {
               style={{ willChange: 'opacity' }}
             >
               {/* Executive Top Header inside open Menu Overlay */}
-              <div className="w-full bg-white border-b border-brand-ink/10 py-3 shrink-0 relative z-20 shadow-[0_2px_15px_rgba(0,0,0,0.02)]">
-                <div className="max-w-[1600px] w-full mx-auto px-6 md:px-12 flex items-center justify-between select-none">
+              <div className="w-full bg-white border-b border-brand-ink/10 py-2.5 sm:py-3 shrink-0 relative z-20 shadow-[0_2px_15px_rgba(0,0,0,0.02)]">
+                <div className="max-w-[1600px] w-full mx-auto px-4 sm:px-8 md:px-12 flex items-center justify-between select-none min-w-0">
                   {/* Branding Info */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 border border-[#C5A059]/30 rounded-full flex items-center justify-center bg-white p-0.5">
+                  <div className="flex items-center gap-2 sm:gap-3 min-w-0 mr-3">
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 border border-[#C5A059]/30 rounded-full flex items-center justify-center bg-white p-0.5 flex-shrink-0">
                       <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain" />
                     </div>
-                    <div className="flex flex-col text-left">
-                      <span className="font-serif font-black text-xs md:text-sm tracking-[0.05em] leading-none uppercase text-[#0066B3]">
+                    <div className="flex flex-col text-left min-w-0">
+                      <span className="font-serif font-black text-[10px] sm:text-xs md:text-sm tracking-[0.05em] leading-none uppercase text-[#0066B3] truncate">
                         {t('nav.mongolian')} <span className="text-[#DA2032] font-black tracking-[0.04em]">{t('nav.center')}</span>
                       </span>
-                      <span className="font-serif text-[7.5px] md:text-[8px] uppercase tracking-[0.3em] font-extrabold text-[#C5A059] mt-0.5">
+                      <span className="font-serif text-[6.5px] sm:text-[7.5px] md:text-[8px] uppercase tracking-[0.25em] font-extrabold text-[#C5A059] mt-0.5 truncate">
                         {t('nav.location')}
                       </span>
                     </div>
                   </div>
 
-                  {/* Redundant, Beautiful Back Trigger */}
-                  <button
-                    onClick={() => setIsOpen(false)}
-                    className="group flex items-center gap-2.5 text-[9px] md:text-[10px] uppercase tracking-[0.18em] font-sans font-black text-white bg-[#0A1128] hover:bg-[#C5A059] transition-all py-2 px-4.5 rounded shadow-sm hover:shadow active:scale-95"
-                  >
-                    <ArrowLeft size={13} className="group-hover:-translate-x-1 transition-transform text-[#C5A059]" />
-                    <span>Back to Site</span>
-                  </button>
+                  <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                    {/* Mobile language picker inside opened overlay */}
+                    <button
+                      onClick={() => {
+                        const currentIndex = languages.findIndex(l => i18n.language?.startsWith(l.code));
+                        const nextIndex = currentIndex !== -1 ? (currentIndex + 1) % languages.length : 0;
+                        const nextLang = languages[nextIndex];
+                        i18n.changeLanguage(nextLang.code);
+                      }}
+                      className="w-8 h-8 rounded-full border flex items-center justify-center text-xs transition-all duration-300 bg-[#0A1128]/5 hover:bg-[#0A1128]/10 text-brand-ink border-brand-ink/5 shadow-sm active:scale-90"
+                      title="Change Language"
+                    >
+                      {currentLang.flag}
+                    </button>
+
+                    {/* Redundant, Beautiful Back Trigger */}
+                    <button
+                      onClick={() => setIsOpen(false)}
+                      className="group flex items-center gap-2 text-[9px] md:text-[10px] uppercase tracking-[0.18em] font-sans font-black text-white bg-[#0A1128] hover:bg-[#0066B3] transition-all py-2 px-3 sm:px-4.5 rounded shadow-sm hover:shadow active:scale-95"
+                    >
+                      <X size={13} className="text-[#C5A059]" />
+                      <span className="hidden min-[400px]:inline">CLOSE</span>
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -445,10 +473,10 @@ export default function Navbar() {
                   <UlziiSymbol className="w-[300px] h-[300px] md:w-[600px] md:h-[600px] text-brand-gold/10" />
                 </div>
               </div>
-              <div className="flex-1 w-full max-w-[1600px] mx-auto px-6 sm:px-8 md:px-16 flex flex-col justify-between pb-6 md:pb-8 h-full min-h-0 relative z-10 pt-4 md:pt-6">
+              <div className="flex-1 w-full max-w-[1600px] mx-auto px-4 sm:px-8 md:px-16 flex flex-col justify-between pb-4 sm:pb-8 h-full min-h-0 relative z-10 pt-3 sm:pt-6">
                 
                 {/* Scrollable menu content grid */}
-                <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar grid grid-cols-1 lg:grid-cols-[1.1fr_2fr] gap-8 lg:gap-16 pt-4 pb-6">
+                <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar grid grid-cols-1 lg:grid-cols-[1.1fr_2fr] gap-6 lg:gap-16 pt-2 pb-4">
                   
                   {/* Left Column: Menu Links */}
                   <div className="flex flex-col justify-start lg:border-r border-brand-ink/10 lg:pr-12 text-left">
@@ -469,7 +497,7 @@ export default function Navbar() {
                                <Link
                                  to={item.path}
                                  onClick={() => setIsOpen(false)}
-                                 className="group flex items-center justify-between w-full relative py-3 border-b border-brand-ink/5 hover:bg-[#0A1128]/5 px-2 rounded-md transition-all sm:py-3.5"
+                                 className="group flex items-center justify-between w-full relative py-2 sm:py-3.5 border-b border-brand-ink/5 hover:bg-[#0A1128]/5 px-2 rounded-md transition-all"
                                >
                                  <div className="flex items-center gap-3.5">
                                    <item.icon 
@@ -573,7 +601,7 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
-                  className="w-full pt-5 border-t border-brand-ink/10 flex flex-col sm:flex-row justify-between items-center gap-4 relative z-10 shrink-0 mt-4"
+                  className="w-full pt-3 sm:pt-5 border-t border-brand-ink/10 flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 relative z-10 shrink-0 mt-2 sm:mt-4"
                 >
                   {/* Left: Quick Portal links */}
                   <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-6 text-[9px] font-sans font-bold uppercase tracking-[0.2em] text-brand-ink/60">
