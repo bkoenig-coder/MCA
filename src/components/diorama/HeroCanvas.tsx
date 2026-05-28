@@ -16,8 +16,8 @@ export default function HeroCanvas() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const cameraPosition: [number, number, number] = isMobile ? [0, 56, 1] : [0, 38, 1];
-  const cameraFov = isMobile ? 55 : 45;
+  const cameraPosition: [number, number, number] = [0, 38, 1];
+  const cameraFov = 45;
 
   return (
     <Canvas 

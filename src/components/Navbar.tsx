@@ -16,56 +16,81 @@ const languages = [
   { code: 'mn', name: 'Монгол', flag: '🇲🇳' },
 ];
 
-const MongolianFlagBanner = ({ className }: { className?: string }) => (
-  <div className={cn("relative w-10 md:w-12 drop-shadow-md", className)}>
-    {/* Wooden rod */}
-    <div className="absolute top-0 left-[-15%] right-[-15%] h-1.5 bg-[#8B4513] rounded-sm z-10 shadow-sm">
-      <div className="absolute top-0 left-0 bottom-0 w-1.5 bg-[#DAA520] rounded-l-sm" />
-      <div className="absolute top-0 right-0 bottom-0 w-1.5 bg-[#DAA520] rounded-r-sm" />
-    </div>
-    {/* Flag body */}
-    <svg viewBox="0 0 60 100" className="w-full pt-1">
-      <path d="M0,0 L60,0 L60,85 L30,100 L0,85 Z" fill="#0066B3" />
-      <path d="M0,0 L20,0 L20,90 L0,80 Z" fill="#DA2032" />
-      <path d="M40,0 L60,0 L60,80 L40,90 Z" fill="#DA2032" />
-      {/* High-fidelity Soyombo symbol */}
-      <g fill="#F8CC1B" transform="translate(4, 10) scale(0.6)">
-        {/* Three-tongued Flame */}
-        <path d="M10,0 C11.5,2 12,4 10.5,6.5 C12.5,4.5 13.5,6 12,8.5 C15,7.5 14.5,10 10,11 C5.5,10 5,7.5 8,8.5 C6.5,6 7.5,4.5 9.5,6.5 C8,4 8.5,2 10,0 Z" />
-        {/* Sun and Moon */}
-        <circle cx="10" cy="14" r="3" />
-        <path d="M7,18 A4,4 0 0,0 13,18 A3,3 0 0,1 7,18" />
-        {/* Triangles and rectangles */}
-        <polygon points="3,20 17,20 10,25" />
-        <rect x="3" y="27" width="14" height="2.5" />
-        {/* Arga-Bilig (Yin Yang) with Fish */}
-        <path d="M 5.5,38 A 4.5,4.5 0 0,1 14.5,38 A 2.25,2.25 0 0,1 10,38 A 2.25,2.25 0 0,0 5.5,38 Z" fill="#F8CC1B" />
-        <circle cx="10" cy="38" r="4.5" fill="none" stroke="#F8CC1B" strokeWidth="1.2" />
-        <circle cx="7.75" cy="40.5" r="0.8" fill="#F8CC1B" />
-        <circle cx="12.25" cy="35.5" r="0.8" fill="#DA2032" />
-        
-        <rect x="3" y="46.5" width="14" height="2.5" />
-        <polygon points="3,51 17,51 10,56" />
-        {/* Vertical bars */}
-        <rect x="1" y="20" width="2" height="36" />
-        <rect x="17" y="20" width="2" height="36" />
+const BilateralFlagBadge = () => (
+  <div className="flex items-center relative h-5 select-none pr-1.5 flex-shrink-0">
+    <svg viewBox="0 0 68 32" className="w-14 h-[26px] md:w-16 md:h-[30px] drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)]">
+      <defs>
+        {/* Metallic Gold Gradient */}
+        <linearGradient id="gold-metal" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#FFF2B2" />
+          <stop offset="30%" stopColor="#D4AF37" />
+          <stop offset="70%" stopColor="#AA7C11" />
+          <stop offset="100%" stopColor="#F3E5AB" />
+        </linearGradient>
+        {/* Clips to keep flag content within circles */}
+        <clipPath id="circle-clip-at">
+          <circle cx="16" cy="16" r="12.5" />
+        </clipPath>
+        <clipPath id="circle-clip-mn">
+          <circle cx="42" cy="16" r="12.5" />
+        </clipPath>
+      </defs>
+      
+      {/* LEFT CIRCLE: AUSTRIA */}
+      <g>
+        {/* Shadow / Border background for Austria */}
+        <circle cx="16" cy="16" r="14" fill="url(#gold-metal)" />
+        <circle cx="16" cy="16" r="12.5" fill="#FFFFFF" />
+        {/* Austria Flag Structure (Horizontal Red - White - Red) */}
+        <g clipPath="url(#circle-clip-at)">
+          {/* Top Red */}
+          <rect x="2" y="2.5" width="28" height="9" fill="#ED2939" />
+          {/* Middle White */}
+          <rect x="2" y="11.5" width="28" height="9" fill="#FFFFFF" />
+          {/* Bottom Red */}
+          <rect x="2" y="20.5" width="28" height="9" fill="#ED2939" />
+        </g>
+        {/* Inner gold rim overlay */}
+        <circle cx="16" cy="16" r="12.5" fill="none" stroke="url(#gold-metal)" strokeWidth="0.75" opacity="0.8" />
       </g>
-    </svg>
-  </div>
-);
 
-const AustrianFlagBanner = ({ className }: { className?: string }) => (
-  <div className={cn("relative w-10 md:w-12 drop-shadow-md", className)}>
-    {/* Wooden rod */}
-    <div className="absolute top-0 left-[-15%] right-[-15%] h-1.5 bg-[#8B4513] rounded-sm z-10 shadow-sm">
-      <div className="absolute top-0 left-0 bottom-0 w-1.5 bg-[#DAA520] rounded-l-sm" />
-      <div className="absolute top-0 right-0 bottom-0 w-1.5 bg-[#DAA520] rounded-r-sm" />
-    </div>
-    {/* Flag body */}
-    <svg viewBox="0 0 60 100" className="w-full pt-1">
-      <path d="M0,0 L60,0 L60,85 L30,100 L0,85 Z" fill="#FFFFFF" />
-      <path d="M0,0 L20,0 L20,95 L0,85 Z" fill="#ED2939" />
-      <path d="M40,0 L60,0 L60,85 L40,95 Z" fill="#ED2939" />
+      {/* RIGHT CIRCLE: MONGOLIA (Overlaps Austria slightly for harmony) */}
+      <g>
+        {/* Shadow / Border background for Mongolia */}
+        <circle cx="42" cy="16" r="14" fill="url(#gold-metal)" />
+        <circle cx="42" cy="16" r="12.5" fill="#0066B3" />
+        {/* Mongolia Flag Structure (Vertical Red - Blue - Red) */}
+        <g clipPath="url(#circle-clip-mn)">
+          {/* Left Red */}
+          <rect x="28" y="2.5" width="9.33" height="27" fill="#DA2032" />
+          {/* Middle Blue */}
+          <rect x="37.33" y="2.5" width="9.33" height="27" fill="#0066B3" />
+          {/* Right Red */}
+          <rect x="46.66" y="2.5" width="9.33" height="27" fill="#DA2032" />
+          
+          {/* High-fidelity miniature Soyombo symbol in the left red stripe */}
+          <g fill="#F8CC1B" transform="translate(29.6, 6) scale(0.25)">
+            {/* Flame */}
+            <path d="M10,0 C11.5,2 12,4 10.5,6.5 C12.5,4.5 13.5,6 12,8.5 C15,7.5 14.5,10 10,11 C5.5,10 5,7.5 8,8.5 C6.5,6 7.5,4.5 9.5,6.5 C8,4 8.5,2 10,0 Z" />
+            {/* Sun/Moon */}
+            <circle cx="10" cy="14" r="3" />
+            <path d="M7,18 A4,4 0 0,0 13,18 A3,3 0 0,1 7,18" />
+            {/* Triangle & rects */}
+            <polygon points="3,20 17,20 10,25" />
+            <rect x="3" y="27" width="14" height="2.5" />
+            {/* Yin-Yang */}
+            <circle cx="10" cy="38" r="4.5" fill="none" stroke="#F8CC1B" strokeWidth="1.2" />
+            <path d="M 5.5,38 A 4.5,4.5 0 0,1 14.5,38 A 2.25,2.25 0 0,1 10,38 A 2.25,2.25 0 0,0 5.5,38 Z" fill="#F8CC1B" />
+            
+            <rect x="3" y="46.5" width="14" height="2.5" />
+            <polygon points="3,51 17,51 10,56" />
+            <rect x="1" y="20" width="2" height="36" />
+            <rect x="17" y="20" width="2" height="36" />
+          </g>
+        </g>
+        {/* Inner gold rim overlay */}
+        <circle cx="42" cy="16" r="12.5" fill="none" stroke="url(#gold-metal)" strokeWidth="0.75" opacity="0.8" />
+      </g>
     </svg>
   </div>
 );
@@ -205,9 +230,8 @@ export default function Navbar() {
         <div className="max-w-[1600px] w-full mx-auto px-4 md:px-16 flex items-center justify-between h-full text-[9px] uppercase tracking-[0.18em] font-sans font-bold select-none min-w-0">
           {/* Left: Embassy Flags & Organization details */}
           <div className="flex items-center gap-2.5 sm:gap-4 text-white/75 min-w-0">
-            <div className="flex items-center gap-1.5 flex-shrink-0">
-              <AustrianFlagBanner className="w-3.5 h-auto sm:w-4" />
-              <MongolianFlagBanner className="w-3.5 h-auto sm:w-4" />
+            <div className="flex items-center flex-shrink-0">
+              <BilateralFlagBadge />
             </div>
             <span className="h-3 w-px bg-white/10 flex-shrink-0" />
             <span className="text-[7.5px] min-[360px]:text-[8px] sm:text-[8.5px] font-semibold text-white/70 tracking-[0.05em] sm:tracking-[0.18em] uppercase truncate">
@@ -547,7 +571,7 @@ export default function Navbar() {
                   </div>
 
                   {/* Right Column: Featured Promotion Content */}
-                  <div className="hidden lg:flex flex-col justify-between lg:pl-4">
+                  <div className="flex flex-col justify-between lg:pl-4 border-t lg:border-t-0 border-brand-ink/10 pt-6 lg:pt-0 mt-6 lg:mt-0">
                      <div className="flex flex-col">
                         <motion.div
                           initial={{ opacity: 0, y: 15 }}
@@ -583,7 +607,7 @@ export default function Navbar() {
                        initial={{ opacity: 0, scale: 0.98 }}
                        animate={{ opacity: 1, scale: 1 }}
                        transition={{ duration: 0.8, delay: 0.4 }}
-                       className="w-full relative rounded-3xl overflow-hidden shadow-lg border border-brand-ink/5 mt-auto max-h-[220px] md:max-h-[260px] aspect-[21/9]"
+                       className="w-full relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-brand-ink/5 mt-auto max-h-[160px] sm:max-h-[220px] md:max-h-[260px] aspect-[16/10] sm:aspect-[21/9]"
                      >
                        <img 
                          src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop" 
