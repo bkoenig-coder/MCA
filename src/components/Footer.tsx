@@ -35,7 +35,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-brand-paper border-t border-brand-ink/5 pt-24 md:pt-32 pb-8 px-6 mt-24 relative overflow-hidden">
+    <footer className="bg-brand-paper border-t border-brand-ink/5 pt-12 md:pt-16 pb-6 px-6 mt-12 relative overflow-hidden">
 
       
       <div className="max-w-7xl mx-auto relative z-10 flex flex-col">
@@ -45,10 +45,10 @@ export default function Footer() {
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full flex flex-col items-center mb-16 md:mb-24"
+          className="w-full flex flex-col items-center mb-8 md:mb-12"
         >
           <div className="w-full overflow-hidden flex justify-center text-center select-none pointer-events-none">
-             <h1 className="text-[14vw] sm:text-[8.5vw] md:text-[7.5vw] lg:text-[7vw] xl:text-[90px] leading-none font-[Arial] font-black italic tracking-tighter text-brand-ink/5 uppercase">
+             <h1 className="text-[14vw] sm:text-[8.5vw] md:text-[7.5vw] lg:text-[7vw] xl:text-[90px] leading-none font-sans font-black tracking-tighter text-brand-ink/5 uppercase">
                 MONGOLIAN<br className="md:hidden" /> <span className="hidden md:inline"> </span>CENTER
              </h1>
           </div>

@@ -110,7 +110,7 @@ export default function About() {
       </section>
 
       {/* Mission & Vision - Cinematic Layout */}
-      <section className="py-24 md:py-40 px-6 bg-[#050507] relative overflow-hidden text-white">
+      <section className="py-12 md:py-20 px-6 bg-[#050507] relative overflow-hidden text-white">
         {/* Cinematic Backdrop Pattern & Fire Light */}
 
         
@@ -193,7 +193,7 @@ export default function About() {
       </section>
 
       {/* Values - Cinematic Grid */}
-      <section className="py-24 md:py-40 px-6 bg-[#020202] relative text-white overflow-hidden">
+      <section className="py-12 md:py-20 px-6 bg-[#020202] relative text-white overflow-hidden">
         
         <EmberBackground />
 
@@ -238,7 +238,7 @@ export default function About() {
       </section>
 
       {/* Benefits - Cinematic Grid */}
-      <section className="py-24 md:py-32 px-6 bg-[#020202] relative text-white overflow-hidden border-t border-white/5">
+      <section className="py-12 md:py-16 px-6 bg-[#020202] relative text-white overflow-hidden border-t border-white/5">
         <EmberBackground />
 
         <div className="max-w-7xl mx-auto relative z-10">
@@ -311,7 +311,7 @@ export default function About() {
       </section>
 
       {/* Team - Cinematic Portraits */}
-      <section className="py-24 md:py-40 px-6 bg-[#050507] relative overflow-hidden text-white">
+      <section className="py-12 md:py-20 px-6 bg-[#050507] relative overflow-hidden text-white">
         <div className="absolute inset-0 bg-gradient-to-b from-[#020202] to-transparent opacity-80 pointer-events-none" />
         
         <EmberBackground />
@@ -372,7 +372,7 @@ export default function About() {
       </section>
 
       {/* Join Us Section - Cinematic */}
-      <section className="py-24 md:py-40 px-6 bg-[#020202] relative overflow-hidden text-white border-t border-white/5">
+      <section className="py-12 md:py-20 px-6 bg-[#020202] relative overflow-hidden text-white border-t border-white/5">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.05),transparent_70%)] pointer-events-none" />
 
         <EmberBackground />

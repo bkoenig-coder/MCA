@@ -48,7 +48,7 @@ export default function CookieConsent() {
           animate={{ y: 0 }}
           exit={{ y: '100%' }}
           transition={{ type: 'tween', duration: 0.4, ease: 'easeOut' }}
-          className="fixed bottom-0 left-0 right-0 z-[200] bg-white border-t border-brand-ink/10 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] w-full font-[Arial]"
+          className="fixed bottom-0 left-0 right-0 z-[200] bg-white border-t border-brand-ink/10 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] w-full font-sans"
         >
           <div className="max-w-[1600px] w-full mx-auto px-6 md:px-16 py-8 md:py-10">
             {!showSettings ? (

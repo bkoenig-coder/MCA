@@ -337,13 +337,13 @@ export default function Home() {
       {/* Partners Marquee Section - Corporate Refactor */}
       <section className="py-10 md:py-12 bg-gray-50 relative overflow-hidden border-y border-gray-200">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] z-0 pointer-events-none" />
-        <div className="absolute top-1/2 right-1/4 w-[300px] h-[300px] bg-white/80 blur-[100px] rounded-full pointer-events-none z-0 -translate-y-1/2" />
-        <div className="absolute top-1/2 left-1/4 w-[300px] h-[300px] bg-brand-gold/5 blur-[100px] rounded-full pointer-events-none z-0 -translate-y-1/2" />
-        <div className="text-center mb-10 relative z-20">
-          <h3 className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-gray-500">
+        <div className="absolute top-1/2 right-1/4 w-[250px] h-[250px] bg-white/80 blur-[80px] rounded-full pointer-events-none z-0 -translate-y-1/2" />
+        <div className="absolute top-1/2 left-1/4 w-[250px] h-[250px] bg-brand-gold/5 blur-[80px] rounded-full pointer-events-none z-0 -translate-y-1/2" />
+        <div className="text-center mb-6 relative z-20">
+          <h3 className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-gray-500">
             Our partners & sponsors
           </h3>
-          <div className="w-12 h-0.5 bg-[#760000] mx-auto mt-4" />
+          <div className="w-8 h-0.5 bg-[#760000] mx-auto mt-2.5" />
         </div>
 
         {/* Gradient Fades for Smooth Edges */}
@@ -371,17 +371,18 @@ export default function Home() {
                     href={partner.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex flex-col items-center gap-4 group cursor-pointer opacity-80 hover:opacity-100 transition-all duration-500 hover:scale-105"
+                    title={partner.name}
+                    className="flex flex-col items-center justify-center gap-2.5 group cursor-pointer opacity-75 hover:opacity-100 transition-all duration-300 hover:scale-105"
                   >
-                    <div className="flex items-center justify-center h-12 md:h-16 min-w-[140px] md:min-w-[160px] group-hover:-translate-y-1 transition-transform duration-500 will-change-transform">
+                    <div className="flex items-center justify-center h-14 md:h-16 min-w-[150px] md:min-w-[180px] group-hover:-translate-y-0.5 transition-transform duration-300 will-change-transform">
                       <img 
                         src={partner.src} 
                         alt={partner.name} 
                         loading="lazy"
-                        className="h-full w-auto object-contain" 
+                        className="h-full w-auto max-h-[56px] md:max-h-[64px] object-contain transition-all duration-300" 
                       />
                     </div>
-                    <span className="font-sans font-semibold text-[10px] md:text-xs tracking-widest uppercase whitespace-nowrap text-black transition-colors duration-500 group-hover:text-brand-gold">
+                    <span className="font-sans font-medium text-[8px] md:text-[9px] tracking-widest uppercase text-center text-gray-500 group-hover:text-[#760000] transition-colors duration-300 max-w-[140px] md:max-w-[180px] truncate">
                       {partner.name}
                     </span>
                   </a>
@@ -393,7 +394,7 @@ export default function Home() {
       </section>
 
       {/* Membership Highlights CTA Section */}
-      <section className="py-24 md:py-32 px-6 bg-brand-ink relative overflow-hidden text-white border-b border-white/5">
+      <section className="py-12 md:py-16 px-6 bg-brand-ink relative overflow-hidden text-white border-b border-white/5">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] z-0" />
         <div className="absolute top-0 right-0 w-2/3 h-full bg-brand-gold/5 blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold/10 blur-[100px] rounded-full pointer-events-none mix-blend-overlay" />
@@ -510,7 +511,7 @@ export default function Home() {
       </section>
 
       {/* Featured News Carousel */}
-      <section className="py-24 bg-brand-paper relative overflow-hidden">
+      <section className="py-12 md:py-16 bg-brand-paper relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] z-0 pointer-events-none" />
         <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-white/80 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
         <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] bg-brand-gold/10 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
@@ -588,7 +589,7 @@ export default function Home() {
       </section>
 
       {/* Featured Gallery Carousel */}
-      <section className="py-24 bg-white relative overflow-hidden">
+      <section className="py-12 md:py-16 bg-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] z-0 pointer-events-none" />
         <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-brand-paper/80 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
         <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-brand-gold/5 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
@@ -660,7 +661,7 @@ export default function Home() {
       </section>
 
       {/* Featured Events Preview - Dynamic List */}
-      <section className="py-16 md:py-24 px-4 md:px-6 bg-brand-paper relative overflow-hidden">
+      <section className="py-10 md:py-14 px-4 md:px-6 bg-brand-paper relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] z-0 pointer-events-none" />
         <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-white/80 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
         <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-brand-gold/10 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
@@ -780,11 +781,11 @@ export default function Home() {
       </section>
 
       {/* Pillars Section - Redesigned for Prestige & Impact */}
-      <section className="py-24 md:py-40 px-6 bg-white relative overflow-hidden">
+      <section className="py-12 md:py-18 px-6 bg-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] z-0 pointer-events-none" />
         <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-brand-paper/80 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
         <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] bg-brand-gold/5 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
-        <div className="max-w-[1600px] mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto relative z-10">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -873,7 +874,7 @@ export default function Home() {
       </section>
 
       {/* Mini-Game Section - Let's Play */}
-      <section className="py-24 px-6 bg-white relative overflow-hidden">
+      <section className="py-12 px-6 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-serif text-brand-ink mb-4">
@@ -888,7 +889,7 @@ export default function Home() {
       </section>
 
       {/* Impact CTA - Immersive & Urgent */}
-      <section className="py-24 md:py-48 px-6 bg-white relative overflow-hidden">
+      <section className="py-12 md:py-20 px-6 bg-white relative overflow-hidden">
         {/* Subtle Background Accents */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] z-0 pointer-events-none" />
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-brand-paper/80 blur-[150px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
@@ -993,7 +994,7 @@ export default function Home() {
         </div>
       </section>
 {/* Legacy Section - Immersive Heritage */}
-      <section className="py-24 md:py-40 px-4 md:px-6 bg-[#050507] text-white relative overflow-hidden flex items-center min-h-[90vh]">
+      <section className="py-12 md:py-20 px-4 md:px-6 bg-[#050507] text-white relative overflow-hidden flex items-center min-h-[70vh]">
         {/* Cinematic Atmospheric Background */}
         <div className="absolute inset-0 z-0">
            {/* Slowly shifting traditional motifs */}

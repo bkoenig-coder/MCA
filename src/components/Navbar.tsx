@@ -1,6 +1,6 @@
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Globe, LogIn, LogOut, User as UserIcon, ChevronDown, Calendar, ArrowRight, Info, Newspaper, Image as ImageIcon, Heart, Mail, Compass, Shield, Award } from 'lucide-react';
+import { Menu, X, Globe, LogIn, LogOut, User as UserIcon, ChevronDown, Calendar, ArrowRight, Info, Newspaper, Image as ImageIcon, Heart, Mail, Compass, Shield, Award, ChevronRight, Linkedin, Instagram, Facebook, ArrowLeft, ChevronLeft } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState, useEffect, useRef } from 'react';
 import { cn } from '@/src/lib/utils';
@@ -28,21 +28,24 @@ const MongolianFlagBanner = ({ className }: { className?: string }) => (
       <path d="M0,0 L60,0 L60,85 L30,100 L0,85 Z" fill="#0066B3" />
       <path d="M0,0 L20,0 L20,90 L0,80 Z" fill="#DA2032" />
       <path d="M40,0 L60,0 L60,80 L40,90 Z" fill="#DA2032" />
-      {/* Soyombo symbol simplified */}
+      {/* High-fidelity Soyombo symbol */}
       <g fill="#F8CC1B" transform="translate(4, 10) scale(0.6)">
-        {/* Flame */}
-        <path d="M10,0 Q15,5 10,10 Q5,5 10,0" />
+        {/* Three-tongued Flame */}
+        <path d="M10,0 C11.5,2 12,4 10.5,6.5 C12.5,4.5 13.5,6 12,8.5 C15,7.5 14.5,10 10,11 C5.5,10 5,7.5 8,8.5 C6.5,6 7.5,4.5 9.5,6.5 C8,4 8.5,2 10,0 Z" />
         {/* Sun and Moon */}
         <circle cx="10" cy="14" r="3" />
         <path d="M7,18 A4,4 0 0,0 13,18 A3,3 0 0,1 7,18" />
         {/* Triangles and rectangles */}
-        <polygon points="5,22 15,22 10,27" />
-        <rect x="4" y="28" width="12" height="2" />
-        <rect x="4" y="31" width="12" height="2" />
-        <circle cx="10" cy="38" r="4" fill="none" stroke="#F8CC1B" strokeWidth="1.5" />
-        <rect x="4" y="44" width="12" height="2" />
-        <rect x="4" y="47" width="12" height="2" />
-        <polygon points="5,54 15,54 10,49" />
+        <polygon points="3,20 17,20 10,25" />
+        <rect x="3" y="27" width="14" height="2.5" />
+        {/* Arga-Bilig (Yin Yang) with Fish */}
+        <path d="M 5.5,38 A 4.5,4.5 0 0,1 14.5,38 A 2.25,2.25 0 0,1 10,38 A 2.25,2.25 0 0,0 5.5,38 Z" fill="#F8CC1B" />
+        <circle cx="10" cy="38" r="4.5" fill="none" stroke="#F8CC1B" strokeWidth="1.2" />
+        <circle cx="7.75" cy="40.5" r="0.8" fill="#F8CC1B" />
+        <circle cx="12.25" cy="35.5" r="0.8" fill="#DA2032" />
+        
+        <rect x="3" y="46.5" width="14" height="2.5" />
+        <polygon points="3,51 17,51 10,56" />
         {/* Vertical bars */}
         <rect x="1" y="20" width="2" height="36" />
         <rect x="17" y="20" width="2" height="36" />
@@ -183,318 +186,445 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
+      {/* Top Utility Bar (Mobile & Desktop) */}
+      <div className={cn(
+        "bg-[#0A1128] text-white/80 transition-all duration-500 overflow-hidden border-b border-white/5",
+        scrolled ? "h-0 opacity-0 pointer-events-none" : "h-9 flex items-center"
+      )}>
+        <div className="max-w-[1600px] w-full mx-auto px-4 md:px-16 flex items-center justify-between h-full text-[9px] uppercase tracking-[0.18em] font-sans font-bold select-none min-w-0">
+          {/* Left: Embassy Flags & Organization details */}
+          <div className="flex items-center gap-2.5 sm:gap-4 text-white/75 min-w-0">
+            <div className="flex items-center gap-1.5 flex-shrink-0">
+              <AustrianFlagBanner className="w-3.5 h-auto sm:w-4" />
+              <MongolianFlagBanner className="w-3.5 h-auto sm:w-4" />
+            </div>
+            <span className="h-3 w-px bg-white/10 flex-shrink-0" />
+            <span className="text-[7.5px] min-[360px]:text-[8px] sm:text-[8.5px] font-semibold text-white/70 tracking-[0.05em] sm:tracking-[0.18em] uppercase truncate">
+              Austrian-Mongolian Center in Vienna, MCA Cultural and Business HUB
+            </span>
+          </div>
+
+          {/* Right: Language Selector and Sign In */}
+          <div className="hidden sm:flex items-center gap-6 flex-shrink-0">
+            {/* Language Selection Trigger */}
+            <div className="relative" ref={langRef}>
+              <button 
+                onClick={() => setIsLangOpen(!isLangOpen)}
+                className="flex items-center gap-2 text-white/85 hover:text-[#C5A059] transition-all py-1"
+              >
+                <span>{currentLang.flag}</span>
+                <span className="font-extrabold text-[9px]">{currentLang.code}</span>
+                <ChevronDown size={10} className={cn('transition-all text-[#C5A059] opacity-70', isLangOpen && 'rotate-180')} />
+              </button>
+
+              <AnimatePresence>
+                {isLangOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    className="absolute right-0 mt-2 w-44 bg-[#0A1128]/95 backdrop-blur-md rounded-lg shadow-2xl border border-white/10 overflow-hidden z-50 p-1.5"
+                  >
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => {
+                          i18n.changeLanguage(lang.code);
+                          setIsLangOpen(false);
+                        }}
+                        className={cn(
+                          'w-full flex items-center justify-between px-3.5 py-2.5 rounded text-[9px] uppercase tracking-widest hover:bg-white/5 transition-all text-left',
+                          i18n.language === lang.code ? 'text-[#C5A059] font-black bg-white/10' : 'text-white/70'
+                        )}
+                      >
+                        <span>{lang.name}</span>
+                        <span>{lang.flag}</span>
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            <span className="h-3 w-px bg-white/10" />
+
+            {/* Portal Sign-in inline trigger */}
+            <div>
+              {user ? (
+                <div className="flex items-center gap-3">
+                  <Link to="/profile" className="flex items-center gap-2 text-white/85 hover:text-[#C5A059] transition-all">
+                    {user.photoURL ? (
+                      <img src={user.photoURL} alt="" className="w-4.5 h-4.5 rounded-full border border-[#C5A059]/40 p-0.5" />
+                    ) : (
+                      <UserIcon size={11} className="text-[#C5A059]" />
+                    )}
+                    <span className="text-[9px] normal-case truncate max-w-[80px]">{user.displayName || 'Member'}</span>
+                  </Link>
+                  <button onClick={() => logOut()} className="text-white/40 hover:text-red-400 transition-all">
+                    <LogOut size={11} />
+                  </button>
+                </div>
+              ) : (
+                <button 
+                  onClick={async () => {
+                    try {
+                      await signInWithGoogle();
+                    } catch (error: any) {
+                      if (error?.code !== 'auth/popup-closed-by-user') {
+                        toast.error('Login failed, retry opening in new tab.');
+                      }
+                    }
+                  }}
+                  className="flex items-center gap-1.5 text-white/85 hover:text-[#C5A059] transition-all font-bold text-[9px]"
+                >
+                  <LogIn size={10} className="text-[#C5A059]" />
+                  <span>Member Portal</span>
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
       <nav
         className={cn(
-          'transition-all duration-300 px-4 md:px-6 py-4 md:py-8 relative z-[120] w-full',
-          isOpen ? 'bg-white border-b-0' : (scrolled || nextEvent ? 'bg-white py-3 md:py-4 shadow-sm border-b border-brand-ink/5' : 'bg-white'),
-          nextEvent && !scrolled && !isOpen && 'py-4 md:py-6'
+          'transition-all duration-500 px-4 md:px-12 relative z-[120] w-full bg-white',
+          scrolled 
+            ? 'py-3.5 shadow-[0_4px_30px_rgba(0,0,0,0.02)] border-b border-brand-gold/15 bg-white/95 backdrop-blur-md' 
+            : 'py-5 border-b border-[#0F0F0F]/5',
+          isOpen && 'border-b-0 bg-white'
         )}
       >
-        {/* Left Flag */}
-        <div className="absolute top-0 left-2 md:left-4 lg:left-6 z-0 lg:z-50 pointer-events-none">
-          <AustrianFlagBanner className="w-3 md:w-5 lg:w-6" />
-        </div>
-        
-        {/* Right Flag */}
-        <div className="absolute top-0 right-2 md:right-4 lg:right-6 z-0 lg:z-50 pointer-events-none">
-          <MongolianFlagBanner className="w-3 md:w-5 lg:w-6" />
-        </div>
-
-        <div className="max-w-[1600px] w-full mx-auto px-4 md:px-16 relative">
-          {/* Desktop Layout */}
-          <div className="hidden lg:grid grid-cols-[1fr_auto_1fr] items-center w-full min-h-[80px] relative z-[120]">
-            {/* Left Nav */}
-            <div className="flex items-center justify-start gap-8 xl:gap-12 pl-4 z-10">
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className={cn(
-                  "flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] font-bold transition-all hover:text-[#C5A059] text-brand-ink"
-                )}
-              >
-                {isOpen ? <X size={18} /> : <Menu size={18} />}
-                <span>{isOpen ? t('common.close', 'CLOSE') : 'MENU'}</span>
-              </button>
-            </div>
-
-            {/* Center Logo */}
-            <div className="flex justify-center z-50">
-              <Link to="/" className="flex items-center gap-4 md:gap-6 group">
-                <div className="relative">
-                  <div className="w-14 h-14 md:w-20 md:h-20 border border-[#C5A059]/20 rounded-full flex items-center justify-center transition-all duration-1000 group-hover:border-[#C5A059] group-hover:rotate-[360deg] bg-white backdrop-blur-sm shadow-sm overflow-hidden p-1">
-                    <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain" />
-                  </div>
-                  <div className="absolute -inset-2 border border-[#C5A059]/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-1000" />
-                </div>
-                <div className="flex flex-col">
-                  <span className={cn(
-                    "font-[Arial] font-bold italic text-xl md:text-3xl leading-none tracking-tight uppercase transition-colors duration-300 text-brand-ink no-underline"
-                  )}>
-                    {t('nav.mongolian')} <span className="text-[#ffa700]">{t('nav.center')}</span>
-                  </span>
-                  <span className={cn(
-                    "text-[8px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.5em] font-bold mt-1.5 md:mt-2 transition-colors duration-300 text-[#ffbc00] opacity-70"
-                  )}>{t('nav.location')}</span>
-                </div>
-              </Link>
-            </div>
-
-            {/* Right Nav + Auth */}
-            <div className="flex items-center justify-end gap-8 xl:gap-12 pr-4 z-10">
-              <div className="flex items-center gap-6">
-                {/* Language Switcher */}
-                <div className="relative" ref={langRef}>
-                  <button
-                    onClick={() => setIsLangOpen(!isLangOpen)}
-                    className={cn(
-                      "flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] font-bold transition-colors text-brand-ink/40 hover:text-[#C5A059]"
-                    )}
-                  >
-                    <span className="opacity-50 hidden md:inline">{currentLang.flag}</span>
-                    <span>{currentLang.code}</span>
-                    <ChevronDown size={12} className={cn('transition-transform opacity-30', isLangOpen && 'rotate-180')} />
-                  </button>
-                  
-                  <AnimatePresence>
-                    {isLangOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 15, scale: 0.95 }}
-                        className="absolute right-0 mt-6 w-48 bg-white rounded-3xl shadow-2xl border border-brand-ink/5 overflow-hidden z-50 p-2"
-                      >
-                        {languages.map((lang) => (
-                          <button
-                            key={lang.code}
-                            onClick={() => {
-                              i18n.changeLanguage(lang.code);
-                              setIsLangOpen(false);
-                            }}
-                            className={cn(
-                              'w-full flex items-center justify-between px-5 py-4 rounded-2xl text-[10px] uppercase tracking-widest hover:bg-brand-paper transition-all duration-300',
-                              i18n.language === lang.code ? 'text-brand-gold font-bold bg-brand-paper/50' : 'text-brand-ink/60'
-                            )}
-                          >
-                            <span>{lang.name}</span>
-                            <span className="opacity-50 grayscale hover:grayscale-0 transition-all">{lang.flag}</span>
-                          </button>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                {user ? (
-                  <div className="flex items-center gap-4">
-                    <Link to="/profile" className="flex items-center gap-3 group/profile">
-                      {user.photoURL ? (
-                        <img src={user.photoURL} alt="" className="w-8 h-8 rounded-full border border-[#C5A059]/20 p-0.5 shadow-sm group-hover/profile:border-[#C5A059] transition-colors" />
-                      ) : (
-                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[#C5A059] border border-[#C5A059]/20 group-hover/profile:border-[#C5A059] transition-colors">
-                          <UserIcon size={14} />
-                        </div>
-                      )}
-                    </Link>
-                    <button 
-                      onClick={() => logOut()}
-                      className={cn(
-                        "transition-colors text-brand-ink/20 hover:text-[#C5A059]"
-                      )}
-                    >
-                      <LogOut size={16} />
-                    </button>
-                  </div>
-                ) : (
-                  <button 
-                    onClick={async () => {
-                      try {
-                        await signInWithGoogle();
-                      } catch (error: any) {
-                        if (error?.code === 'auth/popup-blocked') {
-                          toast.error('Login popup blocked by your browser. Please allow popups or open the app in a new tab.');
-                        } else if (error?.code !== 'auth/popup-closed-by-user') {
-                          toast.error(`Sign in failed: ${error.message || 'Unknown error. Try opening in a new tab.'}`);
-                        }
-                      }
-                    }}
-                    className={cn(
-                      "text-[10px] uppercase tracking-[0.3em] font-bold px-6 py-2.5 rounded-full transition-all duration-500 shadow-sm whitespace-nowrap text-white bg-brand-ink hover:bg-[#C5A059]"
-                    )}
-                  >
-                    {t('nav.signIn')}
-                  </button>
-                )}
+        <div className="max-w-[1600px] w-full mx-auto flex items-center justify-between relative">
+          
+          {/* Left: Organization Branding */}
+          <Link to="/" className="flex items-center gap-3.5 group flex-shrink-0 z-10">
+            <div className="relative">
+              <div className="w-11 h-11 md:w-13 md:h-13 border border-[#C5A059]/30 rounded-full flex items-center justify-center transition-all duration-[750ms] group-hover:border-[#C5A059] group-hover:rotate-[360deg] bg-white shadow-sm overflow-hidden p-1">
+                <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain" />
               </div>
             </div>
+            
+            <div className="flex flex-col select-none">
+              <h1 className="font-serif font-black text-sm md:text-lg tracking-[0.05em] leading-none uppercase text-[#0066B3] m-0">
+                {t('nav.mongolian')} <span className="text-[#DA2032] font-black tracking-[0.04em]">{t('nav.center')}</span>
+              </h1>
+              <span className="font-serif text-[7.5px] md:text-[8.5px] uppercase tracking-[0.35em] font-extrabold text-[#C5A059] mt-1 transition-colors duration-300">
+                {t('nav.location')}
+              </span>
+            </div>
+          </Link>
+
+          {/* Center Links (Desktop only) */}
+          <div className="hidden lg:flex items-center justify-center gap-5 xl:gap-8 mx-4">
+            {navItems.filter(item => item.path !== '/admin' && item.path !== '/diorama').map((item) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={cn(
+                    "group text-[9px] xl:text-[10px] uppercase tracking-[0.18em] font-sans font-black transition-all duration-300 relative py-2",
+                    isActive ? "text-[#0066B3]" : "text-slate-600 hover:text-[#0066B3] hover:translate-y-[-0.5px]"
+                  )}
+                >
+                  <span className="relative z-10">{item.name}</span>
+                  {isActive ? (
+                    <motion.div
+                      layoutId="activeSubNavTab"
+                      className="absolute bottom-[-1px] left-0.5 right-0.5 h-[2px] bg-[#0066B3] rounded-full"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  ) : (
+                    <span className="absolute bottom-[-1px] left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#0066B3]/40 scale-0 group-hover:scale-100 transition-all duration-300" />
+                  )}
+                </Link>
+              );
+            })}
           </div>
 
-          {/* Mobile Layout */}
-          <div className="grid lg:hidden grid-cols-[1fr_auto_1fr] items-center w-full relative z-[120]">
-            {/* Mobile Toggle */}
-            <div className="flex justify-start">
-              <button 
-                className={cn(
-                  "p-1.5 md:p-2 transition-colors duration-300 text-brand-ink"
-                )} 
-                onClick={() => setIsOpen(!isOpen)}
-              >
-                {isOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
+          {/* Right Action Trigger Group (Desktop only) */}
+          <div className="hidden lg:flex items-center gap-3">
+            <Link 
+              to="/membership"
+              className="text-[9px] uppercase tracking-[0.15em] font-extrabold px-5 py-3 rounded border border-[#0A1128] hover:bg-[#0A1128] hover:text-white transition-all duration-300 shadow-sm hover:shadow active:scale-95"
+            >
+              Become a Member
+            </Link>
 
-            {/* Mobile Logo */}
-            <div className="flex justify-center z-50">
-              <Link to="/" className="flex items-center gap-3 group lg:hidden">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 border border-[#C5A059]/20 rounded-full flex items-center justify-center bg-white backdrop-blur-sm shadow-sm overflow-hidden p-1 flex-shrink-0">
-                  <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain" />
-                </div>
-                <div className="flex flex-col items-start justify-center">
-                  <span className={cn(
-                    "font-[Arial] font-bold italic text-[15px] sm:text-lg leading-tight tracking-tight uppercase transition-colors duration-300 text-brand-ink no-underline flex flex-col"
-                  )}>
-                    <span>{t('nav.mongolian')}</span>
-                    <span className="text-[#ffa700]">{t('nav.center')}</span>
-                  </span>
-                </div>
-              </Link>
-            </div>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className={cn(
+                "flex items-center gap-2.5 text-[9px] uppercase tracking-[0.15em] font-extrabold transition-all duration-300 py-3 px-5 rounded bg-[#0A1128] border border-[#0A1128] text-white hover:bg-neutral-800 hover:border-neutral-800 shadow-sm active:scale-95"
+              )}
+            >
+              {isOpen ? <X size={12} className="text-[#C5A059]" /> : <Menu size={12} className="text-[#C5A059]" />}
+              <span>{isOpen ? t('common.close', 'CLOSE') : 'DIRECTORY'}</span>
+            </button>
+          </div>
 
-            {/* Mobile Lang */}
-            <div className="flex justify-end">
-              <button
-                onClick={() => {
-                  const nextLang = languages[(languages.findIndex(l => l.code === i18n.language) + 1) % languages.length];
-                  i18n.changeLanguage(nextLang.code);
-                }}
-                className={cn(
-                  "w-9 h-9 rounded-full border flex items-center justify-center text-base transition-colors duration-300 bg-white/50 text-brand-ink border-brand-ink/10"
+          {/* Mobile Layout Actions Row */}
+          <div className="lg:hidden flex items-center gap-3 z-10">
+            {/* Lang cycler flag */}
+            <button
+              onClick={() => {
+                const nextLang = languages[(languages.findIndex(l => l.code === i18n.language) + 1) % languages.length];
+                i18n.changeLanguage(nextLang.code);
+              }}
+              className="w-9 h-9 rounded-full border flex items-center justify-center text-sm transition-all duration-300 bg-brand-paper hover:bg-white text-brand-ink border-brand-ink/10 shadow-sm active:scale-90"
+            >
+              {currentLang.flag}
+            </button>
+
+            {/* Profile Avatar Trigger */}
+            {user && (
+              <Link to="/profile" className="w-9 h-9 rounded-full border border-[#C5A059]/30 p-0.5 bg-white flex items-center justify-center shadow-sm">
+                {user.photoURL ? (
+                  <img src={user.photoURL} alt="" className="w-full h-full rounded-full object-cover" />
+                ) : (
+                  <UserIcon size={12} className="text-[#C5A059]" />
                 )}
-              >
-                {currentLang.flag}
-              </button>
-            </div>
+              </Link>
+            )}
+
+            {/* Burger Trigger */}
+            <button 
+              className="p-2.5 transition-all duration-300 text-white rounded bg-[#0A1128] hover:bg-neutral-800 active:scale-95 flex items-center justify-center shadow-sm"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen ? <X size={16} className="text-[#C5A059]" /> : <Menu size={16} className="text-[#C5A059]" />}
+            </button>
           </div>
+
         </div>
 
         <AnimatePresence>
           {isOpen && (
             <motion.div
               initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-              animate={{ opacity: 1, backdropFilter: 'blur(20px)' }}
+              animate={{ opacity: 1, backdropFilter: 'blur(16px)' }}
               exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed inset-0 min-h-screen w-full bg-white/95 z-[110] flex flex-col pt-[110px] sm:pt-[120px] md:pt-[140px]"
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed inset-0 h-screen w-full bg-slate-50/98 z-[130] flex flex-col overflow-hidden"
               style={{ willChange: 'opacity' }}
             >
-              <div className="flex-1 w-full max-w-[1600px] mx-auto px-6 sm:px-8 md:px-16 flex flex-col justify-between pb-6 md:pb-8 h-full min-h-[min-content] relative">
-                
-                {/* Decorative Line */}
-                <motion.div 
-                  initial={{ scaleY: 0 }}
-                  animate={{ scaleY: 1 }}
-                  transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute top-0 bottom-0 left-1/2 w-px bg-brand-ink/5 origin-top"
-                />
+              {/* Executive Top Header inside open Menu Overlay */}
+              <div className="w-full bg-white border-b border-brand-ink/10 py-3 shrink-0 relative z-20 shadow-[0_2px_15px_rgba(0,0,0,0.02)]">
+                <div className="max-w-[1600px] w-full mx-auto px-6 md:px-12 flex items-center justify-between select-none">
+                  {/* Branding Info */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 border border-[#C5A059]/30 rounded-full flex items-center justify-center bg-white p-0.5">
+                      <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain" />
+                    </div>
+                    <div className="flex flex-col text-left">
+                      <span className="font-serif font-black text-xs md:text-sm tracking-[0.05em] leading-none uppercase text-[#0066B3]">
+                        {t('nav.mongolian')} <span className="text-[#DA2032] font-black tracking-[0.04em]">{t('nav.center')}</span>
+                      </span>
+                      <span className="font-serif text-[7.5px] md:text-[8px] uppercase tracking-[0.3em] font-extrabold text-[#C5A059] mt-0.5">
+                        {t('nav.location')}
+                      </span>
+                    </div>
+                  </div>
 
-                <div className="flex-1 flex flex-col items-center justify-center relative w-full my-auto">
-                  <nav className="flex flex-col items-center justify-center w-full gap-2 md:gap-4">
-                    {navItems.map((item, idx) => {
-                      const isActive = location.pathname === item.path;
-                      return (
-                        <div key={item.path} className="overflow-hidden py-1 px-4 md:px-8">
-                          <motion.div
-                            initial={{ opacity: 0, y: 60 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -40 }}
-                            transition={{ duration: 0.7, delay: 0.1 + idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                          >
-                            <Link
-                              to={item.path}
-                              className={cn(
-                                'group flex items-center justify-center w-max mx-auto relative transition-colors duration-500',
-                              )}
-                              onClick={() => setIsOpen(false)}
-                            >
-                              <span className={cn(
-                                "font-[Arial] font-bold italic text-3xl sm:text-4xl md:text-5xl lg:text-[60px] tracking-tight leading-none group-hover:text-[#C5A059] transition-all duration-500 uppercase",
-                                isActive ? "text-[#C5A059] translate-x-2" : "text-brand-ink"
-                              )}>
-                                {item.name}
-                              </span>
-                              {item.path === '/events' && (
-                                <span className="absolute top-0 -right-6 md:top-1 md:-right-10 flex-shrink-0 text-[7px] md:text-[9px] bg-brand-gold text-brand-ink px-2 md:px-2.5 py-0.5 md:py-1 uppercase tracking-[0.2em] font-sans font-bold shadow-sm transform rotate-[4deg]">
-                                  UPCOMING
-                                </span>
-                              )}
-                              {item.path === '/membership' && (
-                                <span className="absolute top-0 -right-6 md:top-1 md:-right-10 flex-shrink-0 text-[7px] md:text-[9px] bg-sky-500 text-white px-2 md:px-2.5 py-0.5 md:py-1 uppercase tracking-[0.2em] font-sans font-bold shadow-sm transform -rotate-[4deg] whitespace-nowrap">
-                                  BECOME A MEMBER
-                                </span>
-                              )}
-                              {item.path === '/impact' && (
-                                <span className="absolute top-0 -right-6 md:top-1 md:-right-10 flex-shrink-0 text-[7px] md:text-[9px] bg-[#DA2032] text-white px-2 md:px-2.5 py-0.5 md:py-1 uppercase tracking-[0.2em] font-sans font-bold shadow-sm transform rotate-[4deg] whitespace-nowrap z-10">
-                                  MAKE AN IMPACT
-                                </span>
-                              )}
-                            </Link>
-                          </motion.div>
-                        </div>
-                      );
-                    })}
-                  </nav>
+                  {/* Redundant, Beautiful Back Trigger */}
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="group flex items-center gap-2.5 text-[9px] md:text-[10px] uppercase tracking-[0.18em] font-sans font-black text-white bg-[#0A1128] hover:bg-[#C5A059] transition-all py-2 px-4.5 rounded shadow-sm hover:shadow active:scale-95"
+                  >
+                    <ArrowLeft size={13} className="group-hover:-translate-x-1 transition-transform text-[#C5A059]" />
+                    <span>Back to Site</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Background Cultural Emblem Accent */}
+              <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-20 flex items-center justify-center">
+                <div className="absolute right-[-10%] bottom-[-10%] text-brand-gold/15 transition-transform duration-1000 rotate-[15deg]">
+                  <UlziiSymbol className="w-[300px] h-[300px] md:w-[600px] md:h-[600px] text-brand-gold/10" />
+                </div>
+              </div>
+              <div className="flex-1 w-full max-w-[1600px] mx-auto px-6 sm:px-8 md:px-16 flex flex-col justify-between pb-6 md:pb-8 h-full min-h-0 relative z-10 pt-4 md:pt-6">
+                
+                {/* Scrollable menu content grid */}
+                <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar grid grid-cols-1 lg:grid-cols-[1.1fr_2fr] gap-8 lg:gap-16 pt-4 pb-6">
+                  
+                  {/* Left Column: Menu Links */}
+                  <div className="flex flex-col justify-start lg:border-r border-brand-ink/10 lg:pr-12 text-left">
+                     <span className="text-[10px] uppercase tracking-[0.3em] font-extrabold text-[#C5A059] mb-3 lg:mb-4 block">
+                        {t('footer.navTitle', 'Navigation')}
+                     </span>
+                     <nav className="flex flex-col">
+                       {navItems.map((item, idx) => {
+                         const isActive = location.pathname === item.path;
+                         return (
+                           <div key={item.path} className="overflow-hidden">
+                             <motion.div
+                               initial={{ opacity: 0, x: -20 }}
+                               animate={{ opacity: 1, x: 0 }}
+                               exit={{ opacity: 0, x: -15 }}
+                               transition={{ duration: 0.4, delay: 0.05 + idx * 0.04, ease: [0.22, 1, 0.36, 1] }}
+                             >
+                               <Link
+                                 to={item.path}
+                                 onClick={() => setIsOpen(false)}
+                                 className="group flex items-center justify-between w-full relative py-3 border-b border-brand-ink/5 hover:bg-[#0A1128]/5 px-2 rounded-md transition-all sm:py-3.5"
+                               >
+                                 <div className="flex items-center gap-3.5">
+                                   <item.icon 
+                                     size={15} 
+                                     className={cn(
+                                       "transition-colors duration-300",
+                                       isActive ? "text-[#0066B3]" : "text-[#0A1128]/40 group-hover:text-[#0066B3]"
+                                     )} 
+                                   />
+                                   <span className={cn(
+                                     "font-sans font-extrabold text-[#0A1128] text-xs sm:text-sm tracking-[0.05em] leading-none transition-all duration-300 uppercase",
+                                     isActive ? "text-[#0066B3] translate-x-1" : "text-brand-ink group-hover:text-[#0066B3] group-hover:translate-x-1"
+                                   )}>
+                                     {item.name}
+                                   </span>
+                                 </div>
+                                 <div className="flex items-center gap-2">
+                                   {item.path === '/events' && (
+                                     <span className="text-[7.5px] bg-[#C5A059] text-white px-1.5 py-0.5 uppercase tracking-[0.12em] font-sans font-black shadow-sm transform rotate-[2deg]">
+                                       UPCOMING
+                                     </span>
+                                   )}
+                                   {item.path === '/membership' && (
+                                     <span className="text-[7.5px] bg-[#0A1128] text-white px-1.5 py-0.5 uppercase tracking-[0.12em] font-sans font-black shadow-sm transform -rotate-[2deg] whitespace-nowrap">
+                                        JOIN
+                                     </span>
+                                   )}
+                                   {item.path === '/impact' && (
+                                     <span className="text-[7.5px] bg-[#DA2032] text-white px-1.5 py-0.5 uppercase tracking-[0.12em] font-sans font-black shadow-sm transform rotate-[2deg] whitespace-nowrap">
+                                        GIVE
+                                      </span>
+                                   )}
+                                   <ChevronRight 
+                                     size={14} 
+                                     className={cn(
+                                       "transition-all duration-300 opacity-20",
+                                       isActive ? "text-[#0066B3] translate-x-0 opacity-100" : "text-brand-ink/30 group-hover:text-[#0066B3] group-hover:translate-x-1 group-hover:opacity-100"
+                                     )}
+                                   />
+                                 </div>
+                               </Link>
+                             </motion.div>
+                           </div>
+                         );
+                       })}
+                     </nav>
+                  </div>
+
+                  {/* Right Column: Featured Promotion Content */}
+                  <div className="hidden lg:flex flex-col justify-between lg:pl-4">
+                     <div className="flex flex-col">
+                        <motion.div
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.6, delay: 0.1 }}
+                          className="mb-3"
+                        >
+                          <span className="bg-[#0A1128] text-white px-2.5 py-1 rounded-md text-[9px] uppercase tracking-[0.18em] font-sans font-black shadow-sm inline-block">
+                            {t('nav.featured.badge', 'Connecting cultures,')}
+                          </span>
+                        </motion.div>
+                        
+                        <motion.h2 
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.7, delay: 0.2 }}
+                          className="font-serif text-2xl sm:text-3xl lg:text-[34px] text-brand-ink font-light leading-tight tracking-tight mb-3"
+                        >
+                          {t('nav.featured.title', 'We major in connection')}
+                        </motion.h2>
+
+                        <motion.p 
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.8, delay: 0.3 }}
+                          className="font-sans text-xs sm:text-[13px] text-brand-ink/70 max-w-xl leading-relaxed mb-4"
+                        >
+                          {t('nav.featured.desc', "We're dedicated to helping you discover new opportunities, bridging cultural insights with professional success.")}
+                        </motion.p>
+                     </div>
+
+                     <motion.div
+                       initial={{ opacity: 0, scale: 0.98 }}
+                       animate={{ opacity: 1, scale: 1 }}
+                       transition={{ duration: 0.8, delay: 0.4 }}
+                       className="w-full relative rounded-3xl overflow-hidden shadow-lg border border-brand-ink/5 mt-auto max-h-[220px] md:max-h-[260px] aspect-[21/9]"
+                     >
+                       <img 
+                         src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop" 
+                         alt="Hands On Practice" 
+                         className="w-full h-full object-cover select-none pointer-events-none hover:scale-[1.02] transition-transform duration-700"
+                         referrerPolicy="no-referrer"
+                       />
+                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+                     </motion.div>
+                  </div>
                 </div>
 
-                {/* Footer Section */}
+                {/* Footer Bar: DePaul inspired links & social icons */}
                 <motion.div 
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
-                  className="w-full grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-0 mt-5 md:mt-6 pt-5 border-t border-brand-ink/10 relative z-10"
+                  className="w-full pt-5 border-t border-brand-ink/10 flex flex-col sm:flex-row justify-between items-center gap-4 relative z-10 shrink-0 mt-4"
                 >
-                  {/* Left: Socials */}
-                  <div className="flex flex-col gap-3 items-center md:items-start">
-                     <span className="text-[9px] uppercase tracking-[0.3em] font-bold text-brand-ink/40">Connect</span>
-                     <div className="flex gap-6 text-[10px] md:text-[11px] font-sans font-bold uppercase tracking-[0.15em] text-brand-ink/70">
-                        <a href="https://www.instagram.com/mncenteraustria/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-gold transition-colors">Instagram</a>
-                        <a href="https://www.facebook.com/profile.php?id=61568045031863" target="_blank" rel="noopener noreferrer" className="hover:text-brand-gold transition-colors">Facebook</a>
-                        <a href="https://www.linkedin.com/company/mongolian-center-in-austria/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-gold transition-colors">LinkedIn</a>
+                  {/* Left: Quick Portal links */}
+                  <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-6 text-[9px] font-sans font-bold uppercase tracking-[0.2em] text-brand-ink/60">
+                     <Link to="/membership/apply-student" onClick={() => setIsOpen(false)} className="hover:text-[#0066B3] transition-colors">FOR STUDENTS</Link>
+                     <Link to="/membership/apply-professional" onClick={() => setIsOpen(false)} className="hover:text-[#0066B3] transition-colors">FOR COMPANIES</Link>
+                     <Link to="/contact" onClick={() => setIsOpen(false)} className="hover:text-[#0066B3] transition-colors">FOR INSTITUTIONS</Link>
+                  </div>
+
+                  {/* Right: Social icons & Sign in */}
+                  <div className="flex flex-wrap items-center justify-center sm:justify-end gap-5">
+                     <div className="flex gap-4 items-center">
+                        <a href="https://www.linkedin.com/company/mongolian-center-in-austria/" target="_blank" rel="noopener noreferrer" className="text-brand-ink/50 hover:text-brand-gold transition-colors">
+                           <Linkedin size={14} />
+                        </a>
+                        <a href="https://www.instagram.com/mncenteraustria/" target="_blank" rel="noopener noreferrer" className="text-brand-ink/50 hover:text-brand-gold transition-colors">
+                           <Instagram size={14} />
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=61568045031863" target="_blank" rel="noopener noreferrer" className="text-brand-ink/50 hover:text-brand-gold transition-colors">
+                           <Facebook size={14} />
+                        </a>
                      </div>
-                  </div>
+                     
+                     <div className="h-3 w-px bg-brand-ink/10 hidden sm:block" />
 
-                  {/* Center: Established */}
-                  <div className="flex flex-col justify-end items-center text-[9px] uppercase tracking-[0.4em] font-bold text-brand-ink/30 order-last md:order-none">
-                     ESTABLISHED 2026<br/>VIENNA, AUSTRIA
-                  </div>
-
-                  {/* Right: User */}
-                  <div className="flex flex-col gap-3 items-center md:items-end">
-                     <span className="text-[9px] uppercase tracking-[0.3em] font-bold text-brand-ink/40">Membership</span>
-                     {user ? (
-                       <div className="flex items-center gap-3">
-                          <Link to="/profile" onClick={() => setIsOpen(false)} className="flex flex-col text-right group">
-                            <span className="font-serif text-sm text-brand-ink group-hover:text-brand-gold transition-colors">{user.displayName}</span>
-                          </Link>
-                          <div className="w-px h-4 bg-brand-ink/20 mx-1" />
-                          <button onClick={() => { logOut(); setIsOpen(false); }} className="text-[10px] uppercase tracking-[0.2em] font-bold text-brand-ink/50 hover:text-brand-ink transition-colors flex items-center gap-1.5">
-                            <LogOut size={12} /> Sign Out
+                     <div>
+                        {user ? (
+                          <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.2em]">
+                             <Link to="/profile" onClick={() => setIsOpen(false)} className="text-brand-ink hover:text-brand-gold transition-colors">
+                               {user.displayName}
+                             </Link>
+                             <div className="h-2 w-px bg-brand-ink/20" />
+                             <button onClick={() => { logOut(); setIsOpen(false); }} className="text-brand-ink/50 hover:text-brand-gold transition-colors">
+                               Sign Out
+                             </button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={async () => {
+                               try {
+                                 await signInWithGoogle();
+                                 setIsOpen(false);
+                               } catch (error: any) {
+                                 if (error?.code !== 'auth/popup-closed-by-user') {
+                                   toast.error('Login failed, try opening in a new tab.');
+                                 }
+                               }
+                            }}
+                            className="text-[9px] font-bold uppercase tracking-[0.2em] text-brand-ink hover:text-brand-gold transition-colors flex items-center gap-1.5"
+                          >
+                            <LogIn size={11} /> Member Access
                           </button>
-                       </div>
-                     ) : (
-                       <button
-                         onClick={async () => {
-                            try {
-                              await signInWithGoogle();
-                              setIsOpen(false);
-                            } catch (error: any) {
-                              if (error?.code !== 'auth/popup-closed-by-user') {
-                                toast.error('Login failed, try opening in a new tab.');
-                              }
-                            }
-                         }}
-                         className="flex items-center gap-2 text-[10px] md:text-[11px] font-sans font-bold uppercase tracking-[0.1em] text-brand-ink hover:text-brand-gold transition-colors"
-                       >
-                         <LogIn size={14} /> Member Access
-                       </button>
-                     )}
+                        )}
+                     </div>
                   </div>
                 </motion.div>
               </div>
@@ -503,15 +633,15 @@ export default function Navbar() {
         </AnimatePresence>
 
         {/* Scroll Progress Bar */}
-        <div className="absolute bottom-0 left-0 right-0 h-[10px] bg-brand-ink/5">
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-brand-gold/10">
           <motion.div
-            className="absolute top-0 left-0 h-full bg-[#0A1128] origin-left w-full"
+            className="absolute top-0 left-0 h-full bg-[#C5A059] origin-left w-full"
             style={{ scaleX }}
           />
           
           {/* Running Horse Figure */}
           <motion.div
-            className="absolute top-[1px] z-50 pointer-events-none text-[#0A1128]"
+            className="absolute top-[-4.5px] z-50 pointer-events-none text-[#C5A059]"
             style={{ 
               left: horseX,
               x: '-50%'

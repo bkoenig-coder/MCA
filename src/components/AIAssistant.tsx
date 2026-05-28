@@ -91,7 +91,7 @@ export default function AIAssistant() {
   }
 
   return (
-    <div className="font-[Arial]">
+    <div className="font-sans">
       {/* Floating Action Button */}
       <AnimatePresence>
         {!isOpen && (
