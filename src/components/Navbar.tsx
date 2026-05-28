@@ -146,7 +146,7 @@ export default function Navbar() {
     };
   }, []);
 
-  const currentLang = languages.find(l => l.code === i18n.language) || languages[0];
+  const currentLang = languages.find(l => i18n.language?.startsWith(l.code)) || languages[0];
 
   return (
     <header ref={menuRef} className="fixed top-0 left-0 right-0 z-[100]">
@@ -188,8 +188,8 @@ export default function Navbar() {
 
       {/* Top Utility Bar (Mobile & Desktop) */}
       <div className={cn(
-        "bg-[#0A1128] text-white/80 transition-all duration-500 overflow-hidden border-b border-white/5",
-        scrolled ? "h-0 opacity-0 pointer-events-none" : "h-9 flex items-center"
+        "bg-[#0A1128] text-white/80 transition-all duration-500 border-b border-white/5 relative z-[130]",
+        scrolled ? "h-0 opacity-0 pointer-events-none overflow-hidden" : "h-9 flex items-center"
       )}>
         <div className="max-w-[1600px] w-full mx-auto px-4 md:px-16 flex items-center justify-between h-full text-[9px] uppercase tracking-[0.18em] font-sans font-bold select-none min-w-0">
           {/* Left: Embassy Flags & Organization details */}
@@ -234,7 +234,7 @@ export default function Navbar() {
                         }}
                         className={cn(
                           'w-full flex items-center justify-between px-3.5 py-2.5 rounded text-[9px] uppercase tracking-widest hover:bg-white/5 transition-all text-left',
-                          i18n.language === lang.code ? 'text-[#C5A059] font-black bg-white/10' : 'text-white/70'
+                          i18n.language?.startsWith(lang.code) ? 'text-[#C5A059] font-black bg-white/10' : 'text-white/70'
                         )}
                       >
                         <span>{lang.name}</span>
@@ -368,7 +368,9 @@ export default function Navbar() {
             {/* Lang cycler flag */}
             <button
               onClick={() => {
-                const nextLang = languages[(languages.findIndex(l => l.code === i18n.language) + 1) % languages.length];
+                const currentIndex = languages.findIndex(l => i18n.language?.startsWith(l.code));
+                const nextIndex = currentIndex !== -1 ? (currentIndex + 1) % languages.length : 0;
+                const nextLang = languages[nextIndex];
                 i18n.changeLanguage(nextLang.code);
               }}
               className="w-9 h-9 rounded-full border flex items-center justify-center text-sm transition-all duration-300 bg-brand-paper hover:bg-white text-brand-ink border-brand-ink/10 shadow-sm active:scale-90"
