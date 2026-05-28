@@ -193,28 +193,35 @@ export default function Navbar() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="bg-[#0A1128] text-white py-1.5 md:py-2 overflow-hidden border-b border-white/10 shadow-sm"
+            className="text-[#0A1128] py-2 overflow-hidden border-b border-[#AA7C11]/30 relative z-[120] shadow-[0_2px_8px_rgba(0,0,0,0.15)]"
+            style={{
+              backgroundImage: 'linear-gradient(135deg, #AA7C11 0%, #D4AF37 25%, #FFF2B2 50%, #E6C280 75%, #AA7C11 100%)',
+            }}
           >
-            <div className="flex whitespace-nowrap animate-marquee">
+            {/* Shimmer overlay for gold texture depth */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-white/20 via-transparent to-black/5 pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-0 h-[1px] bg-white/35" />
+            
+            <div className="flex whitespace-nowrap animate-marquee relative z-10">
               {[...Array(10)].map((_, i) => (
                 <Link 
                   key={i}
                   to={`/events/${nextEvent.id}`}
-                  className="flex items-center gap-8 px-8 group transition-all duration-500"
+                  className="flex items-center gap-8 px-8 group transition-all duration-500 text-[#0A1128] hover:text-[#0A1128]/80"
                 >
                   <div className="flex items-center gap-3">
-                    <Calendar size={12} className="opacity-80 text-brand-gold" />
-                    <span className="text-[9px] uppercase tracking-[0.3em] font-bold">
-                      {t('events.nextUpcoming')}: <span className="text-white/90 italic">{nextEvent.title}</span>
+                    <Calendar size={12} className="text-[#0A1128] opacity-90" />
+                    <span className="text-[9px] uppercase tracking-[0.3em] font-extrabold text-[#0A1128]/90">
+                      {t('events.nextUpcoming')}: <span className="text-black font-black italic">{nextEvent.title}</span>
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-[9px] uppercase tracking-[0.3em] font-bold opacity-80">
+                    <span className="text-[9px] uppercase tracking-[0.3em] font-extrabold text-[#0A1128]/80">
                       {new Date(nextEvent.date).toLocaleDateString(t('common.locale'), { day: 'numeric', month: 'long', year: 'numeric' })}
                     </span>
-                    <ArrowRight size={10} className="group-hover:translate-x-1 transition-transform text-brand-gold" />
+                    <ArrowRight size={10} className="group-hover:translate-x-1.5 transition-transform text-[#0A1128]" />
                   </div>
-                  <div className="w-1 h-1 rounded-full bg-white/20 mx-4" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#0A1128]/60 mx-4" />
                 </Link>
               ))}
             </div>
@@ -224,7 +231,7 @@ export default function Navbar() {
 
       {/* Top Utility Bar (Mobile & Desktop) */}
       <div className={cn(
-        "bg-[#0A1128] text-white/80 transition-all duration-500 border-b border-white/5 relative z-[130]",
+        "bg-[#0A1128] text-white/80 transition-all duration-500 border-b border-white/5 relative z-[130] overflow-visible",
         scrolled ? "h-0 opacity-0 pointer-events-none overflow-hidden" : "h-9 flex items-center"
       )}>
         <div className="max-w-[1600px] w-full mx-auto px-4 md:px-16 flex items-center justify-between h-full text-[9px] uppercase tracking-[0.18em] font-sans font-bold select-none min-w-0">
@@ -234,7 +241,7 @@ export default function Navbar() {
               <BilateralFlagBadge />
             </div>
             <span className="h-3 w-px bg-white/10 flex-shrink-0" />
-            <span className="text-[7.5px] min-[360px]:text-[8px] sm:text-[8.5px] font-semibold text-white/70 tracking-[0.05em] sm:tracking-[0.18em] uppercase truncate">
+            <span className="text-[7.5px] min-[360px]:text-[8px] sm:text-[8.5px] font-medium text-white/70 tracking-[0.05em] sm:tracking-[0.18em] uppercase truncate">
               Austrian-Mongolian Center in Vienna, MCA Cultural and Business HUB
             </span>
           </div>
