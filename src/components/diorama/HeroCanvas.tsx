@@ -1,16 +1,30 @@
 import { Canvas } from '@react-three/fiber';
 import { DioramaScene } from './DioramaScene';
 import { BakeShadows, Preload, AdaptiveEvents, PerformanceMonitor, OrbitControls, Stars } from '@react-three/drei';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function HeroCanvas() {
   const [dpr, setDpr] = useState(1);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const cameraPosition: [number, number, number] = isMobile ? [0, 56, 1] : [0, 38, 1];
+  const cameraFov = isMobile ? 55 : 45;
+
   return (
     <Canvas 
       shadows 
       dpr={dpr} 
       performance={{ min: 0.1 }}
-      camera={{ position: [0, 38, 1], fov: 45 }}
+      camera={{ position: cameraPosition, fov: cameraFov }}
       gl={{ powerPreference: "high-performance", antialias: false }}
       style={{ pointerEvents: 'none', touchAction: 'auto' }}
     >

@@ -1028,12 +1028,17 @@ const resources = {
   }
 };
 
+// Ensure 'mn' is the default for new visitors
+if (typeof window !== 'undefined' && !localStorage.getItem('i18nextLng')) {
+  localStorage.setItem('i18nextLng', 'mn');
+}
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: 'en',
+    fallbackLng: 'mn',
     interpolation: {
       escapeValue: false,
     },

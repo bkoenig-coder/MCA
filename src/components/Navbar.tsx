@@ -299,7 +299,7 @@ export default function Navbar() {
 
       <nav
         className={cn(
-          'transition-all duration-500 px-4 md:px-12 relative w-full bg-white',
+          'transition-all duration-500 px-4 md:px-16 relative w-full bg-white',
           isOpen ? 'z-[155]' : 'z-[120]',
           scrolled 
             ? 'py-3.5 shadow-[0_4px_30px_rgba(0,0,0,0.02)] border-b border-brand-gold/15 bg-white/95 backdrop-blur-md' 
@@ -312,7 +312,7 @@ export default function Navbar() {
           {/* Left: Organization Branding */}
           <Link to="/" className="flex items-center gap-3.5 group flex-shrink-0 z-10">
             <div className="relative">
-              <div className="w-11 h-11 md:w-13 md:h-13 border border-[#C5A059]/30 rounded-full flex items-center justify-center transition-all duration-[750ms] group-hover:border-[#C5A059] group-hover:rotate-[360deg] bg-white shadow-sm overflow-hidden p-1">
+              <div className="w-10 h-10 md:w-12 md:h-12 border border-[#C5A059]/30 rounded-full flex items-center justify-center transition-all duration-[750ms] group-hover:border-[#C5A059] group-hover:rotate-[360deg] bg-white shadow-sm overflow-hidden p-1">
                 <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain" />
               </div>
             </div>

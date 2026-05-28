@@ -19,7 +19,7 @@ export const MongolianLine = ({ className = "w-full h-4", color = "currentColor"
 );
 
 export const NineWhiteBannersSymbol = ({ className = "w-16 h-24", color = "currentColor" }) => (
-  <svg viewBox="0 0 200 320" className={className} fill={color} xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 400 330" className={className} fill={color} xmlns="http://www.w3.org/2000/svg">
     <defs>
       <g id="tug-banner">
         <line x1="0" y1="0" x2="0" y2="240" stroke={color} strokeWidth="4" />
@@ -30,32 +30,50 @@ export const NineWhiteBannersSymbol = ({ className = "w-16 h-24", color = "curre
         {/* Decorative Binding Rings */}
         <path d="M -15 45 Q 0 55 15 45" stroke="#ffffff" strokeWidth="1" fill="none" opacity="0.4"/>
         <path d="M -18 60 Q 0 70 18 60" stroke="#ffffff" strokeWidth="1.5" fill="none" opacity="0.3"/>
+        
+        {/* Mini socket / base for the pole itself so it doesn't float in midair */}
+        <ellipse cx="0" cy="240" rx="6" ry="2.5" fill={color} />
+        <path d="M -6 240 L -9 246 L 9 246 L 6 240 Z" fill={color} />
+        <ellipse cx="0" cy="246" rx="9" ry="3.5" fill={color} opacity="0.9" />
       </g>
     </defs>
     
-    {/* Render the 9 White Banners from back to front to create a V-shaped or circular depth */}
+    {/* Grand Ceremonial Pedestal Platform (Background & mid-tiers) */}
+    {/* Step 3 (Back-most tier holding the outer-most banners) */}
+    <path d="M 35 230 Q 200 205 365 230 L 370 236 Q 200 212 30 236 Z" fill={color} opacity="0.45" />
+    
+    {/* Step 2 (Middle-back tier holding mid-outer and mid-inner banners) */}
+    <path d="M 75 240 Q 200 220 325 240 L 330 248 Q 200 228 70 248 Z" fill={color} opacity="0.65" />
+    
+    {/* Step 1 (Middle-front tier holding inner-front banners) */}
+    <path d="M 125 250 Q 200 236 275 250 L 280 262 Q 200 248 120 262 Z" fill={color} opacity="0.8" />
+
+    {/* Render the 9 White Banners from back to front with elegant spacing */}
     {/* Outer-most Back (Left and Right) */}
-    <use href="#tug-banner" transform="translate(20, 95) scale(0.55)" />
-    <use href="#tug-banner" transform="translate(180, 95) scale(0.55)" />
+    <use href="#tug-banner" transform="translate(45, 95) scale(0.55)" />
+    <use href="#tug-banner" transform="translate(355, 95) scale(0.55)" />
     
     {/* Mid-Outer Back */}
-    <use href="#tug-banner" transform="translate(42, 80) scale(0.65)" />
-    <use href="#tug-banner" transform="translate(158, 80) scale(0.65)" />
+    <use href="#tug-banner" transform="translate(90, 80) scale(0.65)" />
+    <use href="#tug-banner" transform="translate(310, 80) scale(0.65)" />
 
     {/* Mid-Inner Front */}
-    <use href="#tug-banner" transform="translate(64, 65) scale(0.75)" />
-    <use href="#tug-banner" transform="translate(136, 65) scale(0.75)" />
+    <use href="#tug-banner" transform="translate(130, 65) scale(0.75)" />
+    <use href="#tug-banner" transform="translate(270, 65) scale(0.75)" />
 
     {/* Inner Front */}
-    <use href="#tug-banner" transform="translate(85, 45) scale(0.85)" />
-    <use href="#tug-banner" transform="translate(115, 45) scale(0.85)" />
+    <use href="#tug-banner" transform="translate(165, 45) scale(0.85)" />
+    <use href="#tug-banner" transform="translate(235, 45) scale(0.85)" />
 
-    {/* The Main Center Great Banner */}
-    <use href="#tug-banner" transform="translate(100, 20) scale(1)" />
+    {/* Main Center Altar Base Pedestal (Foreground detail, overlaps with center pole placement) */}
+    <path d="M 155 264 Q 200 252 245 264 L 255 284 Q 200 272 145 284 Z" fill={color} />
+    <path d="M 145 284 Q 200 272 255 284 L 250 305 Q 200 293 150 305 Z" fill={color} opacity="0.95" />
     
-    {/* Decorative Stone/Metal Stand for the Center Banner */}
-    <path d="M 80 260 Q 100 250 120 260 L 130 275 Q 100 290 70 275 Z" fill={color} opacity="0.8" />
-    <path d="M 70 275 Q 100 290 130 275 L 125 295 Q 100 310 75 295 Z" fill={color} />
+    {/* Bottom-most wide support foundation/steps */}
+    <path d="M 125 305 Q 200 295 275 305 L 270 320 Q 200 310 130 320 Z" fill={color} opacity="0.85" />
+
+    {/* The Main Center Great Banner - positioned prominently in the foreground center */}
+    <use href="#tug-banner" transform="translate(200, 15) scale(1)" />
   </svg>
 );
 

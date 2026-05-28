@@ -154,7 +154,7 @@ export default function Home() {
 
         <Overlay activePopup={activePopup} onClose={() => setActivePopup(null)} />
 
-        <div className="max-w-7xl mx-auto w-full z-20 relative py-20 md:py-0 pointer-events-none">
+        <div className="max-w-7xl mx-auto w-full z-20 relative py-12 md:py-0 pointer-events-none">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="flex flex-col">
               <div className="flex items-start gap-6 md:gap-0">
@@ -164,28 +164,28 @@ export default function Home() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    <div className="flex items-center gap-4 mb-6 md:mb-8">
-                      <div className="h-px w-12 bg-brand-gold/40 -mt-[52px]" />
-                      <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold -mt-[52px]">
+                    <div className="flex items-center gap-4 mb-4 md:mb-8">
+                      <div className="h-px w-12 bg-brand-gold/40" />
+                      <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">
                         {t('hero.tag')}
                       </span>
                     </div>
                     <h1 className={cn(
-                      "font-serif font-normal mb-8 md:mb-10 tracking-tight text-white md:whitespace-nowrap -mt-[26px] md:mt-0 drop-shadow-lg",
-                      "text-[30px] leading-[36px] -mr-[74px]",
-                      "md:text-5xl lg:text-6xl xl:text-[80px] md:leading-[1.1] md:mr-0"
+                      "font-serif font-normal mb-6 md:mb-10 tracking-tight text-white mb-6 md:whitespace-nowrap drop-shadow-lg",
+                      "text-3xl sm:text-4xl",
+                      "md:text-5xl lg:text-6xl xl:text-[80px] md:leading-[1.1]"
                     )}>
                       {t('hero.title')} <br />
                       <span className="italic text-brand-gold font-light">{t('hero.titleItalic')}</span>
                     </h1>
-                    <p className="text-[12px] md:text-base lg:text-lg text-white/80 max-w-2xl mb-10 md:mb-12 leading-relaxed font-normal -mr-[39px] md:mr-0 -mt-[6px] md:mt-0 pt-0 drop-shadow-md">
+                    <p className="text-sm md:text-base lg:text-lg text-white/80 max-w-2xl mb-8 md:mb-12 leading-relaxed font-normal pt-0 drop-shadow-md">
                       {t('hero.subtitle')}
                     </p>
                   </motion.div>
                 </div>
 
-                {/* Official Plaque - Vertical Mongolian Script Style (Mobile) */}
-                <div className="lg:hidden relative flex-shrink-0 pt-12 -z-10">
+                {/* Official Plaque - Vertical Mongolian Script Style (Mobile) - Hidden on phones, visible only on tablets */}
+                <div className="hidden sm:block lg:hidden relative flex-shrink-0 pt-12 -z-10">
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ 
@@ -235,16 +235,16 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.5 }}
-                className="flex flex-col sm:flex-row flex-wrap xl:flex-nowrap gap-3 md:gap-4 -mt-[28px] relative z-20 pointer-events-auto"
+                className="flex flex-col sm:flex-row flex-wrap xl:flex-nowrap gap-3 md:gap-4 relative z-20 pointer-events-auto"
               >
-                <Link to="/events" className="w-full sm:w-auto flex-1 text-center bg-brand-ink text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-gold transition-all shadow-xl group whitespace-nowrap border border-white/10">
+                <Link to="/events" className="w-full sm:w-auto flex-1 text-center bg-brand-ink text-white px-6 py-3 md:py-4 rounded-full text-[11px] md:text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-gold transition-all shadow-xl group whitespace-nowrap border border-white/10 flex items-center justify-center">
                   {t('hero.ctaEvents')}
                 </Link>
-                <Link to="/diorama" className="w-full sm:w-auto flex-1 text-center bg-gradient-to-r from-brand-gold to-amber-600 text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all shadow-xl flex items-center justify-center gap-2 group border border-amber-400/30 whitespace-nowrap flex">
-                  <SoyomboSymbol className="w-3 h-3 lg:w-4 lg:h-4 group-hover:rotate-12 transition-transform duration-300" />
-                 {t('Full Screen 3D')}
+                <Link to="/diorama" className="w-full sm:w-auto flex-1 text-center bg-gradient-to-r from-brand-gold to-amber-600 text-white px-6 py-3 md:py-4 rounded-full text-[11px] md:text-xs uppercase tracking-[0.1em] font-medium hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all shadow-xl flex items-center justify-center gap-2 group border border-amber-400/30 whitespace-nowrap">
+                  <SoyomboSymbol className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform duration-300" />
+                  {t('Full Screen 3D')}
                 </Link>
-                <Link to="/membership" className="w-full sm:w-auto flex-1 text-center border border-white/20 px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold text-white hover:text-brand-gold transition-all whitespace-nowrap bg-white/10 md:bg-white/5 md:backdrop-blur-sm">
+                <Link to="/membership" className="w-full sm:w-auto flex-1 text-center border border-white/20 px-6 py-3 md:py-4 rounded-full text-[11px] md:text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold text-white hover:text-brand-gold transition-all whitespace-nowrap bg-white/10 md:bg-white/5 md:backdrop-blur-sm flex items-center justify-center">
                   Become a Member
                 </Link>
               </motion.div>
@@ -661,12 +661,12 @@ export default function Home() {
       </section>
 
       {/* Featured Events Preview - Dynamic List */}
-      <section className="py-10 md:py-14 px-4 md:px-6 bg-brand-paper relative overflow-hidden">
+      <section className="py-12 md:py-16 px-4 md:px-6 bg-brand-paper relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] z-0 pointer-events-none" />
         <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-white/80 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
         <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-brand-gold/10 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-12 md:mb-16 -mt-[40px] md:-mt-[40px]">
+          <div className="text-center mb-12 md:mb-16">
             <div className="flex items-center justify-center gap-2 md:gap-4 mb-4 md:mb-6">
               <div className="h-px w-8 md:w-12 bg-brand-gold/40" />
               <span className="text-[9px] md:text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">{t('highlight.tag')}</span>
@@ -685,14 +685,14 @@ export default function Home() {
           </div>
 
           {loading ? (
-            <div className="flex justify-center py-20 -mt-[30px] md:-mt-[50px] min-h-[200px]">
+            <div className="flex justify-center py-20 min-h-[200px]">
               {/* Spinner removed */}
             </div>
           ) : (
             <div className="relative">
               <div 
                 ref={eventsScrollRef}
-                className="flex gap-6 overflow-x-auto pb-8 hide-scrollbar -mt-[30px] md:-mt-[20px]"
+                className="flex gap-6 overflow-x-auto pb-8 hide-scrollbar mt-6 md:mt-10"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
                 {events.map((event, index) => {
@@ -790,7 +790,7 @@ export default function Home() {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="mb-[90px] md:mb-[90px] -mt-[80px]"
+            className="mb-12 md:mb-16"
           >
             <div className="flex items-center gap-4 mb-6 md:mb-8">
               <div className="h-px w-12 bg-brand-gold/40" />
