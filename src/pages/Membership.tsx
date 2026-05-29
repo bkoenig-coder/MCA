@@ -65,13 +65,23 @@ export default function Membership() {
             transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
             className="flex flex-col sm:flex-row items-center justify-center gap-6"
           >
-            <a href="#tiers" className="w-full sm:w-auto px-8 py-4 bg-brand-gold text-brand-ink rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white transition-all duration-500 shadow-[0_0_40px_rgba(212,175,55,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.4)] flex items-center justify-center gap-3 group">
+            <button 
+              onClick={() => {
+                document.getElementById('membership-tiers')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="w-full sm:w-auto px-8 py-4 bg-brand-gold text-brand-ink rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white transition-all duration-500 shadow-[0_0_40px_rgba(212,175,55,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.4)] flex items-center justify-center gap-3 group cursor-pointer"
+            >
               Individual Membership
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-            </a>
-            <Link to="/membership/apply-institutional" className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/20 text-white rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white/10 hover:border-white/40 transition-all duration-500 flex items-center justify-center gap-3">
-              Institutional Partnership
-            </Link>
+            </button>
+            <button 
+              onClick={() => {
+                document.getElementById('membership-tiers')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/20 text-white rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white/10 hover:border-white/40 transition-all duration-500 flex items-center justify-center gap-3 cursor-pointer"
+            >
+              Institutional Membership
+            </button>
           </motion.div>
         </div>
       </section>
@@ -201,7 +211,7 @@ export default function Membership() {
       </section>
 
       {/* Membership Tiers */}
-      <section className="py-24 md:py-32 px-6 bg-brand-ink relative overflow-hidden rounded-[40px] md:rounded-[80px] mx-4 md:mx-6 mb-24">
+      <section id="membership-tiers" className="py-24 md:py-32 px-6 bg-brand-ink relative overflow-hidden rounded-[40px] md:rounded-[80px] mx-4 md:mx-6 mb-24">
         {/* Subtle background decoration */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-brand-gold/20 rounded-[100%] blur-[120px] pointer-events-none" />
         
