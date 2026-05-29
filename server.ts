@@ -231,23 +231,25 @@ async function startServer() {
     try {
       const { tier, email, userId, firstName, lastName, returnUrl } = req.body;
       
+      const baseUrl = returnUrl || process.env.APP_URL || req.headers.origin || `http://localhost:${PORT}`;
+
+      if (tier === 'student') {
+        // Free tier: immediately trigger success redirect without going through Stripe checkout
+        return res.status(200).json({ url: `${baseUrl}/profile?success=true&membership=student` });
+      }
+
       let price;
       let description;
       
       if (tier === 'professional') {
         price = 8000; // 80 EUR
         description = "Professional Membership";
-      } else if (tier === 'student') {
-        price = 2500; // 25 EUR
-        description = "Student Membership";
       } else if (tier === 'institutional') {
         price = 25000; // 250 EUR
         description = "Institutional Partner";
       } else {
         return res.status(400).json({ error: "Invalid membership tier" });
       }
-
-      const baseUrl = returnUrl || process.env.APP_URL || req.headers.origin || `http://localhost:${PORT}`;
 
       let stripeClient;
       try {

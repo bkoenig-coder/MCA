@@ -105,13 +105,19 @@ export default function CheckoutRedirect({ tier, title }: CheckoutRedirectProps)
       <div className="max-w-md w-full px-6 text-center">
         {checkoutUrl ? (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-white p-12 rounded-3xl shadow-sm border border-brand-ink/5 flex flex-col items-center">
-            <h2 className="text-3xl font-serif text-brand-ink mb-3">Ready for Checkout</h2>
+            <h2 className="text-3xl font-serif text-brand-ink mb-3">
+              {tier === 'student' ? 'Ready for Activation' : 'Ready for Checkout'}
+            </h2>
             <p className="text-brand-ink/60 text-sm leading-relaxed mb-8">
-              Click the button below to complete your <span className="font-bold text-brand-ink">{title}</span> membership application securely via Stripe.
+              {tier === 'student' ? (
+                <span>Click the button below to activate your free <span className="font-bold text-brand-ink">{title}</span> membership now.</span>
+              ) : (
+                <span>Click the button below to complete your <span className="font-bold text-brand-ink">{title}</span> membership application securely via Stripe.</span>
+              )}
               {error && <span className="block mt-2 text-brand-gold font-bold">{error}</span>}
             </p>
-            <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center py-4 bg-brand-gold text-brand-ink rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-brand-ink hover:text-white transition-colors duration-300">
-              Proceed to Payment
+            <a href={checkoutUrl} className="w-full flex items-center justify-center py-4 bg-brand-gold text-brand-ink rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-brand-ink hover:text-white transition-colors duration-300">
+              {tier === 'student' ? 'Activate Free Membership' : 'Proceed to Payment'}
             </a>
             <Link to="/membership" className="mt-6 block text-[10px] uppercase tracking-[0.2em] font-bold text-brand-ink/40 hover:text-brand-ink">
                 Cancel & Go Back
@@ -119,7 +125,9 @@ export default function CheckoutRedirect({ tier, title }: CheckoutRedirectProps)
           </motion.div>
         ) : error ? (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white p-8 rounded-3xl shadow-sm border border-red-100">
-            <h2 className="text-xl font-serif text-brand-ink mb-2">Subscription Failed</h2>
+            <h2 className="text-xl font-serif text-brand-ink mb-2">
+              {tier === 'student' ? 'Activation Failed' : 'Subscription Failed'}
+            </h2>
             <p className="text-red-500 mb-6 font-light">{error}</p>
             <button onClick={() => { setError(''); setNeedsLogin(!user); if(user) handleCheckout(user); }} disabled={loading} className="w-full flex items-center justify-center py-4 bg-brand-gold text-brand-ink rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-brand-ink hover:text-white transition-colors duration-300 disabled:opacity-50">
               {loading ? <Loader2 size={16} className="animate-spin" /> : 'Try Again'}
@@ -132,7 +140,7 @@ export default function CheckoutRedirect({ tier, title }: CheckoutRedirectProps)
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-white p-12 rounded-3xl shadow-sm border border-brand-ink/5 flex flex-col items-center">
             <h2 className="text-3xl font-serif text-brand-ink mb-3">Sign in required</h2>
             <p className="text-brand-ink/60 text-sm leading-relaxed mb-8">
-              Please sign in to proceed with the <span className="font-bold text-brand-ink">{title}</span> membership checkout.
+              Please sign in to proceed with your <span className="font-bold text-brand-ink">{title}</span> membership application.
             </p>
             <button onClick={handleLoginAndCheckout} disabled={loading} className="w-full flex items-center justify-center py-4 bg-brand-gold text-brand-ink rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-brand-ink hover:text-white transition-colors duration-300 disabled:opacity-50">
               {loading ? <Loader2 size={16} className="animate-spin mr-2" /> : null}
@@ -145,9 +153,15 @@ export default function CheckoutRedirect({ tier, title }: CheckoutRedirectProps)
         ) : (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-white p-12 rounded-3xl shadow-sm border border-brand-ink/5 flex flex-col items-center">
             <Loader2 size={40} className="animate-spin text-brand-gold mb-6" />
-            <h2 className="text-3xl font-serif text-brand-ink mb-3">Redirecting to Stripe</h2>
+            <h2 className="text-3xl font-serif text-brand-ink mb-3">
+              {tier === 'student' ? 'Preparing Activation' : 'Redirecting to Stripe'}
+            </h2>
             <p className="text-brand-ink/60 text-sm leading-relaxed">
-              Please wait while we prepare your secure checkout for the <span className="font-bold text-brand-ink">{title}</span> membership...
+              {tier === 'student' ? (
+                <span>Please wait while we set up your free <span className="font-bold text-brand-ink">{title}</span> membership...</span>
+              ) : (
+                <span>Please wait while we prepare your secure checkout for the <span className="font-bold text-brand-ink">{title}</span> membership...</span>
+              )}
             </p>
           </motion.div>
         )}

@@ -258,24 +258,24 @@ export default function Membership() {
 
               <div className="p-8 md:p-10 flex flex-col flex-grow bg-[#11131c]">
                 <h3 className="text-2xl font-serif text-white mb-3 relative z-10">Student & Youth</h3>
-                <p className="text-white/50 font-light text-sm mb-8 h-12 relative z-10">Affordable annual membership for students and young professionals.</p>
+                <p className="text-white/50 font-light text-sm mb-8 h-12 relative z-10">Completely free annual membership for students and youth under 25.</p>
                 <div className="mb-10 relative z-10">
-                  <span className="text-5xl font-serif text-brand-gold">€25</span>
-                  <span className="text-white/40 font-light ml-1">/ year</span>
+                  <span className="text-5xl font-serif text-brand-gold">Free</span>
+                  <span className="text-white/40 font-light ml-1">/ under 25</span>
                 </div>
                 
                 <div className="h-[1px] w-full bg-gradient-to-r from-white/10 to-transparent mb-8" />
                 
                 <div className="space-y-4 mb-auto relative z-10 pb-10">
-                  {['Access to community events', 'Student networking sessions', 'Newsletter updates', 'Voting rights at general assembly'].map((benefit, i) => (
+                  {['Access to community events', 'Student networking sessions', 'Newsletter updates', 'Youth representation & voting'].map((benefit, i) => (
                     <div key={i} className="flex gap-4 items-start">
                       <CheckCircle2 size={18} className="text-brand-gold/70 shrink-0 mt-0.5" />
                       <span className="text-white/70 font-light text-sm">{benefit}</span>
                     </div>
                   ))}
                 </div>
-                <Link to="/contact" className="w-full flex items-center justify-center py-5 rounded-full border border-white/20 text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
-                  Contact Foundation
+                <Link to="/membership/apply-student" className="w-full flex items-center justify-center py-5 rounded-full border border-brand-gold bg-brand-gold/5 text-brand-gold text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-brand-gold hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
+                  Activate Free Membership
                 </Link>
               </div>
             </motion.div>
