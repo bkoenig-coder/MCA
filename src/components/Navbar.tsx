@@ -741,6 +741,11 @@ export default function Navbar() {
         .animate-marquee {
           animation: marquee 40s linear infinite;
         }
+        @media (max-width: 768px) {
+          .animate-marquee {
+            animation: marquee 20s linear infinite;
+          }
+        }
         .animate-marquee:hover {
           animation-play-state: paused;
         }
