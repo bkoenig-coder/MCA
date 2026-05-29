@@ -30,7 +30,7 @@ const popups: Record<string, { title: string; content: string }> = {
   },
   imperial: {
     title: 'The Imperial Court',
-    content: 'Step into the heart of the Mongol Empire. Chinggis Khan sits upon the throne, surrounded by elite guards, gigantic braziers, and the Nine White Banners. Feel the legendary power of a nation that united the world.'
+    content: 'Step into the sovereign court of the Mongol Empire, a historical model for macro-level integration and international cooperation. Here, the leadership of Chinggis Khan established a framework where diverse nations, cultures, and trade networks could intersect securely under a centralized authority.\n\nGuarded by the highly disciplined imperial escort and overseen by the Nine White Banners of peacetime stability, the court represents a secure environment for high-level diplomacy.'
   },
   nomadic: {
     title: 'Nomadic Life',
