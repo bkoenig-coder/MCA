@@ -99,7 +99,7 @@ export default function Imprint() {
               <section className="pt-12 border-t border-brand-ink/10 text-sm italic">
                 <p>Disclosure according to the Austrian Media Act (Offenlegungspflicht gemäß § 25 MedienG).</p>
                 <p>Media owner and publisher: Mongolian Center in Vienna.</p>
-                <p>Purpose of the association: Promotion of Mongolian culture and heritage in Austria.</p>
+                <p>Purpose of the organization: Promotion of Mongolian culture and heritage in Austria.</p>
               </section>
             </div>
           </motion.div>
