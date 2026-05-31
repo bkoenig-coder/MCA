@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Globe, Users, Calendar, Award, CheckCircle2, ChevronRight, Building2, GraduationCap, Briefcase, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import amoxLogo from '../assets/media/amoxlogo.png';
 import deutschotekLogo from '../assets/media/deutschoteklogo.jpg';
@@ -18,6 +19,8 @@ const partners = [
 ];
 
 export default function Membership() {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-brand-paper pt-24 md:pt-32">
       {/* Hero Section */}
@@ -37,7 +40,7 @@ export default function Membership() {
             className="inline-flex items-center gap-4 mb-8"
           >
             <div className="h-px w-12 bg-brand-gold/50" />
-            <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">Membership</span>
+            <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">{t('membershipPage.hero.tag')}</span>
             <div className="h-px w-12 bg-brand-gold/50" />
           </motion.div>
 
@@ -47,7 +50,7 @@ export default function Membership() {
             transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
             className="text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-8 tracking-tight"
           >
-            Become a <span className="italic text-brand-gold">Member</span>
+            {t('membershipPage.hero.titleNormal')} <span className="italic text-brand-gold">{t('membershipPage.hero.titleItalic')}</span>
           </motion.h1>
 
           <motion.p 
@@ -56,7 +59,7 @@ export default function Membership() {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="text-lg md:text-2xl text-white/70 font-light max-w-3xl mx-auto leading-relaxed mb-12"
           >
-            Join a growing platform connecting Austria and Mongolia through culture, education, business, and international cooperation.
+            {t('membershipPage.hero.subtitle')}
           </motion.p>
 
           <motion.div 
@@ -71,7 +74,7 @@ export default function Membership() {
               }}
               className="w-full sm:w-auto px-8 py-4 bg-brand-gold text-brand-ink rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white transition-all duration-500 shadow-[0_0_40px_rgba(212,175,55,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.4)] flex items-center justify-center gap-3 group cursor-pointer"
             >
-              Individual Membership
+              {t('membershipPage.hero.btnIndividual')}
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <button 
@@ -80,7 +83,7 @@ export default function Membership() {
               }}
               className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/20 text-white rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white/10 hover:border-white/40 transition-all duration-500 flex items-center justify-center gap-3 cursor-pointer"
             >
-              Institutional Membership
+              {t('membershipPage.hero.btnInstitutional')}
             </button>
           </motion.div>
         </div>
@@ -93,13 +96,13 @@ export default function Membership() {
             <div className="w-full md:w-1/3 md:sticky md:top-32">
               <span className="inline-block text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold mb-6 relative">
                 <span className="absolute -left-12 top-1/2 -translate-y-1/2 w-8 h-px bg-brand-gold hidden md:block" />
-                Value Proposition
+                {t('membershipPage.benefits.tag')}
               </span>
               <h2 className="text-4xl md:text-5xl font-serif text-brand-ink mb-6">
-                Become a member and <span className="italic text-brand-gold">benefit</span> from our offerings
+                {t('membershipPage.benefits.titleNormal')}<span className="italic text-brand-gold">{t('membershipPage.benefits.titleItalic')}</span>{t('membershipPage.benefits.titleSuffix')}
               </h2>
               <p className="text-xl text-brand-ink/60 font-light mb-8">
-                Unlock exclusive opportunities and become part of a premier bilateral network connecting Austria and Mongolia.
+                {t('membershipPage.benefits.desc')}
               </p>
               <button 
                 onClick={() => {
@@ -107,7 +110,7 @@ export default function Membership() {
                 }}
                 className="hidden md:inline-flex items-center gap-3 px-8 py-4 bg-brand-ink text-brand-paper rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-brand-gold transition-colors duration-300 group"
               >
-                View Plans <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                {t('membershipPage.benefits.btnPlans')} <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
             
@@ -115,28 +118,28 @@ export default function Membership() {
               {[
                 {
                   icon: <Users size={24} />,
-                  title: "Networking opportunities & events",
-                  desc: "Connect with professionals, diplomats, and business leaders through our exclusive forums, cultural evenings, and networking receptions."
+                  title: t('membershipPage.benefits.feature1.title'),
+                  desc: t('membershipPage.benefits.feature1.desc')
                 },
                 {
                   icon: <Globe size={24} />,
-                  title: "Access to inclusive information",
-                  desc: "Stay informed with detailed insights into bilateral relations, cultural developments, and economic opportunities."
+                  title: t('membershipPage.benefits.feature2.title'),
+                  desc: t('membershipPage.benefits.feature2.desc')
                 },
                 {
                   icon: <Building2 size={24} />,
-                  title: "Access to embassy & decision makers",
-                  desc: "Direct channels to the Mongolian Embassy in Vienna and high-level political decision makers in both nations."
+                  title: t('membershipPage.benefits.feature3.title'),
+                  desc: t('membershipPage.benefits.feature3.desc')
                 },
                 {
                   icon: <Award size={24} />,
-                  title: "Advocacy & Lobbying",
-                  desc: "A collective voice representing the interests of the Mongolian-Austrian community in business and cultural spheres."
+                  title: t('membershipPage.benefits.feature4.title'),
+                  desc: t('membershipPage.benefits.feature4.desc')
                 },
                 {
                   icon: <Sparkles size={24} />,
-                  title: "And many more...",
-                  desc: "From mentorship programs to priority access for collaborative initiatives and community projects."
+                  title: t('membershipPage.benefits.feature5.title'),
+                  desc: t('membershipPage.benefits.feature5.desc')
                 }
               ].map((feature, idx) => (
                 <motion.div
@@ -164,10 +167,10 @@ export default function Membership() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-6">
-              How to <span className="italic text-brand-gold">Apply</span>
+              {t('membershipPage.process.titleNormal')}<span className="italic text-brand-gold">{t('membershipPage.process.titleItalic')}</span>
             </h2>
             <p className="text-lg text-brand-ink/60 font-light max-w-2xl mx-auto">
-              Joining the Mongolian Center is a straightforward process designed to ensure our community remains vibrant and engaged.
+              {t('membershipPage.process.desc')}
             </p>
           </div>
 
@@ -177,18 +180,18 @@ export default function Membership() {
             {[
               {
                 step: "01",
-                title: "Submit Application",
-                desc: "Complete our online membership application form with your details and professional background."
+                title: t('membershipPage.process.step1.title'),
+                desc: t('membershipPage.process.step1.desc')
               },
               {
                 step: "02",
-                title: "Board Review",
-                desc: "Our board reviews applications monthly to ensure alignment with our values and goals."
+                title: t('membershipPage.process.step2.title'),
+                desc: t('membershipPage.process.step2.desc')
               },
               {
                 step: "03",
-                title: "Welcome aboard!",
-                desc: "Upon approval, you'll receive your membership welcome package and access to the network."
+                title: t('membershipPage.process.step3.title'),
+                desc: t('membershipPage.process.step3.desc')
               }
             ].map((item, idx) => (
               <motion.div 
@@ -219,14 +222,14 @@ export default function Membership() {
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24 gap-8">
             <div className="max-w-2xl">
               <h2 className="text-4xl md:text-6xl font-serif text-white mb-6">
-                Membership <span className="italic text-brand-gold">Tiers</span>
+                {t('membershipPage.tiers.titleNormal')}<span className="italic text-brand-gold">{t('membershipPage.tiers.titleItalic')}</span>
               </h2>
               <p className="text-xl text-white/60 font-light leading-relaxed">
-                Choose the level of engagement that best aligns with your goals and organizational structure.
+                {t('membershipPage.tiers.desc')}
               </p>
             </div>
             <div className="flex items-center gap-4 text-[10px] uppercase tracking-[0.3em] font-bold text-white/40">
-              <span>Annual</span>
+              <span>{t('membershipPage.tiers.annual')}</span>
               <div className="w-12 h-6 bg-brand-gold/20 rounded-full relative shadow-inner">
                 <div className="absolute right-1 top-1 w-4 h-4 bg-brand-gold rounded-full shadow-[0_0_10px_rgba(212,175,55,0.8)]" />
               </div>
@@ -247,7 +250,7 @@ export default function Membership() {
                 <div className="absolute inset-0 bg-brand-ink/40 group-hover:bg-brand-ink/10 transition-colors duration-500 z-10" />
                 <img 
                   src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop" 
-                  alt="Student Membership" 
+                  alt={t('membershipPage.tiers.student.name')}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                 />
                 <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#11131c] to-transparent z-10" />
@@ -257,17 +260,23 @@ export default function Membership() {
               </div>
 
               <div className="p-8 md:p-10 flex flex-col flex-grow bg-[#11131c]">
-                <h3 className="text-2xl font-serif text-white mb-3 relative z-10">Student & Youth</h3>
-                <p className="text-white/50 font-light text-sm mb-8 h-12 relative z-10">Completely free annual membership for students and youth under 25.</p>
+                <h3 className="text-2xl font-serif text-white mb-3 relative z-10">{t('membershipPage.tiers.student.name')}</h3>
+                <p className="text-white/50 font-light text-sm mb-8 h-12 relative z-10">{t('membershipPage.tiers.student.desc')}</p>
                 <div className="mb-10 relative z-10">
-                  <span className="text-5xl font-serif text-brand-gold">Free</span>
-                  <span className="text-white/40 font-light ml-1">/ under 25</span>
+                  <span className="text-5xl font-serif text-brand-gold">{t('membershipPage.tiers.free')}</span>
+                  <span className="text-white/40 font-light ml-1">{t('membershipPage.tiers.under25')}</span>
                 </div>
                 
                 <div className="h-[1px] w-full bg-gradient-to-r from-white/10 to-transparent mb-8" />
                 
                 <div className="space-y-4 mb-auto relative z-10 pb-10">
-                  {['Free event admission (2 times a year)', 'Access to community events', 'Student networking sessions', 'Newsletter updates', 'Youth representation & voting'].map((benefit, i) => (
+                  {[
+                    t('membershipPage.tiers.student.benefits.0'),
+                    t('membershipPage.tiers.student.benefits.1'),
+                    t('membershipPage.tiers.student.benefits.2'),
+                    t('membershipPage.tiers.student.benefits.3'),
+                    t('membershipPage.tiers.student.benefits.4')
+                  ].map((benefit, i) => (
                     <div key={i} className="flex gap-4 items-start">
                       <CheckCircle2 size={18} className="text-brand-gold/70 shrink-0 mt-0.5" />
                       <span className="text-white/70 font-light text-sm">{benefit}</span>
@@ -275,7 +284,7 @@ export default function Membership() {
                   ))}
                 </div>
                 <Link to="/membership/apply-student" className="w-full flex items-center justify-center py-5 rounded-full border border-brand-gold bg-brand-gold/5 text-brand-gold text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-brand-gold hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
-                  Activate Free Membership
+                  {t('membershipPage.tiers.student.cta')}
                 </Link>
               </div>
             </motion.div>
@@ -294,7 +303,7 @@ export default function Membership() {
               <div className="absolute inset-0 border-[4px] border-double border-brand-gold/10 pointer-events-none rounded-[40px] m-1 z-30"></div>
               
               <div className="absolute top-6 right-6 z-30 shadow-lg">
-                <span className="bg-gradient-to-r from-brand-gold to-amber-500 shadow-[0_0_20px_rgba(212,175,55,0.4)] text-brand-ink px-4 py-1.5 rounded-full text-[9px] uppercase tracking-[0.2em] font-bold">Recommended</span>
+                <span className="bg-gradient-to-r from-brand-gold to-amber-500 shadow-[0_0_20px_rgba(212,175,55,0.4)] text-brand-ink px-4 py-1.5 rounded-full text-[9px] uppercase tracking-[0.2em] font-bold">{t('membershipPage.tiers.recommended')}</span>
               </div>
 
               {/* Card Image Header */}
@@ -302,7 +311,7 @@ export default function Membership() {
                 <div className="absolute inset-0 bg-brand-ink/30 group-hover:bg-transparent transition-colors duration-500 z-10 mix-blend-multiply" />
                 <img 
                   src="https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-                  alt="Professional Membership" 
+                  alt={t('membershipPage.tiers.professional.name')}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale-[30%] group-hover:grayscale-0" 
                 />
                 <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#151722] to-transparent z-10" />
@@ -312,17 +321,24 @@ export default function Membership() {
               </div>
               
               <div className="p-8 md:p-10 flex flex-col flex-grow bg-gradient-to-b from-[#151722] to-[#11131c] relative z-20">
-                <h3 className="text-3xl font-serif text-white mb-3">Professional</h3>
-                <p className="text-white/60 font-light text-sm mb-8 h-12">For professionals, entrepreneurs, academics, and creatives.</p>
+                <h3 className="text-3xl font-serif text-white mb-3">{t('membershipPage.tiers.professional.name')}</h3>
+                <p className="text-white/60 font-light text-sm mb-8 h-12">{t('membershipPage.tiers.professional.desc')}</p>
                 <div className="mb-10">
                   <span className="text-6xl font-serif text-white">€80</span>
-                  <span className="text-white/40 font-light ml-2">/ year</span>
+                  <span className="text-white/40 font-light ml-2">{t('membershipPage.tiers.hours')}</span>
                 </div>
                 
                 <div className="h-[1px] w-full bg-gradient-to-r from-brand-gold/30 to-transparent mb-8 opacity-50" />
                 
                 <div className="space-y-4 mb-auto pb-10">
-                  {['Full access to professional network', 'Discounted event tickets', 'Exclusive networking dinners', 'Priority registration for forums', 'Directory listing', 'Voting rights at general assembly'].map((benefit, i) => (
+                  {[
+                    t('membershipPage.tiers.professional.benefits.0'),
+                    t('membershipPage.tiers.professional.benefits.1'),
+                    t('membershipPage.tiers.professional.benefits.2'),
+                    t('membershipPage.tiers.professional.benefits.3'),
+                    t('membershipPage.tiers.professional.benefits.4'),
+                    t('membershipPage.tiers.professional.benefits.5')
+                  ].map((benefit, i) => (
                     <div key={i} className="flex gap-4 items-start">
                       <CheckCircle2 size={18} className="text-brand-gold shrink-0 mt-0.5 drop-shadow-[0_0_8px_rgba(212,175,55,0.8)]" />
                       <span className="text-white/90 font-light text-sm">{benefit}</span>
@@ -330,7 +346,7 @@ export default function Membership() {
                   ))}
                 </div>
                 <Link to="/membership/apply-professional" className="w-full flex items-center justify-center py-5 rounded-full bg-gradient-to-r from-brand-gold to-amber-500 text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] transition-all duration-500 shadow-[0_10px_20px_rgba(212,175,55,0.2)] mt-auto hover:scale-[1.02]">
-                  Apply for Professional
+                  {t('membershipPage.tiers.professional.cta')}
                 </Link>
               </div>
             </motion.div>
@@ -348,7 +364,7 @@ export default function Membership() {
                 <div className="absolute inset-0 bg-brand-ink/40 group-hover:bg-brand-ink/10 transition-colors duration-500 z-10" />
                 <img 
                   src="https://images.unsplash.com/photo-1571645163064-77faa9676a46?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-                  alt="Institutional Membership" 
+                  alt={t('membershipPage.tiers.institutional.name')}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                 />
                 <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#11131c] to-transparent z-10" />
@@ -358,16 +374,22 @@ export default function Membership() {
               </div>
 
               <div className="p-8 md:p-10 flex flex-col flex-grow bg-[#11131c]">
-                <h3 className="text-2xl font-serif text-white mb-3 relative z-10">Institutional</h3>
-                <p className="text-white/50 font-light text-sm mb-8 h-12 relative z-10">For companies, universities, embassies, NGOs, and organizations.</p>
+                <h3 className="text-2xl font-serif text-white mb-3 relative z-10">{t('membershipPage.tiers.institutional.name')}</h3>
+                <p className="text-white/50 font-light text-sm mb-8 h-12 relative z-10">{t('membershipPage.tiers.institutional.desc')}</p>
                 <div className="mb-10 relative z-10">
-                  <span className="text-5xl font-serif text-brand-gold">Custom</span>
+                  <span className="text-5xl font-serif text-brand-gold">{t('membershipPage.tiers.custom')}</span>
                 </div>
                 
                 <div className="h-[1px] w-full bg-gradient-to-r from-white/10 to-transparent mb-8" />
                 
                 <div className="space-y-4 mb-auto relative z-10 pb-10">
-                  {['Up to 5 delegate memberships', 'Logo placement as partner', 'Co-hosting opportunities', 'B2B/B2G matchmaking support', 'Premium directory profile'].map((benefit, i) => (
+                  {[
+                    t('membershipPage.tiers.institutional.benefits.0'),
+                    t('membershipPage.tiers.institutional.benefits.1'),
+                    t('membershipPage.tiers.institutional.benefits.2'),
+                    t('membershipPage.tiers.institutional.benefits.3'),
+                    t('membershipPage.tiers.institutional.benefits.4')
+                  ].map((benefit, i) => (
                     <div key={i} className="flex gap-4 items-start">
                       <CheckCircle2 size={18} className="text-brand-gold/70 shrink-0 mt-0.5" />
                       <span className="text-white/70 font-light text-sm">{benefit}</span>
@@ -375,7 +397,7 @@ export default function Membership() {
                   ))}
                 </div>
                 <Link to="/membership/apply-institutional" className="w-full flex items-center justify-center py-5 rounded-full border border-white/20 text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
-                  Apply for Institutional
+                  {t('membershipPage.tiers.institutional.cta')}
                 </Link>
               </div>
             </motion.div>
@@ -390,11 +412,11 @@ export default function Membership() {
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-serif mb-6 inline-flex flex-col items-center">
-              <span className="text-brand-gold block mb-2 text-sm uppercase tracking-[0.5em] font-sans font-bold">Trusted By</span>
-              Our Corporate & Institutional Partners
+              <span className="text-brand-gold block mb-2 text-sm uppercase tracking-[0.5em] font-sans font-bold">{t('membershipPage.partners.tag')}</span>
+              {t('membershipPage.partners.title')}
             </h2>
             <p className="text-lg text-white/60 font-light max-w-2xl mx-auto">
-              Join a distinguished network of organizations committed to fostering bilateral relationships, cultural exchange, and sustainable growth.
+              {t('membershipPage.partners.desc')}
             </p>
           </div>
 
@@ -441,16 +463,16 @@ export default function Membership() {
         <div className="absolute inset-0 bg-gradient-to-br from-brand-ink via-brand-ink to-[#1a1f33] z-0" />
         <div className="max-w-3xl mx-auto relative z-10">
           <h2 className="text-3xl md:text-5xl font-serif mb-6 text-white drop-shadow-lg">
-            Explore Our <span className="italic text-brand-gold">Community</span>
+            {t('membershipPage.directory.titleNormal')}<span className="italic text-brand-gold">{t('membershipPage.directory.titleItalic')}</span>
           </h2>
           <p className="text-lg text-white/70 font-light mb-10 leading-relaxed max-w-2xl mx-auto">
-            Our members range from students to diplomats, artists to corporate leaders. Browse our directory to see who is already making an impact in the Austria-Mongolia network.
+            {t('membershipPage.directory.desc')}
           </p>
           <Link 
             to="/members"
             className="inline-flex items-center gap-3 px-8 py-4 bg-transparent border border-brand-gold text-brand-gold rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-brand-gold hover:text-brand-ink transition-all duration-300"
           >
-            View Members Directory
+            {t('membershipPage.directory.cta')}
             <ArrowRight size={14} />
           </Link>
         </div>
@@ -467,7 +489,7 @@ export default function Membership() {
             viewport={{ once: true }}
             className="text-5xl md:text-7xl font-serif text-brand-ink mb-8"
           >
-            Join the Austria–Mongolia <span className="italic text-brand-gold">Network</span>
+            {t('membershipPage.finalCta.titleNormal')}<span className="italic text-brand-gold">{t('membershipPage.finalCta.titleItalic')}</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -476,7 +498,7 @@ export default function Membership() {
             transition={{ delay: 0.1 }}
             className="text-xl md:text-2xl text-brand-ink/60 font-light mb-12 leading-relaxed"
           >
-            Become part of a platform for cultural exchange, professional collaboration, and international connection.
+            {t('membershipPage.finalCta.desc')}
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -486,10 +508,10 @@ export default function Membership() {
             className="flex justify-center"
           >
             <a 
-              href="#tiers"
+              href="#membership-tiers"
               className="px-10 py-5 bg-brand-ink text-brand-paper rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-brand-gold hover:text-brand-ink transition-all duration-500 shadow-xl flex items-center gap-4 group"
             >
-              Apply for Membership
+              {t('membershipPage.finalCta.cta')}
               <ChevronRight size={16} className="group-hover:translate-x-2 transition-transform" />
             </a>
           </motion.div>

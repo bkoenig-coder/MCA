@@ -409,8 +409,8 @@ async function startServer() {
           const data = await response.json();
           const fields = data.fields;
           if (fields) {
-            title = fields.title?.stringValue || "";
-            desc = fields.description?.stringValue || "";
+            title = fields.titleMn?.stringValue || fields.title?.stringValue || fields.titleEn?.stringValue || "";
+            desc = fields.descriptionMn?.stringValue || fields.description?.stringValue || fields.descriptionEn?.stringValue || "";
             image = fields.imageUrl?.stringValue || "";
           }
         }
@@ -419,8 +419,8 @@ async function startServer() {
         
         if (!docId) {
           // Just the /news section
-          title = "News & Updates | Mongolian Center in Vienna";
-          desc = "Stay up to date with the latest news, announcements, and cultural events from the Mongolian Center in Vienna.";
+          title = "Мэдээ, мэдээлэл | Вена дахь Монгол Төв";
+          desc = "Вена хот дахь Монгол Төвийн сүүлийн үеийн мэдээ, мэдэгдэл болон соёлын арга хэмжээнүүдийн мэдээллийг цаг алдалгүй хүлээн аваарай.";
         } else {
           // Fetch news/post by slug using runQuery
           const queryBody = {
@@ -450,8 +450,8 @@ async function startServer() {
               if (data && data.length > 0 && data[0].document) {
                 const fields = data[0].document.fields;
                 if (fields) {
-                  title = fields.title?.stringValue || fields.titleEn?.stringValue || "";
-                  desc = fields.content?.stringValue || fields.excerpt?.stringValue || "";
+                  title = fields.titleMn?.stringValue || fields.title?.stringValue || fields.titleEn?.stringValue || "";
+                  desc = fields.contentMn?.stringValue || fields.content?.stringValue || fields.excerptMn?.stringValue || fields.excerpt?.stringValue || fields.contentEn?.stringValue || fields.excerptEn?.stringValue || "";
                   image = fields.imageUrl?.stringValue || fields.image?.stringValue || "";
                   
                   if (desc.length > 200) desc = desc.substring(0, 197) + '...';
@@ -469,8 +469,8 @@ async function startServer() {
                 const fallbackData = await fallbackResponse.json();
                 const fields = fallbackData.fields;
                 if (fields) {
-                  title = fields.title?.stringValue || fields.titleEn?.stringValue || "";
-                  desc = fields.content?.stringValue || fields.excerpt?.stringValue || "";
+                  title = fields.titleMn?.stringValue || fields.title?.stringValue || fields.titleEn?.stringValue || "";
+                  desc = fields.contentMn?.stringValue || fields.content?.stringValue || fields.excerptMn?.stringValue || fields.excerpt?.stringValue || fields.contentEn?.stringValue || fields.excerptEn?.stringValue || "";
                   image = fields.imageUrl?.stringValue || "";
                   
                   if (desc.length > 200) desc = desc.substring(0, 197) + '...';
@@ -481,16 +481,16 @@ async function startServer() {
           }
           
           if (!found) {
-             title = "News & Updates | Mongolian Center in Vienna";
-             desc = "Stay up to date with the latest news, announcements, and cultural events.";
+             title = "Мэдээ, мэдээлэл | Вена дахь Монгол Төв";
+             desc = "Сүүлийн үеийн мэдээ, удирдамж, соёлын арга хэмжээнүүдтэй танилцаарай.";
           }
         }
       } else if (isGallery) {
         const docId = req.params.id;
         
         if (!docId) {
-          title = "Virtual Gallery | Mongolian Center in Vienna";
-          desc = "Explore our digital art gallery featuring works from Mongolian artists and cultural exhibitions.";
+          title = "Виртуал галлерей | Вена дахь Монгол Төв";
+          desc = "Монгол уран бүтээлчдийн уран зураг, соёлын өвийг харуулсан виртуал галлерейтай танилцана уу.";
         } else {
           let foundGallery = false;
           try {
@@ -499,8 +499,8 @@ async function startServer() {
               const fallbackData = await fallbackResponse.json();
               const fields = fallbackData.fields;
               if (fields) {
-                title = fields.title?.stringValue || fields.titleEn?.stringValue || "Gallery Artwork";
-                desc = fields.description?.stringValue || fields.descriptionEn?.stringValue || "";
+                title = fields.titleMn?.stringValue || fields.titleEn?.stringValue || "Зургийн бүтээл";
+                desc = fields.descriptionMn?.stringValue || fields.descriptionEn?.stringValue || "";
                 image = fields.imageUrl?.stringValue || "";
                 
                 if (desc.length > 200) desc = desc.substring(0, 197) + '...';
@@ -510,18 +510,18 @@ async function startServer() {
           } catch(e) {}
           
           if (!foundGallery) {
-             title = "Gallery Artwork | Mongolian Center in Vienna";
-             desc = "Check out this beautiful artwork from our digital gallery.";
+             title = "Виртуал уран бүтээл | Вена дахь Монгол Төв";
+             desc = "Манай дижитал галерейгаас сонирхох боломжтой гайхалтай уран бүтээл.";
           }
         }
       } else if (isDiorama || hasScore) {
          const score = req.query?.score;
          if (score) {
-           title = `I just scored ${score} points in the Mongolian Center Steppe Runner!`;
-           desc = "Can you beat my score? Play our cultural endless runner, collect artifacts and explore the infinite Mongolian steppe.";
+           title = `Би Монгол Төв - Талын Гүйгч тоглоомонд ${score} оноо авлаа!`;
+           desc = "Та миний оноог даваарай! Саад бэрхшээлийг давж, Монгол өв соёлын ховор олдворуудыг цуглуулан, уудам тал нутгаар хязгааргүй аялаарай.";
          } else {
-           title = "Mongolian Center - Steppe Runner Game";
-           desc = "Play our culturally immersive endless runner game, collect artifacts and compete for the highest score on the leaderboard!";
+           title = "Монгол Төв - Талын Гүйгч тоглоом";
+           desc = "Монголын соёл, уламжлалыг харуулсан гүйгч тоглоомыг тоглож, олдвор цуглуулж, өндөр онооны тэргүүлэгчдийн самбарт өрсөлдөөрэй!";
          }
          image = "https://images.unsplash.com/photo-1542642596-f3310061e888?q=80&w=1170&auto=format&fit=crop";
       }
@@ -531,10 +531,12 @@ async function startServer() {
       if (title) {
         // Update both standard title and OG tags
         html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
+        html = html.replace(/<meta\s+(?:property|name)="title"\s+content="[^"]*"[^>]*>/g, `<meta name="title" content="${title}" />`);
         html = html.replace(/<meta\s+(?:property|name)="og:title"\s+content="[^"]*"[^>]*>/g, `<meta property="og:title" content="${title}" />`);
         html = html.replace(/<meta\s+(?:property|name)="twitter:title"\s+content="[^"]*"[^>]*>/g, `<meta name="twitter:title" content="${title}" />`);
       }
       if (desc) {
+        html = html.replace(/<meta\s+(?:property|name)="description"\s+content="[^"]*"[^>]*>/g, `<meta property="description" content="${desc}" />`);
         html = html.replace(/<meta\s+(?:property|name)="og:description"\s+content="[^"]*"[^>]*>/g, `<meta property="og:description" content="${desc}" />`);
         html = html.replace(/<meta\s+(?:property|name)="twitter:description"\s+content="[^"]*"[^>]*>/g, `<meta name="twitter:description" content="${desc}" />`);
       }

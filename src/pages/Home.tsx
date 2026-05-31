@@ -30,12 +30,12 @@ export default function Home() {
   const membershipSlides = [
     {
       icon: Award,
-      title: "Professional Community",
+      title: t('homeMembership.slides.professional.title'),
       benefits: [
-        "International network access",
-        "Exclusive event invitations",
-        "Priority forum registration",
-        "Cultural & professional exchange"
+        t('homeMembership.slides.professional.benefit1'),
+        t('homeMembership.slides.professional.benefit2'),
+        t('homeMembership.slides.professional.benefit3'),
+        t('homeMembership.slides.professional.benefit4')
       ],
       path: "/membership/apply-professional",
       image: "https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -46,12 +46,12 @@ export default function Home() {
     },
     {
       icon: Users,
-      title: "Student Membership",
+      title: t('homeMembership.slides.student.title'),
       benefits: [
-        "Access to junior network",
-        "Mentorship opportunities",
-        "Discounted event tickets",
-        "Career development support"
+        t('homeMembership.slides.student.benefit1'),
+        t('homeMembership.slides.student.benefit2'),
+        t('homeMembership.slides.student.benefit3'),
+        t('homeMembership.slides.student.benefit4')
       ],
       path: "/membership/apply-student",
       image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop",
@@ -62,12 +62,12 @@ export default function Home() {
     },
     {
       icon: Handshake,
-      title: "Institutional Partner",
+      title: t('homeMembership.slides.institutional.title'),
       benefits: [
-        "Brand visibility",
-        "Bespoke B2B introductions",
-        "Co-hosting opportunities",
-        "Strategic advisory access"
+        t('homeMembership.slides.institutional.benefit1'),
+        t('homeMembership.slides.institutional.benefit2'),
+        t('homeMembership.slides.institutional.benefit3'),
+        t('homeMembership.slides.institutional.benefit4')
       ],
       path: "/membership/apply-institutional",
       image: "https://images.unsplash.com/photo-1571645163064-77faa9676a46?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -245,7 +245,7 @@ export default function Home() {
                   {t('Full Screen 3D')}
                 </Link>
                 <Link to="/membership" className="w-full sm:w-auto flex-1 text-center border border-white/20 px-6 py-3 md:py-4 rounded-full text-[11px] md:text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold text-white hover:text-brand-gold transition-all whitespace-nowrap bg-white/10 md:bg-white/5 md:backdrop-blur-sm flex items-center justify-center">
-                  Become a Member
+                  {t('homeMembership.btnApply')}
                 </Link>
               </motion.div>
             </div>
@@ -409,17 +409,17 @@ export default function Home() {
           >
             <div className="flex items-center gap-4 mb-8">
               <div className="h-px w-10 bg-brand-gold" />
-              <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold drop-shadow-sm">Official Membership</span>
+              <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold drop-shadow-sm">{t('homeMembership.tag')}</span>
             </div>
             <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif mb-8 leading-[1.1] drop-shadow-lg">
-              Become a <span className="italic text-brand-gold">Member</span>
+              {t('homeMembership.titleNormal')}<span className="italic text-brand-gold">{t('homeMembership.titleItalic')}</span>
             </h2>
             <p className="text-lg md:text-xl text-white/70 font-light leading-relaxed mb-12 max-w-lg">
-              Join a growing platform connecting Austria and Mongolia. Gain access to a premium network, exclusive cultural events, and high-level bilateral opportunities.
+              {t('homeMembership.desc')}
             </p>
             <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
               <Link to="/membership" className="group inline-flex items-center justify-center gap-4 bg-brand-gold text-brand-ink px-8 py-5 rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white transition-all duration-700 shadow-[0_0_30px_rgba(212,175,55,0.2)] hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] w-full sm:w-auto">
-                Explore Benefits
+                {t('homeMembership.btnExplore')}
                 <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
               </Link>
             </div>
@@ -488,7 +488,7 @@ export default function Home() {
                               to="/membership" 
                               className="inline-flex items-center justify-center gap-3 px-6 py-3 md:px-8 md:py-4 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 border border-brand-gold/30 hover:bg-brand-gold hover:text-brand-ink text-brand-gold/90"
                             >
-                              <span>Explore Benefits</span>
+                              <span>{t('homeMembership.btnExplore')}</span>
                             </Link>
                           </div>
                         </div>

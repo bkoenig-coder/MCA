@@ -88,6 +88,37 @@ const resources = {
         desc: 'Partner with us to sustain this vital cultural bridge and sponsor bilateral social initiatives that generate measurable results.',
         cta: 'Donate to us!'
       },
+      homeMembership: {
+        tag: 'Official Membership',
+        titleNormal: 'Become a ',
+        titleItalic: 'Member',
+        desc: 'Join a growing platform connecting Austria and Mongolia. Gain access to a premium network, exclusive cultural events, and high-level bilateral opportunities.',
+        btnApply: 'Become a Member',
+        btnExplore: 'Explore Benefits',
+        slides: {
+          professional: {
+            title: 'Professional Community',
+            benefit1: 'International network access',
+            benefit2: 'Exclusive event invitations',
+            benefit3: 'Priority forum registration',
+            benefit4: 'Cultural & professional exchange'
+          },
+          student: {
+            title: 'Student Membership',
+            benefit1: 'Access to junior network',
+            benefit2: 'Mentorship opportunities',
+            benefit3: 'Discounted event tickets',
+            benefit4: 'Career development support'
+          },
+          institutional: {
+            title: 'Institutional Partner',
+            benefit1: 'Brand visibility',
+            benefit2: 'Bespoke B2B introductions',
+            benefit3: 'Co-hosting opportunities',
+            benefit4: 'Strategic advisory access'
+          }
+        }
+      },
       about: {
         tag: 'Our Story',
         story: 'Our Story &',
@@ -273,6 +304,179 @@ const resources = {
           successDesc: 'Your contribution makes a real difference.'
         }
       },
+      membershipPage: {
+        hero: {
+          tag: 'Membership',
+          titleNormal: 'Become a ',
+          titleItalic: 'Member',
+          subtitle: 'Join a growing platform connecting Austria and Mongolia through culture, education, business, and international cooperation.',
+          btnIndividual: 'Individual Membership',
+          btnInstitutional: 'Institutional Membership'
+        },
+        benefits: {
+          tag: 'Value Proposition',
+          titleNormal: 'Become a member and ',
+          titleItalic: 'benefit',
+          titleSuffix: ' from our offerings',
+          desc: 'Unlock exclusive opportunities and become part of a premier bilateral network connecting Austria and Mongolia.',
+          btnPlans: 'View Plans',
+          feature1: {
+            title: 'Networking opportunities & events',
+            desc: 'Connect with professionals, diplomats, and business leaders through our exclusive forums, cultural evenings, and networking receptions.'
+          },
+          feature2: {
+            title: 'Access to inclusive information',
+            desc: 'Stay informed with detailed insights into bilateral relations, cultural developments, and economic opportunities.'
+          },
+          feature3: {
+            title: 'Access to embassy & decision makers',
+            desc: 'Direct channels to the Mongolian Embassy in Vienna and high-level political decision makers in both nations.'
+          },
+          feature4: {
+            title: 'Advocacy & Lobbying',
+            desc: 'A collective voice representing the interests of the Mongolian-Austrian community in business and cultural spheres.'
+          },
+          feature5: {
+            title: 'And many more...',
+            desc: 'From mentorship programs to priority access for collaborative initiatives and community projects.'
+          }
+        },
+        process: {
+          titleNormal: 'How to ',
+          titleItalic: 'Apply',
+          desc: 'Joining the Mongolian Center is a straightforward process designed to ensure our community remains vibrant and engaged.',
+          step1: {
+            title: 'Submit Application',
+            desc: 'Complete our online membership application form with your details and professional background.'
+          },
+          step2: {
+            title: 'Board Review',
+            desc: 'Our board reviews applications monthly to ensure alignment with our values and goals.'
+          },
+          step3: {
+            title: 'Welcome aboard!',
+            desc: 'Upon approval, you\'ll receive your membership welcome package and access to the network.'
+          }
+        },
+        tiers: {
+          titleNormal: 'Membership ',
+          titleItalic: 'Tiers',
+          desc: 'Choose the level of engagement that best aligns with your goals and organizational structure.',
+          annual: 'Annual',
+          free: 'Free',
+          custom: 'Custom',
+          hours: '/ year',
+          under25: '/ under 25',
+          recommended: 'Recommended',
+          student: {
+            name: 'Student & Youth',
+            desc: 'Completely free annual membership for students and youth under 25.',
+            cta: 'Activate Free Membership',
+            benefits: [
+              'Free event admission (2 times a year)',
+              'Access to community events',
+              'Student networking sessions',
+              'Newsletter updates',
+              'Youth representation & voting'
+            ]
+          },
+          professional: {
+            name: 'Professional',
+            desc: 'For professionals, entrepreneurs, academics, and creatives.',
+            cta: 'Apply for Professional',
+            benefits: [
+              'Full access to professional network',
+              'Discounted event tickets',
+              'Exclusive networking dinners',
+              'Priority registration for forums',
+              'Directory listing',
+              'Voting rights at general assembly'
+            ]
+          },
+          institutional: {
+            name: 'Institutional',
+            desc: 'For companies, universities, embassies, NGOs, and organizations.',
+            cta: 'Apply for Institutional',
+            benefits: [
+              'Up to 5 delegate memberships',
+              'Logo placement as partner',
+              'Co-hosting opportunities',
+              'B2B/B2G matchmaking support',
+              'Premium directory profile'
+            ]
+          }
+        },
+        partners: {
+          tag: 'Trusted By',
+          title: 'Our Corporate & Institutional Partners',
+          desc: 'Join a distinguished network of organizations committed to fostering bilateral relationships, cultural exchange, and sustainable growth.'
+        },
+        directory: {
+          titleNormal: 'Explore Our ',
+          titleItalic: 'Community',
+          desc: 'Our members range from students to diplomats, artists to corporate leaders. Browse our directory to see who is already making an impact in the Austria-Mongolia network.',
+          cta: 'View Members Directory'
+        },
+        finalCta: {
+          titleNormal: 'Join the Austria–Mongolia ',
+          titleItalic: 'Network',
+          desc: 'Become part of a platform for cultural exchange, professional collaboration, and international connection.',
+          cta: 'Apply for Membership'
+        },
+        form: {
+          signInRequired: 'Sign in Required',
+          loginDesc: 'You must be logged in with your Google Account to apply for a {{tier}} membership.',
+          signInBtn: 'Sign in with Google',
+          backBtn: 'Cancel & Go Back',
+          submittedTitle: 'Form Submitted!',
+          submittedDesc: 'Thank you for applying. Since memberships must be approved manually by our executive board, your status is now set to Pending Review.',
+          submittedStudentTip: 'If you applied for the Student & Youth tier, once approved and active, you can sign up for events for free twice a year!',
+          profileBtn: 'Go to Profile',
+          tiersBtn: 'Membership Tiers',
+          backToMemberships: 'Back to Memberships',
+          applyTitle: '{{tier}} Application',
+          subtitleText: 'Austria-Mongolia Community Network',
+          errAge: 'The Student & Youth tier is strictly for individuals under 25 years old. You are currently {{age}} years old. Please apply for the Professional tier instead.',
+          errSubmit: 'Please resolve form issues before submitting.',
+          errGeneric: 'Failed to submit application.',
+          statusPending: 'Application pending',
+          statusApproved: 'Application approved',
+          statusRejected: 'Application rejected',
+          pendingDesc: 'We have received your application for the {{tier}} membership. Our administration is currently conducting a manual review. You will be notified once complete.',
+          approvedDesc: 'Your application for the {{tier}} membership has been approved! Your profile is now successfully updated on the system.',
+          rejectedDesc: 'We processed your application for the {{tier}} membership. Unfortunately, it could not be approved at this time. Please contact us for support.',
+          appSummary: 'Application Summary',
+          requestedTier: 'Requested Tier',
+          submittedOn: 'Submitted On',
+          applicantName: 'Applicant Name',
+          myProfile: 'Go to my Profile',
+          browseMemberships: 'Browse Memberships',
+          secContact: '1. Contact Information',
+          labelFirstName: 'First Name',
+          labelLastName: 'Last Name',
+          labelEmail: 'Google Email Address (Linked)',
+          labelPhone: 'Phone Number',
+          labelGender: 'Gender',
+          labelDob: 'Date of Birth',
+          labelNationality: 'Nationality',
+          genderMale: 'Male',
+          genderFemale: 'Female',
+          genderOther: 'Other',
+          genderPreferNotToSay: 'Prefer not to say',
+          secCredentials: '2. {{tier}} Credentials',
+          labelSchool: 'School / University',
+          labelStudentId: 'Student ID Registration Number',
+          labelOrgName: 'Organization / Corporate Name',
+          labelPosition: 'Current Job Title / Position',
+          labelLinkedin: 'LinkedIn / Professional Website URL',
+          labelInstName: 'Institution / Corporate Entity Name',
+          labelWebsite: 'Official Website Link',
+          secMotivation: '3. Motivation Statement',
+          labelMotivation: 'Tell us about your interest in Austria-Mongolia cultural or business exchange & motivation to join',
+          placeholderMotivation: 'Please elaborate briefly on what value you wish to bring and obtain from the community network.',
+          submitBtn: 'Submit Membership Application'
+        }
+      },
       footer: {
         desc: 'The Mongolian Center in Austria is a non-governmental organization dedicated to bilateral cultural diplomacy, strategic community engagement, and the preservation of Mongolian heritage through high-leverage partnerships.',
         navTitle: 'Navigation',
@@ -428,6 +632,37 @@ const resources = {
         title: 'Gemeinsam Wirkung erzielen',
         desc: 'Werden Sie Partner, um diese wichtige kulturelle Brücke zu erhalten und bilaterale soziale Initiativen mit messbaren Ergebnissen zu fördern.',
         cta: 'Spenden Sie an uns!'
+      },
+      homeMembership: {
+        tag: 'Offizielle Mitgliedschaft',
+        titleNormal: 'Mitglied ',
+        titleItalic: 'werden',
+        desc: 'Treten Sie einer wachsenden Plattform bei, die Österreich und die Mongolei verbindet. Erhalten Sie Zugang zu einem erstklassigen Netzwerk, exklusiven kulturellen Veranstaltungen und hochrangigen bilateralen Möglichkeiten.',
+        btnApply: 'Mitglied werden',
+        btnExplore: 'Vorteile entdecken',
+        slides: {
+          professional: {
+            title: 'Professionelles Netzwerk',
+            benefit1: 'Internationaler Netzwerkzugang',
+            benefit2: 'Exklusive Einladungen zu Events',
+            benefit3: 'Bevorzugte Anmeldung im Forum',
+            benefit4: 'Kultureller & beruflicher Austausch'
+          },
+          student: {
+            title: 'Studentische Mitgliedschaft',
+            benefit1: 'Zugang zum Junior-Netzwerk',
+            benefit2: 'Mentoring-Möglichkeiten',
+            benefit3: 'Ermäßigte Veranstaltungstickets',
+            benefit4: 'Karriereentwicklungsunterstützung'
+          },
+          institutional: {
+            title: 'Institutioneller Partner',
+            benefit1: 'Markensichtbarkeit',
+            benefit2: 'Maßgeschneiderte B2B-Kontakte',
+            benefit3: 'Möglichkeiten zum Co-Hosting',
+            benefit4: 'Umfassender strategischer Rat'
+          }
+        }
       },
       about: {
         tag: 'Unsere Geschichte',
@@ -680,6 +915,179 @@ const resources = {
         marketing: 'Marketing',
         marketingDesc: 'Wird für die Bekanntmachung kultureller Veranstaltungen verwendet.'
       },
+      membershipPage: {
+        hero: {
+          tag: 'Mitgliedschaft',
+          titleNormal: 'Werden Sie ein ',
+          titleItalic: 'Mitglied',
+          subtitle: 'Schließen Sie sich einer wachsenden Plattform an, die Österreich und die Mongolei durch Kultur, Bildung, Wirtschaft und internationale Zusammenarbeit verbindet.',
+          btnIndividual: 'Einzelmitgliedschaft',
+          btnInstitutional: 'Institutionelle Mitgliedschaft'
+        },
+        benefits: {
+          tag: 'Wertversprechen',
+          titleNormal: 'Werden Sie Mitglied und ',
+          titleItalic: 'profitieren Sie',
+          titleSuffix: ' von unseren Angeboten',
+          desc: 'Nutzen Sie exklusive Möglichkeiten und werden Sie Teil eines erstklassigen bilateralen Netzwerks, das Österreich und die Mongolei verbindet.',
+          btnPlans: 'Tarife ansehen',
+          feature1: {
+            title: 'Netzwerkmöglichkeiten & Veranstaltungen',
+            desc: 'Vernetzen Sie sich mit Fachleuten, Diplomaten und Wirtschaftsführern bei unseren exklusiven Foren, Kulturabenden und Netzwerkempfängen.'
+          },
+          feature2: {
+            title: 'Zugang zu umfassenden Informationen',
+            desc: 'Bleiben Sie informiert mit detaillierten Einblicken in bilaterale Beziehungen, kulturelle Entwicklungen und wirtschaftliche Möglichkeiten.'
+          },
+          feature3: {
+            title: 'Kontakt zu Botschaft & Entscheidungsträgern',
+            desc: 'Direkte Kanäle zur mongolischen Botschaft in Wien und zu hochrangigen politischen Entscheidungsträgern in beiden Ländern.'
+          },
+          feature4: {
+            title: 'Interessensvertretung & Lobbying',
+            desc: 'Eine gemeinsame Stimme, die die Interessen der mongolisch-österreichischen Gemeinschaft in Wirtschaft und Kultur vertritt.'
+          },
+          feature5: {
+            title: 'Und vieles mehr...',
+            desc: 'Von Mentorenprogrammen bis hin zum bevorzugten Zugang zu gemeinsamen Initiativen und Gemeinschaftsprojekten.'
+          }
+        },
+        process: {
+          titleNormal: 'Wie man sich ',
+          titleItalic: 'bewirbt',
+          desc: 'Der Beitritt zum Mongolischen Zentrum ist ein einfacher Prozess, der sicherstellt, dass unsere Gemeinschaft dynamisch und engagiert bleibt.',
+          step1: {
+            title: 'Bewerbung einreichen',
+            desc: 'Füllen Sie unser Online-Mitgliedschaftsformular mit Ihren Angaben und Ihrem beruflichen Hintergrund aus.'
+          },
+          step2: {
+            title: 'Prüfung durch den Vorstand',
+            desc: 'Unser Vorstand prüft die Bewerbungen monatlich, um die Übereinstimmung mit unseren Werten und Zielen sicherzustellen.'
+          },
+          step3: {
+            title: 'Willkommen an Bord!',
+            desc: 'Nach der Genehmigung erhalten Sie Ihr Begrüßungspaket und Zugang zu unserem Netzwerk.'
+          }
+        },
+        tiers: {
+          titleNormal: 'Mitgliedschafts',
+          titleItalic: 'stufen',
+          desc: 'Wählen Sie die Stufe des Engagements, die am besten zu Ihren Zielen und Ihrer Organisationsstruktur passt.',
+          annual: 'Jährlich',
+          free: 'Kostenlos',
+          custom: 'Individuell',
+          hours: '/ Jahr',
+          under25: '/ unter 25',
+          recommended: 'Empfohlen',
+          student: {
+            name: 'Studenten & Jugend',
+            desc: 'Völlig kostenlose Jahresmitgliedschaft für Studenten und Jugendliche unter 25 Jahren.',
+            cta: 'Kostenlose Mitgliedschaft aktivieren',
+            benefits: [
+              'Freier Eintritt zu Veranstaltungen (2-mal im Jahr)',
+              'Zugang zu Gemeinschaftsveranstaltungen',
+              'Netzwerktreffen für Studierende',
+              'Newsletter-Updates',
+              'Jugendvertretung & Stimmrecht'
+            ]
+          },
+          professional: {
+            name: 'Professionell',
+            desc: 'Für Fachleute, Unternehmer, Akademiker und Kreative.',
+            cta: 'Für Fachleute bewerben',
+            benefits: [
+              'Vollständiger Zugang zum professionellen Netzwerk',
+              'Ermäßigte Eintrittskarten',
+              'Exklusive Networking-Dinner',
+              'Priorisierte Registrierung für Foren',
+              'Eintragung im Mitgliederverzeichnis',
+              'Stimmrecht bei der Generalversammlung'
+            ]
+          },
+          institutional: {
+            name: 'Institutionell',
+            desc: 'Für Unternehmen, Universitäten, Botschaften, NGOs und Organisationen.',
+            cta: 'Als Institution bewerben',
+            benefits: [
+              'Bis zu 5 Delegierten-Mitgliedschaften',
+              'Logo-Platzierung als Partner',
+              'Co-Hosting-Möglichkeiten',
+              'Unterstützung bei B2B/B2G-Matchmaking',
+              'Premium-Profil im Verzeichnis'
+            ]
+          }
+        },
+        partners: {
+          tag: 'Vertraut Von',
+          title: 'Unsere Unternehmens- & Institutionspartner',
+          desc: 'Schließen Sie sich einem bedeutenden Netzwerk von Organisationen an, das sich für bilaterale Beziehungen, Kulturaustausch und nachhaltiges Wachstum einsetzt.'
+        },
+        directory: {
+          titleNormal: 'Erkunden Sie unsere ',
+          titleItalic: 'Gemeinschaft',
+          desc: 'Unsere Mitglieder reichen von Studenten über Diplomaten und Künstler bis hin zu Unternehmensleitern. Durchstöbern Sie unser Verzeichnis, um zu sehen, wer bereits aktiv ist.',
+          cta: 'Mitgliederverzeichnis ansehen'
+        },
+        finalCta: {
+          titleNormal: 'Treten Sie dem Österreich–Mongolei ',
+          titleItalic: 'Netzwerk bei',
+          desc: 'Werden Sie Teil einer Plattform für kulturellen Austausch, berufliche Zusammenarbeit und internationale Verbindungen.',
+          cta: 'Mitgliedschaft beantragen'
+        },
+        form: {
+          signInRequired: 'Anmeldung erforderlich',
+          loginDesc: 'Sie müssen mit Ihrem Google-Konto angemeldet sein, um eine {{tier}}-Mitgliedschaft zu beantragen.',
+          signInBtn: 'Mit Google anmelden',
+          backBtn: 'Abbrechen & Zurück',
+          submittedTitle: 'Formular übermittelt!',
+          submittedDesc: 'Vielen Dank für Ihre Bewerbung. Da Mitgliedschaften von unserem Vorstand manuell genehmigt werden müssen, ist Ihr Status nun auf Ausstehende Prüfung gesetzt.',
+          submittedStudentTip: 'Wenn Sie sich für die Stufe Studenten & Jugend beworben haben: Nach der Genehmigung und Aktivierung können Sie sich zweimal im Jahr kostenlos für Veranstaltungen anmelden!',
+          profileBtn: 'Zum Profil gehen',
+          tiersBtn: 'Mitgliedschaftsstufen',
+          backToMemberships: 'Zurück zu Mitgliedschaften',
+          applyTitle: '{{tier}}-Bewerbung',
+          subtitleText: 'Österreich-Mongolei Community-Netzwerk',
+          errAge: 'Die Studenten- und Jugendstufe ist ausschließlich Personen unter 25 Jahren vorbehalten. Sie sind derzeit {{age}} Jahre alt. Bitte bewerben Sie sich stattdessen für die Professional-Stufe.',
+          errSubmit: 'Bitte beheben Sie die Formularfehler, bevor Sie es absenden.',
+          errGeneric: 'Fehler beim Senden der Bewerbung.',
+          statusPending: 'Bewerbung ausstehend',
+          statusApproved: 'Bewerbung genehmigt',
+          statusRejected: 'Bewerbung abgelehnt',
+          pendingDesc: 'Wir haben Ihre Bewerbung für die {{tier}}-Mitgliedschaft erhalten. Unsere Administration führt derzeit eine manuelle Prüfung durch. Sie werden benachrichtigt, sobald diese abgeschlossen ist.',
+          approvedDesc: 'Ihre Bewerbung für die {{tier}}-Mitgliedschaft wurde genehmigt! Ihr Profil wurde nun erfolgreich im System aktualisiert.',
+          rejectedDesc: 'Wir haben Ihre Bewerbung für die {{tier}}-Mitgliedschaft bearbeitet. Leider konnte sie zu diesem Zeitpunkt nicht genehmigt werden. Bitte kontaktieren Sie uns für Unterstützung.',
+          appSummary: 'Zusammenfassung der Bewerbung',
+          requestedTier: 'Beantragte Stufe',
+          submittedOn: 'Eingereicht am',
+          applicantName: 'Name des Bewerbers',
+          myProfile: 'Zu meinem Profil gehen',
+          browseMemberships: 'Mitgliedschaften durchsuchen',
+          secContact: '1. Kontaktinformationen',
+          labelFirstName: 'Vorname',
+          labelLastName: 'Nachname',
+          labelEmail: 'Google-E-Mail-Adresse (verknüpft)',
+          labelPhone: 'Telefonnummer',
+          labelGender: 'Geschlecht',
+          labelDob: 'Geburtsdatum',
+          labelNationality: 'Staatsangehörigkeit',
+          genderMale: 'Männlich',
+          genderFemale: 'Weiblich',
+          genderOther: 'Andere',
+          genderPreferNotToSay: 'Keine Angabe bevorzugt',
+          secCredentials: '2. {{tier}}-Referenzen',
+          labelSchool: 'Schule / Universität',
+          labelStudentId: 'Studentenausweis-Registrierungsnummer',
+          labelOrgName: 'Name des Unternehmens / der Organisation',
+          labelPosition: 'Aktuelle Berufsbezeichnung / Position',
+          labelLinkedin: 'LinkedIn / Professionelle Website-URL',
+          labelInstName: 'Name der Institution / des Unternehmens',
+          labelWebsite: 'Offizieller Website-Link',
+          secMotivation: '3. Motivationsschreiben',
+          labelMotivation: 'Erzählen Sie uns von Ihrem Interesse am kulturellen oder geschäftlichen Austausch zwischen Österreich und der Mongolei sowie Ihrer Motivation für den Beitritt',
+          placeholderMotivation: 'Bitte erläutern Sie kurz, welchen Mehrwert Sie einbringen möchten und was Sie von der Gemeinschaft erwarten.',
+          submitBtn: 'Mitgliedschaftsbewerbung einreichen'
+        }
+      },
       marquee: {
         next: 'Nächste bevorstehende Veranstaltung'
       }
@@ -769,6 +1177,37 @@ const resources = {
         title: 'Хамтдаа бодит өөрчлөлтийг бүтээцгээе',
         desc: 'Энэхүү соёлын гүүрийг улам бэхжүүлж, хоёр орны нийгэмд бодит үр өгөөжөө өгөх төслүүдийг хамтран хэрэгжүүлэх урилга.',
         cta: 'Бидэнд хандив өргөх!'
+      },
+      homeMembership: {
+        tag: 'Албан ёсны гишүүнчлэл',
+        titleNormal: 'Хамт олондоо ',
+        titleItalic: 'Нэгдээрэй',
+        desc: 'Австри, Монголыг холбосон энэхүү өргөжин тэлж буй платформд нэгдээрэй. Дээд зэрэглэлийн холбоо сүлжээ, соёлын арга хэмжээ болон хамтын ажиллагааны боломжуудыг аваарай.',
+        btnApply: 'Гишүүнээр элсэх',
+        btnExplore: 'Боломжуудыг үзэх',
+        slides: {
+          professional: {
+            title: 'Мэргэжлийн хамт олон',
+            benefit1: 'Олон улсын холбоо сүлжээ',
+            benefit2: 'Тусгай арга хэмжээний урилга',
+            benefit3: 'Форумд урьдчилан бүртгүүлэх',
+            benefit4: 'Соёл болон мэргэжлийн солилцоо'
+          },
+          student: {
+            title: 'Оюутны гишүүнчлэл',
+            benefit1: 'Залуучуудын сүлжээнд нэгдэх',
+            benefit2: 'Менторшип боломжууд',
+            benefit3: 'Хямдралтай арга хэмжээний тасалбар',
+            benefit4: 'Ажил мэргэжлийн хөгжлийн дэмжлэг'
+          },
+          institutional: {
+            title: 'Байгууллагын түншлэл',
+            benefit1: 'Брэндийн танигдах байдал',
+            benefit2: 'B2B холбоо сүлжээ байгуулах',
+            benefit3: 'Хамтран зохион байгуулах боломж',
+            benefit4: 'Стратегийн зөвлөгөө мэдээлэл'
+          }
+        }
       },
       about: {
         tag: 'Бидний түүх',
@@ -1020,6 +1459,179 @@ const resources = {
         analyticsDesc: 'Зочдын хандалтыг ойлгоход тусална.',
         marketing: 'Маркетинг',
         marketingDesc: 'Соёлын арга хэмжээг сурталчлахад ашиглана.'
+      },
+      membershipPage: {
+        hero: {
+          tag: 'Гишүүнчлэл',
+          titleNormal: 'Манай холбоонд ',
+          titleItalic: 'Нэгдээрэй',
+          subtitle: 'Соёл, боловсрол, бизнес болон олон улсын хамтын ажиллагаагаар дамжуулан Австри, Монголын харилцааг хөгжүүлж буй улам өргөжин тэлж буй платформд нэгдээрэй.',
+          btnIndividual: 'Хувь хүний гишүүнчлэл',
+          btnInstitutional: 'Байгууллагын гишүүнчлэл'
+        },
+        benefits: {
+          tag: 'Нэмэлт боломжууд',
+          titleNormal: 'Хамт олондоо гишүүнээр элсэж, ',
+          titleItalic: 'боломжуудыг',
+          titleSuffix: ' аваарай',
+          desc: 'Хоёр орны хамтын ажиллагааны дээд түвшний сүлжээнд нэгдэж, зөвхөн манай гишүүдэд зориулсан давуу талуудыг мэдрээрэй.',
+          btnPlans: 'Төлөвлөгөө үзэх',
+          feature1: {
+            title: 'Холбоо тогтоох боломж ба арга хэмжээ',
+            desc: 'Мэргэжлийн бизнес форум, соёлын үдшүүд, олон улсын арга хэмжээнд хамрагдаж салбар бүрийн төлөөлөлтэй танилцан харилцаа тогтоох.'
+          },
+          feature2: {
+            title: 'Нээлттэй мэдээлэл хүлээн авах',
+            desc: 'Хоёр талын харилцаа, соёлын хөгжил болон эдийн засгийн боломжуудын талаарх дэлгэрэнгүй мэдээ мэдээллийг цаг алдалгүй хүлээн авах.'
+          },
+          feature3: {
+            title: 'Элчин сайдын яам болон шийдвэр гаргагчидтай холбогдох',
+            desc: 'Вена дахь Монгол Улсын Элчин сайдын яам болон хоёр орны төр засаг, олон нийтийн шийдвэр гаргагчидтай шууд харилцаа тогтоох, санал уламжлах.'
+          },
+          feature4: {
+            title: 'Эрх ашгийг хамгаалах & Санал уламжлах',
+            desc: 'Соёл ба бизнесийн талбарт монгол-австрийн хамтын нийгэмлэгийн ашиг сонирхлыг төлөөлөн илэрхийлэх нэгдсэн дуу хоолой болох.'
+          },
+          feature5: {
+            title: 'Гэх мэт өөр олон боломжууд...',
+            desc: 'Залуучуудад чиглэсэн менторшип хөтөлбөр, хамтарсан төслүүдэд тэргүүн ээлжинд оролцох давуу эрхүүд.'
+          }
+        },
+        process: {
+          titleNormal: 'Хэрхэн ',
+          titleItalic: 'Бүртгүүлэх вэ',
+          desc: 'Монгол Төвийн гишүүн болох үйл явц маш хялбар бөгөөд хамт олныхоо идэвхтэй уур амьсгалыг бэхжүүлэхэд тусалдаг.',
+          step1: {
+            title: 'Өргөдөл гаргах',
+            desc: 'Онлайн өргөдлийн маягтыг бөглөж, өөрийн цахим мэдээлэл болон мэргэжлийн чиглэлээ илгээнэ.'
+          },
+          step2: {
+            title: 'Удирдах зөвлөлийн хяналт',
+            desc: 'Монгол Төвийн удирдлагууд өргөдлийг сар бүр хянаж, манай эрхэм зорилго, үнэт зүйлтэй тохирч байгаа эсэхийг баталгаажуулдаг.'
+          },
+          step3: {
+            title: 'Тавтай морил!',
+            desc: 'Өргөдөл зөвшөөрөгдсөний дараа гишүүнчлэлийн багц болон хамтран ажиллах сүлжээнд бүрэн нэвтрэх эрх нээгдэнэ.'
+          }
+        },
+        tiers: {
+          titleNormal: 'Гишүүнчлэлийн ',
+          titleItalic: 'Зэрэглэлүүд',
+          desc: 'Өөрийн идэвхтэй хамтын ажиллагааны түвшнээс хамааран танд болон танай байгууллагад хамгийн тохиромжтой зэрэглэлийг сонгоорой.',
+          annual: 'Жил бүр',
+          free: 'Үнэгүй',
+          custom: 'Тохиролцох',
+          hours: '/ жил',
+          under25: '/ 25-аас доош насны',
+          recommended: 'Санал болгох',
+          student: {
+            name: 'Оюутан & Залуучууд',
+            desc: '25 хүртэлх насны залуучууд болон суралцаж буй оюутнуудад зориулсан бүрэн үнэ төлбөргүй жилийн гишүүнчлэл.',
+            cta: 'Үнэгүй гишүүнчлэлийг идэвхжүүлэх',
+            benefits: [
+              'Арга хэмжээнд үнэ төлбөргүй оролцох эрх (жилд 2 удаа)',
+              'Олон нийтийн хамтын ажиллагааны арга хэмжээнүүд',
+              'Оюутан залуусын нэгдсэн уулзалт, арга хэмжээ',
+              'Сүүлийн үеийн мэдээ сэтгүүл хүлээн авах',
+              'Залуучуудын төлөөлөл болон хурлын санал өгөх эрх'
+            ]
+          },
+          professional: {
+            name: 'Мэргэжилтэн',
+            desc: 'Мэргэжилтнүүд, бизнес эрхлэгчид, эрдэмтэн судлаачид болон уран бүтээлч залууст зориулсан.',
+            cta: 'Мэргэжлийн гишүүнээр элсэх',
+            benefits: [
+              'Мэргэжилтнүүдийн сүлжээнд бүрэн нэвтрэх эрх',
+              'Нийтийн арга хэмжээний тасалбарыг хөнгөлөлттэй авах',
+              'Онцгой сүлжээний оройн хоолонд уригдах',
+              'Томоохон бизнес хурал, форумд түрүүлж бүртгүүлэх',
+              'Гишүүдийн нэгдсэн сан доторх мэдээллийн хэсэг',
+              'Хурлын шийдвэрүүдэд санал өгөх эрх'
+            ]
+          },
+          institutional: {
+            name: 'Байгууллагын гишүүнчлэл',
+            desc: 'Компаниуд, их дээд сургуулиуд, элчин сайдын яам, олон улсын болон төрийн бус байгууллагуудад зориулсан.',
+            cta: 'Байгууллагын гишүүнээр элсэх',
+            benefits: [
+              'Төлөөлөгчийн 5 хүртэлх гишүүнчлэлийн эрх',
+              'Түнш байгууллага болж манайд лого байршуулах эрх',
+              'Арга хэмжээг хамтран зохион байгуулах боломжууд',
+              'B2B/B2G бизнес уулзалт холболтууд',
+              'Сүлжээний сан дахь дээд зэрэглэлийн профайл хуудас'
+            ]
+          }
+        },
+        partners: {
+          tag: 'Бидэнтэй хамтран ажиллагсад',
+          title: 'Корпораци ба байгууллагын түншүүд',
+          desc: 'Хоёр орны харилцаа, соёлын солилцоо, тогтвортой өсөлтийг дэмжих зорилготой нэр хүндтэй дотоод, гадаадын байгууллагуудын сүлжээнд нэгдээрэй.'
+        },
+        directory: {
+          titleNormal: 'Манай хамт олонтой ',
+          titleItalic: 'танилц',
+          desc: 'Бидний эгнээнд оюутан залуус, дипломатууд, уран бүтээлчдээс эхлээд бизнесийн лидерүүд багтдаг. Сүлжээний залуусыг харж танилцаарай.',
+          cta: 'Гишүүдийн нэгдсэн санг үзэх'
+        },
+        finalCta: {
+          titleNormal: 'Австри-Монголын хамтын ажиллагааны ',
+          titleItalic: 'сүлжээнд нэгдэнэ үү',
+          desc: 'Соёлын солилцоо, мэргэжлийн хамтын ажиллагаа, олон улсын бат бэх холбооны нэгэн үнэ цэнтэй хэсэг болоорой.',
+          cta: 'Гишүүн болохоор бүртгүүлэх'
+        },
+        form: {
+          signInRequired: 'Тиймээс системд нэвтрэх шаардлагатай',
+          loginDesc: 'Та Google хаягаараа системд нэвтэрснээр {{tier}} гишүүнчлэлд бүртгүүлэх боломжтой болно.',
+          signInBtn: 'Google хаягаар нэвтрэх',
+          backBtn: 'Цуцлаад ухрах',
+          submittedTitle: 'Өргөдөл амжилттай илгээгдлэлээ!',
+          submittedDesc: 'Өргөдөл гаргасанд баярлалаа. Гишүүнчлэлийн өргөдлийг манай удирдах зөвлөлөөс гар аргаар хянаж баталгаажуулдаг тул одоогоор таны төлөв "Шүүж байна" гэж өөрчлөгдлөө.',
+          submittedStudentTip: 'Хэрэв та Оюутан & Залуучуудын гишүүнчлэлээр бүртгүүлсэн бол баталгаажсаны дараа жилд 2 удаа арга хэмжээнүүдэд үнэ төлбөргүй оролцох боломжтой.',
+          profileBtn: 'Хувийн хуудас руу очих',
+          tiersBtn: 'Гишүүнчлэлийн зэрэглэлүүд',
+          backToMemberships: 'Гишүүнчлэл рүү буцах',
+          applyTitle: '{{tier}} гишүүнчлэлийн өргөдөл',
+          subtitleText: 'Австри-Монголын хамтын ажиллагааны сүлжээ',
+          errAge: 'Оюутан & Залуучуудын зэрэглэл нь зөвхөн 25 хүртэлх насны залууст зориулагдсан. Та одоогоор {{age}} настай байна. Тиймээс Мэргэжилтний зэрэглэлээр бүртгүүлнэ үү.',
+          errSubmit: 'Өргөдлийг илгээхээс өмнө маягтын алдааг засна уу.',
+          errGeneric: 'Өргөдлийг илгээхэд алдаа гарлаа.',
+          statusPending: 'Өргөдлийг хянаж байна',
+          statusApproved: 'Гишүүнчлэл баталгаажсан',
+          statusRejected: 'Өргөдөлөөс татгалзсан',
+          pendingDesc: 'Таны {{tier}} гишүүнчлэлийн өргөдлийг хүлээн авлаа. Манай удирдлага одоогоор хяналтын шатанд шалгаж байна. Шүүлт дууссаны дараа танд мэдэгдэнэ.',
+          approvedDesc: 'Баяр хүргэе! Таны {{tier}} гишүүнчлэл амжилттай баталгаажлаа! Таны хувийн мэдээлэл системд шинэчлэгдсэн байна.',
+          rejectedDesc: 'Таны {{tier}} гишүүнчлэлийн хүсэлтийг хянаж дууслаа. Харамсалтай нь одоогоор батлах боломжгүй байна. Манайхаас дэмжлэг авна уу.',
+          appSummary: 'Өргөдлийн хураангуй',
+          requestedTier: 'Хүссэн зэрэглэл',
+          submittedOn: 'Илгээсэн огноо',
+          applicantName: 'Өргөдөл гаргагчийн нэр',
+          myProfile: 'Миний профайл хуудас',
+          browseMemberships: 'Бусад гишүүнчлэлүүд',
+          secContact: '1. Холбоо барих мэдээлэл',
+          labelFirstName: 'Өөрийн нэр',
+          labelLastName: 'Овог нэр',
+          labelEmail: 'Хэрэглэж буй Google Емэйл',
+          labelPhone: 'Утасны дугаар',
+          labelGender: 'Хүйс',
+          labelDob: 'Төрсөн огноо',
+          labelNationality: 'Иргэний харьяалал',
+          genderMale: 'Эрэгтэй',
+          genderFemale: 'Эмэгтэй',
+          genderOther: 'Бусад',
+          genderPreferNotToSay: 'Мэдээлэхгүй байх',
+          secCredentials: '2. {{tier}} гишүүний мэдээлэл',
+          labelSchool: 'Суралцаж буй сургууль / Их сургууль',
+          labelStudentId: 'Оюутны үнэмлэх / Бүртгэлийн дугаар',
+          labelOrgName: 'Байгууллага / Компани, сургуулийн нэр',
+          labelPosition: 'Эрхэлж буй ажил, албан тушаал',
+          labelLinkedin: 'LinkedIn эсвэл мэргэжлийн вэбсайт',
+          labelInstName: 'Байгууллагын бүтэн нэр',
+          labelWebsite: 'Албан ёсны вэбсайтын линк',
+          secMotivation: '3. Хамтран ажиллах хүсэл, сэдэл',
+          labelMotivation: 'Австри-Монголын соёл, бизнесийн хамтын ажиллагаанд та яагаад оролцох хүсэлтэй байгаагаа тайлбарлана уу',
+          placeholderMotivation: 'Манай хамт олонд нэгдсэнээр та юу авч, ямар үнэ цэнийг харилцан бүтээх вэ гэдгээ товчхон бичнэ үү.',
+          submitBtn: 'Гишүүнчлэлийн өргөдөл илгээх'
+        }
       },
       marquee: {
         next: 'Дараагийн удаа болох арга хэмжээ'
