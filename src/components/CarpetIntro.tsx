@@ -4,11 +4,16 @@ import { UlziiSymbol, SoyomboSymbol, MongolianLine, GerSymbol } from './Mongolia
 
 export default function CarpetIntro() {
   const [isVisible, setIsVisible] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Detect mobile screens for heavy-lifting rendering optimization
+    const mobileCheck = window.innerWidth < 768;
+    setIsMobile(mobileCheck);
+
     const timer = setTimeout(() => {
       setIsVisible(false);
-    }, 2800);
+    }, mobileCheck ? 1600 : 2800); // Shorter duration on mobile
     
     return () => {
       clearTimeout(timer);
@@ -21,30 +26,39 @@ export default function CarpetIntro() {
       {/* Base realistic carpet red */}
       <div className="absolute inset-0 bg-[#8c0808]" /> 
       
-      {/* Concentric circles pattern mimicking the uploaded pattern */}
-      <div 
-        className="absolute inset-0 mix-blend-color-dodge opacity-[0.15]" 
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='4' opacity='0.7'%3E%3Ccircle cx='30' cy='30' r='6'/%3E%3Ccircle cx='30' cy='30' r='16'/%3E%3Ccircle cx='30' cy='30' r='26'/%3E%3Ccircle cx='90' cy='30' r='6'/%3E%3Ccircle cx='90' cy='30' r='16'/%3E%3Ccircle cx='90' cy='30' r='26'/%3E%3Ccircle cx='30' cy='90' r='6'/%3E%3Ccircle cx='30' cy='90' r='16'/%3E%3Ccircle cx='30' cy='90' r='26'/%3E%3Ccircle cx='90' cy='90' r='6'/%3E%3Ccircle cx='90' cy='90' r='16'/%3E%3Ccircle cx='90' cy='90' r='26'/%3E%3Ccircle cx='60' cy='60' r='8'/%3E%3Ccircle cx='60' cy='60' r='20'/%3E%3Ccircle cx='60' cy='60' r='32'/%3E%3Ccircle cx='60' cy='0' r='8'/%3E%3Ccircle cx='60' cy='0' r='20'/%3E%3Ccircle cx='60' cy='0' r='32'/%3E%3Ccircle cx='60' cy='120' r='8'/%3E%3Ccircle cx='60' cy='120' r='20'/%3E%3Ccircle cx='60' cy='120' r='32'/%3E%3Ccircle cx='0' cy='60' r='8'/%3E%3Ccircle cx='0' cy='60' r='20'/%3E%3Ccircle cx='0' cy='60' r='32'/%3E%3Ccircle cx='120' cy='60' r='8'/%3E%3Ccircle cx='120' cy='60' r='20'/%3E%3Ccircle cx='120' cy='60' r='32'/%3E%3C/g%3E%3C/svg%3E")`,
-          backgroundSize: '100px 100px'
-        }}
-      />
-      
-      <div 
-        className="absolute inset-0 opacity-[0.25] mix-blend-multiply" 
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23000000' stroke-width='4' opacity='0.7'%3E%3Ccircle cx='30' cy='30' r='6'/%3E%3Ccircle cx='30' cy='30' r='16'/%3E%3Ccircle cx='30' cy='30' r='26'/%3E%3Ccircle cx='90' cy='30' r='6'/%3E%3Ccircle cx='90' cy='30' r='16'/%3E%3Ccircle cx='90' cy='30' r='26'/%3E%3Ccircle cx='30' cy='90' r='6'/%3E%3Ccircle cx='30' cy='90' r='16'/%3E%3Ccircle cx='30' cy='90' r='26'/%3E%3Ccircle cx='90' cy='90' r='6'/%3E%3Ccircle cx='90' cy='90' r='16'/%3E%3Ccircle cx='90' cy='90' r='26'/%3E%3Ccircle cx='60' cy='60' r='8'/%3E%3Ccircle cx='60' cy='60' r='20'/%3E%3Ccircle cx='60' cy='60' r='32'/%3E%3Ccircle cx='60' cy='0' r='8'/%3E%3Ccircle cx='60' cy='0' r='20'/%3E%3Ccircle cx='60' cy='0' r='32'/%3E%3Ccircle cx='60' cy='120' r='8'/%3E%3Ccircle cx='60' cy='120' r='20'/%3E%3Ccircle cx='60' cy='120' r='32'/%3E%3Ccircle cx='0' cy='60' r='8'/%3E%3Ccircle cx='0' cy='60' r='20'/%3E%3Ccircle cx='0' cy='60' r='32'/%3E%3Ccircle cx='120' cy='60' r='8'/%3E%3Ccircle cx='120' cy='60' r='20'/%3E%3Ccircle cx='120' cy='60' r='32'/%3E%3C/g%3E%3C/svg%3E")`,
-          backgroundSize: '100px 100px'
-        }}
-      />
+      {/* Concentric circles pattern mimicking the uploaded pattern - Only enabled on desktop for GPU sanity */}
+      {!isMobile && (
+        <>
+          <div 
+            className="absolute inset-0 mix-blend-color-dodge opacity-[0.15] pointer-events-none" 
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='4' opacity='0.7'%3E%3Ccircle cx='30' cy='30' r='6'/%3E%3Ccircle cx='30' cy='30' r='16'/%3E%3Ccircle cx='30' cy='30' r='26'/%3E%3Ccircle cx='90' cy='30' r='6'/%3E%3Ccircle cx='90' cy='30' r='16'/%3E%3Ccircle cx='90' cy='30' r='26'/%3E%3Ccircle cx='30' cy='90' r='6'/%3E%3Ccircle cx='30' cy='90' r='16'/%3E%3Ccircle cx='30' cy='90' r='26'/%3E%3Ccircle cx='90' cy='90' r='6'/%3E%3Ccircle cx='90' cy='90' r='16'/%3E%3Ccircle cx='90' cy='90' r='26'/%3E%3Ccircle cx='60' cy='60' r='8'/%3E%3Ccircle cx='60' cy='60' r='20'/%3E%3Ccircle cx='60' cy='60' r='32'/%3E%3Ccircle cx='60' cy='0' r='8'/%3E%3Ccircle cx='60' cy='0' r='20'/%3E%3Ccircle cx='60' cy='0' r='32'/%3E%3Ccircle cx='60' cy='120' r='8'/%3E%3Ccircle cx='60' cy='120' r='20'/%3E%3Ccircle cx='60' cy='120' r='32'/%3E%3Ccircle cx='0' cy='60' r='8'/%3E%3Ccircle cx='0' cy='60' r='20'/%3E%3Ccircle cx='0' cy='60' r='32'/%3E%3Ccircle cx='120' cy='60' r='8'/%3E%3Ccircle cx='120' cy='60' r='20'/%3E%3Ccircle cx='120' cy='60' r='32'/%3E%3C/g%3E%3C/svg%3E")`,
+              backgroundSize: '100px 100px'
+            }}
+          />
+          
+          <div 
+            className="absolute inset-0 opacity-[0.25] mix-blend-multiply pointer-events-none" 
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23000000' stroke-width='4' opacity='0.7'%3E%3Ccircle cx='30' cy='30' r='6'/%3E%3Ccircle cx='30' cy='30' r='16'/%3E%3Ccircle cx='30' cy='30' r='26'/%3E%3Ccircle cx='90' cy='30' r='6'/%3E%3Ccircle cx='90' cy='30' r='16'/%3E%3Ccircle cx='90' cy='30' r='26'/%3E%3Ccircle cx='30' cy='90' r='6'/%3E%3Ccircle cx='30' cy='90' r='16'/%3E%3Ccircle cx='30' cy='90' r='26'/%3E%3Ccircle cx='90' cy='90' r='6'/%3E%3Ccircle cx='90' cy='90' r='16'/%3E%3Ccircle cx='90' cy='90' r='26'/%3E%3Ccircle cx='60' cy='60' r='8'/%3E%3Ccircle cx='60' cy='60' r='20'/%3E%3Ccircle cx='60' cy='60' r='32'/%3E%3Ccircle cx='60' cy='0' r='8'/%3E%3Ccircle cx='60' cy='0' r='20'/%3E%3Ccircle cx='60' cy='0' r='32'/%3E%3Ccircle cx='60' cy='120' r='8'/%3E%3Ccircle cx='60' cy='120' r='20'/%3E%3Ccircle cx='60' cy='120' r='32'/%3E%3Ccircle cx='0' cy='60' r='8'/%3E%3Ccircle cx='0' cy='60' r='20'/%3E%3Ccircle cx='0' cy='60' r='32'/%3E%3Ccircle cx='120' cy='60' r='8'/%3E%3Ccircle cx='120' cy='60' r='20'/%3E%3Ccircle cx='120' cy='60' r='32'/%3E%3C/g%3E%3C/svg%3E")`,
+              backgroundSize: '100px 100px'
+            }}
+          />
 
-      {/* Noise for fabric texture */}
-      <div 
-        className="absolute inset-0 opacity-[0.25] mix-blend-overlay pointer-events-none"
-        style={{
-          backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"
-        }}
-      />
+          {/* Noise for fabric texture */}
+          <div 
+            className="absolute inset-0 opacity-[0.25] mix-blend-overlay pointer-events-none"
+            style={{
+              backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"
+            }}
+          />
+        </>
+      )}
+
+      {/* Decorative background visual for mobile to replace heavy textures */}
+      {isMobile && (
+        <div className="absolute inset-0 bg-radial-gradient from-[#a31212] to-[#630404] opacity-50" />
+      )}
 
       {/* Golden border accents */}
       <div className="absolute inset-x-2 inset-y-2 md:inset-x-6 md:inset-y-6 border-[6px] border-double border-brand-gold/30 pointer-events-none" />
@@ -83,14 +97,19 @@ export default function CarpetIntro() {
       {isVisible && (
         <motion.div 
           className="fixed inset-0 z-[99999] pointer-events-none flex flex-col"
-          exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeOut" } }}
+          exit={{ opacity: 0, transition: { duration: isMobile ? 0.5 : 0.8, ease: "easeOut" } }}
         >
           {/* Top half */}
           <motion.div 
             className="w-full h-1/2 bg-[#3a0606] shadow-[0_30px_60px_rgba(0,0,0,0.9)] overflow-hidden relative z-10"
+            style={{ willChange: "transform" }}
             initial={{ y: "0%" }}
             animate={{ y: "-100%" }}
-            transition={{ duration: 1.5, delay: 1.0, ease: [0.85, 0, 0.15, 1] }}
+            transition={{ 
+              duration: isMobile ? 0.9 : 1.5, 
+              delay: isMobile ? 0.4 : 1.0, 
+              ease: [0.85, 0, 0.15, 1] 
+            }}
           >
             {/* The duplicated absolute contents structure handles the top half */}
             <div className="absolute top-0 left-0 w-full h-[200%]">
@@ -121,9 +140,14 @@ export default function CarpetIntro() {
           {/* Bottom half */}
           <motion.div 
             className="w-full h-1/2 bg-[#3a0606] shadow-[0_-30px_60px_rgba(0,0,0,0.9)] overflow-hidden relative z-10"
+            style={{ willChange: "transform" }}
             initial={{ y: "0%" }}
             animate={{ y: "100%" }}
-            transition={{ duration: 1.5, delay: 1.0, ease: [0.85, 0, 0.15, 1] }}
+            transition={{ 
+              duration: isMobile ? 0.9 : 1.5, 
+              delay: isMobile ? 0.4 : 1.0, 
+              ease: [0.85, 0, 0.15, 1] 
+            }}
           >
             {/* Dark inner shadow to simulate gap opening */}
             <div className="absolute top-0 left-0 w-full h-[60px] bg-gradient-to-b from-black/80 to-transparent z-20 pointer-events-none" />
