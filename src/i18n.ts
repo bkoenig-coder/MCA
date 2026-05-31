@@ -154,6 +154,37 @@ const resources = {
             outreach: 'Community Outreach'
           }
         },
+        benefitsSection: {
+          tag: 'Missions & Benefits',
+          title: 'Why join our network?',
+          desc: 'Following the framework of global chambers, the Mongolian Center offers unparalleled opportunities to connect, learn, and grow. Our mission is to foster strong bilateral relations between Austria and Mongolia while delivering tangible benefits to our community.',
+          items: {
+            networking: {
+              title: 'Networking & Connections',
+              desc: 'Build lasting relationships with Mongolian professionals, cultural ambassadors, and Austrian partners in a high-level networking environment.'
+            },
+            events: {
+              title: 'Exclusive Events',
+              desc: 'Gain priority access to our cultural festivals, closed-door workshops, and VIP gatherings before they are released to the public.'
+            },
+            visibility: {
+              title: 'Visibility & Promotion',
+              desc: 'Showcase your heritage-aligned projects or business initiatives through our digital platforms and community events.'
+            },
+            insights: {
+              title: 'Cultural Insights',
+              desc: 'Receive deep, expert-level insights into Mongolian history, modern developments, and economic relations.'
+            },
+            advocacy: {
+              title: 'Advocacy & Voice',
+              desc: 'Add your voice to our collective effort to support the Mongolian diaspora and promote fair, culturally respectful policies.'
+            },
+            mentorship: {
+              title: 'Mentorship',
+              desc: 'Connect with established professionals for guidance, career development, and integration support in Central Europe.'
+            }
+          }
+        },
         join: {
           tag: 'Join Our Family',
           title: 'Become a',
@@ -699,6 +730,37 @@ const resources = {
             outreach: 'Gemeinschaftsarbeit'
           }
         },
+        benefitsSection: {
+          tag: 'Ziele & Vorteile',
+          title: 'Warum unserem Netzwerk beitreten?',
+          desc: 'Nach dem Vorbild globaler Kammern bietet das Mongolische Zentrum unvergleichliche Möglichkeiten, sich zu vernetzen, zu lernen und zu wachsen. Unsere Mission ist es, starke bilaterale Beziehungen zwischen Österreich und der Mongolei zu fördern und gleichzeitig unserer Gemeinschaft spürbare Vorteile zu bieten.',
+          items: {
+            networking: {
+              title: 'Netzwerk & Verbindungen',
+              desc: 'Bauen Sie dauerhafte Beziehungen zu mongolischen Fachleuten, Kulturbotschaftern und österreichischen Partnern in einem hochkarätigen Netzwerkumfeld auf.'
+            },
+            events: {
+              title: 'Exklusive Veranstaltungen',
+              desc: 'Erhalten Sie bevorzugten Zugang zu unseren Kulturfestivals, geschlossenen Workshops und VIP-Treffen, noch bevor diese für die breite Öffentlichkeit freigegeben werden.'
+            },
+            visibility: {
+              title: 'Sichtbarkeit & Werbung',
+              desc: 'Präsentieren Sie Ihre traditionellen Projekte oder Geschäftsinitiativen über unsere digitalen Plattformen und Gemeinschaftsveranstaltungen.'
+            },
+            insights: {
+              title: 'Kulturelle Einblicke',
+              desc: 'Erhalten Sie fundierte Einblicke auf Expertenniveau in die mongolische Geschichte, moderne Entwicklungen und Wirtschaftsbeziehungen.'
+            },
+            advocacy: {
+              title: 'Interessenvertretung & Stimme',
+              desc: 'Bringen Sie Ihre Stimme in unsere gemeinsamen Bemühungen ein, die mongolische Diaspora zu unterstützen und eine gerechte, kulturell respektvolle Politik zu fördern.'
+            },
+            mentorship: {
+              title: 'Mentoring',
+              desc: 'Vernetzen Sie sich mit etablierten Fachleuten, um Beratung, Karriereentwicklung und Unterstützung bei der Integration in Mitteleuropa zu erhalten.'
+            }
+          }
+        },
         join: {
           tag: 'Werden Sie Teil unserer Familie',
           title: 'Werden Sie',
@@ -1218,7 +1280,7 @@ const resources = {
         founded: 'Австри дахь Монгол Төв нь хоёр орны соёлын солилцоо, дипломат харилцааг өргөжүүлэх, нийгэм-эдийн засгийн хамтын ажиллагааг хөгжүүлэх стратегийн алсын харааны үндсэн дээр Вена хотноо байгуулагдсан.',
         heritage: 'Бидний Стратеги',
         hubTitle: 'Хоёр талт харилцааны төв',
-        hubDesc1: 'Европын зүрхэнд үйл ажиллагаагаа явуулдаг манай байгууллага нь Монголын өв соёлыг Европын инновацитай холбогч динамик зангилаа юм. Бид дээд түвшний сүлжээ, соёлын арга хэмжээ, хамтарсан төслүүдийг хэрэгжүүлдэг.',
+        hubDesc1: 'Манай байгууллага нь Монголын өв соёлыг Европын инновацтай холбогч гүүр юм. Бид хамтрагч, гишүүдийнхээ холбоо сүлжээг өргөтгөж, хамтарсан төсөл хөтөлбөр, соёлын арга хэмжээг Европын зүрх, Вена хотод зохион байгуулж, өргөжин тэлж байна.',
         hubDesc2: 'Бидний үйл ажиллагаа нь Австри болон Монгол улсын хооронд урт хугацааны түншлэлийг бий болгох зорилготой бизнес уулзалт, орчин үеийн соёлын арга хэмжээ болон академик сургалтуудаас бүрддэг.',
         hubDesc3: 'Соёл бол харилцан итгэлцлийн хамгийн бат бөх суурь гэж бид үздэг. Монгол уламжлалыг Европын хэв маягтай уялдуулснаар бид эдийн засаг болон соёлын өсөлтийг авчрах стратегийн түншлэлийг байгуулахыг зорьдог.',
         vision: {
@@ -1242,6 +1304,37 @@ const resources = {
             director: 'Үүсгэн байгуулагч',
             manager: 'Үүсгэн байгуулагч',
             outreach: 'Олон нийтийн харилцаа'
+          }
+        },
+        benefitsSection: {
+          tag: 'Зорилго ба Давуу талууд',
+          title: 'Яагаад манай сүлжээнд нэгдэх вэ?',
+          desc: 'Олон улсын танхимуудын жишгээр Австри дахь Монгол Төв нь холбоо тогтоох, суралцах, хөгжих хосгүй боломжуудыг санал болгодог. Бидний зорилго бол Австри, Монголын хооронд хоёр талын бат бөх харилцааг хөгжүүлэхийн зэрэгцээ манай хамт олонд бодит үр өгөөжийг хүргэх явдал юм.',
+          items: {
+            networking: {
+              title: 'Холбоо сүлжээ ба Түншлэл',
+              desc: 'Австри дахь Монгол мэргэжилтнүүд, соёлын элч төлөөлөгчид болон Австрийн түншүүдтэй дээд түвшний сүлжээнд урт хугацааны бат бөх харилцааг бий болгох.'
+            },
+            events: {
+              title: 'Тусгай арга хэмжээнүүд',
+              desc: 'Манай соёлын наадам, хаалттай воркшоп, VIP уулзалтууд олон нийтэд зарлагдахаас өмнө урьдчилан оролцох давуу эрхтэй болох.'
+            },
+            visibility: {
+              title: 'Илтгэл ба Сурталчилгаа',
+              desc: 'Манай дижитал платформууд болон олон нийтийн арга хэмжээнүүдээр дамжуулан соёлын болон бизнесийн төслүүдээ танилцуулах.'
+            },
+            insights: {
+              title: 'Соёлын Гүн Мэдээлэл',
+              desc: 'Монголын түүх, соёл, орчин үеийн хөгжил, бизнесийн харилцааны талаарх мэргэжлийн түвшний гүн гүнзгий мэдээлэл, судалгааг авах.'
+            },
+            advocacy: {
+              title: 'Дуу Хоолой ба Дэмжлэг',
+              desc: 'Хилийн чанад дахь Монголчуудыг дэмжих, соёлыг хүндэтгэсэн бодлогыг дэмжихэд өөрийн дуу хоолойгоо нэгтгэх.'
+            },
+            mentorship: {
+              title: 'Менторшип ба Зөвлөгөө',
+              desc: 'Төв Европын орнуудад ажил мэргэжлээ хөгжүүлэх, дасан зохицоход туршлагатай мэргэжилтнүүдээс заавар, зөвлөгөө, дэмжлэг авах.'
+            }
           }
         },
         join: {

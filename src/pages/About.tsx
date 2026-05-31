@@ -243,43 +243,43 @@ export default function About() {
 
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-16 md:mb-24 text-center md:text-left">
-            <span className="inline-block text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold mb-6">Missions & Benefits</span>
-            <h2 className="text-4xl md:text-6xl font-serif leading-tight drop-shadow-xl">Why join our network?</h2>
+            <span className="inline-block text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold mb-6">{t('about.benefitsSection.tag')}</span>
+            <h2 className="text-4xl md:text-6xl font-serif leading-tight drop-shadow-xl">{t('about.benefitsSection.title')}</h2>
             <p className="mt-8 text-lg md:text-xl text-white/50 leading-relaxed font-light max-w-3xl">
-              Following the framework of global chambers, the Mongolian Center offers unparalleled opportunities to connect, learn, and grow. Our mission is to foster strong bilateral relations between Austria and Mongolia while delivering tangible benefits to our community.
+              {t('about.benefitsSection.desc')}
             </p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {[
               { 
-                title: "Networking & Connections", 
-                desc: "Build lasting relationships with Mongolian professionals, cultural ambassadors, and Austrian partners in a high-level networking environment.", 
+                title: t('about.benefitsSection.items.networking.title'), 
+                desc: t('about.benefitsSection.items.networking.desc'), 
                 icon: <Users className="w-6 h-6" /> 
               },
               { 
-                title: "Exclusive Events", 
-                desc: "Gain priority access to our cultural festivals, closed-door workshops, and VIP gatherings before they are released to the public.", 
+                title: t('about.benefitsSection.items.events.title'), 
+                desc: t('about.benefitsSection.items.events.desc'), 
                 icon: <Star className="w-6 h-6" /> 
               },
               { 
-                title: "Visibility & Promotion", 
-                desc: "Showcase your heritage-aligned projects or business initiatives through our digital platforms and community events.", 
+                title: t('about.benefitsSection.items.visibility.title'), 
+                desc: t('about.benefitsSection.items.visibility.desc'), 
                 icon: <Sparkles className="w-6 h-6" /> 
               },
               { 
-                title: "Cultural Insights", 
-                desc: "Receive deep, expert-level insights into Mongolian history, modern developments, and economic relations.", 
+                title: t('about.benefitsSection.items.insights.title'), 
+                desc: t('about.benefitsSection.items.insights.desc'), 
                 icon: <Shield className="w-6 h-6" /> 
               },
               { 
-                title: "Advocacy & Voice", 
-                desc: "Add your voice to our collective effort to support the Mongolian diaspora and promote fair, culturally respectful policies.", 
+                title: t('about.benefitsSection.items.advocacy.title'), 
+                desc: t('about.benefitsSection.items.advocacy.desc'), 
                 icon: <Send className="w-6 h-6" /> 
               },
               { 
-                title: "Mentorship", 
-                desc: "Connect with established professionals for guidance, career development, and integration support in Central Europe.", 
+                title: t('about.benefitsSection.items.mentorship.title'), 
+                desc: t('about.benefitsSection.items.mentorship.desc'), 
                 icon: <Heart className="w-6 h-6" /> 
               }
             ].map((benefit, idx) => (
