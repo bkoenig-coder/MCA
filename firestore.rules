@@ -147,14 +147,43 @@ service cloud.firestore {
     // Domain Validators
     // ===============================================================
     function isValidUser(data) {
-      return hasOnlyAllowedFields(['uid', 'email', 'displayName', 'photoURL', 'role', 'createdAt']) &&
+      return hasOnlyAllowedFields(['uid', 'email', 'displayName', 'photoURL', 'role', 'membershipTier', 'membershipStatus', 'membershipUpdatedAt', 'stripeSessionId', 'createdAt', 'updatedAt']) &&
              hasRequiredFields(['uid', 'email', 'role', 'createdAt']) &&
              validString(data.uid, 1, 128) &&
              isValidEmail(data.email) &&
              validOptionalString('displayName', 0, 100) &&
              (!( 'photoURL' in data ) || isValidUrl(data.photoURL)) &&
              data.role in ['user', 'admin', 'moderator'] &&
-             isValidDateString(data.createdAt);
+             validOptionalString('membershipTier', 0, 50) &&
+             validOptionalString('membershipStatus', 0, 50) &&
+             (!( 'membershipUpdatedAt' in data ) || data.membershipUpdatedAt is timestamp) &&
+             validOptionalString('stripeSessionId', 0, 256) &&
+             isValidDateString(data.createdAt) &&
+             (!( 'updatedAt' in data ) || data.updatedAt is timestamp);
+    }
+
+    function isValidMembershipApplication(data) {
+      return hasOnlyAllowedFields(['userId', 'userEmail', 'firstName', 'lastName', 'gender', 'dob', 'phone', 'nationality', 'tier', 'age', 'schoolOrUniversity', 'studentIdNumber', 'organizationName', 'position', 'websiteOrLinkedin', 'statementOfPurpose', 'status', 'createdAt', 'updatedAt']) &&
+             hasRequiredFields(['userId', 'userEmail', 'firstName', 'lastName', 'tier', 'status', 'createdAt']) &&
+             validString(data.userId, 1, 128) &&
+             isValidEmail(data.userEmail) &&
+             validString(data.firstName, 1, 100) &&
+             validString(data.lastName, 1, 100) &&
+             validOptionalString('gender', 0, 50) &&
+             validOptionalString('dob', 0, 50) &&
+             validOptionalString('phone', 0, 50) &&
+             validOptionalString('nationality', 0, 100) &&
+             data.tier in ['student', 'professional', 'institutional'] &&
+             (!( 'age' in data ) || data.age is number) &&
+             validOptionalString('schoolOrUniversity', 0, 200) &&
+             validOptionalString('studentIdNumber', 0, 100) &&
+             validOptionalString('organizationName', 0, 200) &&
+             validOptionalString('position', 0, 200) &&
+             validOptionalString('websiteOrLinkedin', 0, 500) &&
+             validOptionalString('statementOfPurpose', 0, 5000) &&
+             data.status in ['pending', 'approved', 'rejected'] &&
+             data.createdAt is timestamp &&
+             (!( 'updatedAt' in data ) || data.updatedAt is timestamp);
     }
 
     function isValidEvent(data) {
@@ -271,6 +300,13 @@ service cloud.firestore {
                        isValidUser(request.resource.data) && 
                        areImmutableFieldsUnchanged(['uid', 'createdAt']) &&
                        (isSuperAdmin() || request.resource.data.role == resource.data.role);
+    }
+
+    match /membership_applications/{appId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid && isValidMembershipApplication(request.resource.data);
+      allow update: if (isAdmin() || (isAuthenticated() && resource.data.userId == request.auth.uid)) && isValidMembershipApplication(request.resource.data) && areImmutableFieldsUnchanged(['userId', 'createdAt']);
+      allow delete: if isAdmin();
     }
 
     match /events/{eventId} {

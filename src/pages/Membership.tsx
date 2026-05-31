@@ -267,7 +267,7 @@ export default function Membership() {
                 <div className="h-[1px] w-full bg-gradient-to-r from-white/10 to-transparent mb-8" />
                 
                 <div className="space-y-4 mb-auto relative z-10 pb-10">
-                  {['Access to community events', 'Student networking sessions', 'Newsletter updates', 'Youth representation & voting'].map((benefit, i) => (
+                  {['Free event admission (2 times a year)', 'Access to community events', 'Student networking sessions', 'Newsletter updates', 'Youth representation & voting'].map((benefit, i) => (
                     <div key={i} className="flex gap-4 items-start">
                       <CheckCircle2 size={18} className="text-brand-gold/70 shrink-0 mt-0.5" />
                       <span className="text-white/70 font-light text-sm">{benefit}</span>
@@ -329,8 +329,8 @@ export default function Membership() {
                     </div>
                   ))}
                 </div>
-                <Link to="/contact" className="w-full flex items-center justify-center py-5 rounded-full bg-gradient-to-r from-brand-gold to-amber-500 text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] transition-all duration-500 shadow-[0_10px_20px_rgba(212,175,55,0.2)] mt-auto hover:scale-[1.02]">
-                  Contact Foundation
+                <Link to="/membership/apply-professional" className="w-full flex items-center justify-center py-5 rounded-full bg-gradient-to-r from-brand-gold to-amber-500 text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] transition-all duration-500 shadow-[0_10px_20px_rgba(212,175,55,0.2)] mt-auto hover:scale-[1.02]">
+                  Apply for Professional
                 </Link>
               </div>
             </motion.div>
@@ -374,8 +374,8 @@ export default function Membership() {
                     </div>
                   ))}
                 </div>
-                <Link to="/contact" className="w-full flex items-center justify-center py-5 rounded-full border border-white/20 text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
-                  Contact Foundation
+                <Link to="/membership/apply-institutional" className="w-full flex items-center justify-center py-5 rounded-full border border-white/20 text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
+                  Apply for Institutional
                 </Link>
               </div>
             </motion.div>

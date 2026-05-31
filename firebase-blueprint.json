@@ -114,12 +114,43 @@
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["title", "imageUrl", "createdAt"]
+    },
+    "MembershipApplication": {
+      "title": "MembershipApplication",
+      "description": "User application for membership tiers (student, professional, institutional)",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "gender": { "type": "string" },
+        "dob": { "type": "string" },
+        "phone": { "type": "string" },
+        "nationality": { "type": "string" },
+        "tier": { "type": "string", "enum": ["student", "professional", "institutional"] },
+        "age": { "type": "number" },
+        "schoolOrUniversity": { "type": "string" },
+        "studentIdNumber": { "type": "string" },
+        "organizationName": { "type": "string" },
+        "position": { "type": "string" },
+        "websiteOrLinkedin": { "type": "string" },
+        "statementOfPurpose": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "userEmail", "firstName", "lastName", "tier", "status", "createdAt"]
     }
   },
   "firestore": {
     "/users/{userId}": {
       "schema": "User",
       "description": "User profile documents"
+    },
+    "/membership_applications/{applicationId}": {
+      "schema": "MembershipApplication",
+      "description": "User membership applications"
     },
     "/events/{eventId}": {
       "schema": "Event",

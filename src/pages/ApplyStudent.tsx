@@ -1,6 +1,6 @@
 import React from 'react';
-import CheckoutRedirect from '../components/CheckoutRedirect';
+import MembershipApplicationForm from '../components/MembershipApplicationForm';
 
 export default function ApplyStudent() {
-  return <CheckoutRedirect tier="student" title="Student & Youth" />;
+  return <MembershipApplicationForm tier="student" title="Student & Youth" />;
 }

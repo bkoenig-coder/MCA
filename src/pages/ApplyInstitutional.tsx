@@ -1,6 +1,6 @@
 import React from 'react';
-import CheckoutRedirect from '../components/CheckoutRedirect';
+import MembershipApplicationForm from '../components/MembershipApplicationForm';
 
 export default function ApplyInstitutional() {
-  return <CheckoutRedirect tier="institutional" title="Institutional" />;
+  return <MembershipApplicationForm tier="institutional" title="Institutional" />;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
-import CheckoutRedirect from '../components/CheckoutRedirect';
+import MembershipApplicationForm from '../components/MembershipApplicationForm';
 
 export default function ApplyProfessional() {
-  return <CheckoutRedirect tier="professional" title="Professional" />;
+  return <MembershipApplicationForm tier="professional" title="Professional" />;
 }

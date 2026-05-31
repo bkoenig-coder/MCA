@@ -16,7 +16,7 @@ export default function AdminDashboard() {
   const isAdminUser = isSuperAdmin || user?.email?.toLowerCase() === 'batmunkh.unen@gmail.com' || profile?.role === 'admin';
   const isEditor = isAdminUser || profile?.role === 'moderator';
 
-  const [activeTab, setActiveTab] = useState<'analytics' | 'events' | 'posts' | 'registrations' | 'gallery' | 'users'>('analytics');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'events' | 'posts' | 'registrations' | 'gallery' | 'users' | 'applications'>('analytics');
   
   // Analytics State
   const [pageViews, setPageViews] = useState<any[]>([]);
@@ -28,6 +28,7 @@ export default function AdminDashboard() {
   const [registrations, setRegistrations] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [gallery, setGallery] = useState<any[]>([]);
+  const [applications, setApplications] = useState<any[]>([]);
 
   // Form States
   const [eventForm, setEventForm] = useState({ 
@@ -104,6 +105,12 @@ export default function AdminDashboard() {
       setGallery(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
     }, (error) => handleFirestoreError(error, OperationType.GET, 'gallery'));
 
+    // Fetch Membership Applications
+    const qApplications = query(collection(db, 'membership_applications'), orderBy('createdAt', 'desc'));
+    const unsubscribeApplications = onSnapshot(qApplications, (snapshot) => {
+      setApplications(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    }, (error) => handleFirestoreError(error, OperationType.GET, 'membership_applications'));
+
     return () => {
       unsubscribeAnalytics();
       unsubscribeEvents();
@@ -111,6 +118,7 @@ export default function AdminDashboard() {
       unsubscribeRegs();
       unsubscribeUsers();
       unsubscribeGallery();
+      unsubscribeApplications();
     };
   }, [isEditor]);
 
@@ -121,6 +129,43 @@ export default function AdminDashboard() {
     } catch (error) {
       toast.error('Failed to update user role');
       handleFirestoreError(error, OperationType.WRITE, 'users');
+    }
+  };
+
+  const handleMembershipTierChange = async (userId: string, newTier: string) => {
+    try {
+      await updateDoc(doc(db, 'users', userId), {
+        membershipTier: newTier,
+        membershipStatus: newTier === 'user' ? 'inactive' : 'active',
+        membershipUpdatedAt: serverTimestamp()
+      });
+      toast.success('User membership tier updated');
+    } catch (error) {
+      toast.error('Failed to update membership tier');
+      handleFirestoreError(error, OperationType.WRITE, 'users');
+    }
+  };
+
+  const handleReviewApplication = async (appId: string, userId: string, tier: string, newStatus: 'approved' | 'rejected') => {
+    try {
+      await updateDoc(doc(db, 'membership_applications', appId), {
+        status: newStatus,
+        updatedAt: serverTimestamp()
+      });
+
+      if (newStatus === 'approved') {
+        await updateDoc(doc(db, 'users', userId), {
+          membershipTier: tier,
+          membershipStatus: 'active',
+          membershipUpdatedAt: serverTimestamp()
+        });
+        toast.success(`Application approved! User tier set to ${tier}.`);
+      } else {
+        toast.success('Application rejected.');
+      }
+    } catch (error) {
+      toast.error('Failed to update application');
+      handleFirestoreError(error, OperationType.WRITE, 'membership_applications');
     }
   };
 
@@ -410,7 +455,10 @@ export default function AdminDashboard() {
               { id: 'posts', icon: <FileText size={16} />, label: 'Posts' },
               { id: 'gallery', icon: <ImageIcon size={16} />, label: 'Gallery' },
               { id: 'registrations', icon: <Users size={16} />, label: 'Registrations' },
-              ...(isAdminUser ? [{ id: 'users', icon: <Shield size={16} />, label: 'Users' }] : []),
+              ...(isAdminUser ? [
+                { id: 'users', icon: <Shield size={16} />, label: 'Users' },
+                { id: 'applications', icon: <FileText size={16} />, label: 'Applications' }
+              ] : []),
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -1231,7 +1279,8 @@ export default function AdminDashboard() {
                     <tr className="bg-brand-paper/30">
                       <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">User</th>
                       <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Email</th>
-                      <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Role</th>
+                      <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">System Role</th>
+                      <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Membership</th>
                       <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Joined</th>
                     </tr>
                   </thead>
@@ -1268,6 +1317,27 @@ export default function AdminDashboard() {
                             <option value="admin">Admin</option>
                           </select>
                         </td>
+                        <td className="px-10 py-8">
+                          <select
+                            value={u.membershipTier || 'user'}
+                            onChange={(e) => handleMembershipTierChange(u.id, e.target.value)}
+                            disabled={!isSuperAdmin && u.email?.toLowerCase() === 'emeraldtorstein@gmail.com'}
+                            className={cn(
+                              "px-4 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-widest outline-none cursor-pointer border border-brand-ink/10 bg-brand-paper",
+                              u.membershipTier === 'student' ? "bg-purple-500/10 text-purple-600 border-purple-500/20" :
+                              u.membershipTier === 'professional' ? "bg-amber-600/10 text-amber-600 border-amber-600/20" :
+                              u.membershipTier === 'institutional' ? "bg-green-600/10 text-green-600 border-green-600/20" :
+                              u.membershipTier === 'partner' ? "bg-blue-600/10 text-blue-600 border-blue-600/20" :
+                              "bg-brand-ink/5 text-brand-ink/40 border-transparent"
+                            )}
+                          >
+                            <option value="user">Non-Member</option>
+                            <option value="student">Student / Youth</option>
+                            <option value="professional">Professional</option>
+                            <option value="partner">Partner</option>
+                            <option value="institutional">Institutional</option>
+                          </select>
+                        </td>
                         <td className="px-10 py-8 text-brand-ink/40 text-[10px] font-bold uppercase tracking-widest">
                           {u.createdAt?.toDate ? u.createdAt.toDate().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : 'N/A'}
                         </td>
@@ -1280,6 +1350,128 @@ export default function AdminDashboard() {
                 <div className="p-20 text-center">
                   <Users size={48} className="mx-auto text-brand-ink/10 mb-6" />
                   <p className="text-brand-ink/40 italic">No users found.</p>
+                </div>
+              )}
+            </motion.div>
+          )}
+
+          {activeTab === 'applications' && (
+            <motion.div
+              key="applications"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="bg-white rounded-[40px] border border-brand-ink/5 shadow-sm overflow-hidden"
+            >
+              <div className="p-10 border-b border-brand-ink/5 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                  <h3 className="text-2xl font-serif">Membership Applications</h3>
+                  <p className="text-brand-ink/40 text-[10px] font-bold uppercase tracking-widest mt-2">Review and manage student, professional, and institutional membership requests</p>
+                </div>
+                <div className="bg-brand-paper px-6 py-3 rounded-2xl">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Pending Applications: </span>
+                  <span className="text-sm font-bold text-amber-500">{applications.filter(a => a.status === 'pending').length}</span>
+                </div>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-brand-paper/30">
+                      <th className="px-8 py-6 text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Applicant</th>
+                      <th className="px-8 py-6 text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Requested Tier</th>
+                      <th className="px-8 py-6 text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Details</th>
+                      <th className="px-8 py-6 text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Statement / Motivation</th>
+                      <th className="px-8 py-6 text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Status</th>
+                      <th className="px-8 py-6 text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {applications.map((app) => (
+                      <tr key={app.id} className="border-b border-brand-ink/5 hover:bg-brand-paper/30 transition-colors">
+                        <td className="px-8 py-6">
+                          <div className="font-medium text-sm text-brand-ink">{app.firstName} {app.lastName}</div>
+                          <div className="text-xs text-brand-ink/40 mt-1">{app.userEmail}</div>
+                          <div className="text-[10px] text-brand-ink/60 mt-1 font-bold">
+                            DOB: {app.dob || 'N/A'} {app.age ? `(Age: ${app.age})` : ''}
+                          </div>
+                        </td>
+                        <td className="px-8 py-6">
+                          <span className={cn(
+                            "px-4 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-widest border",
+                            app.tier === 'student' ? "bg-purple-500/10 text-purple-600 border-purple-500/20" :
+                            app.tier === 'professional' ? "bg-amber-500/10 text-amber-500 border-amber-500/20" :
+                            "bg-green-500/10 text-green-600 border-green-500/20"
+                          )}>
+                            {app.tier}
+                          </span>
+                        </td>
+                        <td className="px-8 py-6 text-xs text-brand-ink/70">
+                          {app.tier === 'student' && (
+                            <div>
+                              <p><strong>School:</strong> {app.schoolOrUniversity}</p>
+                              <p className="mt-1"><strong>ID No:</strong> {app.studentIdNumber}</p>
+                            </div>
+                          )}
+                          {app.tier === 'professional' && (
+                            <div>
+                              <p><strong>Org:</strong> {app.organizationName}</p>
+                              <p className="mt-1"><strong>Position:</strong> {app.position}</p>
+                              {app.websiteOrLinkedin && <a href={app.websiteOrLinkedin} target="_blank" rel="referrer" className="text-brand-gold hover:underline flex items-center gap-1 mt-1 text-[10px] inline-flex items-center">Website <ExternalLink size={10} className="ml-1" /></a>}
+                            </div>
+                          )}
+                          {app.tier === 'institutional' && (
+                            <div>
+                              <p><strong>Org:</strong> {app.organizationName}</p>
+                              {app.websiteOrLinkedin && <a href={app.websiteOrLinkedin} target="_blank" rel="referrer" className="text-brand-gold hover:underline flex items-center gap-1 mt-1 text-[10px] inline-flex items-center">Website <ExternalLink size={10} className="ml-1" /></a>}
+                            </div>
+                          )}
+                        </td>
+                        <td className="px-8 py-6">
+                          <p className="text-xs text-brand-ink/60 line-clamp-3 max-w-xs whitespace-pre-wrap" title={app.statementOfPurpose}>
+                            {app.statementOfPurpose || 'N/A'}
+                          </p>
+                        </td>
+                        <td className="px-8 py-6">
+                          <span className={cn(
+                            "px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest",
+                            app.status === 'pending' ? "bg-amber-500/10 text-amber-500" :
+                            app.status === 'approved' ? "bg-green-500/10 text-green-500" : "bg-red-500/10 text-red-500"
+                          )}>
+                            {app.status}
+                          </span>
+                        </td>
+                        <td className="px-8 py-6">
+                          {app.status === 'pending' ? (
+                            <div className="flex items-center gap-3">
+                              <button
+                                onClick={() => handleReviewApplication(app.id, app.userId, app.tier, 'approved')}
+                                className="p-2 rounded-xl bg-green-500/10 hover:bg-green-500 hover:text-white text-green-600 hover:text-white transition-all border border-green-500/20 cursor-pointer"
+                                title="Approve Application"
+                              >
+                                <Check size={14} />
+                              </button>
+                              <button
+                                onClick={() => handleReviewApplication(app.id, app.userId, app.tier, 'rejected')}
+                                className="p-2 rounded-xl bg-red-500/10 hover:bg-red-500 hover:text-white text-red-600 hover:text-white transition-all border border-red-500/20 cursor-pointer"
+                                title="Reject Application"
+                              >
+                                <X size={14} />
+                              </button>
+                            </div>
+                          ) : (
+                            <span className="text-[10px] text-brand-ink/30 italic">Reviewed</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {applications.length === 0 && (
+                <div className="p-20 text-center">
+                  <FileText size={48} className="mx-auto text-brand-ink/10 mb-6" />
+                  <p className="text-brand-ink/40 italic">No applications found.</p>
                 </div>
               )}
             </motion.div>
