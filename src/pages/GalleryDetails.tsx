@@ -183,26 +183,29 @@ export default function GalleryDetails() {
 
               {/* Description styling */}
               {dDesc ? (
-                dDesc.split("\n").map((paragraph: string, idx: number) => {
-                  const text = paragraph.trim();
-                  if (!text) return null;
-
-                  if (idx === 0) {
+                (() => {
+                  const paragraphs = dDesc.split("\n").map((p: string) => p.trim()).filter(Boolean);
+                  return paragraphs.map((text: string, pIdx: number) => {
+                    if (pIdx === 0) {
+                      return (
+                        <p
+                          key={pIdx}
+                          className="mb-10 font-serif sm:font-sans first-letter:text-7xl first-letter:md:text-8xl first-letter:font-serif first-letter:font-bold first-letter:text-brand-ink first-letter:float-left first-letter:mr-6 first-letter:mt-2 first-letter:leading-[0.8] text-xl sm:text-lg md:text-xl leading-[1.8]"
+                        >
+                          {text}
+                        </p>
+                      );
+                    }
                     return (
                       <p
-                        key={idx}
-                        className="mb-10 font-serif sm:font-sans first-letter:text-7xl first-letter:md:text-8xl first-letter:font-serif first-letter:font-bold first-letter:text-brand-ink first-letter:float-left first-letter:mr-6 first-letter:mt-2 first-letter:leading-[0.8] text-xl sm:text-lg md:text-xl leading-[1.8]"
+                        key={pIdx}
+                        className="mb-8 font-serif sm:font-sans text-xl sm:text-lg md:text-xl leading-[1.8] text-brand-ink/90"
                       >
                         {text}
                       </p>
                     );
-                  }
-                  return (
-                    <p key={idx} className="mb-8">
-                      {text}
-                    </p>
-                  );
-                })
+                  });
+                })()
               ) : (
                 <p className="text-center italic text-brand-ink/50 mt-12 mb-12">
                   No detailed description provided for this artwork.

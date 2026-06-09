@@ -286,76 +286,76 @@ export default function NewsDetails() {
               </div>
 
               {/* Split content by newlines to render paragraphs */}
-              {dContent.split("\n").map((paragraph: string, idx: number) => {
-                const text = paragraph.trim();
-                if (!text) return null;
+              {(() => {
+                const paragraphs = dContent.split("\n").map((p: string) => p.trim()).filter(Boolean);
+                return paragraphs.map((text: string, pIdx: number) => {
+                  // Extract potential quote
+                  if (
+                    text.startsWith('"') &&
+                    text.endsWith('"') &&
+                    text.length > 10
+                  ) {
+                    return (
+                      <blockquote
+                        key={pIdx}
+                        className="text-2xl md:text-4xl font-serif text-brand-ink italic border-l-4 border-brand-gold pl-6 md:pl-8 py-2 my-12 md:my-16 bg-gradient-to-r from-brand-gold/5 to-transparent relative"
+                      >
+                        <span className="absolute -left-4 -top-6 text-7xl text-brand-gold/20 font-serif">
+                          "
+                        </span>
+                        {text.replace(/(^"|"$)/g, "")}
+                      </blockquote>
+                    );
+                  }
 
-                // Extract potential quote
-                if (
-                  text.startsWith('"') &&
-                  text.endsWith('"') &&
-                  text.length > 10
-                ) {
-                  return (
-                    <blockquote
-                      key={idx}
-                      className="text-2xl md:text-4xl font-serif text-brand-ink italic border-l-4 border-brand-gold pl-6 md:pl-8 py-2 my-12 md:my-16 bg-gradient-to-r from-brand-gold/5 to-transparent relative"
-                    >
-                      <span className="absolute -left-4 -top-6 text-7xl text-brand-gold/20 font-serif">
-                        "
-                      </span>
-                      {text.replace(/(^"|"$)/g, "")}
-                    </blockquote>
-                  );
-                }
+                  // Identify potential headings (Only if starts with markdown headers like ### or ##)
+                  const isMarkdownHeading = text.startsWith("#") && /^#{1,6}\s/.test(text);
+                  if (isMarkdownHeading && pIdx > 0) {
+                    const headingText = text.replace(/^#+\s+/, "");
+                    return (
+                      <h2
+                        key={pIdx}
+                        className="text-2xl md:text-3xl font-serif text-brand-ink mt-12 mb-6 tracking-tight"
+                      >
+                        {headingText}
+                      </h2>
+                    );
+                  }
 
-                // Identify potential headings (short, no ending punctuation)
-                const isHeading =
-                  text.length > 3 &&
-                  text.length < 80 &&
-                  !/[.!?]$/.test(text) &&
-                  text.trim().split(/\s+/).length <= 10;
-                if (isHeading && idx > 0) {
-                  return (
-                    <h2
-                      key={idx}
-                      className="text-2xl md:text-3xl font-serif text-brand-ink mt-16 mb-8 tracking-tight"
-                    >
-                      {text}
-                    </h2>
-                  );
-                }
+                  // First paragraph styling (Drop Cap)
+                  if (pIdx === 0) {
+                    return (
+                      <p
+                        key={pIdx}
+                        className="mb-10 font-serif sm:font-sans first-letter:text-7xl first-letter:md:text-8xl first-letter:font-serif first-letter:font-bold first-letter:text-brand-ink first-letter:float-left first-letter:mr-6 first-letter:mt-2 first-letter:leading-[0.8] text-xl sm:text-lg md:text-xl leading-[1.8]"
+                      >
+                        {text}
+                      </p>
+                    );
+                  }
 
-                // First paragraph styling (Drop Cap)
-                if (idx === 0) {
+                  // Check for bold wrapping
+                  if (text.startsWith("**") && text.endsWith("**")) {
+                    return (
+                      <p
+                        key={pIdx}
+                        className="mb-8 font-serif sm:font-sans text-xl sm:text-lg md:text-xl leading-[1.8] font-bold text-brand-ink"
+                      >
+                        {text.replace(/\*\*/g, "")}
+                      </p>
+                    );
+                  }
+
                   return (
                     <p
-                      key={idx}
-                      className="mb-10 font-serif sm:font-sans first-letter:text-7xl first-letter:md:text-8xl first-letter:font-serif first-letter:font-bold first-letter:text-brand-ink first-letter:float-left first-letter:mr-6 first-letter:mt-2 first-letter:leading-[0.8] text-xl sm:text-lg md:text-xl leading-[1.8]"
+                      key={pIdx}
+                      className="mb-8 font-serif sm:font-sans text-xl sm:text-lg md:text-xl leading-[1.8] text-brand-ink/90"
                     >
                       {text}
                     </p>
                   );
-                }
-
-                // Check for bold wrapping
-                if (text.startsWith("**") && text.endsWith("**")) {
-                  return (
-                    <p key={idx} className="mb-8 font-medium text-brand-ink">
-                      {text.replace(/\*\*/g, "")}
-                    </p>
-                  );
-                }
-
-                return (
-                  <p
-                    key={idx}
-                    className="mb-8 text-brand-ink/80 text-[18px] md:text-[20px]"
-                  >
-                    {text}
-                  </p>
-                );
-              })}
+                });
+              })()}
             </div>
 
             {/* Right spacer for grid alignment */}

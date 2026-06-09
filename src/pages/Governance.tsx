@@ -45,7 +45,7 @@ export default function Governance() {
               <section>
                 <h2 className="text-3xl font-serif text-brand-ink mb-6">1. Organizational Structure</h2>
                 <p>
-                  As a registered organization (Verein) in Austria, our structure consists of the General Assembly, the Executive Board, and the Auditors. The General Assembly is the supreme body of the organization and meets annually.
+                  As a registered association (Verein) in Austria, our structure consists of the General Assembly, the Executive Board, and the Auditors. The General Assembly is the supreme body of the association and meets annually.
                 </p>
               </section>
 
