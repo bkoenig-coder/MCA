@@ -246,8 +246,8 @@ app.get('*', async (req, res, next) => {
         const data = await response.json();
         const fields = data.fields;
         if (fields) {
-          title = fields.title?.stringValue || "";
-          desc = fields.description?.stringValue || "";
+          title = fields.titleMn?.stringValue || fields.title?.stringValue || fields.titleEn?.stringValue || "";
+          desc = fields.descriptionMn?.stringValue || fields.description?.stringValue || fields.descriptionEn?.stringValue || "";
           image = fields.imageUrl?.stringValue || "";
         }
       }
@@ -287,8 +287,8 @@ app.get('*', async (req, res, next) => {
             if (data && data.length > 0 && data[0].document) {
               const fields = data[0].document.fields;
               if (fields) {
-                title = fields.title?.stringValue || fields.titleEn?.stringValue || "";
-                desc = fields.content?.stringValue || fields.contentEn?.stringValue || "";
+                title = fields.titleMn?.stringValue || fields.title?.stringValue || fields.titleEn?.stringValue || "";
+                desc = fields.contentMn?.stringValue || fields.content?.stringValue || fields.contentEn?.stringValue || "";
                 image = fields.imageUrl?.stringValue || "";
                 
                 // Truncate desc if too long
@@ -307,8 +307,8 @@ app.get('*', async (req, res, next) => {
               const fallbackData = await fallbackResponse.json();
               const fields = fallbackData.fields;
               if (fields) {
-                title = fields.title?.stringValue || fields.titleEn?.stringValue || "";
-                desc = fields.content?.stringValue || fields.contentEn?.stringValue || "";
+                title = fields.titleMn?.stringValue || fields.title?.stringValue || fields.titleEn?.stringValue || "";
+                desc = fields.contentMn?.stringValue || fields.content?.stringValue || fields.contentEn?.stringValue || "";
                 image = fields.imageUrl?.stringValue || "";
                 
                 if (desc.length > 200) desc = desc.substring(0, 197) + '...';
@@ -337,8 +337,8 @@ app.get('*', async (req, res, next) => {
             const fallbackData = await fallbackResponse.json();
             const fields = fallbackData.fields;
             if (fields) {
-              title = fields.title?.stringValue || fields.titleEn?.stringValue || "Gallery Artwork";
-              desc = fields.description?.stringValue || fields.descriptionEn?.stringValue || "";
+              title = fields.titleMn?.stringValue || fields.title?.stringValue || fields.titleEn?.stringValue || "Gallery Artwork";
+              desc = fields.descriptionMn?.stringValue || fields.description?.stringValue || fields.descriptionEn?.stringValue || "";
               image = fields.imageUrl?.stringValue || "";
               
               if (desc.length > 200) desc = desc.substring(0, 197) + '...';

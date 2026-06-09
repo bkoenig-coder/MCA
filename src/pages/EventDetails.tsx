@@ -430,12 +430,12 @@ export default function EventDetails() {
 
               {/* Description rendering */}
               {(() => {
-                const paragraphs = dDesc.split("\n").map((p: string) => p.trim()).filter(Boolean);
+                const paragraphs = dDesc.split(/\r?\n\s*\r?\n/).map((p: string) => p.trim()).filter(Boolean);
                 return paragraphs.map((text: string, pIdx: number) => {
                   return (
                     <p
                       key={pIdx}
-                      className="mb-8 font-sans text-lg md:text-xl leading-[1.8] text-brand-ink/90"
+                      className="mb-8 font-sans text-lg md:text-xl leading-[1.8] text-brand-ink/90 whitespace-pre-line"
                     >
                       {text}
                     </p>

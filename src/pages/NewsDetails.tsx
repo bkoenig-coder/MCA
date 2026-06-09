@@ -287,7 +287,7 @@ export default function NewsDetails() {
 
               {/* Split content by newlines to render paragraphs */}
               {(() => {
-                const paragraphs = dContent.split("\n").map((p: string) => p.trim()).filter(Boolean);
+                const paragraphs = dContent.split(/\r?\n\s*\r?\n/).map((p: string) => p.trim()).filter(Boolean);
                 return paragraphs.map((text: string, pIdx: number) => {
                   // Extract potential quote
                   if (

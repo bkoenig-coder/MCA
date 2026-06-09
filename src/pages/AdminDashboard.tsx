@@ -214,20 +214,41 @@ export default function AdminDashboard() {
     }
   };
 
+  const transliterateCyrillic = (text: string): string => {
+    const map: { [key: string]: string } = {
+      'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo', 'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y',
+      'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'ө': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
+      'ү': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ъ': '', 'ы': 'y', 'ь': '',
+      'э': 'e', 'ю': 'yu', 'я': 'ya',
+      'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'Yo', 'Ж': 'Zh', 'З': 'Z', 'И': 'I', 'Й': 'Y',
+      'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'Ө': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U',
+      'Ү': 'U', 'Ф': 'F', 'Х': 'Kh', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Shch', 'Ъ': '', 'Ы': 'Y', 'Ь': '',
+      'Э': 'E', 'Ю': 'Yu', 'Я': 'Ya'
+    };
+    return text.split('').map(char => map[char] || char).join('');
+  };
+
   const handleAddPost = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
+      const rawSlugSource = postForm.titleEn || postForm.titleMn || 'post';
+      const transliteratedSource = transliterateCyrillic(rawSlugSource);
+      const generatedSlug = transliteratedSource
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)+/g, '');
+
       const data = {
         titleEn: postForm.titleEn,
         titleMn: postForm.titleMn,
         titleDe: postForm.titleDe,
-        title: postForm.titleEn,
-        slug: postForm.slug || postForm.titleEn.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''),
+        title: postForm.titleMn || postForm.titleEn,
+        slug: postForm.slug || generatedSlug,
         contentEn: postForm.contentEn,
         contentMn: postForm.contentMn,
         contentDe: postForm.contentDe,
-        content: postForm.contentEn,
+        content: postForm.contentMn || postForm.contentEn,
         imageUrl: postForm.imageUrl,
         updatedAt: serverTimestamp(),
       };
@@ -815,14 +836,24 @@ export default function AdminDashboard() {
                   </h3>
                   <form onSubmit={handleAddPost} className="space-y-6">
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Post Title (English)</label>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Post Title (Mongolian)</label>
                       <input 
                         required
-                        value={postForm.titleEn}
-                        onChange={e => setPostForm({...postForm, titleEn: e.target.value})}
+                        value={postForm.titleMn}
+                        onChange={e => setPostForm({...postForm, titleMn: e.target.value})}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
+                    <div>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Content (Mongolian)</label>
+                      <textarea 
+                        required
+                        value={postForm.contentMn}
+                        onChange={e => setPostForm({...postForm, contentMn: e.target.value})}
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar"
+                      />
+                    </div>
+
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">URL Slug (Optional)</label>
                       <input 
@@ -833,31 +864,22 @@ export default function AdminDashboard() {
                       />
                       <p className="text-[10px] text-brand-ink/40 mt-2">Leave blank to auto-generate from title</p>
                     </div>
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Content (English)</label>
-                      <textarea 
-                        required
-                        value={postForm.contentEn}
-                        onChange={e => setPostForm({...postForm, contentEn: e.target.value})}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar"
-                      />
-                    </div>
 
                     <div className="h-px w-full bg-brand-ink/5" />
 
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Post Title (Mongolian)</label>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Post Title (English)</label>
                       <input 
-                        value={postForm.titleMn}
-                        onChange={e => setPostForm({...postForm, titleMn: e.target.value})}
+                        value={postForm.titleEn}
+                        onChange={e => setPostForm({...postForm, titleEn: e.target.value})}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Content (Mongolian)</label>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Content (English)</label>
                       <textarea 
-                        value={postForm.contentMn}
-                        onChange={e => setPostForm({...postForm, contentMn: e.target.value})}
+                        value={postForm.contentEn}
+                        onChange={e => setPostForm({...postForm, contentEn: e.target.value})}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar"
                       />
                     </div>
