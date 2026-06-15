@@ -14,6 +14,7 @@ const languages = [
   { code: 'en', name: 'English', flag: '🇬🇧' },
   { code: 'de', name: 'Deutsch', flag: '🇦🇹' },
   { code: 'mn', name: 'Монгол', flag: '🇲🇳' },
+  { code: 'tr', name: 'Türkçe', flag: '🇹🇷' },
 ];
 
 const BilateralFlagBadge = () => (

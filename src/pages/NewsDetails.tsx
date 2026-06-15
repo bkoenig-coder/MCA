@@ -200,13 +200,23 @@ export default function NewsDetails() {
 
           {/* Featured Image */}
           <div className="-mx-6 w-[calc(100%+3rem)] md:mx-0 md:w-full relative aspect-[4/3] md:aspect-[2.5/1] md:rounded-[4px] overflow-hidden shadow-lg mb-12 md:mb-20 bg-brand-ink/5 border-y md:border border-brand-ink/10">
+            {/* Blurred background */}
+            <div className="absolute inset-0 overflow-hidden select-none pointer-events-none">
+              <img
+                src={post.imageUrl}
+                alt=""
+                className="w-full h-full object-cover filter blur-2xl opacity-40 scale-110"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+            {/* Foreground image */}
             <img
               src={post.imageUrl}
               alt={dTitle}
-              className="w-full h-full object-cover mix-blend-multiply"
+              className="w-full h-full object-contain relative z-10 mix-blend-multiply"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/20 to-transparent mix-blend-overlay"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/20 to-transparent mix-blend-overlay pointer-events-none z-20"></div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_8fr_1fr] gap-12 lg:gap-8 max-w-[1100px] mx-auto w-full px-4 md:px-0">

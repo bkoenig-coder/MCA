@@ -17,11 +17,11 @@ export default function AdminDashboard() {
   const isEditor = isAdminUser || profile?.role === 'moderator';
 
   const [activeTab, setActiveTab] = useState<'analytics' | 'events' | 'posts' | 'registrations' | 'gallery' | 'users' | 'applications'>('analytics');
-  
+
   // Analytics State
   const [pageViews, setPageViews] = useState<any[]>([]);
   const [analyticsData, setAnalyticsData] = useState<any[]>([]);
-  
+
   // Content State
   const [events, setEvents] = useState<any[]>([]);
   const [posts, setPosts] = useState<any[]>([]);
@@ -31,15 +31,15 @@ export default function AdminDashboard() {
   const [applications, setApplications] = useState<any[]>([]);
 
   // Form States
-  const [eventForm, setEventForm] = useState({ 
+  const [eventForm, setEventForm] = useState({
     id: '',
     titleEn: '', titleMn: '', titleDe: '',
     descriptionEn: '', descriptionMn: '', descriptionDe: '',
-    date: '', 
+    date: '',
     time: '',
     location: '',
     category: '',
-    price: 0, 
+    price: 0,
     capacity: 0,
     imageUrl: '',
     whatsIncluded: '',
@@ -49,7 +49,7 @@ export default function AdminDashboard() {
   const [galleryForm, setGalleryForm] = useState({ id: '', titleEn: '', titleMn: '', titleDe: '', artistEn: '', artistMn: '', artistDe: '', year: '', descriptionEn: '', descriptionMn: '', descriptionDe: '', imageUrl: '', category: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  
+
   // Modal States
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<{ collection: string, id: string } | null>(null);
@@ -63,7 +63,7 @@ export default function AdminDashboard() {
     const unsubscribeAnalytics = onSnapshot(qAnalytics, (snapshot) => {
       const views = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setPageViews(views);
-      
+
       const counts: { [key: string]: number } = {};
       views.forEach((v: any) => {
         if (v.timestamp && typeof v.timestamp.toDate === 'function') {
@@ -193,7 +193,7 @@ export default function AdminDashboard() {
         whatsIncluded: eventForm.whatsIncluded.split(',').map(s => s.trim()).filter(s => s !== ''),
         updatedAt: serverTimestamp(),
       };
-      
+
       const data = await autoTranslateRecord(baseData, ['location', 'category']);
 
       if (isEditing && eventForm.id) {
@@ -252,7 +252,7 @@ export default function AdminDashboard() {
         imageUrl: postForm.imageUrl,
         updatedAt: serverTimestamp(),
       };
-      
+
       if (isEditing && postForm.id) {
         await setDoc(doc(db, 'posts', postForm.id), data, { merge: true });
         toast.success('Post updated successfully');
@@ -293,7 +293,7 @@ export default function AdminDashboard() {
         category: galleryForm.category,
         updatedAt: serverTimestamp(),
       };
-      
+
       const data = await autoTranslateRecord(baseData, ['category']);
 
       if (isEditing && galleryForm.id) {
@@ -468,7 +468,7 @@ export default function AdminDashboard() {
             </div>
             <p className="text-sm text-brand-ink/50 font-light">Managing the Mongolian Center in Austria ecosystem.</p>
           </div>
-          
+
           <div className="flex bg-white/50 backdrop-blur-md p-1.5 rounded-[24px] border border-brand-ink/5 w-full lg:w-auto overflow-x-auto no-scrollbar shadow-sm">
             {[
               { id: 'analytics', icon: <TrendingUp size={16} />, label: 'Analytics' },
@@ -484,9 +484,8 @@ export default function AdminDashboard() {
               <button
                 key={tab.id}
                 onClick={() => { setActiveTab(tab.id as any); setIsEditing(false); }}
-                className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap flex-1 lg:flex-none justify-center ${
-                  activeTab === tab.id ? 'bg-brand-ink text-white shadow-lg shadow-brand-ink/20' : 'text-brand-ink/40 hover:text-brand-ink hover:bg-white/50'
-                }`}
+                className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap flex-1 lg:flex-none justify-center ${activeTab === tab.id ? 'bg-brand-ink text-white shadow-lg shadow-brand-ink/20' : 'text-brand-ink/40 hover:text-brand-ink hover:bg-white/50'
+                  }`}
               >
                 {tab.icon}
                 <span>{tab.label}</span>
@@ -497,7 +496,7 @@ export default function AdminDashboard() {
 
         <AnimatePresence mode="wait">
           {activeTab === 'analytics' && (
-            <motion.div 
+            <motion.div
               key="analytics"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -537,16 +536,16 @@ export default function AdminDashboard() {
                           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
                           <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#999' }} dy={10} />
                           <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#999' }} />
-                          <Tooltip 
+                          <Tooltip
                             contentStyle={{ borderRadius: '24px', border: 'none', boxShadow: '0 20px 50px rgba(0,0,0,0.1)', fontSize: '12px', padding: '16px' }}
                           />
-                          <Line 
-                            type="monotone" 
-                            dataKey="count" 
-                            stroke="#141414" 
-                            strokeWidth={3} 
-                            dot={{ r: 4, fill: '#141414', strokeWidth: 2, stroke: '#fff' }} 
-                            activeDot={{ r: 6, strokeWidth: 0 }} 
+                          <Line
+                            type="monotone"
+                            dataKey="count"
+                            stroke="#141414"
+                            strokeWidth={3}
+                            dot={{ r: 4, fill: '#141414', strokeWidth: 2, stroke: '#fff' }}
+                            activeDot={{ r: 6, strokeWidth: 0 }}
                           />
                         </LineChart>
                       </ResponsiveContainer>
@@ -584,7 +583,7 @@ export default function AdminDashboard() {
           )}
 
           {activeTab === 'events' && (
-            <motion.div 
+            <motion.div
               key="events"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -600,40 +599,40 @@ export default function AdminDashboard() {
                   <form onSubmit={handleAddEvent} className="space-y-6">
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Event Title (English)</label>
-                      <input 
+                      <input
                         required
                         value={eventForm.titleEn}
-                        onChange={e => setEventForm({...eventForm, titleEn: e.target.value})}
+                        onChange={e => setEventForm({ ...eventForm, titleEn: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                         placeholder="e.g. Naadam Festival 2026"
                       />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Description (English)</label>
-                      <textarea 
+                      <textarea
                         required
                         value={eventForm.descriptionEn}
-                        onChange={e => setEventForm({...eventForm, descriptionEn: e.target.value})}
+                        onChange={e => setEventForm({ ...eventForm, descriptionEn: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar whitespace-pre-wrap"
                         placeholder="Describe the cultural significance..."
                       />
                     </div>
-                    
+
                     <div className="h-px w-full bg-brand-ink/5" />
 
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Event Title (Mongolian)</label>
-                      <input 
+                      <input
                         value={eventForm.titleMn}
-                        onChange={e => setEventForm({...eventForm, titleMn: e.target.value})}
+                        onChange={e => setEventForm({ ...eventForm, titleMn: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Description (Mongolian)</label>
-                      <textarea 
+                      <textarea
                         value={eventForm.descriptionMn}
-                        onChange={e => setEventForm({...eventForm, descriptionMn: e.target.value})}
+                        onChange={e => setEventForm({ ...eventForm, descriptionMn: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar whitespace-pre-wrap"
                       />
                     </div>
@@ -642,40 +641,40 @@ export default function AdminDashboard() {
 
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Event Title (German)</label>
-                      <input 
+                      <input
                         value={eventForm.titleDe}
-                        onChange={e => setEventForm({...eventForm, titleDe: e.target.value})}
+                        onChange={e => setEventForm({ ...eventForm, titleDe: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Description (German)</label>
-                      <textarea 
+                      <textarea
                         value={eventForm.descriptionDe}
-                        onChange={e => setEventForm({...eventForm, descriptionDe: e.target.value})}
+                        onChange={e => setEventForm({ ...eventForm, descriptionDe: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar whitespace-pre-wrap"
                       />
                     </div>
-                    
+
                     <div className="h-px w-full bg-brand-ink/5" />
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Date</label>
-                        <input 
+                        <input
                           required
                           type="date"
                           value={eventForm.date}
-                          onChange={e => setEventForm({...eventForm, date: e.target.value})}
+                          onChange={e => setEventForm({ ...eventForm, date: e.target.value })}
                           className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                         />
                       </div>
                       <div>
                         <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Time</label>
-                        <input 
+                        <input
                           required
                           type="time"
                           value={eventForm.time}
-                          onChange={e => setEventForm({...eventForm, time: e.target.value})}
+                          onChange={e => setEventForm({ ...eventForm, time: e.target.value })}
                           className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                         />
                       </div>
@@ -683,20 +682,20 @@ export default function AdminDashboard() {
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Location</label>
-                        <input 
+                        <input
                           value={eventForm.location}
-                          onChange={e => setEventForm({...eventForm, location: e.target.value})}
+                          onChange={e => setEventForm({ ...eventForm, location: e.target.value })}
                           className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                           placeholder="e.g. Ulaanbaatar"
                         />
                       </div>
                       <div>
                         <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Capacity (Tickets)</label>
-                        <input 
+                        <input
                           type="number"
                           min="0"
                           value={eventForm.capacity === 0 ? '' : eventForm.capacity}
-                          onChange={e => setEventForm({...eventForm, capacity: Number(e.target.value)})}
+                          onChange={e => setEventForm({ ...eventForm, capacity: Number(e.target.value) })}
                           className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                           placeholder="Leave empty for unlimited"
                         />
@@ -706,58 +705,58 @@ export default function AdminDashboard() {
                       <div className="flex items-center justify-between mb-2">
                         <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Price (EUR)</label>
                         <label className="flex items-center gap-2 cursor-pointer">
-                          <input 
-                            type="checkbox" 
+                          <input
+                            type="checkbox"
                             checked={eventForm.price === 0}
-                            onChange={(e) => setEventForm({...eventForm, price: e.target.checked ? 0 : 10})}
+                            onChange={(e) => setEventForm({ ...eventForm, price: e.target.checked ? 0 : 10 })}
                             className="w-3 h-3 text-brand-gold focus:ring-brand-gold rounded border-brand-ink/20"
                           />
                           <span className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/60">Free Event</span>
                         </label>
                       </div>
-                      <input 
+                      <input
                         required={eventForm.price !== 0}
                         type="number"
                         min="0"
                         step="0.01"
                         disabled={eventForm.price === 0}
                         value={eventForm.price === 0 ? '' : eventForm.price}
-                        onChange={e => setEventForm({...eventForm, price: Number(e.target.value)})}
+                        onChange={e => setEventForm({ ...eventForm, price: Number(e.target.value) })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                         placeholder={eventForm.price === 0 ? "Free" : "0.00"}
                       />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Image URL</label>
-                      <input 
+                      <input
                         required
                         value={eventForm.imageUrl}
-                        onChange={e => setEventForm({...eventForm, imageUrl: e.target.value})}
+                        onChange={e => setEventForm({ ...eventForm, imageUrl: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                         placeholder="https://images.unsplash.com/..."
                       />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Gallery Images (Comma separated URLs)</label>
-                      <textarea 
+                      <textarea
                         value={eventForm.galleryImages}
-                        onChange={e => setEventForm({...eventForm, galleryImages: e.target.value})}
+                        onChange={e => setEventForm({ ...eventForm, galleryImages: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-24 no-scrollbar"
                         placeholder="https://images.unsplash.com/..., https://images.unsplash.com/..."
                       />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">What's Included (Comma separated)</label>
-                      <textarea 
+                      <textarea
                         value={eventForm.whatsIncluded}
-                        onChange={e => setEventForm({...eventForm, whatsIncluded: e.target.value})}
+                        onChange={e => setEventForm({ ...eventForm, whatsIncluded: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-24 no-scrollbar"
                         placeholder="e.g. Traditional Lunch, Guided Tour, Exhibition Entry"
                       />
                     </div>
                     <div className="flex gap-4">
                       {isEditing && (
-                        <button 
+                        <button
                           type="button"
                           onClick={() => { setIsEditing(false); setEventForm({ id: '', titleEn: '', titleMn: '', titleDe: '', descriptionEn: '', descriptionMn: '', descriptionDe: '', date: '', time: '', location: '', category: '', price: 0, capacity: 0, imageUrl: '', galleryImages: '', whatsIncluded: '' }); }}
                           className="flex-1 bg-brand-paper text-brand-ink py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-sand transition-all"
@@ -765,7 +764,7 @@ export default function AdminDashboard() {
                           Cancel
                         </button>
                       )}
-                      <button 
+                      <button
                         disabled={isSubmitting}
                         className="flex-[2] bg-brand-ink text-white py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-gold transition-all disabled:opacity-50 shadow-xl shadow-brand-ink/10"
                       >
@@ -795,13 +794,13 @@ export default function AdminDashboard() {
                         <p className="text-xs text-brand-ink/50 font-light line-clamp-1">{event.description}</p>
                       </div>
                       <div className="flex gap-3 shrink-0">
-                        <button 
+                        <button
                           onClick={() => editEvent(event)}
                           className="p-4 bg-brand-paper text-brand-ink hover:bg-brand-gold hover:text-white rounded-2xl transition-all"
                         >
                           <Edit3 size={18} />
                         </button>
-                        <button 
+                        <button
                           onClick={() => confirmDelete('events', event.id)}
                           className="p-4 bg-brand-paper text-red-500 hover:bg-red-500 hover:text-white rounded-2xl transition-all"
                         >
@@ -821,7 +820,7 @@ export default function AdminDashboard() {
           )}
 
           {activeTab === 'posts' && (
-            <motion.div 
+            <motion.div
               key="posts"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -837,28 +836,28 @@ export default function AdminDashboard() {
                   <form onSubmit={handleAddPost} className="space-y-6">
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Post Title (Mongolian)</label>
-                      <input 
+                      <input
                         required
                         value={postForm.titleMn}
-                        onChange={e => setPostForm({...postForm, titleMn: e.target.value})}
+                        onChange={e => setPostForm({ ...postForm, titleMn: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Content (Mongolian)</label>
-                      <textarea 
+                      <textarea
                         required
                         value={postForm.contentMn}
-                        onChange={e => setPostForm({...postForm, contentMn: e.target.value})}
+                        onChange={e => setPostForm({ ...postForm, contentMn: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar"
                       />
                     </div>
 
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">URL Slug (Optional)</label>
-                      <input 
+                      <input
                         value={postForm.slug}
-                        onChange={e => setPostForm({...postForm, slug: e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')})}
+                        onChange={e => setPostForm({ ...postForm, slug: e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') })}
                         placeholder="e.g. latest-news-update"
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
@@ -869,17 +868,17 @@ export default function AdminDashboard() {
 
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Post Title (English)</label>
-                      <input 
+                      <input
                         value={postForm.titleEn}
-                        onChange={e => setPostForm({...postForm, titleEn: e.target.value})}
+                        onChange={e => setPostForm({ ...postForm, titleEn: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Content (English)</label>
-                      <textarea 
+                      <textarea
                         value={postForm.contentEn}
-                        onChange={e => setPostForm({...postForm, contentEn: e.target.value})}
+                        onChange={e => setPostForm({ ...postForm, contentEn: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar"
                       />
                     </div>
@@ -888,17 +887,17 @@ export default function AdminDashboard() {
 
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Post Title (German)</label>
-                      <input 
+                      <input
                         value={postForm.titleDe}
-                        onChange={e => setPostForm({...postForm, titleDe: e.target.value})}
+                        onChange={e => setPostForm({ ...postForm, titleDe: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Content (German)</label>
-                      <textarea 
+                      <textarea
                         value={postForm.contentDe}
-                        onChange={e => setPostForm({...postForm, contentDe: e.target.value})}
+                        onChange={e => setPostForm({ ...postForm, contentDe: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar"
                       />
                     </div>
@@ -907,16 +906,16 @@ export default function AdminDashboard() {
 
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Cover Image URL</label>
-                      <input 
+                      <input
                         required
                         value={postForm.imageUrl}
-                        onChange={e => setPostForm({...postForm, imageUrl: e.target.value})}
+                        onChange={e => setPostForm({ ...postForm, imageUrl: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
                     <div className="flex gap-4">
                       {isEditing && (
-                        <button 
+                        <button
                           type="button"
                           onClick={() => { setIsEditing(false); setPostForm({ id: '', slug: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '' }); }}
                           className="flex-1 bg-brand-paper text-brand-ink py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-sand transition-all"
@@ -924,7 +923,7 @@ export default function AdminDashboard() {
                           Cancel
                         </button>
                       )}
-                      <button 
+                      <button
                         disabled={isSubmitting}
                         className="flex-[2] bg-brand-ink text-white py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-gold transition-all disabled:opacity-50 shadow-xl shadow-brand-ink/10"
                       >
@@ -948,13 +947,13 @@ export default function AdminDashboard() {
                         <p className="text-xs text-brand-ink/50 font-light line-clamp-2">{post.content}</p>
                       </div>
                       <div className="flex gap-3 shrink-0">
-                        <button 
+                        <button
                           onClick={() => editPost(post)}
                           className="p-4 bg-brand-paper text-brand-ink hover:bg-brand-gold hover:text-white rounded-2xl transition-all"
                         >
                           <Edit3 size={18} />
                         </button>
-                        <button 
+                        <button
                           onClick={() => confirmDelete('posts', post.id)}
                           className="p-4 bg-brand-paper text-red-500 hover:bg-red-500 hover:text-white rounded-2xl transition-all"
                         >
@@ -974,7 +973,7 @@ export default function AdminDashboard() {
           )}
 
           {activeTab === 'gallery' && (
-            <motion.div 
+            <motion.div
               key="gallery"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -990,29 +989,29 @@ export default function AdminDashboard() {
                   <form onSubmit={handleAddGalleryItem} className="space-y-6">
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Title (English)</label>
-                      <input 
+                      <input
                         required
                         value={galleryForm.titleEn}
-                        onChange={e => setGalleryForm({...galleryForm, titleEn: e.target.value})}
+                        onChange={e => setGalleryForm({ ...galleryForm, titleEn: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                         placeholder="Artwork title"
                       />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Description (English)</label>
-                      <textarea 
+                      <textarea
                         required
                         value={galleryForm.descriptionEn}
-                        onChange={e => setGalleryForm({...galleryForm, descriptionEn: e.target.value})}
+                        onChange={e => setGalleryForm({ ...galleryForm, descriptionEn: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar whitespace-pre-wrap"
                         placeholder="Tell the story behind this piece..."
                       />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Artist (English)</label>
-                      <input 
+                      <input
                         value={galleryForm.artistEn}
-                        onChange={e => setGalleryForm({...galleryForm, artistEn: e.target.value})}
+                        onChange={e => setGalleryForm({ ...galleryForm, artistEn: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                         placeholder="Artist name"
                       />
@@ -1022,25 +1021,25 @@ export default function AdminDashboard() {
 
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Title (Mongolian)</label>
-                      <input 
+                      <input
                         value={galleryForm.titleMn}
-                        onChange={e => setGalleryForm({...galleryForm, titleMn: e.target.value})}
+                        onChange={e => setGalleryForm({ ...galleryForm, titleMn: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Description (Mongolian)</label>
-                      <textarea 
+                      <textarea
                         value={galleryForm.descriptionMn}
-                        onChange={e => setGalleryForm({...galleryForm, descriptionMn: e.target.value})}
+                        onChange={e => setGalleryForm({ ...galleryForm, descriptionMn: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar whitespace-pre-wrap"
                       />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Artist (Mongolian)</label>
-                      <input 
+                      <input
                         value={galleryForm.artistMn}
-                        onChange={e => setGalleryForm({...galleryForm, artistMn: e.target.value})}
+                        onChange={e => setGalleryForm({ ...galleryForm, artistMn: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
@@ -1049,25 +1048,25 @@ export default function AdminDashboard() {
 
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Title (German)</label>
-                      <input 
+                      <input
                         value={galleryForm.titleDe}
-                        onChange={e => setGalleryForm({...galleryForm, titleDe: e.target.value})}
+                        onChange={e => setGalleryForm({ ...galleryForm, titleDe: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Description (German)</label>
-                      <textarea 
+                      <textarea
                         value={galleryForm.descriptionDe}
-                        onChange={e => setGalleryForm({...galleryForm, descriptionDe: e.target.value})}
+                        onChange={e => setGalleryForm({ ...galleryForm, descriptionDe: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar whitespace-pre-wrap"
                       />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Artist (German)</label>
-                      <input 
+                      <input
                         value={galleryForm.artistDe}
-                        onChange={e => setGalleryForm({...galleryForm, artistDe: e.target.value})}
+                        onChange={e => setGalleryForm({ ...galleryForm, artistDe: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
@@ -1077,9 +1076,9 @@ export default function AdminDashboard() {
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Year</label>
-                        <input 
+                        <input
                           value={galleryForm.year}
-                          onChange={e => setGalleryForm({...galleryForm, year: e.target.value})}
+                          onChange={e => setGalleryForm({ ...galleryForm, year: e.target.value })}
                           className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                           placeholder="2026"
                         />
@@ -1089,7 +1088,7 @@ export default function AdminDashboard() {
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Category</label>
                       <select
                         value={galleryForm.category}
-                        onChange={e => setGalleryForm({...galleryForm, category: e.target.value})}
+                        onChange={e => setGalleryForm({ ...galleryForm, category: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       >
                         <option value="">Select Category</option>
@@ -1100,17 +1099,17 @@ export default function AdminDashboard() {
                     </div>
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Image URL</label>
-                      <input 
+                      <input
                         required
                         value={galleryForm.imageUrl}
-                        onChange={e => setGalleryForm({...galleryForm, imageUrl: e.target.value})}
+                        onChange={e => setGalleryForm({ ...galleryForm, imageUrl: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                         placeholder="https://images.unsplash.com/..."
                       />
                     </div>
                     <div className="flex gap-4">
                       {isEditing && (
-                        <button 
+                        <button
                           type="button"
                           onClick={() => { setIsEditing(false); setGalleryForm({ id: '', titleEn: '', titleMn: '', titleDe: '', artistEn: '', artistMn: '', artistDe: '', year: '', descriptionEn: '', descriptionMn: '', descriptionDe: '', imageUrl: '', category: '' }); }}
                           className="flex-1 bg-brand-paper text-brand-ink py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-sand transition-all"
@@ -1118,7 +1117,7 @@ export default function AdminDashboard() {
                           Cancel
                         </button>
                       )}
-                      <button 
+                      <button
                         disabled={isSubmitting}
                         className="flex-[2] bg-brand-ink text-white py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-gold transition-all disabled:opacity-50 shadow-xl shadow-brand-ink/10"
                       >
@@ -1137,13 +1136,13 @@ export default function AdminDashboard() {
                       <div className="aspect-[4/3] relative overflow-hidden">
                         <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                         <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button 
+                          <button
                             onClick={() => editGalleryItem(item)}
                             className="p-3 bg-white/90 backdrop-blur-sm text-brand-ink hover:bg-brand-gold hover:text-white rounded-xl transition-all shadow-lg"
                           >
                             <Edit3 size={16} />
                           </button>
-                          <button 
+                          <button
                             onClick={() => confirmDelete('gallery', item.id)}
                             className="p-3 bg-white/90 backdrop-blur-sm text-red-500 hover:bg-red-500 hover:text-white rounded-xl transition-all shadow-lg"
                           >
@@ -1173,7 +1172,7 @@ export default function AdminDashboard() {
           )}
 
           {activeTab === 'registrations' && (
-            <motion.div 
+            <motion.div
               key="registrations"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -1187,7 +1186,7 @@ export default function AdminDashboard() {
                 </div>
                 <div className="flex items-center gap-4 w-full sm:w-auto">
                   <div className="relative flex-1 sm:w-64">
-                    <input 
+                    <input
                       type="text"
                       placeholder="Search registrations..."
                       value={regSearch}
@@ -1195,7 +1194,7 @@ export default function AdminDashboard() {
                       className="w-full bg-brand-paper border-none rounded-full px-6 py-3 text-xs focus:ring-2 focus:ring-brand-gold/20 transition-all"
                     />
                   </div>
-                  <button 
+                  <button
                     onClick={exportToCSV}
                     className="flex items-center gap-2 px-6 py-3 bg-brand-paper rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-brand-sand transition-all shrink-0"
                   >
@@ -1240,14 +1239,12 @@ export default function AdminDashboard() {
                           {reg.notes && <p className="text-[10px] text-brand-ink/40 italic mt-1 line-clamp-2" title={reg.notes}>Note: {reg.notes}</p>}
                         </td>
                         <td className="px-10 py-8">
-                          <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest ${
-                            reg.status === 'paid' || reg.status === 'completed' ? 'bg-green-100 text-green-700' : 
+                          <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest ${reg.status === 'paid' || reg.status === 'completed' ? 'bg-green-100 text-green-700' :
                             reg.status === 'pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
-                          }`}>
-                            <div className={`w-1.5 h-1.5 rounded-full ${
-                              reg.status === 'paid' || reg.status === 'completed' ? 'bg-green-500' : 
+                            }`}>
+                            <div className={`w-1.5 h-1.5 rounded-full ${reg.status === 'paid' || reg.status === 'completed' ? 'bg-green-500' :
                               reg.status === 'pending' ? 'bg-yellow-500' : 'bg-red-500'
-                            }`} />
+                              }`} />
                             {reg.status}
                           </span>
                         </td>
@@ -1255,7 +1252,7 @@ export default function AdminDashboard() {
                           {reg.createdAt?.toDate().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
                         </td>
                         <td className="px-10 py-8">
-                          <button 
+                          <button
                             onClick={() => { setItemToDelete({ id: reg.id, collection: 'registrations' }); setIsDeleteModalOpen(true); }}
                             className="w-10 h-10 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/40 hover:text-red-500 hover:border-red-500 hover:bg-red-50 transition-all group"
                             title="Delete Registration"
@@ -1329,9 +1326,9 @@ export default function AdminDashboard() {
                             disabled={!isSuperAdmin || u.email?.toLowerCase() === 'emeraldtorstein@gmail.com'}
                             className={cn(
                               "px-4 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-widest outline-none cursor-pointer appearance-none",
-                              u.role === 'admin' ? "bg-brand-gold/10 text-brand-gold border border-brand-gold/20" : 
-                              u.role === 'moderator' ? "bg-blue-500/10 text-blue-500 border border-blue-500/20" : 
-                              "bg-brand-ink/5 text-brand-ink/40 border-none"
+                              u.role === 'admin' ? "bg-brand-gold/10 text-brand-gold border border-brand-gold/20" :
+                                u.role === 'moderator' ? "bg-blue-500/10 text-blue-500 border border-blue-500/20" :
+                                  "bg-brand-ink/5 text-brand-ink/40 border-none"
                             )}
                           >
                             <option value="user">User</option>
@@ -1347,10 +1344,10 @@ export default function AdminDashboard() {
                             className={cn(
                               "px-4 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-widest outline-none cursor-pointer border border-brand-ink/10 bg-brand-paper",
                               u.membershipTier === 'student' ? "bg-purple-500/10 text-purple-600 border-purple-500/20" :
-                              u.membershipTier === 'professional' ? "bg-amber-600/10 text-amber-600 border-amber-600/20" :
-                              u.membershipTier === 'institutional' ? "bg-green-600/10 text-green-600 border-green-600/20" :
-                              u.membershipTier === 'partner' ? "bg-blue-600/10 text-blue-600 border-blue-600/20" :
-                              "bg-brand-ink/5 text-brand-ink/40 border-transparent"
+                                u.membershipTier === 'professional' ? "bg-amber-600/10 text-amber-600 border-amber-600/20" :
+                                  u.membershipTier === 'institutional' ? "bg-green-600/10 text-green-600 border-green-600/20" :
+                                    u.membershipTier === 'partner' ? "bg-blue-600/10 text-blue-600 border-blue-600/20" :
+                                      "bg-brand-ink/5 text-brand-ink/40 border-transparent"
                             )}
                           >
                             <option value="user">Non-Member</option>
@@ -1422,8 +1419,8 @@ export default function AdminDashboard() {
                           <span className={cn(
                             "px-4 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-widest border",
                             app.tier === 'student' ? "bg-purple-500/10 text-purple-600 border-purple-500/20" :
-                            app.tier === 'professional' ? "bg-amber-500/10 text-amber-500 border-amber-500/20" :
-                            "bg-green-500/10 text-green-600 border-green-500/20"
+                              app.tier === 'professional' ? "bg-amber-500/10 text-amber-500 border-amber-500/20" :
+                                "bg-green-500/10 text-green-600 border-green-500/20"
                           )}>
                             {app.tier}
                           </span>
@@ -1458,7 +1455,7 @@ export default function AdminDashboard() {
                           <span className={cn(
                             "px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest",
                             app.status === 'pending' ? "bg-amber-500/10 text-amber-500" :
-                            app.status === 'approved' ? "bg-green-500/10 text-green-500" : "bg-red-500/10 text-red-500"
+                              app.status === 'approved' ? "bg-green-500/10 text-green-500" : "bg-red-500/10 text-red-500"
                           )}>
                             {app.status}
                           </span>
@@ -1502,9 +1499,9 @@ export default function AdminDashboard() {
       </div>
 
       {/* Delete Confirmation Modal */}
-      <Modal 
-        isOpen={isDeleteModalOpen} 
-        onClose={() => setIsDeleteModalOpen(false)} 
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
         title="Confirm Deletion"
       >
         <div className="text-center">
@@ -1515,13 +1512,13 @@ export default function AdminDashboard() {
             Are you sure you want to delete this item? This action is permanent and cannot be undone.
           </p>
           <div className="flex gap-4">
-            <button 
+            <button
               onClick={() => setIsDeleteModalOpen(false)}
               className="flex-1 px-8 py-5 rounded-2xl bg-brand-paper text-brand-ink font-bold uppercase tracking-widest text-[10px] hover:bg-brand-sand transition-all"
             >
               Cancel
             </button>
-            <button 
+            <button
               onClick={handleDelete}
               className="flex-1 px-8 py-5 rounded-2xl bg-red-500 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-red-600 transition-all shadow-xl shadow-red-500/20"
             >

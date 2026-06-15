@@ -128,11 +128,21 @@ export default function GalleryDetails() {
           </header>
 
           {/* Featured Image */}
-          <div className="-mx-6 w-[calc(100%+3rem)] md:mx-0 md:w-full relative md:rounded-[4px] overflow-hidden shadow-lg mb-12 md:mb-20 bg-brand-ink/5 border-y md:border border-brand-ink/10 flex justify-center py-10 md:py-20 lg:h-[70vh]">
+          <div className="-mx-6 w-[calc(100%+3rem)] md:mx-0 md:w-full relative md:rounded-[4px] overflow-hidden shadow-lg mb-12 md:mb-20 bg-brand-ink/5 border-y md:border border-brand-ink/10 flex justify-center items-center py-10 md:py-20 lg:h-[70vh]">
+            {/* Blurred background */}
+            <div className="absolute inset-0 overflow-hidden select-none pointer-events-none">
+              <img
+                src={item.imageUrl}
+                alt=""
+                className="w-full h-full object-cover filter blur-2xl opacity-30 scale-110"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+            {/* Foreground image */}
             <img
               src={item.imageUrl}
               alt={dTitle}
-              className="w-full h-full object-contain mix-blend-multiply drop-shadow-xl"
+              className="w-full h-full object-contain mix-blend-multiply drop-shadow-xl relative z-10"
               referrerPolicy="no-referrer"
             />
           </div>

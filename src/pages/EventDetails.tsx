@@ -245,34 +245,51 @@ export default function EventDetails() {
           {/* Featured Image Slider */}
           <div className="-mx-6 w-[calc(100%+3rem)] md:mx-0 md:w-full relative aspect-[4/3] md:aspect-[2.5/1] md:rounded-[4px] overflow-hidden shadow-lg mb-12 md:mb-20 bg-brand-ink/5 border-y md:border border-brand-ink/10 group">
             <AnimatePresence mode="wait">
-              <motion.img 
+              <motion.div
                 key={currentImageIndex}
-                initial={{ opacity: 0, scale: 1.05 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
-                src={allImages[currentImageIndex]} 
-                alt={dTitle} 
-                className="w-full h-full object-cover mix-blend-multiply absolute inset-0 cursor-grab active:cursor-grabbing"
-                referrerPolicy="no-referrer"
-                drag="x"
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.2}
-                onDragEnd={(e, { offset }) => {
-                  const swipe = offset.x;
-                  if (swipe < -50) {
-                    setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
-                  } else if (swipe > 50) {
-                    setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
-                  }
-                }}
-              />
+                className="absolute inset-0 w-full h-full"
+              >
+                {/* Blurred background */}
+                <div className="absolute inset-0 overflow-hidden select-none pointer-events-none">
+                  <img
+                    src={allImages[currentImageIndex]}
+                    alt=""
+                    className="w-full h-full object-cover filter blur-2xl opacity-40 scale-110"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                {/* Foreground image */}
+                <motion.img 
+                  initial={{ scale: 1.05 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                  src={allImages[currentImageIndex]} 
+                  alt={dTitle} 
+                  className="w-full h-full object-contain mix-blend-multiply absolute inset-0 cursor-grab active:cursor-grabbing z-10"
+                  referrerPolicy="no-referrer"
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.2}
+                  onDragEnd={(e, { offset }) => {
+                    const swipe = offset.x;
+                    if (swipe < -50) {
+                      setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
+                    } else if (swipe > 50) {
+                      setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
+                    }
+                  }}
+                />
+              </motion.div>
             </AnimatePresence>
-            <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/20 to-transparent mix-blend-overlay pointer-events-none"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/20 to-transparent mix-blend-overlay pointer-events-none z-20"></div>
 
             {allImages.length > 1 && (
               <>
-                <div className="absolute inset-x-0 bottom-0 top-0 flex items-center justify-between p-4 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute inset-x-0 bottom-0 top-0 flex items-center justify-between p-4 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-30">
                   <button 
                     onClick={() => setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length)}
                     className="p-3 bg-brand-ink/30 backdrop-blur text-white rounded-full hover:bg-brand-gold transition-colors pointer-events-auto"
@@ -289,7 +306,7 @@ export default function EventDetails() {
                   </button>
                 </div>
                 
-                <div className="absolute bottom-6 inset-x-0 flex justify-center gap-2 z-10">
+                <div className="absolute bottom-6 inset-x-0 flex justify-center gap-2 z-30">
                   {allImages.map((_, i) => (
                     <button
                       key={i}

@@ -1730,6 +1730,582 @@ const resources = {
         next: 'Дараагийн удаа болох арга хэмжээ'
       }
     }
+  },
+  tr: {
+    translation: {
+      nav: {
+        home: 'Ana Sayfa',
+        about: 'Hakkımızda',
+        events: 'Etkinlikler',
+        membership: 'Üyelik',
+        news: 'Haberler',
+        gallery: 'Galeri',
+        impact: 'Bağış',
+        contact: 'İletişim',
+        signIn: 'Giriş Yap',
+        signOut: 'Çıkış Yap',
+        mongolian: 'Moğol',
+        center: 'Merkezi',
+        location: 'Viyana • Avusturya',
+        admin: 'Yönetici',
+        member: 'Üye'
+      },
+      common: {
+        locale: 'tr-TR',
+        back: 'Geri',
+        loading: 'Yükleniyor...',
+        register: 'Şimdi Kaydol',
+        or: 'veya',
+        error: {
+          signIn: 'Giriş yapılamadı. Lütfen açılır pencerelerin engellenip engellenmediğini kontrol edin.',
+          server: 'Sunucu hatası: {{status}}',
+          checkout: 'Sunucudan ödeme adresi alınamadı',
+          unexpected: 'Beklenmedik bir hata oluştu. Lütfen tekrar deneyin.'
+        }
+      },
+      hero: {
+        tag: 'Viyana • Avusturya',
+        title: 'Kültürleri Birleştiren,',
+        titleItalic: 'Topluluk Oluşturan',
+        subtitle: 'Viyana\'daki Moğol Merkezi\'nin resmi platformuna hoş geldiniz. Kültürel mirasımızı korumak ve Avusturya\'daki güçlü topluluk bağlarını geliştirmek amacıyla kurulmuş kar amacı gütmeyen bir sivil toplum kuruluşuyuz (Verein). Bu web sitesi aracılığıyla girişimlerimizi inceleyebilir, yaklaşan etkinlikler hakkında bilgi edinebilir ve projemizin gelişimini takip edebilirsiniz.',
+        ctaEvents: 'Etkinlikleri Keşfet',
+        ctaImpact: 'Misyonumuz',
+        ctaStory: 'Mirasımız',
+        established: 'Kuruluş yılı'
+      },
+      pillars: {
+        title: 'Stratejik Sütunlar',
+        community: {
+          title: 'Topluluk Katılımı',
+          desc: 'Moğol profesyonellerin, öğrencilerin ve yerel Avusturyalı ortakların bağlantı kurup iş birliği yaptığı seçkin bir ağ geliştirmek.'
+        },
+        arts: {
+          title: 'Kültürel Diplomasi',
+          desc: 'Avrupa\'daki yüksek profilli, kültürler arası sergiler aracılığıyla hem geleneksel hem de çağdaş Moğol sanatını ön plana çıkarmak.'
+        },
+        impact: {
+          title: 'Sürdürülebilir Etki',
+          desc: 'Avusturya ve Moğolistan\'daki hedeflenen hayırseverlik girişimleri aracılığıyla anlamlı bir sosyal değişim ve sivil dayanışma sağlamak.'
+        }
+      },
+      legacy: {
+        title: 'İş Birliği',
+        titleItalic: 'Çağrısı',
+        quote: 'En büyük mirasların birlikte inşa edildiğine inanıyoruz. Avusturya ve Moğolistan arasında dinamik, iş birliğine dayalı bir köprü kurmak için yenilikçileri, kültürel liderleri ve kuruluşları ortak olmaya davet ediyoruz.',
+        archery: 'Ortaklık',
+        tradition: 'Birlik',
+        horsemanship: 'Yenilik',
+        freedom: 'Gelecek',
+        wrestling: 'Değişim',
+        strength: 'Büyüme',
+        wisdom: 'Vizyon',
+        heritage: 'Etki'
+      },
+      highlight: {
+        tag: 'Öne Çıkan',
+        title: 'Kültür Festivali:',
+        titleItalic: 'Bozkırın Yankıları',
+        desc: 'Moğol müziği, geleneksel dansı ve mutfak lezzetleriyle dolu sürükleyici bir hafta sonu için bize katılın. Moğolistan\'ın zengin mirasını tam olarak burada, Viyana\'da deneyimleyin.',
+        date: '15-17 Haziran 2026',
+        nextEvent: 'Sıradaki Etkinlik',
+        audience: 'Tüm topluluk üyelerine açık',
+        cta: 'Tüm Etkinlikleri Görüntüle'
+      },
+      impactCta: {
+        title: 'Küresel Etki Yaratın',
+        desc: 'Bu hayati kültürel köprüyü sürdürmek ve ölçülebilir sonuçlar üreten ikili sosyal girişimlere sponsor olmak için bizimle ortak olun.',
+        cta: 'Bize Bağış Yapın!'
+      },
+      homeMembership: {
+        tag: 'Resmi Üyelik',
+        titleNormal: 'Nasıl ',
+        titleItalic: 'Üye Olunur',
+        desc: 'Avusturya ve Moğolistan\'ı birbirine bağlayan, büyüyen bir platforma katılın. Seçkin bir ağa, özel kültürel etkinliklere ve üst düzey ikili fırsatlara erişim kazanın.',
+        btnApply: 'Üye Ol',
+        btnExplore: 'Avantajları Keşfet',
+        slides: {
+          professional: {
+            title: 'Profesyonel Topluluk',
+            benefit1: 'Uluslararası ağ erişimi',
+            benefit2: 'Özel etkinlik davetiyeleri',
+            benefit3: 'Öncelikli forum kaydı',
+            benefit4: 'Kültürel ve profesyonel değişim'
+          },
+          student: {
+            title: 'Öğrenci Üyeliği',
+            benefit1: 'Gençlik ağına erişim',
+            benefit2: 'Mentörlük fırsatları',
+            benefit3: 'İndirimli etkinlik biletleri',
+            benefit4: 'Kariyer geliştirme desteği'
+          },
+          institutional: {
+            title: 'Kurumsal Ortak',
+            benefit1: 'Marka görünürlüğü',
+            benefit2: 'Özel B2B tanıştırmaları',
+            benefit3: 'Ortak etkinlik düzenleme fırsatları',
+            benefit4: 'Stratejik danışmanlık erişimi'
+          }
+        }
+      },
+      about: {
+        tag: 'Bizim Hikayemiz',
+        story: 'Hikayemiz &',
+        mission: 'Vizyonumuz',
+        bridging: 'Bizim',
+        cultures: 'Hikayemiz',
+        founded: 'Viyana\'da kurulan Avusturya Moğol Merkezi, ikili kültürel değişim, diplomatik ilişkiler ve sosyoekonomik dayanışma için seçkin bir platform oluşturma stratejik vizyonundan doğmuştur.',
+        heritage: 'Stratejimiz',
+        hubTitle: 'İkili Mükemmeliyet Merkezi',
+        hubDesc1: 'Avrupa\'nın kalbinden faaliyet gösteren STK\'mız, Moğol mirasını Avrupa inovasyonu ile birleştiren dinamik bir bağ görevi görmektedir. Yüksek etkili ağ oluşturma, kültürel gösterimler ve ortak girişimleri kolaylaştırıyoruz.',
+        hubDesc2: 'Portföyümüz; Avusturya ile Moğolistan arasında uzun vadeli ortaklıkları teşvik etmek için tasarlanmış yönetici düzeyinde ağ oluşturma sempozyumlarını, çağdaş kültürel diplomasi etkinliklerini ve akademik çalıştayları kapsamaktadır.',
+        hubDesc3: 'Kültürü, karşılıklı güvenin nihai temeli olarak görüyoruz. Moğol geleneklerini Avrupa bağlamlarıyla bütünleştirerek, hem kültürel zenginleşme hem de stratejik büyüme sağlayan ittifaklar tasarlıyoruz.',
+        vision: {
+          title: 'Stratejik Vizyonumuz',
+          desc: 'Karşılıklı saygı, kültürel çeşitlilik ve sarsılmaz stratejik ortaklıklar üzerine kurulu bir geleceği ilerleterek Avusturya ve Moğol çıkarlarını birbirine bağlayan nihai köprü olmak.'
+        },
+        values: {
+          tag: 'Temel İlkeler',
+          title: 'Değerlerimiz',
+          desc: 'Dürüstlük, kültürel diplomasi, kurumsal sorumluluk ve sanatsal mükemmeliyet, yönettiğimiz every stratejik girişimi şekillendirir.'
+        },
+        impact: {
+          title: 'Etkimiz',
+          desc: 'Bağış girişimlerimiz aracılığıyla, hem Viyana\'da yerel düzeyde hem de Moğolistan\'ın uçsuz bucaksız coğrafyasında anlamlı amaçları destekliyoruz.'
+        },
+        team: {
+          tag: 'Liderlik',
+          title: 'Ekibimiz',
+          quote: '"Avrupa\'daki Moğol mirasının korunması ve tanıtılmasına kendini adamış profesyoneller."',
+          roles: {
+            director: 'Kurucu Ortak',
+            manager: 'Kurucu Ortak',
+            outreach: 'Topluluk İlişkileri'
+          }
+        },
+        benefitsSection: {
+          tag: 'Görevler ve Avantajlar',
+          title: 'Neden ağımıza katılmalısınız?',
+          desc: 'Küresel odaların çerçevesini takip eden Moğol Merkezi; bağlantı kurmak, öğrenmek ve büyümek için benzersiz fırsatlar sunar. Misyonumuz, topluluğumuza somut faydalar sağlarken Avusturya ve Moğolistan arasında güçlü ikili ilişkiler geliştirmektir.',
+          items: {
+            networking: {
+              title: 'Ağ Oluşturma ve Bağlantılar',
+              desc: 'Üst düzey bir ağ oluşturma ortamında Moğol profesyoneller, kültürel elçiler ve Avusturyalı ortaklarla kalıcı ilişkiler kurun.'
+            },
+            events: {
+              title: 'Özel Etkinlikler',
+              desc: 'Kültür festivallerimize, kapalı kapılar ardındaki çalıştaylarımıza ve VIP toplantılarımıza halka açıklanmadan önce öncelikli erişim sağlayın.'
+            },
+            visibility: {
+              title: 'Görünürlük ve Tanıtım',
+              desc: 'Kültürel mirasla uyumlu projelerinizi veya ticari girişimlerinizi dijital platformlerimiz ve topluluk etkinliklerimiz aracılığıyla sergileyin.'
+            },
+            insights: {
+              title: 'Kültürel Bilgiler',
+              desc: 'Moğol tarihi, modern gelişmeler ve ekonomik ilişkiler hakkında derin, uzman düzeyinde bilgiler edinin.'
+            },
+            advocacy: {
+              title: 'Hak Savunuculuğu ve Temsil',
+              desc: 'Moğol diasporasını desteklemek ve adil, kültürel açıdan saygılı politikaları teşvik etmek için sesinizi ortak çabamıza katın.'
+            },
+            mentorship: {
+              title: 'Mentörlük',
+              desc: 'Orta Avrupa\'da rehberlik, kariyer gelişimi ve entegrasyon desteği için deneyimli profesyonellerle bağlantı kurun.'
+            }
+          }
+        },
+        join: {
+          tag: 'Ailemize Katılın',
+          title: 'Become a',
+          titleItalic: 'Member',
+          desc: 'Yolculuğumuza katılacak tutkulu ruhlar arıyoruz. Birlikte bir etki yaratalım!',
+          form: {
+            name: 'Adınız',
+            email: 'E-posta Adresiniz',
+            reason: 'Bize neden katılmak istiyorsunuz?',
+            submit: 'Katılmak İçin Başvur'
+          }
+        }
+      },
+      events: {
+        tag: 'Takvim',
+        title: 'Yaklaşan',
+        titleItalic: 'Etkinlikler',
+        subtitle: 'Kültür festivallerinden eğitici çalıştaylara kadar, Moğol mirasını kutlamak ve deneyimlemek için bize katılın.',
+        register: 'Şimdi Kaydol',
+        nextUpcoming: 'Sıradaki Yaklaşan Etkinlik',
+        viewDetails: 'Detayları Görüntüle',
+        price: 'Ücret',
+        date: 'Tarih',
+        time: 'Saat',
+        location: 'Konum',
+        category: 'Kategori',
+        tba: 'Açıklanacak',
+        vienna: 'Viyana',
+        defaultCategory: 'Etkinlik',
+        bespoke: {
+          title: 'Özel',
+          titleItalic: 'Kültürel Deneyimler',
+          desc: 'Moğol mirasıyla daha derin bir bağ kurmak isteyen kuruluşlar ve bireyler için özel kültürel danışmanlık ve kişiye özel etkinlik planlaması sunuyoruz.',
+          cta: 'Özel Bilgi Alın'
+        },
+        details: {
+          notFound: 'Etkinlik bulunamadı',
+          back: 'Etkinliklere Geri Dön',
+          category: 'Kültürel Etkinlik',
+          date: 'Tarih',
+          time: 'Saat',
+          location: 'Konum',
+          included: 'Neler Dahil',
+          fee: 'Kayıt Ücreti',
+          cta: 'Yerinizi Ayırtın'
+        }
+      },
+      news: {
+        tag: 'Dergi',
+        title: 'Görüşler &',
+        titleItalic: 'Gelişmeler',
+        subtitle: 'Topluluk faaliyetlerimiz, kültürel görüşlerimiz ve kurumsal güncellemelerimiz hakkında bilgi sahibi olun.',
+        readMore: 'Devamını Oku',
+        readFull: 'Tüm Hikayeyi Oku',
+        featured: 'Öne Çıkan',
+        update: 'Güncelleme',
+        noNews: 'Şu anda dergi yazısı bulunamadı.',
+        postedOn: 'Yayınlanma tarihi',
+        newsletter: {
+          title: 'Bilgi',
+          titleItalic: 'Sahibi Olun',
+          desc: 'Avusturya ve Moğolistan\'ın kültürel ve ekonomik ortamına dair özel bilgiler için üç aylık dergimize abone olun.',
+          placeholder: 'E-posta Adresi',
+          cta: 'Abone Ol'
+        }
+      },
+      gallery: {
+        tag: 'Sergi',
+        title: 'Görsel',
+        titleItalic: 'Miras',
+        subtitle: 'Moğol sanatı, fotoğrafçılığı ve geleneksel el sanatlarından oluşan küratörlü bir koleksiyonu keşfedin.',
+        all: 'Tüm Eserler',
+        painting: 'Resim',
+        photography: 'Fotoğraf',
+        crafts: 'El Sanatları',
+        traditional: 'Geleneksel',
+        contemporary: 'Çağdaş',
+        crossCultural: 'Kültürler Arası',
+        viewArtwork: 'Sanat Eserini Görüntüle',
+        by: 'Yazar:',
+        submission: {
+          title: 'Vizyonunuzu',
+          titleItalic: 'Sergileyin',
+          desc: 'Fiziksel ve dijital sergilerimizde yer alacak yetenekli sanatçılar arıyoruz. Çalışmalarınızı uluslararası topluluğumuzla paylaşın.',
+          cta: 'Portföy Gönder'
+        },
+        artworks: {
+          spirit: { title: 'Bozkırın Ruhu', artist: 'Bat-Erdene B.' },
+          nomad: { title: 'Göçebenin Yolculuğu', artist: 'Saran G.' },
+          vienna: { title: 'Viyana Mavisi', artist: 'Enkhmaa T.' },
+          sky: { title: 'Sonsuz Gökyüzü', artist: 'Ochir P.' },
+          gobi: { title: 'Altın Gobi', artist: 'Tsolmon D.' },
+          urban: { title: 'Kent Göçebesi', artist: 'Zorigoo S.' }
+        }
+      },
+      impact: {
+        tag: 'Desteğiniz',
+        title: 'Bağış',
+        titleItalic: 'Yapın',
+        subtitle: 'Temelimizde etki odaklıyız. Bağış girişimlerimiz aracılığıyla dayanışma, kültürel değişim ve sosyal sorumluluk ruhunu teşvik ediyoruz.',
+        totalImpact: '2026\'daki Toplam Etki',
+        initiatives: {
+          tag: 'Temel',
+          title: 'Girişimler',
+          desc: 'Çalışmalarımız, sürdürülebilir büyümeyi ve kültürel anlayışı teşvik eden üç stratejik sütuna odaklanmaktadır.',
+          preservation: 'Kültürel Koruma',
+          preservationDesc: 'Avrupa genelinde geleneksel Moğol sanatlarını, müziğini ve dil programlarını desteklemek.',
+          bridge: 'Ekonomik Köprü',
+          bridgeDesc: 'Avusturya ve Moğol işletmeleri arasındaki ticaret ve yatırım fırsatlarını kolaylaştırmak.',
+          exchange: 'Eğitim Değişimi',
+          exchangeDesc: 'Akademik iş birliği ve öğrenci değişim programları için yollar oluşturmak.'
+        },
+        donate: 'Şimdi Bağış Yapın',
+        goal: 'Hedef',
+        transparency: {
+          title: 'Şeffaflık',
+          titleItalic: 'Taahhüdü',
+          desc: 'Kar amacı gütmeyen bir kuruluş olarak, en yüksek finansal hesap verebilirlik ve etik yönetim standartlarını koruyoruz. Yıllık raporlarımız kamuoyunun incelemesine açıktır.',
+          cta: 'Yıllık Raporu İndir'
+        },
+        report: '2026 Etki Raporunu İndir (PDF)',
+        stats: {
+          events: 'Kültürel Etkinlikler',
+          members: 'Topluluk Üyeleri',
+          scholarships: 'Verilen Burslar',
+          partnerships: 'İş Ortaklıkları'
+        },
+        donation: {
+          tag: 'Misyonumuzu Destekleyin',
+          title1: 'Cömertliğiniz',
+          title2: 'Mirasımızı',
+          title3: 'Korur',
+          title4: '',
+          mainDesc: 'Boyutu ne olursa olsun her katkı, Moğol ruhunu Avrupa\'nın kalbinde canlı tutmamıza yardımcı olur. Desteğiniz doğrudan kültürel eğitimi, topluluk etkinliklerini ve kültürel mirasın korunmasını finanse eder.',
+          impactNote: 'Bağışınızın %100\'ü doğrudan girişimlerimize gider.',
+          taxNote: 'Kayıtlı ve kar amacı gütmeyen bir kuruluşuz.',
+          chooseAmount: 'Bir Miktar Seçin',
+          oneTime: 'Tek seferlik katkı',
+          small: 'Bir çocuk için eğitim materyali sağlar.',
+          medium: 'Topluluk için kültürel bir çalıştayı destekler.',
+          large: 'Geleneksel eserlerin korunmasını finanse eder.',
+          extra: 'Büyük bir kültürel değişim etkinliğine sponsor olur.',
+          customPlaceholder: 'Özel miktar girin',
+          customCta: 'Özel Miktar Bağışla',
+          secure: 'Stripe ile Güvenli Ödeme',
+          invalidAmount: 'Lütfen geçerli bir miktar girin.',
+          successTitle: 'Desteğiniz İçin Teşekkür Ederiz!',
+          successDesc: 'Katkınız gerçek bir fark yaratıyor.'
+        }
+      },
+      membershipPage: {
+        hero: {
+          tag: 'Üyelik',
+          titleNormal: 'Nasıl ',
+          titleItalic: 'Üye Olunur',
+          subtitle: 'Kültür, eğitim, iş dünyası ve uluslararası iş birliği yoluyla Avusturya ve Moğolistan\'ı birbirine bağlayan büyüyen bir platforma katılın.',
+          btnIndividual: 'Bireysel Üyelik',
+          btnInstitutional: 'Kurumsal Üyelik'
+        },
+        benefits: {
+          tag: 'Değer Teklifi',
+          titleNormal: 'Üye olun ve sunulan ',
+          titleItalic: 'avantajlardan',
+          titleSuffix: ' yararlanın',
+          desc: 'Özel fırsatların kapısını açın ve Avusturya ile Moğolistan\'ı bağlayan seçkin bir ikili ağın parçası olun.',
+          btnPlans: 'Planları Görüntüle',
+          feature1: {
+            title: 'Ağ oluşturma fırsatları ve etkinlikler',
+            desc: 'Özel forumlarımız, kültürel gecelerimiz ve ağ oluşturma resepsiyonlarımız aracılığıyla profesyoneller, diplomatlar ve iş liderleriyle bağlantı kurun.'
+          },
+          feature2: {
+            title: 'Kapsamlı bilgilere erişim',
+            desc: 'İkili ilişkiler, kültürel gelişmeler ve ekonomik fırsatlar hakkında ayrıntılı bilgilerle güncel kalın.'
+          },
+          feature3: {
+            title: 'Büyükelçiliğe ve karar vericilere erişim',
+            desc: 'Viyana\'daki Moğolistan Büyükelçiliği\'ne ve her iki ülkedeki üst düzey siyasi karar vericilere doğrudan kanallar.'
+          },
+          feature4: {
+            title: 'Savunuculuk ve Temsil',
+            desc: 'Moğol-Avusturya topluluğunun iş ve kültür alanlarındaki çıkarlarını temsil eden ortak bir ses.'
+          },
+          feature5: {
+            title: 'Ve çok daha fazlası...',
+            desc: 'Mentörlük programlarından ortak girişimlere ve topluluk projelerine öncelikli erişime kadar.'
+          }
+        },
+        process: {
+          titleNormal: 'Nasıl ',
+          titleItalic: 'Başvurulur',
+          desc: 'Moğol Merkezi\'ye katılmak, topluluğumuzun canlı ve aktif kalmasını sağlamak için tasarlanmış basit bir süreçtir.',
+          step1: {
+            title: 'Başvuruyu Gönderin',
+            desc: 'Çevrimiçi üyelik başvuru formunu bilgileriniz ve mesleki geçmişinizle doldurun.'
+          },
+          step2: {
+            title: 'Yönetim Kurulu Değerlendirmesi',
+            desc: 'Yönetim kurulumuz, değerlerimiz ve hedeflerimizle uyumu sağlamak için başvuruları aylık olarak değerlendirir.'
+          },
+          step3: {
+            title: 'Aramıza hoş geldiniz!',
+            desc: 'Onaylandıktan sonra, üyelik karşılama paketinizi alacak ve ağa erişim kazanacaksınız.'
+          }
+        },
+        tiers: {
+          titleNormal: 'Üyelik ',
+          titleItalic: 'Seviyeleri',
+          desc: 'Hedeflerinize ve kurumsal yapınıza en uygun katılım düzeyini seçin.',
+          annual: 'Yıllık',
+          free: 'Ücretsiz',
+          custom: 'Özel',
+          hours: '/ yıl',
+          under25: '/ 25 yaş altı',
+          recommended: 'Önerilen',
+          student: {
+            name: 'Öğrenci ve Gençlik',
+            desc: '25 yaşın altındaki öğrenciler ve gençler için tamamen ücretsiz yıllık üyelik.',
+            cta: 'Ücretsiz Üyeliği Etkinleştir',
+            benefits: [
+              'Ücretsiz etkinlik katılımı (yılda 2 kez)',
+              'Topluluk etkinliklerine erişim',
+              'Öğrenci ağ oluşturma oturumları',
+              'Bülten güncellemeleri',
+              'Gençlik temsili ve oy hakkı'
+            ]
+          },
+          professional: {
+            name: 'Profesyonel',
+            desc: 'Profesyoneller, girişimciler, akademisyenler ve yaratıcılar için.',
+            cta: 'Profesyonel Üyelik İçin Başvur',
+            benefits: [
+              'Profesyonel ağa tam erişim',
+              'İndirimli etkinlik biletleri',
+              'Özel ağ oluşturma akşam yemekleri',
+              'Forumlar için öncelikli kayıt',
+              'Dizinde listelenme',
+              'Genel kurulda oy kullanma hakları'
+            ]
+          },
+          institutional: {
+            name: 'Kurumsal',
+            desc: 'Şirketler, üniversiteler, elçilikler, STK\'lar ve kuruluşlar için.',
+            cta: 'Kurumsal Üyelik İçin Başvur',
+            benefits: [
+              'En fazla 5 delege üyeliği',
+              'Ortak olarak logo yerleşimi',
+              'Ortak etkinlik düzenleme fırsatları',
+              'B2B/B2G eşleştirme desteği',
+              'Seçkin dizin profili'
+            ]
+          }
+        },
+        partners: {
+          tag: 'Ortaklarımız',
+          title: 'Kurumsal ve Kurumsal Ortaklarımız',
+          desc: 'İkili ilişkileri, kültürel değişimi ve sürdürülebilir büyümeyi teşvik etmeyi taahhüt eden seçkin bir kuruluşlar ağına katılın.'
+        },
+        directory: {
+          titleNormal: 'Topluluğumuzu ',
+          titleItalic: 'Keşfedin',
+          desc: 'Üyelerimiz öğrencilerden diplomatlara, sanatçılardan kurumsal liderlere kadar uzanmaktadır. Avusturya-Moğolistan ağında kimlerin etki yarattığını görmek için dizinimize göz atın.',
+          cta: 'Üyeler Dizinini Görüntüle'
+        },
+        finalCta: {
+          titleNormal: 'Avusturya–Moğolistan ',
+          titleItalic: 'Ağına Katılın',
+          desc: 'Kültürel değişim, mesleki iş birliği ve uluslararası bağlantı platformunun bir parçası olun.',
+          cta: 'Üyelik İçin Başvur'
+        },
+        form: {
+          signInRequired: 'Giriş Yapılması Gerekir',
+          loginDesc: '{{tier}} üyeliğine başvurmak için Google Hesabınızla giriş yapmış olmanız gerekir.',
+          signInBtn: 'Google ile Giriş Yap',
+          backBtn: 'İptal Et ve Geri Dön',
+          submittedTitle: 'Form Gönderildi!',
+          submittedDesc: 'Başvurduğunuz için teşekkür ederiz. Üyeliklerin yönetim kurulumuz tarafından manuel olarak onaylanması gerektiğinden, durumunuz şu anda İnceleme Bekliyor olarak ayarlanmıştır.',
+          submittedStudentTip: 'Öğrenci ve Gençlik seviyesine başvurduysanız, onaylanıp aktif hale geldikten sonra yılda iki kez etkinliklere ücretsiz kaydolabilirsiniz!',
+          profileBtn: 'Profile Git',
+          tiersBtn: 'Üyelik Kademeleri',
+          backToMemberships: 'Üyeliklere Geri Dön',
+          applyTitle: '{{tier}} Başvurusu',
+          subtitleText: 'Avusturya-Moğolistan Topluluk Ağı',
+          errAge: 'Öğrenci ve Gençlik kategorisi yalnızca 25 yaşın altındaki bireyler içindir. Şu anda {{age}} yaşındasınız. Lütfen bunun yerine Profesyonel kategorisine başvurun.',
+          errSubmit: 'Lütfen göndermeden önce form sorunlarını çözün.',
+          errGeneric: 'Başvuru gönderilemedi.',
+          statusPending: 'Başvuru beklemede',
+          statusApproved: 'Başvuru onaylandı',
+          statusRejected: 'Başvuru reddedildi',
+          pendingDesc: '{{tier}} üyeliği için başvurunuzu aldık. Yönetimimiz şu anda manuel bir inceleme yürütmektedir. Tamamlandığında bilgilendirileceksiniz.',
+          approvedDesc: '{{tier}} üyeliği için başvurunuz onaylandı! Profiliniz sistemde başarıyla güncellendi.',
+          rejectedDesc: '{{tier}} üyeliği için başvurunuzu işleme aldık. Maalesef şu anda onaylanamadı. Destek için lütfen bizimle iletişime geçin.',
+          appSummary: 'Başvuru Özeti',
+          requestedTier: 'Talep Edilen Seviye',
+          submittedOn: 'Gönderilme Tarihi',
+          applicantName: 'Başvuru Sahibi Adı',
+          myProfile: 'Profilime Git',
+          browseMemberships: 'Üyeliklere Göz At',
+          secContact: '1. İletişim Bilgileri',
+          labelFirstName: 'Adı',
+          labelLastName: 'Soyadı',
+          labelEmail: 'Google E-posta Adresi (Bağlı)',
+          labelPhone: 'Telefon Numarası',
+          labelGender: 'Cinsiyet',
+          labelDob: 'Doğum Tarihi',
+          labelNationality: 'Uyruk',
+          genderMale: 'Erkek',
+          genderFemale: 'Kadın',
+          genderOther: 'Diğer',
+          genderPreferNotToSay: 'Belirtmek istemiyorum',
+          secCredentials: '2. {{tier}} Bilgileri',
+          labelSchool: 'Okul / Üniversite',
+          labelStudentId: 'Öğrenci Kimlik Numarası',
+          labelOrgName: 'Kuruluş / Şirket Adı',
+          labelPosition: 'Mevcut Görev Unvanı / Pozisyon',
+          labelLinkedin: 'LinkedIn / Profesyonel Web Sitesi Adresi',
+          labelInstName: 'Kurum / Kurumsal Varlık Adı',
+          labelWebsite: 'Resmi Web Sitesi Bağlantısı',
+          secMotivation: '3. Motivasyon Beyanı',
+          labelMotivation: 'Bize Avusturya-Moğolistan kültürel veya ticari alışverişine olan ilginiz ve katılma motivasyonunuz hakkında bilgi verin',
+          placeholderMotivation: 'Lütfen topluluk ağından ne gibi bir değer getirmek ve elde etmek istediğinizi kısaca açıklayın.',
+          submitBtn: 'Üyelik Başvurusunu Gönder'
+        }
+      },
+      footer: {
+        desc: 'Avusturya Moğol Merkezi, ikili kültürel diplomasiye, stratejik topluluk katılımına ve yüksek etkili ortaklıklar yoluyla Moğol mirasının korunmasına adanmış sivil toplum kuruluşudur.',
+        navTitle: 'Gezinti',
+        legalTitle: 'Yasal',
+        privacy: 'Gizlilik Politikası',
+        terms: 'Kullanım Koşulları',
+        imprint: 'Künye',
+        governance: 'Yönetim',
+        copyright: '© 2026 Avusturya Moğol Merkezi.',
+        vienna: 'Viyana',
+        ulaanbaatar: 'Ulanbator'
+      },
+      contact: {
+        tag: 'İletişime Geçin',
+        title: 'Bizimle Ortak',
+        titleItalic: 'Olun',
+        subtitle: 'İş birliği yapmak, bir girişime sponsor olmak veya kültürel ve ekonomik fırsatları keşfetmek mi istiyorsunuz? Viyana\'daki yönetim ekibimizle doğrudan iletişime geçin.',
+        info: {
+          location: 'Genel Merkez',
+          vienna: 'Viyana, Avusturya',
+          hub: 'Kültürel ve Ticari Merkez',
+          email: 'Yönetici İletişim',
+          phone: 'Doğrudan Hat',
+          hours: 'Pzt-Cum, 10:00 - 18:00',
+          quote: '"Anlamlı diyaloglar ve yüksek değerli sürdürülebilir ortaklıklar aracılığıyla pazarları ve kültürleri birbirine bağlıyoruz."'
+        },
+        form: {
+          title: 'Bir Ortaklık Başlatın',
+          firstName: 'Adı',
+          lastName: 'Soyadı',
+          email: 'İş E-postası',
+          subject: 'İlgi Alanı',
+          message: 'Öneri / Talep',
+          send: 'Talep Gönder',
+          placeholders: {
+            firstName: 'Ahmet',
+            lastName: 'Yılmaz',
+            email: 'ahmet@sirket.com',
+            message: 'Karşılıklı etki yaratmak için nasıl ortaklık kurabiliriz?'
+          },
+          subjects: {
+            general: 'Genel Talep',
+            investment: 'Yatırım Fırsatları',
+            cultural: 'Kültürel Ortaklıklar',
+            events: 'Etkinlik İş Birliği'
+          }
+        },
+        success: 'Talebiniz alınmıştır. Ekibimiz en kısa sürede sizinle iletişime geçecektir.',
+        error: 'Talep gönderilemedi. Lütfen tekrar deneyin veya doğrudan bizimle iletişime geçin.'
+      },
+      cookies: {
+        title: 'Gizlilik ve Miras',
+        description: 'Kültür merkezimizin dijital deneyimini korumak için çerezler kullanıyoruz. Bazıları sitenin çalışması için temel öneme sahipken, diğerleri topluluğumuzu daha iyi anlamamıza yardımcı olur. Avusturya DSGVO standartlarına uygun olarak verileriniz üzerinde tam kontrole sahipsiniz.',
+        policy: 'Gizlilik Politikası',
+        settings: 'Ayarlar',
+        reject: 'Tümünü Reddet',
+        accept: 'Tümünü Kabul Et',
+        preferences: 'Veri Tercihleri',
+        save: 'Tercihleri Kaydet',
+        essential: 'Gerekli',
+        essentialDesc: 'Sitenin güvenli bir şekilde çalışması için gereklidir.',
+        analytics: 'Analizler',
+        analyticsDesc: 'Ziyaretçi kalıplarını anlamamıza yardımcı olur.',
+        marketing: 'Pazarlama',
+        marketingDesc: 'Kültürel etkinlik tanıtımı için kullanılır.'
+      },
+      marquee: {
+        next: 'Sıradaki Yaklaşan Etkinlik'
+      }
+    }
   }
 };
 
