@@ -1,10 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { useTranslation } from 'react-i18next';
 import { ZoneLabel } from './ZoneLabel';
 import { CinematicFocusLight } from '../CinematicFocusLight';
 
 export function PlayZone({ onSelect, hideLabels }: { onSelect: () => void; hideLabels?: boolean }) {
+    const { t } = useTranslation();
     const [hovered, setHovered] = useState(false);
 const groupRef = useRef<THREE.Group>(null);
 
@@ -21,7 +23,7 @@ const groupRef = useRef<THREE.Group>(null);
       onPointerOut={(e) => { setHovered(false); document.body.style.cursor = 'auto'; }}
     >
       <CinematicFocusLight hovered={hovered} color="#d4af37" position={[0, 8, 0]} />
-      <ZoneLabel title="Shagai Play" position={[0, 1.8, 0]} hide={hideLabels} />
+      <ZoneLabel title={t('diorama.play.label')} position={[0, 1.8, 0]} hide={hideLabels} />
       
       {/* Invisible Hitbox for easier clicking */}
       <mesh position={[0, 0.5, 0]}>

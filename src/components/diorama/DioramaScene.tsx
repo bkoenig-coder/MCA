@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Sparkles } from '@react-three/drei';
 import * as THREE from 'three';
+import { useTranslation } from 'react-i18next';
 import { ImperialZone, Brazier } from './vignettes/ImperialZone';
 import { NomadicZone } from './vignettes/NomadicZone';
 import { NaadamZone } from './vignettes/NaadamZone';
@@ -14,6 +15,7 @@ interface DioramaSceneProps {
 }
 
 export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
+  const { t } = useTranslation();
   const archipelagoRef = useRef<THREE.Group>(null);
   const [centerHovered, setCenterHovered] = useState(false);
 
@@ -49,8 +51,8 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
            <>
              <CinematicFocusLight hovered={centerHovered} color="#d4af37" position={[0, 5, 0]} />
              <ZoneLabel 
-               title="Nine White Banners" 
-               description="The Spirit of the State"
+               title={t('diorama.center.label')} 
+               description={t('diorama.center.description')}
                position={[0, 6, 0]} 
                hide={hideLabels} 
              />

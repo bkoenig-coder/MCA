@@ -1,4 +1,5 @@
 import React, { Suspense, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Canvas } from '@react-three/fiber';
 import { MapControls, Sky, BakeShadows, Preload, AdaptiveEvents, PerformanceMonitor } from '@react-three/drei';
 import { DioramaScene } from '../components/diorama/DioramaScene';
@@ -7,6 +8,7 @@ import { AudioSetup } from '../components/diorama/AudioSetup';
 import { Loader } from 'lucide-react';
 
 export default function EasterEgg() {
+  const { t } = useTranslation();
   const [activePopup, setActivePopup] = useState<string | null>(null);
   const [dpr, setDpr] = useState(1);
 
@@ -15,7 +17,7 @@ export default function EasterEgg() {
       <Suspense fallback={
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900 z-50">
           <Loader className="w-12 h-12 text-amber-600 animate-spin mb-4" />
-          <p className="text-amber-800 font-medium font-serif">Loading the Steppe...</p>
+          <p className="text-amber-800 font-medium font-serif">{t('diorama.loading')}</p>
         </div>
       }>
         <Canvas 
@@ -65,7 +67,7 @@ export default function EasterEgg() {
       <Overlay activePopup={activePopup} onClose={() => setActivePopup(null)} />
       
       <div className="absolute bottom-6 left-6 text-slate-800 text-sm font-serif pointer-events-none drop-shadow-md bg-white/50 px-3 py-1 rounded-full backdrop-blur-sm">
-        Drag to rotate • Scroll to zoom
+        {t('diorama.instructions')}
       </div>
     </div>
   );

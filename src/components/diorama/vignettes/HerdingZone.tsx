@@ -1,10 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { useTranslation } from 'react-i18next';
 import { ZoneLabel } from './ZoneLabel';
 import { CinematicFocusLight } from '../CinematicFocusLight';
 
 export function HerdingZone({ onSelect, hideLabels }: { onSelect: () => void; hideLabels?: boolean }) {
+    const { t } = useTranslation();
     const [hovered, setHovered] = useState(false);
 const armRef = useRef<THREE.Group>(null);
 
@@ -21,7 +23,7 @@ const armRef = useRef<THREE.Group>(null);
       onPointerOut={(e) => { setHovered(false); document.body.style.cursor = 'auto'; }}
     >
       <CinematicFocusLight hovered={hovered} color="#d4af37" position={[0, 8, 0]} />
-      <ZoneLabel title="The Herds" position={[0, 2.2, 0]} hide={hideLabels} />
+      <ZoneLabel title={t('diorama.herding.label')} position={[0, 2.2, 0]} hide={hideLabels} />
       {/* Mother (kneeling in Deel) */}
       <mesh castShadow position={[-1, 0.4, 0]}>
         <capsuleGeometry args={[0.25, 0.3, 4, 8]} />

@@ -576,6 +576,51 @@ const resources = {
       },
       marquee: {
         next: 'Next Upcoming Event'
+      },
+      diorama: {
+        ger: {
+          label: 'The Ger',
+          title: 'The Ger (Yurt)',
+          content: 'The traditional Mongolian Ger is a portable, round tent covered with skins or felt. Designed to be easily dismantled and carried on horses or yaks, it is perfectly suited for the nomadic lifestyle of the steppes.'
+        },
+        play: {
+          label: 'Shagai Play',
+          title: 'Shagai (Ankle Bone Games)',
+          content: 'Children on the steppe often played games using "shagai", the cleaned and polished ankle bones of sheep or goats. These games taught dexterity and were a central part of nomadic culture and fortune-telling.'
+        },
+        herding: {
+          label: 'The Herds',
+          title: 'Airag & Herding',
+          content: 'Livestock are the lifeblood of the steppe. Mares are milked to produce Airag (fermented mare\'s milk), a staple beverage rich in vitamins that sustained warriors and families alike during long journeys.'
+        },
+        training: {
+          label: 'Three Manly Skills',
+          title: 'The Three Manly Skills',
+          content: 'Bökh (wrestling), archery, and horse riding are known as the "Three Manly Skills" (Eriin Gurvan Naadam). These martial disciplines were essential for survival and formed the backbone of the Mongol military prowess.'
+        },
+        naadam: {
+          label: 'Naadam Festival',
+          title: 'Naadam Festival',
+          content: 'Step into the energetic summer festival of the Mongolian steppe. Witness wrestlers engaging in the eagle dance, rapid horse races, skilled archers, and colorful cultural celebrations!'
+        },
+        imperial: {
+          label: 'Imperial Court',
+          title: 'The Imperial Court',
+          content: 'Step into the sovereign court of the Mongol Empire, a historical model for macro-level integration and international cooperation. Here, the leadership of Chinggis Khan established a framework where diverse nations, cultures, and trade networks could intersect securely under a centralized authority.\n\nGuarded by the highly disciplined imperial escort and overseen by the Nine White Banners of peacetime stability, the court represents a secure environment for high-level diplomacy.'
+        },
+        nomadic: {
+          label: 'Nomadic Life',
+          title: 'Nomadic Life',
+          content: 'Experience the warm, peaceful rhythm of traditional Mongolian daily life. Families gather around campfires in their ger camps, while herders, playing children, and diverse livestock bring the vibrant steppe village to life.'
+        },
+        center: {
+          label: 'Nine White Banners',
+          description: 'The Spirit of the State',
+          title: 'The Nine White Banners',
+          content: 'The Nine White Banners (Yisün Tsagaan Süld) represent the spirit of the Mongolian state and its peacetime. Made from the tail hair of white horses, these totems embody the protective genius of Chinggis Khan and the nation\'s enduring sovereignty.'
+        },
+        loading: 'Loading the Steppe...',
+        instructions: 'Drag to rotate • Scroll to zoom'
       }
     }
   },
@@ -1152,6 +1197,51 @@ const resources = {
       },
       marquee: {
         next: 'Nächste bevorstehende Veranstaltung'
+      },
+      diorama: {
+        ger: {
+          label: 'Die Ger',
+          title: 'Die Ger (Jurte)',
+          content: 'Die traditionelle mongolische Ger ist ein tragbares, rundes Zelt, das mit Häuten oder Filz bedeckt ist. Sie lässt sich leicht abbauen und auf Pferden oder Yaks transportieren und ist somit perfekt an das nomadische Leben in der Steppe angepasst.'
+        },
+        play: {
+          label: 'Shagai-Spiel',
+          title: 'Shagai (Knöchelspiele)',
+          content: 'Kinder in der Steppe spielten oft Spiele mit „Shagai“, den gereinigten und polierten Knöchelknochen von Schafen oder Ziegen. Diese Spiele schulten die Geschicklichkeit und waren ein zentraler Bestandteil der Nomadenkultur und der Wahrsagerei.'
+        },
+        herding: {
+          label: 'Die Herden',
+          title: 'Airag & Viehhaltung',
+          content: 'Vieh ist das Lebenselixier der Steppe. Stuten werden gemolken, um Airag (vergorene Stutenmilch) herzustellen, ein vitaminreiches Grundnahrungsmittel, das Krieger und Familien auf langen Reisen stärkte.'
+        },
+        training: {
+          label: 'Drei männliche Fähigkeiten',
+          title: 'Die drei männlichen Fähigkeiten',
+          content: 'Bökh (Ringen), Bogenschießen und Reiten werden als die „Drei Männlichen Fähigkeiten“ (Eriin Gurvan Naadam) bezeichnet. Diese Kampfkünste waren überlebenswichtig und bildeten das Rückgrat der mongolischen Militärmacht.'
+        },
+        naadam: {
+          label: 'Naadam-Festival',
+          title: 'Naadam-Festival',
+          content: 'Erleben Sie das energiegeladene Sommerfest der mongolischen Steppe. Erleben Sie Ringer beim Adlertanz, schnelle Pferderennen, geschickte Bogenschützen und farbenfrohe kulturelle Feiern!'
+        },
+        imperial: {
+          label: 'Kaiserlicher Hof',
+          title: 'Der Kaiserliche Hof',
+          content: 'Treten Sie ein in den souveränen Hof des Mongolenreiches, ein historisches Vorbild für makroökonomische Integration und internationale Zusammenarbeit. Hier schuf die Führung von Dschingis Khan einen Rahmen, in dem sich verschiedene Nationen, Kulturen und Handelsnetzwerke unter einer zentralen Autorität sicher kreuzen konnten.\n\nBewacht von der hochdisziplinierten kaiserlichen Eskorte und beaufsichtigt von den Neun Weißen Banners des Friedens und der Stabilität, stellt der Hof ein sicheres Umfeld für hochrangige Diplomatie dar.'
+        },
+        nomadic: {
+          label: 'Nomadenleben',
+          title: 'Nomadenleben',
+          content: 'Erleben Sie den warmen, friedlichen Rhythmus des traditionellen mongolischen Alltags. Familien versammeln sich um Lagerfeuer in ihren Ger-Lagern, während Hirten, spielende Kinder und verschiedenes Vieh das lebendige Steppendorf zum Leben erwecken.'
+        },
+        center: {
+          label: 'Neun Weiße Banner',
+          description: 'Der Geist des Staates',
+          title: 'Die Neun Weißen Banner',
+          content: 'Die Neun Weißen Banner (Yisün Tsagaan Süld) repräsentieren den Geist des mongolischen Staates und seines Friedens. Hergestellt aus dem Schweifhaar weißer Pferde, verkörpern diese Totems das schützende Genie von Dschingis Khan und die dauerhafte Souveränität der Nation.'
+        },
+        loading: 'Laden der Steppe...',
+        instructions: 'Ziehen zum Drehen • Scrollen zum Zoomen'
       }
     }
   },
@@ -1728,6 +1818,51 @@ const resources = {
       },
       marquee: {
         next: 'Дараагийн удаа болох арга хэмжээ'
+      },
+      diorama: {
+        ger: {
+          label: 'Гэр',
+          title: 'Монгол Гэр',
+          content: 'Уламжлалт Монгол гэр нь арьс шир, эсгийгээр бүрсэн зөөврийн, дугуй хэлбэртэй сууц юм. Мод, эсгийгээр хурдан барьж, буулгах боломжтой бөгөөд нүүдэлчдийн амьдралын хэв маягт төгс зохицсон байдаг.'
+        },
+        play: {
+          label: 'Шагайн наадгай',
+          title: 'Шагайн наадгай',
+          content: 'Талын хүүхдүүд хонь, ямааны шагайгаар тоглож өсдөг байжээ. Энэхүү тоглоомууд нь хүүхдийн гарын уян хатан байдлыг сайжруулж, нүүдэлчдийн соёл, мэргэ төлөгний салшгүй хэсэг байсан юм.'
+        },
+        herding: {
+          label: 'Мал сүрэг',
+          title: 'Айраг ба Мал маллагаа',
+          content: 'Мал сүрэг бол тал нутгийн амин сүнс билээ. Гүү сааж бэлтгэдэг айраг нь витаминаар баялаг, дайчид болон нүүдэлчдийг урт аянд ундаалдаг гол ундаа байв.'
+        },
+        training: {
+          label: 'Эрийн гурван наадам',
+          title: 'Эрийн гурван наадам',
+          content: 'Бөх, сур харваа, хурдан морины уралдааныг "Эрийн гурван наадам" гэдэг. Эдгээр спорт нь амьд үлдэх чадвар болон Монголын цэрэг армийн гол тулгуур байв.'
+        },
+        naadam: {
+          label: 'Наадам',
+          title: 'Үндэсний Их Баяр Наадам',
+          content: 'Монголын дэлгэр зуны баяр наадамтай танилцаарай. Хүчит бөхчүүдийн дэвэлт, хурдан морьдын уралдаан, мэргэн харваачид болон соёлын баярыг эндээс харах боломжтой.'
+        },
+        imperial: {
+          label: 'Хааны Өргөө',
+          title: 'Хааны Өргөө',
+          content: 'Монголын эзэнт гүрний төв өргөөнд зочилно уу. Энд Чингис хааны удирдлага дор олон үндэстэн, соёл, худалдааны сүлжээг төвлөрсөн удирдлага дор нэгтгэж чадсан юм.\n\nЭзэн хааны торгон цэргээр хамгаалагдсан энэхүү орон зай нь олон улсын дипломат харилцааны чухал төв байв.'
+        },
+        nomadic: {
+          label: 'Нүүдэлчний амьдрал',
+          title: 'Нүүдэлчний амьдрал',
+          content: 'Монголчуудын өдөр тутмын уламжлалт, тайван амьдралыг мэдрээрэй. Гэр бүлүүд галын дэргэд цугларч, малчид болон хүүхдүүд тал нутгийг амь оруулдаг.'
+        },
+        center: {
+          label: 'Есөн хөлт цагаан сүлд',
+          description: 'Төрийн сүлд шүтээн',
+          title: 'Есөн хөлт цагаан сүлд',
+          content: 'Есөн хөлт цагаан сүлд нь Монгол төрийн сүлд шүтээн бөгөөд амар амгаланг бэлгэддэг. Цагаан морины дэл, сүүлний хялгасаар бүтээгдсэн энэхүү сүлд нь улс үндэстний бүрэн эрхт байдлыг илэрхийлдэг.'
+        },
+        loading: 'Тал нутгийг ачаалж байна...',
+        instructions: 'Чирч эргүүлнэ үү • Скролдож томруулна уу'
       }
     }
   },
@@ -2304,6 +2439,51 @@ const resources = {
       },
       marquee: {
         next: 'Sıradaki Yaklaşan Etkinlik'
+      },
+      diorama: {
+        ger: {
+          label: 'Ger (Yurt)',
+          title: 'Ger (Yurt)',
+          content: 'Geleneksel Moğol Geri (Yurt), deri veya keçe ile kaplanmış, taşınabilir yuvarlak bir çadırdır. Atlar veya yaklar üzerinde kolayca sökülüp taşınabilecek şekilde tasarlanmış olup, bozkırın göçebe yaşam tarzına mükemmel uyum sağlar.'
+        },
+        play: {
+          label: 'Şagai Oyunu',
+          title: 'Şagai (Aşık Kemiği Oyunları)',
+          content: 'Bozkırdaki çocuklar genellikle koyun veya keçilerin temizlenmiş ve parlatılmış aşık kemikleri olan "şagai" kullanarak oyunlar oynardı. Bu oyunlar el becerisini geliştirir, göçebe kültürünün ve falcılığın önemli bir parçasıydı.'
+        },
+        herding: {
+          label: 'Sürüler',
+          title: 'Kımız & Hayvancılık',
+          content: 'Hayvancılık bozkırın can damarıdır. Kısraklar sağılarak, uzun yolculuklarda savaşçıları ve aileleri zinde tutan, vitamin açısından zengin geleneksel bir içecek olan Kımız (fermente kısrak sütü) üretilir.'
+        },
+        training: {
+          label: 'Üç Erkeksi Beceri',
+          title: 'Üç Erkeksi Beceri',
+          content: 'Güreş (Bökh), okçuluk ve binicilik, "Üç Erkeksi Beceri" (Eriin Gurvan Naadam) olarak bilinir. Bu askeri disiplinler hayatta kalmak için elzemdi ve Moğol askeri gücünün omurgasını oluşturuyordu.'
+        },
+        naadam: {
+          label: 'Naadam Festivali',
+          title: 'Naadam Festivali',
+          content: 'Moğol bozkırlarının enerjik yaz festivaline adım atın. Kartal dansı yapan güreşçilere, hızlı at yarışlarına, yetenekli okçulara ve renkli kültürel kutlamalara tanıklık edin!'
+        },
+        imperial: {
+          label: 'İmparatorluk Sarayı',
+          title: 'İmparatorluk Sarayı',
+          content: 'Makro düzeyde entegrasyon ve uluslararası iş birliği için tarihi bir model olan Moğol İmparatorluğu\'nun egemen sarayına adım atın. Burada, Cengiz Han\'ın liderliği, farklı ulusların, kültürlerin ve ticaret ağlarının merkezi bir otorite altında güvenle kesişebileceği bir çerçeve oluşturmuştur.\n\nSon derece disiplinli imparatorluk muhafızları tarafından korunan ve barış dönemi istikrarının simgesi Dokuz Beyaz Tuğ tarafından denetlenen saray, üst düzey diplomasi için güvenli bir ortamı temsil eder.'
+        },
+        nomadic: {
+          label: 'Göçebe Yaşamı',
+          title: 'Göçebe Yaşamı',
+          content: 'Geleneksel Moğol günlük yaşamının sıcak ve huzurlu ritmini deneyimleyin. Aileler yurt kamplarında kamp ateşlerinin etrafında toplanırken, çobanlar, oyun oynayan çocuklar ve çeşitli hayvanlar canlı bozkır köyüne hayat veriyor.'
+        },
+        center: {
+          label: 'Dokuz Beyaz Tuğ',
+          description: 'Devletin Ruhu',
+          title: 'Dokuz Beyaz Tuğ',
+          content: 'Dokuz Beyaz Tuğ (Yisün Tsagaan Süld), Moğol devletinin ruhunu ve barış dönemini temsil eder. Beyaz atların kuyruk kıllarından yapılan bu semboller, Cengiz Han\'ın koruyucu dehasını ve ulusun kalıcı egemenliğini somutlaştırır.'
+        },
+        loading: 'Bozkır Yükleniyor...',
+        instructions: 'Döndürmek için sürükleyin • Yakınlaştırmak için kaydırın'
       }
     }
   }

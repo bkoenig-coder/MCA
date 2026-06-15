@@ -1,10 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { useTranslation } from 'react-i18next';
 import { ZoneLabel } from './ZoneLabel';
 import { CinematicFocusLight } from '../CinematicFocusLight';
 
 export function TrainingZone({ onSelect, hideLabels }: { onSelect: () => void; hideLabels?: boolean }) {
+    const { t } = useTranslation();
     const [hovered, setHovered] = useState(false);
 const wrestler1Ref = useRef<THREE.Mesh>(null);
   const wrestler2Ref = useRef<THREE.Mesh>(null);
@@ -27,7 +29,7 @@ const wrestler1Ref = useRef<THREE.Mesh>(null);
       onPointerOut={(e) => { setHovered(false); document.body.style.cursor = 'auto'; }}
     >
       <CinematicFocusLight hovered={hovered} color="#d4af37" position={[0, 8, 0]} />
-      <ZoneLabel title="Three Manly Skills" position={[0, 2.2, 0]} hide={hideLabels} />
+      <ZoneLabel title={t('diorama.training.label')} position={[0, 2.2, 0]} hide={hideLabels} />
       {/* Wrestler 1 (Red Zodog/Shuudag) */}
       <group ref={wrestler1Ref} position={[-0.4, 0.6, 0]}>
         <mesh castShadow position={[0, 0, 0]}>

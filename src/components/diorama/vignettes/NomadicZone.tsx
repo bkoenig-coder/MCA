@@ -1,6 +1,7 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { useTranslation } from 'react-i18next';
 import { ZoneLabel } from './ZoneLabel';
 import { CinematicFocusLight } from '../CinematicFocusLight';
 import { VolumetricGlow } from './VolumetricGlow';
@@ -13,6 +14,7 @@ interface NomadicZoneProps {
 }
 
 export function NomadicZone({ onSelect, hideLabels }: NomadicZoneProps) {
+    const { t } = useTranslation();
     const [hovered, setHovered] = useState(false);
 const groupRef = useRef<THREE.Group>(null);
 
@@ -70,7 +72,7 @@ const groupRef = useRef<THREE.Group>(null);
       {!hideLabels && (
         <>
           <CinematicFocusLight hovered={hovered} color="#d4af37" position={[0, 8, 0]} />
-          <ZoneLabel title="Nomadic Life" position={[0, 9, 0]} hide={hideLabels} />
+          <ZoneLabel title={t('diorama.nomadic.label')} position={[0, 9, 0]} hide={hideLabels} />
         </>
       )}
     </group>
