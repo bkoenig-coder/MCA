@@ -46,7 +46,6 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
          
          <Brazier position={[0, 0.1, 0]} />
          
-         <pointLight position={[0, 5, 0]} intensity={2.5} color="#ffaa00" distance={20} />
          {!hideLabels && (
            <>
              <CinematicFocusLight hovered={centerHovered} color="#d4af37" position={[0, 5, 0]} />

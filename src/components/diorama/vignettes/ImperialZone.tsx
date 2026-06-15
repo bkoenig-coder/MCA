@@ -70,9 +70,6 @@ export function ImperialZone({ onSelect, hideLabels }: ImperialZoneProps) {
       {/* Floating Embers */}
       <EmbersParticles count={30} />
       
-      {/* The single light under the text */}
-      <pointLight position={[0, 8, 0]} intensity={2.5} color="#ffaa00" distance={20} />
-
       {!hideLabels && (
         <>
           <CinematicFocusLight hovered={hovered} color="#d4af37" position={[0, 8, 0]} />

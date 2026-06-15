@@ -63,9 +63,6 @@ const groupRef = useRef<THREE.Group>(null);
       {/* Elder playing Morin Khuur */}
       <MorinKhuurPlayer position={[3, 0.1, 5]} />
 
-      {/* Lighting */}
-      <pointLight position={[0, 8, 0]} intensity={2.5} color="#ffaa00" distance={20} />
-
       {/* Weather particles (golden fog/dust) */}
       <DustParticles count={15} />
 

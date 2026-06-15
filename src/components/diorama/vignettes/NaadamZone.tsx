@@ -38,9 +38,6 @@ export function NaadamZone({ onSelect, hideLabels }: NaadamZoneProps) {
       <Musicians />
       <ColorfulGers />
 
-      {/* Lighting */}
-      <pointLight position={[0, 8, 0]} intensity={2.5} color="#ffcc88" distance={30} />
-      
       {/* Central/Arena Braziers */}
       <Brazier position={[0, 0.1, 0]} />
       
