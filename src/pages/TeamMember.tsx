@@ -15,10 +15,10 @@ export default function MemberDetails() {
     { 
       id: "margad-erdene-ganbold",
       name: "Margad-Erdene Ganbold", 
-      role: t('about.team.roles.director', 'Managing Director'), 
+      role: t('about.team.roles.director', 'Founder & Head — Mongolian Center in Austria'), 
       image: margadPic,
-      bio: "Margad-Erdene brings an extensive background in fostering Mongolian-Austrian cultural ties. With his proven leadership, he spearheads overall strategy and curates impactful programs that unite both communities. His proactive vision allows our organizations and partners to continuously thrive and expand.",
-      skills: ["Leadership", "Cultural Strategy", "Bilateral Relations"]
+      bio: "Margad-Erdene Ganbold is the Founder of the Mongolian Center in Austria, an organization dedicated to strengthening cultural, educational, and professional connections between Mongolia and Austria. Based in Vienna, he is currently pursuing a Master's degree in Finance and Economics at the University of Vienna and has gained international experience across Europe and Asia.\n\nHe has worked on Erasmus+ youth and education projects, international conferences at the United Nations Office in Vienna, and cross-cultural initiatives, bringing together young people and communities from different backgrounds. His experience in project management, international relations, marketing, and event coordination supports his work in developing opportunities for the Mongolian community in Austria and fostering stronger Mongolian–Austrian cultural and professional exchange.",
+      skills: ["Founder & Managing Director", "Finance & Economics (Univ. of Vienna)", "Erasmus+ & UN Vienna Projects", "International Relations & Marketing"]
     },
     { 
       id: "bernadette-konig",
