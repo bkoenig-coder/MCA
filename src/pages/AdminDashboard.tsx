@@ -829,27 +829,76 @@ export default function AdminDashboard() {
             >
               <div className="lg:col-span-1">
                 <div className="bg-white p-8 rounded-[40px] border border-brand-ink/5 shadow-sm lg:sticky lg:top-32">
-                  <h3 className="text-2xl font-serif mb-8 flex items-center gap-3">
-                    {isEditing ? <Edit3 size={24} className="text-brand-gold" /> : <Plus size={24} className="text-brand-gold" />}
-                    {isEditing ? 'Edit Post' : 'New Post'}
-                  </h3>
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-2xl font-serif flex items-center gap-3">
+                      {isEditing ? <Edit3 size={24} className="text-brand-gold" /> : <Plus size={24} className="text-brand-gold" />}
+                      {isEditing ? 'Edit Post' : 'New Post'}
+                    </h3>
+                  </div>
+
                   <form onSubmit={handleAddPost} className="space-y-6">
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Post Title (Mongolian)</label>
+                    {/* Mongolian Content Section */}
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 block">Post Title (Mongolian)</label>
+                      </div>
                       <input
                         required
                         value={postForm.titleMn}
                         onChange={e => setPostForm({ ...postForm, titleMn: e.target.value })}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all font-serif"
+                        placeholder="Гарчиг оруулах..."
                       />
                     </div>
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Content (Mongolian)</label>
+
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 block">Content (Mongolian)</label>
+                        <span className="text-[9px] text-brand-gold font-bold uppercase tracking-wider">Use Toolbar for Spacing</span>
+                      </div>
+
+                      {/* Quick Formatting Toolbar (Mongolian) */}
+                      <div className="flex flex-wrap items-center gap-1.5 p-2 bg-brand-paper rounded-xl border border-brand-ink/5 text-[10px] font-bold">
+                        <button
+                          type="button"
+                          onClick={() => setPostForm(prev => ({ ...prev, contentMn: prev.contentMn + '\n\n' }))}
+                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
+                          title="Add explicit paragraph break"
+                        >
+                          + Paragraph
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setPostForm(prev => ({ ...prev, contentMn: prev.contentMn + '\n### ' }))}
+                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
+                          title="Add section heading"
+                        >
+                          📌 Subheading
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setPostForm(prev => ({ ...prev, contentMn: prev.contentMn + '\n"Ишлэл энд бичих"\n' }))}
+                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
+                          title="Add pull quote"
+                        >
+                          ❝ Quote ❞
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setPostForm(prev => ({ ...prev, contentMn: prev.contentMn + '\n- Жайг 1\n- Жагсаалт 2\n' }))}
+                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
+                          title="Add bullet points"
+                        >
+                          • Bullet List
+                        </button>
+                      </div>
+
                       <textarea
                         required
                         value={postForm.contentMn}
                         onChange={e => setPostForm({ ...postForm, contentMn: e.target.value })}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar"
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-48 font-serif leading-relaxed"
+                        placeholder="Нийтлэлийн агуулгыг энд бичнэ үү... Ж: Долоон жил болсон тухай..."
                       />
                     </div>
 
@@ -866,39 +915,104 @@ export default function AdminDashboard() {
 
                     <div className="h-px w-full bg-brand-ink/5" />
 
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Post Title (English)</label>
+                    {/* English Content Section */}
+                    <div className="space-y-3">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 block">Post Title (English)</label>
                       <input
                         value={postForm.titleEn}
                         onChange={e => setPostForm({ ...postForm, titleEn: e.target.value })}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all font-serif"
+                        placeholder="English headline..."
                       />
                     </div>
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Content (English)</label>
+
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 block">Content (English)</label>
+                        <span className="text-[9px] text-brand-gold font-bold uppercase tracking-wider">Use Toolbar for Spacing</span>
+                      </div>
+
+                      {/* Quick Formatting Toolbar (English) */}
+                      <div className="flex flex-wrap items-center gap-1.5 p-2 bg-brand-paper rounded-xl border border-brand-ink/5 text-[10px] font-bold">
+                        <button
+                          type="button"
+                          onClick={() => setPostForm(prev => ({ ...prev, contentEn: prev.contentEn + '\n\n' }))}
+                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
+                        >
+                          + Paragraph
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setPostForm(prev => ({ ...prev, contentEn: prev.contentEn + '\n### ' }))}
+                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
+                        >
+                          📌 Subheading
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setPostForm(prev => ({ ...prev, contentEn: prev.contentEn + '\n"Quote text here"\n' }))}
+                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
+                        >
+                          ❝ Quote ❞
+                        </button>
+                      </div>
+
                       <textarea
                         value={postForm.contentEn}
                         onChange={e => setPostForm({ ...postForm, contentEn: e.target.value })}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar"
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-36 font-serif leading-relaxed"
+                        placeholder="Write article body in English..."
                       />
                     </div>
 
                     <div className="h-px w-full bg-brand-ink/5" />
 
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Post Title (German)</label>
+                    {/* German Content Section */}
+                    <div className="space-y-3">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 block">Post Title (German)</label>
                       <input
                         value={postForm.titleDe}
                         onChange={e => setPostForm({ ...postForm, titleDe: e.target.value })}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all font-serif"
+                        placeholder="Deutscher Titel..."
                       />
                     </div>
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Content (German)</label>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 block">Content (German)</label>
+                        <span className="text-[9px] text-brand-gold font-bold uppercase tracking-wider">Use Toolbar for Spacing</span>
+                      </div>
+
+                      {/* Quick Formatting Toolbar (German) */}
+                      <div className="flex flex-wrap items-center gap-1.5 p-2 bg-brand-paper rounded-xl border border-brand-ink/5 text-[10px] font-bold">
+                        <button
+                          type="button"
+                          onClick={() => setPostForm(prev => ({ ...prev, contentDe: prev.contentDe + '\n\n' }))}
+                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
+                        >
+                          + Paragraph
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setPostForm(prev => ({ ...prev, contentDe: prev.contentDe + '\n### ' }))}
+                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
+                        >
+                          📌 Subheading
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setPostForm(prev => ({ ...prev, contentDe: prev.contentDe + '\n"Zitat hier schreiben"\n' }))}
+                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
+                        >
+                          ❝ Quote ❞
+                        </button>
+                      </div>
+
                       <textarea
                         value={postForm.contentDe}
                         onChange={e => setPostForm({ ...postForm, contentDe: e.target.value })}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-32 no-scrollbar"
+                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-36 font-serif leading-relaxed"
+                        placeholder="Deutscher Artikeltext..."
                       />
                     </div>
 
@@ -911,6 +1025,7 @@ export default function AdminDashboard() {
                         value={postForm.imageUrl}
                         onChange={e => setPostForm({ ...postForm, imageUrl: e.target.value })}
                         className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                        placeholder="https://..."
                       />
                     </div>
                     <div className="flex gap-4">
@@ -925,7 +1040,7 @@ export default function AdminDashboard() {
                       )}
                       <button
                         disabled={isSubmitting}
-                        className="flex-[2] bg-brand-ink text-white py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-gold transition-all disabled:opacity-50 shadow-xl shadow-brand-ink/10"
+                        className="flex-[2] bg-brand-ink text-white py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-gold hover:text-slate-900 transition-all disabled:opacity-50 shadow-xl shadow-brand-ink/10"
                       >
                         {isSubmitting ? 'Publishing...' : isEditing ? 'Update Post' : 'Publish Post'}
                       </button>

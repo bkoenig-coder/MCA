@@ -136,35 +136,45 @@ export default function NewsDetails() {
   };
 
   return (
-    <div className="pt-24 md:pt-32 pb-16 md:pb-20 px-6 relative overflow-hidden bg-brand-paper">
-      {/* Background Graphic */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.02)_1px,transparent_1px)] bg-[size:3rem_3rem] z-0 pointer-events-none" />
-
-      <div className="max-w-5xl mx-auto relative z-10">
+    <div className="pt-24 md:pt-32 pb-20 px-6 relative overflow-hidden bg-brand-paper min-h-screen">
+      <div className="max-w-4xl mx-auto relative z-10">
+        {/* Return Button */}
         <Link
           to="/news"
-          className="inline-flex items-center gap-2 text-brand-ink/50 hover:text-brand-gold transition-colors mb-8 md:mb-10 font-bold uppercase tracking-widest text-[10px] group"
+          className="inline-flex items-center gap-2 text-slate-600 hover:text-brand-gold transition-colors mb-8 font-serif uppercase tracking-[0.2em] text-xs font-bold group"
         >
           <ArrowLeft
             size={16}
-            className="group-hover:-translate-x-1 transition-transform"
+            className="group-hover:-translate-x-1 transition-transform text-brand-gold"
           />{" "}
-          {t("news.details.back")}
+          {t("news.details.back", "← BACK TO GAZETTE INDEX")}
         </Link>
 
+        {/* Newspaper Article Container */}
         <motion.article
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col"
+          className="bg-white border border-slate-300 p-6 md:p-12 shadow-xl"
         >
-          {/* Header */}
-          <header className="mb-10 md:mb-12 text-center max-w-4xl mx-auto flex flex-col items-center">
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#b82736] bg-[#b82736]/10 px-3 py-1 rounded-sm">
-                {t("news.update", "LATEST")}
+          {/* Gazette Top Banner */}
+          <div className="text-center border-b-2 border-slate-900 pb-4 mb-8">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <UlziiSymbol className="w-4 h-4 text-brand-gold" />
+              <span className="text-[9px] uppercase tracking-[0.3em] font-extrabold text-slate-500">
+                THE AUSTRIAN-MONGOLIAN GAZETTE • OFFICIAL DISPATCH
               </span>
-              <div className="h-px w-6 bg-brand-ink/20" />
-              <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-ink/50">
+              <UlziiSymbol className="w-4 h-4 text-brand-gold" />
+            </div>
+
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-black text-slate-900 leading-[1.08] tracking-tight my-4">
+              {dTitle}
+            </h1>
+
+            {/* Newspaper Dateline Strip */}
+            <div className="border-t-2 border-b-2 border-slate-900 my-4 py-2 flex flex-wrap items-center justify-between text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-sans font-extrabold text-slate-800 gap-2">
+              <div>BY THE MCA EDITORIAL BOARD</div>
+              <div>VIENNA, AUSTRIA</div>
+              <div>
                 {post.createdAt
                   ?.toDate()
                   .toLocaleDateString(t("common.locale"), {
@@ -172,186 +182,168 @@ export default function NewsDetails() {
                     day: "numeric",
                     year: "numeric",
                   })}
-              </span>
-            </div>
-
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif leading-[1.1] mb-8 text-brand-ink px-4 tracking-tight drop-shadow-sm">
-              {dTitle}
-            </h1>
-
-            <div className="flex items-center gap-4 mt-2">
-              <div className="w-12 h-12 rounded-full border border-brand-ink/10 flex items-center justify-center p-1 bg-white shadow-sm overflow-hidden">
-                <img
-                  src={mcaLogo}
-                  alt="MCA"
-                  className="w-full h-full object-contain"
-                />
               </div>
-              <div className="flex flex-col text-left">
-                <span className="text-sm font-bold text-brand-ink leading-tight">
-                  MONGOLIAN CENTER
-                </span>
-                <span className="text-[10px] text-brand-ink/50 uppercase tracking-widest font-bold">
-                  Official Press Release • 4 Min Read
-                </span>
-              </div>
+              <div>SPECIAL DISPATCH</div>
             </div>
-          </header>
-
-          {/* Featured Image */}
-          <div className="-mx-6 w-[calc(100%+3rem)] md:mx-0 md:w-full relative aspect-[4/3] md:aspect-[2.5/1] md:rounded-[4px] overflow-hidden shadow-lg mb-12 md:mb-20 bg-brand-ink/5 border-y md:border border-brand-ink/10">
-            {/* Blurred background */}
-            <div className="absolute inset-0 overflow-hidden select-none pointer-events-none">
-              <img
-                src={post.imageUrl}
-                alt=""
-                className="w-full h-full object-cover filter blur-2xl opacity-40 scale-110"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            {/* Foreground image */}
-            <img
-              src={post.imageUrl}
-              alt={dTitle}
-              className="w-full h-full object-contain relative z-10 mix-blend-multiply"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/20 to-transparent mix-blend-overlay pointer-events-none z-20"></div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_8fr_1fr] gap-12 lg:gap-8 max-w-[1100px] mx-auto w-full px-4 md:px-0">
-            {/* Left Sidebar (Meta/Social) */}
-            <aside className="hidden lg:flex flex-col gap-4 sticky top-32 h-fit items-center text-brand-ink/40 pt-2">
-              <span
-                className="text-[9px] uppercase tracking-widest font-bold text-brand-ink/30 mb-2 rotate-180"
-                style={{ writingMode: "vertical-rl" }}
-              >
-                Share Article
-              </span>
-              <div className="w-px h-12 bg-brand-ink/10 mx-auto mb-2" />
+          {/* Featured Newspaper Photo */}
+          {post.imageUrl && (
+            <div className="border border-slate-300 p-2 bg-white shadow-sm mb-10">
+              <div className="aspect-[16/10] overflow-hidden bg-slate-100">
+                <img
+                  src={post.imageUrl}
+                  alt={dTitle}
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <p className="font-serif italic text-xs text-slate-600 pt-2 text-center border-t border-slate-200 mt-2">
+                Official Press Photograph — Austrian-Mongolian Center Dispatch
+              </p>
+            </div>
+          )}
+
+          {/* Social Share Bar */}
+          <div className="flex items-center justify-between border-y border-slate-200 py-3 mb-10 text-slate-600">
+            <span className="text-[10px] uppercase tracking-widest font-extrabold text-slate-500">
+              SHARE ARTICLE
+            </span>
+            <div className="flex gap-2">
               <button
                 onClick={() => handleShare("facebook")}
-                className="w-10 h-10 rounded-full border border-brand-ink/10 flex items-center justify-center hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-colors"
+                className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-colors"
                 aria-label="Share Facebook"
               >
-                <Facebook size={16} />
+                <Facebook size={14} />
               </button>
               <button
                 onClick={() => handleShare("twitter")}
-                className="w-10 h-10 rounded-full border border-brand-ink/10 flex items-center justify-center hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2] transition-colors"
+                className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center hover:bg-[#1DA1F2] hover:text-white transition-colors"
                 aria-label="Share Twitter"
               >
-                <Twitter size={16} />
+                <Twitter size={14} />
               </button>
               <button
                 onClick={() => handleShare("linkedin")}
-                className="w-10 h-10 rounded-full border border-brand-ink/10 flex items-center justify-center hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-colors"
+                className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center hover:bg-[#0A66C2] hover:text-white transition-colors"
                 aria-label="Share LinkedIn"
               >
-                <Linkedin size={16} />
+                <Linkedin size={14} />
               </button>
               <button
                 onClick={handleCopyLink}
-                className="w-10 h-10 rounded-full border border-brand-ink/10 flex items-center justify-center hover:bg-brand-ink hover:text-white hover:border-brand-ink transition-colors"
+                className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center hover:bg-slate-900 hover:text-white transition-colors"
                 aria-label="Copy Link"
               >
-                {copied ? <Check size={16} /> : <LinkIcon size={16} />}
+                {copied ? <Check size={14} /> : <LinkIcon size={14} />}
               </button>
-            </aside>
-
-            {/* Content */}
-            <div className="prose prose-lg md:prose-xl w-full max-w-2xl mx-auto text-brand-ink/90 font-light leading-[1.8] prose-p:mb-8 prose-strong:font-medium prose-strong:text-brand-ink">
-              {/* Mobile Meta/Social */}
-              <div className="flex lg:hidden items-center justify-between border-y border-brand-ink/10 py-4 mb-10">
-                <span className="text-[10px] uppercase tracking-widest font-bold text-brand-ink/50">
-                  Share Article
-                </span>
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => handleShare("facebook")}
-                    className="w-8 h-8 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/50 hover:bg-[#1877F2] hover:text-white transition-colors"
-                  >
-                    <Facebook size={14} />
-                  </button>
-                  <button
-                    onClick={() => handleShare("twitter")}
-                    className="w-8 h-8 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/50 hover:bg-[#1DA1F2] hover:text-white transition-colors"
-                  >
-                    <Twitter size={14} />
-                  </button>
-                  <button
-                    onClick={() => handleShare("linkedin")}
-                    className="w-8 h-8 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/50 hover:bg-[#0A66C2] hover:text-white transition-colors"
-                  >
-                    <Linkedin size={14} />
-                  </button>
-                  <button
-                    onClick={handleCopyLink}
-                    className="w-8 h-8 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/50 hover:bg-brand-ink hover:text-white transition-colors"
-                    aria-label="Copy Link"
-                  >
-                    {copied ? <Check size={14} /> : <LinkIcon size={14} />}
-                  </button>
-                </div>
-              </div>
-
-              {/* Split content by newlines to render paragraphs */}
-              {(() => {
-                const paragraphs = dContent.split(/\r?\n\s*\r?\n/).map((p: string) => p.trim()).filter(Boolean);
-                return paragraphs.map((text: string, pIdx: number) => {
-                  // Extract potential quote
-                  if (
-                    text.startsWith('"') &&
-                    text.endsWith('"') &&
-                    text.length > 10
-                  ) {
-                    return (
-                      <blockquote
-                        key={pIdx}
-                        className="text-2xl md:text-4xl font-serif text-brand-ink italic border-l-4 border-brand-gold pl-6 md:pl-8 py-2 my-12 md:my-16 bg-gradient-to-r from-brand-gold/5 to-transparent relative"
-                      >
-                        <span className="absolute -left-4 -top-6 text-7xl text-brand-gold/20 font-serif">
-                          "
-                        </span>
-                        {text.replace(/(^"|"$)/g, "")}
-                      </blockquote>
-                    );
-                  }
-
-                  // Identify potential headings (Only if starts with markdown headers like ### or ##)
-                  const isMarkdownHeading = text.startsWith("#") && /^#{1,6}\s/.test(text);
-                  if (isMarkdownHeading && pIdx > 0) {
-                    const headingText = text.replace(/^#+\s+/, "");
-                    return (
-                      <h2
-                        key={pIdx}
-                        className="text-2xl md:text-3xl font-serif text-brand-ink mt-12 mb-6 tracking-tight"
-                      >
-                        {headingText}
-                      </h2>
-                    );
-                  }
-
-                  return (
-                    <p
-                      key={pIdx}
-                      className="mb-8 font-sans text-lg md:text-xl leading-[1.8] text-brand-ink/90"
-                    >
-                      {text.startsWith("**") && text.endsWith("**") ? text.replace(/\*\*/g, "") : text}
-                    </p>
-                  );
-                });
-              })()}
             </div>
+          </div>
 
-            {/* Right spacer for grid alignment */}
-            <div className="hidden lg:block"></div>
+          {/* Newspaper Body Text Content */}
+          <div className="font-serif text-slate-900 text-lg md:text-xl leading-[1.8] font-normal space-y-6">
+            {(() => {
+              if (!dContent) return null;
+              // Split by double line breaks or single line breaks
+              const rawBlocks = dContent.split(/\r?\n/);
+              // Group text into logical paragraphs
+              const blocks: string[] = [];
+              let currentBlock = "";
+
+              rawBlocks.forEach((line: string) => {
+                const trimmed = line.trim();
+                if (!trimmed) {
+                  if (currentBlock) {
+                    blocks.push(currentBlock);
+                    currentBlock = "";
+                  }
+                } else if (trimmed.startsWith('#') || trimmed.startsWith('"') || trimmed.startsWith('- ') || trimmed.startsWith('• ')) {
+                  if (currentBlock) {
+                    blocks.push(currentBlock);
+                    currentBlock = "";
+                  }
+                  blocks.push(trimmed);
+                } else {
+                  if (currentBlock) {
+                    currentBlock += " " + trimmed;
+                  } else {
+                    currentBlock = trimmed;
+                  }
+                }
+              });
+              if (currentBlock) blocks.push(currentBlock);
+
+              // If splitting yielded only 1 huge block, fall back to line by line so spacing is enforced
+              const paragraphs = blocks.length > 0 ? blocks : [dContent];
+
+              return paragraphs.map((text: string, pIdx: number) => {
+                // Pull Quote
+                if (
+                  (text.startsWith('"') && text.endsWith('"') && text.length > 10) ||
+                  text.startsWith('>')
+                ) {
+                  return (
+                    <blockquote
+                      key={pIdx}
+                      className="border-y-2 border-brand-gold py-6 my-8 font-serif text-xl md:text-3xl italic text-center text-slate-900 bg-slate-50 px-6 shadow-inner"
+                    >
+                      {text.replace(/(^"|"$|^>\s*)/g, "")}
+                    </blockquote>
+                  );
+                }
+
+                // Subheading
+                const isMarkdownHeading = text.startsWith("#") && /^#{1,6}\s/.test(text);
+                if (isMarkdownHeading) {
+                  const headingText = text.replace(/^#+\s+/, "");
+                  return (
+                    <h2
+                      key={pIdx}
+                      className="font-serif font-black text-2xl md:text-3xl text-slate-900 mt-10 mb-4 tracking-tight border-b-2 border-slate-900 pb-1"
+                    >
+                      {headingText}
+                    </h2>
+                  );
+                }
+
+                // Bullet points
+                if (text.startsWith('- ') || text.startsWith('• ')) {
+                  return (
+                    <div key={pIdx} className="flex items-start gap-3 my-2 pl-4">
+                      <div className="w-1.5 h-1.5 rounded-full bg-brand-gold mt-2.5 shrink-0" />
+                      <p className="text-slate-900 font-serif text-lg md:text-xl leading-relaxed">
+                        {text.replace(/^[-•]\s*/, "")}
+                      </p>
+                    </div>
+                  );
+                }
+
+                // Paragraph with drop-cap on first block
+                return (
+                  <p
+                    key={pIdx}
+                    className={
+                      pIdx === 0
+                        ? "first-letter:text-6xl first-letter:font-serif first-letter:font-black first-letter:float-left first-letter:mr-3 first-letter:text-brand-gold first-letter:leading-none text-slate-900 font-serif mb-6 leading-[1.8] whitespace-pre-line"
+                        : "text-slate-900 font-serif mb-6 leading-[1.8] whitespace-pre-line"
+                    }
+                  >
+                    {text}
+                  </p>
+                );
+              });
+            })()}
+          </div>
+
+          {/* Newspaper End Ornament */}
+          <div className="mt-12 pt-6 border-t-2 border-slate-900 text-center flex flex-col items-center justify-center">
+            <UlziiSymbol className="w-8 h-8 text-brand-gold/60 mb-2" />
+            <span className="text-[9px] font-sans uppercase tracking-[0.3em] font-extrabold text-slate-500">
+              — END OF OFFICIAL DISPATCH —
+            </span>
           </div>
         </motion.article>
-
-        <div className="mt-16 md:mt-24 max-w-2xl mx-auto">
-          <MongolianLine className="w-full text-brand-gold/30 h-8 md:h-12" />
-        </div>
       </div>
     </div>
   );
