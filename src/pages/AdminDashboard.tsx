@@ -1019,15 +1019,15 @@ export default function AdminDashboard() {
 
                           <div>
                             <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 block">
-                              Additional Photo Gallery URLs (Comma Separated)
+                              Gallery Images (Comma separated URLs)
                             </label>
-                            <input
+                            <textarea
                               value={postForm.galleryImages}
                               onChange={e => setPostForm({ ...postForm, galleryImages: e.target.value })}
-                              className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-gold/20"
-                              placeholder="https://image1.jpg, https://image2.jpg, https://image3.jpg"
+                              className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-gold/20 h-24 no-scrollbar font-sans"
+                              placeholder="https://images.unsplash.com/..., https://images.unsplash.com/..."
                             />
-                            <p className="text-[10px] text-slate-400 mt-1">Separate multiple image URLs with commas to show a broadsheet photo gallery in the published article dispatch.</p>
+                            <p className="text-[10px] text-slate-400 mt-1">Separate multiple image URLs with commas to display a broadsheet photo gallery in the published news dispatch.</p>
                           </div>
 
                           <div>
