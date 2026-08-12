@@ -17,7 +17,7 @@ export default function MemberDetails() {
       name: "Margad-Erdene Ganbold", 
       role: t('about.team.roles.director', 'Managing Director'), 
       image: margadPic,
-      bio: "Margad-Erdene brings an extensive background in fostering Mongolian-Austrian cultural ties. With her proven leadership, she spearheads overall strategy and curates impactful programs that unite both communities. Her proactive vision allows our organizations and partners to continuously thrive and expand.",
+      bio: "Margad-Erdene brings an extensive background in fostering Mongolian-Austrian cultural ties. With his proven leadership, he spearheads overall strategy and curates impactful programs that unite both communities. His proactive vision allows our organizations and partners to continuously thrive and expand.",
       skills: ["Leadership", "Cultural Strategy", "Bilateral Relations"]
     },
     { 
