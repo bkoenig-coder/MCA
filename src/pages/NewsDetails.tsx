@@ -336,6 +336,37 @@ export default function NewsDetails() {
             })()}
           </div>
 
+          {/* Dispatch Photo Gallery Grid (If multiple images attached) */}
+          {Array.isArray(post?.galleryImages) && post.galleryImages.length > 0 && (
+            <div className="mt-12 pt-8 border-t-2 border-slate-900">
+              <div className="flex items-center justify-between mb-6">
+                <span className="text-[10px] uppercase tracking-[0.3em] font-extrabold text-slate-800 font-sans">
+                  OFFICIAL DISPATCH PHOTO GALLERY ({post.galleryImages.length} PHOTOS)
+                </span>
+                <span className="text-[9px] uppercase tracking-widest font-sans font-bold text-slate-400">
+                  PRESS ARCHIVE
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {post.galleryImages.map((imgUrl: string, gIdx: number) => (
+                  <div key={gIdx} className="border border-slate-300 p-2 bg-white shadow-sm group hover:border-brand-gold transition-colors">
+                    <div className="aspect-[4/3] overflow-hidden bg-slate-900">
+                      <img 
+                        src={imgUrl} 
+                        alt={`Dispatch Photo ${gIdx + 1}`} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                      />
+                    </div>
+                    <p className="font-serif italic text-[11px] text-slate-600 pt-2 text-center border-t border-slate-200 mt-2">
+                      Plate {gIdx + 1} — Dispatch Archive Photo
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Newspaper End Ornament */}
           <div className="mt-12 pt-6 border-t-2 border-slate-900 text-center flex flex-col items-center justify-center">
             <UlziiSymbol className="w-8 h-8 text-brand-gold/60 mb-2" />

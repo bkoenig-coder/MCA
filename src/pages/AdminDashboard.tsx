@@ -46,7 +46,7 @@ export default function AdminDashboard() {
     whatsIncluded: '',
     galleryImages: ''
   });
-  const [postForm, setPostForm] = useState({ id: '', slug: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '' });
+  const [postForm, setPostForm] = useState({ id: '', slug: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '', galleryImages: '' });
   const [galleryForm, setGalleryForm] = useState({ id: '', titleEn: '', titleMn: '', titleDe: '', artistEn: '', artistMn: '', artistDe: '', year: '', descriptionEn: '', descriptionMn: '', descriptionDe: '', imageUrl: '', category: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -255,6 +255,9 @@ export default function AdminDashboard() {
         contentDe: postForm.contentDe,
         content: postForm.contentMn || postForm.contentEn,
         imageUrl: postForm.imageUrl,
+        galleryImages: postForm.galleryImages
+          ? postForm.galleryImages.split(',').map((s: string) => s.trim()).filter(Boolean)
+          : [],
         updatedAt: serverTimestamp(),
       };
 
@@ -266,7 +269,7 @@ export default function AdminDashboard() {
         toast.success('Post published successfully');
       }
 
-      setPostForm({ id: '', slug: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '' });
+      setPostForm({ id: '', slug: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '', galleryImages: '' });
       setIsEditing(false);
       setIsPostModalOpen(false);
     } catch (error) {
@@ -373,7 +376,10 @@ export default function AdminDashboard() {
       contentEn: post.contentEn || post.content || '',
       contentMn: post.contentMn || post.content || '',
       contentDe: post.contentDe || post.content || '',
-      imageUrl: post.imageUrl || ''
+      imageUrl: post.imageUrl || '',
+      galleryImages: Array.isArray(post.galleryImages)
+        ? post.galleryImages.join(', ')
+        : (post.galleryImages || '')
     });
     setIsEditing(true);
     setIsPostModalOpen(true);
@@ -850,7 +856,7 @@ export default function AdminDashboard() {
                 <button
                   onClick={() => {
                     setIsEditing(false);
-                    setPostForm({ id: '', slug: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '' });
+                    setPostForm({ id: '', slug: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '', galleryImages: '' });
                     setIsPostModalOpen(true);
                   }}
                   className="flex items-center gap-2 bg-[#0A1128] text-white hover:bg-brand-gold hover:text-slate-900 px-7 py-4 rounded-2xl text-xs uppercase tracking-[0.18em] font-extrabold transition-all duration-300 shadow-lg active:scale-95"
@@ -1013,6 +1019,19 @@ export default function AdminDashboard() {
 
                           <div>
                             <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 block">
+                              Additional Photo Gallery URLs (Comma Separated)
+                            </label>
+                            <input
+                              value={postForm.galleryImages}
+                              onChange={e => setPostForm({ ...postForm, galleryImages: e.target.value })}
+                              className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-gold/20"
+                              placeholder="https://image1.jpg, https://image2.jpg, https://image3.jpg"
+                            />
+                            <p className="text-[10px] text-slate-400 mt-1">Separate multiple image URLs with commas to show a broadsheet photo gallery in the published article dispatch.</p>
+                          </div>
+
+                          <div>
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 block">
                               URL Slug (Custom Permalinks)
                             </label>
                             <input
@@ -1024,8 +1043,8 @@ export default function AdminDashboard() {
                           </div>
                         </div>
 
-                        {/* Image Preview Box */}
-                        <div className="md:col-span-4 flex flex-col justify-center">
+                        {/* Image Preview Box & Gallery Thumbnails */}
+                        <div className="md:col-span-4 flex flex-col justify-center space-y-3">
                           <div className="aspect-[16/10] rounded-2xl overflow-hidden bg-slate-200 border border-slate-300 relative shadow-sm">
                             {postForm.imageUrl ? (
                               <img src={postForm.imageUrl} alt="" className="w-full h-full object-cover" />
@@ -1036,6 +1055,29 @@ export default function AdminDashboard() {
                               </div>
                             )}
                           </div>
+
+                          {/* Gallery Thumbnails Strip */}
+                          {(() => {
+                            const images = postForm.galleryImages
+                              ? postForm.galleryImages.split(',').map(s => s.trim()).filter(Boolean)
+                              : [];
+                            if (images.length === 0) return null;
+
+                            return (
+                              <div className="space-y-1">
+                                <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 block">
+                                  {images.length} Extra Photos Attached
+                                </span>
+                                <div className="grid grid-cols-4 gap-1.5">
+                                  {images.map((imgUrl, idx) => (
+                                    <div key={idx} className="aspect-square rounded-lg overflow-hidden border border-slate-300 bg-slate-100">
+                                      <img src={imgUrl} alt="" className="w-full h-full object-cover" />
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            );
+                          })()}
                         </div>
                       </div>
 
