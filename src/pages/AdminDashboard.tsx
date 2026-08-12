@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
 import { useAuth } from '../contexts/AuthContext';
 import { db, auth, collection, addDoc, onSnapshot, query, orderBy, limit, serverTimestamp, OperationType, handleFirestoreError } from '../firebase';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell } from 'recharts';
-import { Plus, Calendar, FileText, Users, User as UserIcon, TrendingUp, Image as ImageIcon, Trash2, Edit3, Check, X, AlertCircle, ExternalLink, Download, Shield } from 'lucide-react';
+import { Plus, Calendar, FileText, Users, User as UserIcon, TrendingUp, Image as ImageIcon, Trash2, Edit3, Check, X, AlertCircle, ExternalLink, Download, Shield, Sparkles } from 'lucide-react';
 import { deleteDoc, doc, updateDoc, setDoc } from 'firebase/firestore';
 import { toast } from 'sonner';
 import Modal from '../components/Modal';
@@ -50,10 +51,14 @@ export default function AdminDashboard() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  // Modal States
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<{ collection: string, id: string } | null>(null);
   const [regSearch, setRegSearch] = useState('');
+
+  // Executive Article Studio Modal State
+  const [isPostModalOpen, setIsPostModalOpen] = useState(false);
+  const [postLangTab, setPostLangTab] = useState<'mn' | 'en' | 'de'>('mn');
+  const [postEditorMode, setPostEditorMode] = useState<'edit' | 'preview'>('edit');
 
   useEffect(() => {
     if (!isEditor) return;
@@ -263,6 +268,7 @@ export default function AdminDashboard() {
 
       setPostForm({ id: '', slug: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '' });
       setIsEditing(false);
+      setIsPostModalOpen(false);
     } catch (error) {
       toast.error('Failed to save post');
       handleFirestoreError(error, OperationType.WRITE, 'posts');
@@ -370,8 +376,8 @@ export default function AdminDashboard() {
       imageUrl: post.imageUrl || ''
     });
     setIsEditing(true);
+    setIsPostModalOpen(true);
     setActiveTab('posts');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const editGalleryItem = (item: any) => {
@@ -825,265 +831,537 @@ export default function AdminDashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="grid grid-cols-1 lg:grid-cols-3 gap-12"
+              className="space-y-8"
             >
-              <div className="lg:col-span-1">
-                <div className="bg-white p-8 rounded-[40px] border border-brand-ink/5 shadow-sm lg:sticky lg:top-32">
-                  <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-2xl font-serif flex items-center gap-3">
-                      {isEditing ? <Edit3 size={24} className="text-brand-gold" /> : <Plus size={24} className="text-brand-gold" />}
-                      {isEditing ? 'Edit Post' : 'New Post'}
-                    </h3>
+              {/* Executive Posts Header Bar */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-8 rounded-[36px] border border-brand-ink/5 shadow-sm">
+                <div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="px-3 py-1 bg-brand-paper rounded-full text-[9px] uppercase tracking-widest font-extrabold text-brand-gold">
+                      Press & Media Center
+                    </span>
+                    <span className="text-[10px] text-brand-ink/40 font-bold uppercase tracking-widest">
+                      {posts.length} Published Articles
+                    </span>
+                  </div>
+                  <h3 className="text-3xl font-serif text-brand-ink">News & Press Publications</h3>
+                </div>
+
+                <button
+                  onClick={() => {
+                    setIsEditing(false);
+                    setPostForm({ id: '', slug: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '' });
+                    setIsPostModalOpen(true);
+                  }}
+                  className="flex items-center gap-2 bg-[#0A1128] text-white hover:bg-brand-gold hover:text-slate-900 px-7 py-4 rounded-2xl text-xs uppercase tracking-[0.18em] font-extrabold transition-all duration-300 shadow-lg active:scale-95"
+                >
+                  <Plus size={16} />
+                  <span>Write New Article</span>
+                </button>
+              </div>
+
+              {/* Published News Grid (Full Width) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {posts.length > 0 ? posts.map((post) => {
+                  const hasMn = Boolean(post.titleMn || post.contentMn);
+                  const hasEn = Boolean(post.titleEn || post.contentEn);
+                  const hasDe = Boolean(post.titleDe || post.contentDe);
+                  const displayTitle = post.titleMn || post.titleEn || post.title || 'Untitled';
+                  const displayContent = post.contentMn || post.contentEn || post.content || '';
+                  const linkUrl = `/news/${post.slug || post.id}`;
+
+                  return (
+                    <div 
+                      key={post.id} 
+                      className="group bg-white p-6 rounded-[32px] border border-brand-gold/30 shadow-md hover:shadow-xl hover:border-brand-gold transition-all duration-300 flex flex-col justify-between relative overflow-hidden"
+                    >
+                      {/* Top Gold Border Accent */}
+                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-gold/30 via-brand-gold to-brand-gold/30 group-hover:h-1.5 transition-all" />
+
+                      <div>
+                        {/* Thumbnail Image */}
+                        <div className="aspect-[16/10] rounded-[20px] overflow-hidden mb-5 bg-slate-900 relative border border-slate-200">
+                          <img 
+                            src={post.imageUrl || 'https://images.unsplash.com/photo-1723002573937-940912b58eb7?q=80&w=1174'} 
+                            alt={displayTitle} 
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                          />
+                          <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between pointer-events-none">
+                            <div className="flex gap-1">
+                              {hasMn && <span className="px-2 py-0.5 bg-slate-900/90 text-white text-[8px] font-bold rounded-md">🇲🇳 MN</span>}
+                              {hasEn && <span className="px-2 py-0.5 bg-slate-900/90 text-white text-[8px] font-bold rounded-md">🇬🇧 EN</span>}
+                              {hasDe && <span className="px-2 py-0.5 bg-slate-900/90 text-white text-[8px] font-bold rounded-md">🇩🇪 DE</span>}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Metadata */}
+                        <div className="flex items-center justify-between text-[10px] text-slate-400 font-sans font-bold uppercase tracking-wider mb-2">
+                          <span>GAZETTE ARTICLE</span>
+                          <span>{post.createdAt?.toDate ? post.createdAt.toDate().toLocaleDateString() : 'Recent'}</span>
+                        </div>
+
+                        {/* Title */}
+                        <h4 className="text-xl font-serif font-bold text-slate-900 mb-3 leading-snug group-hover:text-brand-gold transition-colors line-clamp-2">
+                          {displayTitle}
+                        </h4>
+
+                        {/* Excerpt */}
+                        <p className="text-xs text-slate-600 font-serif font-normal leading-relaxed line-clamp-3 mb-6">
+                          {displayContent}
+                        </p>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+                        <Link 
+                          to={linkUrl} 
+                          target="_blank"
+                          className="inline-flex items-center gap-1 text-[10px] uppercase tracking-widest font-extrabold text-slate-500 hover:text-brand-gold transition-colors"
+                        >
+                          <ExternalLink size={12} />
+                          <span>View Live</span>
+                        </Link>
+
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => editPost(post)}
+                            className="p-2.5 bg-brand-paper hover:bg-slate-900 hover:text-white rounded-xl transition-all text-slate-700 shadow-sm"
+                            title="Edit Article"
+                          >
+                            <Edit3 size={15} />
+                          </button>
+                          <button
+                            onClick={() => confirmDelete('posts', post.id)}
+                            className="p-2.5 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white rounded-xl transition-all shadow-sm"
+                            title="Delete Article"
+                          >
+                            <Trash2 size={15} />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }) : (
+                  <div className="col-span-full p-20 bg-white rounded-[40px] border border-brand-ink/5 text-center">
+                    <FileText size={48} className="mx-auto text-brand-ink/10 mb-4" />
+                    <p className="text-brand-ink/40 italic">No published articles yet. Click "Write New Article" to get started.</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Full-Width Executive Article Studio Modal */}
+              <Modal 
+                isOpen={isPostModalOpen} 
+                onClose={() => setIsPostModalOpen(false)}
+                title={isEditing ? "Edit Gazette Article" : "Write Gazette Article"}
+              >
+                <div className="p-6 md:p-10 max-w-5xl w-full max-h-[90vh] overflow-y-auto no-scrollbar">
+                  {/* Modal Header */}
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-slate-200">
+                    <div>
+                      <span className="text-[10px] uppercase tracking-[0.3em] font-extrabold text-brand-gold block mb-1">
+                        EXECUTIVE ARTICLE STUDIO
+                      </span>
+                      <h2 className="text-2xl md:text-3xl font-serif text-slate-900 font-bold">
+                        {isEditing ? 'Edit Gazette Article' : 'Write & Publish Gazette Article'}
+                      </h2>
+                    </div>
+
+                    {/* Mode Toggle (Edit vs Preview) */}
+                    <div className="flex items-center gap-2 p-1.5 bg-brand-paper rounded-2xl border border-slate-200">
+                      <button
+                        type="button"
+                        onClick={() => setPostEditorMode('edit')}
+                        className={cn(
+                          "px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-extrabold transition-all",
+                          postEditorMode === 'edit' ? "bg-slate-900 text-white shadow-md" : "text-slate-600 hover:text-slate-900"
+                        )}
+                      >
+                        ✏️ Editor
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setPostEditorMode('preview')}
+                        className={cn(
+                          "px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-extrabold transition-all",
+                          postEditorMode === 'preview' ? "bg-slate-900 text-white shadow-md" : "text-slate-600 hover:text-slate-900"
+                        )}
+                      >
+                        👁️ Live Gazette Preview
+                      </button>
+                    </div>
                   </div>
 
-                  <form onSubmit={handleAddPost} className="space-y-6">
-                    {/* Mongolian Content Section */}
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 block">Post Title (Mongolian)</label>
-                      </div>
-                      <input
-                        required
-                        value={postForm.titleMn}
-                        onChange={e => setPostForm({ ...postForm, titleMn: e.target.value })}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all font-serif"
-                        placeholder="Гарчиг оруулах..."
-                      />
-                    </div>
+                  {postEditorMode === 'edit' ? (
+                    <form onSubmit={handleAddPost} className="space-y-8">
+                      {/* Cover Image & Slug Strip */}
+                      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 bg-brand-paper p-6 rounded-3xl border border-slate-200">
+                        <div className="md:col-span-8 space-y-4">
+                          <div>
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 block">
+                              Cover Image URL (Unsplash or ImageKit)
+                            </label>
+                            <input
+                              required
+                              value={postForm.imageUrl}
+                              onChange={e => setPostForm({ ...postForm, imageUrl: e.target.value })}
+                              className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-gold/20"
+                              placeholder="https://images.unsplash.com/..."
+                            />
+                          </div>
 
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 block">Content (Mongolian)</label>
-                        <span className="text-[9px] text-brand-gold font-bold uppercase tracking-wider">Use Toolbar for Spacing</span>
-                      </div>
+                          <div>
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 block">
+                              URL Slug (Custom Permalinks)
+                            </label>
+                            <input
+                              value={postForm.slug}
+                              onChange={e => setPostForm({ ...postForm, slug: e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') })}
+                              placeholder="e.g. naransolongo-bat-amgalan-championship-2026"
+                              className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-gold/20 font-mono"
+                            />
+                          </div>
+                        </div>
 
-                      {/* Quick Formatting Toolbar (Mongolian) */}
-                      <div className="flex flex-wrap items-center gap-1.5 p-2 bg-brand-paper rounded-xl border border-brand-ink/5 text-[10px] font-bold">
-                        <button
-                          type="button"
-                          onClick={() => setPostForm(prev => ({ ...prev, contentMn: prev.contentMn + '\n\n' }))}
-                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
-                          title="Add explicit paragraph break"
-                        >
-                          + Paragraph
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setPostForm(prev => ({ ...prev, contentMn: prev.contentMn + '\n### ' }))}
-                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
-                          title="Add section heading"
-                        >
-                          📌 Subheading
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setPostForm(prev => ({ ...prev, contentMn: prev.contentMn + '\n"Ишлэл энд бичих"\n' }))}
-                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
-                          title="Add pull quote"
-                        >
-                          ❝ Quote ❞
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setPostForm(prev => ({ ...prev, contentMn: prev.contentMn + '\n- Жайг 1\n- Жагсаалт 2\n' }))}
-                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
-                          title="Add bullet points"
-                        >
-                          • Bullet List
-                        </button>
+                        {/* Image Preview Box */}
+                        <div className="md:col-span-4 flex flex-col justify-center">
+                          <div className="aspect-[16/10] rounded-2xl overflow-hidden bg-slate-200 border border-slate-300 relative shadow-sm">
+                            {postForm.imageUrl ? (
+                              <img src={postForm.imageUrl} alt="" className="w-full h-full object-cover" />
+                            ) : (
+                              <div className="w-full h-full flex flex-col items-center justify-center text-slate-400">
+                                <ImageIcon size={28} />
+                                <span className="text-[9px] uppercase tracking-wider font-bold mt-2">Cover Preview</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
                       </div>
 
-                      <textarea
-                        required
-                        value={postForm.contentMn}
-                        onChange={e => setPostForm({ ...postForm, contentMn: e.target.value })}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-48 font-serif leading-relaxed"
-                        placeholder="Нийтлэлийн агуулгыг энд бичнэ үү... Ж: Долоон жил болсон тухай..."
-                      />
-                    </div>
-
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">URL Slug (Optional)</label>
-                      <input
-                        value={postForm.slug}
-                        onChange={e => setPostForm({ ...postForm, slug: e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') })}
-                        placeholder="e.g. latest-news-update"
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
-                      />
-                      <p className="text-[10px] text-brand-ink/40 mt-2">Leave blank to auto-generate from title</p>
-                    </div>
-
-                    <div className="h-px w-full bg-brand-ink/5" />
-
-                    {/* English Content Section */}
-                    <div className="space-y-3">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 block">Post Title (English)</label>
-                      <input
-                        value={postForm.titleEn}
-                        onChange={e => setPostForm({ ...postForm, titleEn: e.target.value })}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all font-serif"
-                        placeholder="English headline..."
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 block">Content (English)</label>
-                        <span className="text-[9px] text-brand-gold font-bold uppercase tracking-wider">Use Toolbar for Spacing</span>
+                      {/* Language Navigation Tabs */}
+                      <div className="border-b border-slate-200 pb-3 flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mr-2">Language:</span>
+                          <button
+                            type="button"
+                            onClick={() => setPostLangTab('mn')}
+                            className={cn(
+                              "px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-extrabold border transition-all flex items-center gap-2",
+                              postLangTab === 'mn' ? "bg-slate-900 text-white border-slate-900 shadow" : "bg-white text-slate-600 border-slate-200 hover:border-slate-400"
+                            )}
+                          >
+                            🇲🇳 Mongolian {postForm.titleMn && '✓'}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setPostLangTab('en')}
+                            className={cn(
+                              "px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-extrabold border transition-all flex items-center gap-2",
+                              postLangTab === 'en' ? "bg-slate-900 text-white border-slate-900 shadow" : "bg-white text-slate-600 border-slate-200 hover:border-slate-400"
+                            )}
+                          >
+                            🇬🇧 English {postForm.titleEn && '✓'}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setPostLangTab('de')}
+                            className={cn(
+                              "px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-extrabold border transition-all flex items-center gap-2",
+                              postLangTab === 'de' ? "bg-slate-900 text-white border-slate-900 shadow" : "bg-white text-slate-600 border-slate-200 hover:border-slate-400"
+                            )}
+                          >
+                            🇩🇪 German {postForm.titleDe && '✓'}
+                          </button>
+                        </div>
                       </div>
 
-                      {/* Quick Formatting Toolbar (English) */}
-                      <div className="flex flex-wrap items-center gap-1.5 p-2 bg-brand-paper rounded-xl border border-brand-ink/5 text-[10px] font-bold">
+                      {/* Active Language Editor Panel */}
+                      {postLangTab === 'mn' && (
+                        <div className="space-y-6">
+                          <div>
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 block">
+                              Article Headline (Mongolian)
+                            </label>
+                            <input
+                              required
+                              value={postForm.titleMn}
+                              onChange={e => setPostForm({ ...postForm, titleMn: e.target.value })}
+                              className="w-full bg-white border border-slate-300 rounded-2xl px-6 py-4 text-xl font-serif font-black focus:ring-2 focus:ring-brand-gold/20 text-slate-900"
+                              placeholder="Гарчиг оруулах..."
+                            />
+                          </div>
+
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 block">
+                                Article Content & Paragraphs (Mongolian)
+                              </label>
+                              <span className="text-[10px] text-brand-gold font-bold uppercase tracking-widest">
+                                Insert Paragraph Breaks Below
+                              </span>
+                            </div>
+
+                            {/* Rich Formatting Toolbar */}
+                            <div className="flex flex-wrap items-center gap-2 p-3 bg-brand-paper rounded-2xl border border-slate-200">
+                              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mr-1">FORMAT TOOLBAR:</span>
+                              <button
+                                type="button"
+                                onClick={() => setPostForm(prev => ({ ...prev, contentMn: prev.contentMn + '\n\n' }))}
+                                className="px-3 py-1.5 bg-white hover:bg-brand-gold hover:text-slate-900 text-slate-800 rounded-xl border border-slate-200 transition-colors shadow-sm text-xs font-bold"
+                              >
+                                + Paragraph Break
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setPostForm(prev => ({ ...prev, contentMn: prev.contentMn + '\n### Section Title\n' }))}
+                                className="px-3 py-1.5 bg-white hover:bg-brand-gold hover:text-slate-900 text-slate-800 rounded-xl border border-slate-200 transition-colors shadow-sm text-xs font-bold"
+                              >
+                                📌 Subheading
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setPostForm(prev => ({ ...prev, contentMn: prev.contentMn + '\n"Ишлэл энд бичих"\n' }))}
+                                className="px-3 py-1.5 bg-white hover:bg-brand-gold hover:text-slate-900 text-slate-800 rounded-xl border border-slate-200 transition-colors shadow-sm text-xs font-bold"
+                              >
+                                ❝ Pull Quote ❞
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setPostForm(prev => ({ ...prev, contentMn: prev.contentMn + '\n- Жагсаалт 1\n- Жагсаалт 2\n' }))}
+                                className="px-3 py-1.5 bg-white hover:bg-brand-gold hover:text-slate-900 text-slate-800 rounded-xl border border-slate-200 transition-colors shadow-sm text-xs font-bold"
+                              >
+                                • Bullet List
+                              </button>
+                            </div>
+
+                            <textarea
+                              required
+                              value={postForm.contentMn}
+                              onChange={e => setPostForm({ ...postForm, contentMn: e.target.value })}
+                              className="w-full bg-white border border-slate-300 rounded-2xl p-6 text-base md:text-lg font-serif leading-[1.8] text-slate-900 h-72 focus:ring-2 focus:ring-brand-gold/20 shadow-inner"
+                              placeholder="Нийтлэлийн агуулгыг энд оруулна уу... Дор хаяж 2-3 цогцолбор догол мөр хийж бичих боломжтой."
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {postLangTab === 'en' && (
+                        <div className="space-y-6">
+                          <div>
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 block">
+                              Article Headline (English)
+                            </label>
+                            <input
+                              value={postForm.titleEn}
+                              onChange={e => setPostForm({ ...postForm, titleEn: e.target.value })}
+                              className="w-full bg-white border border-slate-300 rounded-2xl px-6 py-4 text-xl font-serif font-black focus:ring-2 focus:ring-brand-gold/20 text-slate-900"
+                              placeholder="English Headline..."
+                            />
+                          </div>
+
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 block">
+                                Article Content & Paragraphs (English)
+                              </label>
+                            </div>
+
+                            {/* Rich Formatting Toolbar */}
+                            <div className="flex flex-wrap items-center gap-2 p-3 bg-brand-paper rounded-2xl border border-slate-200">
+                              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mr-1">FORMAT TOOLBAR:</span>
+                              <button
+                                type="button"
+                                onClick={() => setPostForm(prev => ({ ...prev, contentEn: prev.contentEn + '\n\n' }))}
+                                className="px-3 py-1.5 bg-white hover:bg-brand-gold hover:text-slate-900 text-slate-800 rounded-xl border border-slate-200 transition-colors shadow-sm text-xs font-bold"
+                              >
+                                + Paragraph Break
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setPostForm(prev => ({ ...prev, contentEn: prev.contentEn + '\n### Section Title\n' }))}
+                                className="px-3 py-1.5 bg-white hover:bg-brand-gold hover:text-slate-900 text-slate-800 rounded-xl border border-slate-200 transition-colors shadow-sm text-xs font-bold"
+                              >
+                                📌 Subheading
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setPostForm(prev => ({ ...prev, contentEn: prev.contentEn + '\n"Quote text here"\n' }))}
+                                className="px-3 py-1.5 bg-white hover:bg-brand-gold hover:text-slate-900 text-slate-800 rounded-xl border border-slate-200 transition-colors shadow-sm text-xs font-bold"
+                              >
+                                ❝ Pull Quote ❞
+                              </button>
+                            </div>
+
+                            <textarea
+                              value={postForm.contentEn}
+                              onChange={e => setPostForm({ ...postForm, contentEn: e.target.value })}
+                              className="w-full bg-white border border-slate-300 rounded-2xl p-6 text-base md:text-lg font-serif leading-[1.8] text-slate-900 h-72 focus:ring-2 focus:ring-brand-gold/20 shadow-inner"
+                              placeholder="Write article content in English..."
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {postLangTab === 'de' && (
+                        <div className="space-y-6">
+                          <div>
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 block">
+                              Article Headline (German)
+                            </label>
+                            <input
+                              value={postForm.titleDe}
+                              onChange={e => setPostForm({ ...postForm, titleDe: e.target.value })}
+                              className="w-full bg-white border border-slate-300 rounded-2xl px-6 py-4 text-xl font-serif font-black focus:ring-2 focus:ring-brand-gold/20 text-slate-900"
+                              placeholder="Deutscher Titel..."
+                            />
+                          </div>
+
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 block">
+                                Article Content & Paragraphs (German)
+                              </label>
+                            </div>
+
+                            {/* Rich Formatting Toolbar */}
+                            <div className="flex flex-wrap items-center gap-2 p-3 bg-brand-paper rounded-2xl border border-slate-200">
+                              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mr-1">FORMAT TOOLBAR:</span>
+                              <button
+                                type="button"
+                                onClick={() => setPostForm(prev => ({ ...prev, contentDe: prev.contentDe + '\n\n' }))}
+                                className="px-3 py-1.5 bg-white hover:bg-brand-gold hover:text-slate-900 text-slate-800 rounded-xl border border-slate-200 transition-colors shadow-sm text-xs font-bold"
+                              >
+                                + Paragraph Break
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setPostForm(prev => ({ ...prev, contentDe: prev.contentDe + '\n### Section Title\n' }))}
+                                className="px-3 py-1.5 bg-white hover:bg-brand-gold hover:text-slate-900 text-slate-800 rounded-xl border border-slate-200 transition-colors shadow-sm text-xs font-bold"
+                              >
+                                📌 Subheading
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setPostForm(prev => ({ ...prev, contentDe: prev.contentDe + '\n"Zitat hier schreiben"\n' }))}
+                                className="px-3 py-1.5 bg-white hover:bg-brand-gold hover:text-slate-900 text-slate-800 rounded-xl border border-slate-200 transition-colors shadow-sm text-xs font-bold"
+                              >
+                                ❝ Pull Quote ❞
+                              </button>
+                            </div>
+
+                            <textarea
+                              value={postForm.contentDe}
+                              onChange={e => setPostForm({ ...postForm, contentDe: e.target.value })}
+                              className="w-full bg-white border border-slate-300 rounded-2xl p-6 text-base md:text-lg font-serif leading-[1.8] text-slate-900 h-72 focus:ring-2 focus:ring-brand-gold/20 shadow-inner"
+                              placeholder="Deutscher Artikeltext..."
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Submit Action Bar */}
+                      <div className="pt-6 border-t border-slate-200 flex items-center justify-between gap-4">
                         <button
                           type="button"
-                          onClick={() => setPostForm(prev => ({ ...prev, contentEn: prev.contentEn + '\n\n' }))}
-                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
-                        >
-                          + Paragraph
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setPostForm(prev => ({ ...prev, contentEn: prev.contentEn + '\n### ' }))}
-                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
-                        >
-                          📌 Subheading
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setPostForm(prev => ({ ...prev, contentEn: prev.contentEn + '\n"Quote text here"\n' }))}
-                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
-                        >
-                          ❝ Quote ❞
-                        </button>
-                      </div>
-
-                      <textarea
-                        value={postForm.contentEn}
-                        onChange={e => setPostForm({ ...postForm, contentEn: e.target.value })}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-36 font-serif leading-relaxed"
-                        placeholder="Write article body in English..."
-                      />
-                    </div>
-
-                    <div className="h-px w-full bg-brand-ink/5" />
-
-                    {/* German Content Section */}
-                    <div className="space-y-3">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 block">Post Title (German)</label>
-                      <input
-                        value={postForm.titleDe}
-                        onChange={e => setPostForm({ ...postForm, titleDe: e.target.value })}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all font-serif"
-                        placeholder="Deutscher Titel..."
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 block">Content (German)</label>
-                        <span className="text-[9px] text-brand-gold font-bold uppercase tracking-wider">Use Toolbar for Spacing</span>
-                      </div>
-
-                      {/* Quick Formatting Toolbar (German) */}
-                      <div className="flex flex-wrap items-center gap-1.5 p-2 bg-brand-paper rounded-xl border border-brand-ink/5 text-[10px] font-bold">
-                        <button
-                          type="button"
-                          onClick={() => setPostForm(prev => ({ ...prev, contentDe: prev.contentDe + '\n\n' }))}
-                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
-                        >
-                          + Paragraph
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setPostForm(prev => ({ ...prev, contentDe: prev.contentDe + '\n### ' }))}
-                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
-                        >
-                          📌 Subheading
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setPostForm(prev => ({ ...prev, contentDe: prev.contentDe + '\n"Zitat hier schreiben"\n' }))}
-                          className="px-2.5 py-1 bg-white hover:bg-brand-gold hover:text-slate-900 rounded-lg border border-slate-200 transition-colors shadow-sm"
-                        >
-                          ❝ Quote ❞
-                        </button>
-                      </div>
-
-                      <textarea
-                        value={postForm.contentDe}
-                        onChange={e => setPostForm({ ...postForm, contentDe: e.target.value })}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all h-36 font-serif leading-relaxed"
-                        placeholder="Deutscher Artikeltext..."
-                      />
-                    </div>
-
-                    <div className="h-px w-full bg-brand-ink/5" />
-
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Cover Image URL</label>
-                      <input
-                        required
-                        value={postForm.imageUrl}
-                        onChange={e => setPostForm({ ...postForm, imageUrl: e.target.value })}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
-                        placeholder="https://..."
-                      />
-                    </div>
-                    <div className="flex gap-4">
-                      {isEditing && (
-                        <button
-                          type="button"
-                          onClick={() => { setIsEditing(false); setPostForm({ id: '', slug: '', titleEn: '', titleMn: '', titleDe: '', contentEn: '', contentMn: '', contentDe: '', imageUrl: '' }); }}
-                          className="flex-1 bg-brand-paper text-brand-ink py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-sand transition-all"
+                          onClick={() => setIsPostModalOpen(false)}
+                          className="px-6 py-4 rounded-2xl bg-brand-paper hover:bg-slate-200 text-slate-800 font-bold uppercase tracking-wider text-xs transition-all"
                         >
                           Cancel
                         </button>
-                      )}
-                      <button
-                        disabled={isSubmitting}
-                        className="flex-[2] bg-brand-ink text-white py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-gold hover:text-slate-900 transition-all disabled:opacity-50 shadow-xl shadow-brand-ink/10"
-                      >
-                        {isSubmitting ? 'Publishing...' : isEditing ? 'Update Post' : 'Publish Post'}
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
 
-              <div className="lg:col-span-2 space-y-6">
-                <h3 className="text-2xl font-serif">Published News</h3>
-                <div className="grid gap-6">
-                  {posts.length > 0 ? posts.map((post) => (
-                    <div key={post.id} className="group bg-white p-6 rounded-[40px] border border-brand-ink/5 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row gap-8 items-center">
-                      <div className="w-full sm:w-32 h-32 rounded-[32px] overflow-hidden shrink-0">
-                        <img src={post.imageUrl} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                      </div>
-                      <div className="flex-1 min-w-0 text-center sm:text-left">
-                        <h4 className="text-2xl font-serif truncate mb-2">{post.title}</h4>
-                        <p className="text-xs text-brand-ink/50 font-light line-clamp-2">{post.content}</p>
-                      </div>
-                      <div className="flex gap-3 shrink-0">
                         <button
-                          onClick={() => editPost(post)}
-                          className="p-4 bg-brand-paper text-brand-ink hover:bg-brand-gold hover:text-white rounded-2xl transition-all"
+                          disabled={isSubmitting}
+                          className="px-8 py-4 rounded-2xl bg-slate-900 text-white hover:bg-brand-gold hover:text-slate-950 font-bold uppercase tracking-wider text-xs transition-all shadow-xl disabled:opacity-50"
                         >
-                          <Edit3 size={18} />
-                        </button>
-                        <button
-                          onClick={() => confirmDelete('posts', post.id)}
-                          className="p-4 bg-brand-paper text-red-500 hover:bg-red-500 hover:text-white rounded-2xl transition-all"
-                        >
-                          <Trash2 size={18} />
+                          {isSubmitting ? 'Publishing...' : isEditing ? 'Update Gazette Article' : 'Publish Gazette Article'}
                         </button>
                       </div>
-                    </div>
-                  )) : (
-                    <div className="p-20 bg-white rounded-[40px] border border-brand-ink/5 text-center">
-                      <FileText size={48} className="mx-auto text-brand-ink/10 mb-4" />
-                      <p className="text-brand-ink/40 italic">No news posts published yet.</p>
+                    </form>
+                  ) : (
+                    /* Live Gazette Article Preview View */
+                    <div className="bg-brand-paper p-6 md:p-10 rounded-3xl border border-slate-300 space-y-8">
+                      <div className="text-center border-b-2 border-slate-900 pb-4">
+                        <div className="flex items-center justify-center gap-2 mb-2">
+                          <Sparkles className="w-4 h-4 text-brand-gold" />
+                          <span className="text-[9px] uppercase tracking-[0.3em] font-extrabold text-slate-500">
+                            THE AUSTRIAN-MONGOLIAN GAZETTE • LIVE PREVIEW
+                          </span>
+                          <Sparkles className="w-4 h-4 text-brand-gold" />
+                        </div>
+
+                        <h1 className="text-3xl md:text-5xl font-serif font-black text-slate-900 leading-tight my-4">
+                          {postForm.titleMn || postForm.titleEn || postForm.titleDe || 'Untitled Article'}
+                        </h1>
+
+                        <div className="border-t-2 border-b-2 border-slate-900 my-4 py-2 flex flex-wrap items-center justify-between text-[9px] uppercase tracking-[0.2em] font-sans font-extrabold text-slate-800">
+                          <div>BY THE MCA EDITORIAL BOARD</div>
+                          <div>VIENNA, AUSTRIA</div>
+                          <div>{new Date().toLocaleDateString()}</div>
+                          <div>PREVIEW MODE</div>
+                        </div>
+                      </div>
+
+                      {postForm.imageUrl && (
+                        <div className="border border-slate-300 p-2 bg-white shadow-sm">
+                          <div className="aspect-[16/10] overflow-hidden bg-slate-100">
+                            <img src={postForm.imageUrl} alt="" className="w-full h-full object-cover" />
+                          </div>
+                          <p className="font-serif italic text-xs text-slate-600 pt-2 text-center border-t border-slate-200 mt-2">
+                            Official Press Photograph — Austrian-Mongolian Center Dispatch
+                          </p>
+                        </div>
+                      )}
+
+                      <div className="font-serif text-slate-900 text-lg leading-[1.8] font-normal space-y-6">
+                        {(() => {
+                          const contentToPreview = postForm.contentMn || postForm.contentEn || postForm.contentDe || '';
+                          if (!contentToPreview) return <p className="italic text-slate-400 text-center">No content typed yet.</p>;
+
+                          const rawBlocks = contentToPreview.split(/\r?\n/);
+                          const blocks: string[] = [];
+                          let currentBlock = "";
+
+                          rawBlocks.forEach((line: string) => {
+                            const trimmed = line.trim();
+                            if (!trimmed) {
+                              if (currentBlock) { blocks.push(currentBlock); currentBlock = ""; }
+                            } else if (trimmed.startsWith('#') || trimmed.startsWith('"') || trimmed.startsWith('- ') || trimmed.startsWith('• ')) {
+                              if (currentBlock) { blocks.push(currentBlock); currentBlock = ""; }
+                              blocks.push(trimmed);
+                            } else {
+                              if (currentBlock) { currentBlock += " " + trimmed; } else { currentBlock = trimmed; }
+                            }
+                          });
+                          if (currentBlock) blocks.push(currentBlock);
+
+                          return blocks.map((text: string, pIdx: number) => {
+                            if (text.startsWith('"') && text.endsWith('"')) {
+                              return (
+                                <blockquote key={pIdx} className="border-y-2 border-brand-gold py-4 my-6 font-serif text-xl italic text-center text-slate-900 bg-white p-4">
+                                  {text.replace(/(^"|"$)/g, "")}
+                                </blockquote>
+                              );
+                            }
+                            if (text.startsWith('#')) {
+                              return (
+                                <h2 key={pIdx} className="font-serif font-black text-2xl text-slate-900 mt-8 mb-4 border-b-2 border-slate-900 pb-1">
+                                  {text.replace(/^#+\s+/, "")}
+                                </h2>
+                              );
+                            }
+                            return (
+                              <p key={pIdx} className={pIdx === 0 ? "first-letter:text-5xl first-letter:font-serif first-letter:font-black first-letter:float-left first-letter:mr-3 first-letter:text-brand-gold text-slate-900 font-serif mb-4 leading-relaxed" : "text-slate-900 font-serif mb-4 leading-relaxed"}>
+                                {text}
+                              </p>
+                            );
+                          });
+                        })()}
+                      </div>
                     </div>
                   )}
                 </div>
-              </div>
+              </Modal>
             </motion.div>
           )}
 
