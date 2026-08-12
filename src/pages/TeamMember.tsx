@@ -25,8 +25,8 @@ export default function MemberDetails() {
       name: "Bernadette König", 
       role: t('about.team.roles.manager', 'Operations Manager'), 
       image: berniPic,
-      bio: "Bernadette ensures the day-to-day operations run smoothly. Armed with her impeccable organizational skills, she bridges logistical barriers down to detailed event planning and daily coordination. Her operational focus plays a vital role in executing complex collaborative events for our center.",
-      skills: ["Operations", "Event Coordination", "Administration"]
+      bio: "Bernadette König is an Austrian cellist and accomplished young artist with extensive experience in solo, chamber music, and orchestral performance. She studied at the Music and Arts University of the City of Vienna (MUK), where she completed her Bachelor's degree with a performance scholarship and is currently pursuing her Master's degree.\n\nShe has performed at renowned venues including the Vienna Musikverein, Vienna Rathaus, Hofburg, and Schloss Schönbrunn, and has received multiple First Prizes at the Austrian national Prima la Musica competition in both solo and chamber music categories.\n\nAs the wife of Mongolian Center in Austria founder Margad-Erdene Ganbold, Bernadette is also closely involved in supporting cultural exchange and strengthening the connections between Austrian and Mongolian communities through music and the arts.",
+      skills: ["Cellist & Music Performance", "Operations & Event Management", "Austrian-Mongolian Cultural Exchange"]
     },
     { 
       id: "batmunkh-unenbaatar",
@@ -93,7 +93,7 @@ export default function MemberDetails() {
               {member.name}
             </h1>
             
-            <p className="text-lg md:text-xl text-brand-ink/70 leading-relaxed max-w-2xl font-serif italic mb-10">
+            <p className="text-lg md:text-xl text-brand-ink/80 leading-relaxed max-w-2xl font-serif italic mb-10 whitespace-pre-line">
               {member.bio}
             </p>
             
