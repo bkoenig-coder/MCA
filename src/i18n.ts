@@ -624,6 +624,11 @@ const resources = {
           title: 'Nomadic Life',
           content: 'Experience the warm, peaceful rhythm of traditional Mongolian daily life. Families gather around campfires in their ger camps, while herders, playing children, and diverse livestock bring the vibrant steppe village to life.'
         },
+        unesco: {
+          label: 'UNESCO Heritage Shrine',
+          title: 'UNESCO Living Intangible Heritage',
+          content: 'The UNESCO Living Heritage Shrine celebrates humanity\'s masterworks preserved by the Mongolian nomad legacy, including the Morin Khuur fiddle, traditional Deel fashion, Naadam sports, and traditional Ger craftsmanship.'
+        },
         center: {
           label: 'Nine White Banners',
           description: 'The Spirit of the State',

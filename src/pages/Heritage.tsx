@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Compass, Gamepad2, ArrowRight, BookOpen, ShieldAlert, Calendar, Heart, Award, Star } from 'lucide-react';
 import LetsPlayGame from '../components/game/LetsPlayGame';
+import Artifact3DExplorer from '../components/diorama/Artifact3DExplorer';
 import { SoyomboSymbol, UlziiSymbol } from '../components/MongolianDesign';
 
 export default function Heritage() {
@@ -307,6 +308,11 @@ export default function Heritage() {
           <p className="text-brand-ink/50 max-w-xl mx-auto font-light mt-3 text-sm leading-relaxed">
             Exploring the artistic and customary expressions preserved and shared by the Mongolian Center.
           </p>
+        </div>
+
+        {/* Interactive 3D 360 Artifact Inspector */}
+        <div className="mb-16">
+          <Artifact3DExplorer />
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">

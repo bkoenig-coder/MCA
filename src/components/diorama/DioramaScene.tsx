@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { ImperialZone, Brazier } from './vignettes/ImperialZone';
 import { NomadicZone } from './vignettes/NomadicZone';
 import { NaadamZone } from './vignettes/NaadamZone';
+import { UnescoShrine } from './vignettes/UnescoShrine';
 import { ZoneLabel } from './vignettes/ZoneLabel';
 import { CinematicFocusLight } from './CinematicFocusLight';
 
@@ -96,6 +97,19 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
            <meshStandardMaterial color="#538032" roughness={0.8} />
          </mesh>
          <NaadamZone onSelect={() => onSelect('naadam')} hideLabels={hideLabels} />
+      </group>
+
+      {/* UNESCO Living Heritage Shrine Island (North-East) */}
+      <group position={[14, 0.5, -14]}>
+         <mesh receiveShadow position={[0, -2, 0]}>
+           <cylinderGeometry args={[8, 5.5, 4, 8]} />
+           <meshStandardMaterial color="#5c4033" roughness={0.9} />
+         </mesh>
+         <mesh receiveShadow position={[0, 0.01, 0]}>
+           <cylinderGeometry args={[8, 8, 0.1, 8]} />
+           <meshStandardMaterial color="#538032" roughness={0.8} />
+         </mesh>
+         <UnescoShrine onSelect={() => onSelect('unesco')} hideLabels={hideLabels} />
       </group>
 
       {/* Flying Eagle weaving through the islands */}
