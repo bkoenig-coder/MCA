@@ -4,7 +4,7 @@ import { cn } from '../lib/utils';
 import { ArrowRight, Calendar, Palette, Heart, Users, Shield, Sword, Clock, MapPin, Loader2, Info, Star, Handshake, Lightbulb, ArrowRightLeft, TrendingUp, Instagram, ChevronLeft, ChevronRight, Award, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../components/MongolianDesign';
+import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol, MongolianFormalFrame, MongolianKhasDivider } from '../components/MongolianDesign';
 import { db, collection, onSnapshot, query, orderBy, limit, where, handleFirestoreError, OperationType } from '../firebase';
 import deutschotekLogo from '../assets/media/deutschoteklogo.jpg';
 import euActiveLogo from '../assets/media/euactivelogo.png';
@@ -13,8 +13,6 @@ import mcaLogo from '../assets/media/mcalogo-1.png';
 
 import { Overlay } from '../components/diorama/Overlay';
 
-// Removed lazy loading
-import HeroCanvas from '../components/diorama/HeroCanvas';
 import LetsPlayGame from '../components/game/LetsPlayGame';
 
 export default function Home() {
@@ -25,7 +23,6 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [activePopup, setActivePopup] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [activeMembershipIndex, setActiveMembershipIndex] = useState<number | null>(0);
 
   const membershipSlides = [
     {
@@ -78,13 +75,7 @@ export default function Home() {
     }
   ];
 
-  const handleNextMembership = () => {
-    setActiveMembershipIndex((prev) => (prev + 1) % membershipSlides.length);
-  };
 
-  const handlePrevMembership = () => {
-    setActiveMembershipIndex((prev) => (prev - 1 + membershipSlides.length) % membershipSlides.length);
-  };
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -146,10 +137,17 @@ export default function Home() {
           {/* Subtle gradient overlay to ensure text readability */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#050B14]/95 via-[#050B14]/50 to-transparent z-10 pointer-events-none" />
           
-          <div className="w-full h-full absolute inset-0 opacity-80 md:opacity-100 transition-opacity duration-1000 group-hover:opacity-100 pointer-events-none">
-            {/* Optimized Canvas for performance: limited DPR, no pointer events, no controls */}
-            <HeroCanvas />
-          </div>
+          {/* Background Video */}
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            className="w-full h-full object-cover pointer-events-none opacity-80 md:opacity-100 transition-opacity duration-1000"
+          >
+            <source src="https://ik.imagekit.io/9yplrekzm/MCA/0812(1).mp4" type="video/mp4" />
+          </video>
         </div>
 
         <Overlay activePopup={activePopup} onClose={() => setActivePopup(null)} />
@@ -184,18 +182,12 @@ export default function Home() {
                   </motion.div>
                 </div>
 
-                {/* Official Plaque - Vertical Mongolian Script Style (Mobile) - Hidden on phones, visible only on tablets */}
+                {/* Official Plaque - Vertical Mongolian Script Style (Tablet) */}
                 <div className="hidden sm:block lg:hidden relative flex-shrink-0 pt-12 -z-10">
                   <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ 
-                      opacity: 1, 
-                      y: [0, -8, 0],
-                    }}
-                    transition={{
-                      opacity: { duration: 0.8 },
-                      y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-                    }}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
                     className="relative flex flex-col items-center p-4 py-8 border-2 border-brand-gold/50 bg-[#151a25]/90 md:bg-[#151a25]/80 md:backdrop-blur-xl rounded shadow-lg md:shadow-xl overflow-hidden min-w-[100px] -mt-[60px] ml-[23px] -mr-[15px] h-fit min-h-[450px]"
                   >
                     <div className="flex flex-col items-center relative z-10">
@@ -212,12 +204,6 @@ export default function Home() {
                         style={{ writingMode: 'vertical-lr' }}
                       >
                         <span className="relative z-10">ᠮᠣᠩᠣᠯ ᠲᠥᠸ</span>
-                        {/* Text Shimmer Effect */}
-                        <motion.div 
-                          animate={{ top: ['-100%', '200%'] }}
-                          transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                          className="absolute inset-0 bg-gradient-to-b from-transparent via-white/40 to-transparent pointer-events-none z-20"
-                        />
                       </h2>
 
                       <div className="flex flex-col items-center gap-3 mt-4">
@@ -237,15 +223,16 @@ export default function Home() {
                 transition={{ delay: 0.8, duration: 0.5 }}
                 className="flex flex-col sm:flex-row flex-wrap xl:flex-nowrap gap-3 md:gap-4 relative z-20 pointer-events-auto"
               >
-                <Link to="/events" className="w-full sm:w-auto flex-1 text-center bg-brand-ink text-white px-6 py-3 md:py-4 rounded-full text-[11px] md:text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-gold transition-all shadow-xl group whitespace-nowrap border border-white/10 flex items-center justify-center">
-                  {t('hero.ctaEvents')}
+                <Link to="/events" className="w-full sm:w-auto flex-1 text-center bg-brand-gold text-slate-950 px-7 py-3.5 md:py-4 rounded-xl text-[11px] md:text-xs uppercase tracking-[0.2em] font-extrabold hover:bg-amber-400 hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] transition-all shadow-lg group whitespace-nowrap flex items-center justify-center gap-2">
+                  <span>{t('hero.ctaEvents')}</span>
+                  <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <Link to="/diorama" className="w-full sm:w-auto flex-1 text-center bg-gradient-to-r from-brand-gold to-amber-600 text-white px-6 py-3 md:py-4 rounded-full text-[11px] md:text-xs uppercase tracking-[0.1em] font-medium hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all shadow-xl flex items-center justify-center gap-2 group border border-amber-400/30 whitespace-nowrap">
-                  <SoyomboSymbol className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform duration-300" />
-                  {t('Full Screen 3D')}
-                </Link>
-                <Link to="/membership" className="w-full sm:w-auto flex-1 text-center border border-white/20 px-6 py-3 md:py-4 rounded-full text-[11px] md:text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold text-white hover:text-brand-gold transition-all whitespace-nowrap bg-white/10 md:bg-white/5 md:backdrop-blur-sm flex items-center justify-center">
+                <Link to="/membership" className="w-full sm:w-auto flex-1 text-center border border-brand-gold/60 text-white hover:text-brand-gold hover:border-brand-gold px-7 py-3.5 md:py-4 rounded-xl text-[11px] md:text-xs uppercase tracking-[0.2em] font-extrabold transition-all whitespace-nowrap bg-white/10 backdrop-blur-md flex items-center justify-center">
                   {t('homeMembership.btnApply')}
+                </Link>
+                <Link to="/diorama" className="w-full sm:w-auto flex-1 text-center border border-white/20 text-white/90 hover:text-white hover:border-white/40 px-6 py-3.5 md:py-4 rounded-xl text-[11px] md:text-xs uppercase tracking-[0.15em] font-bold transition-all shadow-sm flex items-center justify-center gap-2 group whitespace-nowrap bg-white/5 backdrop-blur-md">
+                  <SoyomboSymbol className="w-3.5 h-3.5 text-brand-gold group-hover:rotate-12 transition-transform duration-300" />
+                  <span>3D Culture Hub</span>
                 </Link>
               </motion.div>
             </div>
@@ -253,41 +240,19 @@ export default function Home() {
             {/* Official Plaque - Vertical Mongolian Script Style (Desktop) */}
             <div className="hidden lg:flex items-center justify-center relative min-h-[600px] w-full py-4 pointer-events-none">
               <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ 
-                  opacity: 1, 
-                  y: [0, -12, 0],
-                  rotateZ: [0, 0.5, 0, -0.5, 0]
-                }}
-                transition={{ 
-                  opacity: { duration: 1.2, ease: [0.22, 1, 0.36, 1] },
-                  y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-                  rotateZ: { duration: 10, repeat: Infinity, ease: "easeInOut" }
-                }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.0, ease: "easeOut" }}
                 className="relative flex flex-col items-center p-10 py-20 border-2 border-brand-gold/60 bg-[#151a25]/90 md:bg-[#151a25]/80 md:backdrop-blur-xl rounded-sm shadow-2xl md:shadow-[0_50px_90px_-20px_rgba(0,0,0,0.5)] group overflow-hidden min-w-[280px] h-fit mt-16 pointer-events-auto"
               >
-                {/* Upgraded Stable Glow Effect */}
-                <motion.div 
-                  animate={{ 
-                    opacity: [0.3, 0.7, 0.3],
-                    scale: [1, 1.1, 1]
-                  }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.2),transparent_70%)] pointer-events-none"
+                {/* Static Stable Glow Effect */}
+                <div 
+                  className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.1),transparent_70%)] pointer-events-none"
                 />
                 
-                {/* Secondary Pulsing Rim Light */}
-                <motion.div 
-                  animate={{ opacity: [0, 0.5, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute inset-0 border-4 border-brand-gold/30 rounded-sm pointer-events-none"
-                />
-
-                {/* Dynamic Light Sweep */}
-                <motion.div 
-                  animate={{ left: ['-100%', '200%'] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 pointer-events-none z-10"
+                {/* Static Rim Light */}
+                <div 
+                  className="absolute inset-0 border-4 border-brand-gold/20 rounded-sm pointer-events-none"
                 />
 
                 <div className="flex flex-col items-center relative z-10">
@@ -300,7 +265,7 @@ export default function Home() {
                     <div className="h-12 w-px bg-brand-gold/40" />
                   </div>
 
-                  {/* Main Vertical Title with Shimmer */}
+                  {/* Main Vertical Title */}
                   <div className="relative">
                     <h2 
                       className="text-6xl md:text-9xl lg:text-[180px] font-serif text-brand-gold text-center tracking-tighter leading-none select-none relative z-10 drop-shadow-2xl"
@@ -308,13 +273,6 @@ export default function Home() {
                     >
                       ᠮᠣᠩᠣᠯ ᠲᠥᠸ
                     </h2>
-                    {/* Text Light Sweep */}
-                    <motion.div 
-                      animate={{ top: ['-100%', '200%'] }}
-                      transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                      className="absolute inset-0 bg-gradient-to-b from-transparent via-white/40 to-transparent pointer-events-none z-20"
-                      style={{ mixBlendMode: 'overlay' }}
-                    />
                   </div>
                   
                   {/* Bottom Accents and Seal */}
@@ -363,8 +321,7 @@ export default function Home() {
                   { name: 'Deutschothek Sprachschule', src: deutschotekLogo, url: 'https://deutschothek.com/' },
                   { name: 'Verein für aktiv Leben und Bildung', src: euActiveLogo, url: 'https://www.euactive.org/' },
                   { name: 'Verein der mongolischen StudentInnen in Österreich', src: amoxLogo, url: 'https://www.facebook.com/MongolianStudentAssociationInAustria' },
-                  { name: 'Gmax Mongolischer Kinder-und Jugendverein', src: '/gmax logo.jpg', url: 'https://www.facebook.com/gmax.gmax.9406' },
-                  { name: 'Become a partner.', src: mcaLogo, url: '/contact' },
+                  { name: 'Gmax Mongolischer Kinder-und Jugendverein', src: '/gmax logo.jpg', url: 'https://www.facebook.com/gmax.gmax.9406' }
                 ].map((partner, idx) => (
                   <a 
                     key={`${groupIndex}-${idx}`} 
@@ -393,120 +350,92 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Membership Highlights CTA Section */}
-      <section className="py-12 md:py-16 px-6 bg-brand-ink relative overflow-hidden text-white border-b border-white/5">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] z-0" />
+      {/* Membership Highlights CTA Section - Simplified NGO grid */}
+      <section className="py-20 px-6 bg-brand-cream relative overflow-hidden border-b border-brand-ink/5">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.01)_1px,transparent_1px)] bg-[size:4rem_4rem] z-0 pointer-events-none" />
         <div className="absolute top-0 right-0 w-2/3 h-full bg-brand-gold/5 blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold/10 blur-[100px] rounded-full pointer-events-none mix-blend-overlay" />
+        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold/5 blur-[100px] rounded-full pointer-events-none mix-blend-overlay" />
         
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-24 relative z-10">
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="flex-1 max-w-2xl"
-          >
-            <div className="flex items-center gap-4 mb-8">
-              <div className="h-px w-10 bg-brand-gold" />
-              <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold drop-shadow-sm">{t('homeMembership.tag')}</span>
-            </div>
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif mb-8 leading-[1.1] drop-shadow-lg">
-              {t('homeMembership.titleNormal')}<span className="italic text-brand-gold">{t('homeMembership.titleItalic')}</span>
-            </h2>
-            <p className="text-lg md:text-xl text-white/70 font-light leading-relaxed mb-12 max-w-lg">
-              {t('homeMembership.desc')}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
-              <Link to="/membership" className="group inline-flex items-center justify-center gap-4 bg-brand-gold text-brand-ink px-8 py-5 rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white transition-all duration-700 shadow-[0_0_30px_rgba(212,175,55,0.2)] hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] w-full sm:w-auto">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-24 mb-16">
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+              className="max-w-2xl"
+            >
+              <div className="flex items-center gap-4 mb-6">
+                <div className="h-px w-10 bg-brand-gold" />
+                <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">{t('homeMembership.tag')}</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-brand-ink mb-6 leading-tight">
+                {t('homeMembership.titleNormal')}<span className="italic text-brand-gold">{t('homeMembership.titleItalic')}</span>
+              </h2>
+              <p className="text-base md:text-lg text-brand-ink/70 font-light leading-relaxed max-w-xl">
+                {t('homeMembership.desc')}
+              </p>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="shrink-0 pt-2 lg:pt-10"
+            >
+              <Link to="/membership" className="group inline-flex items-center justify-center gap-4 bg-brand-ink text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.2em] font-bold hover:bg-brand-gold transition-all duration-300 shadow-md">
                 {t('homeMembership.btnExplore')}
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </Link>
-            </div>
-          </motion.div>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            className="flex-1 w-full lg:w-auto relative"
-          >
-            {/* Elegant luxury accordion */}
-            <div className="w-full mt-12 lg:mt-0 border-t border-white/10">
-              {membershipSlides.map((slide, i) => {
-                const isActive = i === activeMembershipIndex;
-                
-                return (
-                  <div 
-                    key={slide.title} 
-                    className="group border-b border-white/10 overflow-hidden"
-                  >
-                    <button
-                      onClick={() => setActiveMembershipIndex(isActive ? null : i)}
-                      className="w-full text-left py-6 md:py-10 px-0 flex items-center justify-between focus:outline-none"
-                    >
-                      <div className="flex items-center">
-                        <span className={cn(
-                          "text-[10px] md:text-xs font-light tracking-[0.3em] transition-colors duration-200 shrink-0 mr-4 md:mr-10",
-                          isActive ? "text-brand-gold" : "text-white/20 group-hover:text-white/40"
-                        )}>
-                          0{i + 1}
-                        </span>
-                        <h3 className={cn(
-                          "text-xl md:text-4xl font-serif tracking-wide transition-all duration-200",
-                          isActive ? "text-white drop-shadow-md" : "text-white/30 group-hover:text-white/50"
-                        )}>
-                          {slide.title}
-                        </h3>
-                      </div>
-                      <div className={cn(
-                        "w-8 h-8 md:w-12 md:h-12 rounded-full border flex items-center justify-center transition-all duration-200 shrink-0 ml-4",
-                        isActive ? "border-brand-gold/40 bg-brand-gold/10" : "border-white/10 group-hover:border-white/30 group-hover:bg-white/5"
-                      )}>
-                        <div className={cn("transition-transform duration-300", isActive ? "rotate-90" : "rotate-0")}>
-                          <ArrowRight size={16} className={cn(
-                            "transition-colors duration-200",
-                            isActive ? "text-brand-gold" : "text-white/30 group-hover:text-white/60"
-                          )} />
-                        </div>
-                      </div>
-                    </button>
-                    {isActive && (
-                      <div className="pb-8 pl-10 md:pl-[4.5rem]">
-                        <div className="flex flex-col md:flex-row gap-6 md:gap-12 mb-6">
-                          <ul className="space-y-3 flex-1">
-                            {slide.benefits.map((benefit, idx) => (
-                              <li key={idx} className="flex items-center gap-3">
-                                <div className="w-1.5 h-1.5 rounded-full bg-brand-gold/60 shrink-0" />
-                                <span className="text-white/70 font-light text-sm md:text-base">{benefit}</span>
-                              </li>
-                            ))}
-                          </ul>
-                          <div className="shrink-0 flex items-start">
-                            <Link 
-                              to="/membership" 
-                              className="inline-flex items-center justify-center gap-3 px-6 py-3 md:px-8 md:py-4 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 border border-brand-gold/30 hover:bg-brand-gold hover:text-brand-ink text-brand-gold/90"
-                            >
-                              <span>{t('homeMembership.btnExplore')}</span>
-                            </Link>
-                          </div>
-                        </div>
-                        <div className="w-full h-40 md:h-64 rounded-xl overflow-hidden border border-brand-gold/30 p-1">
-                          <img 
-                            src={slide.image} 
-                            alt={slide.title}
-                            className="w-full h-full object-cover rounded-lg"
-                            loading="lazy"
-                          />
-                        </div>
-                      </div>
-                    )}
+            </motion.div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {membershipSlides.map((slide, i) => {
+              const Icon = slide.icon;
+              return (
+                <motion.div 
+                  key={slide.title}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="executive-card p-8 flex flex-col justify-between relative overflow-hidden group min-h-[360px]"
+                >
+                  {/* Ornate Gold Top Line */}
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-gold/30 via-brand-gold to-brand-gold/30 group-hover:h-1.5 transition-all" />
+
+                  <div>
+                    <div className="w-12 h-12 rounded-xl bg-slate-900 border border-brand-gold/30 flex items-center justify-center text-brand-gold mb-6 group-hover:scale-105 transition-transform shadow-md">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    
+                    <h3 className="text-xl md:text-2xl font-serif text-slate-900 mb-6 font-semibold">
+                      {slide.title}
+                    </h3>
+                    
+                    <ul className="space-y-3">
+                      {slide.benefits.map((benefit, idx) => (
+                        <li key={idx} className="flex items-start gap-2.5">
+                          <div className="w-1.5 h-1.5 rotate-45 bg-brand-gold shrink-0 mt-1.5" />
+                          <span className="text-slate-600 font-sans text-xs md:text-sm leading-relaxed">{benefit}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                );
-              })}
-            </div>
-          </motion.div>
+
+                  <Link 
+                    to={slide.path}
+                    className="inline-flex items-center justify-between text-xs uppercase tracking-[0.18em] font-extrabold text-slate-900 hover:text-brand-gold transition-colors mt-8 pt-4 border-t border-slate-100"
+                  >
+                    <span>Apply Now</span>
+                    <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform text-brand-gold" />
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
@@ -519,14 +448,23 @@ export default function Home() {
           <div>
             <div className="flex items-center gap-4 mb-3">
               <div className="h-px w-8 bg-brand-gold/40" />
-              <span className="text-[9px] uppercase tracking-[0.5em] font-bold text-brand-gold">Our Voice</span>
+              <span className="text-[9px] uppercase tracking-[0.5em] font-bold text-brand-gold">{t('news.ourVoice')}</span>
             </div>
             <h2 className="text-3xl md:text-5xl font-serif leading-tight text-brand-ink">
-              Featured <span className="italic text-brand-gold">News</span>
+              {(() => {
+                const parts = t('news.featuredNews').split(' ');
+                const last = parts.pop();
+                const first = parts.join(' ');
+                return (
+                  <>
+                    {first} <span className="italic text-brand-gold">{last}</span>
+                  </>
+                );
+              })()}
             </h2>
           </div>
           <div className="flex gap-4 sm:gap-6">
-            <Link to="/news" className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold text-brand-ink hover:text-brand-gold transition-colors flex items-center gap-2 border-b border-brand-ink/10 pb-1">All News <ArrowRight size={12}/></Link>
+            <Link to="/news" className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold text-brand-ink hover:text-brand-gold transition-colors flex items-center gap-2 border-b border-brand-ink/10 pb-1">{t('news.allNews')} <ArrowRight size={12}/></Link>
           </div>
         </div>
 
@@ -564,13 +502,13 @@ export default function Home() {
 
                     {/* Glassmorphism Tag */}
                     <div className="absolute top-6 left-6 bg-white/10 backdrop-blur-md border border-white/20 shadow-xl px-4 py-1.5 rounded-full z-10">
-                      <span className="text-[9px] uppercase font-bold text-white drop-shadow-sm tracking-widest">Featured</span>
+                      <span className="text-[9px] uppercase font-bold text-white drop-shadow-sm tracking-widest">{t('news.featuredTag')}</span>
                     </div>
                     
                     <div className="absolute bottom-6 left-6 right-6 z-10 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                       <h3 className="text-xl md:text-2xl font-serif text-white mb-4 line-clamp-2 md:leading-tight drop-shadow-lg">{item.title}</h3>
                       <p className="text-brand-paper/80 font-light text-sm line-clamp-2 mb-6 opacity-70 group-hover:opacity-100 transition-opacity duration-300">{item.excerpt || item.content}</p>
-                      <div className="flex items-center gap-2 text-brand-gold font-bold text-[9px] uppercase tracking-widest group-hover:translate-x-2 transition-transform duration-300 drop-shadow-sm">Read Story <ArrowRight size={12}/></div>
+                      <div className="flex items-center gap-2 text-brand-gold font-bold text-[9px] uppercase tracking-widest group-hover:translate-x-2 transition-transform duration-300 drop-shadow-sm">{t('news.readStory')} <ArrowRight size={12}/></div>
                     </div>
                   </Link>
               </motion.div>
@@ -597,14 +535,23 @@ export default function Home() {
           <div>
             <div className="flex items-center gap-4 mb-3">
               <div className="h-px w-8 bg-brand-gold/40" />
-              <span className="text-[9px] uppercase tracking-[0.5em] font-bold text-brand-gold">Our Vision</span>
+              <span className="text-[9px] uppercase tracking-[0.5em] font-bold text-brand-gold">{t('gallery.ourVision')}</span>
             </div>
             <h2 className="text-3xl md:text-5xl font-serif leading-tight text-brand-ink">
-              Featured <span className="italic text-brand-gold">Gallery</span>
+              {(() => {
+                const parts = t('gallery.featuredGallery').split(' ');
+                const last = parts.pop();
+                const first = parts.join(' ');
+                return (
+                  <>
+                    {first} <span className="italic text-brand-gold">{last}</span>
+                  </>
+                );
+              })()}
             </h2>
           </div>
           <div className="flex gap-4 sm:gap-6">
-              <Link to="/gallery" className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold text-brand-ink hover:text-brand-gold transition-colors flex items-center gap-2 border-b border-brand-ink/10 pb-1">All Gallery <ArrowRight size={12}/></Link>
+              <Link to="/gallery" className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold text-brand-ink hover:text-brand-gold transition-colors flex items-center gap-2 border-b border-brand-ink/10 pb-1">{t('gallery.allGallery')} <ArrowRight size={12}/></Link>
           </div>
         </div>
 
@@ -642,7 +589,7 @@ export default function Home() {
 
                     <div className="absolute bottom-6 left-6 right-6 z-10 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                       <h3 className="text-xl font-serif text-white mb-2 line-clamp-2 drop-shadow-md">{item.title}</h3>
-                      <div className="flex items-center gap-2 text-brand-gold font-bold text-[9px] uppercase tracking-widest group-hover:translate-x-2 transition-transform duration-300 drop-shadow-sm">View Capture <ArrowRight size={12}/></div>
+                      <div className="flex items-center gap-2 text-brand-gold font-bold text-[9px] uppercase tracking-widest group-hover:translate-x-2 transition-transform duration-300 drop-shadow-sm">{t('gallery.viewCapture')} <ArrowRight size={12}/></div>
                     </div>
                   </Link>
               </motion.div>
@@ -743,7 +690,7 @@ export default function Home() {
                         <div className="absolute bottom-6 left-6 right-6 z-10 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                           <div className="flex items-center gap-2 text-brand-gold mb-2">
                              <Star size={10} className="w-[10px] h-[10px]" fill="currentColor" />
-                             <span className="text-[8px] uppercase tracking-widest font-bold drop-shadow-sm">Featured Event</span>
+                             <span className="text-[8px] uppercase tracking-widest font-bold drop-shadow-sm">{t('news.featuredEvent')}</span>
                           </div>
                           <h3 className="text-2xl font-serif text-white mb-2 line-clamp-2 drop-shadow-lg">{dTitle}</h3>
                           <p className="text-brand-paper/80 font-light text-sm line-clamp-2 mb-4 opacity-70 group-hover:opacity-100 transition-opacity duration-300">{dDesc}</p>
@@ -758,7 +705,7 @@ export default function Home() {
                               {t('events.viewDetails')} <ArrowRight size={12}/>
                             </div>
                             <span className="font-serif text-lg text-white font-bold drop-shadow-md">
-                              {event.price === 0 ? 'Free' : `€${(event.price / 100).toFixed(2)}`}
+                              {event.price === 0 ? t('membershipPage.tiers.free') : `€${(event.price / 100).toFixed(2)}`}
                             </span>
                           </div>
                         </div>
@@ -831,60 +778,62 @@ export default function Home() {
               <Link
                 key={idx}
                 to={pillar.link}
-                className="group relative h-[400px] md:h-[600px] overflow-hidden border-r last:border-r-0 border-brand-ink/5 rounded-3xl md:rounded-none block"
+                className="group flex flex-col justify-between bg-white border border-brand-ink/5 md:border-r md:border-y-0 md:border-l-0 last:border-r-0 p-8 md:p-12 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 relative block min-h-[380px]"
               >
-                <motion.div
-                  initial={{ opacity: 0, scale: 1.1 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1.5, delay: idx * 0.2 }}
-                  className="h-full w-full"
-                >
-                  <img 
-                    src={pillar.image} 
-                    alt={pillar.title}
-                    className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-brand-ink/70 group-hover:bg-brand-ink/30 transition-all duration-700" />
+                <div>
+                  <span className="font-serif text-5xl md:text-6xl text-brand-gold/30 group-hover:text-brand-gold transition-colors duration-300 font-bold block mb-6">
+                    {pillar.number}
+                  </span>
                   
-                  {/* Hover Accent Line */}
-                  <div className={cn("absolute top-0 left-0 right-0 h-0 group-hover:h-2 transition-all duration-500 z-20", pillar.accent)} />
-
-                  <div className="absolute inset-0 p-12 md:p-20 flex flex-col justify-between text-white z-10">
-                    <div className="flex justify-between items-start">
-                      <span className="font-serif text-6xl md:text-9xl opacity-20 group-hover:opacity-100 group-hover:text-brand-gold transition-all duration-700 font-black">{pillar.number}</span>
-                      <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 -translate-y-4 group-hover:translate-y-0">
-                        <ArrowRight size={20} />
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="text-4xl md:text-6xl font-serif mb-6 md:mb-8 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700 ease-out">{pillar.title}</h3>
-                      <p className="text-lg md:text-xl text-white/60 leading-relaxed opacity-0 group-hover:opacity-100 transform translate-y-12 group-hover:translate-y-0 transition-all duration-700 delay-100 max-w-md font-light">
-                        {pillar.desc}
-                      </p>
-                      <div className="mt-10 h-px w-0 group-hover:w-full bg-brand-gold/50 transition-all duration-1000 delay-200" />
-                    </div>
-                  </div>
-                </motion.div>
+                  <h3 className="text-2xl md:text-3xl font-serif text-brand-ink mb-4 font-normal">
+                    {pillar.title}
+                  </h3>
+                  
+                  <p className="text-sm md:text-base text-brand-ink/60 font-light leading-relaxed mb-6">
+                    {pillar.desc}
+                  </p>
+                </div>
+                
+                <div className="flex items-center justify-between mt-auto pt-6 border-t border-brand-ink/5 text-xs uppercase tracking-widest font-bold text-brand-ink group-hover:text-brand-gold transition-colors duration-300">
+                  <span>Learn More</span>
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </div>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Mini-Game Section - Let's Play */}
-      <section className="py-12 px-6 bg-white relative overflow-hidden">
+      {/* Key Metrics / Impact Section */}
+      <section className="py-20 px-6 bg-brand-paper border-y border-brand-ink/5 relative overflow-hidden">
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-serif text-brand-ink mb-4">
-              Experience the <span className="italic text-brand-gold">Steppe</span>
-            </h2>
-            <p className="text-brand-ink/60 max-w-2xl mx-auto font-light leading-relaxed text-lg">
-              Take a moment to enjoy a lightweight, culturally immersive endless runner. Collect artifacts and explore the infinite Mongolian landscapes.
-            </p>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+            {[
+              { label: 'Year Established', value: '2026', desc: 'Registered Association (Verein) in Austria' },
+              { label: 'Active Members', value: '100+', desc: 'Students, professionals and institutional partners' },
+              { label: 'Bilateral Partners', value: '5+', desc: 'Embassy of Mongolia & educational partners' },
+              { label: 'Culture & Integration Projects', value: '4+', desc: 'Diorama, language courses & events' }
+            ].map((stat, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                className="text-center md:text-left flex flex-col items-center md:items-start"
+              >
+                <span className="text-4xl md:text-5xl lg:text-6xl font-serif text-brand-gold font-bold mb-2">
+                  {stat.value}
+                </span>
+                <h4 className="text-sm font-semibold uppercase tracking-wider text-brand-ink mb-1">
+                  {stat.label}
+                </h4>
+                <p className="text-xs text-brand-ink/50 font-light leading-relaxed max-w-[200px]">
+                  {stat.desc}
+                </p>
+              </motion.div>
+            ))}
           </div>
-          <LetsPlayGame />
         </div>
       </section>
 

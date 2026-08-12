@@ -1,25 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-serif: "Cormorant Garamond", serif;
-  --font-sans: "Inter", sans-serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", "Inter", sans-serif;
   
-  --color-brand-indigo: #1e1b4b;
-  --color-brand-gold: #eab308;
-  --color-brand-cream: #faf9ff;
-  --color-brand-sand: #f1f0ff;
-  --color-brand-ink: #0F0F0F;
-  --color-brand-paper: #f7f6ff;
+  --color-brand-indigo: #0A1128;
+  --color-brand-navy: #0B132B;
+  --color-brand-gold: #D4AF37;
+  --color-brand-bronze: #C5A059;
+  --color-brand-cream: #FAF8F5;
+  --color-brand-sand: #F4F0E8;
+  --color-brand-ink: #0F172A;
+  --color-brand-paper: #FDFBF7;
 }
 
 @layer base {
   body {
-    @apply font-sans bg-brand-paper text-brand-ink antialiased;
+    @apply font-sans bg-brand-paper text-slate-800 antialiased selection:bg-brand-gold/30 selection:text-brand-ink;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif font-light tracking-tight;
+    @apply font-serif font-medium tracking-tight;
   }
 }
 
@@ -28,11 +30,27 @@
 }
 
 .glass-card {
-  @apply bg-white/60 backdrop-blur-xl border border-white/30 shadow-sm;
+  @apply bg-white/80 backdrop-blur-xl border border-amber-900/10 shadow-sm transition-all duration-300;
+}
+
+.executive-card {
+  @apply bg-white border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.08)] hover:border-amber-500/40 transition-all duration-300 rounded-xl;
+}
+
+.executive-card-dark {
+  @apply bg-slate-900/90 backdrop-blur-md border border-amber-500/20 shadow-xl hover:border-amber-500/50 transition-all duration-300 rounded-xl;
+}
+
+.gold-metallic-gradient {
+  background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
 }
 
 .gold-gradient {
-  background: linear-gradient(135deg, #1e1b4b 0%, #eab308 50%, #1e1b4b 100%);
+  background: linear-gradient(135deg, #0A1128 0%, #D4AF37 50%, #0A1128 100%);
+}
+
+.gold-subtle-glow {
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
 }
 
 .text-gold {
@@ -41,6 +59,10 @@
 
 .border-gold {
   @apply border-brand-gold/30;
+}
+
+.mongolian-pattern-border {
+  background-image: repeating-linear-gradient(45deg, #D4AF37 0, #D4AF37 2px, transparent 0, transparent 8px);
 }
 
 @keyframes ember-float {

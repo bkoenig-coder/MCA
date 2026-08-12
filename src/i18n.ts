@@ -20,7 +20,8 @@ const resources = {
         center: 'Center',
         location: 'Vienna • Austria',
         admin: 'Admin',
-        member: 'Member'
+        member: 'Member',
+        heritage: 'Heritage'
       },
       common: {
         locale: 'en-GB',
@@ -243,6 +244,12 @@ const resources = {
         update: 'Update',
         noNews: 'No journal entries found at this time.',
         postedOn: 'Posted on',
+        ourVoice: 'Our Voice',
+        featuredNews: 'Featured News',
+        allNews: 'All News',
+        readStory: 'Read Story',
+        featuredTag: 'Featured',
+        featuredEvent: 'Featured Event',
         newsletter: {
           title: 'Stay',
           titleItalic: 'Informed',
@@ -257,6 +264,10 @@ const resources = {
         titleItalic: 'Heritage',
         subtitle: 'Explore a curated collection of Mongolian art, photography, and traditional crafts.',
         all: 'All Works',
+        ourVision: 'Our Vision',
+        featuredGallery: 'Featured Gallery',
+        allGallery: 'All Gallery',
+        viewCapture: 'View Capture',
         painting: 'Painting',
         photography: 'Photography',
         crafts: 'Crafts',
@@ -641,7 +652,8 @@ const resources = {
         center: 'Zentrum',
         location: 'Wien • Österreich',
         admin: 'Admin',
-        member: 'Mitglied'
+        member: 'Mitglied',
+        heritage: 'Kulturerbe'
       },
       common: {
         locale: 'de-AT',
@@ -864,6 +876,12 @@ const resources = {
         update: 'Update',
         noNews: 'Derzeit keine Journal-Einträge gefunden.',
         postedOn: 'Veröffentlicht am',
+        ourVoice: 'Unsere Stimme',
+        featuredNews: 'Ausgewählte Neuigkeiten',
+        allNews: 'Alle Neuigkeiten',
+        readStory: 'Artikel lesen',
+        featuredTag: 'Ausgewählt',
+        featuredEvent: 'Ausgewählte Veranstaltung',
         newsletter: {
           title: 'Bleiben Sie',
           titleItalic: 'informiert',
@@ -878,6 +896,10 @@ const resources = {
         titleItalic: 'Erbe',
         subtitle: 'Entdecken Sie eine kuratierte Sammlung mongolischer Kunst, Fotografie und traditionellem Handwerk.',
         all: 'Alle Werke',
+        ourVision: 'Unsere Vision',
+        featuredGallery: 'Ausgewählte Galerie',
+        allGallery: 'Alle Galerien',
+        viewCapture: 'Aufnahme ansehen',
         painting: 'Malerei',
         photography: 'Fotografie',
         crafts: 'Handwerk',
@@ -1262,7 +1284,8 @@ const resources = {
         center: 'Төв',
         location: 'Вена • Австри',
         admin: 'Админ',
-        member: 'Гишүүн'
+        member: 'Гишүүн',
+        heritage: 'Соёлын өв'
       },
       common: {
         locale: 'mn-MN',
@@ -1485,6 +1508,12 @@ const resources = {
         update: 'Шинэчлэлт',
         noNews: 'Одоогоор сэтгүүл олдсонгүй.',
         postedOn: 'Нийтэлсэн огноо',
+        ourVoice: 'Бидний дуу хоолой',
+        featuredNews: 'Онцлох мэдээ',
+        allNews: 'Бүх мэдээ',
+        readStory: 'Унших',
+        featuredTag: 'Онцлох',
+        featuredEvent: 'Онцлох арга хэмжээ',
         newsletter: {
           title: 'Мэдээлэлтэй',
           titleItalic: 'байх',
@@ -1499,6 +1528,10 @@ const resources = {
         titleItalic: 'Өв соёл',
         subtitle: 'Монголын урлаг, гэрэл зураг, уламжлалт гар урлалын цуглуулгатай танилцаарай.',
         all: 'Бүх бүтээл',
+        ourVision: 'Бидний алсын хараа',
+        featuredGallery: 'Онцлох галлерей',
+        allGallery: 'Бүх галлерей',
+        viewCapture: 'Харах',
         painting: 'Уран зураг',
         photography: 'Гэрэл зураг',
         crafts: 'Гар урлал',
@@ -1883,7 +1916,8 @@ const resources = {
         center: 'Merkezi',
         location: 'Viyana • Avusturya',
         admin: 'Yönetici',
-        member: 'Üye'
+        member: 'Üye',
+        heritage: 'Kültürel Miras'
       },
       common: {
         locale: 'tr-TR',
@@ -2106,6 +2140,12 @@ const resources = {
         update: 'Güncelleme',
         noNews: 'Şu anda dergi yazısı bulunamadı.',
         postedOn: 'Yayınlanma tarihi',
+        ourVoice: 'Sesimiz',
+        featuredNews: 'Öne Çıkan Haberler',
+        allNews: 'Tüm Haberler',
+        readStory: 'Haberi Oku',
+        featuredTag: 'Öne Çıkan',
+        featuredEvent: 'Öne Çıkan Etkinlik',
         newsletter: {
           title: 'Bilgi',
           titleItalic: 'Sahibi Olun',
@@ -2120,6 +2160,10 @@ const resources = {
         titleItalic: 'Miras',
         subtitle: 'Moğol sanatı, fotoğrafçılığı ve geleneksel el sanatlarından oluşan küratörlü bir koleksiyonu keşfedin.',
         all: 'Tüm Eserler',
+        ourVision: 'Vizyonumuz',
+        featuredGallery: 'Öne Çıkan Galeri',
+        allGallery: 'Tüm Galeri',
+        viewCapture: 'Görüntüle',
         painting: 'Resim',
         photography: 'Fotoğraf',
         crafts: 'El Sanatları',

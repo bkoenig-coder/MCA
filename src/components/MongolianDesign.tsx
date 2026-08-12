@@ -167,3 +167,38 @@ export const GerSymbol = ({ className = "w-32 h-24", strokeColor = "#d4af37", fi
     <path d="M 165 90 Q 160 85 155 90" fill="none" stroke="#d4af37" strokeWidth="1" opacity="0.6" />
   </svg>
 );
+
+export const MongolianFormalFrame = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
+  <div className={`relative p-6 border border-brand-gold/30 bg-white/95 rounded-xl shadow-md ${className}`}>
+    {/* Ornate Gold Corner Accent - Top Left */}
+    <svg className="absolute -top-1 -left-1 w-6 h-6 text-brand-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path d="M0 8V0H8 M0 0L6 6" strokeWidth="2" />
+    </svg>
+    {/* Ornate Gold Corner Accent - Top Right */}
+    <svg className="absolute -top-1 -right-1 w-6 h-6 text-brand-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path d="M24 8V0H16 M24 0L18 6" strokeWidth="2" />
+    </svg>
+    {/* Ornate Gold Corner Accent - Bottom Left */}
+    <svg className="absolute -bottom-1 -left-1 w-6 h-6 text-brand-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path d="M0 16V24H8 M0 24L6 18" strokeWidth="2" />
+    </svg>
+    {/* Ornate Gold Corner Accent - Bottom Right */}
+    <svg className="absolute -bottom-1 -right-1 w-6 h-6 text-brand-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path d="M24 16V24H16 M24 24L18 18" strokeWidth="2" />
+    </svg>
+    {children}
+  </div>
+);
+
+export const MongolianKhasDivider = ({ className = "my-12" }: { className?: string }) => (
+  <div className={`flex items-center justify-center gap-4 ${className}`}>
+    <div className="h-px bg-gradient-to-r from-transparent via-brand-gold/50 to-brand-gold flex-1 max-w-xs" />
+    <div className="flex items-center gap-2">
+      <div className="w-1.5 h-1.5 rotate-45 bg-brand-gold/70" />
+      <UlziiSymbol className="w-6 h-6 text-brand-gold" />
+      <div className="w-1.5 h-1.5 rotate-45 bg-brand-gold/70" />
+    </div>
+    <div className="h-px bg-gradient-to-l from-transparent via-brand-gold/50 to-brand-gold flex-1 max-w-xs" />
+  </div>
+);
+

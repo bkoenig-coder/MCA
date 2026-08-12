@@ -124,7 +124,7 @@ export default function Navbar() {
     { name: t('nav.gallery'), path: '/gallery', icon: ImageIcon },
     { name: t('nav.impact'), path: '/impact', icon: Heart },
     { name: t('nav.contact'), path: '/contact', icon: Mail },
-    { name: 'Explore 3D Diorama', path: '/diorama', icon: Compass },
+    { name: t('nav.heritage', 'Heritage'), path: '/heritage', icon: Compass },
   ];
 
   const isSuperAdmin = user?.email?.toLowerCase() === 'emeraldtorstein@gmail.com';
@@ -341,27 +341,9 @@ export default function Navbar() {
       >
         <div className="max-w-[1600px] w-full mx-auto flex items-center justify-between relative">
           
-          {/* Left: Organization Branding */}
-          <Link to="/" className="flex items-center gap-3.5 group flex-shrink-0 z-10">
-            <div className="relative">
-              <div className="w-10 h-10 md:w-12 md:h-12 border border-[#C5A059]/30 rounded-full flex items-center justify-center transition-all duration-[750ms] group-hover:border-[#C5A059] group-hover:rotate-[360deg] bg-white shadow-sm overflow-hidden p-1">
-                <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain" />
-              </div>
-            </div>
-            
-            <div className="flex flex-col select-none">
-              <h1 className="font-serif font-black text-sm md:text-lg tracking-[0.05em] leading-none uppercase text-[#0066B3] m-0">
-                {t('nav.mongolian')} <span className="text-[#DA2032] font-black tracking-[0.04em]">{t('nav.center')}</span>
-              </h1>
-              <span className="font-serif text-[7.5px] md:text-[8.5px] uppercase tracking-[0.35em] font-extrabold text-[#C5A059] mt-1 transition-colors duration-300">
-                {t('nav.location')}
-              </span>
-            </div>
-          </Link>
-
-          {/* Center Links (Desktop only) */}
-          <div className="hidden lg:flex items-center justify-center gap-5 xl:gap-8 mx-4">
-            {navItems.filter(item => item.path !== '/admin' && item.path !== '/diorama').map((item) => {
+          {/* Left Nav Links (Desktop only) */}
+          <div className="hidden lg:flex items-center gap-4 xl:gap-6 flex-1 justify-start">
+            {navItems.filter(item => ['/about', '/events', '/membership', '/news'].includes(item.path)).map((item) => {
               const isActive = location.pathname === item.path;
               return (
                 <Link
@@ -375,7 +357,7 @@ export default function Navbar() {
                   <span className="relative z-10">{item.name}</span>
                   {isActive ? (
                     <motion.div
-                      layoutId="activeSubNavTab"
+                      layoutId="activeSubNavTabLeft"
                       className="absolute bottom-[-1px] left-0.5 right-0.5 h-[2px] bg-[#0066B3] rounded-full"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
@@ -387,19 +369,64 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Right Action Trigger Group (Desktop only) */}
-          <div className="hidden lg:flex items-center gap-3">
+          {/* Centered Organization Branding & Emblem (Mobile & Desktop) */}
+          <Link to="/" className="flex items-center gap-2 sm:gap-3 group flex-shrink-0 z-10 absolute left-1/2 -translate-x-1/2 max-w-[200px] sm:max-w-none pointer-events-auto">
+            <div className="relative shrink-0">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 border border-[#C5A059]/30 rounded-full flex items-center justify-center transition-all duration-[750ms] group-hover:border-[#C5A059] group-hover:rotate-[360deg] bg-white shadow-sm overflow-hidden p-0.5 sm:p-1">
+                <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain" />
+              </div>
+            </div>
+            
+            <div className="flex flex-col select-none text-center min-w-0">
+              <h1 className="font-serif font-black text-xs sm:text-sm md:text-lg tracking-[0.05em] leading-tight uppercase text-[#0066B3] m-0 truncate text-center">
+                {t('nav.mongolian')} <span className="text-[#DA2032] font-black tracking-[0.04em]">{t('nav.center')}</span>
+              </h1>
+              <span className="font-serif text-[6.5px] sm:text-[7.5px] md:text-[8.5px] uppercase tracking-[0.25em] sm:tracking-[0.35em] font-extrabold text-[#C5A059] mt-0.5 text-center block truncate">
+                {t('nav.location')}
+              </span>
+            </div>
+          </Link>
+
+          {/* Right Nav Links & Actions (Desktop only) */}
+          <div className="hidden lg:flex items-center justify-end gap-4 xl:gap-6 flex-1">
+            {navItems.filter(item => ['/gallery', '/impact', '/contact', '/heritage'].includes(item.path)).map((item) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={cn(
+                    "group text-[9px] xl:text-[10px] uppercase tracking-[0.18em] font-sans font-black transition-all duration-300 relative py-2",
+                    isActive ? "text-[#0066B3]" : "text-slate-600 hover:text-[#0066B3] hover:translate-y-[-0.5px]"
+                  )}
+                >
+                  <span className="relative z-10">{item.name}</span>
+                  {isActive ? (
+                    <motion.div
+                      layoutId="activeSubNavTabRight"
+                      className="absolute bottom-[-1px] left-0.5 right-0.5 h-[2px] bg-[#0066B3] rounded-full"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  ) : (
+                    <span className="absolute bottom-[-1px] left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#0066B3]/40 scale-0 group-hover:scale-100 transition-all duration-300" />
+                  )}
+                </Link>
+              );
+            })}
+
+            <div className="h-4 w-px bg-slate-200 ml-1 mr-1" />
+
             <Link 
               to="/membership"
-              className="text-[9px] uppercase tracking-[0.15em] font-extrabold px-5 py-3 rounded border border-[#0A1128] hover:bg-[#0A1128] hover:text-white transition-all duration-300 shadow-sm hover:shadow active:scale-95"
+              className="text-[9px] uppercase tracking-[0.15em] font-extrabold px-4 py-2.5 rounded border border-[#0A1128] hover:bg-[#0A1128] hover:text-white transition-all duration-300 shadow-sm hover:shadow active:scale-95"
             >
-              Become a Member
+              Member
             </Link>
 
             <button
               onClick={() => setIsOpen(!isOpen)}
               className={cn(
-                "flex items-center gap-2.5 text-[9px] uppercase tracking-[0.15em] font-extrabold transition-all duration-300 py-3 px-5 rounded bg-[#0A1128] border border-[#0A1128] text-white hover:bg-neutral-800 hover:border-neutral-800 shadow-sm active:scale-95"
+                "flex items-center gap-2 text-[9px] uppercase tracking-[0.15em] font-extrabold transition-all duration-300 py-2.5 px-4 rounded bg-[#0A1128] border border-[#0A1128] text-white hover:bg-neutral-800 hover:border-neutral-800 shadow-sm active:scale-95"
               )}
             >
               {isOpen ? <X size={12} className="text-[#C5A059]" /> : <Menu size={12} className="text-[#C5A059]" />}
@@ -408,7 +435,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Layout Actions Row */}
-          <div className="lg:hidden flex items-center gap-3 z-10">
+          <div className="lg:hidden flex items-center gap-2 sm:gap-3 z-10 ml-auto">
             {/* Lang cycler flag */}
             <button
               onClick={() => {
@@ -417,14 +444,14 @@ export default function Navbar() {
                 const nextLang = languages[nextIndex];
                 i18n.changeLanguage(nextLang.code);
               }}
-              className="w-9 h-9 rounded-full border flex items-center justify-center text-sm transition-all duration-300 bg-brand-paper hover:bg-white text-brand-ink border-brand-ink/10 shadow-sm active:scale-90"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border flex items-center justify-center text-xs sm:text-sm transition-all duration-300 bg-brand-paper hover:bg-white text-brand-ink border-brand-ink/10 shadow-sm active:scale-90"
             >
               {currentLang.flag}
             </button>
 
             {/* Profile Avatar Trigger */}
             {user && (
-              <Link to="/profile" className="w-9 h-9 rounded-full border border-[#C5A059]/30 p-0.5 bg-white flex items-center justify-center shadow-sm">
+              <Link to="/profile" className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-[#C5A059]/30 p-0.5 bg-white flex items-center justify-center shadow-sm">
                 {user.photoURL ? (
                   <img src={user.photoURL} alt="" className="w-full h-full rounded-full object-cover" />
                 ) : (
@@ -435,10 +462,10 @@ export default function Navbar() {
 
             {/* Burger Trigger */}
             <button 
-              className="p-2.5 transition-all duration-300 text-white rounded bg-[#0A1128] hover:bg-neutral-800 active:scale-95 flex items-center justify-center shadow-sm"
+              className="p-2 sm:p-2.5 transition-all duration-300 text-white rounded bg-[#0A1128] hover:bg-neutral-800 active:scale-95 flex items-center justify-center shadow-sm"
               onClick={() => setIsOpen(!isOpen)}
             >
-              {isOpen ? <X size={16} className="text-[#C5A059]" /> : <Menu size={16} className="text-[#C5A059]" />}
+              {isOpen ? <X size={15} className="text-[#C5A059]" /> : <Menu size={15} className="text-[#C5A059]" />}
             </button>
           </div>
 
@@ -456,17 +483,17 @@ export default function Navbar() {
             >
               {/* Executive Top Header inside open Menu Overlay */}
               <div className="w-full bg-white border-b border-brand-ink/10 py-2.5 sm:py-3 shrink-0 relative z-20 shadow-[0_2px_15px_rgba(0,0,0,0.02)]">
-                <div className="max-w-[1600px] w-full mx-auto px-4 sm:px-8 md:px-12 flex items-center justify-between select-none min-w-0">
-                  {/* Branding Info */}
-                  <div className="flex items-center gap-2 sm:gap-3 min-w-0 mr-3">
+                <div className="max-w-[1600px] w-full mx-auto px-4 sm:px-8 md:px-12 flex items-center justify-between select-none min-w-0 relative">
+                  {/* Centered Branding Info */}
+                  <div className="flex items-center gap-2 sm:gap-3 min-w-0 mx-auto text-center">
                     <div className="w-8 h-8 sm:w-9 sm:h-9 border border-[#C5A059]/30 rounded-full flex items-center justify-center bg-white p-0.5 flex-shrink-0">
                       <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain" />
                     </div>
-                    <div className="flex flex-col text-left min-w-0">
-                      <span className="font-serif font-black text-[10px] sm:text-xs md:text-sm tracking-[0.05em] leading-none uppercase text-[#0066B3] truncate">
+                    <div className="flex flex-col text-center min-w-0">
+                      <span className="font-serif font-black text-[10px] sm:text-xs md:text-sm tracking-[0.05em] leading-none uppercase text-[#0066B3] truncate text-center">
                         {t('nav.mongolian')} <span className="text-[#DA2032] font-black tracking-[0.04em]">{t('nav.center')}</span>
                       </span>
-                      <span className="font-serif text-[6.5px] sm:text-[7.5px] md:text-[8px] uppercase tracking-[0.25em] font-extrabold text-[#C5A059] mt-0.5 truncate">
+                      <span className="font-serif text-[6.5px] sm:text-[7.5px] md:text-[8px] uppercase tracking-[0.25em] font-extrabold text-[#C5A059] mt-0.5 truncate text-center block">
                         {t('nav.location')}
                       </span>
                     </div>

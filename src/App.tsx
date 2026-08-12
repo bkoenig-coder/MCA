@@ -33,6 +33,7 @@ import TeamMember from './pages/TeamMember';
 import InitiativeDetails from './pages/InitiativeDetails';
 import Membership from './pages/Membership';
 import MembersDirectory from './pages/MembersDirectory';
+import Heritage from './pages/Heritage';
 import NotFound from './pages/NotFound';
 
 import ApplyStudent from './pages/ApplyStudent';
@@ -77,6 +78,7 @@ export default function App() {
                 <Route path="/gallery/:id" element={<GalleryDetails />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/impact" element={<Impact />} />
+                <Route path="/donate" element={<Impact />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/membership" element={<Membership />} />
                 <Route path="/membership/apply-student" element={<ApplyStudent />} />
@@ -91,6 +93,7 @@ export default function App() {
                 <Route path="/team/:id" element={<TeamMember />} />
                 <Route path="/initiative/:id" element={<InitiativeDetails />} />
                 <Route path="/diorama" element={<EasterEgg />} />
+                <Route path="/heritage" element={<Heritage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>

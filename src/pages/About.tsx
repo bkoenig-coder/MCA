@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Shield, Heart, Users, Sparkles, Send, Star } from 'lucide-react';
-import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../components/MongolianDesign';
+import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol, MongolianFormalFrame, MongolianKhasDivider } from '../components/MongolianDesign';
 import margadPic from '../assets/media/margadpic.png';
 import berniPic from '../assets/media/bernipic.png';
 import chinggisPic from '../assets/media/chinggiskhan1.png';
@@ -109,53 +109,41 @@ export default function About() {
         </div>
       </section>
 
-      {/* Mission & Vision - Cinematic Layout */}
-      <section className="py-12 md:py-20 px-6 bg-[#050507] relative overflow-hidden text-white">
-        {/* Cinematic Backdrop Pattern & Fire Light */}
-
-        
-        {/* Fire Gradient Light */}
-        <motion.div
-          animate={{ opacity: [0.2, 0.4, 0.2], scale: [1, 1.1, 1] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-0 right-1/4 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(234,88,12,0.1)_0%,transparent_70%)] rounded-full md:blur-[120px] blur-[80px] pointer-events-none"
-        />
-        <motion.div
-          animate={{ opacity: [0.1, 0.3, 0.1], scale: [1.1, 0.9, 1.1] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(190,18,60,0.15)_0%,transparent_70%)] rounded-full md:blur-[100px] blur-[60px] pointer-events-none md:mix-blend-screen"
-        />
-
+      {/* Mission & Vision - Executive Formal Layout */}
+      <section className="py-12 md:py-20 px-6 bg-[#0B132B] relative overflow-hidden text-white border-t border-brand-gold/20">
         <EmberBackground />
         
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 md:gap-32 items-center relative z-10">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 md:gap-24 items-center relative z-10">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
+            className="space-y-8"
           >
-            <h2 className="text-4xl md:text-6xl font-serif mb-8 md:mb-12 leading-tight drop-shadow-xl">
+            <div className="flex items-center gap-3 text-brand-gold">
+              <UlziiSymbol className="w-5 h-5" />
+              <span className="text-[10px] uppercase tracking-[0.4em] font-extrabold">Institutional Purpose</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif leading-tight drop-shadow-xl font-medium">
               {t('about.hubTitle')}
             </h2>
-            <p className="text-lg md:text-xl text-white/50 leading-relaxed font-light mb-8 md:mb-12">
+            <p className="text-base md:text-lg text-slate-300 leading-relaxed font-sans font-light">
               {t('about.hubDesc1')}
             </p>
-            <motion.div 
-              viewport={{ amount: 0.4 }}
-              onViewportEnter={(e) => toggleActive(e, true)}
-              onViewportLeave={(e) => toggleActive(e, false)}
-              className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl md:shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-brand-gold/10 relative group"
-            >
-              <div className="absolute inset-0 bg-brand-gold/20 mix-blend-overlay z-10 md:group-hover:bg-transparent max-md:group-[.is-active]:bg-transparent transition-all duration-700" />
-              <img 
-                src="https://plus.unsplash.com/premium_photo-1716932567535-6bb42a3f38ff?q=80&w=1332&auto=format&fit=crop" 
-                alt="Community" 
-                loading="lazy"
-                className="w-full h-full object-cover scale-105 md:group-hover:scale-100 max-md:group-[.is-active]:scale-100 grayscale md:group-hover:grayscale-0 max-md:group-[.is-active]:grayscale-0 transition-all duration-1000"
-                referrerPolicy="no-referrer"
-              />
-            </motion.div>
+            
+            <MongolianFormalFrame className="bg-slate-900/90 border-brand-gold/30 p-2 shadow-2xl">
+              <div className="aspect-[4/3] rounded-lg overflow-hidden relative group">
+                <img 
+                  src="https://plus.unsplash.com/premium_photo-1716932567535-6bb42a3f38ff?q=80&w=1332&auto=format&fit=crop" 
+                  alt="Community" 
+                  loading="lazy"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60" />
+              </div>
+            </MongolianFormalFrame>
           </motion.div>
           
           <motion.div 
@@ -163,89 +151,85 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="md:pt-40 mt-16 md:mt-0 flex flex-col-reverse md:flex-col"
+            className="space-y-8"
           >
-            <motion.div 
-               viewport={{ amount: 0.4 }}
-               onViewportEnter={(e) => toggleActive(e, true)}
-               onViewportLeave={(e) => toggleActive(e, false)}
-               className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl md:shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-brand-gold/10 relative group mb-8 md:mb-12 mt-12 md:mt-0"
-            >
-               <div className="absolute inset-0 bg-brand-gold/20 md:mix-blend-overlay z-10 md:group-hover:bg-transparent max-md:group-[.is-active]:bg-transparent transition-all duration-700" />
-              <img 
-                src="https://images.unsplash.com/photo-1625862849881-64c93500d0a5?q=80&w=880&auto=format&fit=crop" 
-                alt="Vision" 
-                loading="lazy"
-                className="w-full h-full object-cover scale-105 md:group-hover:scale-100 max-md:group-[.is-active]:scale-100 grayscale md:group-hover:grayscale-0 max-md:group-[.is-active]:grayscale-0 transition-all duration-1000"
-                referrerPolicy="no-referrer"
-              />
-            </motion.div>
-            <div>
-              <h2 className="text-4xl md:text-6xl font-serif mb-8 md:mb-12 leading-tight drop-shadow-xl">
+            <MongolianFormalFrame className="bg-slate-900/90 border-brand-gold/30 p-2 shadow-2xl">
+              <div className="aspect-[4/3] rounded-lg overflow-hidden relative group">
+                <img 
+                  src="https://images.unsplash.com/photo-1625862849881-64c93500d0a5?q=80&w=880&auto=format&fit=crop" 
+                  alt="Vision" 
+                  loading="lazy"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60" />
+              </div>
+            </MongolianFormalFrame>
+
+            <div className="space-y-6 pt-4">
+              <div className="flex items-center gap-3 text-brand-gold">
+                <SoyomboSymbol className="w-5 h-5" />
+                <span className="text-[10px] uppercase tracking-[0.4em] font-extrabold">Bilateral Vision</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-serif leading-tight drop-shadow-xl font-medium">
                 {t('about.vision.title')}
               </h2>
-              <p className="text-lg md:text-xl text-white/50 leading-relaxed font-light">
+              <p className="text-base md:text-lg text-slate-300 leading-relaxed font-sans font-light">
                 {t('about.vision.desc')}
               </p>
             </div>
           </motion.div>
         </div>
+
+        <MongolianKhasDivider className="max-w-4xl mx-auto my-16 opacity-80" />
       </section>
 
-      {/* Values - Cinematic Grid */}
-      <section className="py-12 md:py-20 px-6 bg-[#020202] relative text-white overflow-hidden">
-        
+      {/* Values - Executive Grid */}
+      <section className="py-12 md:py-20 px-6 bg-[#0A1128] relative text-white overflow-hidden">
         <EmberBackground />
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="mb-16 md:mb-32 text-center md:text-left">
-            <span className="inline-block text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold mb-6">{t('about.values.tag')}</span>
+          <div className="mb-12 md:mb-16 text-center">
+            <span className="inline-block text-[10px] uppercase tracking-[0.5em] font-extrabold text-brand-gold mb-3">{t('about.values.tag')}</span>
             <h2 className="text-4xl md:text-6xl font-serif leading-tight drop-shadow-xl">{t('about.values.title')}</h2>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8 md:gap-12">
+          <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: t('about.values.title'), desc: t('about.values.desc'), icon: <Shield className="w-8 h-8" /> },
-              { title: t('about.impact.title'), desc: t('about.impact.desc'), icon: <Heart className="w-8 h-8" /> },
-              { title: t('about.heritage'), desc: t('about.founded'), icon: <Users className="w-8 h-8" /> }
+              { title: t('about.values.title'), desc: t('about.values.desc'), icon: <Shield className="w-6 h-6 text-brand-gold" /> },
+              { title: t('about.impact.title'), desc: t('about.impact.desc'), icon: <Heart className="w-6 h-6 text-brand-gold" /> },
+              { title: t('about.heritage'), desc: t('about.founded'), icon: <Users className="w-6 h-6 text-brand-gold" /> }
             ].map((value, idx) => (
               <motion.div 
                 key={idx} 
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
-                onViewportEnter={(e) => toggleActive(e, true)}
-                onViewportLeave={(e) => toggleActive(e, false)}
+                viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
-                className="group p-8 md:p-12 rounded-[40px] bg-white/5 border border-white/5 md:hover:border-orange-500/30 max-md:group-[.is-active]:border-orange-500/30 md:hover:bg-white/10 max-md:group-[.is-active]:bg-white/10 transition-all duration-500 md:backdrop-blur-sm relative overflow-hidden"
+                className="executive-card-dark p-8 md:p-10 relative overflow-hidden group"
               >
-                {/* Fire Glow sweep */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-orange-600/0 via-orange-500/10 to-amber-400/0 opacity-0 md:group-hover:opacity-100 max-md:group-[.is-active]:opacity-100 transition-opacity duration-1000 md:blur-xl" />
-                
-                <div className="relative z-10">
-                  <div className="w-20 h-20 rounded-full border border-brand-gold/20 flex items-center justify-center text-brand-gold mb-10 md:group-hover:scale-110 max-md:group-[.is-active]:scale-110 md:group-hover:bg-gradient-to-tr max-md:group-[.is-active]:bg-gradient-to-tr md:group-hover:from-orange-600 max-md:group-[.is-active]:from-orange-600 md:group-hover:to-amber-500 max-md:group-[.is-active]:to-amber-500 md:group-hover:border-transparent max-md:group-[.is-active]:border-transparent md:group-hover:text-white max-md:group-[.is-active]:text-white md:group-hover:shadow-[0_0_30px_rgba(234,88,12,0.5)] max-md:group-[.is-active]:shadow-[0_0_30px_rgba(234,88,12,0.5)] transition-all duration-500 bg-[#050507]">
-                    {value.icon}
-                  </div>
-                  <h3 className="text-3xl font-serif mb-6">{value.title}</h3>
-                  <p className="text-white/50 leading-relaxed font-light">
-                    {value.desc}
-                  </p>
+                <div className="w-14 h-14 rounded-xl border border-brand-gold/40 bg-slate-950 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform shadow-lg">
+                  {value.icon}
                 </div>
+                <h3 className="text-2xl font-serif mb-4 text-white font-semibold">{value.title}</h3>
+                <p className="text-slate-300 leading-relaxed font-sans text-sm font-light">
+                  {value.desc}
+                </p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Benefits - Cinematic Grid */}
-      <section className="py-12 md:py-16 px-6 bg-[#020202] relative text-white overflow-hidden border-t border-white/5">
+      {/* Benefits - Executive Grid */}
+      <section className="py-12 md:py-20 px-6 bg-[#050B14] relative text-white overflow-hidden border-t border-brand-gold/15">
         <EmberBackground />
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="mb-16 md:mb-24 text-center md:text-left">
-            <span className="inline-block text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold mb-6">{t('about.benefitsSection.tag')}</span>
+          <div className="mb-12 md:mb-16 text-center md:text-left">
+            <span className="inline-block text-[10px] uppercase tracking-[0.5em] font-extrabold text-brand-gold mb-3">{t('about.benefitsSection.tag')}</span>
             <h2 className="text-4xl md:text-6xl font-serif leading-tight drop-shadow-xl">{t('about.benefitsSection.title')}</h2>
-            <p className="mt-8 text-lg md:text-xl text-white/50 leading-relaxed font-light max-w-3xl">
+            <p className="mt-4 text-base md:text-lg text-slate-300 leading-relaxed font-sans font-light max-w-3xl">
               {t('about.benefitsSection.desc')}
             </p>
           </div>
@@ -255,81 +239,73 @@ export default function About() {
               { 
                 title: t('about.benefitsSection.items.networking.title'), 
                 desc: t('about.benefitsSection.items.networking.desc'), 
-                icon: <Users className="w-6 h-6" /> 
+                icon: <Users className="w-5 h-5 text-brand-gold" /> 
               },
               { 
                 title: t('about.benefitsSection.items.events.title'), 
                 desc: t('about.benefitsSection.items.events.desc'), 
-                icon: <Star className="w-6 h-6" /> 
+                icon: <Star className="w-5 h-5 text-brand-gold" /> 
               },
               { 
                 title: t('about.benefitsSection.items.visibility.title'), 
                 desc: t('about.benefitsSection.items.visibility.desc'), 
-                icon: <Sparkles className="w-6 h-6" /> 
+                icon: <Sparkles className="w-5 h-5 text-brand-gold" /> 
               },
               { 
                 title: t('about.benefitsSection.items.insights.title'), 
                 desc: t('about.benefitsSection.items.insights.desc'), 
-                icon: <Shield className="w-6 h-6" /> 
+                icon: <Shield className="w-5 h-5 text-brand-gold" /> 
               },
               { 
                 title: t('about.benefitsSection.items.advocacy.title'), 
                 desc: t('about.benefitsSection.items.advocacy.desc'), 
-                icon: <Send className="w-6 h-6" /> 
+                icon: <Send className="w-5 h-5 text-brand-gold" /> 
               },
               { 
                 title: t('about.benefitsSection.items.mentorship.title'), 
                 desc: t('about.benefitsSection.items.mentorship.desc'), 
-                icon: <Heart className="w-6 h-6" /> 
+                icon: <Heart className="w-5 h-5 text-brand-gold" /> 
               }
             ].map((benefit, idx) => (
               <motion.div 
                 key={idx} 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
-                onViewportEnter={(e) => toggleActive(e, true)}
-                onViewportLeave={(e) => toggleActive(e, false)}
+                viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group p-8 rounded-[30px] bg-white/5 border border-white/5 md:hover:border-brand-gold/30 max-md:group-[.is-active]:border-brand-gold/30 md:hover:bg-white/10 max-md:group-[.is-active]:bg-white/10 transition-all duration-500 relative overflow-hidden"
+                className="executive-card-dark p-8 relative overflow-hidden group"
               >
-                <div className="absolute inset-0 bg-gradient-to-tr from-brand-gold/0 via-brand-gold/5 to-amber-400/0 opacity-0 md:group-hover:opacity-100 max-md:group-[.is-active]:opacity-100 transition-opacity duration-1000" />
-                
-                <div className="relative z-10">
-                  <div className="w-14 h-14 rounded-full border border-brand-gold/20 flex items-center justify-center text-brand-gold mb-8 md:group-hover:scale-110 max-md:group-[.is-active]:scale-110 md:group-hover:bg-brand-gold max-md:group-[.is-active]:bg-brand-gold md:group-hover:text-black max-md:group-[.is-active]:text-black transition-all duration-500 bg-[#050507]">
-                    {benefit.icon}
-                  </div>
-                  <h3 className="text-2xl font-serif mb-4 text-white">{benefit.title}</h3>
-                  <p className="text-white/50 leading-relaxed font-light text-sm">
-                    {benefit.desc}
-                  </p>
+                <div className="w-12 h-12 rounded-xl border border-brand-gold/30 bg-slate-950 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-md">
+                  {benefit.icon}
                 </div>
+                <h3 className="text-xl font-serif mb-3 text-white font-semibold">{benefit.title}</h3>
+                <p className="text-slate-300 leading-relaxed font-sans text-xs md:text-sm font-light">
+                  {benefit.desc}
+                </p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Team - Cinematic Portraits */}
-      <section className="py-12 md:py-20 px-6 bg-[#050507] relative overflow-hidden text-white">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#020202] to-transparent opacity-80 pointer-events-none" />
-        
+      {/* Leadership Team - Executive Portraits */}
+      <section className="py-12 md:py-20 px-6 bg-[#0B132B] relative overflow-hidden text-white border-t border-brand-gold/15">
         <EmberBackground />
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="mb-16 md:mb-24 text-center">
-            <div className="flex items-center justify-center gap-4 mb-6 md:mb-8">
-              <div className="h-px w-12 bg-brand-gold/40" />
-              <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold mb-6 block mt-5">{t('about.team.tag')}</span>
-              <div className="h-px w-12 bg-brand-gold/40" />
+          <div className="mb-16 text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="h-px w-10 bg-brand-gold/40" />
+              <span className="text-[10px] uppercase tracking-[0.5em] font-extrabold text-brand-gold">{t('about.team.tag')}</span>
+              <div className="h-px w-10 bg-brand-gold/40" />
             </div>
-            <h2 className="text-5xl md:text-7xl font-serif mb-8 leading-tight drop-shadow-xl">{t('about.team.title')}</h2>
-            <p className="text-lg md:text-xl text-white/50 max-w-2xl mx-auto font-light italic">
+            <h2 className="text-4xl md:text-6xl font-serif mb-6 leading-tight drop-shadow-xl">{t('about.team.title')}</h2>
+            <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto font-serif italic">
               "{t('about.team.quote')}"
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
             {[
               { id: "margad-erdene-ganbold", name: "Margad-Erdene Ganbold", role: t('about.team.roles.director'), image: margadPic },
               { id: "bernadette-konig", name: "Bernadette König", role: t('about.team.roles.manager'), image: berniPic },
@@ -337,33 +313,32 @@ export default function About() {
             ].map((member, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
-                onViewportEnter={(e) => toggleActive(e, true)}
-                onViewportLeave={(e) => toggleActive(e, false)}
-                transition={{ duration: 0.8, delay: idx * 0.2 }}
-                className="group relative cursor-pointer block"
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: idx * 0.15 }}
+                className="group relative block"
               >
                 <Link to={`/team/${member.id}`} className="block">
-                  <div className="aspect-[3/4] rounded-3xl overflow-hidden mb-8 shadow-2xl md:shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5 relative bg-[#020202]">
-                    <img 
-                      src={member.image} 
-                      alt={member.name} 
-                      loading="lazy"
-                      className="w-full h-full object-cover grayscale opacity-80 md:group-hover:grayscale-0 max-md:group-[.is-active]:grayscale-0 md:group-hover:opacity-100 max-md:group-[.is-active]:opacity-100 md:group-hover:scale-105 max-md:group-[.is-active]:scale-105 transition-all duration-1000"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-[#020202]/40 to-transparent opacity-80 md:group-hover:opacity-60 max-md:group-[.is-active]:opacity-60 transition-opacity duration-700 pointer-events-none" />
-                    
-                    {/* Subtle bottom fire glow */}
-                    <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-orange-600/30 to-transparent md:mix-blend-overlay opacity-0 md:group-hover:opacity-100 max-md:group-[.is-active]:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-                    
-                    <div className="absolute bottom-10 left-10 right-10 pointer-events-none">
-                      <h3 className="text-3xl font-serif text-white mb-3 md:group-hover:text-brand-gold max-md:group-[.is-active]:text-brand-gold transition-colors duration-500 drop-shadow-md">{member.name}</h3>
-                      <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-gold/70 md:group-hover:text-brand-gold max-md:group-[.is-active]:text-brand-gold transition-colors duration-500">{member.role}</p>
+                  <MongolianFormalFrame className="bg-slate-900/90 border-brand-gold/40 p-2 hover:border-brand-gold transition-all duration-300">
+                    <div className="aspect-[3/4] rounded-lg overflow-hidden relative bg-slate-950">
+                      <img 
+                        src={member.image} 
+                        alt={member.name} 
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700 opacity-90 group-hover:opacity-100"
+                        referrerPolicy="no-referrer"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none" />
+                      
+                      <div className="absolute bottom-6 left-6 right-6 pointer-events-none">
+                        <h3 className="text-2xl font-serif text-white mb-1.5 group-hover:text-brand-gold transition-colors duration-300 drop-shadow-md">{member.name}</h3>
+                        <div className="px-3 py-1 border border-brand-gold/40 rounded-md bg-slate-900/90 w-max">
+                          <p className="text-[9px] uppercase tracking-[0.25em] font-extrabold text-brand-gold">{member.role}</p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  </MongolianFormalFrame>
                 </Link>
               </motion.div>
             ))}
@@ -371,112 +346,91 @@ export default function About() {
         </div>
       </section>
 
-      {/* Join Us Section - Cinematic */}
-      <section className="py-12 md:py-20 px-6 bg-[#020202] relative overflow-hidden text-white border-t border-white/5">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.05),transparent_70%)] pointer-events-none" />
-
+      {/* Join Us Section - Executive Application Suite */}
+      <section className="py-12 md:py-20 px-6 bg-[#050B14] relative overflow-hidden text-white border-t border-brand-gold/15">
         <EmberBackground />
 
         <div className="max-w-4xl mx-auto relative z-10">
-          <div className="text-center mb-16 md:mb-24">
-            <motion.div 
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center justify-center gap-3 mb-8 border border-brand-gold/30 px-6 py-2 rounded-full bg-black/20 md:bg-transparent md:backdrop-blur-sm"
-            >
-              <Heart className="text-brand-gold" size={16} fill="currentColor" />
-              <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-gold">{t('about.join.tag')}</span>
-            </motion.div>
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif mb-8 drop-shadow-2xl">
-              {t('about.join.title')} <span className="italic text-brand-gold">{t('about.join.titleItalic')}</span>
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center gap-2 mb-6 border border-brand-gold/30 px-5 py-1.5 rounded-full bg-slate-900/80">
+              <Heart className="text-brand-gold" size={14} fill="currentColor" />
+              <span className="text-[9px] uppercase tracking-[0.3em] font-extrabold text-brand-gold">{t('about.join.tag')}</span>
+            </div>
+            <h2 className="text-4xl md:text-6xl font-serif mb-6 drop-shadow-2xl">
+              {t('about.join.title')} <span className="italic text-brand-gold font-light">{t('about.join.titleItalic')}</span>
             </h2>
-            <p className="text-lg md:text-xl text-white/50 font-light max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-slate-300 font-sans font-light max-w-2xl mx-auto">
               {t('about.join.desc')}
             </p>
           </div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="p-8 md:p-16 rounded-[40px] bg-white/5 border border-white/5 md:backdrop-blur-xl relative overflow-hidden shadow-2xl md:shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
-          >
-            {/* Form Fire Glow */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-orange-600/10 rounded-full md:blur-[100px] blur-[60px] pointer-events-none md:mix-blend-screen" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-rose-600/10 rounded-full md:blur-[80px] blur-[40px] pointer-events-none md:mix-blend-screen" />
-
+          <MongolianFormalFrame className="bg-slate-900/90 border-brand-gold/40 p-8 md:p-12 shadow-2xl">
             {isSuccess ? (
               <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-16 relative z-10"
+                className="text-center py-12 relative z-10"
               >
-                <motion.div 
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", bounce: 0.5 }}
-                  className="w-24 h-24 bg-brand-gold/20 border border-brand-gold/30 rounded-full flex items-center justify-center mx-auto mb-8 text-brand-gold"
-                >
-                  <Heart size={48} fill="currentColor" />
-                </motion.div>
-                <h3 className="text-4xl font-serif mb-4 text-white">Welcome to the family!</h3>
-                <p className="text-white/60 text-lg">We've received your application and will be in touch soon.</p>
+                <div className="w-20 h-20 bg-brand-gold/20 border border-brand-gold/40 rounded-full flex items-center justify-center mx-auto mb-6 text-brand-gold">
+                  <Heart size={40} fill="currentColor" />
+                </div>
+                <h3 className="text-3xl font-serif mb-3 text-white">Application Submitted</h3>
+                <p className="text-slate-300 text-base">We've received your application and will contact you shortly.</p>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-widest font-bold text-white/40 ml-2">{t('about.join.form.name')}</label>
+              <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] uppercase tracking-widest font-bold text-brand-gold/80">{t('about.join.form.name')}</label>
                     <input 
                       type="text" 
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      className="w-full px-6 py-5 bg-[#050507]/80 border border-white/10 rounded-2xl text-white focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all"
+                      className="w-full px-5 py-4 bg-slate-950/90 border border-slate-700/80 rounded-xl text-white focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all text-sm"
                       placeholder="e.g. Saran"
                     />
                   </div>
-                  <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-widest font-bold text-white/40 ml-2">{t('about.join.form.email')}</label>
+                  <div className="space-y-2">
+                    <label className="text-[10px] uppercase tracking-widest font-bold text-brand-gold/80">{t('about.join.form.email')}</label>
                     <input 
                       type="email" 
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      className="w-full px-6 py-5 bg-[#050507]/80 border border-white/10 rounded-2xl text-white focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all"
+                      className="w-full px-5 py-4 bg-slate-950/90 border border-slate-700/80 rounded-xl text-white focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all text-sm"
                       placeholder="hello@example.com"
                     />
                   </div>
                 </div>
-                <div className="space-y-3">
-                  <label className="text-[10px] uppercase tracking-widest font-bold text-white/40 ml-2">{t('about.join.form.reason')}</label>
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest font-bold text-brand-gold/80">{t('about.join.form.reason')}</label>
                   <textarea 
                     required
                     value={formData.reason}
                     onChange={(e) => setFormData({...formData, reason: e.target.value})}
                     rows={4}
-                    className="w-full px-6 py-5 bg-[#050507]/80 border border-white/10 rounded-2xl text-white focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all resize-none"
+                    className="w-full px-5 py-4 bg-slate-950/90 border border-slate-700/80 rounded-xl text-white focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all resize-none text-sm"
                     placeholder="I'd love to help with..."
                   />
                 </div>
                 <button 
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-orange-600 to-amber-500 text-white px-8 py-5 rounded-full text-xs uppercase tracking-[0.2em] font-bold hover:shadow-[0_0_40px_rgba(234,88,12,0.4)] transition-all duration-500 disabled:opacity-50 flex items-center justify-center gap-4 group mt-4 border border-orange-400/30"
+                  className="w-full bg-brand-gold text-slate-950 hover:bg-amber-400 px-8 py-4.5 rounded-xl text-xs uppercase tracking-[0.2em] font-extrabold hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-3 group mt-2"
                 >
                   {isSubmitting ? (
-                    <span className="animate-pulse">Sending...</span>
+                    <span className="animate-pulse">Submitting Application...</span>
                   ) : (
                     <>
-                      {t('about.join.form.submit')}
-                      <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                      <span>{t('about.join.form.submit')}</span>
+                      <Send size={15} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                     </>
                   )}
                 </button>
               </form>
             )}
-          </motion.div>
+          </MongolianFormalFrame>
         </div>
       </section>
     </div>
