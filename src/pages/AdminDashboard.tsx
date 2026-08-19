@@ -458,31 +458,44 @@ export default function AdminDashboard() {
     setIsSubmitting(true);
     try {
       const fallbackTitle = eventForm.titleEn || eventForm.titleMn || eventForm.titleDe || 'Untitled Event';
-      const fallbackDesc = eventForm.descriptionEn || eventForm.descriptionMn || eventForm.descriptionDe || '';
+      const fallbackDesc = eventForm.descriptionEn || eventForm.descriptionMn || eventForm.descriptionDe || 'Event details and program information.';
+      const fallbackImage = eventForm.imageUrl || 'https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=1600&auto=format&fit=crop';
 
-      const baseData = {
+      const baseData: any = {
+        title: fallbackTitle,
         titleEn: eventForm.titleEn || fallbackTitle,
         titleMn: eventForm.titleMn || fallbackTitle,
         titleDe: eventForm.titleDe || fallbackTitle,
-        title: eventForm.titleEn || fallbackTitle,
+        description: fallbackDesc,
         descriptionEn: eventForm.descriptionEn || fallbackDesc,
         descriptionMn: eventForm.descriptionMn || fallbackDesc,
         descriptionDe: eventForm.descriptionDe || fallbackDesc,
-        description: eventForm.descriptionEn || fallbackDesc,
-        date: eventForm.date,
-        time: eventForm.time,
-        location: eventForm.location,
-        category: eventForm.category,
-        price: Number(eventForm.price) * 100,
+        date: eventForm.date || new Date().toISOString().split('T')[0],
+        time: eventForm.time || '18:00',
+        location: eventForm.location || 'Palais Eschenbach, Eschenbachgasse 11, 1010 Wien',
+        category: eventForm.category || 'Cultural Celebration',
+        price: Number(eventForm.price) * 100 || 0,
         capacity: Number(eventForm.capacity) || 0,
-        imageUrl: eventForm.imageUrl,
-        galleryImages: eventForm.galleryImages ? eventForm.galleryImages.split(',').map(s => s.trim()).filter(Boolean) : [],
-        whatsIncluded: eventForm.whatsIncluded ? eventForm.whatsIncluded.split(',').map(s => s.trim()).filter(Boolean) : [],
+        imageUrl: fallbackImage,
         updatedAt: serverTimestamp(),
       };
 
+      const whatsIncludedList = eventForm.whatsIncluded
+        ? eventForm.whatsIncluded.split(',').map(s => s.trim()).filter(Boolean)
+        : [];
+      if (whatsIncludedList.length > 0) {
+        baseData.whatsIncluded = whatsIncludedList;
+      }
+
+      const galleryList = eventForm.galleryImages
+        ? eventForm.galleryImages.split(',').map(s => s.trim()).filter(Boolean)
+        : [];
+      if (galleryList.length > 0) {
+        baseData.galleryImages = galleryList;
+      }
+
       if (isEditing && eventForm.id) {
-        await setDoc(doc(db, 'events', eventForm.id), baseData, { merge: true });
+        await updateDoc(doc(db, 'events', eventForm.id), baseData);
         toast.success('Event updated successfully');
       } else {
         await addDoc(collection(db, 'events'), { ...baseData, registeredCount: 0, createdAt: serverTimestamp() });
@@ -492,6 +505,7 @@ export default function AdminDashboard() {
       setIsEventModalOpen(false);
       setIsEditing(false);
     } catch (error) {
+      console.error('Save Event Error:', error);
       toast.error('Failed to save event');
       handleFirestoreError(error, OperationType.WRITE, 'events');
     } finally {
@@ -509,39 +523,50 @@ export default function AdminDashboard() {
       const generatedSlug = transliteratedSource
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)+/g, '');
+        .replace(/(^-|-$)+/g, '') || `post-${Date.now()}`;
 
       const fallbackTitle = postForm.titleMn || postForm.titleEn || postForm.titleDe || 'Untitled Article';
-      const fallbackContent = postForm.contentMn || postForm.contentEn || postForm.contentDe || '';
+      const fallbackContent = postForm.contentMn || postForm.contentEn || postForm.contentDe || 'Article content details.';
+      const fallbackAuthorId = user?.uid || 'admin-author';
+      const fallbackImageUrl = postForm.imageUrl || 'https://images.unsplash.com/photo-1695555875394-4e8aa542ccdc?q=80&w=1600&auto=format&fit=crop';
 
-      const data = {
+      const postData: any = {
+        title: fallbackTitle,
         titleEn: postForm.titleEn || fallbackTitle,
         titleMn: postForm.titleMn || fallbackTitle,
         titleDe: postForm.titleDe || fallbackTitle,
-        title: fallbackTitle,
         slug: postForm.slug || generatedSlug,
+        content: fallbackContent,
         contentEn: postForm.contentEn || fallbackContent,
         contentMn: postForm.contentMn || fallbackContent,
         contentDe: postForm.contentDe || fallbackContent,
-        content: fallbackContent,
-        imageUrl: postForm.imageUrl,
-        galleryImages: postForm.galleryImages
-          ? postForm.galleryImages.split(',').map((s: string) => s.trim()).filter(Boolean)
-          : [],
+        imageUrl: fallbackImageUrl,
         updatedAt: serverTimestamp(),
       };
 
+      const galleryList = postForm.galleryImages
+        ? postForm.galleryImages.split(',').map((s: string) => s.trim()).filter(Boolean)
+        : [];
+      if (galleryList.length > 0) {
+        postData.galleryImages = galleryList;
+      }
+
       if (isEditing && postForm.id) {
-        await setDoc(doc(db, 'posts', postForm.id), data, { merge: true });
+        await updateDoc(doc(db, 'posts', postForm.id), postData);
         toast.success('Post updated successfully');
       } else {
-        await addDoc(collection(db, 'posts'), { ...data, authorId: user?.uid, createdAt: serverTimestamp() });
+        await addDoc(collection(db, 'posts'), {
+          ...postData,
+          authorId: fallbackAuthorId,
+          createdAt: serverTimestamp()
+        });
         toast.success('Gazette Article published successfully');
       }
 
       setIsPostModalOpen(false);
       setIsEditing(false);
     } catch (error) {
+      console.error('Save Post Error:', error);
       toast.error('Failed to save post');
       handleFirestoreError(error, OperationType.WRITE, 'posts');
     } finally {
@@ -555,30 +580,31 @@ export default function AdminDashboard() {
     setIsSubmitting(true);
     try {
       const fallbackTitle = galleryForm.titleEn || galleryForm.titleMn || galleryForm.titleDe || 'Untitled Artwork';
-      const fallbackDesc = galleryForm.descriptionEn || galleryForm.descriptionMn || galleryForm.descriptionDe || '';
-      const fallbackArtist = galleryForm.artistEn || galleryForm.artistMn || galleryForm.artistDe || 'Traditional Master';
+      const fallbackDesc = galleryForm.descriptionEn || galleryForm.descriptionMn || galleryForm.descriptionDe || 'Traditional craftsmanship piece.';
+      const fallbackArtist = galleryForm.artistEn || galleryForm.artistMn || galleryForm.artistDe || 'Master Artist';
+      const fallbackImage = galleryForm.imageUrl || 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=1600&auto=format&fit=crop';
 
-      const baseData = {
+      const baseData: any = {
+        title: fallbackTitle,
         titleEn: galleryForm.titleEn || fallbackTitle,
         titleMn: galleryForm.titleMn || fallbackTitle,
         titleDe: galleryForm.titleDe || fallbackTitle,
-        title: fallbackTitle,
+        artist: fallbackArtist,
         artistEn: galleryForm.artistEn || fallbackArtist,
         artistMn: galleryForm.artistMn || fallbackArtist,
         artistDe: galleryForm.artistDe || fallbackArtist,
-        artist: fallbackArtist,
         year: galleryForm.year || '2026',
+        description: fallbackDesc,
         descriptionEn: galleryForm.descriptionEn || fallbackDesc,
         descriptionMn: galleryForm.descriptionMn || fallbackDesc,
         descriptionDe: galleryForm.descriptionDe || fallbackDesc,
-        description: fallbackDesc,
-        imageUrl: galleryForm.imageUrl,
+        imageUrl: fallbackImage,
         category: galleryForm.category || 'Traditional',
         updatedAt: serverTimestamp(),
       };
 
       if (isEditing && galleryForm.id) {
-        await setDoc(doc(db, 'gallery', galleryForm.id), baseData, { merge: true });
+        await updateDoc(doc(db, 'gallery', galleryForm.id), baseData);
         toast.success('Gallery item updated successfully');
       } else {
         await addDoc(collection(db, 'gallery'), { ...baseData, createdAt: serverTimestamp() });
@@ -588,6 +614,7 @@ export default function AdminDashboard() {
       setIsGalleryModalOpen(false);
       setIsEditing(false);
     } catch (error) {
+      console.error('Save Gallery Error:', error);
       toast.error('Failed to save gallery item');
       handleFirestoreError(error, OperationType.WRITE, 'gallery');
     } finally {

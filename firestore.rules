@@ -235,18 +235,19 @@ service cloud.firestore {
     }
 
     function isValidPost(data) {
-      return hasOnlyAllowedFields(['title', 'titleEn', 'titleMn', 'titleDe', 'slug', 'content', 'contentEn', 'contentMn', 'contentDe', 'imageUrl', 'authorId', 'createdAt', 'updatedAt']) &&
+      return hasOnlyAllowedFields(['title', 'titleEn', 'titleMn', 'titleDe', 'slug', 'content', 'contentEn', 'contentMn', 'contentDe', 'imageUrl', 'galleryImages', 'authorId', 'createdAt', 'updatedAt']) &&
              hasRequiredFields(['title', 'content', 'authorId', 'createdAt']) &&
-             validString(data.title, 1, 200) &&
-             validOptionalString('titleEn', 0, 1000) &&
-             validOptionalString('titleMn', 0, 1000) &&
-             validOptionalString('titleDe', 0, 1000) &&
-             validOptionalString('slug', 0, 200) &&
-             validString(data.content, 1, 10000) &&
+             validString(data.title, 1, 500) &&
+             validOptionalString('titleEn', 0, 2000) &&
+             validOptionalString('titleMn', 0, 2000) &&
+             validOptionalString('titleDe', 0, 2000) &&
+             validOptionalString('slug', 0, 500) &&
+             validString(data.content, 1, 50000) &&
              validOptionalString('contentEn', 0, 50000) &&
              validOptionalString('contentMn', 0, 50000) &&
              validOptionalString('contentDe', 0, 50000) &&
              (!( 'imageUrl' in data ) || isValidUrl(data.imageUrl)) &&
+             (!( 'galleryImages' in data ) || (data.galleryImages is list && data.galleryImages.size() <= 20)) &&
              validString(data.authorId, 1, 128) &&
              data.createdAt is timestamp &&
              (!( 'updatedAt' in data ) || data.updatedAt is timestamp);
