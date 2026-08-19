@@ -507,9 +507,7 @@ export default function AdminDashboard() {
       }
 
       const galleryList = parseGalleryImages(eventForm.galleryImages);
-      if (galleryList.length > 0) {
-        baseData.galleryImages = galleryList;
-      }
+      baseData.galleryImages = galleryList;
 
       if (isEditing && eventForm.id) {
         await updateDoc(doc(db, 'events', eventForm.id), baseData);
@@ -563,13 +561,9 @@ export default function AdminDashboard() {
         contentMn: postForm.contentMn?.trim() || fallbackContent,
         contentDe: postForm.contentDe?.trim() || fallbackContent,
         imageUrl: fallbackImageUrl,
+        galleryImages: parseGalleryImages(postForm.galleryImages),
         updatedAt: serverTimestamp(),
       };
-
-      const galleryList = parseGalleryImages(postForm.galleryImages);
-      if (galleryList.length > 0) {
-        postData.galleryImages = galleryList;
-      }
 
       if (isEditing && postForm.id) {
         await updateDoc(doc(db, 'posts', postForm.id), postData);
@@ -624,14 +618,10 @@ export default function AdminDashboard() {
         descriptionMn: galleryForm.descriptionMn?.trim() || fallbackDesc,
         descriptionDe: galleryForm.descriptionDe?.trim() || fallbackDesc,
         imageUrl: fallbackImage,
+        galleryImages: parseGalleryImages(galleryForm.galleryImages),
         category: galleryForm.category || 'Traditional',
         updatedAt: serverTimestamp(),
       };
-
-      const galleryList = parseGalleryImages(galleryForm.galleryImages);
-      if (galleryList.length > 0) {
-        baseData.galleryImages = galleryList;
-      }
 
       if (isEditing && galleryForm.id) {
         await updateDoc(doc(db, 'gallery', galleryForm.id), baseData);
