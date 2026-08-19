@@ -1,85 +1,9 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // ===============================================================
-    // Assumed Data Model
-    // ===============================================================
-    //
-    // Collection: users
-    // Document ID: {userId}
-    // Fields:
-    //   - uid: string (required, max 128)
-    //   - email: string (required, max 256)
-    //   - displayName: string (optional, max 100)
-    //   - photoURL: string (optional, max 2048)
-    //   - role: string (required, 'user' or 'admin')
-    //   - createdAt: string (required, ISO 8601)
-    //
-    // Collection: events
-    // Document ID: {eventId}
-    // Fields:
-    //   - title: string (required, max 200)
-    //   - description: string (required, max 5000)
-    //   - price: number (required, >= 0)
-    //   - capacity: number (optional, >= 0)
-    //   - date: string (required, ISO 8601)
-    //   - time: string (optional, max 50)
-    //   - location: string (optional, max 200)
-    //   - imageUrl: string (required, max 2048)
-    //   - category: string (optional, max 100)
-    //   - whatsIncluded: list of strings (optional, max 20 items)
-    //   - registeredCount: number (optional, >= 0)
-    //   - createdAt: timestamp (required)
-    //   - updatedAt: timestamp (optional)
-    //
-    // Collection: registrations
-    // Document ID: {registrationId}
-    // Fields:
-    //   - eventId: string (required, max 128)
-    //   - eventTitle: string (required, max 200)
-    //   - userId: string (required, max 128)
-    //   - userEmail: string (required, max 256)
-    //   - name: string (required, max 100)
-    //   - email: string (required, max 256)
-    //   - phone: string (optional, max 50)
-    //   - notes: string (optional, max 1000)
-    //   - status: string (required, 'pending', 'paid', 'cancelled', 'completed')
-    //   - amount: number (required, >= 0)
-    //   - stripeSessionId: string (optional, max 256)
-    //   - createdAt: timestamp (required)
-    //
-    // Collection: posts
-    // Document ID: {postId}
-    // Fields:
-    //   - title: string (required, max 200)
-    //   - content: string (required, max 10000)
-    //   - imageUrl: string (optional, max 2048)
-    //   - authorId: string (required, max 128)
-    //   - createdAt: timestamp (required)
-    //
-    // Collection: analytics
-    // Document ID: {viewId}
-    // Fields:
-    //   - path: string (required, max 500)
-    //   - timestamp: timestamp (required)
-    //   - userId: string (optional, max 128)
-    //   - userAgent: string (optional, max 500)
-    //
-    // Collection: gallery
-    // Document ID: {itemId}
-    // Fields:
-    //   - title: string (required, max 200)
-    //   - artist: string (optional, max 200)
-    //   - year: string (optional, max 50)
-    //   - description: string (optional, max 2000)
-    //   - imageUrl: string (required, max 2048)
-    //   - category: string (optional, max 100)
-    //   - createdAt: timestamp (required)
-    //
-    // ===============================================================
 
     // ===============================================================
-    // Helper Functions
+    // Authentication & Role-Based Access Control (RBAC)
     // ===============================================================
     function isAuthenticated() {
       return request.auth != null;
@@ -90,34 +14,46 @@ service cloud.firestore {
     }
 
     function isSuperAdmin() {
-      return isAuthenticated() && 'email' in request.auth.token && request.auth.token.email.lower() == "emeraldtorstein@gmail.com";
+      return isAuthenticated() && 
+        'email' in request.auth.token && 
+        (
+          request.auth.token.email.lower() == "emeraldtorstein@gmail.com" ||
+          request.auth.token.email.lower() == "batmunkh.unen@gmail.com"
+        );
     }
 
     function isDomainAdmin() {
-      return isAuthenticated() && 'email' in request.auth.token && (
-        request.auth.token.email.lower().matches(".*@mongoliancenter\\.org$") ||
-        request.auth.token.email.lower() == "batmunkh.unen@gmail.com"
-      );
-    }
-
-    function isAdmin() {
       return isAuthenticated() && 
-        ((exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
-          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
-         isSuperAdmin() ||
-         isDomainAdmin());
+        'email' in request.auth.token && 
+        (
+          request.auth.token.email.lower().matches(".*@mongoliancenter\\.org$") ||
+          request.auth.token.email.lower() == "info@mongoliancenter.org"
+        );
     }
 
-    function isModerator() {
+    function isUserRoleAdmin() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    function isUserRoleModerator() {
       return isAuthenticated() && 
         exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'moderator';
     }
 
-    function isEditor() {
-      return isAdmin() || isModerator();
+    function isAdmin() {
+      return isSuperAdmin() || isDomainAdmin() || isUserRoleAdmin();
     }
 
+    function isEditor() {
+      return isAdmin() || isUserRoleModerator();
+    }
+
+    // ===============================================================
+    // Helper Validators
+    // ===============================================================
     function hasRequiredFields(fields) {
       return request.resource.data.keys().hasAll(fields);
     }
@@ -143,7 +79,7 @@ service cloud.firestore {
     }
 
     function isValidDateString(dateStr) {
-      return dateStr is string && dateStr.matches("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.*Z?$") && dateStr.size() <= 50;
+      return dateStr is string && dateStr.size() <= 50;
     }
 
     function areImmutableFieldsUnchanged(fields) {
@@ -151,7 +87,7 @@ service cloud.firestore {
     }
 
     // ===============================================================
-    // Domain Validators
+    // Domain Entity Validators
     // ===============================================================
     function isValidUser(data) {
       return hasOnlyAllowedFields(['uid', 'email', 'displayName', 'photoURL', 'role', 'membershipTier', 'membershipStatus', 'membershipUpdatedAt', 'stripeSessionId', 'createdAt', 'updatedAt']) &&
@@ -195,12 +131,11 @@ service cloud.firestore {
 
     function isValidEvent(data) {
       return hasOnlyAllowedFields(['title', 'titleEn', 'titleMn', 'titleDe', 'description', 'descriptionEn', 'descriptionMn', 'descriptionDe', 'price', 'capacity', 'date', 'time', 'location', 'locationEn', 'locationMn', 'locationDe', 'imageUrl', 'galleryImages', 'category', 'categoryEn', 'categoryMn', 'categoryDe', 'whatsIncluded', 'registeredCount', 'createdAt', 'updatedAt']) &&
-             hasRequiredFields(['title', 'description', 'price', 'date', 'imageUrl', 'createdAt']) &&
              validString(data.title, 1, 200) &&
              validOptionalString('titleEn', 0, 1000) &&
              validOptionalString('titleMn', 0, 1000) &&
              validOptionalString('titleDe', 0, 1000) &&
-             validString(data.description, 1, 5000) &&
+             validString(data.description, 1, 50000) &&
              validOptionalString('descriptionEn', 0, 50000) &&
              validOptionalString('descriptionMn', 0, 50000) &&
              validOptionalString('descriptionDe', 0, 50000) &&
@@ -220,7 +155,7 @@ service cloud.firestore {
              validOptionalString('categoryDe', 0, 200) &&
              (!( 'whatsIncluded' in data ) || (data.whatsIncluded is list && data.whatsIncluded.size() <= 30)) &&
              (!( 'registeredCount' in data ) || (data.registeredCount is number && data.registeredCount >= 0)) &&
-             data.createdAt is timestamp &&
+             (!( 'createdAt' in data ) || data.createdAt is timestamp) &&
              (!( 'updatedAt' in data ) || data.updatedAt is timestamp);
     }
 
@@ -243,7 +178,6 @@ service cloud.firestore {
 
     function isValidPost(data) {
       return hasOnlyAllowedFields(['title', 'titleEn', 'titleMn', 'titleDe', 'slug', 'content', 'contentEn', 'contentMn', 'contentDe', 'imageUrl', 'galleryImages', 'authorId', 'createdAt', 'updatedAt']) &&
-             hasRequiredFields(['title', 'content', 'authorId', 'createdAt']) &&
              validString(data.title, 1, 500) &&
              validOptionalString('titleEn', 0, 2000) &&
              validOptionalString('titleMn', 0, 2000) &&
@@ -255,8 +189,8 @@ service cloud.firestore {
              validOptionalString('contentDe', 0, 50000) &&
              (!( 'imageUrl' in data ) || isValidUrl(data.imageUrl)) &&
              (!( 'galleryImages' in data ) || (data.galleryImages is list && data.galleryImages.size() <= 50)) &&
-             validString(data.authorId, 1, 128) &&
-             data.createdAt is timestamp &&
+             validOptionalString('authorId', 1, 128) &&
+             (!( 'createdAt' in data ) || data.createdAt is timestamp) &&
              (!( 'updatedAt' in data ) || data.updatedAt is timestamp);
     }
 
@@ -267,7 +201,6 @@ service cloud.firestore {
 
     function isValidGalleryItem(data) {
       return hasOnlyAllowedFields(['title', 'titleEn', 'titleMn', 'titleDe', 'artist', 'artistEn', 'artistMn', 'artistDe', 'year', 'description', 'descriptionEn', 'descriptionMn', 'descriptionDe', 'imageUrl', 'galleryImages', 'category', 'categoryEn', 'categoryMn', 'categoryDe', 'createdAt', 'updatedAt']) &&
-             hasRequiredFields(['title', 'imageUrl', 'createdAt']) &&
              validString(data.title, 1, 200) &&
              validOptionalString('titleEn', 0, 1000) &&
              validOptionalString('titleMn', 0, 1000) &&
@@ -287,18 +220,26 @@ service cloud.firestore {
              validOptionalString('categoryEn', 0, 200) &&
              validOptionalString('categoryMn', 0, 200) &&
              validOptionalString('categoryDe', 0, 200) &&
-             data.createdAt is timestamp &&
+             (!( 'createdAt' in data ) || data.createdAt is timestamp) &&
              (!( 'updatedAt' in data ) || data.updatedAt is timestamp);
     }
 
+    function isValidGameScore(data) {
+      return hasRequiredFields(['score']) &&
+             data.score is number && data.score >= 0 &&
+             validOptionalString('playerName', 0, 100);
+    }
+
     // ===============================================================
-    // Rules
+    // Security Rules
     // ===============================================================
 
+    // Public test connection endpoint
     match /test/{docId} {
       allow read: if true;
     }
 
+    // User Profiles: Private to user or Admin
     match /users/{userId} {
       allow read: if isOwner(userId) || isAdmin();
       allow create: if isOwner(userId) && 
@@ -308,9 +249,11 @@ service cloud.firestore {
       allow update: if (isOwner(userId) || isAdmin()) && 
                        isValidUser(request.resource.data) && 
                        areImmutableFieldsUnchanged(['uid', 'createdAt']) &&
-                       (isSuperAdmin() || request.resource.data.role == resource.data.role);
+                       (isAdmin() || request.resource.data.role == resource.data.role);
+      allow delete: if isAdmin();
     }
 
+    // Membership Applications: Owner or Admin
     match /membership_applications/{appId} {
       allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
       allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid && isValidMembershipApplication(request.resource.data);
@@ -318,11 +261,13 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    // Events: Public view, Editor/Admin/Authenticated management
     match /events/{eventId} {
       allow read: if true;
-      allow create, update, delete: if isAuthenticated();
+      allow create, update, delete: if isEditor() || isAuthenticated();
     }
 
+    // Registrations: User/Guest registration, Owner or Admin read
     match /registrations/{regId} {
       allow read: if (isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin())) || resource.data.userId == 'guest';
       allow create: if isValidRegistration(request.resource.data) && 
@@ -338,24 +283,30 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    // Posts & News: Public read, Editor/Admin/Authenticated write
     match /posts/{postId} {
       allow read: if true;
-      allow create, update, delete: if isAuthenticated();
+      allow create, update, delete: if isEditor() || isAuthenticated();
     }
 
+    // Analytics: Admin read, public write (tracking)
     match /analytics/{viewId} {
       allow read: if isAdmin();
       allow create: if isValidAnalytics(request.resource.data);
+      allow update, delete: if isAdmin();
     }
 
+    // Gallery Artworks: Public read, Editor/Admin/Authenticated write
     match /gallery/{itemId} {
       allow read: if true;
-      allow create, update, delete: if isAuthenticated();
+      allow create, update, delete: if isEditor() || isAuthenticated();
     }
 
+    // Mini-game scores: Public read, validated create, no tampering
     match /game_scores/{scoreId} {
       allow read: if true;
-      allow create: if true;
+      allow create: if isValidGameScore(request.resource.data);
+      allow update, delete: if isAdmin();
     }
   }
 }

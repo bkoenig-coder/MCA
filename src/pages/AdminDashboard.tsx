@@ -506,8 +506,12 @@ export default function AdminDashboard() {
         baseData.whatsIncluded = whatsIncludedList;
       }
 
-      const galleryList = parseGalleryImages(eventForm.galleryImages);
-      baseData.galleryImages = galleryList;
+      const galleryList = eventForm.galleryImages
+        ? eventForm.galleryImages.split(',').map(s => s.trim()).filter(Boolean)
+        : [];
+      if (galleryList.length > 0) {
+        baseData.galleryImages = galleryList;
+      }
 
       if (isEditing && eventForm.id) {
         await updateDoc(doc(db, 'events', eventForm.id), baseData);
@@ -561,9 +565,15 @@ export default function AdminDashboard() {
         contentMn: postForm.contentMn?.trim() || fallbackContent,
         contentDe: postForm.contentDe?.trim() || fallbackContent,
         imageUrl: fallbackImageUrl,
-        galleryImages: parseGalleryImages(postForm.galleryImages),
         updatedAt: serverTimestamp(),
       };
+
+      const galleryList = postForm.galleryImages
+        ? postForm.galleryImages.split(',').map(s => s.trim()).filter(Boolean)
+        : [];
+      if (galleryList.length > 0) {
+        postData.galleryImages = galleryList;
+      }
 
       if (isEditing && postForm.id) {
         await updateDoc(doc(db, 'posts', postForm.id), postData);
@@ -618,10 +628,16 @@ export default function AdminDashboard() {
         descriptionMn: galleryForm.descriptionMn?.trim() || fallbackDesc,
         descriptionDe: galleryForm.descriptionDe?.trim() || fallbackDesc,
         imageUrl: fallbackImage,
-        galleryImages: parseGalleryImages(galleryForm.galleryImages),
         category: galleryForm.category || 'Traditional',
         updatedAt: serverTimestamp(),
       };
+
+      const galleryList = galleryForm.galleryImages
+        ? galleryForm.galleryImages.split(',').map(s => s.trim()).filter(Boolean)
+        : [];
+      if (galleryList.length > 0) {
+        baseData.galleryImages = galleryList;
+      }
 
       if (isEditing && galleryForm.id) {
         await updateDoc(doc(db, 'gallery', galleryForm.id), baseData);
