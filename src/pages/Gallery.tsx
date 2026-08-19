@@ -36,29 +36,30 @@ export default function Gallery() {
   const filteredArt = artworks.filter(art => filter === 'All' || art.category === filter);
 
   return (
-    <div className="pt-20">
+    <div className="pt-[140px] md:pt-[152px]">
       {/* Hero */}
-      <section className="relative min-h-[40vh] md:h-[60vh] flex items-center px-6 bg-brand-ink overflow-hidden">
-        <div className="absolute inset-0 opacity-30">
+      <section className="relative min-h-[380px] md:h-[460px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
+        <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1536611004753-2ceaea518206?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+            src="https://images.unsplash.com/photo-1536611004753-2ceaea518206?q=80&w=1600&auto=format&fit=crop" 
             alt="Mongolian Landscape" 
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
+            className="w-full h-full object-cover object-center"
+            loading="eager"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/25" />
         </div>
-        <div className="max-w-7xl mx-auto w-full relative z-10">
+        <div className="max-w-7xl mx-auto w-full relative z-10 py-10 md:py-0">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-12">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="max-w-2xl"
             >
-              <div className="flex items-center gap-4 mb-8">
-                <div className="h-px w-12 bg-brand-gold/40" />
-                <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">{t('gallery.tag')}</span>
+              <div className="flex items-center gap-3 mb-6">
+                <UlziiSymbol className="w-5 h-5 text-brand-gold" />
+                <span className="text-[10px] uppercase tracking-[0.4em] font-extrabold text-brand-gold">{t('gallery.tag')}</span>
               </div>
-              <h1 className="text-5xl md:text-7xl lg:text-[112px] font-serif text-white tracking-tight leading-[0.9]">
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif text-white tracking-tight leading-tight">
                 {t('gallery.title')} <br className="hidden md:block" /><span className="italic text-brand-gold">{t('gallery.titleItalic')}</span>
               </h1>
             </motion.div>

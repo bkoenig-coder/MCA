@@ -147,7 +147,7 @@ export default function Impact() {
   const filteredInitiatives = initiatives.filter(item => activeFundFilter === 'All' || item.category === activeFundFilter);
 
   return (
-    <div className="pt-20 bg-brand-paper text-slate-900 min-h-screen">
+    <div className="pt-[140px] md:pt-[152px] bg-brand-paper text-slate-900 min-h-screen">
       {/* Success Notification */}
       <AnimatePresence>
         {showSuccess && (
@@ -169,18 +169,18 @@ export default function Impact() {
       </AnimatePresence>
 
       {/* Executive Hero */}
-      <section className="relative min-h-[35vh] md:h-[50vh] flex items-center px-6 bg-[#0A1128] text-white overflow-hidden border-b border-brand-gold/20">
-        <div className="absolute inset-0 opacity-20">
+      <section className="relative min-h-[380px] md:h-[460px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
+        <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1630559878810-fe220c9273a7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+            src="https://images.unsplash.com/photo-1630559878810-fe220c9273a7?q=80&w=1600&auto=format&fit=crop" 
             alt="Mongolian Landscape" 
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
+            className="w-full h-full object-cover object-center"
+            loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0A1128] via-[#0A1128]/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/25" />
         </div>
 
-        <div className="max-w-7xl mx-auto w-full relative z-10">
+        <div className="max-w-7xl mx-auto w-full relative z-10 py-10 md:py-0">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

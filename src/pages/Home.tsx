@@ -162,16 +162,16 @@ export default function Home() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    <div className="flex items-center gap-4 mb-4 md:mb-8">
-                      <div className="h-px w-12 bg-brand-gold/40" />
-                      <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">
+                    <div className="flex items-center gap-3 sm:gap-4 mb-4 md:mb-8 max-w-full overflow-hidden">
+                      <div className="h-px w-8 sm:w-12 bg-brand-gold/40 shrink-0" />
+                      <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.35em] md:tracking-[0.5em] font-bold text-brand-gold whitespace-nowrap">
                         {t('hero.tag')}
                       </span>
                     </div>
                     <h1 className={cn(
-                      "font-serif font-normal mb-6 md:mb-10 tracking-tight text-white mb-6 md:whitespace-nowrap drop-shadow-lg",
+                      "font-serif font-normal tracking-tight text-white mb-6 md:mb-10 drop-shadow-lg",
                       "text-3xl sm:text-4xl",
-                      "md:text-5xl lg:text-6xl xl:text-[80px] md:leading-[1.1]"
+                      "md:text-5xl lg:text-6xl xl:text-[80px] leading-[1.18] md:leading-[1.1] md:whitespace-nowrap"
                     )}>
                       {t('hero.title')} <br />
                       <span className="italic text-brand-gold font-light">{t('hero.titleItalic')}</span>
@@ -183,12 +183,12 @@ export default function Home() {
                 </div>
 
                 {/* Official Plaque - Vertical Mongolian Script Style (Tablet) */}
-                <div className="hidden sm:block lg:hidden relative flex-shrink-0 pt-12 -z-10">
+                <div className="hidden md:block lg:hidden relative flex-shrink-0 pt-6">
                   <motion.div
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="relative flex flex-col items-center p-4 py-8 border-2 border-brand-gold/50 bg-[#151a25]/90 md:bg-[#151a25]/80 md:backdrop-blur-xl rounded shadow-lg md:shadow-xl overflow-hidden min-w-[100px] -mt-[60px] ml-[23px] -mr-[15px] h-fit min-h-[450px]"
+                    className="relative flex flex-col items-center p-4 py-8 border-2 border-brand-gold/50 bg-[#151a25]/90 backdrop-blur-xl rounded shadow-xl overflow-hidden min-w-[100px] ml-4 h-fit min-h-[420px]"
                   >
                     <div className="flex flex-col items-center relative z-10">
                       

@@ -6,7 +6,7 @@ export default function Imprint() {
   const { t } = useTranslation();
 
   return (
-    <div className="pt-20">
+    <div className="pt-[140px] md:pt-[152px]">
       <section className="relative py-24 md:py-32 px-6 bg-brand-paper overflow-hidden">
         <div className="max-w-4xl mx-auto relative z-10">
           <motion.div

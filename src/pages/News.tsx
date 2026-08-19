@@ -25,7 +25,7 @@ export default function News() {
   }, []);
 
   return (
-    <div className="pt-20 bg-brand-paper min-h-screen">
+    <div className="pt-[140px] md:pt-[152px] bg-brand-paper min-h-screen">
       {/* Newspaper Front Page Container */}
       <section className="py-12 md:py-20 px-6 max-w-7xl mx-auto">
         {/* Newspaper Masthead */}

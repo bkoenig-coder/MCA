@@ -253,6 +253,7 @@ export default function Navbar() {
             <div className="relative" ref={langRef}>
               <button 
                 onClick={() => setIsLangOpen(!isLangOpen)}
+                aria-label="Select language"
                 className="flex items-center gap-2 text-white/85 hover:text-[#C5A059] transition-all py-1"
               >
                 <span>{currentLang.flag}</span>
@@ -303,7 +304,7 @@ export default function Navbar() {
                     )}
                     <span className="text-[9px] normal-case truncate max-w-[80px]">{user.displayName || 'Member'}</span>
                   </Link>
-                  <button onClick={() => logOut()} className="text-white/40 hover:text-red-400 transition-all">
+                  <button onClick={() => logOut()} aria-label="Log out" className="text-white/40 hover:text-red-400 transition-all">
                     <LogOut size={11} />
                   </button>
                 </div>
@@ -318,6 +319,7 @@ export default function Navbar() {
                       }
                     }
                   }}
+                  aria-label="Member portal sign in"
                   className="flex items-center gap-1.5 text-white/85 hover:text-[#C5A059] transition-all font-bold text-[9px]"
                 >
                   <LogIn size={10} className="text-[#C5A059]" />
@@ -425,6 +427,7 @@ export default function Navbar() {
 
             <button
               onClick={() => setIsOpen(!isOpen)}
+              aria-label={isOpen ? "Close directory menu" : "Open directory menu"}
               className={cn(
                 "flex items-center gap-2 text-[9px] uppercase tracking-[0.15em] font-extrabold transition-all duration-300 py-2.5 px-4 rounded bg-[#0A1128] border border-[#0A1128] text-white hover:bg-neutral-800 hover:border-neutral-800 shadow-sm active:scale-95"
               )}
@@ -444,6 +447,7 @@ export default function Navbar() {
                 const nextLang = languages[nextIndex];
                 i18n.changeLanguage(nextLang.code);
               }}
+              aria-label="Switch language"
               className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border flex items-center justify-center text-xs sm:text-sm transition-all duration-300 bg-brand-paper hover:bg-white text-brand-ink border-brand-ink/10 shadow-sm active:scale-90"
             >
               {currentLang.flag}
@@ -451,7 +455,7 @@ export default function Navbar() {
 
             {/* Profile Avatar Trigger */}
             {user && (
-              <Link to="/profile" className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-[#C5A059]/30 p-0.5 bg-white flex items-center justify-center shadow-sm">
+              <Link to="/profile" aria-label="View user profile" className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-[#C5A059]/30 p-0.5 bg-white flex items-center justify-center shadow-sm">
                 {user.photoURL ? (
                   <img src={user.photoURL} alt="" className="w-full h-full rounded-full object-cover" />
                 ) : (
@@ -464,6 +468,7 @@ export default function Navbar() {
             <button 
               className="p-2 sm:p-2.5 transition-all duration-300 text-white rounded bg-[#0A1128] hover:bg-neutral-800 active:scale-95 flex items-center justify-center shadow-sm"
               onClick={() => setIsOpen(!isOpen)}
+              aria-label={isOpen ? "Close menu" : "Open menu"}
             >
               {isOpen ? <X size={15} className="text-[#C5A059]" /> : <Menu size={15} className="text-[#C5A059]" />}
             </button>

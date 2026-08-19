@@ -76,7 +76,7 @@ async function startServer() {
       pass: process.env.SMTP_PASS,
     },
     tls: {
-      rejectUnauthorized: false, // Help with Hostinger SSL issues
+      rejectUnauthorized: process.env.NODE_ENV === 'production', // Enforce cert verification in production
     }
   });
 
@@ -100,6 +100,64 @@ async function startServer() {
   }
 
   // API routes
+  app.post("/api/ai/chat", async (req, res) => {
+    const { message, language = 'en' } = req.body;
+    if (!message || typeof message !== 'string') {
+      return res.status(400).json({ error: "Valid message string is required" });
+    }
+
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      // Graceful fallback response when API key is not configured in environment
+      return res.json({
+        reply: "The Mongolian Center in Vienna is dedicated to preserving and celebrating Mongolian heritage, language, and culture in Austria. Explore our Events, 3D Diorama, or Contact page for more information!"
+      });
+    }
+
+    try {
+      const systemInstruction = `You are the friendly, knowledgeable AI Assistant for the Mongolian Center Austria (Вена дахь Монгол Төв) located in Vienna, Austria.
+Your role is to assist visitors with information about Mongolian culture, language courses, cultural events, membership options (Student is free, Professional is €80/year, Institutional is €250/year), traditional arts (Ger, Morin Khuur, Shagai, Naadam), and getting involved with our community in Austria.
+Keep responses concise, polite, helpful, and respond in the language the user asks in (or current site language: ${language}).`;
+
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: {
+            parts: [{ text: systemInstruction }]
+          },
+          contents: [
+            {
+              role: 'user',
+              parts: [{ text: message }]
+            }
+          ],
+          generationConfig: {
+            maxOutputTokens: 500,
+            temperature: 0.7,
+          }
+        })
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        console.error("Gemini API error:", errText);
+        return res.json({
+          reply: "The Mongolian Center in Vienna warmly welcomes you! For specific inquiries, you can reach our team directly at info@mongoliancenter.org or visit our Contact page."
+        });
+      }
+
+      const data = await response.json();
+      const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "How else can I assist you with the Mongolian Center Austria today?";
+      res.json({ reply });
+    } catch (err: any) {
+      console.error("AI chat endpoint error:", err);
+      res.json({
+        reply: "Welcome to the Mongolian Center Austria! Feel free to explore our Events, Cultural Heritage, or Membership pages."
+      });
+    }
+  });
+
   app.post("/api/newsletter/subscribe", async (req, res) => {
     const { email } = req.body;
 

@@ -7,9 +7,10 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   children: ReactNode;
+  className?: string;
 }
 
-export default function Modal({ isOpen, onClose, title, children }: ModalProps) {
+export default function Modal({ isOpen, onClose, title, children, className }: ModalProps) {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -25,9 +26,9 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white rounded-[40px] shadow-2xl z-[201] overflow-hidden"
+            className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full ${className || 'max-w-2xl'} bg-white rounded-[32px] md:rounded-[40px] shadow-2xl z-[201] overflow-hidden`}
           >
-            <div className="p-8 md:p-12">
+            <div className="p-6 md:p-10">
               <div className="flex items-center justify-between mb-8">
                 <h3 className="text-2xl md:text-3xl font-serif">{title}</h3>
                 <button 

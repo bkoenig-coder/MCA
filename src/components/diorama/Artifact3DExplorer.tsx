@@ -1,9 +1,9 @@
 import React, { useState, useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Html, Float, ContactShadows, Sparkles, Preload } from '@react-three/drei';
+import { OrbitControls, Float, ContactShadows, Sparkles, Preload } from '@react-three/drei';
 import * as THREE from 'three';
 import { motion, AnimatePresence } from 'motion/react';
-import { Volume2, Info, RotateCcw, Sparkles as SparklesIcon, ShieldCheck, ChevronRight } from 'lucide-react';
+import { Volume2, Info, RotateCcw, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export type ArtifactId = 'morinKhuur' | 'deel' | 'naadamBokh' | 'nomadicGer';
@@ -26,33 +26,33 @@ const ARTIFACT_DATA: Record<ArtifactId, {
   morinKhuur: {
     nameKey: 'heritage.artifacts.morinKhuur.name',
     subKey: 'heritage.artifacts.morinKhuur.sub',
-    category: 'Intangible Heritage of Humanity',
-    unescoYear: '2008',
+    category: 'UNESCO Masterpiece of Intangible Heritage',
+    unescoYear: '2008 (Orig. 2003)',
     hotspots: [
       {
         id: 'horsehead',
-        position: [0, 2.8, 0],
+        position: [0, 2.7, 0.15],
         titleKey: 'heritage.artifacts.morinKhuur.hotspots.head.title',
         descKey: 'heritage.artifacts.morinKhuur.hotspots.head.desc',
         traditionalNameKey: 'heritage.artifacts.morinKhuur.hotspots.head.trad'
       },
       {
         id: 'pegs',
-        position: [0, 2.2, 0.25],
+        position: [0, 2.1, 0.2],
         titleKey: 'heritage.artifacts.morinKhuur.hotspots.pegs.title',
         descKey: 'heritage.artifacts.morinKhuur.hotspots.pegs.desc',
         traditionalNameKey: 'heritage.artifacts.morinKhuur.hotspots.pegs.trad'
       },
       {
         id: 'soundbox',
-        position: [0, -0.4, 0],
+        position: [0, -0.6, 0.2],
         titleKey: 'heritage.artifacts.morinKhuur.hotspots.soundbox.title',
         descKey: 'heritage.artifacts.morinKhuur.hotspots.soundbox.desc',
         traditionalNameKey: 'heritage.artifacts.morinKhuur.hotspots.soundbox.trad'
       },
       {
         id: 'strings',
-        position: [0.15, 0.5, 0.1],
+        position: [0.08, 0.6, 0.25],
         titleKey: 'heritage.artifacts.morinKhuur.hotspots.strings.title',
         descKey: 'heritage.artifacts.morinKhuur.hotspots.strings.desc',
         traditionalNameKey: 'heritage.artifacts.morinKhuur.hotspots.strings.trad'
@@ -62,33 +62,33 @@ const ARTIFACT_DATA: Record<ArtifactId, {
   deel: {
     nameKey: 'heritage.artifacts.deel.name',
     subKey: 'heritage.artifacts.deel.sub',
-    category: 'Traditional Attire & Craftsmanship',
-    unescoYear: '2010',
+    category: 'Traditional Attire & Living Craftsmanship',
+    unescoYear: '2023 Inscription',
     hotspots: [
       {
         id: 'collar',
-        position: [0, 1.8, 0.3],
+        position: [0, 1.8, 0.35],
         titleKey: 'heritage.artifacts.deel.hotspots.collar.title',
         descKey: 'heritage.artifacts.deel.hotspots.collar.desc',
         traditionalNameKey: 'heritage.artifacts.deel.hotspots.collar.trad'
       },
       {
         id: 'sash',
-        position: [0, 0.2, 0.6],
+        position: [0, 0.1, 0.7],
         titleKey: 'heritage.artifacts.deel.hotspots.sash.title',
         descKey: 'heritage.artifacts.deel.hotspots.sash.desc',
         traditionalNameKey: 'heritage.artifacts.deel.hotspots.sash.trad'
       },
       {
         id: 'cuffs',
-        position: [1.4, 0.8, 0.1],
+        position: [1.35, 0.6, 0.15],
         titleKey: 'heritage.artifacts.deel.hotspots.cuffs.title',
         descKey: 'heritage.artifacts.deel.hotspots.cuffs.desc',
         traditionalNameKey: 'heritage.artifacts.deel.hotspots.cuffs.trad'
       },
       {
         id: 'boots',
-        position: [-0.4, -2.1, 0.4],
+        position: [-0.35, -2.1, 0.35],
         titleKey: 'heritage.artifacts.deel.hotspots.boots.title',
         descKey: 'heritage.artifacts.deel.hotspots.boots.desc',
         traditionalNameKey: 'heritage.artifacts.deel.hotspots.boots.trad'
@@ -98,12 +98,12 @@ const ARTIFACT_DATA: Record<ArtifactId, {
   naadamBokh: {
     nameKey: 'heritage.artifacts.naadam.name',
     subKey: 'heritage.artifacts.naadam.sub',
-    category: 'Naadam Festival & Traditional Sports',
+    category: 'Naadam Festival & Three Manly Skills',
     unescoYear: '2010',
     hotspots: [
       {
         id: 'zodog',
-        position: [0, 1.1, 0.4],
+        position: [0, 1.05, 0.4],
         titleKey: 'heritage.artifacts.naadam.hotspots.zodog.title',
         descKey: 'heritage.artifacts.naadam.hotspots.zodog.desc',
         traditionalNameKey: 'heritage.artifacts.naadam.hotspots.zodog.trad'
@@ -117,7 +117,7 @@ const ARTIFACT_DATA: Record<ArtifactId, {
       },
       {
         id: 'bow',
-        position: [1.2, 0.4, -0.2],
+        position: [1.3, 0.3, 0.1],
         titleKey: 'heritage.artifacts.naadam.hotspots.bow.title',
         descKey: 'heritage.artifacts.naadam.hotspots.bow.desc',
         traditionalNameKey: 'heritage.artifacts.naadam.hotspots.bow.trad'
@@ -132,28 +132,28 @@ const ARTIFACT_DATA: Record<ArtifactId, {
     hotspots: [
       {
         id: 'toono',
-        position: [0, 2.4, 0],
+        position: [0, 2.3, 0],
         titleKey: 'heritage.artifacts.ger.hotspots.toono.title',
         descKey: 'heritage.artifacts.ger.hotspots.toono.desc',
         traditionalNameKey: 'heritage.artifacts.ger.hotspots.toono.trad'
       },
       {
         id: 'uni',
-        position: [0.9, 1.4, 0.9],
+        position: [0.9, 1.35, 0.9],
         titleKey: 'heritage.artifacts.ger.hotspots.uni.title',
         descKey: 'heritage.artifacts.ger.hotspots.uni.desc',
         traditionalNameKey: 'heritage.artifacts.ger.hotspots.uni.trad'
       },
       {
         id: 'bagan',
-        position: [-0.6, 0.2, 0.6],
+        position: [-0.5, 0.1, 0.5],
         titleKey: 'heritage.artifacts.ger.hotspots.bagan.title',
         descKey: 'heritage.artifacts.ger.hotspots.bagan.desc',
         traditionalNameKey: 'heritage.artifacts.ger.hotspots.bagan.trad'
       },
       {
         id: 'khana',
-        position: [1.8, -0.5, 0],
+        position: [1.9, -0.5, 0],
         titleKey: 'heritage.artifacts.ger.hotspots.khana.title',
         descKey: 'heritage.artifacts.ger.hotspots.khana.desc',
         traditionalNameKey: 'heritage.artifacts.ger.hotspots.khana.trad'
@@ -170,7 +170,6 @@ function playAudioPreview(artifactId: ArtifactId) {
     const ctx = new AudioCtx();
 
     if (artifactId === 'morinKhuur') {
-      // Pentatonic folk chord sound on Morin Khuur
       const notes = [220, 277.18, 329.63, 440, 554.37];
       notes.forEach((freq, idx) => {
         const osc = ctx.createOscillator();
@@ -178,7 +177,6 @@ function playAudioPreview(artifactId: ArtifactId) {
         osc.type = 'sawtooth';
         osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.12);
         
-        // Filter for warm wooden acoustic body timbre
         const filter = ctx.createBiquadFilter();
         filter.type = 'lowpass';
         filter.frequency.setValueAtTime(800, ctx.currentTime);
@@ -195,7 +193,6 @@ function playAudioPreview(artifactId: ArtifactId) {
         osc.stop(ctx.currentTime + idx * 0.12 + 2.0);
       });
     } else if (artifactId === 'naadamBokh') {
-      // Recurve bow string release sound
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = 'triangle';
@@ -210,7 +207,6 @@ function playAudioPreview(artifactId: ArtifactId) {
       osc.start();
       osc.stop(ctx.currentTime + 0.4);
     } else {
-      // Deep overtone sound for Deel and Ger
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = 'sine';
@@ -233,7 +229,7 @@ function playAudioPreview(artifactId: ArtifactId) {
 }
 
 // ----------------------------------------------------
-// 3D Procedural Models for UNESCO Items
+// High-Fidelity 3D Models with Accurate Proportions & Details
 // ----------------------------------------------------
 
 function MorinKhuur3DModel({ activeHotspot }: { activeHotspot: string | null }) {
@@ -241,107 +237,155 @@ function MorinKhuur3DModel({ activeHotspot }: { activeHotspot: string | null }) 
 
   useFrame((state) => {
     if (modelRef.current && !activeHotspot) {
-      modelRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.15;
+      modelRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.4) * 0.15;
     }
   });
 
   return (
     <group ref={modelRef} position={[0, -0.2, 0]}>
-      {/* Soundbox (Trapezoidal resonator body) */}
-      <mesh castShadow receiveShadow position={[0, -0.4, 0]} rotation={[0, 0, 0]}>
-        <boxGeometry args={[1.5, 1.8, 0.5]} />
-        <meshStandardMaterial color="#8B4513" roughness={0.4} metalness={0.1} />
-      </mesh>
-      {/* Soundbox Face (Lighter wood plate) */}
-      <mesh castShadow position={[0, -0.4, 0.26]}>
-        <planeGeometry args={[1.4, 1.7]} />
-        <meshStandardMaterial color="#D2B48C" roughness={0.6} />
-      </mesh>
-      {/* Sound Holes (F-holes styled) */}
-      <mesh position={[-0.4, -0.4, 0.27]}>
-        <planeGeometry args={[0.1, 0.6]} />
-        <meshBasicMaterial color="#1a0f0a" />
-      </mesh>
-      <mesh position={[0.4, -0.4, 0.27]}>
-        <planeGeometry args={[0.1, 0.6]} />
-        <meshBasicMaterial color="#1a0f0a" />
-      </mesh>
-      {/* Bridge */}
-      <mesh castShadow position={[0, -0.6, 0.3]}>
-        <boxGeometry args={[0.6, 0.12, 0.1]} />
-        <meshStandardMaterial color="#3E2723" />
-      </mesh>
+      {/* Soundbox Body (Authentic Inverted Trapezoid Shape) */}
+      <group position={[0, -0.6, 0]}>
+        {/* Main Resonator Box Back & Sides */}
+        <mesh castShadow receiveShadow position={[0, 0, 0]}>
+          <boxGeometry args={[1.4, 1.7, 0.45]} />
+          <meshStandardMaterial color="#6E3714" roughness={0.35} metalness={0.12} />
+        </mesh>
 
-      {/* Neck (Long wood column) */}
-      <mesh castShadow position={[0, 1.1, 0]}>
-        <boxGeometry args={[0.2, 2.0, 0.25]} />
-        <meshStandardMaterial color="#5D4037" roughness={0.3} />
-      </mesh>
+        {/* Resonator Soundboard (Cedar/Pine Soundboard Face) */}
+        <mesh castShadow position={[0, 0, 0.23]}>
+          <boxGeometry args={[1.34, 1.64, 0.04]} />
+          <meshStandardMaterial color="#D7A86E" roughness={0.55} />
+        </mesh>
 
-      {/* Peg Box */}
-      <mesh castShadow position={[0, 2.2, 0]}>
-        <boxGeometry args={[0.3, 0.5, 0.3]} />
-        <meshStandardMaterial color="#3E2723" />
-      </mesh>
-      {/* Tuning Pegs */}
-      <mesh castShadow position={[-0.35, 2.25, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.04, 0.04, 0.5, 8]} />
-        <meshStandardMaterial color="#D4AF37" metalness={0.8} />
-      </mesh>
-      <mesh castShadow position={[0.35, 2.15, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.04, 0.04, 0.5, 8]} />
-        <meshStandardMaterial color="#D4AF37" metalness={0.8} />
-      </mesh>
+        {/* Gold Border Inlay around Soundbox Edge */}
+        <mesh position={[0, 0, 0.24]}>
+          <ringGeometry args={[0.55, 0.58, 4]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.8} roughness={0.2} />
+        </mesh>
 
-      {/* Carved Horse Head Top */}
-      <group position={[0, 2.8, 0]}>
-        {/* Head Block */}
-        <mesh castShadow position={[0, 0.1, 0.15]} rotation={[-Math.PI / 6, 0, 0]}>
-          <boxGeometry args={[0.35, 0.45, 0.5]} />
-          <meshStandardMaterial color="#D4AF37" roughness={0.3} metalness={0.4} />
+        {/* Traditional Curved Soundholes (F-Holes / Soyombo Motif) */}
+        <mesh position={[-0.38, 0.1, 0.255]}>
+          <planeGeometry args={[0.08, 0.45]} />
+          <meshBasicMaterial color="#1a0b04" />
         </mesh>
-        {/* Snout */}
-        <mesh castShadow position={[0, 0.0, 0.45]} rotation={[0, 0, 0]}>
-          <boxGeometry args={[0.25, 0.3, 0.35]} />
-          <meshStandardMaterial color="#C5A028" roughness={0.3} metalness={0.4} />
+        <mesh position={[0.38, 0.1, 0.255]}>
+          <planeGeometry args={[0.08, 0.45]} />
+          <meshBasicMaterial color="#1a0b04" />
         </mesh>
-        {/* Ears */}
-        <mesh castShadow position={[-0.12, 0.38, 0.05]} rotation={[0, 0, -Math.PI / 8]}>
-          <coneGeometry args={[0.06, 0.25, 6]} />
-          <meshStandardMaterial color="#D4AF37" metalness={0.5} />
+
+        {/* Wooden Bridge (Tevx) */}
+        <mesh castShadow position={[0, -0.2, 0.28]}>
+          <boxGeometry args={[0.5, 0.1, 0.08]} />
+          <meshStandardMaterial color="#3E1C0A" roughness={0.4} />
         </mesh>
-        <mesh castShadow position={[0.12, 0.38, 0.05]} rotation={[0, 0, Math.PI / 8]}>
-          <coneGeometry args={[0.06, 0.25, 6]} />
-          <meshStandardMaterial color="#D4AF37" metalness={0.5} />
-        </mesh>
-        {/* Mane */}
-        <mesh castShadow position={[0, 0.2, -0.15]} rotation={[Math.PI / 6, 0, 0]}>
-          <boxGeometry args={[0.1, 0.4, 0.3]} />
-          <meshStandardMaterial color="#211" />
+
+        {/* Tailpiece (Khiluuri) holding bottom strings */}
+        <mesh castShadow position={[0, -0.75, 0.24]}>
+          <cylinderGeometry args={[0.12, 0.18, 0.22, 8]} />
+          <meshStandardMaterial color="#2B1408" roughness={0.3} metalness={0.4} />
         </mesh>
       </group>
 
-      {/* Horsehair Strings (Male & Female strands) */}
-      <mesh position={[-0.08, 0.5, 0.28]}>
-        <cylinderGeometry args={[0.015, 0.015, 3.2, 6]} />
-        <meshBasicMaterial color="#FFF8DC" />
-      </mesh>
-      <mesh position={[0.08, 0.5, 0.28]}>
-        <cylinderGeometry args={[0.012, 0.012, 3.2, 6]} />
-        <meshBasicMaterial color="#F5F5DC" />
+      {/* Slender Hardwood Neck (Ish) */}
+      <mesh castShadow position={[0, 0.9, 0]}>
+        <boxGeometry args={[0.18, 1.9, 0.22]} />
+        <meshStandardMaterial color="#4A2511" roughness={0.25} metalness={0.15} />
       </mesh>
 
-      {/* Horsehair Bow resting alongside */}
-      <group position={[1.0, 0.3, 0]} rotation={[0, 0, -Math.PI / 12]}>
-        {/* Bow Stick */}
+      {/* Ebony Fingerboard Strip */}
+      <mesh position={[0, 0.85, 0.115]}>
+        <boxGeometry args={[0.15, 1.8, 0.02]} />
+        <meshStandardMaterial color="#1E1E1E" roughness={0.2} />
+      </mesh>
+
+      {/* Peg Box & Nut (Chikhnii ger) */}
+      <group position={[0, 1.95, 0]}>
         <mesh castShadow position={[0, 0, 0]}>
-          <cylinderGeometry args={[0.03, 0.03, 3.4, 8]} />
-          <meshStandardMaterial color="#5D4037" />
+          <boxGeometry args={[0.26, 0.45, 0.26]} />
+          <meshStandardMaterial color="#3B1909" roughness={0.3} />
         </mesh>
-        {/* Bow Hair */}
+
+        {/* Left Octagonal Tuning Peg (Female string) */}
+        <group position={[-0.28, 0.08, 0]} rotation={[0, 0, Math.PI / 2]}>
+          <mesh castShadow>
+            <cylinderGeometry args={[0.035, 0.035, 0.45, 8]} />
+            <meshStandardMaterial color="#D4AF37" metalness={0.75} roughness={0.25} />
+          </mesh>
+          <mesh position={[0, 0.26, 0]}>
+            <sphereGeometry args={[0.07, 12, 12]} />
+            <meshStandardMaterial color="#D4AF37" metalness={0.9} />
+          </mesh>
+        </group>
+
+        {/* Right Octagonal Tuning Peg (Male string) */}
+        <group position={[0.28, -0.08, 0]} rotation={[0, 0, -Math.PI / 2]}>
+          <mesh castShadow>
+            <cylinderGeometry args={[0.035, 0.035, 0.45, 8]} />
+            <meshStandardMaterial color="#D4AF37" metalness={0.75} roughness={0.25} />
+          </mesh>
+          <mesh position={[0, 0.26, 0]}>
+            <sphereGeometry args={[0.07, 12, 12]} />
+            <meshStandardMaterial color="#D4AF37" metalness={0.9} />
+          </mesh>
+        </group>
+      </group>
+
+      {/* Intricately Sculpted Horse Head (Tolgoi) */}
+      <group position={[0, 2.5, 0]}>
+        {/* Arching Neck */}
+        <mesh castShadow position={[0, 0.05, 0.08]} rotation={[-Math.PI / 8, 0, 0]}>
+          <cylinderGeometry args={[0.14, 0.16, 0.35, 12]} />
+          <meshStandardMaterial color="#8D4E24" roughness={0.3} />
+        </mesh>
+
+        {/* Cranium & Brow */}
+        <mesh castShadow position={[0, 0.22, 0.18]} rotation={[-Math.PI / 5, 0, 0]}>
+          <boxGeometry args={[0.3, 0.32, 0.4]} />
+          <meshStandardMaterial color="#D4AF37" roughness={0.25} metalness={0.6} />
+        </mesh>
+
+        {/* Flared Muzzle & Nostrils */}
+        <mesh castShadow position={[0, 0.12, 0.42]} rotation={[-Math.PI / 10, 0, 0]}>
+          <boxGeometry args={[0.22, 0.22, 0.28]} />
+          <meshStandardMaterial color="#C5A028" roughness={0.3} metalness={0.5} />
+        </mesh>
+
+        {/* Sculpted Alert Ears */}
+        <mesh castShadow position={[-0.1, 0.42, 0.1]} rotation={[0, 0, -Math.PI / 7]}>
+          <coneGeometry args={[0.05, 0.22, 8]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.7} />
+        </mesh>
+        <mesh castShadow position={[0.1, 0.42, 0.1]} rotation={[0, 0, Math.PI / 7]}>
+          <coneGeometry args={[0.05, 0.22, 8]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.7} />
+        </mesh>
+
+        {/* Flowing Mane Crest */}
+        <mesh castShadow position={[0, 0.24, -0.06]} rotation={[Math.PI / 5, 0, 0]}>
+          <boxGeometry args={[0.08, 0.35, 0.25]} />
+          <meshStandardMaterial color="#1E1E1E" roughness={0.4} />
+        </mesh>
+      </group>
+
+      {/* Horsehair Strings (Inner Female & Outer Male Strands) */}
+      <mesh position={[-0.055, 0.55, 0.24]}>
+        <cylinderGeometry args={[0.012, 0.012, 3.1, 6]} />
+        <meshStandardMaterial color="#FFF9E6" roughness={0.2} metalness={0.1} />
+      </mesh>
+      <mesh position={[0.055, 0.55, 0.24]}>
+        <cylinderGeometry args={[0.015, 0.015, 3.1, 6]} />
+        <meshStandardMaterial color="#FFF3D1" roughness={0.2} metalness={0.1} />
+      </mesh>
+
+      {/* Traditional Wooden Bow (Num) alongside */}
+      <group position={[1.1, 0.35, 0]} rotation={[0, 0, -Math.PI / 14]}>
+        <mesh castShadow position={[0, 0, 0]}>
+          <cylinderGeometry args={[0.025, 0.025, 3.2, 8]} />
+          <meshStandardMaterial color="#4A2511" roughness={0.3} />
+        </mesh>
         <mesh position={[-0.06, 0, 0]}>
-          <cylinderGeometry args={[0.01, 0.01, 3.3, 6]} />
-          <meshBasicMaterial color="#FFFFFF" />
+          <cylinderGeometry args={[0.008, 0.008, 3.1, 6]} />
+          <meshStandardMaterial color="#FFFFFF" roughness={0.1} />
         </mesh>
       </group>
     </group>
@@ -353,106 +397,144 @@ function Deel3DModel({ activeHotspot }: { activeHotspot: string | null }) {
 
   useFrame((state) => {
     if (modelRef.current && !activeHotspot) {
-      modelRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.4) * 0.12;
+      modelRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.35) * 0.12;
     }
   });
 
   return (
     <group ref={modelRef} position={[0, 0, 0]}>
-      {/* Body Robe (Traditional Blue Imperial Silk) */}
-      <mesh castShadow receiveShadow position={[0, 0, 0]}>
-        <cylinderGeometry args={[0.9, 1.5, 3.2, 16]} />
-        <meshStandardMaterial color="#0055A5" roughness={0.3} metalness={0.2} />
-      </mesh>
+      {/* Main Silk Robe Body (Royal Blue Damask Silk with pleats) */}
+      <group position={[0, 0, 0]}>
+        {/* Tapered upper robe */}
+        <mesh castShadow receiveShadow position={[0, 0.6, 0]}>
+          <cylinderGeometry args={[0.85, 1.15, 1.6, 20]} />
+          <meshStandardMaterial color="#0A4B8C" roughness={0.32} metalness={0.18} />
+        </mesh>
 
-      {/* Double-Breasted Overlap Flap */}
-      <mesh castShadow position={[0.1, 0.6, 0.7]} rotation={[0, 0.1, -0.05]}>
-        <boxGeometry args={[0.9, 1.5, 0.1]} />
-        <meshStandardMaterial color="#003D7A" roughness={0.3} />
-      </mesh>
-      {/* Gold Trim Borders */}
-      <mesh castShadow position={[0.55, 0.6, 0.72]}>
-        <boxGeometry args={[0.08, 1.5, 0.12]} />
-        <meshStandardMaterial color="#D4AF37" metalness={0.8} roughness={0.2} />
-      </mesh>
+        {/* Flared lower skirt of the robe */}
+        <mesh castShadow receiveShadow position={[0, -0.7, 0]}>
+          <cylinderGeometry args={[1.15, 1.55, 1.4, 20]} />
+          <meshStandardMaterial color="#0A4B8C" roughness={0.32} metalness={0.18} />
+        </mesh>
 
-      {/* High Mandarin Collar */}
-      <mesh castShadow position={[0, 1.75, 0]}>
-        <cylinderGeometry args={[0.42, 0.45, 0.4, 16]} />
-        <meshStandardMaterial color="#D4AF37" metalness={0.7} roughness={0.3} />
-      </mesh>
-      <mesh position={[0, 1.75, 0.41]}>
-        <boxGeometry args={[0.2, 0.2, 0.05]} />
-        <meshStandardMaterial color="#C5A028" metalness={0.9} />
-      </mesh>
+        {/* Authentic Asymmetrical Double-Breasted Overlap (Övgön Enger) */}
+        <mesh castShadow position={[0.15, 0.65, 0.62]} rotation={[0, 0.12, -0.05]}>
+          <boxGeometry args={[0.85, 1.35, 0.08]} />
+          <meshStandardMaterial color="#073B6F" roughness={0.3} />
+        </mesh>
 
-      {/* Sleeves */}
-      <group position={[-1.2, 0.8, 0]} rotation={[0, 0, Math.PI / 5]}>
+        {/* Gold Brocade Embroidered Trim along the Lapel & Hem (Khövöö) */}
+        <mesh castShadow position={[0.55, 0.65, 0.64]} rotation={[0, 0.12, -0.05]}>
+          <boxGeometry args={[0.07, 1.35, 0.09]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.85} roughness={0.2} />
+        </mesh>
+        <mesh castShadow position={[0, -1.38, 0]}>
+          <torusGeometry args={[1.54, 0.035, 8, 24]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.85} roughness={0.2} />
+        </mesh>
+
+        {/* Silver Filigree Buttons (Tovch) */}
+        <mesh position={[0.45, 1.25, 0.7]}>
+          <sphereGeometry args={[0.045, 12, 12]} />
+          <meshStandardMaterial color="#E0E0E0" metalness={0.95} roughness={0.1} />
+        </mesh>
+        <mesh position={[0.55, 0.85, 0.7]}>
+          <sphereGeometry args={[0.045, 12, 12]} />
+          <meshStandardMaterial color="#E0E0E0" metalness={0.95} roughness={0.1} />
+        </mesh>
+        <mesh position={[0.62, 0.45, 0.68]}>
+          <sphereGeometry args={[0.045, 12, 12]} />
+          <meshStandardMaterial color="#E0E0E0" metalness={0.95} roughness={0.1} />
+        </mesh>
+      </group>
+
+      {/* High Mandarin Collar (Zakh) */}
+      <group position={[0, 1.7, 0]}>
         <mesh castShadow>
-          <cylinderGeometry args={[0.3, 0.38, 1.4, 12]} />
-          <meshStandardMaterial color="#0055A5" roughness={0.3} />
+          <cylinderGeometry args={[0.42, 0.45, 0.38, 20]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.7} roughness={0.25} />
         </mesh>
-        {/* Horse-Hoof Shaped Cuff (Khuuchir) */}
-        <mesh castShadow position={[0, -0.8, 0]} rotation={[0, 0, Math.PI / 12]}>
-          <cylinderGeometry args={[0.32, 0.22, 0.4, 12]} />
-          <meshStandardMaterial color="#D4AF37" metalness={0.7} />
+        <mesh position={[0, 0, 0.43]}>
+          <boxGeometry args={[0.15, 0.22, 0.04]} />
+          <meshStandardMaterial color="#B71C1C" roughness={0.4} />
         </mesh>
       </group>
 
-      <group position={[1.2, 0.8, 0]} rotation={[0, 0, -Math.PI / 5]}>
+      {/* Left Sleeve with Curved Horse-Hoof Cuff (Khuuchir) */}
+      <group position={[-1.25, 0.75, 0]} rotation={[0, 0, Math.PI / 5]}>
         <mesh castShadow>
-          <cylinderGeometry args={[0.3, 0.38, 1.4, 12]} />
-          <meshStandardMaterial color="#0055A5" roughness={0.3} />
+          <cylinderGeometry args={[0.28, 0.35, 1.3, 14]} />
+          <meshStandardMaterial color="#0A4B8C" roughness={0.32} metalness={0.18} />
         </mesh>
-        {/* Horse-Hoof Cuff */}
-        <mesh castShadow position={[0, -0.8, 0]} rotation={[0, 0, -Math.PI / 12]}>
-          <cylinderGeometry args={[0.32, 0.22, 0.4, 12]} />
-          <meshStandardMaterial color="#D4AF37" metalness={0.7} />
-        </mesh>
-      </group>
-
-      {/* Metallic Silk Sash (Büs) */}
-      <mesh castShadow position={[0, 0.2, 0]}>
-        <cylinderGeometry args={[1.05, 1.1, 0.45, 16]} />
-        <meshStandardMaterial color="#E69138" roughness={0.4} metalness={0.3} />
-      </mesh>
-      {/* Sash Knot & Hanging Ribbons */}
-      <mesh castShadow position={[0.5, 0.1, 0.9]} rotation={[0, 0, -Math.PI / 12]}>
-        <boxGeometry args={[0.25, 0.9, 0.1]} />
-        <meshStandardMaterial color="#E69138" />
-      </mesh>
-
-      {/* Traditional Leather Boots (Gutal with upturned toes) */}
-      <group position={[-0.4, -2.0, 0.2]}>
-        {/* Leg shaft */}
-        <mesh castShadow position={[0, 0.3, 0]}>
-          <cylinderGeometry args={[0.22, 0.2, 0.8, 10]} />
-          <meshStandardMaterial color="#4A2511" roughness={0.6} />
-        </mesh>
-        {/* Foot base */}
-        <mesh castShadow position={[0, -0.15, 0.15]}>
-          <boxGeometry args={[0.3, 0.25, 0.6]} />
-          <meshStandardMaterial color="#361A0C" roughness={0.5} />
-        </mesh>
-        {/* Upturned Toe Tip */}
-        <mesh castShadow position={[0, -0.05, 0.48]} rotation={[-Math.PI / 4, 0, 0]}>
-          <coneGeometry args={[0.16, 0.3, 8]} />
-          <meshStandardMaterial color="#2B1408" roughness={0.4} />
+        <mesh castShadow position={[0, -0.75, 0]} rotation={[0, 0, Math.PI / 10]}>
+          <cylinderGeometry args={[0.3, 0.2, 0.38, 14]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.75} roughness={0.25} />
         </mesh>
       </group>
 
-      <group position={[0.4, -2.0, 0.2]}>
-        <mesh castShadow position={[0, 0.3, 0]}>
-          <cylinderGeometry args={[0.22, 0.2, 0.8, 10]} />
-          <meshStandardMaterial color="#4A2511" roughness={0.6} />
+      {/* Right Sleeve with Horse-Hoof Cuff */}
+      <group position={[1.25, 0.75, 0]} rotation={[0, 0, -Math.PI / 5]}>
+        <mesh castShadow>
+          <cylinderGeometry args={[0.28, 0.35, 1.3, 14]} />
+          <meshStandardMaterial color="#0A4B8C" roughness={0.32} metalness={0.18} />
         </mesh>
-        <mesh castShadow position={[0, -0.15, 0.15]}>
-          <boxGeometry args={[0.3, 0.25, 0.6]} />
-          <meshStandardMaterial color="#361A0C" roughness={0.5} />
+        <mesh castShadow position={[0, -0.75, 0]} rotation={[0, 0, -Math.PI / 10]}>
+          <cylinderGeometry args={[0.3, 0.2, 0.38, 14]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.75} roughness={0.25} />
         </mesh>
-        <mesh castShadow position={[0, -0.05, 0.48]} rotation={[-Math.PI / 4, 0, 0]}>
-          <coneGeometry args={[0.16, 0.3, 8]} />
-          <meshStandardMaterial color="#2B1408" roughness={0.4} />
+      </group>
+
+      {/* Amber/Gold Silk Sash (Büs) with Layered Wrap */}
+      <group position={[0, 0.15, 0]}>
+        <mesh castShadow>
+          <cylinderGeometry args={[1.08, 1.12, 0.42, 20]} />
+          <meshStandardMaterial color="#E69138" roughness={0.35} metalness={0.3} />
+        </mesh>
+        {/* Sash Drape / Knot on Right Hip */}
+        <mesh castShadow position={[0.65, -0.2, 0.85]} rotation={[0, 0, -Math.PI / 12]}>
+          <boxGeometry args={[0.28, 0.85, 0.08]} />
+          <meshStandardMaterial color="#D97706" roughness={0.35} />
+        </mesh>
+        {/* Silver Flint Purse Pouch (Khet) hanging from sash */}
+        <mesh castShadow position={[-0.6, -0.15, 0.82]}>
+          <boxGeometry args={[0.2, 0.22, 0.06]} />
+          <meshStandardMaterial color="#4A2511" roughness={0.5} />
+        </mesh>
+        <mesh position={[-0.6, -0.15, 0.86]}>
+          <circleGeometry args={[0.06, 12]} />
+          <meshStandardMaterial color="#C0C0C0" metalness={0.9} />
+        </mesh>
+      </group>
+
+      {/* Traditional Leather Boots (Gutal with Upturned Toes) */}
+      <group position={[-0.4, -2.05, 0.2]}>
+        <mesh castShadow position={[0, 0.35, 0]}>
+          <cylinderGeometry args={[0.24, 0.22, 0.75, 12]} />
+          <meshStandardMaterial color="#3E2010" roughness={0.65} />
+        </mesh>
+        <mesh castShadow position={[0, -0.12, 0.14]}>
+          <boxGeometry args={[0.28, 0.22, 0.58]} />
+          <meshStandardMaterial color="#2B1408" roughness={0.6} />
+        </mesh>
+        {/* Curved Upturned Toe Tip */}
+        <mesh castShadow position={[0, -0.02, 0.46]} rotation={[-Math.PI / 4, 0, 0]}>
+          <coneGeometry args={[0.15, 0.28, 10]} />
+          <meshStandardMaterial color="#1E0D05" roughness={0.5} />
+        </mesh>
+      </group>
+
+      <group position={[0.4, -2.05, 0.2]}>
+        <mesh castShadow position={[0, 0.35, 0]}>
+          <cylinderGeometry args={[0.24, 0.22, 0.75, 12]} />
+          <meshStandardMaterial color="#3E2010" roughness={0.65} />
+        </mesh>
+        <mesh castShadow position={[0, -0.12, 0.14]}>
+          <boxGeometry args={[0.28, 0.22, 0.58]} />
+          <meshStandardMaterial color="#2B1408" roughness={0.6} />
+        </mesh>
+        <mesh castShadow position={[0, -0.02, 0.46]} rotation={[-Math.PI / 4, 0, 0]}>
+          <coneGeometry args={[0.15, 0.28, 10]} />
+          <meshStandardMaterial color="#1E0D05" roughness={0.5} />
         </mesh>
       </group>
     </group>
@@ -464,78 +546,93 @@ function NaadamBokh3DModel({ activeHotspot }: { activeHotspot: string | null }) 
 
   useFrame((state) => {
     if (modelRef.current && !activeHotspot) {
-      modelRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.45) * 0.15;
+      modelRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.4) * 0.15;
     }
   });
 
   return (
     <group ref={modelRef} position={[0, 0, 0]}>
-      {/* Wrestler Mannequin Torso */}
-      <mesh castShadow receiveShadow position={[0, 0.8, 0]}>
-        <cylinderGeometry args={[0.7, 0.5, 1.4, 12]} />
+      {/* Wrestler Display Torso Mannequin */}
+      <mesh castShadow receiveShadow position={[0, 0.75, 0]}>
+        <cylinderGeometry args={[0.72, 0.52, 1.45, 14]} />
         <meshStandardMaterial color="#D2B48C" roughness={0.7} />
       </mesh>
 
-      {/* Zodog (Short-sleeved Open-chested Vest) */}
-      <group position={[0, 1.1, 0]}>
-        {/* Back and Shoulder harness */}
-        <mesh castShadow position={[0, 0.1, -0.1]}>
-          <boxGeometry args={[1.3, 0.7, 0.5]} />
-          <meshStandardMaterial color="#B71C1C" roughness={0.3} />
+      {/* Zodog (Open-Chested Silk-Padded Wrestler Vest) */}
+      <group position={[0, 1.05, 0]}>
+        {/* Back and Shoulder Armor Plate */}
+        <mesh castShadow position={[0, 0.08, -0.12]}>
+          <boxGeometry args={[1.35, 0.72, 0.48]} />
+          <meshStandardMaterial color="#B71C1C" roughness={0.35} />
         </mesh>
-        {/* Sleeves */}
-        <mesh castShadow position={[-0.8, 0, 0]} rotation={[0, 0, Math.PI / 6]}>
-          <cylinderGeometry args={[0.25, 0.25, 0.6, 10]} />
-          <meshStandardMaterial color="#B71C1C" />
+        {/* Left & Right Reinforced Short Sleeves */}
+        <mesh castShadow position={[-0.82, -0.02, 0]} rotation={[0, 0, Math.PI / 6]}>
+          <cylinderGeometry args={[0.26, 0.26, 0.65, 12]} />
+          <meshStandardMaterial color="#B71C1C" roughness={0.35} />
         </mesh>
-        <mesh castShadow position={[0.8, 0, 0]} rotation={[0, 0, -Math.PI / 6]}>
-          <cylinderGeometry args={[0.25, 0.25, 0.6, 10]} />
-          <meshStandardMaterial color="#B71C1C" />
+        <mesh castShadow position={[0.82, -0.02, 0]} rotation={[0, 0, -Math.PI / 6]}>
+          <cylinderGeometry args={[0.26, 0.26, 0.65, 12]} />
+          <meshStandardMaterial color="#B71C1C" roughness={0.35} />
         </mesh>
-        {/* Front tied cords */}
-        <mesh position={[0, -0.2, 0.36]}>
-          <torusGeometry args={[0.15, 0.04, 8, 12]} />
-          <meshStandardMaterial color="#FFD700" metalness={0.8} />
+        {/* Front Chest Braided Silk Ties (Elbeg / Zolgoi dây) */}
+        <mesh position={[0, -0.22, 0.38]}>
+          <torusGeometry args={[0.16, 0.038, 8, 14]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.8} />
         </mesh>
       </group>
 
-      {/* Shudag (Briefs/Trunks) */}
-      <mesh castShadow position={[0, -0.2, 0]}>
-        <cylinderGeometry args={[0.55, 0.45, 0.6, 12]} />
-        <meshStandardMaterial color="#0D47A1" roughness={0.4} />
-      </mesh>
-      {/* Decorative Silk Trim */}
-      <mesh castShadow position={[0, -0.2, 0.42]}>
-        <boxGeometry args={[0.7, 0.1, 0.05]} />
-        <meshStandardMaterial color="#FFD700" metalness={0.6} />
-      </mesh>
-
-      {/* Mongolian Composite Archery Bow */}
-      <group position={[1.1, 0.4, 0]} rotation={[0, Math.PI / 6, Math.PI / 4]}>
-        {/* Recurve Horn Bow Limb */}
+      {/* Shuudag (Wrestler's Blue Trunks) */}
+      <group position={[0, -0.22, 0]}>
         <mesh castShadow>
-          <torusGeometry args={[1.1, 0.05, 8, 24, Math.PI * 0.9]} />
-          <meshStandardMaterial color="#3E2723" roughness={0.5} />
+          <cylinderGeometry args={[0.56, 0.46, 0.62, 14]} />
+          <meshStandardMaterial color="#0D47A1" roughness={0.4} />
         </mesh>
-        {/* Bow String */}
-        <mesh position={[-0.05, 0.0, 0]}>
-          <cylinderGeometry args={[0.008, 0.008, 2.0, 6]} />
+        <mesh castShadow position={[0, -0.2, 0.44]}>
+          <boxGeometry args={[0.72, 0.1, 0.06]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.7} />
+        </mesh>
+      </group>
+
+      {/* Pointed Four-Lobed Wrestling Hat (Zolgoi Malgai) */}
+      <group position={[0, 1.85, 0]}>
+        <mesh castShadow>
+          <coneGeometry args={[0.35, 0.45, 4]} />
+          <meshStandardMaterial color="#B71C1C" roughness={0.3} />
+        </mesh>
+        {/* Silver Top Finial (Janch) */}
+        <mesh castShadow position={[0, 0.28, 0]}>
+          <sphereGeometry args={[0.07, 12, 12]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.95} />
+        </mesh>
+        {/* Red Silk Ribbon Tails */}
+        <mesh position={[0, 0, -0.32]} rotation={[Math.PI / 8, 0, 0]}>
+          <boxGeometry args={[0.15, 0.6, 0.02]} />
+          <meshStandardMaterial color="#DA2032" />
+        </mesh>
+      </group>
+
+      {/* Mongolian Composite Recurve Bow (Sur Kharvaa) & Arrow */}
+      <group position={[1.2, 0.4, 0]} rotation={[0, Math.PI / 6, Math.PI / 4]}>
+        <mesh castShadow>
+          <torusGeometry args={[1.15, 0.055, 8, 28, Math.PI * 0.92]} />
+          <meshStandardMaterial color="#3E1C0A" roughness={0.45} />
+        </mesh>
+        <mesh position={[-0.05, 0, 0]}>
+          <cylinderGeometry args={[0.008, 0.008, 2.1, 6]} />
           <meshBasicMaterial color="#FFFFFF" />
         </mesh>
-        {/* Feathered Arrow */}
+        {/* Feathered Steppe Arrow */}
         <group position={[0, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
           <mesh castShadow>
-            <cylinderGeometry args={[0.02, 0.02, 1.8, 6]} />
+            <cylinderGeometry args={[0.018, 0.018, 1.85, 6]} />
             <meshStandardMaterial color="#8D6E63" />
           </mesh>
-          {/* Arrowhead */}
           <mesh position={[0, 0.95, 0]}>
-            <coneGeometry args={[0.05, 0.15, 4]} />
+            <coneGeometry args={[0.05, 0.16, 4]} />
             <meshStandardMaterial color="#78909C" metalness={0.9} />
           </mesh>
-          {/* Fletching Feathers */}
-          <mesh position={[0, -0.85, 0]}>
-            <boxGeometry args={[0.15, 0.25, 0.02]} />
+          <mesh position={[0, -0.88, 0]}>
+            <boxGeometry args={[0.16, 0.26, 0.02]} />
             <meshStandardMaterial color="#E65100" />
           </mesh>
         </group>
@@ -549,7 +646,7 @@ function NomadicGer3DModel({ activeHotspot }: { activeHotspot: string | null }) 
 
   useFrame((state) => {
     if (modelRef.current && !activeHotspot) {
-      modelRef.current.rotation.y = state.clock.elapsedTime * 0.15;
+      modelRef.current.rotation.y = state.clock.elapsedTime * 0.12;
     }
   });
 
@@ -557,41 +654,63 @@ function NomadicGer3DModel({ activeHotspot }: { activeHotspot: string | null }) 
     <group ref={modelRef} position={[0, -0.3, 0]}>
       {/* Floor Wooden Platform */}
       <mesh receiveShadow position={[0, -1.2, 0]}>
-        <cylinderGeometry args={[2.5, 2.5, 0.15, 16]} />
-        <meshStandardMaterial color="#8D6E63" roughness={0.7} />
+        <cylinderGeometry args={[2.6, 2.6, 0.16, 24]} />
+        <meshStandardMaterial color="#7A4E2D" roughness={0.7} />
       </mesh>
 
-      {/* Khana (Lattice Wall Section) */}
+      {/* Khana (Lattice Wall Section with diamond mesh illusion) */}
       <group position={[0, -0.4, 0]}>
-        {[...Array(12)].map((_, i) => {
-          const angle = (i / 12) * Math.PI * 2;
-          const x = Math.cos(angle) * 2.2;
-          const z = Math.sin(angle) * 2.2;
+        {[...Array(16)].map((_, i) => {
+          const angle = (i / 16) * Math.PI * 2;
+          const x = Math.cos(angle) * 2.25;
+          const z = Math.sin(angle) * 2.25;
           return (
             <mesh key={i} position={[x, 0, z]} rotation={[0, -angle, 0]}>
-              <boxGeometry args={[0.08, 1.3, 0.05]} />
-              <meshStandardMaterial color="#D7CCC8" roughness={0.8} />
+              <boxGeometry args={[0.07, 1.35, 0.04]} />
+              <meshStandardMaterial color="#D7CCC8" roughness={0.75} />
             </mesh>
           );
         })}
       </group>
 
-      {/* Bagan (Twin Central Pillars) */}
-      <mesh castShadow position={[-0.4, 0.3, 0]}>
-        <cylinderGeometry args={[0.06, 0.07, 2.8, 8]} />
-        <meshStandardMaterial color="#D4AF37" metalness={0.3} />
+      {/* Ornate Red/Orange Wooden Entrance Door (Khaalga) */}
+      <group position={[0, -0.4, 2.25]}>
+        <mesh castShadow>
+          <boxGeometry args={[0.9, 1.3, 0.08]} />
+          <meshStandardMaterial color="#C0392B" roughness={0.4} />
+        </mesh>
+        <mesh position={[0, 0, 0.05]}>
+          <planeGeometry args={[0.4, 0.4]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.8} />
+        </mesh>
+      </group>
+
+      {/* Bagan (Twin Central Vermilion & Gold Pillars) */}
+      <mesh castShadow position={[-0.45, 0.3, 0]}>
+        <cylinderGeometry args={[0.065, 0.075, 2.85, 12]} />
+        <meshStandardMaterial color="#C0392B" roughness={0.35} />
       </mesh>
-      <mesh castShadow position={[0.4, 0.3, 0]}>
-        <cylinderGeometry args={[0.06, 0.07, 2.8, 8]} />
-        <meshStandardMaterial color="#D4AF37" metalness={0.3} />
+      <mesh castShadow position={[0.45, 0.3, 0]}>
+        <cylinderGeometry args={[0.065, 0.075, 2.85, 12]} />
+        <meshStandardMaterial color="#C0392B" roughness={0.35} />
       </mesh>
 
-      {/* Uni (Exploded Roof Rafter Poles radiating upwards) */}
+      {/* Capital Brackets on Pillars (Möö) */}
+      <mesh position={[-0.45, 1.68, 0]}>
+        <boxGeometry args={[0.3, 0.12, 0.18]} />
+        <meshStandardMaterial color="#D4AF37" metalness={0.7} />
+      </mesh>
+      <mesh position={[0.45, 1.68, 0]}>
+        <boxGeometry args={[0.3, 0.12, 0.18]} />
+        <meshStandardMaterial color="#D4AF37" metalness={0.7} />
+      </mesh>
+
+      {/* Uni (Roof Rafter Poles radiating upwards to Toono) */}
       <group position={[0, 1.2, 0]}>
-        {[...Array(16)].map((_, i) => {
-          const angle = (i / 16) * Math.PI * 2;
-          const r1 = 2.1;
-          const r2 = 0.5;
+        {[...Array(24)].map((_, i) => {
+          const angle = (i / 24) * Math.PI * 2;
+          const r1 = 2.15;
+          const r2 = 0.55;
           const x1 = Math.cos(angle) * r1;
           const z1 = Math.sin(angle) * r1;
           const x2 = Math.cos(angle) * r2;
@@ -599,44 +718,49 @@ function NomadicGer3DModel({ activeHotspot }: { activeHotspot: string | null }) 
 
           const dx = x2 - x1;
           const dz = z2 - z1;
-          const len = Math.sqrt(dx * dx + dz * dz + 0.8 * 0.8);
+          const len = Math.sqrt(dx * dx + dz * dz + 0.85 * 0.85);
 
           return (
             <mesh
               key={i}
-              position={[(x1 + x2) / 2, 0.4, (z1 + z2) / 2]}
-              rotation={[Math.atan2(dz, 0.8), -angle, Math.PI / 4]}
+              position={[(x1 + x2) / 2, 0.42, (z1 + z2) / 2]}
+              rotation={[Math.atan2(dz, 0.85), -angle, Math.PI / 4]}
             >
-              <cylinderGeometry args={[0.025, 0.03, len, 6]} />
-              <meshStandardMaterial color="#E65100" />
+              <cylinderGeometry args={[0.022, 0.028, len, 6]} />
+              <meshStandardMaterial color="#E67E22" roughness={0.4} />
             </mesh>
           );
         })}
       </group>
 
-      {/* Toono (Ornate Crown Wheel at Top) */}
-      <group position={[0, 2.2, 0]}>
-        {/* Outer Crown Ring */}
+      {/* Toono (Sacred Crown Wheel at Apex) */}
+      <group position={[0, 2.25, 0]}>
+        {/* Outer Wheel Ring */}
         <mesh castShadow position={[0, 0, 0]}>
-          <torusGeometry args={[0.6, 0.08, 12, 24]} />
-          <meshStandardMaterial color="#D4AF37" metalness={0.6} roughness={0.3} />
+          <torusGeometry args={[0.62, 0.075, 12, 28]} />
+          <meshStandardMaterial color="#C0392B" roughness={0.3} />
         </mesh>
-        {/* Inner Cross Spoke Wheels */}
-        <mesh position={[0, 0, 0]} rotation={[0, 0, 0]}>
-          <boxGeometry args={[1.1, 0.04, 0.06]} />
-          <meshStandardMaterial color="#B71C1C" />
+        <mesh position={[0, 0, 0]}>
+          <torusGeometry args={[0.62, 0.082, 12, 28]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.8} roughness={0.2} />
+        </mesh>
+
+        {/* Cross Spoke Bars (Kharatsa) */}
+        <mesh position={[0, 0, 0]}>
+          <boxGeometry args={[1.15, 0.038, 0.06]} />
+          <meshStandardMaterial color="#C0392B" />
         </mesh>
         <mesh position={[0, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
-          <boxGeometry args={[1.1, 0.04, 0.06]} />
-          <meshStandardMaterial color="#B71C1C" />
+          <boxGeometry args={[1.15, 0.038, 0.06]} />
+          <meshStandardMaterial color="#C0392B" />
         </mesh>
         <mesh position={[0, 0, 0]} rotation={[0, Math.PI / 4, 0]}>
-          <boxGeometry args={[1.1, 0.04, 0.06]} />
-          <meshStandardMaterial color="#B71C1C" />
+          <boxGeometry args={[1.15, 0.038, 0.06]} />
+          <meshStandardMaterial color="#C0392B" />
         </mesh>
         <mesh position={[0, 0, 0]} rotation={[0, -Math.PI / 4, 0]}>
-          <boxGeometry args={[1.1, 0.04, 0.06]} />
-          <meshStandardMaterial color="#B71C1C" />
+          <boxGeometry args={[1.15, 0.038, 0.06]} />
+          <meshStandardMaterial color="#C0392B" />
         </mesh>
       </group>
     </group>
@@ -644,7 +768,7 @@ function NomadicGer3DModel({ activeHotspot }: { activeHotspot: string | null }) 
 }
 
 // ----------------------------------------------------
-// Main Component Definition
+// Main Component
 // ----------------------------------------------------
 
 export default function Artifact3DExplorer() {
@@ -661,30 +785,130 @@ export default function Artifact3DExplorer() {
     setTimeout(() => setIsPlayingAudio(false), 2200);
   };
 
+  const renderActiveModel = () => {
+    switch (selectedArtifact) {
+      case 'morinKhuur':
+        return <MorinKhuur3DModel activeHotspot={activeHotspot} />;
+      case 'deel':
+        return <Deel3DModel activeHotspot={activeHotspot} />;
+      case 'naadamBokh':
+        return <NaadamBokh3DModel activeHotspot={activeHotspot} />;
+      case 'nomadicGer':
+        return <NomadicGer3DModel activeHotspot={activeHotspot} />;
+      default:
+        return <MorinKhuur3DModel activeHotspot={activeHotspot} />;
+    }
+  };
+
   return (
-    <div className="w-full bg-slate-950 rounded-3xl overflow-hidden border border-amber-900/30 shadow-2xl flex flex-col lg:flex-row min-h-[600px] relative">
-      
-      {/* Left Sidebar: Selector & Info Controls */}
-      <div className="lg:w-1/3 p-6 md:p-8 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-white/10 z-10 bg-slate-900/80 backdrop-blur-md">
+    <div className="w-full grid lg:grid-cols-12 gap-8 items-center">
+      {/* 3D Canvas Viewport Container */}
+      <div className="lg:col-span-7 h-[420px] sm:h-[500px] bg-[#F1F5F9] rounded-2xl overflow-hidden relative border border-slate-200 shadow-inner">
+        <Suspense fallback={
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#F1F5F9] z-20">
+            <div className="w-8 h-8 rounded-full border-2 border-[#D4AF37] border-t-transparent animate-spin mb-3" />
+            <p className="text-xs font-mono tracking-widest text-slate-700 uppercase">Rendering 3D Artifact...</p>
+          </div>
+        }>
+          <Canvas
+            shadows
+            camera={{ position: [0, 0.4, 5.2], fov: 42 }}
+            gl={{ powerPreference: 'high-performance', antialias: true }}
+          >
+            <color attach="background" args={['#F1F5F9']} />
+            <ambientLight intensity={0.9} />
+            <directionalLight
+              castShadow
+              position={[6, 8, 5]}
+              intensity={1.4}
+              color="#fffdf5"
+              shadow-mapSize={[512, 512]}
+            />
+            <directionalLight position={[-6, -4, -4]} intensity={0.5} color="#dbeafe" />
+
+            <Float speed={1.2} rotationIntensity={0.15} floatIntensity={0.2}>
+              {renderActiveModel()}
+            </Float>
+
+            {/* Interactive 3D Hotspot Pins on Model */}
+            {currentData.hotspots.map((hs) => (
+              <group key={hs.id} position={hs.position}>
+                <mesh
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveHotspot(activeHotspot === hs.id ? null : hs.id);
+                  }}
+                >
+                  <sphereGeometry args={[0.09, 16, 16]} />
+                  <meshStandardMaterial
+                    color={activeHotspot === hs.id ? '#FFFFFF' : '#D4AF37'}
+                    emissive={activeHotspot === hs.id ? '#D4AF37' : '#C5A028'}
+                    emissiveIntensity={0.6}
+                  />
+                </mesh>
+                <mesh scale={[1.4, 1.4, 1.4]}>
+                  <sphereGeometry args={[0.09, 12, 12]} />
+                  <meshBasicMaterial
+                    color="#D4AF37"
+                    wireframe
+                    transparent
+                    opacity={0.3}
+                  />
+                </mesh>
+              </group>
+            ))}
+
+            <ContactShadows position={[0, -2.3, 0]} opacity={0.65} scale={8} blur={2.2} far={4.5} />
+            <Sparkles count={25} scale={5} size={1.8} speed={0.3} opacity={0.35} color="#D4AF37" />
+
+            <OrbitControls
+              enablePan={false}
+              minDistance={3.2}
+              maxDistance={7.5}
+              minPolarAngle={Math.PI / 6}
+              maxPolarAngle={Math.PI - Math.PI / 6}
+            />
+
+            <Preload all />
+          </Canvas>
+        </Suspense>
+
+        {/* Viewport Control Hints */}
+        <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-200 text-[10px] text-slate-700 font-mono shadow-sm">
+          <Info className="w-3 h-3 text-[#D4AF37]" />
+          <span>Click & Drag to Rotate 360° • Click gold pins</span>
+        </div>
+
+        <button
+          onClick={() => setActiveHotspot(null)}
+          className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 hover:bg-white text-slate-700 text-[10px] font-mono backdrop-blur-md border border-slate-200 shadow-sm transition-colors"
+        >
+          <RotateCcw className="w-3 h-3 text-[#D4AF37]" />
+          <span>Reset Pins</span>
+        </button>
+      </div>
+
+      {/* Curatorial Annotation Panel */}
+      <div className="lg:col-span-5 flex flex-col justify-between h-full space-y-5">
         <div>
-          {/* Header Tag */}
-          <div className="flex items-center gap-2 mb-4">
-            <span className="bg-amber-500/10 text-amber-400 text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full border border-amber-500/20 flex items-center gap-1.5">
-              <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-              UNESCO Living Heritage
+          <div className="flex items-center gap-2 mb-2">
+            <span className="px-2.5 py-0.5 bg-[#0A1128] text-[#D4AF37] font-mono text-[10px] font-bold rounded">
+              {currentData.unescoYear}
             </span>
-            <span className="text-white/40 text-xs font-mono">EST. {currentData.unescoYear}</span>
+            <span className="text-xs text-amber-900 font-mono tracking-wider font-semibold">
+              {currentData.category}
+            </span>
           </div>
 
-          <h2 className="text-2xl md:text-3xl font-serif text-white font-semibold mb-2 leading-tight">
-            {t(currentData.nameKey, selectedArtifact)}
-          </h2>
-          <p className="text-amber-400/90 text-xs font-medium uppercase tracking-wider mb-6">
-            {t(currentData.subKey, currentData.category)}
+          <h3 className="text-2xl font-serif text-slate-900 font-normal mb-1">
+            {t(currentData.nameKey, selectedArtifact === 'morinKhuur' ? 'Morin Khuur' : selectedArtifact === 'deel' ? 'Traditional Deel' : selectedArtifact === 'naadamBokh' ? 'Naadam Sports' : 'Mongolian Ger')}
+          </h3>
+          <p className="text-xs text-slate-600 font-light leading-relaxed mb-6">
+            {t(currentData.subKey, 'Interactive cultural relic study from the Mongolian Center archive.')}
           </p>
 
-          {/* Artifact Selector Tabs */}
-          <div className="grid grid-cols-2 gap-2 mb-6">
+          {/* Artifact Selector Grid */}
+          <div className="grid grid-cols-2 gap-2.5 mb-6">
             {(Object.keys(ARTIFACT_DATA) as ArtifactId[]).map((id) => (
               <button
                 key={id}
@@ -692,44 +916,42 @@ export default function Artifact3DExplorer() {
                   setSelectedArtifact(id);
                   setActiveHotspot(null);
                 }}
-                className={`px-3 py-2.5 rounded-xl text-xs font-medium text-left transition-all flex items-center justify-between border cursor-pointer ${
+                className={`px-3.5 py-2.5 rounded-xl text-xs font-medium text-left transition-all flex items-center justify-between border cursor-pointer ${
                   selectedArtifact === id
-                    ? 'bg-amber-500 text-slate-950 border-amber-400 font-bold shadow-lg shadow-amber-500/20'
-                    : 'bg-white/5 text-white/70 border-white/5 hover:bg-white/10 hover:text-white'
+                    ? 'bg-[#0A1128] text-white border-[#0A1128] font-bold shadow-md'
+                    : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-white hover:border-brand-gold hover:text-slate-900'
                 }`}
               >
-                <span className="truncate">{t(`heritage.artifacts.${id}.shortName`, id)}</span>
-                <ChevronRight className={`w-3.5 h-3.5 shrink-0 ${selectedArtifact === id ? 'text-slate-950' : 'text-white/40'}`} />
+                <span className="truncate">{id === 'morinKhuur' ? 'Morin Khuur' : id === 'deel' ? 'Traditional Deel' : id === 'naadamBokh' ? 'Naadam Bökh & Bow' : 'Nomadic Ger'}</span>
+                <ChevronRight className={`w-3.5 h-3.5 shrink-0 ${selectedArtifact === id ? 'text-[#D4AF37]' : 'text-slate-400'}`} />
               </button>
             ))}
           </div>
 
-          {/* Audio Guide & Interactive Hint */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handleAudioClick}
-              className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-xs font-bold uppercase tracking-wider transition-all border cursor-pointer ${
-                isPlayingAudio
-                  ? 'bg-amber-400 text-slate-950 border-amber-300 animate-pulse'
-                  : 'bg-amber-500/20 text-amber-300 border-amber-500/30 hover:bg-amber-500/30'
-              }`}
-            >
-              {isPlayingAudio ? <Volume2 className="w-4 h-4 text-slate-950 animate-bounce" /> : <Volume2 className="w-4 h-4 text-amber-400" />}
-              <span>{isPlayingAudio ? t('heritage.audioPlaying', 'Playing Audio Sample...') : t('heritage.playAudio', 'Audio Sample & Narration')}</span>
-            </button>
-          </div>
+          {/* Audio Demonstration Trigger */}
+          <button
+            onClick={handleAudioClick}
+            className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all border cursor-pointer shadow-sm ${
+              isPlayingAudio
+                ? 'bg-amber-400 text-slate-950 border-amber-300 animate-pulse'
+                : 'bg-amber-50 text-amber-900 border border-amber-200 hover:bg-amber-100'
+            }`}
+          >
+            <Volume2 className="w-4 h-4 text-[#D4AF37]" />
+            <span>{isPlayingAudio ? 'Playing Acoustic Sample...' : 'Listen to Acoustic Sample'}</span>
+          </button>
         </div>
 
         {/* Hotspot Breakdown Details Box */}
-        <div className="mt-6 pt-6 border-t border-white/10">
+        <div className="pt-5 border-t border-slate-100">
           <AnimatePresence mode="wait">
             {activeHotspot ? (
               <motion.div
                 key={activeHotspot}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4"
+                exit={{ opacity: 0, y: -8 }}
+                className="bg-amber-50 border border-amber-200/80 rounded-xl p-4 text-slate-900 shadow-sm"
               >
                 {(() => {
                   const hs = currentData.hotspots.find((h) => h.id === activeHotspot);
@@ -737,132 +959,31 @@ export default function Artifact3DExplorer() {
                   return (
                     <div>
                       <div className="flex items-center justify-between mb-1">
-                        <h4 className="text-amber-300 font-bold text-sm font-serif">
+                        <h4 className="text-slate-900 font-serif font-bold text-sm">
                           {t(hs.titleKey, hs.id)}
                         </h4>
                         {hs.traditionalNameKey && (
-                          <span className="text-[10px] text-amber-400/80 font-mono bg-amber-400/10 px-2 py-0.5 rounded">
+                          <span className="text-[10px] text-amber-900 font-mono bg-amber-200/70 px-2 py-0.5 rounded font-bold">
                             {t(hs.traditionalNameKey, '')}
                           </span>
                         )}
                       </div>
-                      <p className="text-white/80 text-xs leading-relaxed font-light mt-2">
-                        {t(hs.descKey, 'Interactive detail about this portion of the cultural heritage artifact.')}
+                      <p className="text-slate-600 text-xs leading-relaxed font-light mt-1.5">
+                        {t(hs.descKey, 'Authentic architectural and craftsmanship detail from historical records.')}
                       </p>
                     </div>
                   );
                 })()}
               </motion.div>
             ) : (
-              <div className="text-white/50 text-xs font-light flex items-center gap-2 p-3 bg-white/5 rounded-2xl border border-white/5">
-                <Info className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>{t('heritage.hotspotHint', 'Click any pulsing 3D pin on the model to reveal historical craftsmanship details.')}</span>
+              <div className="text-slate-500 text-xs font-light flex items-center gap-2 p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+                <Info className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                <span>Click any glowing gold pin on the 3D model to reveal anatomical and cultural craftsmanship details.</span>
               </div>
             )}
           </AnimatePresence>
         </div>
       </div>
-
-      {/* Right Canvas: 360 Interactive 3D Viewer */}
-      <div className="lg:w-2/3 h-[450px] lg:h-auto relative bg-radial from-slate-900 to-slate-950 flex items-center justify-center">
-        
-        {/* Top Controls Overlay */}
-        <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
-          <button
-            onClick={() => setActiveHotspot(null)}
-            className="p-2 rounded-full bg-slate-900/80 text-white/70 hover:text-white border border-white/10 backdrop-blur-md transition-colors cursor-pointer"
-            title="Reset View"
-          >
-            <RotateCcw className="w-4 h-4" />
-          </button>
-        </div>
-
-        {/* Instructions Banner */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 pointer-events-none bg-slate-900/70 border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-sm text-[11px] text-white/70 font-light flex items-center gap-2">
-          <SparklesIcon className="w-3 h-3 text-amber-400" />
-          <span>{t('heritage.canvasControls', '360° Interactive View — Drag to Rotate, Scroll to Zoom')}</span>
-        </div>
-
-        {/* Three.js Canvas */}
-        <Canvas
-          shadows
-          camera={{ position: [0, 0, 5.5], fov: 45 }}
-          gl={{ powerPreference: 'high-performance', antialias: true }}
-          className="w-full h-full cursor-grab active:cursor-grabbing"
-        >
-          <color attach="background" args={['#0b1329']} />
-          <fog attach="fog" args={['#0b1329', 8, 20]} />
-
-          {/* Warm Studio Lights */}
-          <ambientLight intensity={0.7} />
-          <directionalLight
-            castShadow
-            position={[5, 8, 5]}
-            intensity={1.5}
-            color="#fff8e7"
-            shadow-mapSize={[1024, 1024]}
-          />
-          <pointLight position={[-4, 2, -3]} intensity={0.8} color="#0077ff" />
-          <pointLight position={[3, -2, 2]} intensity={1.0} color="#ff9900" />
-
-          <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.3}>
-            {/* Render 3D Model based on active selection */}
-            <Suspense fallback={null}>
-              {selectedArtifact === 'morinKhuur' && <MorinKhuur3DModel activeHotspot={activeHotspot} />}
-              {selectedArtifact === 'deel' && <Deel3DModel activeHotspot={activeHotspot} />}
-              {selectedArtifact === 'naadamBokh' && <NaadamBokh3DModel activeHotspot={activeHotspot} />}
-              {selectedArtifact === 'nomadicGer' && <NomadicGer3DModel activeHotspot={activeHotspot} />}
-            </Suspense>
-
-            {/* Hotspot HTML 3D Markers */}
-            {currentData.hotspots.map((hs) => {
-              const isSelected = activeHotspot === hs.id;
-              return (
-                <group key={hs.id} position={hs.position}>
-                  <Html center distanceFactor={8}>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setActiveHotspot(isSelected ? null : hs.id);
-                      }}
-                      className={`relative group flex items-center justify-center transition-all cursor-pointer ${
-                        isSelected ? 'scale-125 z-20' : 'hover:scale-110'
-                      }`}
-                    >
-                      {/* Pulse Ring */}
-                      <span className={`absolute w-7 h-7 rounded-full animate-ping opacity-75 ${isSelected ? 'bg-amber-400' : 'bg-amber-500'}`} />
-                      
-                      {/* Main Button Pin */}
-                      <span className={`relative w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shadow-lg border transition-colors ${
-                        isSelected
-                          ? 'bg-amber-400 text-slate-950 border-white'
-                          : 'bg-slate-900/90 text-amber-400 border-amber-500/60 hover:bg-amber-500 hover:text-slate-950'
-                      }`}>
-                        +
-                      </span>
-                    </button>
-                  </Html>
-                </group>
-              );
-            })}
-          </Float>
-
-          {/* Ambient Dust & Floor Shadows */}
-          <Sparkles count={120} scale={[10, 8, 10]} size={3} speed={0.4} color="#ffd700" opacity={0.4} />
-          <ContactShadows position={[0, -2.5, 0]} opacity={0.6} scale={8} blur={2.5} far={4} color="#000000" />
-
-          <OrbitControls
-            makeDefault
-            enablePan={false}
-            minDistance={3}
-            maxDistance={9}
-            maxPolarAngle={Math.PI / 1.8}
-            minPolarAngle={Math.PI / 6}
-          />
-          <Preload all />
-        </Canvas>
-      </div>
-
     </div>
   );
 }

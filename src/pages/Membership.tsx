@@ -22,17 +22,20 @@ export default function Membership() {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen bg-brand-paper pt-24 md:pt-32">
+    <div className="min-h-screen bg-brand-paper pt-[140px] md:pt-[152px]">
       {/* Hero Section */}
-      <section className="relative px-6 py-24 md:py-40 overflow-hidden bg-[#020202]">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.08),transparent_70%)]" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-gold/10 blur-[120px] rounded-[100%] pointer-events-none" />
-          <div className="absolute bottom-0 right-0 w-[50%] h-[50%] bg-brand-gold/5 blur-[100px] rounded-[100%] pointer-events-none" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+      <section className="relative min-h-[380px] md:h-[460px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=1600&auto=format&fit=crop" 
+            alt="Mongolian Community" 
+            className="w-full h-full object-cover object-center"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/25" />
         </div>
 
-        <div className="max-w-7xl mx-auto relative z-10 text-center">
+        <div className="max-w-7xl mx-auto w-full relative z-10 text-center py-10 md:py-0">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
