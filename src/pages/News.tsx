@@ -100,23 +100,47 @@ export default function News() {
 
                     {/* Broadsheet Text Column */}
                     <div className="lg:col-span-5 flex flex-col justify-between h-full space-y-6">
-                      <div className="font-serif text-slate-800 text-base md:text-lg leading-relaxed font-normal">
-                        <p className="first-letter:text-6xl first-letter:font-serif first-letter:font-black first-letter:float-left first-letter:mr-3 first-letter:text-brand-gold first-letter:leading-none">
-                          {dContent}
-                        </p>
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[9px] uppercase tracking-[0.25em] font-sans font-extrabold text-slate-500 bg-slate-100 px-2 py-0.5 border border-slate-300">
+                            SPECIAL COVERAGE
+                          </span>
+                          {Array.isArray(p.galleryImages) && p.galleryImages.length > 0 && (
+                            <span className="text-[9px] uppercase tracking-[0.2em] font-sans font-bold text-amber-800 bg-amber-50 px-2 py-0.5 border border-amber-200">
+                              📷 +{p.galleryImages.length} Photos
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="relative">
+                          <div className="font-serif text-slate-800 text-base md:text-lg leading-[1.8] font-normal line-clamp-5 md:line-clamp-6">
+                            <p className="first-letter:text-6xl first-letter:font-serif first-letter:font-black first-letter:float-left first-letter:mr-3 first-letter:text-brand-gold first-letter:leading-none">
+                              {dContent
+                                ? dContent
+                                    .replace(/^#+\s+/gm, '')
+                                    .replace(/^[-•]\s+/gm, '')
+                                    .replace(/^>\s+/gm, '')
+                                    .trim()
+                                : ''}
+                            </p>
+                          </div>
+                          {/* Fade Out Gradient */}
+                          <div className="h-8 w-full bg-gradient-to-t from-brand-paper to-transparent absolute bottom-0 left-0 pointer-events-none" />
+                        </div>
                       </div>
 
-                      <div className="pt-4 border-t border-slate-300 flex items-center justify-between">
+                      <div className="pt-4 border-t border-slate-300 flex flex-wrap items-center justify-between gap-4">
                         <span className="text-[10px] uppercase tracking-widest font-extrabold text-slate-500 flex items-center gap-1.5">
                           <Calendar size={12} className="text-brand-gold" />
-                          {p.createdAt?.toDate().toLocaleDateString(t('common.locale'), { month: 'long', day: 'numeric', year: 'numeric' })}
+                          {p.createdAt?.toDate ? p.createdAt.toDate().toLocaleDateString(t('common.locale'), { month: 'long', day: 'numeric', year: 'numeric' }) : 'Recent'}
                         </span>
 
                         <Link 
                           to={linkUrl} 
-                          className="inline-flex items-center gap-2 font-serif text-xs uppercase tracking-[0.2em] font-extrabold text-slate-900 hover:text-brand-gold transition-colors border-b-2 border-slate-900 pb-0.5"
+                          className="inline-flex items-center gap-2 font-serif text-xs uppercase tracking-[0.2em] font-extrabold text-slate-900 hover:text-brand-gold transition-colors border-b-2 border-slate-900 pb-0.5 group"
                         >
-                          <span>READ FULL DISPATCH →</span>
+                          <span>READ FULL DISPATCH</span>
+                          <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
                         </Link>
                       </div>
                     </div>

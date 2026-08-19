@@ -119,8 +119,18 @@ export default function AdminDashboard() {
     year: '2026', 
     descriptionEn: '', descriptionMn: '', descriptionDe: '', 
     imageUrl: '', 
-    category: 'Traditional' 
+    category: 'Traditional',
+    galleryImages: ''
   });
+
+  // Clean and parse comma/newline-separated image URLs safely
+  const parseGalleryImages = (input: string): string[] => {
+    if (!input || !input.trim()) return [];
+    return input
+      .split(/[,\n]/)
+      .map(s => s.trim().replace(/^["']|["']$/g, ''))
+      .filter(url => url.length > 0 && (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/')));
+  };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isTranslating, setIsTranslating] = useState(false);
@@ -436,7 +446,8 @@ export default function AdminDashboard() {
         descriptionMn: existingArtwork.descriptionMn || '',
         descriptionDe: existingArtwork.descriptionDe || '',
         imageUrl: existingArtwork.imageUrl || '',
-        category: existingArtwork.category || 'Traditional'
+        category: existingArtwork.category || 'Traditional',
+        galleryImages: Array.isArray(existingArtwork.galleryImages) ? existingArtwork.galleryImages.join(', ') : ''
       });
     } else {
       setIsEditing(false);
@@ -447,7 +458,8 @@ export default function AdminDashboard() {
         year: '2026',
         descriptionEn: '', descriptionMn: '', descriptionDe: '',
         imageUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=1600&auto=format&fit=crop',
-        category: 'Traditional'
+        category: 'Traditional',
+        galleryImages: ''
       });
     }
     setGalleryEditorMode('edit');
@@ -494,9 +506,7 @@ export default function AdminDashboard() {
         baseData.whatsIncluded = whatsIncludedList;
       }
 
-      const galleryList = eventForm.galleryImages
-        ? eventForm.galleryImages.split(',').map(s => s.trim()).filter(Boolean)
-        : [];
+      const galleryList = parseGalleryImages(eventForm.galleryImages);
       if (galleryList.length > 0) {
         baseData.galleryImages = galleryList;
       }
@@ -556,9 +566,7 @@ export default function AdminDashboard() {
         updatedAt: serverTimestamp(),
       };
 
-      const galleryList = postForm.galleryImages
-        ? postForm.galleryImages.split(',').map((s: string) => s.trim()).filter(Boolean)
-        : [];
+      const galleryList = parseGalleryImages(postForm.galleryImages);
       if (galleryList.length > 0) {
         postData.galleryImages = galleryList;
       }
@@ -619,6 +627,11 @@ export default function AdminDashboard() {
         category: galleryForm.category || 'Traditional',
         updatedAt: serverTimestamp(),
       };
+
+      const galleryList = parseGalleryImages(galleryForm.galleryImages);
+      if (galleryList.length > 0) {
+        baseData.galleryImages = galleryList;
+      }
 
       if (isEditing && galleryForm.id) {
         await updateDoc(doc(db, 'gallery', galleryForm.id), baseData);
@@ -1671,6 +1684,25 @@ export default function AdminDashboard() {
                       className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900"
                     />
                   </div>
+
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600">
+                        Extra Gallery Images (Comma separated URLs)
+                      </label>
+                      {eventForm.galleryImages && (
+                        <span className="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full font-mono font-bold">
+                          {parseGalleryImages(eventForm.galleryImages).length} photo{parseGalleryImages(eventForm.galleryImages).length === 1 ? '' : 's'}
+                        </span>
+                      )}
+                    </div>
+                    <input
+                      value={eventForm.galleryImages}
+                      onChange={e => setEventForm({ ...eventForm, galleryImages: e.target.value })}
+                      placeholder="https://images.unsplash.com/photo-1, https://images.unsplash.com/photo-2"
+                      className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900"
+                    />
+                  </div>
                 </div>
 
                 {/* Live Image Preview */}
@@ -1934,9 +1966,16 @@ export default function AdminDashboard() {
                   </div>
 
                   <div>
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">
-                      Extra Gallery Images (Comma separated URLs)
-                    </label>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600">
+                        Extra Gallery Images (Comma separated URLs)
+                      </label>
+                      {postForm.galleryImages && (
+                        <span className="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full font-mono font-bold">
+                          {parseGalleryImages(postForm.galleryImages).length} photo{parseGalleryImages(postForm.galleryImages).length === 1 ? '' : 's'}
+                        </span>
+                      )}
+                    </div>
                     <input
                       value={postForm.galleryImages}
                       onChange={e => setPostForm({ ...postForm, galleryImages: e.target.value })}
@@ -2246,6 +2285,25 @@ export default function AdminDashboard() {
                         className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900"
                       />
                     </div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600">
+                        Extra Gallery Images (Comma separated URLs)
+                      </label>
+                      {galleryForm.galleryImages && (
+                        <span className="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full font-mono font-bold">
+                          {parseGalleryImages(galleryForm.galleryImages).length} photo{parseGalleryImages(galleryForm.galleryImages).length === 1 ? '' : 's'}
+                        </span>
+                      )}
+                    </div>
+                    <input
+                      value={galleryForm.galleryImages}
+                      onChange={e => setGalleryForm({ ...galleryForm, galleryImages: e.target.value })}
+                      placeholder="https://images.unsplash.com/photo-1, https://images.unsplash.com/photo-2"
+                      className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900"
+                    />
                   </div>
                 </div>
 

@@ -211,6 +211,37 @@ export default function GalleryDetails() {
                   No detailed description provided for this artwork.
                 </p>
               )}
+
+              {/* Artwork Extra Perspective Views / Gallery Plates */}
+              {Array.isArray(item?.galleryImages) && item.galleryImages.length > 0 && (
+                <div className="mt-16 pt-10 border-t border-brand-ink/10">
+                  <div className="flex items-center justify-between mb-8">
+                    <span className="text-[10px] uppercase tracking-[0.3em] font-extrabold text-brand-ink font-sans">
+                      ADDITIONAL ARTWORK PLATES ({item.galleryImages.length} VIEWS)
+                    </span>
+                    <span className="text-[9px] uppercase tracking-widest font-sans font-bold text-brand-ink/40">
+                      CURATED DETAILS
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {item.galleryImages.map((imgUrl: string, gIdx: number) => (
+                      <div key={gIdx} className="border border-brand-ink/10 p-2 bg-white rounded-lg shadow-sm group hover:border-brand-gold transition-colors">
+                        <div className="aspect-[4/3] overflow-hidden bg-slate-900 rounded">
+                          <img 
+                            src={imgUrl} 
+                            alt={`${dTitle} Plate ${gIdx + 1}`} 
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                          />
+                        </div>
+                        <p className="font-serif italic text-[11px] text-slate-600 pt-2 text-center border-t border-slate-100 mt-2">
+                          Detail Plate {gIdx + 1}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <aside className="hidden lg:block"></aside>

@@ -36,6 +36,7 @@
         "category": { "type": "string" },
         "categoryEn": { "type": "string" },
         "categoryMn": { "type": "string" },
+        "galleryImages": { "type": "array", "items": { "type": "string" } },
         "whatsIncluded": { "type": "array", "items": { "type": "string" } },
         "registeredCount": { "type": "number" },
         "createdAt": { "type": "string", "format": "date-time" },
@@ -75,6 +76,7 @@
         "contentEn": { "type": "string" },
         "contentMn": { "type": "string" },
         "imageUrl": { "type": "string" },
+        "galleryImages": { "type": "array", "items": { "type": "string" } },
         "authorId": { "type": "string" },
         "createdAt": { "type": "string", "format": "date-time" }
       },
@@ -108,6 +110,7 @@
         "descriptionEn": { "type": "string" },
         "descriptionMn": { "type": "string" },
         "imageUrl": { "type": "string" },
+        "galleryImages": { "type": "array", "items": { "type": "string" } },
         "category": { "type": "string" },
         "categoryEn": { "type": "string" },
         "categoryMn": { "type": "string" },

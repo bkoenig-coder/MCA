@@ -38,6 +38,13 @@ export async function signInWithGoogle() {
         if (user.photoURL) userData.photoURL = user.photoURL;
 
         await setDoc(userRef, userData);
+      } else {
+        const email = user.email?.toLowerCase() || '';
+        const isSuperAdmin = email === 'emeraldtorstein@gmail.com';
+        const isDefaultAdmin = email === 'batmunkh.unen@gmail.com' || email.endsWith('@mongoliancenter.org') || email === 'info@mongoliancenter.org';
+        if ((isSuperAdmin || isDefaultAdmin) && userSnap.data()?.role !== 'admin') {
+          await setDoc(userRef, { role: 'admin' }, { merge: true });
+        }
       }
     } catch (firestoreError) {
       console.error("Firestore error creating user profile:", firestoreError);
