@@ -312,11 +312,11 @@ service cloud.firestore {
 
     match /events/{eventId} {
       allow read: if true;
-      allow create: if isEditor() && isValidEvent(request.resource.data);
+      allow create: if isEditor();
       allow update: if (
         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['registeredCount']) &&
         request.resource.data.registeredCount == resource.data.get('registeredCount', 0) + 1
-      ) || (isEditor() && isValidEvent(request.resource.data));
+      ) || isEditor();
       allow delete: if isEditor();
     }
 
@@ -337,8 +337,8 @@ service cloud.firestore {
 
     match /posts/{postId} {
       allow read: if true;
-      allow create: if isEditor() && isValidPost(request.resource.data);
-      allow update: if isEditor() && isValidPost(request.resource.data) && areImmutableFieldsUnchanged(['authorId', 'createdAt']);
+      allow create: if isEditor();
+      allow update: if isEditor();
       allow delete: if isEditor();
     }
 
@@ -349,8 +349,8 @@ service cloud.firestore {
 
     match /gallery/{itemId} {
       allow read: if true;
-      allow create: if isEditor() && isValidGalleryItem(request.resource.data);
-      allow update: if isEditor() && isValidGalleryItem(request.resource.data) && areImmutableFieldsUnchanged(['createdAt']);
+      allow create: if isEditor();
+      allow update: if isEditor();
       allow delete: if isEditor();
     }
 

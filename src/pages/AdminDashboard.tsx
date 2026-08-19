@@ -455,24 +455,29 @@ export default function AdminDashboard() {
   // Submit Event
   const handleAddEvent = async (e: React.FormEvent) => {
     e.preventDefault();
+    const fallbackTitle = (eventForm.titleEn || eventForm.titleMn || eventForm.titleDe || '').trim();
+    if (!fallbackTitle) {
+      toast.error('Please enter an event title in at least one language.');
+      return;
+    }
+
     setIsSubmitting(true);
     try {
-      const fallbackTitle = eventForm.titleEn || eventForm.titleMn || eventForm.titleDe || 'Untitled Event';
-      const fallbackDesc = eventForm.descriptionEn || eventForm.descriptionMn || eventForm.descriptionDe || 'Event details and program information.';
-      const fallbackImage = eventForm.imageUrl || 'https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=1600&auto=format&fit=crop';
+      const fallbackDesc = (eventForm.descriptionEn || eventForm.descriptionMn || eventForm.descriptionDe || '').trim() || 'Event details and program information.';
+      const fallbackImage = (eventForm.imageUrl || '').trim() || 'https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=1600&auto=format&fit=crop';
 
       const baseData: any = {
         title: fallbackTitle,
-        titleEn: eventForm.titleEn || fallbackTitle,
-        titleMn: eventForm.titleMn || fallbackTitle,
-        titleDe: eventForm.titleDe || fallbackTitle,
+        titleEn: eventForm.titleEn?.trim() || fallbackTitle,
+        titleMn: eventForm.titleMn?.trim() || fallbackTitle,
+        titleDe: eventForm.titleDe?.trim() || fallbackTitle,
         description: fallbackDesc,
-        descriptionEn: eventForm.descriptionEn || fallbackDesc,
-        descriptionMn: eventForm.descriptionMn || fallbackDesc,
-        descriptionDe: eventForm.descriptionDe || fallbackDesc,
+        descriptionEn: eventForm.descriptionEn?.trim() || fallbackDesc,
+        descriptionMn: eventForm.descriptionMn?.trim() || fallbackDesc,
+        descriptionDe: eventForm.descriptionDe?.trim() || fallbackDesc,
         date: eventForm.date || new Date().toISOString().split('T')[0],
         time: eventForm.time || '18:00',
-        location: eventForm.location || 'Palais Eschenbach, Eschenbachgasse 11, 1010 Wien',
+        location: eventForm.location?.trim() || 'Palais Eschenbach, Eschenbachgasse 11, 1010 Wien',
         category: eventForm.category || 'Cultural Celebration',
         price: Number(eventForm.price) * 100 || 0,
         capacity: Number(eventForm.capacity) || 0,
@@ -504,9 +509,9 @@ export default function AdminDashboard() {
 
       setIsEventModalOpen(false);
       setIsEditing(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Save Event Error:', error);
-      toast.error('Failed to save event');
+      toast.error(`Failed to save event: ${error?.message || 'Check connection'}`);
       handleFirestoreError(error, OperationType.WRITE, 'events');
     } finally {
       setIsSubmitting(false);
@@ -516,6 +521,12 @@ export default function AdminDashboard() {
   // Submit Post
   const handleAddPost = async (e: React.FormEvent) => {
     e.preventDefault();
+    const fallbackTitle = (postForm.titleMn || postForm.titleEn || postForm.titleDe || '').trim();
+    if (!fallbackTitle) {
+      toast.error('Please enter an article headline in at least one language.');
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const rawSlugSource = postForm.titleEn || postForm.titleMn || 'post';
@@ -525,21 +536,20 @@ export default function AdminDashboard() {
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/(^-|-$)+/g, '') || `post-${Date.now()}`;
 
-      const fallbackTitle = postForm.titleMn || postForm.titleEn || postForm.titleDe || 'Untitled Article';
-      const fallbackContent = postForm.contentMn || postForm.contentEn || postForm.contentDe || 'Article content details.';
+      const fallbackContent = (postForm.contentMn || postForm.contentEn || postForm.contentDe || '').trim() || 'Article content details.';
       const fallbackAuthorId = user?.uid || 'admin-author';
-      const fallbackImageUrl = postForm.imageUrl || 'https://images.unsplash.com/photo-1695555875394-4e8aa542ccdc?q=80&w=1600&auto=format&fit=crop';
+      const fallbackImageUrl = (postForm.imageUrl || '').trim() || 'https://images.unsplash.com/photo-1695555875394-4e8aa542ccdc?q=80&w=1600&auto=format&fit=crop';
 
       const postData: any = {
         title: fallbackTitle,
-        titleEn: postForm.titleEn || fallbackTitle,
-        titleMn: postForm.titleMn || fallbackTitle,
-        titleDe: postForm.titleDe || fallbackTitle,
-        slug: postForm.slug || generatedSlug,
+        titleEn: postForm.titleEn?.trim() || fallbackTitle,
+        titleMn: postForm.titleMn?.trim() || fallbackTitle,
+        titleDe: postForm.titleDe?.trim() || fallbackTitle,
+        slug: postForm.slug?.trim() || generatedSlug,
         content: fallbackContent,
-        contentEn: postForm.contentEn || fallbackContent,
-        contentMn: postForm.contentMn || fallbackContent,
-        contentDe: postForm.contentDe || fallbackContent,
+        contentEn: postForm.contentEn?.trim() || fallbackContent,
+        contentMn: postForm.contentMn?.trim() || fallbackContent,
+        contentDe: postForm.contentDe?.trim() || fallbackContent,
         imageUrl: fallbackImageUrl,
         updatedAt: serverTimestamp(),
       };
@@ -565,9 +575,9 @@ export default function AdminDashboard() {
 
       setIsPostModalOpen(false);
       setIsEditing(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Save Post Error:', error);
-      toast.error('Failed to save post');
+      toast.error(`Failed to save post: ${error?.message || 'Check permissions'}`);
       handleFirestoreError(error, OperationType.WRITE, 'posts');
     } finally {
       setIsSubmitting(false);
@@ -577,27 +587,32 @@ export default function AdminDashboard() {
   // Submit Gallery Item
   const handleAddGalleryItem = async (e: React.FormEvent) => {
     e.preventDefault();
+    const fallbackTitle = (galleryForm.titleEn || galleryForm.titleMn || galleryForm.titleDe || '').trim();
+    if (!fallbackTitle) {
+      toast.error('Please enter an artwork title in at least one language.');
+      return;
+    }
+
     setIsSubmitting(true);
     try {
-      const fallbackTitle = galleryForm.titleEn || galleryForm.titleMn || galleryForm.titleDe || 'Untitled Artwork';
-      const fallbackDesc = galleryForm.descriptionEn || galleryForm.descriptionMn || galleryForm.descriptionDe || 'Traditional craftsmanship piece.';
-      const fallbackArtist = galleryForm.artistEn || galleryForm.artistMn || galleryForm.artistDe || 'Master Artist';
-      const fallbackImage = galleryForm.imageUrl || 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=1600&auto=format&fit=crop';
+      const fallbackDesc = (galleryForm.descriptionEn || galleryForm.descriptionMn || galleryForm.descriptionDe || '').trim() || 'Traditional craftsmanship piece.';
+      const fallbackArtist = (galleryForm.artistEn || galleryForm.artistMn || galleryForm.artistDe || '').trim() || 'Master Artist';
+      const fallbackImage = (galleryForm.imageUrl || '').trim() || 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=1600&auto=format&fit=crop';
 
       const baseData: any = {
         title: fallbackTitle,
-        titleEn: galleryForm.titleEn || fallbackTitle,
-        titleMn: galleryForm.titleMn || fallbackTitle,
-        titleDe: galleryForm.titleDe || fallbackTitle,
+        titleEn: galleryForm.titleEn?.trim() || fallbackTitle,
+        titleMn: galleryForm.titleMn?.trim() || fallbackTitle,
+        titleDe: galleryForm.titleDe?.trim() || fallbackTitle,
         artist: fallbackArtist,
-        artistEn: galleryForm.artistEn || fallbackArtist,
-        artistMn: galleryForm.artistMn || fallbackArtist,
-        artistDe: galleryForm.artistDe || fallbackArtist,
+        artistEn: galleryForm.artistEn?.trim() || fallbackArtist,
+        artistMn: galleryForm.artistMn?.trim() || fallbackArtist,
+        artistDe: galleryForm.artistDe?.trim() || fallbackArtist,
         year: galleryForm.year || '2026',
         description: fallbackDesc,
-        descriptionEn: galleryForm.descriptionEn || fallbackDesc,
-        descriptionMn: galleryForm.descriptionMn || fallbackDesc,
-        descriptionDe: galleryForm.descriptionDe || fallbackDesc,
+        descriptionEn: galleryForm.descriptionEn?.trim() || fallbackDesc,
+        descriptionMn: galleryForm.descriptionMn?.trim() || fallbackDesc,
+        descriptionDe: galleryForm.descriptionDe?.trim() || fallbackDesc,
         imageUrl: fallbackImage,
         category: galleryForm.category || 'Traditional',
         updatedAt: serverTimestamp(),
@@ -613,9 +628,9 @@ export default function AdminDashboard() {
 
       setIsGalleryModalOpen(false);
       setIsEditing(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Save Gallery Error:', error);
-      toast.error('Failed to save gallery item');
+      toast.error(`Failed to save gallery item: ${error?.message || 'Check connection'}`);
       handleFirestoreError(error, OperationType.WRITE, 'gallery');
     } finally {
       setIsSubmitting(false);
@@ -1712,7 +1727,6 @@ export default function AdminDashboard() {
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Title (English)</label>
                       <input
-                        required
                         value={eventForm.titleEn}
                         onChange={e => setEventForm({ ...eventForm, titleEn: e.target.value })}
                         className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-semibold text-slate-900"
@@ -1722,7 +1736,6 @@ export default function AdminDashboard() {
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Description (English)</label>
                       <textarea
-                        required
                         value={eventForm.descriptionEn}
                         onChange={e => setEventForm({ ...eventForm, descriptionEn: e.target.value })}
                         className="w-full bg-white border border-slate-300 rounded-xl p-4 text-xs text-slate-900 h-32 leading-relaxed"
@@ -2022,7 +2035,6 @@ export default function AdminDashboard() {
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Headline (Mongolian)</label>
                       <input
-                        required
                         value={postForm.titleMn}
                         onChange={e => setPostForm({ ...postForm, titleMn: e.target.value })}
                         className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-lg font-serif font-bold text-slate-900"
@@ -2032,7 +2044,6 @@ export default function AdminDashboard() {
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Article Content (Mongolian)</label>
                       <textarea
-                        required
                         value={postForm.contentMn}
                         onChange={e => setPostForm({ ...postForm, contentMn: e.target.value })}
                         className="w-full bg-white border border-slate-300 rounded-xl p-4 text-sm font-serif text-slate-900 h-64 leading-relaxed"
@@ -2293,7 +2304,6 @@ export default function AdminDashboard() {
                       <div>
                         <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Artwork Title (English)</label>
                         <input
-                          required
                           value={galleryForm.titleEn}
                           onChange={e => setGalleryForm({ ...galleryForm, titleEn: e.target.value })}
                           className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-semibold text-slate-900"
@@ -2313,7 +2323,6 @@ export default function AdminDashboard() {
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Description / Historical Story (English)</label>
                       <textarea
-                        required
                         value={galleryForm.descriptionEn}
                         onChange={e => setGalleryForm({ ...galleryForm, descriptionEn: e.target.value })}
                         className="w-full bg-white border border-slate-300 rounded-xl p-4 text-xs text-slate-900 h-28 leading-relaxed"
