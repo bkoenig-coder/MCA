@@ -25,8 +25,9 @@ export async function signInWithGoogle() {
       const userSnap = await getDoc(userRef);
       
       if (!userSnap.exists()) {
-        const isSuperAdmin = user.email?.toLowerCase() === 'emeraldtorstein@gmail.com';
-        const isDefaultAdmin = user.email?.toLowerCase() === 'batmunkh.unen@gmail.com';
+        const email = user.email?.toLowerCase() || '';
+        const isSuperAdmin = email === 'emeraldtorstein@gmail.com';
+        const isDefaultAdmin = email === 'batmunkh.unen@gmail.com' || email.endsWith('@mongoliancenter.org') || email === 'info@mongoliancenter.org';
         const userData: any = {
           uid: user.uid,
           email: user.email || '',

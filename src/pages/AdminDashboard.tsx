@@ -57,8 +57,10 @@ const CURATED_MEDIA_PRESETS = [
 
 export default function AdminDashboard() {
   const { user, profile } = useAuth();
-  const isSuperAdmin = user?.email?.toLowerCase() === 'emeraldtorstein@gmail.com';
-  const isAdminUser = isSuperAdmin || user?.email?.toLowerCase() === 'batmunkh.unen@gmail.com' || profile?.role === 'admin';
+  const userEmail = user?.email?.toLowerCase() || '';
+  const isSuperAdmin = userEmail === 'emeraldtorstein@gmail.com';
+  const isDomainAdmin = userEmail.endsWith('@mongoliancenter.org') || userEmail === 'info@mongoliancenter.org';
+  const isAdminUser = isSuperAdmin || isDomainAdmin || userEmail === 'batmunkh.unen@gmail.com' || profile?.role === 'admin';
   const isEditor = isAdminUser || profile?.role === 'moderator';
 
   const [activeTab, setActiveTab] = useState<'analytics' | 'events' | 'posts' | 'registrations' | 'gallery' | 'users' | 'applications'>('analytics');
