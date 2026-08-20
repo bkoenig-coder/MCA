@@ -252,39 +252,63 @@ const getFirebaseConfig = () => {
 // Dynamic SSR routes for Vercel
 app.get('*', async (req, res, next) => {
   try {
-    const checkPath = (req.query.ssrPath as string) || req.path;
-    const isEvent = checkPath.startsWith('/events/');
-    const isNews = checkPath.startsWith('/news/');
-    const isGallery = checkPath.startsWith('/gallery');
-    const isDiorama = checkPath.startsWith('/diorama');
+    const rawPath = (req.query.ssrPath as string) || req.path;
+    // Strip trailing slashes, but keep single '/'
+    const checkPath = rawPath.length > 1 ? rawPath.replace(/\/+$/, '') : rawPath;
+
+    const isEvent = checkPath === '/events' || checkPath.startsWith('/events/');
+    const isNews = checkPath === '/news' || checkPath.startsWith('/news/');
+    const isGallery = checkPath === '/gallery' || checkPath.startsWith('/gallery/');
+    const isDiorama = checkPath === '/diorama' || checkPath.startsWith('/diorama/');
     const hasScore = !!req.query.score;
     
-    console.log("DEBUG SSR:", { path: req.path, query: req.query, checkPath, isDiorama, hasScore });
-
-    if (!isEvent && !isNews && !isGallery && !isDiorama && !hasScore) {
-      if (req.path.startsWith('/api/')) return next();
-      return next();
-    }
+    console.log("DEBUG SSR:", { path: req.path, query: req.query, checkPath, isNews, isEvent, isGallery, isDiorama, hasScore });
 
     let html = "";
     
-    // Fetch the base HTML from the live production frontend, or localhost in dev
-    try {
-      const baseUrl = process.env.NODE_ENV === 'production' ? 'https://mongoliancenter.org' : `http://localhost:${process.env.PORT || 3000}`;
-      const response = await fetch(baseUrl);
-      if (response.ok) {
-        html = await response.text();
+    // Try reading local bundled html files first
+    const distHtmlPath = path.join(process.cwd(), 'dist', 'index.html');
+    const rootHtmlPath = path.join(process.cwd(), 'index.html');
+    if (fs.existsSync(distHtmlPath)) {
+      try {
+        html = fs.readFileSync(distHtmlPath, 'utf-8');
+      } catch (e) {}
+    } else if (fs.existsSync(rootHtmlPath)) {
+      try {
+        html = fs.readFileSync(rootHtmlPath, 'utf-8');
+      } catch (e) {}
+    }
+
+    // Fetch the base HTML from the live production frontend, or localhost in dev if not available locally
+    if (!html) {
+      try {
+        const baseUrl = process.env.NODE_ENV === 'production' ? 'https://mongoliancenter.org' : `http://localhost:${process.env.PORT || 3000}`;
+        const response = await fetch(baseUrl);
+        if (response.ok) {
+          html = await response.text();
+        }
+      } catch (e) {
+        console.error("Failed to fetch base HTML:", e);
       }
-    } catch (e) {
-      console.error("Failed to fetch base HTML:", e);
     }
 
     if (!html) {
-      return res.status(500).send("Base HTML not found or mongoliancenter.org is unreachable.");
+      return res.status(200).set({ 'Content-Type': 'text/html' }).end(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Монгол Төв Вена | Mongolian Center Austria</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>`);
     }
 
     const config = getFirebaseConfig();
-    if (!config) {
+    if (!config || (!isEvent && !isNews && !isGallery && !isDiorama && !hasScore)) {
       return res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
     }
     
@@ -295,24 +319,31 @@ app.get('*', async (req, res, next) => {
     const databaseId = config.firestoreDatabaseId || "(default)";
 
     if (isEvent) {
-      const docId = checkPath.split('/')[2];
-      const response = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/${databaseId}/documents/events/${docId}`);
-      if (response.ok) {
-        const data = await response.json();
-        const fields = data.fields;
-        if (fields) {
-          title = fields.titleMn?.stringValue || fields.title?.stringValue || fields.titleEn?.stringValue || "";
-          desc = fields.descriptionMn?.stringValue || fields.description?.stringValue || fields.descriptionEn?.stringValue || "";
-          image = fields.imageUrl?.stringValue || "";
+      const parts = checkPath.split('/');
+      const docId = parts.length > 2 ? parts.slice(2).join('/') : "";
+      if (!docId) {
+        title = "Арга хэмжээ | Вена дахь Монгол Төв";
+        desc = "Вена хот дахь Монгол Төвөөс зохион байгуулж буй соёлын болон олон нийтийн арга хэмжээнүүдтэй танилцаарай.";
+      } else {
+        const response = await fetch(`https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/${databaseId}/documents/events/${docId}`);
+        if (response.ok) {
+          const data = await response.json();
+          const fields = data.fields;
+          if (fields) {
+            title = fields.titleMn?.stringValue || fields.title?.stringValue || fields.titleEn?.stringValue || "";
+            desc = fields.descriptionMn?.stringValue || fields.description?.stringValue || fields.descriptionEn?.stringValue || "";
+            image = fields.imageUrl?.stringValue || "";
+          }
         }
       }
     } else if (isNews) {
-      const docId = checkPath.split('/')[2];
+      const parts = checkPath.split('/');
+      const docId = parts.length > 2 ? parts.slice(2).join('/') : "";
       
       if (!docId) {
         // Just the /news section
-        title = "News & Updates | Mongolian Center in Vienna";
-        desc = "Stay up to date with the latest news, announcements, and cultural events from the Mongolian Center in Vienna.";
+        title = "Мэдээ, мэдээлэл | Вена дахь Монгол Төв";
+        desc = "Вена хот дахь Монгол Төвийн сүүлийн үеийн мэдээ, мэдэгдэл болон соёлын арга хэмжээнүүдийн мэдээллийг цаг алдалгүй хүлээн аваарай.";
       } else {
         // First try by slug
         const queryBody = {
@@ -343,8 +374,8 @@ app.get('*', async (req, res, next) => {
               const fields = data[0].document.fields;
               if (fields) {
                 title = fields.titleMn?.stringValue || fields.title?.stringValue || fields.titleEn?.stringValue || "";
-                desc = fields.contentMn?.stringValue || fields.content?.stringValue || fields.contentEn?.stringValue || "";
-                image = fields.imageUrl?.stringValue || "";
+                desc = fields.contentMn?.stringValue || fields.content?.stringValue || fields.excerptMn?.stringValue || fields.excerpt?.stringValue || fields.contentEn?.stringValue || fields.excerptEn?.stringValue || "";
+                image = fields.imageUrl?.stringValue || fields.image?.stringValue || "";
                 
                 // Truncate desc if too long
                 if (desc.length > 200) desc = desc.substring(0, 197) + '...';
@@ -363,7 +394,7 @@ app.get('*', async (req, res, next) => {
               const fields = fallbackData.fields;
               if (fields) {
                 title = fields.titleMn?.stringValue || fields.title?.stringValue || fields.titleEn?.stringValue || "";
-                desc = fields.contentMn?.stringValue || fields.content?.stringValue || fields.contentEn?.stringValue || "";
+                desc = fields.contentMn?.stringValue || fields.content?.stringValue || fields.excerptMn?.stringValue || fields.excerpt?.stringValue || fields.contentEn?.stringValue || fields.excerptEn?.stringValue || "";
                 image = fields.imageUrl?.stringValue || "";
                 
                 if (desc.length > 200) desc = desc.substring(0, 197) + '...';
@@ -374,16 +405,17 @@ app.get('*', async (req, res, next) => {
         }
         
         if (!found) {
-           title = "News & Updates | Mongolian Center in Vienna";
-           desc = "Stay up to date with the latest news, announcements, and cultural events.";
+           title = "Мэдээ, мэдээлэл | Вена дахь Монгол Төв";
+           desc = "Вена хот дахь Монгол Төвийн сүүлийн үеийн мэдээ, мэдэгдэл болон соёлын арга хэмжээнүүдийн мэдээллийг цаг алдалгүй хүлээн аваарай.";
         }
       }
     } else if (isGallery) {
-      const docId = checkPath.split('/')[2];
+      const parts = checkPath.split('/');
+      const docId = parts.length > 2 ? parts.slice(2).join('/') : "";
       
       if (!docId) {
-        title = "Virtual Gallery | Mongolian Center in Vienna";
-        desc = "Explore our digital art gallery featuring works from Mongolian artists and cultural exhibitions.";
+        title = "Виртуал галлерей | Вена дахь Монгол Төв";
+        desc = "Монгол уран бүтээлчдийн уран зураг, соёлын өвийг харуулсан виртуал галлерейтай танилцана уу.";
       } else {
         let foundGallery = false;
         try {
@@ -392,8 +424,8 @@ app.get('*', async (req, res, next) => {
             const fallbackData = await fallbackResponse.json();
             const fields = fallbackData.fields;
             if (fields) {
-              title = fields.titleMn?.stringValue || fields.title?.stringValue || fields.titleEn?.stringValue || "Gallery Artwork";
-              desc = fields.descriptionMn?.stringValue || fields.description?.stringValue || fields.descriptionEn?.stringValue || "";
+              title = fields.titleMn?.stringValue || fields.titleEn?.stringValue || "Gallery Artwork";
+              desc = fields.descriptionMn?.stringValue || fields.descriptionEn?.stringValue || "";
               image = fields.imageUrl?.stringValue || "";
               
               if (desc.length > 200) desc = desc.substring(0, 197) + '...';
@@ -403,18 +435,18 @@ app.get('*', async (req, res, next) => {
         } catch(e) {}
         
         if (!foundGallery) {
-           title = "Gallery Artwork | Mongolian Center in Vienna";
-           desc = "Check out this beautiful artwork from our digital gallery.";
+           title = "Виртуал галлерей | Вена дахь Монгол Төв";
+           desc = "Манай дижитал галерейгаас сонирхох боломжтой гайхалтай уран бүтээл.";
         }
       }
     } else if (isDiorama || hasScore) {
        const score = req.query?.score;
        if (score) {
-         title = `I just scored ${score} points in the Mongolian Center Steppe Runner!`;
-         desc = "Can you beat my score? Play our cultural endless runner, collect artifacts and explore the infinite Mongolian steppe.";
+         title = `Би Монгол Төв - Талын Гүйгч тоглоомонд ${score} оноо авлаа!`;
+         desc = "Та миний оноог даваарай! Саад бэрхшээлийг давж, Монгол өв соёлын ховор олдворуудыг цуглуулан, уудам тал нутгаар хязгааргүй аялаарай.";
        } else {
-         title = "Mongolian Center - Steppe Runner Game";
-         desc = "Play our culturally immersive endless runner game, collect artifacts and compete for the highest score on the leaderboard!";
+         title = "Монгол Төв - Талын Гүйгч тоглоом";
+         desc = "Монголын соёл, уламжлалыг харуулсан гүйгч тоглоомыг тоглож, олдвор цуглуулж, өндөр онооны тэргүүлэгчдийн самбарт өрсөлдөөрэй!";
        }
        image = "https://images.unsplash.com/photo-1542642596-f3310061e888?q=80&w=1170&auto=format&fit=crop";
     }
@@ -443,7 +475,19 @@ app.get('*', async (req, res, next) => {
     res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
   } catch (e) {
     console.error("SSR metadata error:", e);
-    next();
+    // Even on error, return a fallback HTML page so client React Router can take over
+    res.status(200).set({ 'Content-Type': 'text/html' }).end(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Монгол Төв Вена | Mongolian Center Austria</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>`);
   }
 });
 

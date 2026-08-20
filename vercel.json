@@ -1,7 +1,7 @@
 {
   "functions": {
     "api/**/*": {
-      "includeFiles": "firebase-applet-config.json"
+      "includeFiles": "{dist/index.html,firebase-applet-config.json}"
     }
   },
   "rewrites": [
@@ -18,6 +18,10 @@
         }
       ],
       "destination": "/api/server?ssrPath=/"
+    },
+    {
+      "source": "/events",
+      "destination": "/api/server?ssrPath=/events"
     },
     {
       "source": "/events/(.*)",
@@ -42,6 +46,10 @@
     {
       "source": "/diorama",
       "destination": "/api/server?ssrPath=/diorama"
+    },
+    {
+      "source": "/diorama/(.*)",
+      "destination": "/api/server?ssrPath=/diorama/$1"
     },
     {
       "source": "/(.*)",

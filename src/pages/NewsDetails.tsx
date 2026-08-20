@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   db,
   doc,
@@ -23,6 +23,11 @@ import {
   Link as LinkIcon,
   Share2,
   Check,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  Maximize2,
+  ZoomIn,
 } from "lucide-react";
 import {
   UlziiSymbol,
@@ -39,6 +44,8 @@ export default function NewsDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -67,7 +74,45 @@ export default function NewsDetails() {
     };
 
     fetchPost();
-  }, [id]);
+  }, [id, t]);
+
+  const rawGallery: string[] = Array.isArray(post?.galleryImages)
+    ? post.galleryImages.filter((img: any) => typeof img === 'string' && img.trim().length > 0)
+    : (typeof post?.galleryImages === "string" && post.galleryImages.trim()
+        ? post.galleryImages.split(/[,;\n]/).map((s: string) => s.trim().replace(/^["']|["']$/g, '')).filter((s: string) => s.length > 0 && (s.startsWith('http://') || s.startsWith('https://') || s.startsWith('/') || s.startsWith('data:')))
+        : []);
+
+  const allPhotos: string[] = [
+    post?.imageUrl,
+    ...rawGallery
+  ].filter((img: any): img is string => typeof img === 'string' && img.trim().length > 0);
+
+  const uniquePhotos: string[] = Array.from(new Set(allPhotos));
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isLightboxOpen) return;
+      if (e.key === "Escape") {
+        setIsLightboxOpen(false);
+      } else if (e.key === "ArrowLeft" && uniquePhotos.length > 1) {
+        setCurrentSlide((prev) => (prev - 1 + uniquePhotos.length) % uniquePhotos.length);
+      } else if (e.key === "ArrowRight" && uniquePhotos.length > 1) {
+        setCurrentSlide((prev) => (prev + 1) % uniquePhotos.length);
+      }
+    };
+
+    if (isLightboxOpen) {
+      document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isLightboxOpen, uniquePhotos.length]);
 
   if (loading) {
     return (
@@ -107,12 +152,6 @@ export default function NewsDetails() {
       : lang === "de"
         ? post.contentDe || post.content
         : post.contentEn || post.content;
-
-  const dispatchGallery: string[] = Array.isArray(post?.galleryImages)
-    ? post.galleryImages.filter((img: any) => typeof img === 'string' && img.trim().length > 0)
-    : (typeof post?.galleryImages === "string" && post.galleryImages.trim()
-        ? post.galleryImages.split(/[,;\n]/).map((s: string) => s.trim().replace(/^["']|["']$/g, '')).filter((s: string) => s.length > 0 && (s.startsWith('http://') || s.startsWith('https://') || s.startsWith('/')))
-        : []);
 
   const shareUrl = "https://mongoliancenter.org" + window.location.pathname + "?v=new";
   const shareTitle = dTitle;
@@ -193,20 +232,157 @@ export default function NewsDetails() {
             </div>
           </div>
 
-          {/* Featured Newspaper Photo */}
-          {post.imageUrl && (
-            <div className="border border-slate-300 p-2 bg-white shadow-sm mb-10">
-              <div className="aspect-[16/10] overflow-hidden bg-slate-100">
-                <img
-                  src={post.imageUrl}
-                  alt={dTitle}
-                  className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
+          {/* Featured Newspaper Photo / Slide Gallery */}
+          {uniquePhotos.length > 0 && (
+            <div className="border border-slate-300 p-2 bg-white shadow-md mb-10 group">
+              <div className="relative w-full min-h-[320px] sm:min-h-[450px] md:min-h-[540px] max-h-[82vh] aspect-[16/10] sm:aspect-[16/11] md:aspect-auto overflow-hidden bg-slate-950 select-none flex items-center justify-center">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentSlide}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.35 }}
+                    className="absolute inset-0 w-full h-full flex items-center justify-center cursor-zoom-in"
+                    onClick={() => setIsLightboxOpen(true)}
+                  >
+                    {/* Blurred Backdrop for portrait/imperfect aspect ratio images */}
+                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                      <img
+                        src={uniquePhotos[currentSlide]}
+                        alt=""
+                        className="w-full h-full object-cover filter blur-3xl opacity-40 scale-125"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+                    {/* Main slide image auto-sized to maximum possible bounds */}
+                    <motion.img
+                      initial={{ scale: 1.02 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.35 }}
+                      src={uniquePhotos[currentSlide]}
+                      alt={`${dTitle} - Press Photograph ${currentSlide + 1}`}
+                      className="w-full h-full max-h-[82vh] object-contain relative z-10 hover:scale-[1.01] transition-transform duration-300"
+                      referrerPolicy="no-referrer"
+                      drag={uniquePhotos.length > 1 ? "x" : false}
+                      dragConstraints={{ left: 0, right: 0 }}
+                      dragElastic={0.2}
+                      onDragEnd={(e, { offset }) => {
+                        e.stopPropagation();
+                        if (offset.x < -40) {
+                          setCurrentSlide((prev) => (prev + 1) % uniquePhotos.length);
+                        } else if (offset.x > 40) {
+                          setCurrentSlide((prev) => (prev - 1 + uniquePhotos.length) % uniquePhotos.length);
+                        }
+                      }}
+                    />
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* Top Left Click to Enlarge Badge */}
+                <button
+                  onClick={() => setIsLightboxOpen(true)}
+                  className="absolute top-3 left-3 z-20 bg-slate-900/80 hover:bg-slate-900 backdrop-blur-sm text-white/90 hover:text-white text-[10px] font-sans font-bold tracking-wider px-2.5 py-1 rounded border border-white/10 shadow-sm flex items-center gap-1.5 opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity"
+                  aria-label="View full picture"
+                >
+                  <Maximize2 size={12} className="text-brand-gold" />
+                  <span>VIEW FULL PIC</span>
+                </button>
+
+                {/* Top Right Plate Counter Badge */}
+                {uniquePhotos.length > 1 && (
+                  <div className="absolute top-3 right-3 z-20 bg-slate-900/80 backdrop-blur-sm text-amber-200 text-[10px] font-sans font-extrabold uppercase tracking-widest px-2.5 py-1 rounded border border-amber-400/20 shadow-sm">
+                    PLATE {currentSlide + 1} / {uniquePhotos.length}
+                  </div>
+                )}
+
+                {/* Left & Right Slide Navigation Arrows */}
+                {uniquePhotos.length > 1 && (
+                  <>
+                    <div className="absolute inset-x-0 inset-y-0 flex items-center justify-between p-3 pointer-events-none z-20">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCurrentSlide((prev) => (prev - 1 + uniquePhotos.length) % uniquePhotos.length);
+                        }}
+                        className="p-2.5 bg-slate-900/70 hover:bg-brand-gold text-white rounded-full transition-all duration-200 opacity-90 sm:opacity-0 group-hover:opacity-100 pointer-events-auto backdrop-blur-sm shadow-md"
+                        aria-label="Previous slide"
+                      >
+                        <ChevronLeft size={20} />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCurrentSlide((prev) => (prev + 1) % uniquePhotos.length);
+                        }}
+                        className="p-2.5 bg-slate-900/70 hover:bg-brand-gold text-white rounded-full transition-all duration-200 opacity-90 sm:opacity-0 group-hover:opacity-100 pointer-events-auto backdrop-blur-sm shadow-md"
+                        aria-label="Next slide"
+                      >
+                        <ChevronRight size={20} />
+                      </button>
+                    </div>
+
+                    {/* Bottom Indicator Dots */}
+                    <div className="absolute bottom-3 inset-x-0 flex justify-center items-center gap-1.5 z-20 pointer-events-auto">
+                      {uniquePhotos.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setCurrentSlide(idx);
+                          }}
+                          className={`h-2 rounded-full transition-all duration-300 ${
+                            idx === currentSlide
+                              ? "w-6 bg-brand-gold shadow-sm"
+                              : "w-2 bg-white/60 hover:bg-white"
+                          }`}
+                          aria-label={`Go to slide ${idx + 1}`}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
-              <p className="font-serif italic text-xs text-slate-600 pt-2 text-center border-t border-slate-200 mt-2">
-                Official Press Photograph — Austrian-Mongolian Center Dispatch
-              </p>
+
+              {/* Caption Line */}
+              <div className="pt-2 text-center border-t border-slate-200 mt-2 flex flex-col sm:flex-row items-center justify-between gap-1 text-slate-600 px-1">
+                <button
+                  onClick={() => setIsLightboxOpen(true)}
+                  className="font-serif italic text-xs hover:text-brand-gold transition-colors text-left flex items-center gap-1.5 group/cap"
+                >
+                  <span>Official Press Photograph — Austrian-Mongolian Center Dispatch</span>
+                  <ZoomIn size={12} className="opacity-0 group-hover/cap:opacity-100 text-brand-gold transition-opacity" />
+                </button>
+                {uniquePhotos.length > 1 && (
+                  <span className="text-[10px] font-sans uppercase tracking-widest text-slate-500 font-bold">
+                    PRESS ARCHIVE • {currentSlide + 1} OF {uniquePhotos.length}
+                  </span>
+                )}
+              </div>
+
+              {/* Thumbnail Strip for multi-photo sets */}
+              {uniquePhotos.length > 1 && (
+                <div className="mt-3 pt-3 border-t border-slate-100 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-thin">
+                  {uniquePhotos.map((photoUrl, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentSlide(idx)}
+                      className={`relative flex-shrink-0 w-16 h-12 rounded overflow-hidden border-2 transition-all ${
+                        idx === currentSlide
+                          ? "border-brand-gold ring-1 ring-brand-gold"
+                          : "border-transparent opacity-60 hover:opacity-100"
+                      }`}
+                    >
+                      <img
+                        src={photoUrl}
+                        alt={`Thumbnail ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                        referrerPolicy="no-referrer"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -342,37 +518,6 @@ export default function NewsDetails() {
             })()}
           </div>
 
-          {/* Dispatch Photo Gallery Grid (If multiple images attached) */}
-          {dispatchGallery.length > 0 && (
-            <div className="mt-12 pt-8 border-t-2 border-slate-900">
-              <div className="flex items-center justify-between mb-6">
-                <span className="text-[10px] uppercase tracking-[0.3em] font-extrabold text-slate-800 font-sans">
-                  OFFICIAL DISPATCH PHOTO GALLERY ({dispatchGallery.length} PHOTOS)
-                </span>
-                <span className="text-[9px] uppercase tracking-widest font-sans font-bold text-slate-400">
-                  PRESS ARCHIVE
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {dispatchGallery.map((imgUrl: string, gIdx: number) => (
-                  <div key={gIdx} className="border border-slate-300 p-2 bg-white shadow-sm group hover:border-brand-gold transition-colors">
-                    <div className="aspect-[4/3] overflow-hidden bg-slate-900">
-                      <img 
-                        src={imgUrl} 
-                        alt={`Dispatch Photo ${gIdx + 1}`} 
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                      />
-                    </div>
-                    <p className="font-serif italic text-[11px] text-slate-600 pt-2 text-center border-t border-slate-200 mt-2">
-                      Plate {gIdx + 1} — Dispatch Archive Photo
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Newspaper End Ornament */}
           <div className="mt-12 pt-6 border-t-2 border-slate-900 text-center flex flex-col items-center justify-center">
             <UlziiSymbol className="w-8 h-8 text-brand-gold/60 mb-2" />
@@ -382,6 +527,142 @@ export default function NewsDetails() {
           </div>
         </motion.article>
       </div>
+
+      {/* Full Picture Lightbox Modal (Fixed overlay outside transformed containers) */}
+      <AnimatePresence>
+        {isLightboxOpen && uniquePhotos.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[9999] bg-slate-950/95 backdrop-blur-md flex flex-col justify-between p-2 sm:p-4 md:p-6 select-none"
+            onClick={() => setIsLightboxOpen(false)}
+          >
+            {/* Lightbox Top Header */}
+            <div 
+              className="flex items-center justify-between z-10 max-w-[98vw] mx-auto w-full text-white/90 px-2 pt-1"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center gap-3">
+                <UlziiSymbol className="w-5 h-5 text-brand-gold shrink-0" />
+                <div>
+                  <span className="text-[10px] uppercase font-sans tracking-[0.25em] font-extrabold text-amber-300 block">
+                    MCA PRESS ARCHIVE • OFFICIAL PRESS PHOTOGRAPH
+                  </span>
+                  <span className="text-xs text-white/70 font-serif truncate max-w-[240px] sm:max-w-md block">
+                    {dTitle}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                {uniquePhotos.length > 1 && (
+                  <span className="text-xs font-sans font-bold bg-white/10 px-3 py-1 rounded-full text-amber-200 tracking-wider">
+                    {currentSlide + 1} / {uniquePhotos.length}
+                  </span>
+                )}
+                <button
+                  onClick={() => setIsLightboxOpen(false)}
+                  className="p-2.5 rounded-full bg-white/15 hover:bg-brand-gold hover:text-slate-950 text-white transition-colors flex items-center justify-center shadow-lg border border-white/10"
+                  aria-label="Close full picture"
+                >
+                  <X size={22} />
+                </button>
+              </div>
+            </div>
+
+            {/* Main Full Image View Area (Autoresponsive maximum size) */}
+            <div 
+              className="relative flex-1 flex items-center justify-center max-w-[98vw] w-full my-1 sm:my-2 overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={currentSlide}
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.96 }}
+                  transition={{ duration: 0.25 }}
+                  src={uniquePhotos[currentSlide]}
+                  alt={`${dTitle} - Full Press Photograph ${currentSlide + 1}`}
+                  className="max-h-[84vh] sm:max-h-[88vh] max-w-[98vw] sm:max-w-[96vw] w-auto h-auto object-contain shadow-2xl rounded-sm"
+                  referrerPolicy="no-referrer"
+                  drag={uniquePhotos.length > 1 ? "x" : false}
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.2}
+                  onDragEnd={(_, { offset }) => {
+                    if (offset.x < -40) {
+                      setCurrentSlide((prev) => (prev + 1) % uniquePhotos.length);
+                    } else if (offset.x > 40) {
+                      setCurrentSlide((prev) => (prev - 1 + uniquePhotos.length) % uniquePhotos.length);
+                    }
+                  }}
+                />
+              </AnimatePresence>
+
+              {/* Navigation Arrows in Lightbox */}
+              {uniquePhotos.length > 1 && (
+                <>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentSlide((prev) => (prev - 1 + uniquePhotos.length) % uniquePhotos.length);
+                    }}
+                    className="absolute left-2 sm:left-6 p-3 sm:p-4 rounded-full bg-black/60 hover:bg-brand-gold text-white hover:text-slate-950 transition-all backdrop-blur-sm shadow-xl z-20"
+                    aria-label="Previous image"
+                  >
+                    <ChevronLeft size={28} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentSlide((prev) => (prev + 1) % uniquePhotos.length);
+                    }}
+                    className="absolute right-2 sm:right-6 p-3 sm:p-4 rounded-full bg-black/60 hover:bg-brand-gold text-white hover:text-slate-950 transition-all backdrop-blur-sm shadow-xl z-20"
+                    aria-label="Next image"
+                  >
+                    <ChevronRight size={28} />
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* Lightbox Footer & Thumbnails */}
+            <div 
+              className="z-10 max-w-[98vw] mx-auto w-full text-center flex flex-col items-center gap-2 pb-1"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <p className="font-serif italic text-xs sm:text-sm text-slate-300">
+                Official Press Photograph — Austrian-Mongolian Center Dispatch
+              </p>
+
+              {uniquePhotos.length > 1 && (
+                <div className="flex items-center gap-2 overflow-x-auto max-w-full pb-1">
+                  {uniquePhotos.map((photoUrl, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentSlide(idx)}
+                      className={`relative flex-shrink-0 w-12 h-9 sm:w-14 sm:h-10 rounded overflow-hidden border-2 transition-all ${
+                        idx === currentSlide
+                          ? "border-brand-gold ring-2 ring-brand-gold scale-105"
+                          : "border-transparent opacity-50 hover:opacity-100"
+                      }`}
+                    >
+                      <img
+                        src={photoUrl}
+                        alt={`Thumbnail ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                        referrerPolicy="no-referrer"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

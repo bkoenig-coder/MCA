@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
 import { useAuth } from '../contexts/AuthContext';
-import { db, collection, addDoc, onSnapshot, query, orderBy, limit, serverTimestamp, OperationType, handleFirestoreError } from '../firebase';
+import { db, collection, addDoc, onSnapshot, query, orderBy, limit, serverTimestamp, OperationType, handleFirestoreError, signInWithGoogle, auth } from '../firebase';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { 
   Plus, Calendar, FileText, Users, User as UserIcon, TrendingUp, Image as ImageIcon, 
   Trash2, Edit3, Check, X, AlertCircle, ExternalLink, Download, Shield, Sparkles, 
-  Wand2, Copy, Search, Eye, MapPin, Clock, Tag, Compass
+  Wand2, Copy, Search, Eye, MapPin, Clock, Tag, Compass, Upload, Loader2, Link2, SlidersHorizontal
 } from 'lucide-react';
 import { deleteDoc, doc, updateDoc, setDoc } from 'firebase/firestore';
 import { toast } from 'sonner';
@@ -55,6 +55,206 @@ const CURATED_MEDIA_PRESETS = [
   }
 ];
 
+// Clean and parse comma/newline-separated image URLs safely without breaking query parameters
+export const parseGalleryImages = (input: string | string[] | undefined | null): string[] => {
+  if (!input) return [];
+  if (Array.isArray(input)) {
+    return input
+      .filter(url => typeof url === 'string' && url.trim().length > 0)
+      .map(url => url.trim().replace(/^["']|["']$/g, ''))
+      .filter(url => url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/') || url.startsWith('data:image/'));
+  }
+  if (typeof input !== 'string' || !input.trim()) return [];
+  
+  const lines = input.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+  const results: string[] = [];
+  
+  for (const line of lines) {
+    // Split on commas or semicolons or spaces ONLY if immediately followed by http/https/slash/data:
+    const tokens = line.split(/(?:,\s*|;\s*|\s+)(?=https?:\/\/|\/|data:image\/)/i);
+    for (const token of tokens) {
+      const clean = token.trim().replace(/^["']|["']$/g, '').replace(/^[,\s]+|[,\s]+$/g, '');
+      if (clean && (clean.startsWith('http://') || clean.startsWith('https://') || clean.startsWith('/') || clean.startsWith('data:image/'))) {
+        results.push(clean);
+      }
+    }
+  }
+  return results;
+};
+
+interface MultiPhotoUploaderProps {
+  label?: string;
+  target: 'event' | 'post' | 'gallery';
+  galleryImages: string;
+  isUploading: boolean;
+  singleUrlInput: string;
+  showRaw: boolean;
+  onSingleUrlChange: (val: string) => void;
+  onAddSingleUrl: () => void;
+  onToggleRaw: () => void;
+  onRawChange: (val: string) => void;
+  onFileUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onOpenPresets: () => void;
+  onRemovePhoto: (index: number) => void;
+  onClearAll: () => void;
+}
+
+function MultiPhotoUploader({
+  label = "Extra Gallery Images (Multi-photo upload)",
+  target,
+  galleryImages,
+  isUploading,
+  singleUrlInput,
+  showRaw,
+  onSingleUrlChange,
+  onAddSingleUrl,
+  onToggleRaw,
+  onRawChange,
+  onFileUpload,
+  onOpenPresets,
+  onRemovePhoto,
+  onClearAll,
+}: MultiPhotoUploaderProps) {
+  const images = parseGalleryImages(galleryImages);
+
+  return (
+    <div className="space-y-3 p-4 bg-white rounded-2xl border border-slate-200 shadow-xs">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-700 block">
+            {label}
+          </label>
+          <span className="text-[11px] text-slate-500 font-light">
+            Attach high-res photos, field documentation, or event plates.
+          </span>
+        </div>
+        {images.length > 0 && (
+          <span className="text-[11px] bg-amber-100 text-amber-950 font-bold px-2.5 py-0.5 rounded-full border border-amber-300">
+            📸 {images.length} photo{images.length === 1 ? '' : 's'}
+          </span>
+        )}
+      </div>
+
+      {/* Action Buttons: Device Upload + Presets + Raw Textarea Toggle */}
+      <div className="flex flex-wrap items-center gap-2 pt-0.5">
+        <label className="flex items-center gap-1.5 px-3.5 py-2 bg-[#0A1128] hover:bg-slate-800 text-white rounded-xl text-xs font-bold uppercase tracking-wider cursor-pointer shadow-xs transition-all">
+          <Upload size={13} className={isUploading ? "animate-bounce text-brand-gold" : "text-brand-gold"} />
+          <span>{isUploading ? 'Processing & Adding...' : '📁 Upload Photos from Device'}</span>
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={onFileUpload}
+            className="hidden"
+            disabled={isUploading}
+          />
+        </label>
+
+        <button
+          type="button"
+          onClick={onOpenPresets}
+          className="flex items-center gap-1.5 px-3.5 py-2 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
+        >
+          <ImageIcon size={13} className="text-amber-800" />
+          <span>📸 Curated Presets</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={onToggleRaw}
+          className="flex items-center gap-1.5 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ml-auto"
+          title="Toggle direct text editor for URLs"
+        >
+          <SlidersHorizontal size={12} />
+          <span>{showRaw ? 'Hide URL List' : 'Edit URLs'}</span>
+        </button>
+      </div>
+
+      {/* Quick Single URL Input */}
+      <div className="flex items-center gap-2 pt-0.5">
+        <div className="relative flex-1">
+          <Link2 size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <input
+            type="url"
+            value={singleUrlInput}
+            onChange={e => onSingleUrlChange(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); onAddSingleUrl(); } }}
+            placeholder="Or paste an image URL (https://...) and press Add..."
+            className="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:bg-white focus:ring-2 focus:ring-brand-gold/20"
+          />
+        </div>
+        <button
+          type="button"
+          onClick={onAddSingleUrl}
+          className="px-4 py-2 bg-slate-800 hover:bg-black text-white text-xs font-bold rounded-xl uppercase tracking-wider cursor-pointer"
+        >
+          <Plus size={13} className="inline mr-1" /> Add
+        </button>
+      </div>
+
+      {/* Direct Raw Textarea (Collapsible) */}
+      {showRaw && (
+        <div className="pt-2">
+          <label className="text-[9px] font-mono text-slate-500 uppercase block mb-1">
+            Direct URLs (one per line or separated by commas):
+          </label>
+          <textarea
+            rows={3}
+            value={galleryImages}
+            onChange={e => onRawChange(e.target.value)}
+            placeholder="https://images.unsplash.com/photo-1...\nhttps://images.unsplash.com/photo-2..."
+            className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-mono text-slate-900 focus:bg-white focus:ring-2 focus:ring-brand-gold/20"
+          />
+        </div>
+      )}
+
+      {/* Interactive Thumbnail Previews */}
+      {images.length > 0 ? (
+        <div className="pt-2 border-t border-slate-200">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] uppercase font-mono font-bold text-slate-500">
+              Attached Photo Previews:
+            </span>
+            <button
+              type="button"
+              onClick={onClearAll}
+              className="text-[10px] text-red-600 hover:text-red-700 font-bold uppercase tracking-wider cursor-pointer"
+            >
+              Clear All Photos
+            </button>
+          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2.5 max-h-56 overflow-y-auto p-1.5 bg-slate-50 rounded-xl border border-slate-200">
+            {images.map((url, idx) => (
+              <div key={idx} className="aspect-square rounded-xl overflow-hidden border border-slate-300 bg-slate-900 shadow-xs relative group">
+                <img src={url} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <button
+                    type="button"
+                    onClick={() => onRemovePhoto(idx)}
+                    className="w-6 h-6 bg-red-600 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-700 shadow-sm cursor-pointer"
+                    title="Remove photo"
+                  >
+                    <X size={12} />
+                  </button>
+                </div>
+                <span className="absolute bottom-1 left-1 bg-black/80 text-[9px] text-white px-1.5 py-0.5 rounded-md font-mono font-bold">
+                  #{idx + 1}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="py-4 text-center border border-dashed border-slate-300 rounded-xl bg-slate-50 text-slate-500">
+          <ImageIcon size={22} className="mx-auto mb-1 text-slate-400" />
+          <p className="text-xs font-medium">No extra gallery photos attached yet</p>
+          <p className="text-[10px] text-slate-400">Click "Upload Photos from Device" or paste a URL above</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function AdminDashboard() {
   const { user, profile } = useAuth();
   const userEmail = user?.email?.toLowerCase() || '';
@@ -85,7 +285,10 @@ export default function AdminDashboard() {
 
   // Media Preset Drawer State
   const [isMediaPickerOpen, setIsMediaPickerOpen] = useState(false);
-  const [activeMediaTarget, setActiveMediaTarget] = useState<'event' | 'post' | 'gallery' | null>(null);
+  const [activeMediaTarget, setActiveMediaTarget] = useState<'event' | 'post' | 'gallery' | 'event_gallery' | 'post_gallery' | 'gallery_gallery' | null>(null);
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const [singleUrlInputs, setSingleUrlInputs] = useState<{ [key: string]: string }>({ event: '', post: '', gallery: '' });
+  const [showRawTextarea, setShowRawTextarea] = useState<{ [key: string]: boolean }>({ event: false, post: false, gallery: false });
 
   // Form States
   const [eventForm, setEventForm] = useState({
@@ -122,33 +325,6 @@ export default function AdminDashboard() {
     category: 'Traditional',
     galleryImages: ''
   });
-
-  // Clean and parse comma/newline-separated image URLs safely without breaking query parameters
-  const parseGalleryImages = (input: string | string[] | undefined | null): string[] => {
-    if (!input) return [];
-    if (Array.isArray(input)) {
-      return input
-        .filter(url => typeof url === 'string' && url.trim().length > 0)
-        .map(url => url.trim().replace(/^["']|["']$/g, ''))
-        .filter(url => url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/') || url.startsWith('data:image/'));
-    }
-    if (typeof input !== 'string' || !input.trim()) return [];
-    
-    const lines = input.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
-    const results: string[] = [];
-    
-    for (const line of lines) {
-      // Split on commas or semicolons or spaces ONLY if immediately followed by http/https/slash/data:
-      const tokens = line.split(/(?:,\s*|;\s*|\s+)(?=https?:\/\/|\/|data:image\/)/i);
-      for (const token of tokens) {
-        const clean = token.trim().replace(/^["']|["']$/g, '').replace(/^[,\s]+|[,\s]+$/g, '');
-        if (clean && (clean.startsWith('http://') || clean.startsWith('https://') || clean.startsWith('/') || clean.startsWith('data:image/'))) {
-          results.push(clean);
-        }
-      }
-    }
-    return results;
-  };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isTranslating, setIsTranslating] = useState(false);
@@ -368,6 +544,15 @@ export default function AdminDashboard() {
       setPostForm(prev => ({ ...prev, imageUrl: url }));
     } else if (activeMediaTarget === 'gallery') {
       setGalleryForm(prev => ({ ...prev, imageUrl: url }));
+    } else if (activeMediaTarget === 'post_gallery') {
+      const current = parseGalleryImages(postForm.galleryImages);
+      setPostForm(prev => ({ ...prev, galleryImages: [...current, url].join('\n') }));
+    } else if (activeMediaTarget === 'event_gallery') {
+      const current = parseGalleryImages(eventForm.galleryImages);
+      setEventForm(prev => ({ ...prev, galleryImages: [...current, url].join('\n') }));
+    } else if (activeMediaTarget === 'gallery_gallery') {
+      const current = parseGalleryImages(galleryForm.galleryImages);
+      setGalleryForm(prev => ({ ...prev, galleryImages: [...current, url].join('\n') }));
     }
     setIsMediaPickerOpen(false);
     toast.success('Photo applied from media library');
@@ -393,6 +578,102 @@ export default function AdminDashboard() {
     }
   };
 
+  // Fast canvas-based image resizing & compression helper to stay well under Firestore doc limits
+  const compressImage = (file: File, maxWidth = 1400, maxHeight = 1400, quality = 0.85): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const src = e.target?.result as string;
+        const img = new Image();
+        img.onload = () => {
+          let { width, height } = img;
+          if (width > maxWidth || height > maxHeight) {
+            const ratio = Math.min(maxWidth / width, maxHeight / height);
+            width = Math.round(width * ratio);
+            height = Math.round(height * ratio);
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            resolve(src);
+            return;
+          }
+          ctx.drawImage(img, 0, 0, width, height);
+          const dataUrl = canvas.toDataURL('image/jpeg', quality);
+          resolve(dataUrl);
+        };
+        img.onerror = () => resolve(src);
+        img.src = src;
+      };
+      reader.onerror = (err) => reject(err);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // Multi-photo local file uploader with auto-compression & preview
+  const handleMultiPhotoUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    target: 'event' | 'post' | 'gallery'
+  ) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    setIsUploadingPhoto(true);
+    try {
+      const fileList = Array.from(files);
+      const compressedList = await Promise.all(fileList.map(f => compressImage(f)));
+      
+      if (target === 'post') {
+        const current = parseGalleryImages(postForm.galleryImages);
+        const combined = [...current, ...compressedList];
+        setPostForm(prev => ({ ...prev, galleryImages: combined.join('\n') }));
+      } else if (target === 'event') {
+        const current = parseGalleryImages(eventForm.galleryImages);
+        const combined = [...current, ...compressedList];
+        setEventForm(prev => ({ ...prev, galleryImages: combined.join('\n') }));
+      } else if (target === 'gallery') {
+        const current = parseGalleryImages(galleryForm.galleryImages);
+        const combined = [...current, ...compressedList];
+        setGalleryForm(prev => ({ ...prev, galleryImages: combined.join('\n') }));
+      }
+      toast.success(`Successfully added ${compressedList.length} photo${compressedList.length > 1 ? 's' : ''}!`);
+    } catch (err) {
+      console.error('Photo upload error:', err);
+      toast.error('Failed to process image files');
+    } finally {
+      setIsUploadingPhoto(false);
+      e.target.value = '';
+    }
+  };
+
+  // Add single URL quickly via input
+  const handleAddSinglePhotoUrl = (target: 'event' | 'post' | 'gallery') => {
+    const rawUrl = (singleUrlInputs[target] || '').trim().replace(/^["']|["']$/g, '');
+    if (!rawUrl) {
+      toast.error('Please enter a valid image URL');
+      return;
+    }
+    if (!rawUrl.startsWith('http://') && !rawUrl.startsWith('https://') && !rawUrl.startsWith('/') && !rawUrl.startsWith('data:image/')) {
+      toast.error('URL must start with https://, http://, or data:image/');
+      return;
+    }
+
+    if (target === 'post') {
+      const current = parseGalleryImages(postForm.galleryImages);
+      setPostForm(prev => ({ ...prev, galleryImages: [...current, rawUrl].join('\n') }));
+    } else if (target === 'event') {
+      const current = parseGalleryImages(eventForm.galleryImages);
+      setEventForm(prev => ({ ...prev, galleryImages: [...current, rawUrl].join('\n') }));
+    } else if (target === 'gallery') {
+      const current = parseGalleryImages(galleryForm.galleryImages);
+      setGalleryForm(prev => ({ ...prev, galleryImages: [...current, rawUrl].join('\n') }));
+    }
+    setSingleUrlInputs(prev => ({ ...prev, [target]: '' }));
+    toast.success('Photo added to gallery!');
+  };
+
   // Open Event Modal for Create or Edit
   const openEventStudio = (existingEvent?: any) => {
     if (existingEvent) {
@@ -414,7 +695,7 @@ export default function AdminDashboard() {
         imageUrl: existingEvent.imageUrl || '',
         whatsIncluded: Array.isArray(existingEvent.whatsIncluded) ? existingEvent.whatsIncluded.join(', ') : '',
         galleryImages: Array.isArray(existingEvent.galleryImages)
-          ? existingEvent.galleryImages.join(', ')
+          ? existingEvent.galleryImages.join('\n')
           : (typeof existingEvent.galleryImages === 'string' ? existingEvent.galleryImages : '')
       });
     } else {
@@ -519,6 +800,16 @@ export default function AdminDashboard() {
       return;
     }
 
+    if (!auth.currentUser) {
+      toast.error('You must be signed in with an authorized Google account to save events.', {
+        action: {
+          label: 'Sign In',
+          onClick: () => signInWithGoogle()
+        }
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const fallbackDesc = (eventForm.descriptionEn || eventForm.descriptionMn || eventForm.descriptionDe || '').trim() || 'Event details and program information.';
@@ -563,7 +854,12 @@ export default function AdminDashboard() {
       setIsEditing(false);
     } catch (error: any) {
       console.error('Save Event Error:', error);
-      toast.error(`Failed to save event: ${error?.message || 'Check connection'}`);
+      const isPermError = error?.code === 'permission-denied' || error?.message?.toLowerCase().includes('permission');
+      if (isPermError) {
+        toast.error('Permission Denied: Ensure your Google Account is an authorized admin or check Firestore security rules in Firebase Console.');
+      } else {
+        toast.error(`Failed to save event: ${error?.message || 'Check network connection'}`);
+      }
       handleFirestoreError(error, OperationType.WRITE, 'events');
     } finally {
       setIsSubmitting(false);
@@ -576,6 +872,16 @@ export default function AdminDashboard() {
     const fallbackTitle = (postForm.titleMn || postForm.titleEn || postForm.titleDe || '').trim();
     if (!fallbackTitle) {
       toast.error('Please enter an article headline in at least one language.');
+      return;
+    }
+
+    if (!auth.currentUser) {
+      toast.error('You must be signed in with an authorized Google account to save posts.', {
+        action: {
+          label: 'Sign In',
+          onClick: () => signInWithGoogle()
+        }
+      });
       return;
     }
 
@@ -625,7 +931,12 @@ export default function AdminDashboard() {
       setIsEditing(false);
     } catch (error: any) {
       console.error('Save Post Error:', error);
-      toast.error(`Failed to save post: ${error?.message || 'Check permissions'}`);
+      const isPermError = error?.code === 'permission-denied' || error?.message?.toLowerCase().includes('permission');
+      if (isPermError) {
+        toast.error('Permission Denied: Ensure your Google Account is an authorized admin or check Firestore security rules in Firebase Console.');
+      } else {
+        toast.error(`Failed to save post: ${error?.message || 'Check network connection'}`);
+      }
       handleFirestoreError(error, OperationType.WRITE, 'posts');
     } finally {
       setIsSubmitting(false);
@@ -638,6 +949,16 @@ export default function AdminDashboard() {
     const fallbackTitle = (galleryForm.titleEn || galleryForm.titleMn || galleryForm.titleDe || '').trim();
     if (!fallbackTitle) {
       toast.error('Please enter an artwork title in at least one language.');
+      return;
+    }
+
+    if (!auth.currentUser) {
+      toast.error('You must be signed in with an authorized Google account to save artworks.', {
+        action: {
+          label: 'Sign In',
+          onClick: () => signInWithGoogle()
+        }
+      });
       return;
     }
 
@@ -679,7 +1000,12 @@ export default function AdminDashboard() {
       setIsEditing(false);
     } catch (error: any) {
       console.error('Save Gallery Error:', error);
-      toast.error(`Failed to save gallery item: ${error?.message || 'Check connection'}`);
+      const isPermError = error?.code === 'permission-denied' || error?.message?.toLowerCase().includes('permission');
+      if (isPermError) {
+        toast.error('Permission Denied: Ensure your Google Account is an authorized admin or check Firestore security rules in Firebase Console.');
+      } else {
+        toast.error(`Failed to save gallery item: ${error?.message || 'Check network connection'}`);
+      }
       handleFirestoreError(error, OperationType.WRITE, 'gallery');
     } finally {
       setIsSubmitting(false);
@@ -1719,34 +2045,22 @@ export default function AdminDashboard() {
                     />
                   </div>
 
-                  <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600">
-                        Extra Gallery Images (Multi-photo upload)
-                      </label>
-                      {parseGalleryImages(eventForm.galleryImages).length > 0 && (
-                        <span className="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full font-mono font-bold">
-                          {parseGalleryImages(eventForm.galleryImages).length} photo{parseGalleryImages(eventForm.galleryImages).length === 1 ? '' : 's'}
-                        </span>
-                      )}
-                    </div>
-                    <textarea
-                      rows={2}
-                      value={eventForm.galleryImages}
-                      onChange={e => setEventForm({ ...eventForm, galleryImages: e.target.value })}
-                      placeholder="Paste image URLs (one per line or separated by commas)..."
-                      className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2 text-xs text-slate-900 focus:ring-2 focus:ring-brand-gold/20"
-                    />
-                    {parseGalleryImages(eventForm.galleryImages).length > 0 && (
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        {parseGalleryImages(eventForm.galleryImages).map((url, idx) => (
-                          <div key={idx} className="w-12 h-12 rounded-lg overflow-hidden border border-slate-200 bg-slate-100 shadow-xs relative group">
-                            <img src={url} alt="" className="w-full h-full object-cover" />
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                  <MultiPhotoUploader
+                    label="Extra Gallery Images (Multi-photo upload)"
+                    target="event"
+                    galleryImages={eventForm.galleryImages}
+                    isUploading={isUploadingPhoto}
+                    singleUrlInput={singleUrlInputs.event || ''}
+                    showRaw={showRawTextarea.event || false}
+                    onSingleUrlChange={val => setSingleUrlInputs(prev => ({ ...prev, event: val }))}
+                    onAddSingleUrl={() => handleAddSinglePhotoUrl('event')}
+                    onToggleRaw={() => setShowRawTextarea(prev => ({ ...prev, event: !prev.event }))}
+                    onRawChange={val => setEventForm(prev => ({ ...prev, galleryImages: val }))}
+                    onFileUpload={e => handleMultiPhotoUpload(e, 'event')}
+                    onOpenPresets={() => { setActiveMediaTarget('event_gallery'); setIsMediaPickerOpen(true); }}
+                    onRemovePhoto={idx => handleRemoveGalleryImage('event', idx)}
+                    onClearAll={() => setEventForm(prev => ({ ...prev, galleryImages: '' }))}
+                  />
                 </div>
 
                 {/* Live Image Preview */}
@@ -2009,45 +2323,22 @@ export default function AdminDashboard() {
                     />
                   </div>
 
-                  <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600">
-                        Extra Gallery Images (Multi-photo upload)
-                      </label>
-                      {parseGalleryImages(postForm.galleryImages).length > 0 && (
-                        <span className="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full font-mono font-bold">
-                          {parseGalleryImages(postForm.galleryImages).length} photo{parseGalleryImages(postForm.galleryImages).length === 1 ? '' : 's'}
-                        </span>
-                      )}
-                    </div>
-                    <textarea
-                      rows={2}
-                      value={postForm.galleryImages}
-                      onChange={e => setPostForm({ ...postForm, galleryImages: e.target.value })}
-                      placeholder="Paste image URLs (one per line or separated by commas)..."
-                      className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2 text-xs text-slate-900 focus:ring-2 focus:ring-brand-gold/20"
-                    />
-                    {parseGalleryImages(postForm.galleryImages).length > 0 && (
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        {parseGalleryImages(postForm.galleryImages).map((url, idx) => (
-                          <div key={idx} className="w-14 h-14 rounded-lg overflow-hidden border border-slate-200 bg-slate-100 shadow-xs relative group">
-                            <img src={url} alt="" className="w-full h-full object-cover" />
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveGalleryImage('post', idx)}
-                              className="absolute top-0.5 right-0.5 w-4 h-4 bg-red-600/90 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-[9px] hover:bg-red-700"
-                              title="Remove photo"
-                            >
-                              <X size={10} />
-                            </button>
-                            <span className="absolute bottom-0.5 left-0.5 bg-black/60 text-[8px] text-white px-1 rounded font-mono font-bold">
-                              #{idx + 1}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                  <MultiPhotoUploader
+                    label="Extra Gallery Images (Multi-photo upload)"
+                    target="post"
+                    galleryImages={postForm.galleryImages}
+                    isUploading={isUploadingPhoto}
+                    singleUrlInput={singleUrlInputs.post || ''}
+                    showRaw={showRawTextarea.post || false}
+                    onSingleUrlChange={val => setSingleUrlInputs(prev => ({ ...prev, post: val }))}
+                    onAddSingleUrl={() => handleAddSinglePhotoUrl('post')}
+                    onToggleRaw={() => setShowRawTextarea(prev => ({ ...prev, post: !prev.post }))}
+                    onRawChange={val => setPostForm(prev => ({ ...prev, galleryImages: val }))}
+                    onFileUpload={e => handleMultiPhotoUpload(e, 'post')}
+                    onOpenPresets={() => { setActiveMediaTarget('post_gallery'); setIsMediaPickerOpen(true); }}
+                    onRemovePhoto={idx => handleRemoveGalleryImage('post', idx)}
+                    onClearAll={() => setPostForm(prev => ({ ...prev, galleryImages: '' }))}
+                  />
                 </div>
 
                 {/* Cover Image Preview */}
@@ -2378,45 +2669,22 @@ export default function AdminDashboard() {
                     </div>
                   </div>
 
-                  <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600">
-                        Extra Gallery Images (Multi-photo upload)
-                      </label>
-                      {parseGalleryImages(galleryForm.galleryImages).length > 0 && (
-                        <span className="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full font-mono font-bold">
-                          {parseGalleryImages(galleryForm.galleryImages).length} photo{parseGalleryImages(galleryForm.galleryImages).length === 1 ? '' : 's'}
-                        </span>
-                      )}
-                    </div>
-                    <textarea
-                      rows={2}
-                      value={galleryForm.galleryImages}
-                      onChange={e => setGalleryForm({ ...galleryForm, galleryImages: e.target.value })}
-                      placeholder="Paste image URLs (one per line or separated by commas)..."
-                      className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2 text-xs text-slate-900 focus:ring-2 focus:ring-brand-gold/20"
-                    />
-                    {parseGalleryImages(galleryForm.galleryImages).length > 0 && (
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        {parseGalleryImages(galleryForm.galleryImages).map((url, idx) => (
-                          <div key={idx} className="w-14 h-14 rounded-lg overflow-hidden border border-slate-200 bg-slate-100 shadow-xs relative group">
-                            <img src={url} alt="" className="w-full h-full object-cover" />
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveGalleryImage('gallery', idx)}
-                              className="absolute top-0.5 right-0.5 w-4 h-4 bg-red-600/90 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-[9px] hover:bg-red-700"
-                              title="Remove photo"
-                            >
-                              <X size={10} />
-                            </button>
-                            <span className="absolute bottom-0.5 left-0.5 bg-black/60 text-[8px] text-white px-1 rounded font-mono font-bold">
-                              #{idx + 1}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                  <MultiPhotoUploader
+                    label="Extra Gallery Images (Multi-photo upload)"
+                    target="gallery"
+                    galleryImages={galleryForm.galleryImages}
+                    isUploading={isUploadingPhoto}
+                    singleUrlInput={singleUrlInputs.gallery || ''}
+                    showRaw={showRawTextarea.gallery || false}
+                    onSingleUrlChange={val => setSingleUrlInputs(prev => ({ ...prev, gallery: val }))}
+                    onAddSingleUrl={() => handleAddSinglePhotoUrl('gallery')}
+                    onToggleRaw={() => setShowRawTextarea(prev => ({ ...prev, gallery: !prev.gallery }))}
+                    onRawChange={val => setGalleryForm(prev => ({ ...prev, galleryImages: val }))}
+                    onFileUpload={e => handleMultiPhotoUpload(e, 'gallery')}
+                    onOpenPresets={() => { setActiveMediaTarget('gallery_gallery'); setIsMediaPickerOpen(true); }}
+                    onRemovePhoto={idx => handleRemoveGalleryImage('gallery', idx)}
+                    onClearAll={() => setGalleryForm(prev => ({ ...prev, galleryImages: '' }))}
+                  />
                 </div>
 
                 {/* Image Preview Box */}

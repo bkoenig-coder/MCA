@@ -438,12 +438,12 @@ Keep responses concise, polite, helpful, and respond in the language the user as
   };
 
   // Dynamic SSR routes for social crawlers
-  app.get(['/events/:id', '/news/:id', '/news', '/diorama', '/gallery', '/gallery/:id', '/'], async (req, res, next) => {
+  app.get(['/events', '/events/:id', '/news/:id', '/news', '/diorama', '/gallery', '/gallery/:id', '/'], async (req, res, next) => {
     try {
       const config = getFirebaseConfig();
       if (!config) return next();
 
-      const isEvent = req.path.startsWith('/events/');
+      const isEvent = req.path.startsWith('/events');
       const isNews = req.path.startsWith('/news');
       const isGallery = req.path.startsWith('/gallery');
       const isDiorama = req.path.startsWith('/diorama');
