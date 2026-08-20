@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { UlziiSymbol, SoyomboSymbol, MongolianLine, GerSymbol } from './MongolianDesign';
+import { SoyomboSymbol, MongolianLine, GerSymbol } from './MongolianDesign';
 
 export default function CarpetIntro() {
   const [isVisible, setIsVisible] = useState(true);
@@ -50,20 +50,6 @@ export default function CarpetIntro() {
       <div className="absolute inset-x-2 inset-y-2 md:inset-x-6 md:inset-y-6 border-[6px] border-double border-brand-gold/30 pointer-events-none" />
       <div className="absolute inset-x-5 inset-y-5 md:inset-x-9 md:inset-y-9 border-[1px] border-brand-gold/40 pointer-events-none bg-[#3a0606]/30 mix-blend-multiply" />
       
-      {/* Repeating Mongolian corner frames */}
-      <div className="absolute top-6 left-6 text-brand-gold/20">
-        <UlziiSymbol className="w-16 h-16 md:w-24 md:h-24" />
-      </div>
-      <div className="absolute top-6 right-6 text-brand-gold/20">
-        <UlziiSymbol className="w-16 h-16 md:w-24 md:h-24" />
-      </div>
-      <div className="absolute bottom-6 left-6 text-brand-gold/20">
-        <UlziiSymbol className="w-16 h-16 md:w-24 md:h-24" />
-      </div>
-      <div className="absolute bottom-6 right-6 text-brand-gold/20">
-        <UlziiSymbol className="w-16 h-16 md:w-24 md:h-24" />
-      </div>
-
       {/* Decorative lines at top and bottom */}
       <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[60%] flex gap-4 overflow-hidden opacity-20">
         {[...Array(6)].map((_, i) => (
