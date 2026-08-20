@@ -77,6 +77,12 @@ export default function GalleryDetails() {
         ? item.categoryDe || item.category
         : item.categoryEn || item.category;
 
+  const galleryPlates: string[] = Array.isArray(item?.galleryImages)
+    ? item.galleryImages.filter((img: any) => typeof img === 'string' && img.trim().length > 0)
+    : (typeof item?.galleryImages === 'string' && item.galleryImages.trim()
+        ? item.galleryImages.split(/[,;\n]/).map((s: string) => s.trim().replace(/^["']|["']$/g, '')).filter((s: string) => s.length > 0 && (s.startsWith('http://') || s.startsWith('https://') || s.startsWith('/')))
+        : []);
+
   return (
     <div className="pt-24 md:pt-32 pb-16 md:pb-20 px-6 relative overflow-hidden bg-brand-paper">
       {/* Background Graphic */}
@@ -213,11 +219,11 @@ export default function GalleryDetails() {
               )}
 
               {/* Artwork Extra Perspective Views / Gallery Plates */}
-              {Array.isArray(item?.galleryImages) && item.galleryImages.length > 0 && (
+              {galleryPlates.length > 0 && (
                 <div className="mt-16 pt-10 border-t border-brand-ink/10">
                   <div className="flex items-center justify-between mb-8">
                     <span className="text-[10px] uppercase tracking-[0.3em] font-extrabold text-brand-ink font-sans">
-                      ADDITIONAL ARTWORK PLATES ({item.galleryImages.length} VIEWS)
+                      ADDITIONAL ARTWORK PLATES ({galleryPlates.length} VIEWS)
                     </span>
                     <span className="text-[9px] uppercase tracking-widest font-sans font-bold text-brand-ink/40">
                       CURATED DETAILS
@@ -225,7 +231,7 @@ export default function GalleryDetails() {
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    {item.galleryImages.map((imgUrl: string, gIdx: number) => (
+                    {galleryPlates.map((imgUrl: string, gIdx: number) => (
                       <div key={gIdx} className="border border-brand-ink/10 p-2 bg-white rounded-lg shadow-sm group hover:border-brand-gold transition-colors">
                         <div className="aspect-[4/3] overflow-hidden bg-slate-900 rounded">
                           <img 

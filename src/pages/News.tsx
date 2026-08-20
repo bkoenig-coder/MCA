@@ -105,11 +105,18 @@ export default function News() {
                           <span className="text-[9px] uppercase tracking-[0.25em] font-sans font-extrabold text-slate-500 bg-slate-100 px-2 py-0.5 border border-slate-300">
                             SPECIAL COVERAGE
                           </span>
-                          {Array.isArray(p.galleryImages) && p.galleryImages.length > 0 && (
-                            <span className="text-[9px] uppercase tracking-[0.2em] font-sans font-bold text-amber-800 bg-amber-50 px-2 py-0.5 border border-amber-200">
-                              📷 +{p.galleryImages.length} Photos
-                            </span>
-                          )}
+                          {(() => {
+                            const count = Array.isArray(p.galleryImages)
+                              ? p.galleryImages.length
+                              : (typeof p.galleryImages === 'string' && p.galleryImages.trim()
+                                  ? p.galleryImages.split(/[,;\n]/).filter((s: string) => s.trim().length > 0).length
+                                  : 0);
+                            return count > 0 ? (
+                              <span className="text-[9px] uppercase tracking-[0.2em] font-sans font-bold text-amber-800 bg-amber-50 px-2 py-0.5 border border-amber-200">
+                                📷 +{count} Photo{count === 1 ? '' : 's'}
+                              </span>
+                            ) : null;
+                          })()}
                         </div>
 
                         <div className="relative">

@@ -9,8 +9,12 @@
         "email": { "type": "string", "format": "email" },
         "displayName": { "type": "string" },
         "photoURL": { "type": "string" },
-        "role": { "type": "string", "enum": ["user", "admin"] },
-        "createdAt": { "type": "string", "format": "date-time" }
+        "role": { "type": "string", "enum": ["user", "admin", "moderator"] },
+        "membershipTier": { "type": "string" },
+        "membershipStatus": { "type": "string" },
+        "stripeSessionId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
       },
       "required": ["uid", "email", "role"]
     },
@@ -22,9 +26,11 @@
         "title": { "type": "string" },
         "titleEn": { "type": "string" },
         "titleMn": { "type": "string" },
+        "titleDe": { "type": "string" },
         "description": { "type": "string" },
         "descriptionEn": { "type": "string" },
         "descriptionMn": { "type": "string" },
+        "descriptionDe": { "type": "string" },
         "price": { "type": "number", "description": "Price in EUR cents" },
         "capacity": { "type": "number" },
         "date": { "type": "string", "format": "date-time" },
@@ -32,17 +38,19 @@
         "location": { "type": "string" },
         "locationEn": { "type": "string" },
         "locationMn": { "type": "string" },
+        "locationDe": { "type": "string" },
         "imageUrl": { "type": "string" },
         "category": { "type": "string" },
         "categoryEn": { "type": "string" },
         "categoryMn": { "type": "string" },
+        "categoryDe": { "type": "string" },
         "galleryImages": { "type": "array", "items": { "type": "string" } },
         "whatsIncluded": { "type": "array", "items": { "type": "string" } },
         "registeredCount": { "type": "number" },
         "createdAt": { "type": "string", "format": "date-time" },
         "updatedAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["title", "price", "description", "date", "imageUrl", "createdAt"]
+      "required": ["title", "price", "description", "date", "imageUrl"]
     },
     "Registration": {
       "title": "Registration",
@@ -72,15 +80,23 @@
         "title": { "type": "string" },
         "titleEn": { "type": "string" },
         "titleMn": { "type": "string" },
+        "titleDe": { "type": "string" },
+        "slug": { "type": "string" },
         "content": { "type": "string" },
         "contentEn": { "type": "string" },
         "contentMn": { "type": "string" },
+        "contentDe": { "type": "string" },
         "imageUrl": { "type": "string" },
         "galleryImages": { "type": "array", "items": { "type": "string" } },
         "authorId": { "type": "string" },
-        "createdAt": { "type": "string", "format": "date-time" }
+        "category": { "type": "string" },
+        "categoryEn": { "type": "string" },
+        "categoryMn": { "type": "string" },
+        "categoryDe": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["title", "content", "authorId", "createdAt"]
+      "required": ["title", "content"]
     },
     "PageView": {
       "title": "PageView",
@@ -102,21 +118,26 @@
         "title": { "type": "string" },
         "titleEn": { "type": "string" },
         "titleMn": { "type": "string" },
+        "titleDe": { "type": "string" },
         "artist": { "type": "string" },
         "artistEn": { "type": "string" },
         "artistMn": { "type": "string" },
+        "artistDe": { "type": "string" },
         "year": { "type": "string" },
         "description": { "type": "string" },
         "descriptionEn": { "type": "string" },
         "descriptionMn": { "type": "string" },
+        "descriptionDe": { "type": "string" },
         "imageUrl": { "type": "string" },
         "galleryImages": { "type": "array", "items": { "type": "string" } },
         "category": { "type": "string" },
         "categoryEn": { "type": "string" },
         "categoryMn": { "type": "string" },
-        "createdAt": { "type": "string", "format": "date-time" }
+        "categoryDe": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["title", "imageUrl", "createdAt"]
+      "required": ["title", "imageUrl"]
     },
     "MembershipApplication": {
       "title": "MembershipApplication",

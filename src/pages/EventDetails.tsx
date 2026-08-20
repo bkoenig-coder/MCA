@@ -133,7 +133,12 @@ export default function EventDetails() {
     }
   };
 
-  const allImages = event ? [event.imageUrl, ...(event.galleryImages || [])] : [];
+  const rawGallery = Array.isArray(event?.galleryImages)
+    ? event.galleryImages
+    : (typeof event?.galleryImages === 'string' && event.galleryImages.trim()
+        ? event.galleryImages.split(/[,;\n]/).map((s: string) => s.trim().replace(/^["']|["']$/g, '')).filter((s: string) => s.length > 0 && (s.startsWith('http://') || s.startsWith('https://') || s.startsWith('/')))
+        : []);
+  const allImages = event ? [event.imageUrl, ...rawGallery].filter((url: any) => typeof url === 'string' && url.trim().length > 0) : [];
 
   useEffect(() => {
     if (allImages.length <= 1) return;

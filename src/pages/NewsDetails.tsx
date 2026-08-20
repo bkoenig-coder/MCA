@@ -108,6 +108,12 @@ export default function NewsDetails() {
         ? post.contentDe || post.content
         : post.contentEn || post.content;
 
+  const dispatchGallery: string[] = Array.isArray(post?.galleryImages)
+    ? post.galleryImages.filter((img: any) => typeof img === 'string' && img.trim().length > 0)
+    : (typeof post?.galleryImages === "string" && post.galleryImages.trim()
+        ? post.galleryImages.split(/[,;\n]/).map((s: string) => s.trim().replace(/^["']|["']$/g, '')).filter((s: string) => s.length > 0 && (s.startsWith('http://') || s.startsWith('https://') || s.startsWith('/')))
+        : []);
+
   const shareUrl = "https://mongoliancenter.org" + window.location.pathname + "?v=new";
   const shareTitle = dTitle;
 
@@ -337,11 +343,11 @@ export default function NewsDetails() {
           </div>
 
           {/* Dispatch Photo Gallery Grid (If multiple images attached) */}
-          {Array.isArray(post?.galleryImages) && post.galleryImages.length > 0 && (
+          {dispatchGallery.length > 0 && (
             <div className="mt-12 pt-8 border-t-2 border-slate-900">
               <div className="flex items-center justify-between mb-6">
                 <span className="text-[10px] uppercase tracking-[0.3em] font-extrabold text-slate-800 font-sans">
-                  OFFICIAL DISPATCH PHOTO GALLERY ({post.galleryImages.length} PHOTOS)
+                  OFFICIAL DISPATCH PHOTO GALLERY ({dispatchGallery.length} PHOTOS)
                 </span>
                 <span className="text-[9px] uppercase tracking-widest font-sans font-bold text-slate-400">
                   PRESS ARCHIVE
@@ -349,7 +355,7 @@ export default function NewsDetails() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {post.galleryImages.map((imgUrl: string, gIdx: number) => (
+                {dispatchGallery.map((imgUrl: string, gIdx: number) => (
                   <div key={gIdx} className="border border-slate-300 p-2 bg-white shadow-sm group hover:border-brand-gold transition-colors">
                     <div className="aspect-[4/3] overflow-hidden bg-slate-900">
                       <img 

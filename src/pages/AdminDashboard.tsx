@@ -123,13 +123,31 @@ export default function AdminDashboard() {
     galleryImages: ''
   });
 
-  // Clean and parse comma/newline-separated image URLs safely
-  const parseGalleryImages = (input: string): string[] => {
-    if (!input || !input.trim()) return [];
-    return input
-      .split(/[,\n]/)
-      .map(s => s.trim().replace(/^["']|["']$/g, ''))
-      .filter(url => url.length > 0 && (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/')));
+  // Clean and parse comma/newline-separated image URLs safely without breaking query parameters
+  const parseGalleryImages = (input: string | string[] | undefined | null): string[] => {
+    if (!input) return [];
+    if (Array.isArray(input)) {
+      return input
+        .filter(url => typeof url === 'string' && url.trim().length > 0)
+        .map(url => url.trim().replace(/^["']|["']$/g, ''))
+        .filter(url => url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/') || url.startsWith('data:image/'));
+    }
+    if (typeof input !== 'string' || !input.trim()) return [];
+    
+    const lines = input.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+    const results: string[] = [];
+    
+    for (const line of lines) {
+      // Split on commas or semicolons or spaces ONLY if immediately followed by http/https/slash/data:
+      const tokens = line.split(/(?:,\s*|;\s*|\s+)(?=https?:\/\/|\/|data:image\/)/i);
+      for (const token of tokens) {
+        const clean = token.trim().replace(/^["']|["']$/g, '').replace(/^[,\s]+|[,\s]+$/g, '');
+        if (clean && (clean.startsWith('http://') || clean.startsWith('https://') || clean.startsWith('/') || clean.startsWith('data:image/'))) {
+          results.push(clean);
+        }
+      }
+    }
+    return results;
   };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -355,6 +373,26 @@ export default function AdminDashboard() {
     toast.success('Photo applied from media library');
   };
 
+  // Helper to remove an image from extra gallery by index
+  const handleRemoveGalleryImage = (
+    type: 'event' | 'post' | 'gallery',
+    indexToRemove: number
+  ) => {
+    if (type === 'event') {
+      const current = parseGalleryImages(eventForm.galleryImages);
+      const updated = current.filter((_, idx) => idx !== indexToRemove);
+      setEventForm(prev => ({ ...prev, galleryImages: updated.join('\n') }));
+    } else if (type === 'post') {
+      const current = parseGalleryImages(postForm.galleryImages);
+      const updated = current.filter((_, idx) => idx !== indexToRemove);
+      setPostForm(prev => ({ ...prev, galleryImages: updated.join('\n') }));
+    } else if (type === 'gallery') {
+      const current = parseGalleryImages(galleryForm.galleryImages);
+      const updated = current.filter((_, idx) => idx !== indexToRemove);
+      setGalleryForm(prev => ({ ...prev, galleryImages: updated.join('\n') }));
+    }
+  };
+
   // Open Event Modal for Create or Edit
   const openEventStudio = (existingEvent?: any) => {
     if (existingEvent) {
@@ -375,7 +413,9 @@ export default function AdminDashboard() {
         capacity: existingEvent.capacity || 0,
         imageUrl: existingEvent.imageUrl || '',
         whatsIncluded: Array.isArray(existingEvent.whatsIncluded) ? existingEvent.whatsIncluded.join(', ') : '',
-        galleryImages: Array.isArray(existingEvent.galleryImages) ? existingEvent.galleryImages.join(', ') : ''
+        galleryImages: Array.isArray(existingEvent.galleryImages)
+          ? existingEvent.galleryImages.join(', ')
+          : (typeof existingEvent.galleryImages === 'string' ? existingEvent.galleryImages : '')
       });
     } else {
       setIsEditing(false);
@@ -412,7 +452,9 @@ export default function AdminDashboard() {
         contentMn: existingPost.contentMn || existingPost.content || '',
         contentDe: existingPost.contentDe || '',
         imageUrl: existingPost.imageUrl || '',
-        galleryImages: Array.isArray(existingPost.galleryImages) ? existingPost.galleryImages.join(', ') : ''
+        galleryImages: Array.isArray(existingPost.galleryImages)
+          ? existingPost.galleryImages.join('\n')
+          : (typeof existingPost.galleryImages === 'string' ? existingPost.galleryImages : '')
       });
     } else {
       setIsEditing(false);
@@ -447,7 +489,9 @@ export default function AdminDashboard() {
         descriptionDe: existingArtwork.descriptionDe || '',
         imageUrl: existingArtwork.imageUrl || '',
         category: existingArtwork.category || 'Traditional',
-        galleryImages: Array.isArray(existingArtwork.galleryImages) ? existingArtwork.galleryImages.join(', ') : ''
+        galleryImages: Array.isArray(existingArtwork.galleryImages)
+          ? existingArtwork.galleryImages.join('\n')
+          : (typeof existingArtwork.galleryImages === 'string' ? existingArtwork.galleryImages : '')
       });
     } else {
       setIsEditing(false);
@@ -496,6 +540,7 @@ export default function AdminDashboard() {
         price: Number(eventForm.price) * 100 || 0,
         capacity: Number(eventForm.capacity) || 0,
         imageUrl: fallbackImage,
+        galleryImages: parseGalleryImages(eventForm.galleryImages),
         updatedAt: serverTimestamp(),
       };
 
@@ -504,13 +549,6 @@ export default function AdminDashboard() {
         : [];
       if (whatsIncludedList.length > 0) {
         baseData.whatsIncluded = whatsIncludedList;
-      }
-
-      const galleryList = eventForm.galleryImages
-        ? eventForm.galleryImages.split(',').map(s => s.trim()).filter(Boolean)
-        : [];
-      if (galleryList.length > 0) {
-        baseData.galleryImages = galleryList;
       }
 
       if (isEditing && eventForm.id) {
@@ -551,8 +589,10 @@ export default function AdminDashboard() {
         .replace(/(^-|-$)+/g, '') || `post-${Date.now()}`;
 
       const fallbackContent = (postForm.contentMn || postForm.contentEn || postForm.contentDe || '').trim() || 'Article content details.';
-      const fallbackAuthorId = user?.uid || 'admin-author';
+      const fallbackAuthorId = user?.uid || auth.currentUser?.uid || 'admin-author';
       const fallbackImageUrl = (postForm.imageUrl || '').trim() || 'https://images.unsplash.com/photo-1695555875394-4e8aa542ccdc?q=80&w=1600&auto=format&fit=crop';
+
+      const galleryList = parseGalleryImages(postForm.galleryImages);
 
       const postData: any = {
         title: fallbackTitle,
@@ -565,15 +605,9 @@ export default function AdminDashboard() {
         contentMn: postForm.contentMn?.trim() || fallbackContent,
         contentDe: postForm.contentDe?.trim() || fallbackContent,
         imageUrl: fallbackImageUrl,
+        galleryImages: galleryList,
         updatedAt: serverTimestamp(),
       };
-
-      const galleryList = postForm.galleryImages
-        ? postForm.galleryImages.split(',').map(s => s.trim()).filter(Boolean)
-        : [];
-      if (galleryList.length > 0) {
-        postData.galleryImages = galleryList;
-      }
 
       if (isEditing && postForm.id) {
         await updateDoc(doc(db, 'posts', postForm.id), postData);
@@ -629,15 +663,9 @@ export default function AdminDashboard() {
         descriptionDe: galleryForm.descriptionDe?.trim() || fallbackDesc,
         imageUrl: fallbackImage,
         category: galleryForm.category || 'Traditional',
+        galleryImages: parseGalleryImages(galleryForm.galleryImages),
         updatedAt: serverTimestamp(),
       };
-
-      const galleryList = galleryForm.galleryImages
-        ? galleryForm.galleryImages.split(',').map(s => s.trim()).filter(Boolean)
-        : [];
-      if (galleryList.length > 0) {
-        baseData.galleryImages = galleryList;
-      }
 
       if (isEditing && galleryForm.id) {
         await updateDoc(doc(db, 'gallery', galleryForm.id), baseData);
@@ -1694,20 +1722,30 @@ export default function AdminDashboard() {
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
                       <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600">
-                        Extra Gallery Images (Comma separated URLs)
+                        Extra Gallery Images (Multi-photo upload)
                       </label>
-                      {eventForm.galleryImages && (
+                      {parseGalleryImages(eventForm.galleryImages).length > 0 && (
                         <span className="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full font-mono font-bold">
                           {parseGalleryImages(eventForm.galleryImages).length} photo{parseGalleryImages(eventForm.galleryImages).length === 1 ? '' : 's'}
                         </span>
                       )}
                     </div>
-                    <input
+                    <textarea
+                      rows={2}
                       value={eventForm.galleryImages}
                       onChange={e => setEventForm({ ...eventForm, galleryImages: e.target.value })}
-                      placeholder="https://images.unsplash.com/photo-1, https://images.unsplash.com/photo-2"
-                      className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900"
+                      placeholder="Paste image URLs (one per line or separated by commas)..."
+                      className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2 text-xs text-slate-900 focus:ring-2 focus:ring-brand-gold/20"
                     />
+                    {parseGalleryImages(eventForm.galleryImages).length > 0 && (
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {parseGalleryImages(eventForm.galleryImages).map((url, idx) => (
+                          <div key={idx} className="w-12 h-12 rounded-lg overflow-hidden border border-slate-200 bg-slate-100 shadow-xs relative group">
+                            <img src={url} alt="" className="w-full h-full object-cover" />
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -1974,20 +2012,41 @@ export default function AdminDashboard() {
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
                       <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600">
-                        Extra Gallery Images (Comma separated URLs)
+                        Extra Gallery Images (Multi-photo upload)
                       </label>
-                      {postForm.galleryImages && (
+                      {parseGalleryImages(postForm.galleryImages).length > 0 && (
                         <span className="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full font-mono font-bold">
                           {parseGalleryImages(postForm.galleryImages).length} photo{parseGalleryImages(postForm.galleryImages).length === 1 ? '' : 's'}
                         </span>
                       )}
                     </div>
-                    <input
+                    <textarea
+                      rows={2}
                       value={postForm.galleryImages}
                       onChange={e => setPostForm({ ...postForm, galleryImages: e.target.value })}
-                      placeholder="https://images.unsplash.com/photo-1, https://images.unsplash.com/photo-2"
-                      className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900"
+                      placeholder="Paste image URLs (one per line or separated by commas)..."
+                      className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2 text-xs text-slate-900 focus:ring-2 focus:ring-brand-gold/20"
                     />
+                    {parseGalleryImages(postForm.galleryImages).length > 0 && (
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {parseGalleryImages(postForm.galleryImages).map((url, idx) => (
+                          <div key={idx} className="w-14 h-14 rounded-lg overflow-hidden border border-slate-200 bg-slate-100 shadow-xs relative group">
+                            <img src={url} alt="" className="w-full h-full object-cover" />
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveGalleryImage('post', idx)}
+                              className="absolute top-0.5 right-0.5 w-4 h-4 bg-red-600/90 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-[9px] hover:bg-red-700"
+                              title="Remove photo"
+                            >
+                              <X size={10} />
+                            </button>
+                            <span className="absolute bottom-0.5 left-0.5 bg-black/60 text-[8px] text-white px-1 rounded font-mono font-bold">
+                              #{idx + 1}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -2193,6 +2252,32 @@ export default function AdminDashboard() {
                   <p key={pIdx}>{paragraph}</p>
                 ))}
               </div>
+
+              {/* Attached Dispatch Gallery Live Preview */}
+              {parseGalleryImages(postForm.galleryImages).length > 0 && (
+                <div className="pt-6 border-t-2 border-slate-900">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-[9px] uppercase tracking-[0.25em] font-sans font-extrabold text-slate-800">
+                      OFFICIAL DISPATCH PHOTO GALLERY ({parseGalleryImages(postForm.galleryImages).length} PHOTOS)
+                    </span>
+                    <span className="text-[9px] uppercase tracking-widest font-sans font-bold text-slate-400">
+                      LIVE PREVIEW
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {parseGalleryImages(postForm.galleryImages).map((url, idx) => (
+                      <div key={idx} className="border border-slate-300 p-1.5 bg-white shadow-xs">
+                        <div className="aspect-[4/3] rounded overflow-hidden bg-slate-900">
+                          <img src={url} alt="" className="w-full h-full object-cover" />
+                        </div>
+                        <p className="font-serif italic text-[10px] text-slate-500 pt-1 text-center border-t border-slate-100 mt-1">
+                          Plate {idx + 1}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -2296,20 +2381,41 @@ export default function AdminDashboard() {
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
                       <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600">
-                        Extra Gallery Images (Comma separated URLs)
+                        Extra Gallery Images (Multi-photo upload)
                       </label>
-                      {galleryForm.galleryImages && (
+                      {parseGalleryImages(galleryForm.galleryImages).length > 0 && (
                         <span className="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full font-mono font-bold">
                           {parseGalleryImages(galleryForm.galleryImages).length} photo{parseGalleryImages(galleryForm.galleryImages).length === 1 ? '' : 's'}
                         </span>
                       )}
                     </div>
-                    <input
+                    <textarea
+                      rows={2}
                       value={galleryForm.galleryImages}
                       onChange={e => setGalleryForm({ ...galleryForm, galleryImages: e.target.value })}
-                      placeholder="https://images.unsplash.com/photo-1, https://images.unsplash.com/photo-2"
-                      className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900"
+                      placeholder="Paste image URLs (one per line or separated by commas)..."
+                      className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2 text-xs text-slate-900 focus:ring-2 focus:ring-brand-gold/20"
                     />
+                    {parseGalleryImages(galleryForm.galleryImages).length > 0 && (
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {parseGalleryImages(galleryForm.galleryImages).map((url, idx) => (
+                          <div key={idx} className="w-14 h-14 rounded-lg overflow-hidden border border-slate-200 bg-slate-100 shadow-xs relative group">
+                            <img src={url} alt="" className="w-full h-full object-cover" />
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveGalleryImage('gallery', idx)}
+                              className="absolute top-0.5 right-0.5 w-4 h-4 bg-red-600/90 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-[9px] hover:bg-red-700"
+                              title="Remove photo"
+                            >
+                              <X size={10} />
+                            </button>
+                            <span className="absolute bottom-0.5 left-0.5 bg-black/60 text-[8px] text-white px-1 rounded font-mono font-bold">
+                              #{idx + 1}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
 
