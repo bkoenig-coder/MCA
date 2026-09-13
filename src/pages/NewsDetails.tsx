@@ -37,6 +37,8 @@ import {
 import { useTranslation } from "react-i18next";
 import mcaLogo from "../assets/media/mcalogo-1.png";
 
+import { getFallbackPost } from "../data/fallbackContent";
+
 export default function NewsDetails() {
   const { t, i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
@@ -63,11 +65,22 @@ export default function NewsDetails() {
           if (docSnap.exists()) {
             setPost({ id: docSnap.id, ...docSnap.data() });
           } else {
-            setError(t("news.details.notFound"));
+            const fallback = getFallbackPost(id);
+            if (fallback) {
+              setPost(fallback);
+            } else {
+              setError(t("news.details.notFound"));
+            }
           }
         }
       } catch (err) {
         handleFirestoreError(err, OperationType.GET, `posts/${id}`);
+        const fallback = getFallbackPost(id);
+        if (fallback) {
+          setPost(fallback);
+        } else {
+          setError(t("news.details.notFound"));
+        }
       } finally {
         setLoading(false);
       }

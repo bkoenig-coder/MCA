@@ -8,14 +8,16 @@ import amoxLogo from '../assets/media/amoxlogo.png';
 import deutschotekLogo from '../assets/media/deutschoteklogo.jpg';
 import euactiveLogo from '../assets/media/euactivelogo.png';
 import mcaLogo from '../assets/media/mcalogo-1.png';
+import delgerLogo from '../assets/media/delgerlogo.png';
 
 const partners = [
-  { name: "Embassy of Mongolia in Vienna", logo: "/embassy logo.png" },
-  { name: "AMOX", logo: amoxLogo },
-  { name: "Deutschothek", logo: deutschotekLogo },
-  { name: "EU Active", logo: euactiveLogo },
-  { name: "Gmax Mongolischer Kinder-und Jugendverein", logo: "/gmax logo.jpg" },
-  { name: "MCA", logo: mcaLogo },
+  { name: "Embassy of Mongolia in Vienna", logo: "/embassy logo.png", url: "https://vienna.embassy.mn/" },
+  { name: "AMOX", logo: amoxLogo, url: "https://www.facebook.com/MongolianStudentAssociationInAustria" },
+  { name: "Deutschothek", logo: deutschotekLogo, url: "https://deutschothek.com/" },
+  { name: "EU Active", logo: euactiveLogo, url: "https://www.euactive.org/" },
+  { name: "Gmax Mongolischer Kinder-und Jugendverein", logo: "/gmax logo.jpg", url: "https://www.facebook.com/gmax.gmax.9406" },
+  { name: "Delger Mongolian Placement", logo: delgerLogo, url: "https://www.delger-placement.at/" },
+  { name: "MCA", logo: mcaLogo, url: "/contact" },
 ];
 
 export default function Membership() {
@@ -440,21 +442,42 @@ export default function Membership() {
             >
               {/* First set of logos */}
               {partners.map((partner, idx) => (
-                <div key={`partner-1-${idx}`} className="flex items-center justify-center w-40 md:w-56 h-24 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-500">
+                <a 
+                  key={`partner-1-${idx}`} 
+                  href={partner.url}
+                  target={partner.url.startsWith('http') ? "_blank" : undefined}
+                  rel={partner.url.startsWith('http') ? "noopener noreferrer" : undefined}
+                  title={partner.name}
+                  className="flex items-center justify-center w-40 md:w-56 h-24 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-500 cursor-pointer"
+                >
                   <img src={partner.logo} alt={partner.name} className="max-w-full max-h-full object-contain" />
-                </div>
+                </a>
               ))}
               {/* Duplicate set for seamless loop */}
               {partners.map((partner, idx) => (
-                <div key={`partner-2-${idx}`} className="flex items-center justify-center w-40 md:w-56 h-24 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-500">
+                <a 
+                  key={`partner-2-${idx}`} 
+                  href={partner.url}
+                  target={partner.url.startsWith('http') ? "_blank" : undefined}
+                  rel={partner.url.startsWith('http') ? "noopener noreferrer" : undefined}
+                  title={partner.name}
+                  className="flex items-center justify-center w-40 md:w-56 h-24 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-500 cursor-pointer"
+                >
                   <img src={partner.logo} alt={partner.name} className="max-w-full max-h-full object-contain" />
-                </div>
+                </a>
               ))}
               {/* Triple set to ensure no empty space on large screens */}
               {partners.map((partner, idx) => (
-                <div key={`partner-3-${idx}`} className="flex items-center justify-center w-40 md:w-56 h-24 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-500">
+                <a 
+                  key={`partner-3-${idx}`} 
+                  href={partner.url}
+                  target={partner.url.startsWith('http') ? "_blank" : undefined}
+                  rel={partner.url.startsWith('http') ? "noopener noreferrer" : undefined}
+                  title={partner.name}
+                  className="flex items-center justify-center w-40 md:w-56 h-24 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-500 cursor-pointer"
+                >
                   <img src={partner.logo} alt={partner.name} className="max-w-full max-h-full object-contain" />
-                </div>
+                </a>
               ))}
             </motion.div>
           </div>

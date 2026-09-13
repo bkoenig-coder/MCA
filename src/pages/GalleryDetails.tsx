@@ -12,6 +12,8 @@ import {
 } from "../firebase";
 import { SoyomboSymbol } from "../components/MongolianDesign";
 
+import { getFallbackGalleryItem } from "../data/fallbackContent";
+
 export default function GalleryDetails() {
   const { id } = useParams();
   const { t, i18n } = useTranslation();
@@ -28,12 +30,23 @@ export default function GalleryDetails() {
         if (doc.exists()) {
           setItem({ id: doc.id, ...doc.data() });
         } else {
-          navigate("/gallery");
+          const fallback = getFallbackGalleryItem(id);
+          if (fallback) {
+            setItem(fallback);
+          } else {
+            navigate("/gallery");
+          }
         }
         setLoading(false);
       },
       (error) => {
         handleFirestoreError(error, OperationType.GET, `gallery/${id}`);
+        const fallback = getFallbackGalleryItem(id);
+        if (fallback) {
+          setItem(fallback);
+        } else {
+          navigate("/gallery");
+        }
         setLoading(false);
       },
     );

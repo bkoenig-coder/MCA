@@ -9,7 +9,9 @@ import { db, collection, onSnapshot, query, orderBy, limit, where, handleFiresto
 import deutschotekLogo from '../assets/media/deutschoteklogo.jpg';
 import euActiveLogo from '../assets/media/euactivelogo.png';
 import amoxLogo from '../assets/media/amoxlogo.png';
+import delgerLogo from '../assets/media/delgerlogo.png';
 import mcaLogo from '../assets/media/mcalogo-1.png';
+import { DEFAULT_POSTS, DEFAULT_GALLERY, DEFAULT_EVENTS } from '../data/fallbackContent';
 
 import { Overlay } from '../components/diorama/Overlay';
 
@@ -104,25 +106,40 @@ export default function Home() {
     const today = new Date().toISOString().split('T')[0];
     const q = query(collection(db, 'events'), where('date', '>=', today), orderBy('date', 'asc'), limit(3));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      setEvents(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      if (!snapshot.empty) {
+        setEvents(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      } else {
+        setEvents(DEFAULT_EVENTS);
+      }
       setLoading(false);
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, 'events');
+      setEvents(DEFAULT_EVENTS);
       setLoading(false);
     });
 
     const qNews = query(collection(db, 'posts'), orderBy('createdAt', 'desc'), limit(12));
     const unsubNews = onSnapshot(qNews, (snapshot) => {
-      setNews(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      if (!snapshot.empty) {
+        setNews(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      } else {
+        setNews(DEFAULT_POSTS);
+      }
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, 'posts');
+      setNews(DEFAULT_POSTS);
     });
 
     const qGallery = query(collection(db, 'gallery'), orderBy('createdAt', 'desc'), limit(12));
     const unsubGallery = onSnapshot(qGallery, (snapshot) => {
-      setGallery(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      if (!snapshot.empty) {
+        setGallery(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      } else {
+        setGallery(DEFAULT_GALLERY);
+      }
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, 'gallery');
+      setGallery(DEFAULT_GALLERY);
     });
 
     return () => { unsubscribe(); unsubNews(); unsubGallery(); };
@@ -321,7 +338,8 @@ export default function Home() {
                   { name: 'Deutschothek Sprachschule', src: deutschotekLogo, url: 'https://deutschothek.com/' },
                   { name: 'Verein für aktiv Leben und Bildung', src: euActiveLogo, url: 'https://www.euactive.org/' },
                   { name: 'Verein der mongolischen StudentInnen in Österreich', src: amoxLogo, url: 'https://www.facebook.com/MongolianStudentAssociationInAustria' },
-                  { name: 'Gmax Mongolischer Kinder-und Jugendverein', src: '/gmax logo.jpg', url: 'https://www.facebook.com/gmax.gmax.9406' }
+                  { name: 'Gmax Mongolischer Kinder-und Jugendverein', src: '/gmax logo.jpg', url: 'https://www.facebook.com/gmax.gmax.9406' },
+                  { name: 'Delger Mongolian Placement', src: delgerLogo, url: 'https://www.delger-placement.at/' }
                 ].map((partner, idx) => (
                   <a 
                     key={`${groupIndex}-${idx}`} 
@@ -474,7 +492,11 @@ export default function Home() {
             className="flex gap-6 overflow-x-auto pb-8 hide-scrollbar"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {news.map((item, index) => (
+            {news.map((item, index) => {
+              const lang = i18n.language;
+              const dTitle = lang === 'mn' ? (item.titleMn || item.title) : lang === 'de' ? (item.titleDe || item.title) : (item.titleEn || item.title);
+              const dContent = lang === 'mn' ? (item.contentMn || item.content) : lang === 'de' ? (item.contentDe || item.content) : (item.contentEn || item.content);
+              return (
               <motion.div 
                 key={item.id} 
                 className="min-w-[85vw] md:min-w-[350px] shrink-0"
@@ -493,7 +515,7 @@ export default function Home() {
                         whileInView={{ scale: 1, opacity: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
-                        src={item.imageUrl} alt={item.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60" referrerPolicy="no-referrer" />
+                        src={item.imageUrl} alt={dTitle} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60" referrerPolicy="no-referrer" />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-ink via-brand-ink/40 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-80" />
                     
@@ -506,13 +528,14 @@ export default function Home() {
                     </div>
                     
                     <div className="absolute bottom-6 left-6 right-6 z-10 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                      <h3 className="text-xl md:text-2xl font-serif text-white mb-4 line-clamp-2 md:leading-tight drop-shadow-lg">{item.title}</h3>
-                      <p className="text-brand-paper/80 font-light text-sm line-clamp-2 mb-6 opacity-70 group-hover:opacity-100 transition-opacity duration-300">{item.excerpt || item.content}</p>
+                      <h3 className="text-xl md:text-2xl font-serif text-white mb-4 line-clamp-2 md:leading-tight drop-shadow-lg">{dTitle}</h3>
+                      <p className="text-brand-paper/80 font-light text-sm line-clamp-2 mb-6 opacity-70 group-hover:opacity-100 transition-opacity duration-300">{item.excerpt || dContent}</p>
                       <div className="flex items-center gap-2 text-brand-gold font-bold text-[9px] uppercase tracking-widest group-hover:translate-x-2 transition-transform duration-300 drop-shadow-sm">{t('news.readStory')} <ArrowRight size={12}/></div>
                     </div>
                   </Link>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
           
           <div className="flex justify-center gap-4 mt-4">
@@ -561,7 +584,10 @@ export default function Home() {
             className="flex gap-6 overflow-x-auto pb-8 hide-scrollbar"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {gallery.map((item, index) => (
+            {gallery.map((item, index) => {
+              const lang = i18n.language;
+              const dTitle = lang === 'mn' ? (item.titleMn || item.title) : lang === 'de' ? (item.titleDe || item.title) : (item.titleEn || item.title);
+              return (
               <motion.div 
                 key={item.id} 
                 className="min-w-[85vw] md:min-w-[350px] shrink-0"
@@ -580,7 +606,7 @@ export default function Home() {
                         whileInView={{ scale: 1, opacity: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
-                        src={item.imageUrl} alt={item.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" referrerPolicy="no-referrer" />
+                        src={item.imageUrl} alt={dTitle} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" referrerPolicy="no-referrer" />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/90 via-black/20 to-transparent transition-opacity duration-300 group-hover:opacity-80" />
                     
@@ -588,12 +614,13 @@ export default function Home() {
                     <div className="absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/10 group-hover:ring-white/20 transition-colors duration-300 pointer-events-none" />
 
                     <div className="absolute bottom-6 left-6 right-6 z-10 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                      <h3 className="text-xl font-serif text-white mb-2 line-clamp-2 drop-shadow-md">{item.title}</h3>
+                      <h3 className="text-xl font-serif text-white mb-2 line-clamp-2 drop-shadow-md">{dTitle}</h3>
                       <div className="flex items-center gap-2 text-brand-gold font-bold text-[9px] uppercase tracking-widest group-hover:translate-x-2 transition-transform duration-300 drop-shadow-sm">{t('gallery.viewCapture')} <ArrowRight size={12}/></div>
                     </div>
                   </Link>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="flex justify-center gap-4 mt-4">

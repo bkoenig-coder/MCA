@@ -5,6 +5,8 @@ import { Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+import { DEFAULT_EVENTS } from '../data/fallbackContent';
+
 export default function UpcomingEventMarquee() {
   const { t } = useTranslation();
   const [nextEvent, setNextEvent] = useState<any>(null);
@@ -19,8 +21,13 @@ export default function UpcomingEventMarquee() {
     const unsubscribe = onSnapshot(q, (snapshot) => {
       if (!snapshot.empty) {
         setNextEvent({ id: snapshot.docs[0].id, ...snapshot.docs[0].data() });
+      } else {
+        setNextEvent(DEFAULT_EVENTS[0]);
       }
-    }, (error) => handleFirestoreError(error, OperationType.GET, 'events'));
+    }, (error) => {
+      handleFirestoreError(error, OperationType.GET, 'events');
+      setNextEvent(DEFAULT_EVENTS[0]);
+    });
 
     return () => unsubscribe();
   }, []);

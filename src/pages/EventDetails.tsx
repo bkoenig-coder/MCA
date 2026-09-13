@@ -7,6 +7,8 @@ import { Calendar, MapPin, Clock, ArrowLeft, CheckCircle2, Loader2, AlertCircle,
 import { UlziiSymbol, SoyomboSymbol, ArcherSymbol, MongolianLine } from '../components/MongolianDesign';
 import { useTranslation } from 'react-i18next';
 
+import { getFallbackEvent } from '../data/fallbackContent';
+
 export default function EventDetails() {
   const { t, i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
@@ -31,10 +33,21 @@ export default function EventDetails() {
         if (docSnap.exists()) {
           setEvent({ id: docSnap.id, ...docSnap.data() });
         } else {
-          setError(t('events.details.notFound'));
+          const fallback = getFallbackEvent(id);
+          if (fallback) {
+            setEvent(fallback);
+          } else {
+            setError(t('events.details.notFound'));
+          }
         }
       } catch (err) {
         handleFirestoreError(err, OperationType.GET, `events/${id}`);
+        const fallback = getFallbackEvent(id);
+        if (fallback) {
+          setEvent(fallback);
+        } else {
+          setError(t('events.details.notFound'));
+        }
       } finally {
         setLoading(false);
       }

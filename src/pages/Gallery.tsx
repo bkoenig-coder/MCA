@@ -6,6 +6,8 @@ import { UlziiSymbol, SoyomboSymbol, ArcherSymbol, MongolianLine } from '../comp
 import { cn } from '@/src/lib/utils';
 import { db, collection, onSnapshot, query, orderBy, handleFirestoreError, OperationType } from '../firebase';
 
+import { DEFAULT_GALLERY } from '../data/fallbackContent';
+
 export default function Gallery() {
   const { t, i18n } = useTranslation();
   const [filter, setFilter] = useState('All');
@@ -15,11 +17,16 @@ export default function Gallery() {
   useEffect(() => {
     const q = query(collection(db, 'gallery'), orderBy('createdAt', 'desc'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setArtworks(items);
+      if (!snapshot.empty) {
+        const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setArtworks(items);
+      } else {
+        setArtworks(DEFAULT_GALLERY);
+      }
       setLoading(false);
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, 'gallery');
+      setArtworks(DEFAULT_GALLERY);
       setLoading(false);
     });
 

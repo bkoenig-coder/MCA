@@ -9,6 +9,7 @@ import { signInWithGoogle, logOut, db, collection, query, where, orderBy, onSnap
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol } from './MongolianDesign';
 import mcaLogo from '../assets/media/mcalogo-1.png';
+import { DEFAULT_EVENTS } from '../data/fallbackContent';
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇬🇧' },
@@ -159,10 +160,11 @@ export default function Navbar() {
       if (!snapshot.empty) {
         setNextEvent({ id: snapshot.docs[0].id, ...snapshot.docs[0].data() });
       } else {
-        setNextEvent(null);
+        setNextEvent(DEFAULT_EVENTS[0]);
       }
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, 'events');
+      setNextEvent(DEFAULT_EVENTS[0]);
     });
 
     return () => {

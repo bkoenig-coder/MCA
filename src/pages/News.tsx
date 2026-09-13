@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, SoyomboSymbol, MongolianLine, ArcherSymbol, MongolianFormalFrame, MongolianKhasDivider } from '../components/MongolianDesign';
 import NewsletterForm from '../components/NewsletterForm';
 
+import { DEFAULT_POSTS } from '../data/fallbackContent';
+
 export default function News() {
   const { t, i18n } = useTranslation();
   const [posts, setPosts] = useState<any[]>([]);
@@ -15,10 +17,15 @@ export default function News() {
   useEffect(() => {
     const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      setPosts(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      if (!snapshot.empty) {
+        setPosts(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      } else {
+        setPosts(DEFAULT_POSTS);
+      }
       setLoading(false);
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, 'posts');
+      setPosts(DEFAULT_POSTS);
       setLoading(false);
     });
     return () => unsubscribe();
