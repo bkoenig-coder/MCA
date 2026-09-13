@@ -39,6 +39,24 @@ import mcaLogo from "../assets/media/mcalogo-1.png";
 
 import { getFallbackPost } from "../data/fallbackContent";
 
+function formatNewsDate(val: any, locale: string = 'en', options?: Intl.DateTimeFormatOptions): string {
+  if (!val) return 'Recent';
+  try {
+    let d: Date;
+    if (typeof val?.toDate === 'function') {
+      d = val.toDate();
+    } else if (val instanceof Date) {
+      d = val;
+    } else {
+      d = new Date(val);
+    }
+    if (isNaN(d.getTime())) return 'Recent';
+    return d.toLocaleDateString(locale, options || { month: 'long', day: 'numeric', year: 'numeric' });
+  } catch {
+    return 'Recent';
+  }
+}
+
 export default function NewsDetails() {
   const { t, i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
@@ -233,13 +251,11 @@ export default function NewsDetails() {
               <div>BY THE MCA EDITORIAL BOARD</div>
               <div>VIENNA, AUSTRIA</div>
               <div>
-                {post.createdAt
-                  ?.toDate()
-                  .toLocaleDateString(t("common.locale"), {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                {formatNewsDate(post.createdAt, t("common.locale"), {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}
               </div>
               <div>SPECIAL DISPATCH</div>
             </div>

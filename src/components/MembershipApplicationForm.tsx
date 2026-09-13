@@ -234,7 +234,7 @@ export default function MembershipApplicationForm({ tier, title }: MembershipApp
               <div>
                 <span className="block text-brand-ink/40 text-[10px] uppercase font-bold tracking-wider">{t('membershipPage.form.submittedOn')}</span>
                 <span className="text-brand-ink">
-                  {existingApp.createdAt?.toDate ? new Date(existingApp.createdAt.toDate()).toLocaleDateString() : 'N/A'}
+                  {existingApp.createdAt ? (typeof existingApp.createdAt?.toDate === 'function' ? existingApp.createdAt.toDate() : new Date(existingApp.createdAt)).toLocaleDateString() : 'N/A'}
                 </span>
               </div>
               <div className="col-span-2">

@@ -230,7 +230,7 @@ export default function Profile() {
             <div className="flex items-center gap-4 text-brand-ink/40">
               <Calendar size={16} />
               <span className="text-xs font-medium uppercase tracking-widest">
-                Member since {profile?.createdAt?.toDate ? new Date(profile.createdAt.toDate()).toLocaleDateString() : 'Recently'}
+                Member since {profile?.createdAt ? (typeof profile.createdAt?.toDate === 'function' ? profile.createdAt.toDate() : new Date(profile.createdAt)).toLocaleDateString() : 'Recently'}
               </span>
             </div>
           </div>

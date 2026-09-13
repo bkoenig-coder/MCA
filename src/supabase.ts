@@ -6,6 +6,46 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishabl
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Normalizes Supabase snake_case rows into camelCase objects for 100% frontend compatibility
+export interface FirestoreLikeTimestamp {
+  toDate: () => Date;
+  toISOString: () => string;
+  toString: () => string;
+  seconds: number;
+  nanoseconds: number;
+  valueOf: () => number;
+  toJSON: () => string;
+}
+
+export function toTimestamp(dateVal: any): FirestoreLikeTimestamp {
+  let finalDate: Date;
+  if (dateVal && typeof dateVal.toDate === 'function') {
+    try {
+      finalDate = dateVal.toDate();
+    } catch {
+      finalDate = new Date();
+    }
+  } else if (dateVal instanceof Date) {
+    finalDate = isNaN(dateVal.getTime()) ? new Date() : dateVal;
+  } else if (typeof dateVal === 'object' && dateVal?.seconds) {
+    finalDate = new Date(dateVal.seconds * 1000);
+  } else if (typeof dateVal === 'string' || typeof dateVal === 'number') {
+    const d = new Date(dateVal);
+    finalDate = isNaN(d.getTime()) ? new Date() : d;
+  } else {
+    finalDate = new Date();
+  }
+
+  return {
+    toDate: () => finalDate,
+    toISOString: () => finalDate.toISOString(),
+    toString: () => finalDate.toISOString(),
+    seconds: Math.floor(finalDate.getTime() / 1000),
+    nanoseconds: 0,
+    valueOf: () => finalDate.getTime(),
+    toJSON: () => finalDate.toISOString(),
+  };
+}
+
 export function normalizePost(row: any) {
   if (!row) return null;
   return {
@@ -30,8 +70,8 @@ export function normalizePost(row: any) {
     featured: Boolean(row.featured),
     status: row.status ?? 'published',
     authorId: row.author_id ?? row.authorId ?? '',
-    createdAt: row.created_at ?? row.createdAt ?? new Date().toISOString(),
-    updatedAt: row.updated_at ?? row.updatedAt ?? new Date().toISOString(),
+    createdAt: toTimestamp(row.created_at ?? row.createdAt),
+    updatedAt: toTimestamp(row.updated_at ?? row.updatedAt),
   };
 }
 
@@ -64,8 +104,8 @@ export function normalizeEvent(row: any) {
     categoryMn: row.category_mn ?? row.categoryMn ?? '',
     categoryDe: row.category_de ?? row.categoryDe ?? '',
     whatsIncluded: Array.isArray(row.whats_included) ? row.whats_included : (row.whatsIncluded || []),
-    createdAt: row.created_at ?? row.createdAt ?? new Date().toISOString(),
-    updatedAt: row.updated_at ?? row.updatedAt ?? new Date().toISOString(),
+    createdAt: toTimestamp(row.created_at ?? row.createdAt),
+    updatedAt: toTimestamp(row.updated_at ?? row.updatedAt),
   };
 }
 
@@ -93,8 +133,8 @@ export function normalizeGalleryItem(row: any) {
     categoryEn: row.category_en ?? row.categoryEn ?? '',
     categoryMn: row.category_mn ?? row.categoryMn ?? '',
     categoryDe: row.category_de ?? row.categoryDe ?? '',
-    createdAt: row.created_at ?? row.createdAt ?? new Date().toISOString(),
-    updatedAt: row.updated_at ?? row.updatedAt ?? new Date().toISOString(),
+    createdAt: toTimestamp(row.created_at ?? row.createdAt),
+    updatedAt: toTimestamp(row.updated_at ?? row.updatedAt),
   };
 }
 

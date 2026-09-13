@@ -9,6 +9,24 @@ import NewsletterForm from '../components/NewsletterForm';
 
 import { DEFAULT_POSTS } from '../data/fallbackContent';
 
+function formatNewsDate(val: any, locale: string = 'en', options?: Intl.DateTimeFormatOptions): string {
+  if (!val) return 'Recent';
+  try {
+    let d: Date;
+    if (typeof val?.toDate === 'function') {
+      d = val.toDate();
+    } else if (val instanceof Date) {
+      d = val;
+    } else {
+      d = new Date(val);
+    }
+    if (isNaN(d.getTime())) return 'Recent';
+    return d.toLocaleDateString(locale, options || { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch {
+    return 'Recent';
+  }
+}
+
 export default function News() {
   const { t, i18n } = useTranslation();
   const [posts, setPosts] = useState<any[]>([]);
@@ -146,7 +164,7 @@ export default function News() {
                       <div className="pt-4 border-t border-slate-300 flex flex-wrap items-center justify-between gap-4">
                         <span className="text-[10px] uppercase tracking-widest font-extrabold text-slate-500 flex items-center gap-1.5">
                           <Calendar size={12} className="text-brand-gold" />
-                          {p.createdAt?.toDate ? p.createdAt.toDate().toLocaleDateString(t('common.locale'), { month: 'long', day: 'numeric', year: 'numeric' }) : 'Recent'}
+                          {formatNewsDate(p.createdAt, t('common.locale'), { month: 'long', day: 'numeric', year: 'numeric' })}
                         </span>
 
                         <Link 
@@ -185,7 +203,7 @@ export default function News() {
                       <div>
                         <div className="flex items-center justify-between text-[9px] uppercase tracking-widest font-extrabold text-slate-500 mb-3 border-b border-slate-200 pb-2">
                           <span>VIENNA JOURNAL</span>
-                          <span>{post.createdAt?.toDate().toLocaleDateString(t('common.locale'), { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                          <span>{formatNewsDate(post.createdAt, t('common.locale'), { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                         </div>
 
                         <Link to={linkUrl}>

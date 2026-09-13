@@ -1,4 +1,4 @@
-import { supabase, normalizePost, normalizeEvent, normalizeGalleryItem } from './supabase';
+import { supabase, normalizePost, normalizeEvent, normalizeGalleryItem, toTimestamp } from './supabase';
 
 export enum OperationType {
   CREATE = 'create',
@@ -39,10 +39,26 @@ function mapTableName(colName: string): string {
 // Normalize record from Supabase table format into front-end compatible structure
 function normalizeDocumentData(tableName: string, data: any): any {
   if (!data) return null;
-  if (tableName === 'posts') return normalizePost(data);
-  if (tableName === 'events') return normalizeEvent(data);
-  if (tableName === 'gallery') return normalizeGalleryItem(data);
-  return data;
+  let normalized: any;
+  if (tableName === 'posts') normalized = normalizePost(data);
+  else if (tableName === 'events') normalized = normalizeEvent(data);
+  else if (tableName === 'gallery') normalized = normalizeGalleryItem(data);
+  else normalized = { ...data };
+
+  // Ensure createdAt, updatedAt, timestamp always have .toDate() for backward compatibility
+  if (normalized.created_at && !normalized.createdAt) normalized.createdAt = normalized.created_at;
+  if (normalized.updated_at && !normalized.updatedAt) normalized.updatedAt = normalized.updated_at;
+
+  if (normalized.createdAt !== undefined) {
+    normalized.createdAt = toTimestamp(normalized.createdAt);
+  }
+  if (normalized.updatedAt !== undefined) {
+    normalized.updatedAt = toTimestamp(normalized.updatedAt);
+  }
+  if (normalized.timestamp !== undefined) {
+    normalized.timestamp = toTimestamp(normalized.timestamp);
+  }
+  return normalized;
 }
 
 // Transform incoming payload to Supabase DB columns

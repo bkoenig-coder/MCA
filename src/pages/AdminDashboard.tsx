@@ -358,8 +358,13 @@ export default function AdminDashboard() {
 
       const counts: { [key: string]: number } = {};
       views.forEach((v: any) => {
+        let date = '';
         if (v.timestamp && typeof v.timestamp.toDate === 'function') {
-          const date = new Date(v.timestamp.toDate()).toLocaleDateString();
+          date = new Date(v.timestamp.toDate()).toLocaleDateString();
+        } else if (v.timestamp) {
+          date = new Date(v.timestamp).toLocaleDateString();
+        }
+        if (date && date !== 'Invalid Date') {
           counts[date] = (counts[date] || 0) + 1;
         }
       });
@@ -1084,7 +1089,7 @@ export default function AdminDashboard() {
       `"${reg.email || getUserEmail(reg.userId)}"`,
       `"${getEventTitle(reg.eventId)}"`,
       `"${reg.status || 'pending'}"`,
-      `"${reg.createdAt?.toDate ? reg.createdAt.toDate().toLocaleDateString() : 'N/A'}"`
+      `"${reg.createdAt ? (typeof reg.createdAt?.toDate === 'function' ? reg.createdAt.toDate() : new Date(reg.createdAt)).toLocaleDateString() : 'N/A'}"`
     ]);
 
     const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
@@ -1312,7 +1317,7 @@ export default function AdminDashboard() {
                         <div className="min-w-0">
                           <p className="text-xs font-bold text-slate-900 truncate">{view.page || 'Home'}</p>
                           <p className="text-[10px] text-slate-500 uppercase tracking-widest mt-0.5">
-                            {view.timestamp?.toDate ? view.timestamp.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now'}
+                            {view.timestamp ? (typeof view.timestamp?.toDate === 'function' ? view.timestamp.toDate() : new Date(view.timestamp)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now'}
                           </p>
                         </div>
                       </div>
@@ -1705,7 +1710,7 @@ export default function AdminDashboard() {
                           </span>
                         </td>
                         <td className="px-6 py-4 text-slate-500 text-xs font-mono">
-                          {reg.createdAt?.toDate ? reg.createdAt.toDate().toLocaleDateString() : 'N/A'}
+                          {reg.createdAt ? (typeof reg.createdAt?.toDate === 'function' ? reg.createdAt.toDate() : new Date(reg.createdAt)).toLocaleDateString() : 'N/A'}
                         </td>
                         <td className="px-6 py-4 text-right">
                           <button
@@ -1795,7 +1800,7 @@ export default function AdminDashboard() {
                           </select>
                         </td>
                         <td className="px-6 py-4 text-xs text-slate-500 font-mono">
-                          {u.createdAt?.toDate ? u.createdAt.toDate().toLocaleDateString() : 'N/A'}
+                          {u.createdAt ? (typeof u.createdAt?.toDate === 'function' ? u.createdAt.toDate() : new Date(u.createdAt)).toLocaleDateString() : 'N/A'}
                         </td>
                       </tr>
                     ))}
