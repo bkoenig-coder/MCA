@@ -9,6 +9,7 @@ import { signInWithGoogle, logOut, db, collection, query, where, orderBy, onSnap
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, MeanderBand, CloudDrift } from './MongolianDesign';
 import BridgeMap from './BridgeMap';
+import WavingBoy from './WavingBoy';
 import mcaLogoWide from '../assets/media/mca-logo-wide.png';
 import GB from 'country-flag-icons/react/3x2/GB';
 import AT from 'country-flag-icons/react/3x2/AT';
@@ -456,7 +457,6 @@ export default function Navbar() {
                   <UlziiSymbol className="w-[300px] h-[300px] md:w-[600px] md:h-[600px] text-brand-gold/10" />
                 </div>
               </div>
-              <CloudDrift className="top-[22%] right-[6%] w-48 md:w-80 opacity-[0.12]" duration={30} />
               <div className="flex-1 w-full max-w-[1600px] mx-auto px-4 sm:px-8 md:px-16 flex flex-col justify-between pb-4 sm:pb-8 h-full min-h-0 relative z-10 pt-3 sm:pt-6">
                 
                 {/* Scrollable menu content grid */}
@@ -518,8 +518,22 @@ export default function Navbar() {
                      </nav>
                   </div>
 
-                  {/* Right Column: Featured Promotion Content */}
-                  <div className="flex flex-col justify-between lg:pl-4 border-t lg:border-t-0 border-brand-ink/10 pt-6 lg:pt-0 mt-6 lg:mt-0">
+                  {/* Right Column: cloud, map, message, and a friendly hello */}
+                  <div className="flex flex-col gap-5 lg:pl-4 border-t lg:border-t-0 border-brand-ink/10 pt-6 lg:pt-0 mt-6 lg:mt-0">
+                     {/* Cloud sits right above the map */}
+                     <div aria-hidden="true" className="relative h-14 -mb-2">
+                       <CloudDrift className="top-0 right-2 w-40 md:w-52 opacity-[0.4]" duration={26} />
+                     </div>
+
+                     <motion.div
+                       initial={{ opacity: 0, scale: 0.98 }}
+                       animate={{ opacity: 1, scale: 1 }}
+                       transition={{ duration: 0.8, delay: 0.1 }}
+                       className="w-full rounded-xl border border-brand-ink/10 bg-white/80 px-6 py-5"
+                     >
+                       <BridgeMap viennaLabel={t('bridge.vienna', { defaultValue: 'Vienna' })} ulaanbaatarLabel={t('bridge.ulaanbaatar', { defaultValue: 'Ulaanbaatar' })} />
+                     </motion.div>
+
                      <div className="flex flex-col">
                         <motion.div
                           initial={{ opacity: 0, y: 15 }}
@@ -552,12 +566,15 @@ export default function Navbar() {
                      </div>
 
                      <motion.div
-                       initial={{ opacity: 0, scale: 0.98 }}
-                       animate={{ opacity: 1, scale: 1 }}
-                       transition={{ duration: 0.8, delay: 0.4 }}
-                       className="w-full mt-auto rounded-xl border border-brand-ink/10 bg-white/80 px-6 py-5"
+                       initial={{ opacity: 0, y: 12 }}
+                       animate={{ opacity: 1, y: 0 }}
+                       transition={{ duration: 0.7, delay: 0.5 }}
+                       className="mt-auto flex items-end justify-end gap-2 pr-2"
                      >
-                       <BridgeMap viennaLabel={t('bridge.vienna', { defaultValue: 'Vienna' })} ulaanbaatarLabel={t('bridge.ulaanbaatar', { defaultValue: 'Ulaanbaatar' })} />
+                       <span className="relative mb-24 rounded-2xl rounded-br-sm bg-white border border-brand-ink/10 px-4 py-2 text-sm font-medium text-brand-ink shadow-sm">
+                         {t('nav.hello', { defaultValue: 'Сайн байна уу!' })}
+                       </span>
+                       <WavingBoy className="h-44 sm:h-52 w-auto" />
                      </motion.div>
                   </div>
                 </div>

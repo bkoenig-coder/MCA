@@ -27,6 +27,8 @@ function formatNewsDate(val: any, locale: string = 'en', options?: Intl.DateTime
   }
 }
 
+const NOISE = "url(\"data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E\")";
+
 export default function News() {
   const { t, i18n } = useTranslation();
   const [posts, setPosts] = useState<any[]>([]);
@@ -51,31 +53,57 @@ export default function News() {
 
   return (
     <div className="pt-[140px] md:pt-[152px] bg-white min-h-screen">
-      {/* Newspaper Front Page Container */}
-      <section className="py-16 md:py-24 px-6 lg:px-8 max-w-7xl mx-auto">
-        {/* Newspaper Masthead */}
-        <div className="text-center mb-8 border-b-4 border-slate-900 pb-4">
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <UlziiSymbol className="w-5 h-5 text-brand-gold" />
-            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-slate-500">Official Publication of the Austrian-Mongolian Center</span>
-            <UlziiSymbol className="w-5 h-5 text-brand-gold" />
-          </div>
-          
-          <h1 className="font-serif font-semibold text-4xl sm:text-6xl md:text-6xl lg:text-6xl tracking-tight uppercase text-slate-900 my-2 leading-none">
-            THE MCA GAZETTE
-          </h1>
-          
-          <p className="font-serif italic text-sm md:text-base text-slate-600 tracking-wide font-medium">
-            Bridging Cultural Heritage, Bilateral Trade & Academic Diplomacy in Vienna
-          </p>
+      {/* Newspaper front page: a paper sheet on the page */}
+      <section className="relative mx-auto w-[calc(100%-2rem)] max-w-7xl my-6 md:my-10 px-5 md:px-10 py-8 md:py-10 bg-[#FAF7EF] border border-slate-300 shadow-[0_10px_40px_rgba(15,23,42,0.08)]">
+        {/* Paper grain */}
+        <div aria-hidden="true" className="absolute inset-0 pointer-events-none opacity-[0.05] mix-blend-multiply" style={{ backgroundImage: NOISE }} />
 
-          {/* Newspaper Metadata Double Line Bar */}
-          <div className="border-t-2 border-b-2 border-slate-900 my-4 py-2 flex flex-wrap items-center justify-between text-[11px] md:text-xs uppercase tracking-[0.25em] font-sans font-semibold text-slate-800 gap-2">
-            <div>VOL. I • VIENNA EDITION</div>
-            <div className="hidden sm:block">ESTABLISHED 2026 • AUSTRIA & MONGOLIA</div>
-            <div>{new Date().toLocaleDateString(t('common.locale'), { weekday: 'short', month: 'long', day: 'numeric', year: 'numeric' })}</div>
+        {/* Masthead */}
+        <header className="relative mb-8">
+          {/* Top rule: thick over thin */}
+          <div aria-hidden="true" className="border-t-[5px] border-slate-900" />
+          <div aria-hidden="true" className="border-t border-slate-900 mt-1" />
+
+          {/* Edition strip */}
+          <div className="flex items-center justify-between gap-4 py-2 text-[11px] md:text-xs uppercase tracking-[0.18em] font-sans font-semibold text-slate-700">
+            <span>{t('news.vol', { defaultValue: 'Vol. I' })} &bull; {t('news.edition', { defaultValue: 'Vienna Edition' })}</span>
+            <span className="hidden sm:inline">{t('news.estab', { defaultValue: 'Established 2026' })} &bull; Austria &amp; Mongolia</span>
+            <span>{new Date().toLocaleDateString(t('common.locale'), { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</span>
           </div>
-        </div>
+          <div aria-hidden="true" className="border-t border-slate-900" />
+
+          {/* Title with the two "ears" */}
+          <div className="grid lg:grid-cols-[11rem_1fr_11rem] gap-6 items-center py-6 md:py-8">
+            <div className="hidden lg:block border border-slate-900 p-3 text-[11px] uppercase tracking-[0.12em] leading-snug text-slate-800">
+              <p className="font-semibold border-b border-slate-900 pb-1.5 mb-2">{t('news.inThisEdition', { defaultValue: 'In this edition' })}</p>
+              <ul className="space-y-1">
+                <li>{t('news.specialCoverage', { defaultValue: 'Special coverage' })}</li>
+                <li>{t('news.recentDispatches', { defaultValue: 'Recent dispatches' })}</li>
+              </ul>
+            </div>
+
+            <div className="text-center">
+              <p className="text-xs uppercase tracking-[0.18em] font-semibold text-slate-500 mb-2">Official Publication of the Austrian-Mongolian Center</p>
+              <h1 className="font-serif font-semibold text-5xl sm:text-6xl lg:text-7xl tracking-tight uppercase text-slate-900 leading-none">
+                THE MCA GAZETTE
+              </h1>
+              <p className="mt-3 font-serif italic text-sm md:text-base text-slate-600 tracking-wide">
+                Bridging Cultural Heritage, Bilateral Trade &amp; Academic Diplomacy in Vienna
+              </p>
+            </div>
+
+            <div className="hidden lg:block border border-slate-900 p-3 text-[11px] uppercase tracking-[0.12em] leading-snug text-slate-800 text-right">
+              <p className="font-semibold border-b border-slate-900 pb-1.5 mb-2">{t('news.publishedBy', { defaultValue: 'Published by' })}</p>
+              <p>Mongolian Center Austria</p>
+              <p className="mt-1">Vienna, Austria</p>
+              <p className="mt-1 font-semibold">{t('news.free', { defaultValue: 'Free to read' })}</p>
+            </div>
+          </div>
+
+          {/* Bottom rule: thin over thick */}
+          <div aria-hidden="true" className="border-t border-slate-900" />
+          <div aria-hidden="true" className="border-t-[5px] border-slate-900 mt-1" />
+        </header>
 
         {loading ? (
           <div className="flex justify-center py-32">
