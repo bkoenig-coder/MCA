@@ -165,7 +165,7 @@ export function HorseRacerMedallion() {
 }
 
 /** The three medallions in a row, with their Mongolian names. */
-export default function NaadamMedallions({ className = '' }: { className?: string }) {
+export default function NaadamMedallions({ className = '', size = 'clamp(52px,min(20vw,14vh),128px)' }: { className?: string; size?: string }) {
   const items = [
     { Art: WrestlerMedallion, label: 'Бөх' },
     { Art: ArcherMedallion, label: 'Сур харваа' },
@@ -175,7 +175,7 @@ export default function NaadamMedallions({ className = '' }: { className?: strin
     <div className={`flex items-start justify-center gap-5 sm:gap-8 md:gap-12 ${className}`}>
       {items.map(({ Art, label }) => (
         <div key={label} className="flex flex-col items-center gap-[1vh]">
-          <div className="w-[clamp(52px,min(20vw,14vh),128px)] h-[clamp(52px,min(20vw,14vh),128px)] drop-shadow-[0_6px_14px_rgba(0,0,0,0.45)]">
+          <div style={{ width: size, height: size }} className="drop-shadow-[0_6px_14px_rgba(0,0,0,0.45)]">
             <Art />
           </div>
           <span className="text-[10px] md:text-xs uppercase tracking-[0.16em] text-brand-gold/90 font-medium whitespace-nowrap">{label}</span>
