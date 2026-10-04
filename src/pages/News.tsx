@@ -52,7 +52,7 @@ export default function News() {
   return (
     <div className="pt-[140px] md:pt-[152px] bg-brand-paper min-h-screen">
       {/* Newspaper Front Page Container */}
-      <section className="py-12 md:py-20 px-6 max-w-7xl mx-auto">
+      <section className="py-16 md:py-16 md:py-24 px-6 lg:px-8 max-w-7xl mx-auto">
         {/* Newspaper Masthead */}
         <div className="text-center mb-8 border-b-4 border-slate-900 pb-4">
           <div className="flex items-center justify-center gap-3 mb-2">
@@ -251,7 +251,7 @@ export default function News() {
       </section>
 
       {/* Broadsheet Newsletter Suite */}
-      <section className="py-16 md:py-24 px-6 bg-[#0A1128] text-white relative overflow-hidden border-t-4 border-slate-900">
+      <section className="py-16 md:py-16 md:py-24 px-6 bg-[#0A1128] text-white relative overflow-hidden border-t-4 border-slate-900">
         <div className="max-w-4xl mx-auto relative z-10 text-center">
           <h2 className="text-3xl md:text-5xl font-serif mb-4 tracking-tight">
             {t('news.newsletter.title')} <span className="italic text-brand-gold font-light">{t('news.newsletter.titleItalic')}</span>

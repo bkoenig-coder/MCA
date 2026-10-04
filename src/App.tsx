@@ -12,6 +12,7 @@ import CarpetIntro from './components/CarpetIntro';
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import SEO from './components/SEO';
 import { UlziiSymbol } from './components/MongolianDesign';
+import { motion } from 'motion/react';
 
 // Lazy loaded page components for optimal bundle splitting
 const Home = lazy(() => import('./pages/Home'));
@@ -57,6 +58,21 @@ const PageLoader = () => (
   </div>
 );
 
+// Soft fade/rise whenever the route changes (no exit animation, so lazy pages never wait on it)
+function PageTransition({ children }: { children: React.ReactNode }) {
+  const { pathname } = useLocation();
+  return (
+    <motion.div
+      key={pathname}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -80,6 +96,7 @@ export default function App() {
             <Navbar />
             <main className="flex-grow">
               <Suspense fallback={<PageLoader />}>
+                <PageTransition>
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/about" element={<About />} />
@@ -109,6 +126,7 @@ export default function App() {
                   <Route path="/heritage" element={<Heritage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
+                </PageTransition>
               </Suspense>
             </main>
             <Footer />

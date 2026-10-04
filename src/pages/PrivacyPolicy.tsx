@@ -2,12 +2,14 @@ import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { Shield, Lock, Eye, FileText } from 'lucide-react';
 
+
+import { EyebrowMark } from '../components/MongolianDesign';
 export default function PrivacyPolicy() {
   const { t } = useTranslation();
 
   return (
     <div className="pt-[140px] md:pt-[152px]">
-      <section className="relative py-24 md:py-32 px-6 bg-brand-paper overflow-hidden">
+      <section className="relative py-16 md:py-16 md:py-24 px-6 bg-brand-paper overflow-hidden">
         <div className="max-w-4xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -15,7 +17,7 @@ export default function PrivacyPolicy() {
             transition={{ duration: 0.6 }}
           >
             <div className="flex items-center gap-4 mb-8">
-              <div className="h-px w-12 bg-brand-gold/40" />
+              <EyebrowMark />
               <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">
                 Legal & Compliance
               </span>

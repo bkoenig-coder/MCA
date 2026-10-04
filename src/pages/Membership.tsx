@@ -10,6 +10,8 @@ import euactiveLogo from '../assets/media/euactivelogo.png';
 import mcaLogo from '../assets/media/mcalogo-1.png';
 import delgerLogo from '../assets/media/delgerlogo.png';
 
+
+import { EyebrowMark } from '../components/MongolianDesign';
 const partners = [
   { name: "Embassy of Mongolia in Vienna", logo: "/embassy logo.png", url: "https://vienna.embassy.mn/" },
   { name: "AMOX", logo: amoxLogo, url: "https://www.facebook.com/MongolianStudentAssociationInAustria" },
@@ -44,9 +46,9 @@ export default function Membership() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="inline-flex items-center gap-4 mb-8"
           >
-            <div className="h-px w-12 bg-brand-gold/50" />
+            <EyebrowMark />
             <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">{t('membershipPage.hero.tag')}</span>
-            <div className="h-px w-12 bg-brand-gold/50" />
+            <EyebrowMark />
           </motion.div>
 
           <motion.h1 
@@ -95,8 +97,8 @@ export default function Membership() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-24 md:py-32 px-6 bg-brand-paper relative">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-16 md:py-16 md:py-24 bg-brand-paper relative">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-col md:flex-row gap-16 items-start">
             <div className="w-full md:w-1/3 md:sticky md:top-32">
               <span className="inline-block text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold mb-6 relative">
@@ -168,8 +170,8 @@ export default function Membership() {
       </section>
 
       {/* Application Process */}
-      <section className="py-24 bg-white px-6">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-6">
               {t('membershipPage.process.titleNormal')}<span className="italic text-brand-gold">{t('membershipPage.process.titleItalic')}</span>
@@ -219,11 +221,11 @@ export default function Membership() {
       </section>
 
       {/* Membership Tiers */}
-      <section id="membership-tiers" className="py-24 md:py-32 px-6 bg-brand-ink relative overflow-hidden rounded-[40px] md:rounded-[80px] mx-4 md:mx-6 mb-24">
+      <section id="membership-tiers" className="py-16 md:py-16 md:py-24 bg-brand-ink relative overflow-hidden rounded-[40px] md:rounded-[2.5rem] mx-4 md:mx-6 mb-24">
         {/* Subtle background decoration */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-brand-gold/20 rounded-[100%] blur-[120px] pointer-events-none" />
         
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24 gap-8">
             <div className="max-w-2xl">
               <h2 className="text-4xl md:text-6xl font-serif text-white mb-6">
@@ -411,10 +413,10 @@ export default function Membership() {
       </section>
 
       {/* Trusted Partners Section */}
-      <section className="py-24 md:py-32 px-6 bg-brand-ink text-white relative border-y border-white/5">
+      <section className="py-16 md:py-16 md:py-24 bg-brand-ink text-white relative border-y border-white/5">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem]" />
         
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-serif mb-6 inline-flex flex-col items-center">
               <span className="text-brand-gold block mb-2 text-sm uppercase tracking-[0.5em] font-sans font-bold">{t('membershipPage.partners.tag')}</span>
@@ -485,7 +487,7 @@ export default function Membership() {
       </section>
 
       {/* Directory Access */}
-      <section className="py-24 bg-brand-ink text-white px-6 text-center relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-brand-ink text-white px-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-brand-ink via-brand-ink to-[#1a1f33] z-0" />
         <div className="max-w-3xl mx-auto relative z-10">
           <h2 className="text-3xl md:text-5xl font-serif mb-6 text-white drop-shadow-lg">
@@ -505,7 +507,7 @@ export default function Membership() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-32 md:py-48 px-6 bg-brand-paper relative overflow-hidden">
+      <section className="py-20 md:py-32 px-6 bg-brand-paper relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-gold/10 rounded-full blur-[120px] pointer-events-none" />
         
         <div className="max-w-4xl mx-auto text-center relative z-10">

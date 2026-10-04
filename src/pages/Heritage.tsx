@@ -320,7 +320,7 @@ export default function Heritage() {
       </section>
 
       {/* 2. Interactive 3D Nomadic Diorama Live Preview (AT THE TOP) */}
-      <section className="py-16 px-6 max-w-7xl mx-auto">
+      <section className="py-16 px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm text-slate-900">
           
           <div className="p-6 sm:p-8 bg-slate-50 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -400,7 +400,7 @@ export default function Heritage() {
       </section>
 
       {/* 3. 3D 360° Artifact Inspector */}
-      <section className="py-16 px-6 max-w-7xl mx-auto border-t border-slate-200">
+      <section className="py-16 px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-200">
         <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm text-slate-900">
           
           {/* Top Header Bar matching Virtual Nomadic Settlement style */}
@@ -436,7 +436,7 @@ export default function Heritage() {
       </section>
 
       {/* 4. Classical Vertical Script (Bichig) Archival Corner */}
-      <section className="py-16 px-6 max-w-7xl mx-auto border-t border-slate-200">
+      <section className="py-16 px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-200">
         <div className="bg-white text-slate-900 rounded-2xl p-8 md:p-12 border border-slate-200 shadow-sm relative overflow-hidden">
           <div className="grid lg:grid-cols-12 gap-10 items-center relative z-10">
             <div className="lg:col-span-7 space-y-6">
@@ -499,7 +499,7 @@ export default function Heritage() {
       </section>
 
       {/* 5. ADVANCED AUSTRIAN-MONGOLIAN HISTORICAL RELATIONS TIMELINE */}
-      <section className="py-20 px-6 max-w-7xl mx-auto border-t border-slate-200">
+      <section className="py-20 px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-200">
         
         {/* Timeline Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
@@ -628,7 +628,7 @@ export default function Heritage() {
       </section>
 
       {/* 6. Registered Living Heritage & Material Collections (AT THE BOTTOM BEFORE GAME) */}
-      <section className="py-16 px-6 max-w-7xl mx-auto border-t border-slate-200">
+      <section className="py-16 px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-200">
         
         <div className="mb-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
@@ -766,7 +766,7 @@ export default function Heritage() {
       </section>
 
       {/* 7. Steppe Runner Mini-Game at the VERY Bottom */}
-      <section className="py-20 px-6 max-w-7xl mx-auto border-t border-slate-200">
+      <section className="py-20 px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-200">
         <div className="bg-white rounded-3xl border border-slate-200 p-8 md:p-12 shadow-sm">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-slate-100 pb-6">
             <div>

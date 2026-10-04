@@ -11,8 +11,11 @@ export default function AnalyticsTracker() {
         await addDoc(collection(db, 'analytics'), {
           path: location.pathname,
           timestamp: serverTimestamp(),
-          userId: auth.currentUser?.uid || 'anonymous',
-          userAgent: navigator.userAgent,
+          // The analytics table only has path/timestamp/metadata columns.
+          metadata: {
+            userId: auth.currentUser?.uid || 'anonymous',
+            userAgent: navigator.userAgent,
+          },
         });
       } catch (error) {
         console.error("Error tracking page view:", error);

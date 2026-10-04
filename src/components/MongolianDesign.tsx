@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 
 export const UlziiSymbol = ({ className = "w-12 h-12", color = "currentColor" }) => (
   <svg viewBox="0 0 100 100" className={className} xmlns="http://www.w3.org/2000/svg">
@@ -192,13 +193,106 @@ export const MongolianFormalFrame = ({ children, className = "" }: { children: R
 
 export const MongolianKhasDivider = ({ className = "my-12" }: { className?: string }) => (
   <div className={`flex items-center justify-center gap-4 ${className}`}>
-    <div className="h-px bg-gradient-to-r from-transparent via-brand-gold/50 to-brand-gold flex-1 max-w-xs" />
-    <div className="flex items-center gap-2">
+    <motion.div
+      className="h-px bg-gradient-to-r from-transparent via-brand-gold/50 to-brand-gold flex-1 max-w-xs origin-right"
+      initial={{ scaleX: 0 }}
+      whileInView={{ scaleX: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+    />
+    <motion.div
+      className="flex items-center gap-2"
+      initial={{ opacity: 0, scale: 0.6, rotate: -45 }}
+      whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+    >
       <div className="w-1.5 h-1.5 rotate-45 bg-brand-gold/70" />
       <UlziiSymbol className="w-6 h-6 text-brand-gold" />
       <div className="w-1.5 h-1.5 rotate-45 bg-brand-gold/70" />
-    </div>
-    <div className="h-px bg-gradient-to-l from-transparent via-brand-gold/50 to-brand-gold flex-1 max-w-xs" />
+    </motion.div>
+    <motion.div
+      className="h-px bg-gradient-to-l from-transparent via-brand-gold/50 to-brand-gold flex-1 max-w-xs origin-left"
+      initial={{ scaleX: 0 }}
+      whileInView={{ scaleX: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+    />
   </div>
 );
 
+
+/**
+ * Repeating key/meander band inspired by traditional Mongolian ornamental borders.
+ * Drawn with a CSS mask so its colour follows `text-*` / `bg-*` classes (default: brand gold).
+ */
+export const MeanderBand = ({ className = "" }: { className?: string }) => (
+  <div aria-hidden="true" className={`meander-band h-3 w-full ${className.includes("bg-") ? "" : "bg-brand-gold/60"} ${className}`} />
+);
+
+/** Small diamond + line used in front of section eyebrows; the line draws in on scroll. */
+export const EyebrowMark = ({ className = "" }: { className?: string }) => (
+  <span aria-hidden="true" className={`inline-flex items-center gap-1.5 shrink-0 ${className}`}>
+    <i className="block w-1.5 h-1.5 rotate-45 bg-brand-gold" />
+    <motion.i
+      className="block h-px w-8 bg-brand-gold/50 origin-left"
+      initial={{ scaleX: 0 }}
+      whileInView={{ scaleX: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+    />
+  </span>
+);
+
+/**
+ * Full-width meander ornament that sits on the seam between two page sections.
+ * Zero height, so it never changes the layout, and it overlaps both neighbouring sections.
+ */
+export const SectionSeam = () => (
+  <div aria-hidden="true" className="relative h-0 z-30 pointer-events-none">
+    <motion.div
+      className="absolute left-0 right-0 top-0 -translate-y-1/2"
+      initial={{ opacity: 0, scaleX: 0.85 }}
+      whileInView={{ opacity: 1, scaleX: 1 }}
+      viewport={{ once: true, margin: "0px 0px -20% 0px" }}
+      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <MeanderBand className="bg-brand-gold/50" />
+    </motion.div>
+  </div>
+);
+
+/**
+ * Stylised cloud scroll in the spirit of traditional Mongolian cloud ornaments:
+ * a flat base with three curling spiral lobes. Colour follows `currentColor`.
+ */
+export const CloudMotif = ({ className = "w-48 h-auto" }: { className?: string }) => (
+  <svg viewBox="0 0 220 90" className={className} fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    {/* base line with a tail that curls up at each end */}
+    <path d="M6 74C6 66 14 64 18 68C21 71 17 76 13 74" />
+    <path d="M18 78H202" />
+    <path d="M214 74C214 66 206 64 202 68C199 71 203 76 207 74" />
+    {/* left lobe */}
+    <path d="M30 78C24 56 44 40 62 50C74 57 70 74 58 72C49 70 50 60 58 60" />
+    {/* centre lobe (largest) */}
+    <path d="M72 78C66 42 98 18 128 30C148 38 148 64 130 64C116 64 114 48 126 46C134 45 138 52 133 56" />
+    {/* right lobe */}
+    <path d="M150 78C150 57 172 44 188 54C198 60 194 74 183 72C175 70 176 61 184 61" />
+    {/* inner echo lines */}
+    <path d="M44 78C42 70 48 66 54 68" opacity="0.6" />
+    <path d="M88 78C88 64 98 54 110 54" opacity="0.6" />
+    <path d="M164 78C164 70 170 66 176 68" opacity="0.6" />
+  </svg>
+);
+
+/** Decorative cloud that drifts slowly side to side. Place inside a `relative overflow-hidden` section. */
+export const CloudDrift = ({ className = "", delay = 0, duration = 22, tone = "blue" }: { className?: string; delay?: number; duration?: number; tone?: "gold" | "blue" }) => (
+  <motion.div
+    aria-hidden="true"
+    className={`absolute pointer-events-none ${tone === "gold" ? "text-brand-gold" : "text-brand-blue"} ${className}`}
+    animate={{ x: [0, 28, 0], y: [0, -6, 0] }}
+    transition={{ duration, delay, repeat: Infinity, ease: "easeInOut" }}
+  >
+    <CloudMotif className="w-full h-auto" />
+  </motion.div>
+);

@@ -103,8 +103,8 @@ export default function Contact() {
       </section>
 
       {/* Bright Executive Contact Content */}
-      <section className="py-16 md:py-24 px-6 bg-brand-paper">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-16 md:py-16 md:py-24 bg-brand-paper">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             {/* Info Cards */}
             <motion.div
@@ -280,7 +280,7 @@ export default function Contact() {
       </section>
 
       {/* Newsletter Section */}
-      <section className="py-16 md:py-24 px-6 bg-[#0A1128] text-white relative overflow-hidden border-t border-brand-gold/20">
+      <section className="py-16 md:py-16 md:py-24 px-6 bg-[#0A1128] text-white relative overflow-hidden border-t border-brand-gold/20">
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="bg-slate-900/90 border border-brand-gold/40 p-8 md:p-14 rounded-[32px] md:rounded-[48px] shadow-2xl text-center">
             <h2 className="text-3xl md:text-5xl font-serif mb-4 tracking-tight">

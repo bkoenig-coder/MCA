@@ -7,15 +7,19 @@ import { cn } from '@/src/lib/utils';
 import { useAuth } from '../contexts/AuthContext';
 import { signInWithGoogle, logOut, db, collection, query, where, orderBy, onSnapshot, handleFirestoreError, OperationType } from '../firebase';
 import { useTranslation } from 'react-i18next';
-import { UlziiSymbol } from './MongolianDesign';
-import mcaLogo from '../assets/media/mcalogo-1.png';
-import { DEFAULT_EVENTS } from '../data/fallbackContent';
+import { UlziiSymbol, MeanderBand, CloudDrift } from './MongolianDesign';
+import BridgeMap from './BridgeMap';
+import mcaLogoWide from '../assets/media/mca-logo-wide.png';
+import GB from 'country-flag-icons/react/3x2/GB';
+import AT from 'country-flag-icons/react/3x2/AT';
+import MN from 'country-flag-icons/react/3x2/MN';
+import TR from 'country-flag-icons/react/3x2/TR';
 
 const languages = [
-  { code: 'en', name: 'English', flag: '🇬🇧' },
-  { code: 'de', name: 'Deutsch', flag: '🇦🇹' },
-  { code: 'mn', name: 'Монгол', flag: '🇲🇳' },
-  { code: 'tr', name: 'Türkçe', flag: '🇹🇷' },
+  { code: 'en', name: 'English', Flag: GB },
+  { code: 'de', name: 'Deutsch', Flag: AT },
+  { code: 'mn', name: 'Монгол', Flag: MN },
+  { code: 'tr', name: 'Türkçe', Flag: TR },
 ];
 
 const BilateralFlagBadge = () => (
@@ -160,11 +164,11 @@ export default function Navbar() {
       if (!snapshot.empty) {
         setNextEvent({ id: snapshot.docs[0].id, ...snapshot.docs[0].data() });
       } else {
-        setNextEvent(DEFAULT_EVENTS[0]);
+        setNextEvent(null);
       }
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, 'events');
-      setNextEvent(DEFAULT_EVENTS[0]);
+      setNextEvent(null);
     });
 
     return () => {
@@ -235,7 +239,7 @@ export default function Navbar() {
       {/* Top Utility Bar (Mobile & Desktop) */}
       <div className={cn(
         "bg-[#0A1128] text-white/80 transition-all duration-500 border-b border-white/5 relative z-[130] overflow-visible",
-        scrolled ? "h-0 opacity-0 pointer-events-none overflow-hidden" : "h-9 flex items-center"
+        scrolled ? "h-0 opacity-0 pointer-events-none overflow-hidden" : "hidden sm:flex h-9 items-center"
       )}>
         <div className="max-w-[1600px] w-full mx-auto px-4 md:px-16 flex items-center justify-between h-full text-[9px] uppercase tracking-[0.18em] font-sans font-bold select-none min-w-0">
           {/* Left: Embassy Flags & Organization details */}
@@ -244,8 +248,8 @@ export default function Navbar() {
               <BilateralFlagBadge />
             </div>
             <span className="h-3 w-px bg-white/10 flex-shrink-0" />
-            <span className="text-[7.5px] min-[360px]:text-[8px] sm:text-[8.5px] font-medium text-white/70 tracking-[0.05em] sm:tracking-[0.18em] uppercase truncate">
-              Austrian-Mongolian Center in Vienna, MCA Cultural and Business HUB
+            <span className="hidden md:inline text-[8.5px] font-medium text-white/70 tracking-[0.18em] uppercase truncate">
+              Cultural &amp; Business Hub
             </span>
           </div>
 
@@ -258,7 +262,7 @@ export default function Navbar() {
                 aria-label="Select language"
                 className="flex items-center gap-2 text-white/85 hover:text-[#C5A059] transition-all py-1"
               >
-                <span>{currentLang.flag}</span>
+                <span><currentLang.Flag className="w-5 h-auto rounded-[2px] shadow-sm" aria-hidden="true" /></span>
                 <span className="font-extrabold text-[9px]">{currentLang.code}</span>
                 <ChevronDown size={10} className={cn('transition-all text-[#C5A059] opacity-70', isLangOpen && 'rotate-180')} />
               </button>
@@ -284,7 +288,7 @@ export default function Navbar() {
                         )}
                       >
                         <span>{lang.name}</span>
-                        <span>{lang.flag}</span>
+                        <span><lang.Flag className="w-5 h-auto rounded-[2px] shadow-sm" aria-hidden="true" /></span>
                       </button>
                     ))}
                   </motion.div>
@@ -338,8 +342,8 @@ export default function Navbar() {
           'transition-all duration-500 px-4 md:px-16 relative w-full bg-white',
           isOpen ? 'z-[155]' : 'z-[120]',
           scrolled 
-            ? 'py-3.5 shadow-[0_4px_30px_rgba(0,0,0,0.02)] border-b border-brand-gold/15 bg-white/95 backdrop-blur-md' 
-            : 'py-5 border-b border-[#0F0F0F]/5',
+            ? 'py-2 shadow-[0_4px_30px_rgba(0,0,0,0.04)] border-b border-brand-gold/15 bg-white/95 backdrop-blur-md' 
+            : 'py-3 border-b border-[#0F0F0F]/5',
           isOpen && 'border-b-0 bg-white'
         )}
       >
@@ -354,7 +358,7 @@ export default function Navbar() {
                   key={item.path}
                   to={item.path}
                   className={cn(
-                    "group text-[9px] xl:text-[10px] uppercase tracking-[0.18em] font-sans font-black transition-all duration-300 relative py-2",
+                    "group text-[10px] xl:text-[11px] uppercase tracking-[0.16em] font-sans font-extrabold transition-all duration-300 relative py-2",
                     isActive ? "text-[#0066B3]" : "text-slate-600 hover:text-[#0066B3] hover:translate-y-[-0.5px]"
                   )}
                 >
@@ -362,37 +366,28 @@ export default function Navbar() {
                   {isActive ? (
                     <motion.div
                       layoutId="activeSubNavTabLeft"
-                      className="absolute bottom-[-1px] left-0.5 right-0.5 h-[2px] bg-[#0066B3] rounded-full"
+                      className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rotate-45 bg-[#0066B3]"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   ) : (
-                    <span className="absolute bottom-[-1px] left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#0066B3]/40 scale-0 group-hover:scale-100 transition-all duration-300" />
+                    <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rotate-45 bg-[#C5A059]/70 scale-0 group-hover:scale-100 transition-all duration-300" />
                   )}
                 </Link>
               );
             })}
           </div>
 
-          {/* Centered Organization Branding & Emblem (Mobile & Desktop) */}
-          <Link to="/" className="flex items-center gap-2 sm:gap-3 group flex-shrink-0 z-10 absolute left-1/2 -translate-x-1/2 max-w-[200px] sm:max-w-none pointer-events-auto">
-            <div className="relative shrink-0">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 border border-[#C5A059]/30 rounded-full flex items-center justify-center transition-all duration-[750ms] group-hover:border-[#C5A059] group-hover:rotate-[360deg] bg-white shadow-sm overflow-hidden p-0.5 sm:p-1">
-                <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain" />
-              </div>
-            </div>
-            
-            <div className="flex flex-col select-none text-center min-w-0">
-              <h1 className="font-serif font-black text-xs sm:text-sm md:text-lg tracking-[0.05em] leading-tight uppercase text-[#0066B3] m-0 truncate text-center">
-                {t('nav.mongolian')} <span className="text-[#DA2032] font-black tracking-[0.04em]">{t('nav.center')}</span>
-              </h1>
-              <span className="font-serif text-[6.5px] sm:text-[7.5px] md:text-[8.5px] uppercase tracking-[0.25em] sm:tracking-[0.35em] font-extrabold text-[#C5A059] mt-0.5 text-center block truncate">
-                {t('nav.location')}
-              </span>
-            </div>
+          {/* Centered full logo (already contains the organization name) */}
+          <Link to="/" aria-label="Mongolisches Zentrum in Österreich – Home" className="group flex-shrink-0 z-10 absolute left-1/2 -translate-x-1/2 pointer-events-auto">
+            <img
+              src={mcaLogoWide}
+              alt="Mongolische Zentrum in Österreich"
+              className={cn("w-auto object-contain select-none transition-all duration-500 group-hover:scale-105", scrolled ? "h-9 sm:h-10 lg:h-11" : "h-11 sm:h-12 lg:h-16")}
+            />
           </Link>
 
           {/* Right Nav Links & Actions (Desktop only) */}
-          <div className="hidden lg:flex items-center justify-end gap-4 xl:gap-6 flex-1">
+          <div className="hidden lg:flex items-center justify-end gap-3 xl:gap-5 flex-1 min-w-0 lg:pl-16">
             {navItems.filter(item => ['/gallery', '/impact', '/contact', '/heritage'].includes(item.path)).map((item) => {
               const isActive = location.pathname === item.path;
               return (
@@ -400,7 +395,7 @@ export default function Navbar() {
                   key={item.path}
                   to={item.path}
                   className={cn(
-                    "group text-[9px] xl:text-[10px] uppercase tracking-[0.18em] font-sans font-black transition-all duration-300 relative py-2",
+                    "group text-[10px] xl:text-[11px] uppercase tracking-[0.16em] font-sans font-extrabold transition-all duration-300 relative py-2",
                     isActive ? "text-[#0066B3]" : "text-slate-600 hover:text-[#0066B3] hover:translate-y-[-0.5px]"
                   )}
                 >
@@ -408,21 +403,21 @@ export default function Navbar() {
                   {isActive ? (
                     <motion.div
                       layoutId="activeSubNavTabRight"
-                      className="absolute bottom-[-1px] left-0.5 right-0.5 h-[2px] bg-[#0066B3] rounded-full"
+                      className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rotate-45 bg-[#0066B3]"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   ) : (
-                    <span className="absolute bottom-[-1px] left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#0066B3]/40 scale-0 group-hover:scale-100 transition-all duration-300" />
+                    <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rotate-45 bg-[#C5A059]/70 scale-0 group-hover:scale-100 transition-all duration-300" />
                   )}
                 </Link>
               );
             })}
 
-            <div className="h-4 w-px bg-slate-200 ml-1 mr-1" />
+            <div className="hidden 2xl:block h-4 w-px bg-slate-200 ml-1 mr-1" />
 
-            <Link 
+            <Link
               to="/membership"
-              className="text-[9px] uppercase tracking-[0.15em] font-extrabold px-4 py-2.5 rounded border border-[#0A1128] hover:bg-[#0A1128] hover:text-white transition-all duration-300 shadow-sm hover:shadow active:scale-95"
+              className="hidden 2xl:inline-block text-[9px] uppercase tracking-[0.15em] font-extrabold px-4 py-2.5 rounded border border-[#0A1128] hover:bg-[#0A1128] hover:text-white transition-all duration-300 shadow-sm hover:shadow active:scale-95"
             >
               Member
             </Link>
@@ -435,7 +430,7 @@ export default function Navbar() {
               )}
             >
               {isOpen ? <X size={12} className="text-[#C5A059]" /> : <Menu size={12} className="text-[#C5A059]" />}
-              <span>{isOpen ? t('common.close', 'CLOSE') : 'DIRECTORY'}</span>
+              <span className="hidden xl:inline">{isOpen ? t('common.close', 'CLOSE') : 'DIRECTORY'}</span>
             </button>
           </div>
 
@@ -452,7 +447,7 @@ export default function Navbar() {
               aria-label="Switch language"
               className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border flex items-center justify-center text-xs sm:text-sm transition-all duration-300 bg-brand-paper hover:bg-white text-brand-ink border-brand-ink/10 shadow-sm active:scale-90"
             >
-              {currentLang.flag}
+              <currentLang.Flag className="w-5 h-auto rounded-[2px] shadow-sm" aria-hidden="true" />
             </button>
 
             {/* Profile Avatar Trigger */}
@@ -491,19 +486,9 @@ export default function Navbar() {
               {/* Executive Top Header inside open Menu Overlay */}
               <div className="w-full bg-white border-b border-brand-ink/10 py-2.5 sm:py-3 shrink-0 relative z-20 shadow-[0_2px_15px_rgba(0,0,0,0.02)]">
                 <div className="max-w-[1600px] w-full mx-auto px-4 sm:px-8 md:px-12 flex items-center justify-between select-none min-w-0 relative">
-                  {/* Centered Branding Info */}
-                  <div className="flex items-center gap-2 sm:gap-3 min-w-0 mx-auto text-center">
-                    <div className="w-8 h-8 sm:w-9 sm:h-9 border border-[#C5A059]/30 rounded-full flex items-center justify-center bg-white p-0.5 flex-shrink-0">
-                      <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain" />
-                    </div>
-                    <div className="flex flex-col text-center min-w-0">
-                      <span className="font-serif font-black text-[10px] sm:text-xs md:text-sm tracking-[0.05em] leading-none uppercase text-[#0066B3] truncate text-center">
-                        {t('nav.mongolian')} <span className="text-[#DA2032] font-black tracking-[0.04em]">{t('nav.center')}</span>
-                      </span>
-                      <span className="font-serif text-[6.5px] sm:text-[7.5px] md:text-[8px] uppercase tracking-[0.25em] font-extrabold text-[#C5A059] mt-0.5 truncate text-center block">
-                        {t('nav.location')}
-                      </span>
-                    </div>
+                  {/* Centered full logo */}
+                  <div className="mx-auto flex items-center">
+                    <img src={mcaLogoWide} alt="Mongolische Zentrum in Österreich" className="h-9 sm:h-10 w-auto object-contain" />
                   </div>
 
                   <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
@@ -518,7 +503,7 @@ export default function Navbar() {
                       className="w-8 h-8 rounded-full border flex items-center justify-center text-xs transition-all duration-300 bg-[#0A1128]/5 hover:bg-[#0A1128]/10 text-brand-ink border-brand-ink/5 shadow-sm active:scale-90"
                       title="Change Language"
                     >
-                      {currentLang.flag}
+                      <currentLang.Flag className="w-5 h-auto rounded-[2px] shadow-sm" aria-hidden="true" />
                     </button>
 
                     {/* Redundant, Beautiful Back Trigger */}
@@ -533,12 +518,15 @@ export default function Navbar() {
                 </div>
               </div>
 
+              <MeanderBand className="shrink-0 bg-brand-gold/40" />
+
               {/* Background Cultural Emblem Accent */}
               <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-20 flex items-center justify-center">
                 <div className="absolute right-[-10%] bottom-[-10%] text-brand-gold/15 transition-transform duration-1000 rotate-[15deg]">
                   <UlziiSymbol className="w-[300px] h-[300px] md:w-[600px] md:h-[600px] text-brand-gold/10" />
                 </div>
               </div>
+              <CloudDrift className="top-[22%] right-[6%] w-48 md:w-80 opacity-[0.12]" duration={30} />
               <div className="flex-1 w-full max-w-[1600px] mx-auto px-4 sm:px-8 md:px-16 flex flex-col justify-between pb-4 sm:pb-8 h-full min-h-0 relative z-10 pt-3 sm:pt-6">
                 
                 {/* Scrollable menu content grid */}
@@ -546,7 +534,7 @@ export default function Navbar() {
                   
                   {/* Left Column: Menu Links */}
                   <div className="flex flex-col justify-start lg:border-r border-brand-ink/10 lg:pr-12 text-left">
-                     <span className="text-[10px] uppercase tracking-[0.3em] font-extrabold text-[#C5A059] mb-3 lg:mb-4 block">
+                     <span className="text-xs uppercase tracking-[0.18em] font-semibold text-[#C5A059] mb-3 lg:mb-4 block">
                         {t('footer.navTitle', 'Navigation')}
                      </span>
                      <nav className="flex flex-col">
@@ -566,15 +554,9 @@ export default function Navbar() {
                                  className="group flex items-center justify-between w-full relative py-2 sm:py-3.5 border-b border-brand-ink/5 hover:bg-[#0A1128]/5 px-2 rounded-md transition-all"
                                >
                                  <div className="flex items-center gap-3.5">
-                                   <item.icon 
-                                     size={15} 
-                                     className={cn(
-                                       "transition-colors duration-300",
-                                       isActive ? "text-[#0066B3]" : "text-[#0A1128]/40 group-hover:text-[#0066B3]"
-                                     )} 
-                                   />
+                                   <span className={cn("font-serif text-sm w-6 tabular-nums transition-colors duration-300", isActive ? "text-[#0066B3]" : "text-brand-gold")}>{String(idx + 1).padStart(2, '0')}</span>
                                    <span className={cn(
-                                     "font-sans font-extrabold text-[#0A1128] text-xs sm:text-sm tracking-[0.05em] leading-none transition-all duration-300 uppercase",
+                                     "font-serif font-medium text-[#0A1128] text-xl sm:text-2xl tracking-normal leading-none transition-all duration-300",
                                      isActive ? "text-[#0066B3] translate-x-1" : "text-brand-ink group-hover:text-[#0066B3] group-hover:translate-x-1"
                                    )}>
                                      {item.name}
@@ -582,27 +564,21 @@ export default function Navbar() {
                                  </div>
                                  <div className="flex items-center gap-2">
                                    {item.path === '/events' && (
-                                     <span className="text-[7.5px] bg-[#C5A059] text-white px-1.5 py-0.5 uppercase tracking-[0.12em] font-sans font-black shadow-sm transform rotate-[2deg]">
+                                     <span className="text-[11px] bg-[#C5A059]/15 text-[#8a6b2a] px-2 py-0.5 rounded uppercase tracking-[0.1em] font-sans font-semibold">
                                        UPCOMING
                                      </span>
                                    )}
                                    {item.path === '/membership' && (
-                                     <span className="text-[7.5px] bg-[#0A1128] text-white px-1.5 py-0.5 uppercase tracking-[0.12em] font-sans font-black shadow-sm transform -rotate-[2deg] whitespace-nowrap">
+                                     <span className="text-[11px] bg-[#0066B3]/10 text-[#0066B3] px-2 py-0.5 rounded uppercase tracking-[0.1em] font-sans font-semibold whitespace-nowrap">
                                         JOIN
                                      </span>
                                    )}
                                    {item.path === '/impact' && (
-                                     <span className="text-[7.5px] bg-[#DA2032] text-white px-1.5 py-0.5 uppercase tracking-[0.12em] font-sans font-black shadow-sm transform rotate-[2deg] whitespace-nowrap">
+                                     <span className="text-[11px] bg-[#DA2032]/10 text-[#DA2032] px-2 py-0.5 rounded uppercase tracking-[0.1em] font-sans font-semibold whitespace-nowrap">
                                         GIVE
                                       </span>
                                    )}
-                                   <ChevronRight 
-                                     size={14} 
-                                     className={cn(
-                                       "transition-all duration-300 opacity-20",
-                                       isActive ? "text-[#0066B3] translate-x-0 opacity-100" : "text-brand-ink/30 group-hover:text-[#0066B3] group-hover:translate-x-1 group-hover:opacity-100"
-                                     )}
-                                   />
+                                   <UlziiSymbol className={cn("w-4 h-4 transition-all duration-300", isActive ? "text-brand-gold opacity-100" : "text-brand-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0")} />
                                  </div>
                                </Link>
                              </motion.div>
@@ -649,15 +625,9 @@ export default function Navbar() {
                        initial={{ opacity: 0, scale: 0.98 }}
                        animate={{ opacity: 1, scale: 1 }}
                        transition={{ duration: 0.8, delay: 0.4 }}
-                       className="w-full relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-brand-ink/5 mt-auto max-h-[160px] sm:max-h-[220px] md:max-h-[260px] aspect-[16/10] sm:aspect-[21/9]"
+                       className="w-full mt-auto rounded-xl border border-brand-ink/10 bg-white/80 px-6 py-5"
                      >
-                       <img 
-                         src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop" 
-                         alt="Hands On Practice" 
-                         className="w-full h-full object-cover select-none pointer-events-none hover:scale-[1.02] transition-transform duration-700"
-                         referrerPolicy="no-referrer"
-                       />
-                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+                       <BridgeMap viennaLabel={t('bridge.vienna', { defaultValue: 'Vienna' })} ulaanbaatarLabel={t('bridge.ulaanbaatar', { defaultValue: 'Ulaanbaatar' })} />
                      </motion.div>
                   </div>
                 </div>
@@ -727,6 +697,9 @@ export default function Navbar() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Heritage meander along the lower edge of the bar */}
+        <MeanderBand className="absolute top-full left-0 right-0 pointer-events-none bg-brand-gold/40" />
 
         {/* Scroll Progress Bar */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-brand-gold/10">

@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Shield, Heart, Users, Sparkles, Send, Star } from 'lucide-react';
-import { UlziiSymbol, MongolianFormalFrame, MongolianKhasDivider, SoyomboSymbol } from '../components/MongolianDesign';
+import { UlziiSymbol, MongolianFormalFrame, MongolianKhasDivider, SoyomboSymbol, EyebrowMark } from '../components/MongolianDesign';
 import margadPic from '../assets/media/margadpic.png';
 import berniPic from '../assets/media/bernipic.png';
 import chinggisPic from '../assets/media/chinggiskhan1.png';
@@ -60,7 +60,7 @@ export default function About() {
             animate={{ opacity: 1, y: 0 }}
           >
             <div className="flex items-center gap-4 mb-6">
-              <div className="h-px w-12 bg-brand-gold/60" />
+              <EyebrowMark />
               <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">{t('about.tag')}</span>
             </div>
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif text-white tracking-tight leading-tight">
@@ -71,8 +71,8 @@ export default function About() {
       </section>
 
       {/* Mission & Vision - Executive Bright Formal Layout */}
-      <section className="py-16 md:py-24 px-6 bg-[#FAF8F5] relative overflow-hidden text-slate-900">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 md:gap-24 items-center relative z-10">
+      <section className="py-16 md:py-16 md:py-24 bg-[#FAF8F5] relative overflow-hidden text-slate-900">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 grid md:grid-cols-2 gap-16 md:gap-24 items-center relative z-10">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -144,8 +144,8 @@ export default function About() {
       </section>
 
       {/* Values - Executive Bright Grid */}
-      <section className="py-16 md:py-24 px-6 bg-white relative text-slate-900 overflow-hidden border-t border-slate-200">
-        <div className="max-w-7xl mx-auto relative z-10">
+      <section className="py-16 md:py-16 md:py-24 bg-white relative text-slate-900 overflow-hidden border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="mb-12 md:mb-16 text-center">
             <span className="inline-block text-[10px] uppercase tracking-[0.5em] font-extrabold text-[#C5A059] mb-3">{t('about.values.tag')}</span>
             <h2 className="text-3xl sm:text-5xl md:text-6xl font-serif leading-tight text-slate-900">{t('about.values.title')}</h2>
@@ -179,8 +179,8 @@ export default function About() {
       </section>
 
       {/* Benefits - Executive Bright Grid */}
-      <section className="py-16 md:py-24 px-6 bg-[#FAF8F5] relative text-slate-900 overflow-hidden border-t border-slate-200">
-        <div className="max-w-7xl mx-auto relative z-10">
+      <section className="py-16 md:py-16 md:py-24 bg-[#FAF8F5] relative text-slate-900 overflow-hidden border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="mb-12 md:mb-16 text-center md:text-left">
             <span className="inline-block text-[10px] uppercase tracking-[0.5em] font-extrabold text-[#C5A059] mb-3">{t('about.benefitsSection.tag')}</span>
             <h2 className="text-3xl sm:text-5xl md:text-6xl font-serif leading-tight text-slate-900">{t('about.benefitsSection.title')}</h2>
@@ -244,13 +244,13 @@ export default function About() {
       </section>
 
       {/* Leadership Team - Executive Bright Portraits */}
-      <section className="py-16 md:py-24 px-6 bg-white relative overflow-hidden text-slate-900 border-t border-slate-200">
-        <div className="max-w-7xl mx-auto relative z-10">
+      <section className="py-16 md:py-16 md:py-24 bg-white relative overflow-hidden text-slate-900 border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="mb-16 text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="h-px w-10 bg-brand-gold/40" />
+              <EyebrowMark />
               <span className="text-[10px] uppercase tracking-[0.5em] font-extrabold text-[#C5A059]">{t('about.team.tag')}</span>
-              <div className="h-px w-10 bg-brand-gold/40" />
+              <EyebrowMark />
             </div>
             <h2 className="text-3xl sm:text-5xl md:text-6xl font-serif mb-6 leading-tight text-slate-900">{t('about.team.title')}</h2>
             <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto font-serif italic">
@@ -300,7 +300,7 @@ export default function About() {
       </section>
 
       {/* Join Us Section - Executive Bright Application Suite */}
-      <section className="py-16 md:py-24 px-6 bg-[#FAF8F5] relative overflow-hidden text-slate-900 border-t border-slate-200">
+      <section className="py-16 md:py-16 md:py-24 px-6 bg-[#FAF8F5] relative overflow-hidden text-slate-900 border-t border-slate-200">
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="text-center mb-12">
             <div className="inline-flex items-center justify-center gap-2 mb-6 border border-brand-gold/40 px-5 py-1.5 rounded-full bg-white shadow-sm">

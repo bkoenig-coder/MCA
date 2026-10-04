@@ -2,8 +2,8 @@ import { Globe, Mail, MapPin, Phone, Instagram, Facebook, Linkedin, ArrowRight }
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, Variants } from 'motion/react';
-import { UlziiSymbol } from './MongolianDesign';
-import mcaLogo from '../assets/media/mcalogo-1.png';
+import { UlziiSymbol, MeanderBand, CloudDrift } from './MongolianDesign';
+import mcaLogoWide from '../assets/media/mca-logo-wide.png';
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -36,6 +36,9 @@ export default function Footer() {
 
   return (
     <footer className="bg-brand-paper border-t border-brand-ink/5 pt-12 md:pt-16 pb-6 px-6 mt-12 relative overflow-hidden">
+      <MeanderBand className="absolute top-0 left-0 right-0 bg-brand-gold/40" />
+      <CloudDrift className="top-16 left-[4%] w-32 md:w-56 opacity-[0.12]" duration={30} />
+      <CloudDrift className="bottom-24 right-[5%] w-28 md:w-48 opacity-[0.12]" delay={5} duration={26} />
 
       
       <div className="max-w-7xl mx-auto relative z-10 flex flex-col">
@@ -48,9 +51,9 @@ export default function Footer() {
           className="w-full flex flex-col items-center mb-8 md:mb-12"
         >
           <div className="w-full overflow-hidden flex justify-center text-center select-none pointer-events-none">
-             <h1 className="text-[14vw] sm:text-[8.5vw] md:text-[7.5vw] lg:text-[7vw] xl:text-[90px] leading-none font-sans font-black tracking-tighter text-brand-ink/5 uppercase">
+             <div aria-hidden="true" className="text-[14vw] sm:text-[8.5vw] md:text-[7.5vw] lg:text-[7vw] xl:text-[90px] leading-none font-sans font-black tracking-tighter text-brand-ink/5 uppercase">
                 MONGOLIAN<br className="md:hidden" /> <span className="hidden md:inline"> </span>CENTER
-             </h1>
+             </div>
           </div>
         </motion.div>
 
@@ -63,13 +66,8 @@ export default function Footer() {
         >
           {/* Brand Column */}
           <motion.div variants={itemVariants} className="md:col-span-12 lg:col-span-5 flex flex-col">
-            <Link to="/" className="flex items-center gap-4 mb-8 group inline-flex w-max">
-              <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center p-1 border border-brand-ink/5 shadow-sm transition-transform duration-500 group-hover:scale-105">
-                <img src={mcaLogo} alt="MCA Logo" className="w-full h-full object-contain" />
-              </div>
-              <span className="font-serif text-2xl md:text-3xl font-light tracking-tight text-brand-ink uppercase flex flex-col md:flex-row md:gap-2 leading-none">
-                {t('nav.mongolian')} <span className="italic text-brand-gold">{t('nav.center')}</span>
-              </span>
+            <Link to="/" aria-label="Home" className="mb-8 group inline-block w-max">
+              <img src={mcaLogoWide} alt="Mongolische Zentrum in Österreich" className="h-16 md:h-20 w-auto object-contain transition-transform duration-500 group-hover:scale-105" />
             </Link>
             <p className="text-sm md:text-base text-brand-ink/70 font-light leading-relaxed max-w-sm mb-10">
               {t('footer.desc')}

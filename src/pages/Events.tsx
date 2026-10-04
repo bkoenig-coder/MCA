@@ -250,9 +250,9 @@ export default function Events() {
       </section>
 
       {/* Events List */}
-      <section className="py-24 md:py-40 px-6 bg-brand-paper relative">
+      <section className="py-16 md:py-16 md:py-24 bg-brand-paper relative">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.02)_1px,transparent_1px)] bg-[size:3rem_3rem] z-0 pointer-events-none" />
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           {loading ? (
             <div className="flex justify-center py-24 md:py-40">
               <Loader2 className="animate-spin text-brand-gold" size={48} />
@@ -462,8 +462,8 @@ export default function Events() {
       </section>
 
       {/* Private Events CTA */}
-      <section className="py-24 md:py-40 px-6 bg-brand-paper">
-        <div className="max-w-5xl mx-auto text-center">
+      <section className="py-16 md:py-16 md:py-24 bg-brand-paper">
+        <div className="max-w-5xl mx-auto px-6 lg:px-8 text-center">
           <div className="w-16 h-16 md:w-20 md:h-20 border border-brand-gold/30 rounded-full flex items-center justify-center mx-auto mb-8 md:mb-12 text-brand-gold">
             <UlziiSymbol className="w-8 h-8 md:w-10 md:h-10" />
           </div>

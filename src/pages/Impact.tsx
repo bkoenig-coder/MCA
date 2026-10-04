@@ -3,7 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Heart, Globe, ShieldCheck, TrendingUp, ArrowRight, Loader2, CheckCircle2, AlertCircle, Sparkles, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { UlziiSymbol, SoyomboSymbol, ArcherSymbol, MongolianLine, MongolianFormalFrame, MongolianKhasDivider } from '../components/MongolianDesign';
+import { UlziiSymbol, SoyomboSymbol, ArcherSymbol, MongolianLine, MongolianFormalFrame, MongolianKhasDivider, EyebrowMark } from '../components/MongolianDesign';
 import { useAuth } from '../contexts/AuthContext';
 import { signInWithGoogle } from '../firebase';
 
@@ -226,8 +226,8 @@ export default function Impact() {
       </section>
 
       {/* Bright Executive Donation Suite */}
-      <section className="py-16 md:py-24 px-6 bg-brand-paper relative overflow-hidden">
-        <div className="max-w-7xl mx-auto relative z-10">
+      <section className="py-16 md:py-16 md:py-24 bg-brand-paper relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -351,13 +351,13 @@ export default function Impact() {
       </section>
 
       {/* Bright Cultural Heritage Funds & Initiatives */}
-      <section className="py-16 md:py-24 px-6 bg-brand-paper relative overflow-hidden">
-        <div className="max-w-7xl mx-auto relative z-10">
+      <section className="py-16 md:py-16 md:py-24 bg-brand-paper relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-3 mb-4">
-              <div className="h-px w-8 bg-brand-gold/40" />
+              <EyebrowMark />
               <span className="text-[10px] uppercase tracking-[0.3em] font-extrabold text-brand-gold">{t('impact.initiatives.tag')}</span>
-              <div className="h-px w-8 bg-brand-gold/40" />
+              <EyebrowMark />
             </div>
             <h2 className="text-4xl md:text-6xl font-serif text-slate-900 mb-4 tracking-tight">{t('impact.initiatives.title')}</h2>
             <p className="text-base md:text-lg text-slate-600 font-sans font-light max-w-3xl mx-auto leading-relaxed">{t('impact.initiatives.desc')}</p>
@@ -408,8 +408,8 @@ export default function Impact() {
       </section>
 
       {/* Bright Impact Metrics Bento Grid */}
-      <section className="py-16 md:py-24 px-6 bg-brand-paper relative overflow-hidden">
-        <div className="max-w-7xl mx-auto relative z-10">
+      <section className="py-16 md:py-16 md:py-24 bg-brand-paper relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <span className="text-[10px] uppercase tracking-[0.4em] font-extrabold text-brand-gold mb-3 block">{t('impact.tag')}</span>
             <h2 className="text-4xl md:text-6xl font-serif text-slate-900 tracking-tight">{t('impact.totalImpact')}</h2>
@@ -442,8 +442,8 @@ export default function Impact() {
       </section>
 
       {/* Transparency Suite */}
-      <section className="py-16 md:py-24 px-6 bg-[#0A1128] text-white relative overflow-hidden border-t border-brand-gold/20">
-        <div className="max-w-7xl mx-auto relative z-10">
+      <section className="py-16 md:py-16 md:py-24 bg-[#0A1128] text-white relative overflow-hidden border-t border-brand-gold/20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}

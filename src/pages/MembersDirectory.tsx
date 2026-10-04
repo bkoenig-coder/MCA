@@ -3,6 +3,8 @@ import { motion } from 'motion/react';
 import { Search, MapPin, Building2, Globe, Link as LinkIcon, Briefcase } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+
+import { EyebrowMark } from '../components/MongolianDesign';
 const MOCK_MEMBERS = [
   {
     id: 1,
@@ -83,9 +85,9 @@ export default function MembersDirectory() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="inline-flex items-center gap-4 mb-8"
           >
-            <div className="h-px w-12 bg-brand-gold/50" />
+            <EyebrowMark />
             <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">Directory</span>
-            <div className="h-px w-12 bg-brand-gold/50" />
+            <EyebrowMark />
           </motion.div>
 
           <motion.h1 
