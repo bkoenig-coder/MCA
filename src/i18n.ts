@@ -61,6 +61,18 @@ const resources = {
           desc: 'Driving meaningful social change and civic solidarity through targeted philanthropic initiatives in Austria and Mongolia.'
         }
       },
+      collab: {
+        tag: 'Partnership',
+        titleNormal: 'Let’s build the next chapter ',
+        titleItalic: 'together',
+        desc: 'We welcome partners, institutions and individuals who share our belief that culture builds lasting bridges between Austria and Mongolia.',
+        institutions: { title: 'Institutions', text: 'Embassies, universities and cultural organisations: joint programmes, exchanges and events.' },
+        businesses: { title: 'Businesses', text: 'Companies with ties to Austria and Mongolia: networking, visibility and sponsorship.' },
+        individuals: { title: 'Individuals', text: 'Students, professionals and volunteers: join our community, our events and our projects.' },
+        learnMore: 'Learn more',
+        ctaPartner: 'Become a partner',
+        ctaMember: 'Join as a member'
+      },
       legacy: {
         title: 'A Call for',
         titleItalic: 'Collaboration',
@@ -698,6 +710,18 @@ const resources = {
           desc: 'Förderung von sozialem Wandel und zivilgesellschaftlicher Solidarität durch gezielte philanthropische Initiativen.'
         }
       },
+      collab: {
+        tag: 'Partnerschaft',
+        titleNormal: 'Gestalten wir das nächste Kapitel ',
+        titleItalic: 'gemeinsam',
+        desc: 'Wir freuen uns über Partner, Institutionen und Einzelpersonen, die unsere Überzeugung teilen, dass Kultur dauerhafte Brücken zwischen Österreich und der Mongolei baut.',
+        institutions: { title: 'Institutionen', text: 'Botschaften, Universitäten und Kulturorganisationen: gemeinsame Programme, Austausch und Veranstaltungen.' },
+        businesses: { title: 'Unternehmen', text: 'Unternehmen mit Bezug zu Österreich und der Mongolei: Vernetzung, Sichtbarkeit und Sponsoring.' },
+        individuals: { title: 'Einzelpersonen', text: 'Studierende, Fachkräfte und Freiwillige: Werden Sie Teil unserer Gemeinschaft, unserer Veranstaltungen und Projekte.' },
+        learnMore: 'Mehr erfahren',
+        ctaPartner: 'Partner werden',
+        ctaMember: 'Mitglied werden'
+      },
       legacy: {
         title: 'Ein Aufruf zur',
         titleItalic: 'Zusammenarbeit',
@@ -1330,6 +1354,18 @@ const resources = {
           desc: 'Австри болон Монгол улсад чиглэсэн зорилтот сайн үйлсийн санаачилгуудаар дамжуулан нийгмийн бодит өөрчлөлтийг хөтлөх.'
         }
       },
+      collab: {
+        tag: 'Түншлэл',
+        titleNormal: 'Дараагийн бүлгийг ',
+        titleItalic: 'хамтдаа бүтээцгээе',
+        desc: 'Соёл нь Австри, Монгол хоёрын хооронд бат бөх гүүр босгодог гэдэгт итгэдэг түнш, байгууллага, хувь хүмүүстэй хамтран ажиллахыг бид сайшааж байна.',
+        institutions: { title: 'Байгууллагууд', text: 'Элчин сайдын яам, их сургууль, соёлын байгууллагууд: хамтарсан хөтөлбөр, солилцоо, арга хэмжээ.' },
+        businesses: { title: 'Бизнесүүд', text: 'Австри, Монголтой холбоотой компаниуд: сүлжээ, нэр хүнд, ивээн тэтгэлэг.' },
+        individuals: { title: 'Хувь хүмүүс', text: 'Оюутан, мэргэжилтэн, сайн дурынхын: манай нийгэмлэг, арга хэмжээ, төслүүдэд нэгдээрэй.' },
+        learnMore: 'Дэлгэрэнгүй',
+        ctaPartner: 'Түнш болох',
+        ctaMember: 'Гишүүн болох'
+      },
       legacy: {
         title: 'Хамтын ажиллагааны',
         titleItalic: 'Урилга',
@@ -1961,6 +1997,18 @@ const resources = {
           title: 'Sürdürülebilir Etki',
           desc: 'Avusturya ve Moğolistan\'daki hedeflenen hayırseverlik girişimleri aracılığıyla anlamlı bir sosyal değişim ve sivil dayanışma sağlamak.'
         }
+      },
+      collab: {
+        tag: 'Ortaklık',
+        titleNormal: 'Bir sonraki bölümü ',
+        titleItalic: 'birlikte yazalım',
+        desc: 'Kültürün Avusturya ile Moğolistan arasında kalıcı köprüler kurduğuna inanan ortakları, kurumları ve bireyleri aramızda görmekten memnuniyet duyarız.',
+        institutions: { title: 'Kurumlar', text: 'Büyükelçilikler, üniversiteler ve kültür kuruluşları: ortak programlar, değişim ve etkinlikler.' },
+        businesses: { title: 'İşletmeler', text: 'Avusturya ve Moğolistan ile bağlantısı olan şirketler: ağ kurma, görünürlük ve sponsorluk.' },
+        individuals: { title: 'Bireyler', text: 'Öğrenciler, profesyoneller ve gönüllüler: topluluğumuza, etkinliklerimize ve projelerimize katılın.' },
+        learnMore: 'Daha fazla',
+        ctaPartner: 'Ortak olun',
+        ctaMember: 'Üye olun'
       },
       legacy: {
         title: 'İş Birliği',

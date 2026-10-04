@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'motion/react';
 import React, { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import { cn } from '../lib/utils';
-import { ArrowRight, Calendar, Palette, Heart, Users, Shield, Sword, Clock, MapPin, Loader2, Info, Star, Handshake, Lightbulb, ArrowRightLeft, TrendingUp, Instagram, ChevronLeft, ChevronRight, Award, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Calendar, Palette, Heart, Users, Shield, Sword, Clock, MapPin, Loader2, Info, Star, Handshake, Lightbulb, ArrowRightLeft, TrendingUp, Instagram, ChevronLeft, ChevronRight, Award, CheckCircle2, Landmark, Briefcase } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol, MongolianFormalFrame, MongolianKhasDivider, MeanderBand, EyebrowMark, SectionSeam, CloudDrift } from '../components/MongolianDesign';
@@ -18,6 +18,8 @@ import BridgeMap, { BRIDGE_DISTANCE_KM } from '../components/BridgeMap';
 import NaadamGames from '../components/NaadamGames';
 
 import LetsPlayGame from '../components/game/LetsPlayGame';
+
+const PARTNER_PATTERN = "url(\"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22 viewBox=%220 0 48 48%22%3E%3Cpath d=%22M24 2 L46 24 L24 46 L2 24 Z%22 fill=%22none%22 stroke=%22%23D4AF37%22 stroke-opacity=%220.10%22 stroke-width=%221%22/%3E%3Cpath d=%22M24 18 L30 24 L24 30 L18 24 Z%22 fill=%22%23D4AF37%22 fill-opacity=%220.10%22/%3E%3C/svg%3E\")";
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -945,101 +947,71 @@ export default function Home() {
         </div>
       </section>
       <SectionSeam />
-{/* Legacy Section - Immersive Heritage */}
-      <section className="py-16 md:py-24 bg-[#050507] text-white relative overflow-hidden flex items-center min-h-[70vh]">
-        {/* Cinematic Atmospheric Background */}
-        <div className="absolute inset-0 z-0">
-           {/* Slowly shifting traditional motifs */}
+{/* Partnership invitation */}
+      <section className="relative overflow-hidden bg-[#0A1128] text-white py-20 md:py-28">
+        {/* Heritage lattice (no photo) */}
+        <div aria-hidden="true" className="absolute inset-0 pointer-events-none" style={{ backgroundImage: PARTNER_PATTERN }} />
+        {/* Large faint endless knot */}
+        <UlziiSymbol className="absolute -right-16 top-1/2 -translate-y-1/2 w-[420px] md:w-[560px] h-auto text-brand-gold opacity-[0.06] pointer-events-none" />
+        {/* Gold frame and meander borders */}
+        <MeanderBand className="absolute top-0 inset-x-0 bg-brand-gold/40" />
+        <MeanderBand className="absolute bottom-0 inset-x-0 bg-brand-gold/40" />
+        <div aria-hidden="true" className="absolute inset-x-4 md:inset-x-10 top-8 bottom-8 border border-brand-gold/25 pointer-events-none" />
 
-           <div className="absolute bottom-0 left-0 opacity-[0.02] pointer-events-none -translate-x-1/4 translate-y-1/3">
-             <MongolianLine className="w-full text-brand-gold" />
-           </div>
-
-          {/* Cinematic Pan Image */}
-          <motion.div 
-            animate={{ scale: [1.05, 1.15] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", repeatType: "reverse" }}
-            className="absolute inset-0 opacity-[0.25]"
+        <div className="max-w-6xl mx-auto px-6 lg:px-8 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="text-center max-w-3xl mx-auto"
           >
-            <img 
-              src="https://images.unsplash.com/photo-1684814833784-c9c8cdba1d20?q=80&w=2000&auto=format&fit=crop" 
-              alt="Ulaanbaatar Cinematic" 
-              className="w-full h-full object-cover grayscale md:mix-blend-overlay opacity-50 md:opacity-100"
-              referrerPolicy="no-referrer"
-            />
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <EyebrowMark />
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('collab.tag')}</span>
+              <EyebrowMark />
+            </div>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-medium leading-tight text-white mb-5">
+              {t('collab.titleNormal')}<span className="italic text-brand-gold">{t('collab.titleItalic')}</span>
+            </h2>
+            <p className="text-base md:text-lg text-white/75 leading-relaxed">{t('collab.desc')}</p>
           </motion.div>
-          
-          {/* Deep Vignette & Studio Lighting FX */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050507] via-transparent to-[#050507]" />
-          <div className="absolute inset-0 hidden md:block bg-gradient-to-r from-[#050507] via-transparent to-[#050507]" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.08)_0%,transparent_70%)] hidden md:block blur-3xl rounded-full" />
-        </div>
 
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10 flex flex-col items-center">
-          <div className="text-center mb-20 md:mb-32 w-full">
-            {/* Elegant Floating Logo */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="relative mx-auto mb-16 flex justify-center"
-            >
-              <div className="absolute inset-0 bg-brand-gold rounded-full blur-[40px] opacity-10 animate-pulse" />
-              <img src={mcaLogoWideLight} alt="Mongolische Zentrum in Österreich" loading="lazy" className="relative h-20 md:h-28 w-auto object-contain" />
-              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[1px] h-16 bg-gradient-to-b from-brand-gold/50 to-transparent" />
-            </motion.div>
-            
-            <motion.h2 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="text-4xl md:text-5xl lg:text-6xl font-serif font-normal mb-8 md:mb-12 tracking-tight leading-[1.1] relative"
-            >
-              <span className="text-white/90 drop-shadow-lg">{t('legacy.title')}</span> <br />
-              <span className="block mt-4 italic text-brand-gold font-medium tracking-normal drop-shadow-[0_0_30px_rgba(212,175,55,0.2)]">{t('legacy.titleItalic')}</span>
-            </motion.h2>
-
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="text-lg md:text-xl text-white/75 font-serif leading-relaxed max-w-3xl mx-auto px-4 md:px-0"
-            >
-              {t('legacy.quote')}
-            </motion.p>
-          </div>
-          
-          <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-10">
+          <div className="grid md:grid-cols-3 gap-6 mt-12 md:mt-14">
             {[
-              { label: t('legacy.archery'), value: t('legacy.tradition'), icon: <Handshake className="w-7 h-7 md:w-9 md:h-9" /> },
-              { label: t('legacy.horsemanship'), value: t('legacy.freedom'), icon: <Lightbulb className="w-7 h-7 md:w-9 md:h-9" /> },
-              { label: t('legacy.wrestling'), value: t('legacy.strength'), icon: <ArrowRightLeft className="w-7 h-7 md:w-9 md:h-9" /> },
-              { label: t('legacy.wisdom'), value: t('legacy.heritage'), icon: <TrendingUp className="w-7 h-7 md:w-9 md:h-9" /> }
-            ].map((item, i) => (
-              <motion.div 
-                key={i}
+              { key: 'institutions', icon: Landmark, to: '/contact' },
+              { key: 'businesses', icon: Briefcase, to: '/membership' },
+              { key: 'individuals', icon: Users, to: '/membership' },
+            ].map(({ key, icon: Icon, to }, i) => (
+              <motion.div
+                key={key}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1, ease: "easeOut" }}
-                className="relative flex flex-col items-center text-center group cursor-pointer p-6 md:p-8 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-all duration-700 overflow-hidden"
+                transition={{ duration: 0.5, delay: i * 0.1, ease: "easeOut" }}
               >
-                {/* Hover gradient sweep */}
-                <div className="absolute inset-0 bg-gradient-to-b from-brand-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-brand-gold/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
-
-                <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full bg-black/40 border border-white/10 flex items-center justify-center text-white/50 mb-6 md:mb-8 shadow-[0_4px_20px_rgba(0,0,0,0.5)] group-hover:border-brand-gold/40 group-hover:text-brand-gold group-hover:shadow-[0_0_30px_rgba(212,175,55,0.2)] transition-all duration-700 z-10">
-                  <div className="absolute inset-0 rounded-full bg-brand-gold/5 scale-0 group-hover:scale-100 transition-transform duration-700" />
-                  <div className="relative z-10">{item.icon}</div>
-                </div>
-                
-                <span className="text-xs md:text-xs uppercase tracking-[0.4em] text-white/40 group-hover:text-brand-gold/80 font-semibold mb-3 transition-colors duration-700 relative z-10">{item.label}</span>
-                <span className="font-serif text-xl md:text-3xl text-white/80 group-hover:text-white transition-colors duration-700 font-medium relative z-10">{item.value}</span>
+                <Link
+                  to={to}
+                  className="group flex flex-col h-full rounded-xl border border-white/10 bg-white/[0.04] p-7 hover:border-brand-gold/50 hover:bg-white/[0.07] transition-colors duration-300"
+                >
+                  <Icon className="w-7 h-7 text-brand-gold mb-5" />
+                  <h3 className="text-2xl font-serif font-medium text-white mb-2">{t(`collab.${key}.title`)}</h3>
+                  <p className="text-sm text-white/70 leading-relaxed mb-6">{t(`collab.${key}.text`)}</p>
+                  <span className="mt-auto inline-flex items-center gap-2 text-xs uppercase tracking-[0.14em] font-semibold text-brand-gold">
+                    {t('collab.learnMore')} <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </Link>
               </motion.div>
             ))}
+          </div>
+
+          <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link to="/contact" className="btn-shimmer inline-flex items-center justify-center gap-2 bg-brand-gold text-slate-950 px-8 py-4 rounded-lg text-xs uppercase tracking-[0.14em] font-semibold hover:bg-amber-400 transition-colors">
+              {t('collab.ctaPartner')} <ArrowRight size={14} />
+            </Link>
+            <Link to="/membership" className="inline-flex items-center justify-center gap-2 border border-white/30 text-white px-8 py-4 rounded-lg text-xs uppercase tracking-[0.14em] font-semibold hover:border-brand-gold hover:text-brand-gold transition-colors">
+              {t('collab.ctaMember')}
+            </Link>
           </div>
         </div>
       </section>
