@@ -126,7 +126,7 @@ const resources = {
         mission: 'Vision',
         bridging: 'Our',
         cultures: 'Story',
-        founded: 'Established in Vienna, the Mongolian Center in Austria  emerged from a strategic vision to cultivate a premier platform for bilateral cultural exchange, diplomatic relations, and socioeconomic solidarity.',
+        founded: 'Established in Vienna, the Mongolian Center in Austria emerged from a strategic vision to cultivate a premier platform for bilateral cultural exchange, diplomatic relations, and socioeconomic solidarity.',
         heritage: 'Our Strategy',
         hubTitle: 'A Hub for Bilateral Excellence',
         hubDesc1: 'Operating from the heart of Europe, our NGO serves as a dynamic nexus connecting Mongolian heritage with European innovation. We facilitate high-leverage networking, cultural showcases, and collaborative ventures.',

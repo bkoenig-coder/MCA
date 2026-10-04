@@ -8,9 +8,7 @@ export default function NotFound() {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-[80vh] flex flex-col items-center justify-center px-6 relative overflow-hidden bg-brand-paper">
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] z-0 pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-brand-gold/5 blur-[120px] rounded-full pointer-events-none z-0 mix-blend-overlay" />
+    <div className="min-h-[80vh] flex flex-col items-center justify-center px-6 relative overflow-hidden bg-white">
       
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -35,13 +33,13 @@ export default function NotFound() {
           Lost in the <span className="italic text-brand-gold">Steppe</span>
         </h1>
         
-        <p className="text-lg text-brand-ink/60 mb-10 leading-relaxed font-light">
+        <p className="text-lg text-brand-ink/60 mb-10 leading-relaxed font-normal">
           The path you are looking for seems to have faded like tracks in the wind. Let us guide you back to familiar terrain.
         </p>
 
         <Link 
           to="/"
-          className="inline-flex items-center gap-3 bg-brand-ink text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-[11px] hover:bg-brand-gold transition-colors duration-300 group"
+          className="inline-flex items-center gap-3 bg-brand-ink text-white px-8 py-4 rounded-lg font-bold uppercase tracking-widest text-[11px] hover:bg-brand-gold transition-colors duration-300 group"
         >
           <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
           Return Home

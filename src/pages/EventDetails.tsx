@@ -224,12 +224,11 @@ export default function EventDetails() {
   };
 
   return (
-    <div className="pt-24 md:pt-32 pb-16 md:pb-20 px-6 relative overflow-hidden bg-brand-paper">
+    <div className="pt-24 md:pt-32 pb-16 md:pb-20 px-6 relative overflow-hidden bg-white">
       {/* Background Graphic */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.02)_1px,transparent_1px)] bg-[size:3rem_3rem] z-0 pointer-events-none" />
 
       <div className="max-w-5xl mx-auto relative z-10">
-        <Link to="/events" className="inline-flex items-center gap-2 text-brand-ink/50 hover:text-brand-gold transition-colors mb-8 md:mb-10 font-bold uppercase tracking-widest text-[10px] group">
+        <Link to="/events" className="inline-flex items-center gap-2 text-brand-ink/50 hover:text-brand-gold transition-colors mb-8 md:mb-10 font-bold uppercase tracking-widest text-xs group">
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> {t('events.details.back')}
         </Link>
 
@@ -241,21 +240,21 @@ export default function EventDetails() {
           {/* Header */}
           <header className="mb-10 md:mb-12 text-center max-w-4xl mx-auto flex flex-col items-center">
             <div className="flex items-center justify-center gap-4 mb-6">
-              <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#b82736] bg-[#b82736]/10 px-3 py-1 rounded-sm">{dCat || t('events.details.category')}</span>
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-[#b82736] bg-[#b82736]/10 px-3 py-1 rounded-sm">{dCat || t('events.details.category')}</span>
               <div className="h-px w-6 bg-brand-ink/20" />
-              <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-ink/50">
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-ink/50">
                 {new Date(event.date).toLocaleDateString(t('common.locale'), { day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif leading-[1.1] mb-8 text-brand-ink px-4 tracking-tight drop-shadow-sm">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif leading-[1.1] mb-8 text-brand-ink px-4 tracking-tight drop-shadow-sm">
               {titleStart} <span className="italic text-brand-gold">{titleEnd}</span>
             </h1>
             
             <div className="flex items-center gap-4 mt-2">
               <div className="flex flex-col text-center">
                 <span className="text-sm font-bold text-brand-ink leading-tight">MONGOLIAN CENTER</span>
-                <span className="text-[10px] text-brand-ink/50 uppercase tracking-widest font-bold">{dLocation || t('events.vienna')} • {event.time || t('events.tba')}</span>
+                <span className="text-xs text-brand-ink/50 uppercase tracking-widest font-bold">{dLocation || t('events.vienna')} • {event.time || t('events.tba')}</span>
               </div>
             </div>
           </header>
@@ -344,12 +343,12 @@ export default function EventDetails() {
               
               {/* Registration Card */}
               <div className="bg-white p-6 rounded-2xl md:rounded-[4px] border border-brand-ink/10 shadow-sm flex flex-col items-center text-center">
-                 <p className="text-[10px] uppercase tracking-widest font-bold text-brand-ink/50 mb-2">{t('events.details.fee')}</p>
+                 <p className="text-xs uppercase tracking-widest font-bold text-brand-ink/50 mb-2">{t('events.details.fee')}</p>
                  <p className="text-3xl md:text-4xl font-serif text-brand-ink mb-6">
                    {event.price === 0 ? 'Free' : `€${(event.price / 100).toFixed(2)}`}
                  </p>
                  {event.capacity > 0 && (
-                   <span className="inline-block px-3 py-1 mb-6 rounded-sm bg-brand-ink/5 text-brand-ink/60 text-[10px] font-bold uppercase tracking-widest">
+                   <span className="inline-block px-3 py-1 mb-6 rounded-sm bg-brand-ink/5 text-brand-ink/60 text-xs font-bold uppercase tracking-widest">
                      {event.registeredCount || 0}/{event.capacity} Spots Filled
                    </span>
                  )}
@@ -367,21 +366,21 @@ export default function EventDetails() {
                  <div className="flex gap-4 items-start text-brand-ink/80">
                     <Calendar size={18} className="text-brand-ink/40 mt-0.5" />
                     <div className="flex flex-col">
-                       <span className="text-[10px] font-bold uppercase tracking-widest text-[#b82736]">{t('events.details.date')}</span>
+                       <span className="text-xs font-bold uppercase tracking-widest text-[#b82736]">{t('events.details.date')}</span>
                        <span className="text-sm">{new Date(event.date).toLocaleDateString(t('common.locale'), { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                     </div>
                  </div>
                  <div className="flex gap-4 items-start text-brand-ink/80">
                     <Clock size={18} className="text-brand-ink/40 mt-0.5" />
                     <div className="flex flex-col">
-                       <span className="text-[10px] font-bold uppercase tracking-widest text-[#b82736]">{t('events.details.time')}</span>
+                       <span className="text-xs font-bold uppercase tracking-widest text-[#b82736]">{t('events.details.time')}</span>
                        <span className="text-sm">{event.time || t('events.tba')}</span>
                     </div>
                  </div>
                  <div className="flex gap-4 items-start text-brand-ink/80">
                     <MapPin size={18} className="text-brand-ink/40 mt-0.5" />
                     <div className="flex flex-col">
-                       <span className="text-[10px] font-bold uppercase tracking-widest text-[#b82736]">{t('events.details.location')}</span>
+                       <span className="text-xs font-bold uppercase tracking-widest text-[#b82736]">{t('events.details.location')}</span>
                        <span className="text-sm">{dLocation || t('events.vienna')}</span>
                     </div>
                  </div>
@@ -389,7 +388,7 @@ export default function EventDetails() {
 
                {/* Share snippet */}
                <div className="flex flex-col gap-4 px-2 mt-8 mb-4 border-t border-brand-ink/10 pt-8">
-                 <span className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/50">Share Event</span>
+                 <span className="text-xs font-bold uppercase tracking-widest text-brand-ink/50">Share Event</span>
                  <div className="flex gap-2">
                    <button
                      onClick={() => handleShare("facebook")}
@@ -425,13 +424,13 @@ export default function EventDetails() {
             </aside>
 
             {/* Content */}
-            <div className="prose prose-lg md:prose-xl w-full max-w-none text-brand-ink/90 font-light leading-[1.8] prose-p:mb-8 prose-strong:font-medium prose-strong:text-brand-ink overflow-hidden">
+            <div className="prose prose-lg md:prose-xl w-full max-w-none text-brand-ink/90 font-normal leading-[1.8] prose-p:mb-8 prose-strong:font-medium prose-strong:text-brand-ink overflow-hidden">
                {/* Mobile Registration Sticky */}
               <div className="block lg:hidden w-full mb-10 pb-10 border-b border-brand-ink/10"></div> 
 
               {/* Mobile Share Snippet */}
               <div className="flex lg:hidden items-center justify-between border-b border-brand-ink/10 pb-10 mb-10">
-                <span className="text-[10px] uppercase tracking-widest font-bold text-brand-ink/50">
+                <span className="text-xs uppercase tracking-widest font-bold text-brand-ink/50">
                   Share Event
                 </span>
                 <div className="flex gap-2">
@@ -516,7 +515,7 @@ export default function EventDetails() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white rounded-[40px] p-8 md:p-12 w-full max-w-lg relative z-10 shadow-2xl"
+              className="bg-white rounded-2xl p-8 md:p-12 w-full max-w-lg relative z-10 shadow-lg"
             >
               {!registrationSuccess && (
                 <button 
@@ -543,7 +542,7 @@ export default function EventDetails() {
               ) : (
                 <>
                   <div className="mb-8">
-                    <span className="inline-block px-3 py-1 bg-brand-gold/10 text-brand-gold rounded-full text-[10px] uppercase tracking-widest font-bold mb-4">
+                    <span className="inline-block px-3 py-1 bg-brand-gold/10 text-brand-gold rounded-lg text-xs uppercase tracking-widest font-bold mb-4">
                       {event.price === 0 ? 'Free Event Registration' : 'Event Registration'}
                     </span>
                     <h3 className="text-3xl font-serif text-brand-ink mb-2">{event.title}</h3>
@@ -552,48 +551,48 @@ export default function EventDetails() {
 
                   <form onSubmit={submitRegistration} className="space-y-5">
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Full Name</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Full Name</label>
                       <input 
                         required
                         type="text"
                         value={registrationForm.name}
                         onChange={e => setRegistrationForm({...registrationForm, name: e.target.value})}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                        className="w-full bg-white border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Email Address</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Email Address</label>
                       <input 
                         required
                         type="email"
                         value={registrationForm.email}
                         onChange={e => setRegistrationForm({...registrationForm, email: e.target.value})}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                        className="w-full bg-white border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Phone Number (Optional)</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Phone Number (Optional)</label>
                       <input 
                         type="tel"
                         value={registrationForm.phone}
                         onChange={e => setRegistrationForm({...registrationForm, phone: e.target.value})}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                        className="w-full bg-white border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Additional Notes (Optional)</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Additional Notes (Optional)</label>
                       <textarea 
                         value={registrationForm.notes}
                         onChange={e => setRegistrationForm({...registrationForm, notes: e.target.value})}
                         rows={3}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all resize-none"
+                        className="w-full bg-white border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all resize-none"
                       />
                     </div>
                     
                     <button 
                       type="submit"
                       disabled={isRegisteringFree}
-                      className="w-full bg-brand-ink text-white py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-brand-gold transition-all disabled:opacity-50 shadow-xl shadow-brand-ink/10 flex items-center justify-center gap-3 mt-4"
+                      className="w-full bg-brand-ink text-white py-5 rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-brand-gold transition-all disabled:opacity-50 shadow-xl shadow-brand-ink/10 flex items-center justify-center gap-3 mt-4"
                     >
                       {isRegisteringFree ? <Loader2 className="animate-spin" size={18} /> : 'Complete Registration'}
                     </button>

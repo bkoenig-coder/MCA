@@ -9,7 +9,7 @@ export default function Governance() {
 
   return (
     <div className="pt-[140px] md:pt-[152px]">
-      <section className="relative py-16 md:py-16 md:py-24 px-6 bg-brand-paper overflow-hidden">
+      <section className="relative py-16 md:py-24 px-6 bg-white overflow-hidden">
         <div className="max-w-4xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -18,26 +18,26 @@ export default function Governance() {
           >
             <div className="flex items-center gap-4 mb-8">
               <EyebrowMark />
-              <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">
                 Legal & Compliance
               </span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-serif mb-12 tracking-tight text-brand-ink">
+            <h1 className="text-5xl md:text-6xl font-serif mb-12 tracking-tight text-brand-ink">
               Governance <span className="italic text-brand-gold">& Ethics</span>
             </h1>
             
-            <div className="prose prose-lg prose-brand max-w-none text-brand-ink/70 font-light leading-relaxed space-y-12">
+            <div className="prose prose-lg prose-brand max-w-none text-brand-ink/70 font-normal leading-relaxed space-y-12">
               <p className="text-xl text-brand-ink font-normal italic">
                 The Mongolian Center in Vienna is committed to the highest standards of transparency, accountability, and ethical conduct in all its operations.
               </p>
 
               <div className="grid md:grid-cols-2 gap-8 my-16">
-                <div className="p-8 bg-white rounded-3xl border border-brand-ink/5 shadow-sm">
+                <div className="p-8 bg-white rounded-2xl border border-brand-ink/5 shadow-sm">
                   <ShieldCheck className="text-brand-gold mb-4" size={32} />
                   <h3 className="text-xl font-serif text-brand-ink mb-2">Integrity</h3>
                   <p className="text-sm">We maintain absolute integrity in our financial and operational reporting.</p>
                 </div>
-                <div className="p-8 bg-white rounded-3xl border border-brand-ink/5 shadow-sm">
+                <div className="p-8 bg-white rounded-2xl border border-brand-ink/5 shadow-sm">
                   <Users className="text-brand-gold mb-4" size={32} />
                   <h3 className="text-xl font-serif text-brand-ink mb-2">Inclusivity</h3>
                   <p className="text-sm">Our governance structure ensures diverse representation and inclusive decision-making.</p>

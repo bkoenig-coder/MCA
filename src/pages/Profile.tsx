@@ -82,7 +82,7 @@ export default function Profile() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-brand-paper">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="w-12 h-12 border-4 border-brand-gold border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -120,12 +120,12 @@ export default function Profile() {
   };
 
   return (
-    <div className="pt-32 pb-20 bg-brand-paper min-h-screen">
+    <div className="pt-32 pb-20 bg-white min-h-screen">
       <div className="max-w-3xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-[40px] p-8 md:p-12 shadow-xl border border-brand-ink/5"
+          className="bg-white rounded-2xl p-8 md:p-12 shadow-xl border border-brand-ink/5"
         >
           <div className="flex flex-col md:flex-row items-center gap-8 mb-12">
             <div className="relative">
@@ -166,7 +166,7 @@ export default function Profile() {
 
           <form onSubmit={handleUpdateProfile} className="space-y-8">
             <div className="space-y-4">
-              <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-ink/40">Full Name</label>
+              <label className="block text-xs font-bold uppercase tracking-widest text-brand-ink/40">Full Name</label>
               <div className="relative">
                 <UserIcon className="absolute left-6 top-1/2 -translate-y-1/2 text-brand-gold w-5 h-5" />
                 <input
@@ -174,7 +174,7 @@ export default function Profile() {
                   required
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
-                  className="w-full pl-16 pr-6 py-5 bg-brand-paper rounded-2xl border-none focus:ring-2 focus:ring-brand-gold/20 transition-all text-brand-ink font-medium"
+                  className="w-full pl-16 pr-6 py-5 bg-white rounded-2xl border-none focus:ring-2 focus:ring-brand-gold/20 transition-all text-brand-ink font-medium"
                   placeholder="Your full name"
                 />
               </div>
@@ -192,7 +192,7 @@ export default function Profile() {
               <button
                 type="button"
                 onClick={handleLogout}
-                className="flex items-center justify-center gap-3 bg-brand-paper text-brand-ink py-5 rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-red-50 hover:text-red-600 transition-all"
+                className="flex items-center justify-center gap-3 bg-white text-brand-ink py-5 rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-red-50 hover:text-red-600 transition-all"
               >
                 <LogOut size={18} />
                 Log Out
@@ -203,7 +203,7 @@ export default function Profile() {
           {profile?.membershipTier && (
             <div className="mt-12 pt-12 border-t border-brand-ink/5">
               <h3 className="text-xl font-serif text-brand-ink mb-2">Subscription</h3>
-              <div className="bg-brand-paper rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 border border-brand-ink/5">
+              <div className="bg-white rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 border border-brand-ink/5">
                 <div>
                   <p className="font-bold text-brand-ink capitalize">{profile.membershipTier} Member</p>
                   <p className="text-sm font-medium text-brand-ink/60 mt-1">
@@ -217,7 +217,7 @@ export default function Profile() {
                   <button
                     onClick={handleCancelSubscription}
                     disabled={isCanceling}
-                    className="shrink-0 px-6 py-3 bg-white text-brand-ink rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-red-50 hover:text-red-600 transition-colors shadow-sm disabled:opacity-50"
+                    className="shrink-0 px-6 py-3 bg-white text-brand-ink rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-red-50 hover:text-red-600 transition-colors shadow-sm disabled:opacity-50"
                   >
                     {isCanceling ? 'Canceling...' : 'Cancel Membership'}
                   </button>

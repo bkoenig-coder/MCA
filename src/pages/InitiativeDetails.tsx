@@ -39,7 +39,7 @@ export default function InitiativeDetails() {
 
   if (!initiative) {
     return (
-      <div className="pt-32 pb-24 min-h-[60vh] flex flex-col items-center justify-center bg-brand-paper px-6">
+      <div className="pt-32 pb-24 min-h-[60vh] flex flex-col items-center justify-center bg-white px-6">
         <h1 className="text-3xl font-serif text-brand-ink mb-6">Initiative Not Found</h1>
         <Link to="/impact" className="flex items-center gap-2 text-brand-gold hover:text-brand-ink transition-colors font-sans uppercase tracking-widest text-xs font-bold">
           <ArrowLeft size={16} /> Return to Impact
@@ -49,11 +49,11 @@ export default function InitiativeDetails() {
   }
 
   return (
-    <div className="pt-[110px] pb-24 bg-brand-paper min-h-screen">
+    <div className="pt-[110px] pb-24 bg-white min-h-screen">
       <div className="max-w-6xl mx-auto px-6">
         <Link 
           to="/impact" 
-          className="inline-flex items-center gap-2 text-brand-ink/50 hover:text-brand-gold transition-colors font-sans uppercase tracking-[0.2em] text-[10px] font-bold mb-12"
+          className="inline-flex items-center gap-2 text-brand-ink/50 hover:text-brand-gold transition-colors font-sans uppercase tracking-[0.2em] text-xs font-bold mb-12"
         >
           <ArrowLeft size={14} /> 
           {t('common.back', 'Return to Impact')}
@@ -65,7 +65,7 @@ export default function InitiativeDetails() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl">
+            <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-lg">
               <img 
                 src={initiative.image} 
                 alt={initiative.title} 
@@ -81,7 +81,7 @@ export default function InitiativeDetails() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="pt-4"
           >
-            <div className="text-[10px] text-brand-gold font-bold tracking-[0.3em] uppercase mb-4">
+            <div className="text-xs text-brand-gold font-semibold tracking-[0.18em] uppercase mb-4">
               Initiative
             </div>
             
@@ -89,7 +89,7 @@ export default function InitiativeDetails() {
               {initiative.title}
             </h1>
             
-            <p className="text-lg md:text-xl text-brand-ink/70 leading-relaxed font-light mb-10">
+            <p className="text-lg md:text-xl text-brand-ink/70 leading-relaxed font-normal mb-10">
               {initiative.fullDesc}
             </p>
             

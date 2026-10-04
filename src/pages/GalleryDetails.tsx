@@ -56,7 +56,7 @@ export default function GalleryDetails() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-brand-paper">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="w-12 h-12 border-4 border-brand-gold border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -97,14 +97,13 @@ export default function GalleryDetails() {
         : []);
 
   return (
-    <div className="pt-24 md:pt-32 pb-16 md:pb-20 px-6 relative overflow-hidden bg-brand-paper">
+    <div className="pt-24 md:pt-32 pb-16 md:pb-20 px-6 relative overflow-hidden bg-white">
       {/* Background Graphic */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.02)_1px,transparent_1px)] bg-[size:3rem_3rem] z-0 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <Link
           to="/gallery"
-          className="inline-flex items-center gap-2 text-brand-ink/50 hover:text-brand-gold transition-colors mb-8 md:mb-10 font-bold uppercase tracking-widest text-[10px] group"
+          className="inline-flex items-center gap-2 text-brand-ink/50 hover:text-brand-gold transition-colors mb-8 md:mb-10 font-bold uppercase tracking-widest text-xs group"
         >
           <ArrowLeft
             size={16}
@@ -121,16 +120,16 @@ export default function GalleryDetails() {
           {/* Header */}
           <header className="mb-10 md:mb-12 text-center max-w-4xl mx-auto flex flex-col items-center">
             <div className="flex items-center justify-center gap-4 mb-6">
-              <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#b82736] bg-[#b82736]/10 px-3 py-1 rounded-sm">
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-[#b82736] bg-[#b82736]/10 px-3 py-1 rounded-sm">
                 {dCat || "Gallery"}
               </span>
               <div className="h-px w-6 bg-brand-ink/20" />
-              <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-ink/50">
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-ink/50">
                 {item.year || ""}
               </span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif leading-[1.1] mb-8 text-brand-ink px-4 tracking-tight drop-shadow-sm">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif leading-[1.1] mb-8 text-brand-ink px-4 tracking-tight drop-shadow-sm">
               {dTitle}
             </h1>
 
@@ -139,7 +138,7 @@ export default function GalleryDetails() {
                 <span className="text-sm font-bold text-brand-ink leading-tight">
                   {dArtist || "Anonymous Artist"}
                 </span>
-                <span className="text-[10px] text-brand-ink/50 uppercase tracking-widest font-bold">
+                <span className="text-xs text-brand-ink/50 uppercase tracking-widest font-bold">
                   Featured Artwork
                 </span>
               </div>
@@ -170,7 +169,7 @@ export default function GalleryDetails() {
             {/* Left Sidebar (Meta/Social) */}
             <aside className="hidden lg:flex flex-col gap-4 sticky top-32 h-fit items-center text-brand-ink/40 pt-2">
               <span
-                className="text-[9px] uppercase tracking-widest font-bold text-brand-ink/30 mb-2 rotate-180"
+                className="text-[11px] uppercase tracking-widest font-bold text-brand-ink/30 mb-2 rotate-180"
                 style={{ writingMode: "vertical-rl" }}
               >
                 Share Artwork
@@ -199,7 +198,7 @@ export default function GalleryDetails() {
             </aside>
 
             {/* Content */}
-            <div className="prose prose-lg md:prose-xl w-full max-w-2xl mx-auto text-brand-ink/90 font-light leading-[1.8] prose-p:mb-8 prose-strong:font-medium prose-strong:text-brand-ink">
+            <div className="prose prose-lg md:prose-xl w-full max-w-2xl mx-auto text-brand-ink/90 font-normal leading-[1.8] prose-p:mb-8 prose-strong:font-medium prose-strong:text-brand-ink">
               {/* Context Action */}
               <div className="flex justify-center mb-16">
                 <Link
@@ -235,10 +234,10 @@ export default function GalleryDetails() {
               {galleryPlates.length > 0 && (
                 <div className="mt-16 pt-10 border-t border-brand-ink/10">
                   <div className="flex items-center justify-between mb-8">
-                    <span className="text-[10px] uppercase tracking-[0.3em] font-extrabold text-brand-ink font-sans">
+                    <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-ink font-sans">
                       ADDITIONAL ARTWORK PLATES ({galleryPlates.length} VIEWS)
                     </span>
-                    <span className="text-[9px] uppercase tracking-widest font-sans font-bold text-brand-ink/40">
+                    <span className="text-[11px] uppercase tracking-widest font-sans font-bold text-brand-ink/40">
                       CURATED DETAILS
                     </span>
                   </div>

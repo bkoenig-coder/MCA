@@ -24,7 +24,7 @@ const languages = [
 
 /** Accurate flag tile (the flags carry the real Soyombo and colours), with a gold rim and a slow sheen. */
 const FlagTile = ({ children }: { children: React.ReactNode }) => (
-  <span className="flag-sheen relative block w-9 h-6 rounded-[4px] overflow-hidden ring-1 ring-brand-gold/60 shadow-[0_3px_10px_rgba(0,0,0,0.5)]">
+  <span className="flag-sheen relative block shrink-0 w-9 h-6 rounded-[4px] overflow-hidden ring-1 ring-brand-gold/60 shadow-[0_3px_10px_rgba(0,0,0,0.5)]">
     {children}
     <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/15 pointer-events-none" />
   </span>
@@ -180,12 +180,14 @@ export default function Navbar() {
             <FlagTile>
               <AT className="w-full h-full block" aria-hidden="true" />
             </FlagTile>
+            <span aria-hidden="true" className="lg:hidden h-px w-10 bg-gradient-to-r from-brand-gold/80 to-transparent" />
             <span aria-hidden="true" className="hidden 2xl:block h-px w-12 bg-gradient-to-r from-transparent to-brand-gold/80" />
-            <span className="hidden md:flex items-center gap-3 text-xs tracking-[0.22em] uppercase whitespace-nowrap">
+            <span className="hidden lg:flex items-center gap-3 text-xs tracking-[0.22em] uppercase whitespace-nowrap">
               <span className="font-semibold text-brand-gold">{t('nav.hubPrefix', { defaultValue: 'Austrian–Mongolian' })}</span>
               <span aria-hidden="true" className="h-3.5 w-px bg-brand-gold/60 shrink-0" />
               <span className="font-medium text-white">{t('nav.hub', { defaultValue: 'Cultural & Business Center' })}</span>
             </span>
+            <span aria-hidden="true" className="lg:hidden h-px w-10 bg-gradient-to-l from-brand-gold/80 to-transparent" />
             <span aria-hidden="true" className="hidden 2xl:block h-px w-12 bg-gradient-to-l from-transparent to-brand-gold/80" />
             <FlagTile>
               <MN className="w-full h-full block" aria-hidden="true" />
@@ -193,7 +195,7 @@ export default function Navbar() {
           </div>
 
           {/* Right: Language Selector and Sign In */}
-          <div className="hidden sm:flex items-center gap-6 flex-shrink-0 justify-self-end">
+          <div className="hidden sm:flex items-center gap-6 flex-shrink-0 justify-self-end whitespace-nowrap">
             {/* Language Selection Trigger */}
             <div className="relative" ref={langRef}>
               <button 

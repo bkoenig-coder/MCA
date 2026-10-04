@@ -42,7 +42,7 @@ export default function MemberDetails() {
 
   if (!member) {
     return (
-      <div className="pt-32 pb-24 min-h-[60vh] flex flex-col items-center justify-center bg-brand-paper px-6">
+      <div className="pt-32 pb-24 min-h-[60vh] flex flex-col items-center justify-center bg-white px-6">
         <h1 className="text-3xl font-serif text-brand-ink mb-6">Member Not Found</h1>
         <Link to="/about" className="flex items-center gap-2 text-brand-gold hover:text-brand-ink transition-colors font-sans uppercase tracking-widest text-xs font-bold">
           <ArrowLeft size={16} /> Returns to About
@@ -52,11 +52,11 @@ export default function MemberDetails() {
   }
 
   return (
-    <div className="pt-[110px] pb-24 bg-brand-paper min-h-screen">
+    <div className="pt-[110px] pb-24 bg-white min-h-screen">
       <div className="max-w-6xl mx-auto px-6">
         <Link 
           to="/about" 
-          className="inline-flex items-center gap-2 text-brand-ink/50 hover:text-brand-gold transition-colors font-sans uppercase tracking-[0.2em] text-[10px] font-bold mb-12"
+          className="inline-flex items-center gap-2 text-brand-ink/50 hover:text-brand-gold transition-colors font-sans uppercase tracking-[0.2em] text-xs font-bold mb-12"
         >
           <ArrowLeft size={14} /> 
           {t('common.back', 'Return to About')}
@@ -69,7 +69,7 @@ export default function MemberDetails() {
             transition={{ duration: 0.6 }}
             className="md:col-span-5"
           >
-            <div className="relative aspect-[3/4] rounded-[2rem] overflow-hidden shadow-2xl bg-[#020202]">
+            <div className="relative aspect-[3/4] rounded-[2rem] overflow-hidden shadow-lg bg-[#020202]">
               <img 
                 src={member.image} 
                 alt={member.name} 
@@ -85,7 +85,7 @@ export default function MemberDetails() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="md:col-span-7 pt-4"
           >
-            <div className="text-[10px] text-brand-gold font-bold tracking-[0.3em] uppercase mb-4">
+            <div className="text-xs text-brand-gold font-semibold tracking-[0.18em] uppercase mb-4">
               {member.role}
             </div>
             

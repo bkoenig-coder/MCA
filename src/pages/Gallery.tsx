@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { UlziiSymbol, SoyomboSymbol, ArcherSymbol, MongolianLine } from '../components/MongolianDesign';
+import { UlziiSymbol, SoyomboSymbol, ArcherSymbol, MongolianLine, SectionSeam } from '../components/MongolianDesign';
 import { cn } from '@/src/lib/utils';
 import { db, collection, onSnapshot, query, orderBy, handleFirestoreError, OperationType } from '../firebase';
 
@@ -45,7 +45,7 @@ export default function Gallery() {
   return (
     <div className="pt-[140px] md:pt-[152px]">
       {/* Hero */}
-      <section className="relative min-h-[380px] md:h-[460px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
+      <section className="relative min-h-[320px] md:h-[400px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1536611004753-2ceaea518206?q=80&w=1600&auto=format&fit=crop" 
@@ -64,9 +64,9 @@ export default function Gallery() {
             >
               <div className="flex items-center gap-3 mb-6">
                 <UlziiSymbol className="w-5 h-5 text-brand-gold" />
-                <span className="text-[10px] uppercase tracking-[0.4em] font-extrabold text-brand-gold">{t('gallery.tag')}</span>
+                <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('gallery.tag')}</span>
               </div>
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif text-white tracking-tight leading-tight">
+              <h1 className="text-4xl sm:text-6xl lg:text-6xl font-serif text-white tracking-tight leading-tight">
                 {t('gallery.title')} <br className="hidden md:block" /><span className="italic text-brand-gold">{t('gallery.titleItalic')}</span>
               </h1>
             </motion.div>
@@ -98,8 +98,7 @@ export default function Gallery() {
       </section>
 
       {/* Gallery Grid */}
-      <section className="py-16 md:py-16 md:py-24 bg-brand-paper relative">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.02)_1px,transparent_1px)] bg-[size:3rem_3rem] z-0 pointer-events-none" />
+      <section className="py-16 md:py-24 bg-white relative">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           {loading ? (
             <div className="flex justify-center py-20">
@@ -123,7 +122,7 @@ export default function Gallery() {
                     className="group relative"
                   >
                     <Link to={`/gallery/${art.id}`}>
-                      <div className="aspect-[16/10] rounded-[40px] md:rounded-[2rem] overflow-hidden shadow-2xl relative">
+                      <div className="aspect-[16/10] rounded-2xl md:rounded-[2rem] overflow-hidden shadow-lg relative">
                         <img 
                           src={art.imageUrl} 
                           alt={dTitle} 
@@ -132,7 +131,7 @@ export default function Gallery() {
                         />
                         <div className="absolute inset-0 bg-brand-ink/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
                           <div className="text-center text-white p-6 md:p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                            <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold mb-4 block">
+                            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold mb-4 block">
                               {dCat}
                             </span>
                             <h3 className="text-3xl md:text-4xl font-serif mb-4">{dTitle}</h3>
@@ -147,26 +146,27 @@ export default function Gallery() {
               </AnimatePresence>
             </div>
           ) : (
-            <div className="text-center py-20 bg-brand-paper rounded-[40px] border border-brand-ink/5">
+            <div className="text-center py-20 bg-white rounded-2xl border border-brand-ink/5">
               <p className="text-brand-ink/40 italic">No artworks found in this category.</p>
             </div>
           )}
         </div>
       </section>
 
+      <SectionSeam />
       {/* Artist Submission CTA */}
-      <section className="py-16 md:py-16 md:py-24 bg-brand-paper">
+      <section className="py-16 md:py-24 bg-white">
         <div className="max-w-5xl mx-auto px-6 lg:px-8 text-center">
           <div className="w-16 h-16 md:w-20 md:h-20 border border-brand-gold/30 rounded-full flex items-center justify-center mx-auto mb-8 md:mb-12 text-brand-gold">
             <SoyomboSymbol className="w-8 h-8 md:w-10 md:h-10" />
           </div>
-          <h2 className="text-4xl md:text-6xl font-serif text-brand-ink mb-8 md:mb-10 tracking-tight">
+          <h2 className="text-4xl md:text-5xl font-serif text-brand-ink mb-8 md:mb-10 tracking-tight">
             {t('gallery.submission.title')} <span className="italic text-brand-gold">{t('gallery.submission.titleItalic')}</span>
           </h2>
-          <p className="text-lg md:text-xl text-brand-ink/60 font-light leading-relaxed mb-10 md:mb-12 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-brand-ink/60 font-normal leading-relaxed mb-10 md:mb-12 max-w-2xl mx-auto">
             {t('gallery.submission.desc')}
           </p>
-          <Link to="/contact" className="w-full sm:w-auto inline-block bg-brand-ink text-white px-12 py-6 rounded-full text-xs uppercase tracking-widest font-bold hover:bg-brand-gold transition-all shadow-2xl shadow-brand-ink/20">
+          <Link to="/contact" className="w-full sm:w-auto inline-block bg-brand-ink text-white px-12 py-6 rounded-lg text-xs uppercase tracking-widest font-bold hover:bg-brand-gold transition-all shadow-lg shadow-brand-ink/20">
             {t('gallery.submission.cta')}
           </Link>
         </div>

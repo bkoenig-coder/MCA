@@ -286,10 +286,10 @@ export default function Heritage() {
   });
 
   return (
-    <div className="pt-[140px] md:pt-[152px] bg-[#FAF8F5] min-h-screen text-slate-900 font-sans selection:bg-brand-gold/30 selection:text-slate-900">
+    <div className="pt-[140px] md:pt-[152px] bg-white min-h-screen text-slate-900 font-sans selection:bg-brand-gold/30 selection:text-slate-900">
       
       {/* 1. Official Institutional Header */}
-      <section className="relative min-h-[380px] md:h-[460px] flex items-center px-6 text-white border-b border-[#D4AF37]/30 overflow-hidden">
+      <section className="relative min-h-[320px] md:h-[400px] flex items-center px-6 text-white border-b border-[#D4AF37]/30 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1548089195-9167dd374516?q=80&w=1600&auto=format&fit=crop" 
@@ -307,11 +307,11 @@ export default function Heritage() {
             transition={{ duration: 0.6 }}
             className="max-w-4xl"
           >
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif text-white font-normal tracking-tight leading-[1.15] mb-6">
+            <h1 className="text-4xl sm:text-6xl lg:text-6xl font-serif text-white font-normal tracking-tight leading-[1.15] mb-6">
               Mongolian Cultural Heritage <br />
               <span className="italic font-light text-[#D4AF37]">& Living Traditions</span>
             </h1>
-            <p className="text-sm sm:text-base md:text-lg text-slate-300 font-light leading-relaxed max-w-3xl">
+            <p className="text-sm sm:text-base md:text-lg text-slate-300 font-normal leading-relaxed max-w-3xl">
               The cultural documentation archive of the Mongolian Center Austria in Vienna. 
               Dedicated to safeguarding UNESCO-recognized intangible cultural heritage, traditional craftsmanship, and classical vertical script through education, workshops, and community preservation in Central Europe.
             </p>
@@ -326,7 +326,7 @@ export default function Heritage() {
           <div className="p-6 sm:p-8 bg-slate-50 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 mb-1.5">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-amber-50 text-amber-900 rounded text-[10px] uppercase font-mono tracking-widest border border-amber-200/80 font-bold">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-amber-50 text-amber-900 rounded text-xs uppercase font-mono tracking-widest border border-amber-200/80 font-bold">
                   <Compass className="w-3.5 h-3.5 text-[#D4AF37]" />
                   Digital Exhibition
                 </span>
@@ -407,7 +407,7 @@ export default function Heritage() {
           <div className="p-6 sm:p-8 bg-slate-50 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 mb-1.5">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-amber-50 text-amber-900 rounded text-[10px] uppercase font-mono tracking-widest border border-amber-200/80 font-bold">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-amber-50 text-amber-900 rounded text-xs uppercase font-mono tracking-widest border border-amber-200/80 font-bold">
                   <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
                   3D Artifact Archive
                 </span>
@@ -440,7 +440,7 @@ export default function Heritage() {
         <div className="bg-white text-slate-900 rounded-2xl p-8 md:p-12 border border-slate-200 shadow-sm relative overflow-hidden">
           <div className="grid lg:grid-cols-12 gap-10 items-center relative z-10">
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 rounded border border-amber-200/80 text-[10px] uppercase tracking-[0.2em] font-mono text-amber-900 font-bold">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 rounded border border-amber-200/80 text-xs uppercase tracking-[0.14em] font-mono text-amber-900 font-bold">
                 <FileText className="w-3.5 h-3.5 text-[#D4AF37]" />
                 Language & Calligraphy
               </div>
@@ -450,7 +450,7 @@ export default function Heritage() {
                 <span className="italic text-[#C5A059] font-light">(Bichig)</span>
               </h2>
 
-              <p className="text-sm text-slate-600 font-light leading-relaxed">
+              <p className="text-sm text-slate-600 font-normal leading-relaxed">
                 Created in the early 13th century, the classical vertical script is written continuously from top to bottom. Inscribed on the UNESCO List of Intangible Cultural Heritage, it remains an enduring symbol of Mongolian cultural identity and historical literature.
               </p>
 
@@ -462,8 +462,8 @@ export default function Heritage() {
                 ].map(phrase => (
                   <div key={phrase.mn} className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
                     <span className="text-xs font-serif text-slate-900 font-bold block">{phrase.mn}</span>
-                    <span className="text-[10px] text-slate-500 font-mono block mb-1">({phrase.script})</span>
-                    <span className="text-[9px] text-slate-600 uppercase tracking-wider">{phrase.en}</span>
+                    <span className="text-xs text-slate-500 font-mono block mb-1">({phrase.script})</span>
+                    <span className="text-[11px] text-slate-600 uppercase tracking-wider">{phrase.en}</span>
                   </div>
                 ))}
               </div>
@@ -489,7 +489,7 @@ export default function Heritage() {
                   </div>
                 </div>
 
-                <span className="text-[10px] uppercase font-mono tracking-widest text-[#C5A059] font-bold mt-6">
+                <span className="text-xs uppercase font-mono tracking-widest text-[#C5A059] font-bold mt-6">
                   Calligraphy Workshops in Vienna
                 </span>
               </div>
@@ -503,14 +503,14 @@ export default function Heritage() {
         
         {/* Timeline Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 rounded-full border border-amber-200 text-[10px] uppercase tracking-widest font-mono text-amber-900 font-bold mb-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 rounded-lg border border-amber-200 text-xs uppercase tracking-widest font-mono text-amber-900 font-bold mb-3">
             <Landmark className="w-3.5 h-3.5 text-[#D4AF37]" />
             Bilateral History & Diplomacy
           </div>
           <h2 className="text-3xl sm:text-4xl font-serif text-slate-900 font-normal">
             Austrian-Mongolian <span className="italic text-[#C5A059]">Historical Relations</span>
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600 font-light mt-2.5 leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-600 font-normal mt-2.5 leading-relaxed">
             Key milestones in diplomatic, cultural, and academic cooperation connecting Vienna and Mongolia across the centuries.
           </p>
 
@@ -518,7 +518,7 @@ export default function Heritage() {
           <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
             <button
               onClick={() => setActiveEraId('all')}
-              className={`px-3 py-1.5 rounded-full text-[11px] font-mono uppercase tracking-wider font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-[11px] font-mono uppercase tracking-wider font-semibold transition-all ${
                 activeEraId === 'all'
                   ? 'bg-[#0A1128] text-white shadow-sm'
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -575,10 +575,10 @@ export default function Heritage() {
                         
                         {/* Milestone Top Metadata Bar */}
                         <div className={`flex flex-wrap items-center gap-2 mb-3 ${isEven ? 'md:justify-end' : 'md:justify-start'}`}>
-                          <span className="px-2.5 py-0.5 bg-[#0A1128] text-white rounded text-[10px] font-mono font-bold tracking-wider">
+                          <span className="px-2.5 py-0.5 bg-[#0A1128] text-white rounded text-xs font-mono font-bold tracking-wider">
                             {event.eraBadge}
                           </span>
-                          <span className="text-[10px] font-mono uppercase tracking-widest text-[#C5A059] font-bold">
+                          <span className="text-xs font-mono uppercase tracking-widest text-[#C5A059] font-bold">
                             {event.eraCategory}
                           </span>
                         </div>
@@ -596,14 +596,14 @@ export default function Heritage() {
                           {event.titleMn}
                         </span>
 
-                        <p className="text-xs text-slate-600 font-light leading-relaxed mb-4">
+                        <p className="text-xs text-slate-600 font-normal leading-relaxed mb-4">
                           {event.descEn}
                         </p>
 
                         {/* Key Highlight Chips */}
                         <div className={`pt-3 border-t border-slate-100 flex flex-wrap gap-1.5 ${isEven ? 'md:justify-end' : 'md:justify-start'}`}>
                           {event.highlights.map((h, i) => (
-                            <span key={i} className="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-50 border border-slate-100 rounded-md text-[10px] text-slate-600 font-sans">
+                            <span key={i} className="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-50 border border-slate-100 rounded-md text-xs text-slate-600 font-sans">
                               <CheckCircle2 className="w-3 h-3 text-[#D4AF37]" />
                               <span>{h}</span>
                             </span>
@@ -611,7 +611,7 @@ export default function Heritage() {
                         </div>
 
                         {/* Location footnote */}
-                        <div className={`mt-3 pt-2 text-[10px] font-mono text-slate-400 flex items-center gap-1.5 ${isEven ? 'md:justify-end' : 'md:justify-start'}`}>
+                        <div className={`mt-3 pt-2 text-xs font-mono text-slate-400 flex items-center gap-1.5 ${isEven ? 'md:justify-end' : 'md:justify-start'}`}>
                           <Landmark className="w-3 h-3 text-slate-400" />
                           <span>{event.location}</span>
                         </div>
@@ -640,7 +640,7 @@ export default function Heritage() {
             <h2 className="text-2xl sm:text-3xl font-serif text-slate-900 font-medium">
               UNESCO Heritage & Traditional Arts
             </h2>
-            <p className="text-xs text-slate-500 font-light mt-1">
+            <p className="text-xs text-slate-500 font-normal mt-1">
               Selected traditions, material arts, and living customs recognized by UNESCO and preserved by the community.
             </p>
           </div>
@@ -676,7 +676,7 @@ export default function Heritage() {
               }`}
             >
               <span>{tab.label}</span>
-              <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+              <span className={`text-xs px-1.5 py-0.5 rounded-full ${
                 activeCategory === tab.id ? 'bg-[#D4AF37] text-[#0A1128] font-bold' : 'bg-slate-200 text-slate-500'
               }`}>
                 {tab.count}
@@ -705,11 +705,11 @@ export default function Heritage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 
                 <div className="absolute top-3 left-3 flex items-center gap-2">
-                  <span className="px-2.5 py-1 bg-black/60 backdrop-blur-md rounded text-[10px] font-mono text-[#D4AF37] border border-[#D4AF37]/30">
+                  <span className="px-2.5 py-1 bg-black/60 backdrop-blur-md rounded text-xs font-mono text-[#D4AF37] border border-[#D4AF37]/30">
                     {artifact.catalogId}
                   </span>
                   {artifact.unescoYear && (
-                    <span className="px-2.5 py-1 bg-amber-500/90 text-slate-900 font-bold rounded text-[10px] font-mono">
+                    <span className="px-2.5 py-1 bg-amber-500/90 text-slate-900 font-bold rounded text-xs font-mono">
                       UNESCO {artifact.unescoYear}
                     </span>
                   )}
@@ -727,23 +727,23 @@ export default function Heritage() {
 
               <div className="p-6 flex flex-col flex-grow justify-between">
                 <div className="space-y-4">
-                  <p className="text-xs text-slate-600 font-light leading-relaxed">
+                  <p className="text-xs text-slate-600 font-normal leading-relaxed">
                     {artifact.summary}
                   </p>
 
                   <div className="bg-slate-50 rounded-lg p-3.5 border border-slate-100 space-y-2 text-[11px]">
                     <div className="flex items-start justify-between gap-2">
-                      <span className="text-slate-400 uppercase text-[10px]">Origin / Period</span>
+                      <span className="text-slate-400 uppercase text-xs">Origin / Period</span>
                       <span className="font-medium text-slate-700 text-right">{artifact.period}</span>
                     </div>
                     <div className="flex items-start justify-between gap-2">
-                      <span className="text-slate-400 uppercase text-[10px]">Region</span>
+                      <span className="text-slate-400 uppercase text-xs">Region</span>
                       <span className="font-medium text-slate-700 text-right">{artifact.region}</span>
                     </div>
                     {artifact.materials && (
                       <div className="flex items-start justify-between gap-2 border-t border-slate-200/60 pt-1.5">
-                        <span className="text-slate-400 uppercase text-[10px]">Materials</span>
-                        <span className="text-slate-600 text-right text-[10px] max-w-[180px] truncate">{artifact.materials}</span>
+                        <span className="text-slate-400 uppercase text-xs">Materials</span>
+                        <span className="text-slate-600 text-right text-xs max-w-[180px] truncate">{artifact.materials}</span>
                       </div>
                     )}
                   </div>
@@ -767,17 +767,17 @@ export default function Heritage() {
 
       {/* 7. Steppe Runner Mini-Game at the VERY Bottom */}
       <section className="py-20 px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-200">
-        <div className="bg-white rounded-3xl border border-slate-200 p-8 md:p-12 shadow-sm">
+        <div className="bg-white rounded-2xl border border-slate-200 p-8 md:p-12 shadow-sm">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-slate-100 pb-6">
             <div>
-              <div className="inline-flex items-center gap-2 mb-2 bg-amber-50 px-3 py-1 rounded-full border border-amber-200 text-[10px] uppercase tracking-widest font-mono text-amber-900 font-bold">
+              <div className="inline-flex items-center gap-2 mb-2 bg-amber-50 px-3 py-1 rounded-lg border border-amber-200 text-xs uppercase tracking-widest font-mono text-amber-900 font-bold">
                 <Gamepad2 className="w-3.5 h-3.5 text-[#D4AF37]" />
                 Interactive Mini-Game
               </div>
               <h2 className="text-2xl sm:text-3xl font-serif text-slate-900 font-normal">
                 Steppe Runner <span className="italic text-[#C5A059]">(Талын Гүйгч)</span>
               </h2>
-              <p className="text-xs text-slate-500 font-light mt-1 max-w-xl">
+              <p className="text-xs text-slate-500 font-normal mt-1 max-w-xl">
                 An educational endless runner set across the Mongolian steppe. Collect traditional items (bows, shields, and horses), avoid obstacles, and learn about nomadic symbols.
               </p>
             </div>
@@ -786,14 +786,14 @@ export default function Heritage() {
               {!isGameActive ? (
                 <button
                   onClick={() => setIsGameActive(true)}
-                  className="px-6 py-3 bg-[#0A1128] text-white rounded-xl text-xs uppercase tracking-wider font-bold hover:bg-[#D4AF37] hover:text-[#0A1128] transition-all shadow-md active:scale-95"
+                  className="px-6 py-3 bg-[#0A1128] text-white rounded-lg text-xs uppercase tracking-wider font-bold hover:bg-[#D4AF37] hover:text-[#0A1128] transition-all shadow-md active:scale-95"
                 >
                   Play Game
                 </button>
               ) : (
                 <button
                   onClick={() => setIsGameActive(false)}
-                  className="px-4 py-2.5 bg-slate-100 text-slate-700 rounded-xl text-xs uppercase tracking-wider font-semibold hover:bg-slate-200 transition-colors"
+                  className="px-4 py-2.5 bg-slate-100 text-slate-700 rounded-lg text-xs uppercase tracking-wider font-semibold hover:bg-slate-200 transition-colors"
                 >
                   Reset / Hide Game
                 </button>
@@ -824,10 +824,10 @@ export default function Heritage() {
                 <h3 className="text-white text-xl font-serif mb-2">
                   Ready to explore the Steppe?
                 </h3>
-                <p className="text-slate-300 text-xs font-light leading-relaxed mb-6">
+                <p className="text-slate-300 text-xs font-normal leading-relaxed mb-6">
                   Controls: Press <strong className="text-[#D4AF37]">SPACEBAR</strong> or <strong className="text-[#D4AF37]">UP ARROW</strong> to jump. On mobile: tap the screen.
                 </p>
-                <span className="px-6 py-3 bg-[#D4AF37] text-[#0A1128] rounded-full text-xs uppercase tracking-widest font-extrabold shadow-lg group-hover:bg-white transition-colors">
+                <span className="px-6 py-3 bg-[#D4AF37] text-[#0A1128] rounded-lg text-xs uppercase tracking-widest font-semibold shadow-lg group-hover:bg-white transition-colors">
                   Click to Start Game
                 </span>
               </div>
@@ -851,11 +851,11 @@ export default function Heritage() {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-200 flex flex-col max-h-[90vh]"
+              className="bg-white rounded-2xl max-w-2xl w-full overflow-hidden shadow-lg border border-slate-200 flex flex-col max-h-[90vh]"
             >
               <div className="bg-[#0A1128] text-white p-6 relative border-b border-[#D4AF37]/30">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="px-2.5 py-0.5 bg-[#D4AF37] text-[#0A1128] font-mono text-[10px] font-bold rounded">
+                  <span className="px-2.5 py-0.5 bg-[#D4AF37] text-[#0A1128] font-mono text-xs font-bold rounded">
                     {selectedArtifact.catalogId}
                   </span>
                   {selectedArtifact.unescoYear && (
@@ -875,7 +875,7 @@ export default function Heritage() {
               <div className="p-6 overflow-y-auto space-y-6 text-xs text-slate-700">
                 <div className="space-y-2">
                   <h4 className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold">Cultural Background</h4>
-                  <p className="text-slate-700 leading-relaxed font-light text-sm">
+                  <p className="text-slate-700 leading-relaxed font-normal text-sm">
                     {selectedArtifact.significance}
                   </p>
                 </div>
@@ -884,7 +884,7 @@ export default function Heritage() {
                   <h4 className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold">Details & Tradition</h4>
                   <ul className="space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-100">
                     {selectedArtifact.details.map((detail, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-slate-600 font-light">
+                      <li key={idx} className="flex items-start gap-2 text-slate-600 font-normal">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] mt-1.5 shrink-0" />
                         <span>{detail}</span>
                       </li>
@@ -894,11 +894,11 @@ export default function Heritage() {
 
                 <div className="grid grid-cols-2 gap-4 pt-2 border-t border-slate-100">
                   <div>
-                    <span className="text-slate-400 uppercase text-[10px] block">Materials</span>
+                    <span className="text-slate-400 uppercase text-xs block">Materials</span>
                     <span className="font-medium text-slate-800 text-xs">{selectedArtifact.materials || 'Traditional Materials'}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 uppercase text-[10px] block">Category</span>
+                    <span className="text-slate-400 uppercase text-xs block">Category</span>
                     <span className="font-medium text-slate-800 text-xs capitalize">{selectedArtifact.category} Heritage</span>
                   </div>
                 </div>

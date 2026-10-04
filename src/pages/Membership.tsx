@@ -11,7 +11,7 @@ import mcaLogo from '../assets/media/mcalogo-1.png';
 import delgerLogo from '../assets/media/delgerlogo.png';
 
 
-import { EyebrowMark } from '../components/MongolianDesign';
+import { EyebrowMark, SectionSeam } from '../components/MongolianDesign';
 const partners = [
   { name: "Embassy of Mongolia in Vienna", logo: "/embassy logo.png", url: "https://vienna.embassy.mn/" },
   { name: "AMOX", logo: amoxLogo, url: "https://www.facebook.com/MongolianStudentAssociationInAustria" },
@@ -26,9 +26,9 @@ export default function Membership() {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen bg-brand-paper pt-[140px] md:pt-[152px]">
+    <div className="min-h-screen bg-white pt-[140px] md:pt-[152px]">
       {/* Hero Section */}
-      <section className="relative min-h-[380px] md:h-[460px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
+      <section className="relative min-h-[320px] md:h-[400px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=1600&auto=format&fit=crop" 
@@ -47,7 +47,7 @@ export default function Membership() {
             className="inline-flex items-center gap-4 mb-8"
           >
             <EyebrowMark />
-            <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">{t('membershipPage.hero.tag')}</span>
+            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('membershipPage.hero.tag')}</span>
             <EyebrowMark />
           </motion.div>
 
@@ -64,7 +64,7 @@ export default function Membership() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-lg md:text-2xl text-white/70 font-light max-w-3xl mx-auto leading-relaxed mb-12"
+            className="text-lg md:text-2xl text-white/70 font-normal max-w-3xl mx-auto leading-relaxed mb-12"
           >
             {t('membershipPage.hero.subtitle')}
           </motion.p>
@@ -79,7 +79,7 @@ export default function Membership() {
               onClick={() => {
                 document.getElementById('membership-tiers')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="w-full sm:w-auto px-8 py-4 bg-brand-gold text-brand-ink rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white transition-all duration-500 shadow-[0_0_40px_rgba(212,175,55,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.4)] flex items-center justify-center gap-3 group cursor-pointer"
+              className="w-full sm:w-auto px-8 py-4 bg-brand-gold text-brand-ink rounded-lg text-xs uppercase tracking-[0.18em] font-semibold hover:bg-white transition-all duration-500 shadow-[0_0_40px_rgba(212,175,55,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.4)] flex items-center justify-center gap-3 group cursor-pointer"
             >
               {t('membershipPage.hero.btnIndividual')}
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -88,7 +88,7 @@ export default function Membership() {
               onClick={() => {
                 document.getElementById('membership-tiers')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/20 text-white rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white/10 hover:border-white/40 transition-all duration-500 flex items-center justify-center gap-3 cursor-pointer"
+              className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/20 text-white rounded-lg text-xs uppercase tracking-[0.18em] font-semibold hover:bg-white/10 hover:border-white/40 transition-all duration-500 flex items-center justify-center gap-3 cursor-pointer"
             >
               {t('membershipPage.hero.btnInstitutional')}
             </button>
@@ -97,31 +97,31 @@ export default function Membership() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-16 md:py-16 md:py-24 bg-brand-paper relative">
+      <section className="py-16 md:py-24 bg-white relative">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row gap-16 items-start">
-            <div className="w-full md:w-1/3 md:sticky md:top-32">
-              <span className="inline-block text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold mb-6 relative">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
+            <div className="w-full lg:w-1/3 lg:sticky lg:top-32">
+              <span className="inline-block text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold mb-6 relative">
                 <span className="absolute -left-12 top-1/2 -translate-y-1/2 w-8 h-px bg-brand-gold hidden md:block" />
                 {t('membershipPage.benefits.tag')}
               </span>
               <h2 className="text-4xl md:text-5xl font-serif text-brand-ink mb-6">
                 {t('membershipPage.benefits.titleNormal')}<span className="italic text-brand-gold">{t('membershipPage.benefits.titleItalic')}</span>{t('membershipPage.benefits.titleSuffix')}
               </h2>
-              <p className="text-xl text-brand-ink/60 font-light mb-8">
+              <p className="text-xl text-brand-ink/60 font-normal mb-8">
                 {t('membershipPage.benefits.desc')}
               </p>
               <button 
                 onClick={() => {
                   document.getElementById('membership-tiers')?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="hidden md:inline-flex items-center gap-3 px-8 py-4 bg-brand-ink text-brand-paper rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-brand-gold transition-colors duration-300 group"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-brand-ink text-brand-paper rounded-lg text-xs uppercase tracking-[0.18em] font-semibold hover:bg-brand-gold transition-colors duration-300 group"
               >
                 {t('membershipPage.benefits.btnPlans')} <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
             
-            <div className="w-full md:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="w-full lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[
                 {
                   icon: <Users size={24} />,
@@ -155,13 +155,13 @@ export default function Membership() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.6, delay: idx * 0.1, ease: "easeOut" }}
-                  className="group bg-white p-8 rounded-[32px] border border-brand-ink/5 hover:border-brand-gold/30 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] transition-all duration-500"
+                  className="group bg-white p-8 rounded-2xl border border-brand-ink/5 hover:border-brand-gold/30 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] transition-all duration-500"
                 >
                   <div className="w-14 h-14 rounded-2xl bg-brand-ink/5 text-brand-gold flex items-center justify-center mb-6 transition-colors duration-500 group-hover:bg-brand-gold group-hover:text-brand-ink">
                     {feature.icon}
                   </div>
                   <h3 className="text-xl font-serif text-brand-ink mb-3">{feature.title}</h3>
-                  <p className="text-brand-ink/60 font-light leading-relaxed text-sm">{feature.desc}</p>
+                  <p className="text-brand-ink/60 font-normal leading-relaxed text-sm">{feature.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -169,6 +169,7 @@ export default function Membership() {
         </div>
       </section>
 
+      <SectionSeam />
       {/* Application Process */}
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -176,7 +177,7 @@ export default function Membership() {
             <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-6">
               {t('membershipPage.process.titleNormal')}<span className="italic text-brand-gold">{t('membershipPage.process.titleItalic')}</span>
             </h2>
-            <p className="text-lg text-brand-ink/60 font-light max-w-2xl mx-auto">
+            <p className="text-lg text-brand-ink/60 font-normal max-w-2xl mx-auto">
               {t('membershipPage.process.desc')}
             </p>
           </div>
@@ -213,29 +214,29 @@ export default function Membership() {
                   {item.step}
                 </div>
                 <h3 className="text-xl font-serif text-brand-ink mb-3">{item.title}</h3>
-                <p className="text-brand-ink/60 font-light text-sm">{item.desc}</p>
+                <p className="text-brand-ink/60 font-normal text-sm">{item.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
+      <SectionSeam />
       {/* Membership Tiers */}
-      <section id="membership-tiers" className="py-16 md:py-16 md:py-24 bg-brand-ink relative overflow-hidden rounded-[40px] md:rounded-[2.5rem] mx-4 md:mx-6 mb-24">
+      <section id="membership-tiers" className="py-16 md:py-24 bg-brand-ink relative overflow-hidden rounded-2xl md:rounded-[2.5rem] mx-4 md:mx-6 mb-24">
         {/* Subtle background decoration */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-brand-gold/20 rounded-[100%] blur-[120px] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24 gap-8">
             <div className="max-w-2xl">
-              <h2 className="text-4xl md:text-6xl font-serif text-white mb-6">
+              <h2 className="text-4xl md:text-5xl font-serif text-white mb-6">
                 {t('membershipPage.tiers.titleNormal')}<span className="italic text-brand-gold">{t('membershipPage.tiers.titleItalic')}</span>
               </h2>
-              <p className="text-xl text-white/60 font-light leading-relaxed">
+              <p className="text-xl text-white/60 font-normal leading-relaxed">
                 {t('membershipPage.tiers.desc')}
               </p>
             </div>
-            <div className="flex items-center gap-4 text-[10px] uppercase tracking-[0.3em] font-bold text-white/40">
+            <div className="flex items-center gap-4 text-xs uppercase tracking-[0.18em] font-semibold text-white/40">
               <span>{t('membershipPage.tiers.annual')}</span>
               <div className="w-12 h-6 bg-brand-gold/20 rounded-full relative shadow-inner">
                 <div className="absolute right-1 top-1 w-4 h-4 bg-brand-gold rounded-full shadow-[0_0_10px_rgba(212,175,55,0.8)]" />
@@ -250,7 +251,7 @@ export default function Membership() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="bg-white/[0.02] rounded-[40px] border border-white/10 hover:bg-white/[0.04] hover:border-brand-gold/30 transition-all duration-500 relative flex flex-col h-full group backdrop-blur-sm overflow-hidden"
+              className="bg-white/[0.02] rounded-2xl border border-white/10 hover:bg-white/[0.04] hover:border-brand-gold/30 transition-all duration-500 relative flex flex-col h-full group backdrop-blur-sm overflow-hidden"
             >
               {/* Card Image Header */}
               <div className="relative w-full h-56 md:h-64 overflow-hidden rounded-t-[40px]">
@@ -268,10 +269,10 @@ export default function Membership() {
 
               <div className="p-8 md:p-10 flex flex-col flex-grow bg-[#11131c]">
                 <h3 className="text-2xl font-serif text-white mb-3 relative z-10">{t('membershipPage.tiers.student.name')}</h3>
-                <p className="text-white/50 font-light text-sm mb-8 h-12 relative z-10">{t('membershipPage.tiers.student.desc')}</p>
+                <p className="text-white/50 font-normal text-sm mb-8 h-12 relative z-10">{t('membershipPage.tiers.student.desc')}</p>
                 <div className="mb-10 relative z-10">
                   <span className="text-5xl font-serif text-brand-gold">{t('membershipPage.tiers.free')}</span>
-                  <span className="text-white/40 font-light ml-1">{t('membershipPage.tiers.under25')}</span>
+                  <span className="text-white/40 font-normal ml-1">{t('membershipPage.tiers.under25')}</span>
                 </div>
                 
                 <div className="h-[1px] w-full bg-gradient-to-r from-white/10 to-transparent mb-8" />
@@ -286,11 +287,11 @@ export default function Membership() {
                   ].map((benefit, i) => (
                     <div key={i} className="flex gap-4 items-start">
                       <CheckCircle2 size={18} className="text-brand-gold/70 shrink-0 mt-0.5" />
-                      <span className="text-white/70 font-light text-sm">{benefit}</span>
+                      <span className="text-white/70 font-normal text-sm">{benefit}</span>
                     </div>
                   ))}
                 </div>
-                <Link to="/membership/apply-student" className="w-full flex items-center justify-center py-5 rounded-full border border-brand-gold bg-brand-gold/5 text-brand-gold text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-brand-gold hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
+                <Link to="/membership/apply-student" className="w-full flex items-center justify-center py-5 rounded-full border border-brand-gold bg-brand-gold/5 text-brand-gold text-xs uppercase tracking-[0.2em] font-bold hover:bg-brand-gold hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
                   {t('membershipPage.tiers.student.cta')}
                 </Link>
               </div>
@@ -302,15 +303,13 @@ export default function Membership() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="bg-brand-gold/5 rounded-[40px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] relative overflow-hidden flex flex-col h-full transform lg:-translate-y-4 border border-brand-gold/30 hover:border-brand-gold/60 transition-all duration-500 group backdrop-blur-xl"
+              className="bg-brand-gold/5 rounded-2xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] relative overflow-hidden flex flex-col h-full transform lg:-translate-y-4 border border-brand-gold/30 hover:border-brand-gold/60 transition-all duration-500 group backdrop-blur-xl"
             >
               {/* Premium Background Effects */}
-              <div className="absolute -top-32 -right-32 w-80 h-80 bg-brand-gold/20 rounded-full blur-[80px] group-hover:bg-brand-gold/30 transition-colors duration-700 pointer-events-none" />
-              <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-amber-500/10 rounded-full blur-[80px] pointer-events-none" />
-              <div className="absolute inset-0 border-[4px] border-double border-brand-gold/10 pointer-events-none rounded-[40px] m-1 z-30"></div>
+              <div className="absolute inset-0 border-[4px] border-double border-brand-gold/10 pointer-events-none rounded-2xl m-1 z-30"></div>
               
               <div className="absolute top-6 right-6 z-30 shadow-lg">
-                <span className="bg-gradient-to-r from-brand-gold to-amber-500 shadow-[0_0_20px_rgba(212,175,55,0.4)] text-brand-ink px-4 py-1.5 rounded-full text-[9px] uppercase tracking-[0.2em] font-bold">{t('membershipPage.tiers.recommended')}</span>
+                <span className="bg-gradient-to-r from-brand-gold to-amber-500 shadow-[0_0_20px_rgba(212,175,55,0.4)] text-brand-ink px-4 py-1.5 rounded-lg text-[11px] uppercase tracking-[0.14em] font-bold">{t('membershipPage.tiers.recommended')}</span>
               </div>
 
               {/* Card Image Header */}
@@ -329,10 +328,10 @@ export default function Membership() {
               
               <div className="p-8 md:p-10 flex flex-col flex-grow bg-gradient-to-b from-[#151722] to-[#11131c] relative z-20">
                 <h3 className="text-3xl font-serif text-white mb-3">{t('membershipPage.tiers.professional.name')}</h3>
-                <p className="text-white/60 font-light text-sm mb-8 h-12">{t('membershipPage.tiers.professional.desc')}</p>
+                <p className="text-white/60 font-normal text-sm mb-8 h-12">{t('membershipPage.tiers.professional.desc')}</p>
                 <div className="mb-10">
                   <span className="text-6xl font-serif text-white">€80</span>
-                  <span className="text-white/40 font-light ml-2">{t('membershipPage.tiers.hours')}</span>
+                  <span className="text-white/40 font-normal ml-2">{t('membershipPage.tiers.hours')}</span>
                 </div>
                 
                 <div className="h-[1px] w-full bg-gradient-to-r from-brand-gold/30 to-transparent mb-8 opacity-50" />
@@ -348,11 +347,11 @@ export default function Membership() {
                   ].map((benefit, i) => (
                     <div key={i} className="flex gap-4 items-start">
                       <CheckCircle2 size={18} className="text-brand-gold shrink-0 mt-0.5 drop-shadow-[0_0_8px_rgba(212,175,55,0.8)]" />
-                      <span className="text-white/90 font-light text-sm">{benefit}</span>
+                      <span className="text-white/90 font-normal text-sm">{benefit}</span>
                     </div>
                   ))}
                 </div>
-                <Link to="/membership/apply-professional" className="w-full flex items-center justify-center py-5 rounded-full bg-gradient-to-r from-brand-gold to-amber-500 text-brand-ink text-[10px] uppercase tracking-[0.2em] font-bold hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] transition-all duration-500 shadow-[0_10px_20px_rgba(212,175,55,0.2)] mt-auto hover:scale-[1.02]">
+                <Link to="/membership/apply-professional" className="w-full flex items-center justify-center py-5 rounded-full bg-gradient-to-r from-brand-gold to-amber-500 text-brand-ink text-xs uppercase tracking-[0.2em] font-bold hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] transition-all duration-500 shadow-[0_10px_20px_rgba(212,175,55,0.2)] mt-auto hover:scale-[1.02]">
                   {t('membershipPage.tiers.professional.cta')}
                 </Link>
               </div>
@@ -364,7 +363,7 @@ export default function Membership() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="bg-white/[0.02] rounded-[40px] border border-white/10 hover:bg-white/[0.04] hover:border-brand-gold/30 transition-all duration-500 relative flex flex-col h-full group backdrop-blur-sm overflow-hidden"
+              className="bg-white/[0.02] rounded-2xl border border-white/10 hover:bg-white/[0.04] hover:border-brand-gold/30 transition-all duration-500 relative flex flex-col h-full group backdrop-blur-sm overflow-hidden"
             >
               {/* Card Image Header */}
               <div className="relative w-full h-56 md:h-64 overflow-hidden rounded-t-[40px]">
@@ -382,7 +381,7 @@ export default function Membership() {
 
               <div className="p-8 md:p-10 flex flex-col flex-grow bg-[#11131c]">
                 <h3 className="text-2xl font-serif text-white mb-3 relative z-10">{t('membershipPage.tiers.institutional.name')}</h3>
-                <p className="text-white/50 font-light text-sm mb-8 h-12 relative z-10">{t('membershipPage.tiers.institutional.desc')}</p>
+                <p className="text-white/50 font-normal text-sm mb-8 h-12 relative z-10">{t('membershipPage.tiers.institutional.desc')}</p>
                 <div className="mb-10 relative z-10">
                   <span className="text-5xl font-serif text-brand-gold">{t('membershipPage.tiers.custom')}</span>
                 </div>
@@ -399,11 +398,11 @@ export default function Membership() {
                   ].map((benefit, i) => (
                     <div key={i} className="flex gap-4 items-start">
                       <CheckCircle2 size={18} className="text-brand-gold/70 shrink-0 mt-0.5" />
-                      <span className="text-white/70 font-light text-sm">{benefit}</span>
+                      <span className="text-white/70 font-normal text-sm">{benefit}</span>
                     </div>
                   ))}
                 </div>
-                <Link to="/membership/apply-institutional" className="w-full flex items-center justify-center py-5 rounded-full border border-white/20 text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
+                <Link to="/membership/apply-institutional" className="w-full flex items-center justify-center py-5 rounded-full border border-white/20 text-white text-xs uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-ink transition-colors duration-300 relative z-10 mt-auto">
                   {t('membershipPage.tiers.institutional.cta')}
                 </Link>
               </div>
@@ -412,23 +411,23 @@ export default function Membership() {
         </div>
       </section>
 
+      <SectionSeam />
       {/* Trusted Partners Section */}
-      <section className="py-16 md:py-16 md:py-24 bg-brand-ink text-white relative border-y border-white/5">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+      <section className="py-16 md:py-24 bg-brand-ink text-white relative border-y border-white/5">
         
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-serif mb-6 inline-flex flex-col items-center">
-              <span className="text-brand-gold block mb-2 text-sm uppercase tracking-[0.5em] font-sans font-bold">{t('membershipPage.partners.tag')}</span>
+              <span className="text-brand-gold block mb-2 text-sm uppercase tracking-[0.18em] font-sans font-semibold">{t('membershipPage.partners.tag')}</span>
               {t('membershipPage.partners.title')}
             </h2>
-            <p className="text-lg text-white/60 font-light max-w-2xl mx-auto">
+            <p className="text-lg text-white/60 font-normal max-w-2xl mx-auto">
               {t('membershipPage.partners.desc')}
             </p>
           </div>
 
           {/* Partner & Corporate Logos Marquee */}
-          <div className="relative w-full overflow-hidden flex bg-white/5 py-12 rounded-[32px] border border-white/10">
+          <div className="relative w-full overflow-hidden flex bg-white/5 py-12 rounded-2xl border border-white/10">
             {/* Gradient masks for smooth fade on edges */}
             <div className="absolute top-0 bottom-0 left-0 w-24 bg-gradient-to-r from-brand-ink to-transparent z-10" />
             <div className="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-brand-ink to-transparent z-10" />
@@ -486,6 +485,7 @@ export default function Membership() {
         </div>
       </section>
 
+      <SectionSeam />
       {/* Directory Access */}
       <section className="py-16 md:py-24 bg-brand-ink text-white px-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-brand-ink via-brand-ink to-[#1a1f33] z-0" />
@@ -493,12 +493,12 @@ export default function Membership() {
           <h2 className="text-3xl md:text-5xl font-serif mb-6 text-white drop-shadow-lg">
             {t('membershipPage.directory.titleNormal')}<span className="italic text-brand-gold">{t('membershipPage.directory.titleItalic')}</span>
           </h2>
-          <p className="text-lg text-white/70 font-light mb-10 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-lg text-white/70 font-normal mb-10 leading-relaxed max-w-2xl mx-auto">
             {t('membershipPage.directory.desc')}
           </p>
           <Link 
             to="/members"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-transparent border border-brand-gold text-brand-gold rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-brand-gold hover:text-brand-ink transition-all duration-300"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-transparent border border-brand-gold text-brand-gold rounded-lg text-xs uppercase tracking-[0.18em] font-semibold hover:bg-brand-gold hover:text-brand-ink transition-all duration-300"
           >
             {t('membershipPage.directory.cta')}
             <ArrowRight size={14} />
@@ -506,9 +506,9 @@ export default function Membership() {
         </div>
       </section>
 
+      <SectionSeam />
       {/* Final CTA */}
-      <section className="py-20 md:py-32 px-6 bg-brand-paper relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-gold/10 rounded-full blur-[120px] pointer-events-none" />
+      <section className="py-20 md:py-32 px-6 bg-white relative overflow-hidden">
         
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.h2 
@@ -524,7 +524,7 @@ export default function Membership() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-xl md:text-2xl text-brand-ink/60 font-light mb-12 leading-relaxed"
+            className="text-xl md:text-2xl text-brand-ink/60 font-normal mb-12 leading-relaxed"
           >
             {t('membershipPage.finalCta.desc')}
           </motion.p>
@@ -537,7 +537,7 @@ export default function Membership() {
           >
             <a 
               href="#membership-tiers"
-              className="px-10 py-5 bg-brand-ink text-brand-paper rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-brand-gold hover:text-brand-ink transition-all duration-500 shadow-xl flex items-center gap-4 group"
+              className="px-10 py-5 bg-brand-ink text-brand-paper rounded-lg text-xs uppercase tracking-[0.18em] font-semibold hover:bg-brand-gold hover:text-brand-ink transition-all duration-500 shadow-xl flex items-center gap-4 group"
             >
               {t('membershipPage.finalCta.cta')}
               <ChevronRight size={16} className="group-hover:translate-x-2 transition-transform" />

@@ -5,7 +5,7 @@ import { signInWithGoogle, db, collection, onSnapshot, query, orderBy, addDoc, s
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol } from '../components/MongolianDesign';
+import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol, SectionSeam } from '../components/MongolianDesign';
 import { cn } from '@/src/lib/utils';
 import { DEFAULT_EVENTS } from '../data/fallbackContent';
 
@@ -223,7 +223,7 @@ export default function Events() {
   return (
     <div className="pt-[140px] md:pt-[152px]">
       {/* Hero */}
-      <section className="relative min-h-[380px] md:h-[460px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
+      <section className="relative min-h-[320px] md:h-[400px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://plus.unsplash.com/premium_photo-1769868292024-22f57678074e?q=80&w=1600&auto=format&fit=crop" 
@@ -240,9 +240,9 @@ export default function Events() {
           >
             <div className="flex items-center gap-3 mb-6">
               <UlziiSymbol className="w-5 h-5 text-brand-gold" />
-              <span className="text-[10px] uppercase tracking-[0.4em] font-extrabold text-brand-gold">{t('events.tag')}</span>
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('events.tag')}</span>
             </div>
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif text-white tracking-tight leading-tight">
+            <h1 className="text-4xl sm:text-6xl lg:text-6xl font-serif text-white tracking-tight leading-tight">
               {t('events.title')} <br className="hidden md:block" /><span className="italic text-brand-gold">{t('events.titleItalic')}</span>
             </h1>
           </motion.div>
@@ -250,8 +250,7 @@ export default function Events() {
       </section>
 
       {/* Events List */}
-      <section className="py-16 md:py-16 md:py-24 bg-brand-paper relative">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,17,40,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,17,40,0.02)_1px,transparent_1px)] bg-[size:3rem_3rem] z-0 pointer-events-none" />
+      <section className="py-16 md:py-24 bg-white relative">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           {loading ? (
             <div className="flex justify-center py-24 md:py-40">
@@ -279,7 +278,7 @@ export default function Events() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.4, delay: idx * 0.05 }}
-                      className="group bg-white rounded-[32px] md:rounded-[48px] overflow-hidden border border-brand-ink/5 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row"
+                      className="group bg-white rounded-2xl md:rounded-2xl overflow-hidden border border-brand-ink/5 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row"
                     >
                       {/* Image Section */}
                       <div className="md:w-[40%] relative overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[350px]">
@@ -296,11 +295,11 @@ export default function Events() {
                       <div className="md:w-[60%] p-8 md:p-12 flex flex-col justify-center">
                         <div className="flex items-center justify-between mb-6">
                           <div className="flex items-center gap-3">
-                            <span className="px-4 py-1.5 bg-brand-paper rounded-full text-[10px] uppercase tracking-widest font-bold text-brand-gold">
+                            <span className="px-4 py-1.5 bg-white rounded-lg text-xs uppercase tracking-widest font-bold text-brand-gold">
                               {dCat || t('events.defaultCategory')}
                             </span>
                             {event.capacity > 0 && (
-                              <span className="px-4 py-1.5 bg-brand-ink/5 rounded-full text-[10px] uppercase tracking-widest font-bold text-brand-ink/60">
+                              <span className="px-4 py-1.5 bg-brand-ink/5 rounded-lg text-xs uppercase tracking-widest font-bold text-brand-ink/60">
                                 {event.registeredCount || 0}/{event.capacity} Spots Filled
                               </span>
                             )}
@@ -314,7 +313,7 @@ export default function Events() {
                           {dTitle}
                         </h3>
                         
-                        <p className="text-brand-ink/60 font-light leading-relaxed mb-8 line-clamp-2">
+                        <p className="text-brand-ink/60 font-normal leading-relaxed mb-8 line-clamp-2">
                           {dDesc}
                         </p>
                         
@@ -343,7 +342,7 @@ export default function Events() {
                           <button 
                             onClick={() => handleRegister(event)}
                             disabled={loadingId === event.id || (event.capacity > 0 && (event.registeredCount || 0) >= event.capacity)}
-                            className="flex-1 bg-brand-ink text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-gold transition-all shadow-xl disabled:opacity-50 flex items-center justify-center gap-3"
+                            className="flex-1 bg-brand-ink text-white px-8 py-4 rounded-lg text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-gold transition-all shadow-xl disabled:opacity-50 flex items-center justify-center gap-3"
                           >
                             {loadingId === event.id ? (
                               <Loader2 className="animate-spin" size={14} />
@@ -355,7 +354,7 @@ export default function Events() {
                           </button>
                           <Link 
                             to={`/events/${event.id}`}
-                            className="flex-1 border border-brand-ink/20 text-brand-ink px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold hover:text-brand-gold transition-all text-center flex items-center justify-center gap-3"
+                            className="flex-1 border border-brand-ink/20 text-brand-ink px-8 py-4 rounded-lg text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold hover:text-brand-gold transition-all text-center flex items-center justify-center gap-3"
                           >
                             {t('events.viewDetails')} <Info size={14} />
                           </Link>
@@ -386,7 +385,7 @@ export default function Events() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.4, delay: idx * 0.05 }}
-                        className="group bg-white rounded-[32px] md:rounded-[48px] overflow-hidden border border-brand-ink/5 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row opacity-80"
+                        className="group bg-white rounded-2xl md:rounded-2xl overflow-hidden border border-brand-ink/5 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col md:flex-row opacity-80"
                       >
                         {/* Image Section */}
                         <div className="md:w-[40%] relative overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[350px] grayscale-[30%]">
@@ -403,11 +402,11 @@ export default function Events() {
                         <div className="md:w-[60%] p-8 md:p-12 flex flex-col justify-center">
                           <div className="flex items-center justify-between mb-6">
                             <div className="flex items-center gap-3">
-                              <span className="px-4 py-1.5 bg-brand-paper rounded-full text-[10px] uppercase tracking-widest font-bold text-brand-gold">
+                              <span className="px-4 py-1.5 bg-white rounded-lg text-xs uppercase tracking-widest font-bold text-brand-gold">
                                 {dCat || t('events.defaultCategory')}
                               </span>
                             </div>
-                            <span className="font-serif text-[10px] uppercase tracking-widest font-bold text-brand-ink/40">
+                            <span className="font-serif text-xs uppercase tracking-widest font-bold text-brand-ink/40">
                               Completed
                             </span>
                           </div>
@@ -416,7 +415,7 @@ export default function Events() {
                             {dTitle}
                           </h3>
                           
-                          <p className="text-brand-ink/60 font-light leading-relaxed mb-8 line-clamp-2">
+                          <p className="text-brand-ink/60 font-normal leading-relaxed mb-8 line-clamp-2">
                             {dDesc}
                           </p>
                           
@@ -444,7 +443,7 @@ export default function Events() {
                           <div className="mt-auto flex flex-col sm:flex-row gap-4">
                             <Link 
                               to={`/events/${event.id}`}
-                              className="w-full bg-brand-sand/50 text-brand-ink px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-sand transition-all text-center flex items-center justify-center gap-3"
+                              className="w-full bg-brand-sand/50 text-brand-ink px-8 py-4 rounded-lg text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-sand transition-all text-center flex items-center justify-center gap-3"
                             >
                               View Event Details & Photos <ArrowRight size={14} />
                             </Link>
@@ -461,19 +460,20 @@ export default function Events() {
         </div>
       </section>
 
+      <SectionSeam />
       {/* Private Events CTA */}
-      <section className="py-16 md:py-16 md:py-24 bg-brand-paper">
+      <section className="py-16 md:py-24 bg-white">
         <div className="max-w-5xl mx-auto px-6 lg:px-8 text-center">
           <div className="w-16 h-16 md:w-20 md:h-20 border border-brand-gold/30 rounded-full flex items-center justify-center mx-auto mb-8 md:mb-12 text-brand-gold">
             <UlziiSymbol className="w-8 h-8 md:w-10 md:h-10" />
           </div>
-          <h2 className="text-4xl md:text-6xl font-serif text-brand-ink mb-8 md:mb-10 tracking-tight">
+          <h2 className="text-4xl md:text-5xl font-serif text-brand-ink mb-8 md:mb-10 tracking-tight">
             {t('events.bespoke.title')} <span className="italic text-brand-gold">{t('events.bespoke.titleItalic')}</span>
           </h2>
-          <p className="text-lg md:text-xl text-brand-ink/60 font-light leading-relaxed mb-10 md:mb-12 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-brand-ink/60 font-normal leading-relaxed mb-10 md:mb-12 max-w-2xl mx-auto">
             {t('events.bespoke.desc')}
           </p>
-          <Link to="/contact" className="w-full sm:w-auto inline-block border border-brand-ink/20 text-brand-ink px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold hover:text-brand-gold transition-all">
+          <Link to="/contact" className="w-full sm:w-auto inline-block border border-brand-ink/20 text-brand-ink px-8 py-4 rounded-lg text-xs uppercase tracking-[0.1em] font-medium hover:border-brand-gold hover:text-brand-gold transition-all">
             {t('events.bespoke.cta')}
           </Link>
         </div>
@@ -494,7 +494,7 @@ export default function Events() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white rounded-[40px] p-8 md:p-12 w-full max-w-lg relative z-10 shadow-2xl"
+              className="bg-white rounded-2xl p-8 md:p-12 w-full max-w-lg relative z-10 shadow-lg"
             >
               {!registrationSuccess && (
                 <button 
@@ -521,7 +521,7 @@ export default function Events() {
               ) : (
                 <>
                   <div className="mb-8">
-                    <span className="inline-block px-3 py-1 bg-brand-gold/10 text-brand-gold rounded-full text-[10px] uppercase tracking-widest font-bold mb-4">
+                    <span className="inline-block px-3 py-1 bg-brand-gold/10 text-brand-gold rounded-lg text-xs uppercase tracking-widest font-bold mb-4">
                       {selectedEvent.price === 0 ? 'Free Event Registration' : 'Event Registration'}
                     </span>
                     <h3 className="text-3xl font-serif text-brand-ink mb-2">{selectedEvent.title}</h3>
@@ -530,48 +530,48 @@ export default function Events() {
 
                   <form onSubmit={submitRegistration} className="space-y-5">
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Full Name</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Full Name</label>
                       <input 
                         required
                         type="text"
                         value={registrationForm.name}
                         onChange={e => setRegistrationForm({...registrationForm, name: e.target.value})}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                        className="w-full bg-white border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Email Address</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Email Address</label>
                       <input 
                         required
                         type="email"
                         value={registrationForm.email}
                         onChange={e => setRegistrationForm({...registrationForm, email: e.target.value})}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                        className="w-full bg-white border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Phone Number (Optional)</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Phone Number (Optional)</label>
                       <input 
                         type="tel"
                         value={registrationForm.phone}
                         onChange={e => setRegistrationForm({...registrationForm, phone: e.target.value})}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                        className="w-full bg-white border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Additional Notes (Optional)</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Additional Notes (Optional)</label>
                       <textarea 
                         value={registrationForm.notes}
                         onChange={e => setRegistrationForm({...registrationForm, notes: e.target.value})}
                         rows={3}
-                        className="w-full bg-brand-paper border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all resize-none"
+                        className="w-full bg-white border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-brand-gold/20 transition-all resize-none"
                       />
                     </div>
                     
                     <button 
                       type="submit"
                       disabled={isRegistering}
-                      className="w-full bg-brand-ink text-white px-8 py-4 rounded-full text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-gold transition-all disabled:opacity-50 shadow-xl flex items-center justify-center gap-3 mt-4"
+                      className="w-full bg-brand-ink text-white px-8 py-4 rounded-lg text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-gold transition-all disabled:opacity-50 shadow-xl flex items-center justify-center gap-3 mt-4"
                     >
                       {isRegistering ? <Loader2 className="animate-spin" size={18} /> : 'Complete Registration'}
                     </button>

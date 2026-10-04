@@ -212,7 +212,7 @@ export default function NewsDetails() {
   };
 
   return (
-    <div className="pt-24 md:pt-32 pb-20 px-6 relative overflow-hidden bg-brand-paper min-h-screen">
+    <div className="pt-24 md:pt-32 pb-20 px-6 relative overflow-hidden bg-white min-h-screen">
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Return Button */}
         <Link
@@ -236,7 +236,7 @@ export default function NewsDetails() {
           <div className="text-center border-b-2 border-slate-900 pb-4 mb-8">
             <div className="flex items-center justify-center gap-2 mb-2">
               <UlziiSymbol className="w-4 h-4 text-brand-gold" />
-              <span className="text-[9px] uppercase tracking-[0.3em] font-extrabold text-slate-500">
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-slate-500">
                 THE AUSTRIAN-MONGOLIAN GAZETTE • OFFICIAL DISPATCH
               </span>
               <UlziiSymbol className="w-4 h-4 text-brand-gold" />
@@ -247,7 +247,7 @@ export default function NewsDetails() {
             </h1>
 
             {/* Newspaper Dateline Strip */}
-            <div className="border-t-2 border-b-2 border-slate-900 my-4 py-2 flex flex-wrap items-center justify-between text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-sans font-extrabold text-slate-800 gap-2">
+            <div className="border-t-2 border-b-2 border-slate-900 my-4 py-2 flex flex-wrap items-center justify-between text-[11px] md:text-xs uppercase tracking-[0.2em] font-sans font-semibold text-slate-800 gap-2">
               <div>BY THE MCA EDITORIAL BOARD</div>
               <div>VIENNA, AUSTRIA</div>
               <div>
@@ -311,7 +311,7 @@ export default function NewsDetails() {
                 {/* Top Left Click to Enlarge Badge */}
                 <button
                   onClick={() => setIsLightboxOpen(true)}
-                  className="absolute top-3 left-3 z-20 bg-slate-900/80 hover:bg-slate-900 backdrop-blur-sm text-white/90 hover:text-white text-[10px] font-sans font-bold tracking-wider px-2.5 py-1 rounded border border-white/10 shadow-sm flex items-center gap-1.5 opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute top-3 left-3 z-20 bg-slate-900/80 hover:bg-slate-900 backdrop-blur-sm text-white/90 hover:text-white text-xs font-sans font-bold tracking-wider px-2.5 py-1 rounded border border-white/10 shadow-sm flex items-center gap-1.5 opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity"
                   aria-label="View full picture"
                 >
                   <Maximize2 size={12} className="text-brand-gold" />
@@ -320,7 +320,7 @@ export default function NewsDetails() {
 
                 {/* Top Right Plate Counter Badge */}
                 {uniquePhotos.length > 1 && (
-                  <div className="absolute top-3 right-3 z-20 bg-slate-900/80 backdrop-blur-sm text-amber-200 text-[10px] font-sans font-extrabold uppercase tracking-widest px-2.5 py-1 rounded border border-amber-400/20 shadow-sm">
+                  <div className="absolute top-3 right-3 z-20 bg-slate-900/80 backdrop-blur-sm text-amber-200 text-xs font-sans font-semibold uppercase tracking-widest px-2.5 py-1 rounded border border-amber-400/20 shadow-sm">
                     PLATE {currentSlide + 1} / {uniquePhotos.length}
                   </div>
                 )}
@@ -383,7 +383,7 @@ export default function NewsDetails() {
                   <ZoomIn size={12} className="opacity-0 group-hover/cap:opacity-100 text-brand-gold transition-opacity" />
                 </button>
                 {uniquePhotos.length > 1 && (
-                  <span className="text-[10px] font-sans uppercase tracking-widest text-slate-500 font-bold">
+                  <span className="text-xs font-sans uppercase tracking-widest text-slate-500 font-bold">
                     PRESS ARCHIVE • {currentSlide + 1} OF {uniquePhotos.length}
                   </span>
                 )}
@@ -417,7 +417,7 @@ export default function NewsDetails() {
 
           {/* Social Share Bar */}
           <div className="flex items-center justify-between border-y border-slate-200 py-3 mb-10 text-slate-600">
-            <span className="text-[10px] uppercase tracking-widest font-extrabold text-slate-500">
+            <span className="text-xs uppercase tracking-widest font-semibold text-slate-500">
               SHARE ARTICLE
             </span>
             <div className="flex gap-2">
@@ -550,7 +550,7 @@ export default function NewsDetails() {
           {/* Newspaper End Ornament */}
           <div className="mt-12 pt-6 border-t-2 border-slate-900 text-center flex flex-col items-center justify-center">
             <UlziiSymbol className="w-8 h-8 text-brand-gold/60 mb-2" />
-            <span className="text-[9px] font-sans uppercase tracking-[0.3em] font-extrabold text-slate-500">
+            <span className="text-xs font-sans uppercase tracking-[0.18em] font-semibold text-slate-500">
               — END OF OFFICIAL DISPATCH —
             </span>
           </div>
@@ -576,7 +576,7 @@ export default function NewsDetails() {
               <div className="flex items-center gap-3">
                 <UlziiSymbol className="w-5 h-5 text-brand-gold shrink-0" />
                 <div>
-                  <span className="text-[10px] uppercase font-sans tracking-[0.25em] font-extrabold text-amber-300 block">
+                  <span className="text-xs uppercase font-sans tracking-[0.25em] font-semibold text-amber-300 block">
                     MCA PRESS ARCHIVE • OFFICIAL PRESS PHOTOGRAPH
                   </span>
                   <span className="text-xs text-white/70 font-serif truncate max-w-[240px] sm:max-w-md block">
@@ -615,7 +615,7 @@ export default function NewsDetails() {
                   transition={{ duration: 0.25 }}
                   src={uniquePhotos[currentSlide]}
                   alt={`${dTitle} - Full Press Photograph ${currentSlide + 1}`}
-                  className="max-h-[84vh] sm:max-h-[88vh] max-w-[98vw] sm:max-w-[96vw] w-auto h-auto object-contain shadow-2xl rounded-sm"
+                  className="max-h-[84vh] sm:max-h-[88vh] max-w-[98vw] sm:max-w-[96vw] w-auto h-auto object-contain shadow-lg rounded-sm"
                   referrerPolicy="no-referrer"
                   drag={uniquePhotos.length > 1 ? "x" : false}
                   dragConstraints={{ left: 0, right: 0 }}

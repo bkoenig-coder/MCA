@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 import { useState, FormEvent } from 'react';
 import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { UlziiSymbol, SoyomboSymbol, MongolianLine, ArcherSymbol, MongolianFormalFrame, MongolianKhasDivider } from '../components/MongolianDesign';
+import { UlziiSymbol, SoyomboSymbol, MongolianLine, ArcherSymbol, MongolianFormalFrame, MongolianKhasDivider, SectionSeam } from '../components/MongolianDesign';
 import NewsletterForm from '../components/NewsletterForm';
 
 export default function Contact() {
@@ -73,9 +73,9 @@ export default function Contact() {
   };
 
   return (
-    <div className="pt-[140px] md:pt-[152px] bg-brand-paper">
+    <div className="pt-[140px] md:pt-[152px] bg-white">
       {/* Executive Hero */}
-      <section className="relative min-h-[380px] md:h-[460px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
+      <section className="relative min-h-[320px] md:h-[400px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://plus.unsplash.com/premium_photo-1697730217843-764889ae1995?q=80&w=1600&auto=format&fit=crop" 
@@ -93,9 +93,9 @@ export default function Contact() {
           >
             <div className="flex items-center gap-3 mb-6">
               <UlziiSymbol className="w-5 h-5 text-brand-gold" />
-              <span className="text-[10px] uppercase tracking-[0.4em] font-extrabold text-brand-gold">{t('contact.tag')}</span>
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('contact.tag')}</span>
             </div>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif text-white tracking-tight leading-tight">
+            <h1 className="text-4xl md:text-6xl lg:text-6xl font-serif text-white tracking-tight leading-tight">
               {t('contact.title')} <br className="hidden md:block" /><span className="italic text-brand-gold font-light">{t('contact.titleItalic')}</span>
             </h1>
           </motion.div>
@@ -103,7 +103,7 @@ export default function Contact() {
       </section>
 
       {/* Bright Executive Contact Content */}
-      <section className="py-16 md:py-16 md:py-24 bg-brand-paper">
+      <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             {/* Info Cards */}
@@ -114,36 +114,36 @@ export default function Contact() {
               className="lg:col-span-5 space-y-6"
             >
               <div className="space-y-6">
-                <div className="bg-white border border-brand-gold/30 rounded-[24px] md:rounded-[32px] p-6 md:p-8 shadow-lg hover:border-brand-gold hover:shadow-xl transition-all duration-300 flex items-start gap-6 group">
+                <div className="bg-white border border-brand-gold/30 rounded-[24px] md:rounded-2xl p-6 md:p-8 shadow-lg hover:border-brand-gold hover:shadow-xl transition-all duration-300 flex items-start gap-6 group">
                   <div className="w-16 h-16 bg-brand-gold/15 text-brand-gold rounded-2xl border border-brand-gold/30 flex items-center justify-center flex-shrink-0 group-hover:bg-brand-gold group-hover:text-slate-950 transition-colors duration-300">
                     <MapPin size={26} />
                   </div>
                   <div>
-                    <h4 className="text-[10px] uppercase tracking-[0.25em] font-extrabold text-slate-400 mb-2">{t('contact.info.location')}</h4>
+                    <h4 className="text-xs uppercase tracking-[0.25em] font-semibold text-slate-400 mb-2">{t('contact.info.location')}</h4>
                     <p className="text-xl font-serif text-slate-900 leading-snug font-semibold">
                       Vienna, Austria
                     </p>
                   </div>
                 </div>
 
-                <div className="bg-white border border-brand-gold/30 rounded-[24px] md:rounded-[32px] p-6 md:p-8 shadow-lg hover:border-brand-gold hover:shadow-xl transition-all duration-300 flex items-start gap-6 group">
+                <div className="bg-white border border-brand-gold/30 rounded-[24px] md:rounded-2xl p-6 md:p-8 shadow-lg hover:border-brand-gold hover:shadow-xl transition-all duration-300 flex items-start gap-6 group">
                   <div className="w-16 h-16 bg-brand-gold/15 text-brand-gold rounded-2xl border border-brand-gold/30 flex items-center justify-center flex-shrink-0 group-hover:bg-brand-gold group-hover:text-slate-950 transition-colors duration-300">
                     <Mail size={26} />
                   </div>
                   <div>
-                    <h4 className="text-[10px] uppercase tracking-[0.25em] font-extrabold text-slate-400 mb-2">{t('contact.info.email')}</h4>
+                    <h4 className="text-xs uppercase tracking-[0.25em] font-semibold text-slate-400 mb-2">{t('contact.info.email')}</h4>
                     <p className="text-xl font-serif text-slate-900 leading-snug break-all font-semibold">
                       info@mongoliancenter.org
                     </p>
                   </div>
                 </div>
 
-                <div className="bg-white border border-brand-gold/30 rounded-[24px] md:rounded-[32px] p-6 md:p-8 shadow-lg hover:border-brand-gold hover:shadow-xl transition-all duration-300 flex items-start gap-6 group">
+                <div className="bg-white border border-brand-gold/30 rounded-[24px] md:rounded-2xl p-6 md:p-8 shadow-lg hover:border-brand-gold hover:shadow-xl transition-all duration-300 flex items-start gap-6 group">
                   <div className="w-16 h-16 bg-brand-gold/15 text-brand-gold rounded-2xl border border-brand-gold/30 flex items-center justify-center flex-shrink-0 group-hover:bg-brand-gold group-hover:text-slate-950 transition-colors duration-300">
                     <Phone size={26} />
                   </div>
                   <div>
-                    <h4 className="text-[10px] uppercase tracking-[0.25em] font-extrabold text-slate-400 mb-2">{t('contact.info.phone')}</h4>
+                    <h4 className="text-xs uppercase tracking-[0.25em] font-semibold text-slate-400 mb-2">{t('contact.info.phone')}</h4>
                     <p className="text-xl font-serif text-slate-900 leading-snug font-semibold">
                       +4367761160389
                     </p>
@@ -152,7 +152,7 @@ export default function Contact() {
               </div>
 
               {/* Cultural Quote Box */}
-              <div className="p-8 bg-white border border-brand-gold/30 rounded-[24px] md:rounded-[32px] shadow-md">
+              <div className="p-8 bg-white border border-brand-gold/30 rounded-[24px] md:rounded-2xl shadow-md">
                 <div className="flex items-center gap-5">
                   <UlziiSymbol className="w-10 h-10 text-brand-gold flex-shrink-0" />
                   <p className="text-xs md:text-sm text-slate-600 font-serif italic leading-relaxed">
@@ -169,16 +169,16 @@ export default function Contact() {
               viewport={{ once: true }}
               className="lg:col-span-7"
             >
-              <div className="bg-white p-8 md:p-14 rounded-[32px] md:rounded-[48px] border border-brand-gold/30 shadow-2xl relative overflow-hidden">
+              <div className="bg-white p-8 md:p-14 rounded-2xl md:rounded-2xl border border-brand-gold/30 shadow-lg relative overflow-hidden">
                 <div className="mb-8">
-                  <span className="text-[10px] uppercase tracking-[0.3em] font-extrabold text-brand-gold block mb-1">Official Inquiry</span>
+                  <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold block mb-1">Official Inquiry</span>
                   <h3 className="text-2xl md:text-4xl font-serif text-slate-900 font-semibold">Send Us a Message</h3>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-[10px] uppercase tracking-widest font-extrabold text-slate-700 ml-1">{t('contact.form.firstName')}</label>
+                      <label className="text-xs uppercase tracking-widest font-semibold text-slate-700 ml-1">{t('contact.form.firstName')}</label>
                       <input 
                         type="text" 
                         required
@@ -189,7 +189,7 @@ export default function Contact() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] uppercase tracking-widest font-extrabold text-slate-700 ml-1">{t('contact.form.lastName')}</label>
+                      <label className="text-xs uppercase tracking-widest font-semibold text-slate-700 ml-1">{t('contact.form.lastName')}</label>
                       <input 
                         type="text" 
                         required
@@ -202,7 +202,7 @@ export default function Contact() {
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-widest font-extrabold text-slate-700 ml-1">{t('contact.form.email')}</label>
+                    <label className="text-xs uppercase tracking-widest font-semibold text-slate-700 ml-1">{t('contact.form.email')}</label>
                     <input 
                       type="email" 
                       required
@@ -214,7 +214,7 @@ export default function Contact() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-widest font-extrabold text-slate-700 ml-1">{t('contact.form.subject')}</label>
+                    <label className="text-xs uppercase tracking-widest font-semibold text-slate-700 ml-1">{t('contact.form.subject')}</label>
                     <select 
                       value={formData.subject}
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
@@ -227,7 +227,7 @@ export default function Contact() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-widest font-extrabold text-slate-700 ml-1">{t('contact.form.message')}</label>
+                    <label className="text-xs uppercase tracking-widest font-semibold text-slate-700 ml-1">{t('contact.form.message')}</label>
                     <textarea 
                       rows={5} 
                       required
@@ -254,7 +254,7 @@ export default function Contact() {
                   <button 
                     type="submit"
                     disabled={status === 'loading'}
-                    className="w-full bg-brand-gold hover:bg-amber-400 text-slate-950 py-5 rounded-full font-extrabold flex items-center justify-center gap-3 transition-all shadow-[0_10px_30px_rgba(212,175,55,0.3)] group uppercase tracking-[0.2em] text-xs disabled:opacity-70"
+                    className="w-full bg-brand-gold hover:bg-amber-400 text-slate-950 py-5 rounded-full font-semibold flex items-center justify-center gap-3 transition-all shadow-[0_10px_30px_rgba(212,175,55,0.3)] group uppercase tracking-[0.2em] text-xs disabled:opacity-70"
                   >
                     {status === 'loading' ? (
                       <Loader2 className="animate-spin" size={18} />
@@ -279,14 +279,15 @@ export default function Contact() {
         <MongolianKhasDivider className="max-w-4xl mx-auto my-16" />
       </section>
 
+      <SectionSeam />
       {/* Newsletter Section */}
-      <section className="py-16 md:py-16 md:py-24 px-6 bg-[#0A1128] text-white relative overflow-hidden border-t border-brand-gold/20">
+      <section className="py-16 md:py-24 px-6 bg-[#0A1128] text-white relative overflow-hidden border-t border-brand-gold/20">
         <div className="max-w-4xl mx-auto relative z-10">
-          <div className="bg-slate-900/90 border border-brand-gold/40 p-8 md:p-14 rounded-[32px] md:rounded-[48px] shadow-2xl text-center">
+          <div className="bg-slate-900/90 border border-brand-gold/40 p-8 md:p-14 rounded-2xl md:rounded-2xl shadow-lg text-center">
             <h2 className="text-3xl md:text-5xl font-serif mb-4 tracking-tight">
               {t('news.newsletter.title')} <span className="italic text-brand-gold font-light">{t('news.newsletter.titleItalic')}</span>
             </h2>
-            <p className="text-sm md:text-base text-slate-300 font-sans font-light leading-relaxed mb-8 max-w-2xl mx-auto">
+            <p className="text-sm md:text-base text-slate-300 font-sans font-normal leading-relaxed mb-8 max-w-2xl mx-auto">
               {t('news.newsletter.desc')}
             </p>
             <NewsletterForm variant="dark" />

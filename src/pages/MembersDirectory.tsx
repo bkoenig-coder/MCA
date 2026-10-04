@@ -74,7 +74,7 @@ export default function MembersDirectory() {
   });
 
   return (
-    <div className="min-h-screen bg-brand-paper pt-24 md:pt-32 pb-24">
+    <div className="min-h-screen bg-white pt-24 md:pt-32 pb-24">
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Header */}
@@ -86,7 +86,7 @@ export default function MembersDirectory() {
             className="inline-flex items-center gap-4 mb-8"
           >
             <EyebrowMark />
-            <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">Directory</span>
+            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">Directory</span>
             <EyebrowMark />
           </motion.div>
 
@@ -103,7 +103,7 @@ export default function MembersDirectory() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-lg md:text-xl text-brand-ink/60 font-light max-w-3xl leading-relaxed"
+            className="text-lg md:text-xl text-brand-ink/60 font-normal max-w-3xl leading-relaxed"
           >
             Discover the organizations and individuals who make up our vibrant bilateral community. 
             Connect, collaborate, and grow with the Mongolian Center's network.
@@ -111,7 +111,7 @@ export default function MembersDirectory() {
         </div>
 
         {/* Filters and Search */}
-        <div className="bg-white rounded-[32px] p-6 mb-12 shadow-sm border border-brand-ink/5 flex flex-col md:flex-row gap-6">
+        <div className="bg-white rounded-2xl p-6 mb-12 shadow-sm border border-brand-ink/5 flex flex-col md:flex-row gap-6">
           <div className="relative flex-grow">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-ink/40 w-5 h-5" />
             <input 
@@ -119,7 +119,7 @@ export default function MembersDirectory() {
               placeholder="Search members by name or industry..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 rounded-full bg-brand-paper border-none focus:ring-2 focus:ring-brand-gold focus:outline-none placeholder-brand-ink/30 text-brand-ink"
+              className="w-full pl-12 pr-4 py-4 rounded-full bg-white border-none focus:ring-2 focus:ring-brand-gold focus:outline-none placeholder-brand-ink/30 text-brand-ink"
             />
           </div>
           <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
@@ -127,10 +127,10 @@ export default function MembersDirectory() {
               <button 
                 key={type}
                 onClick={() => setFilterType(type)}
-                className={`whitespace-nowrap px-6 py-4 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 ${
+                className={`whitespace-nowrap px-6 py-4 rounded-lg text-xs uppercase tracking-[0.14em] font-bold transition-all duration-300 ${
                   filterType === type 
                     ? 'bg-brand-gold text-brand-ink' 
-                    : 'bg-brand-paper text-brand-ink/60 hover:bg-brand-ink/5'
+                    : 'bg-white text-brand-ink/60 hover:bg-brand-ink/5'
                 }`}
               >
                 {type}
@@ -150,13 +150,13 @@ export default function MembersDirectory() {
               className="bg-white rounded-[24px] p-8 border border-brand-ink/5 hover:border-brand-gold/30 hover:shadow-xl transition-all duration-300 group"
             >
               <div className="flex items-start justify-between mb-6">
-                <div className="w-16 h-16 rounded-2xl bg-brand-paper flex items-center justify-center text-2xl font-serif text-brand-gold border border-brand-ink/5 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center text-2xl font-serif text-brand-gold border border-brand-ink/5 shadow-sm group-hover:scale-110 transition-transform duration-300">
                   {member.logo}
                 </div>
-                <span className={`px-3 py-1 rounded-full text-[9px] uppercase tracking-[0.2em] font-bold ${
+                <span className={`px-3 py-1 rounded-lg text-[11px] uppercase tracking-[0.14em] font-bold ${
                   member.type === 'Institutional' ? 'bg-brand-ink/5 text-brand-ink' : 
                   member.type === 'Professional' ? 'bg-brand-gold/10 text-brand-gold' : 
-                  'bg-brand-paper text-brand-ink/50 border border-brand-ink/10'
+                  'bg-white text-brand-ink/50 border border-brand-ink/10'
                 }`}>
                   {member.type}
                 </span>
@@ -187,24 +187,22 @@ export default function MembersDirectory() {
 
           {filteredMembers.length === 0 && (
             <div className="col-span-full py-20 text-center text-brand-ink/40">
-              <p className="text-lg font-light">No members found matching your criteria.</p>
+              <p className="text-lg font-normal">No members found matching your criteria.</p>
             </div>
           )}
         </div>
 
         {/* CTA */}
-        <div className="mt-20 bg-brand-ink rounded-[40px] p-12 lg:p-16 text-center relative overflow-hidden">
-           <div className="absolute top-0 right-0 w-64 h-64 bg-brand-gold/10 rounded-full blur-[80px]" />
-           <div className="absolute bottom-0 left-0 w-64 h-64 bg-brand-gold/10 rounded-full blur-[80px]" />
+        <div className="mt-20 bg-brand-ink rounded-2xl p-12 lg:p-16 text-center relative overflow-hidden">
            
            <div className="relative z-10 max-w-2xl mx-auto">
              <h3 className="text-3xl md:text-4xl font-serif text-white mb-4">Not listed yet?</h3>
-             <p className="text-white/60 font-light mb-8">
+             <p className="text-white/60 font-normal mb-8">
                Join our network to get featured in our directory and connect with other professionals.
              </p>
              <Link 
                to="/membership"
-               className="inline-block px-8 py-4 bg-brand-gold text-brand-ink rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white transition-colors duration-300"
+               className="inline-block px-8 py-4 bg-brand-gold text-brand-ink rounded-lg text-xs uppercase tracking-[0.18em] font-semibold hover:bg-white transition-colors duration-300"
              >
                Become a Member
              </Link>

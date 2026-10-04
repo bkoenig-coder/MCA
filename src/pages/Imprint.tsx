@@ -9,7 +9,7 @@ export default function Imprint() {
 
   return (
     <div className="pt-[140px] md:pt-[152px]">
-      <section className="relative py-16 md:py-16 md:py-24 px-6 bg-brand-paper overflow-hidden">
+      <section className="relative py-16 md:py-24 px-6 bg-white overflow-hidden">
         <div className="max-w-4xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -18,15 +18,15 @@ export default function Imprint() {
           >
             <div className="flex items-center gap-4 mb-8">
               <EyebrowMark />
-              <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-brand-gold">
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">
                 Legal & Compliance
               </span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-serif mb-12 tracking-tight text-brand-ink">
+            <h1 className="text-5xl md:text-6xl font-serif mb-12 tracking-tight text-brand-ink">
               Imprint <span className="italic text-brand-gold">(Impressum)</span>
             </h1>
             
-            <div className="prose prose-lg prose-brand max-w-none text-brand-ink/70 font-light leading-relaxed space-y-12">
+            <div className="prose prose-lg prose-brand max-w-none text-brand-ink/70 font-normal leading-relaxed space-y-12">
               <p className="text-xl text-brand-ink font-normal italic">
                 Information according to § 5 ECG, § 14 UGB, § 25 MedienG and § 63 GewO.
               </p>

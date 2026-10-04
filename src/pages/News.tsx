@@ -50,18 +50,18 @@ export default function News() {
   }, []);
 
   return (
-    <div className="pt-[140px] md:pt-[152px] bg-brand-paper min-h-screen">
+    <div className="pt-[140px] md:pt-[152px] bg-white min-h-screen">
       {/* Newspaper Front Page Container */}
-      <section className="py-16 md:py-16 md:py-24 px-6 lg:px-8 max-w-7xl mx-auto">
+      <section className="py-16 md:py-24 px-6 lg:px-8 max-w-7xl mx-auto">
         {/* Newspaper Masthead */}
         <div className="text-center mb-8 border-b-4 border-slate-900 pb-4">
           <div className="flex items-center justify-center gap-3 mb-2">
             <UlziiSymbol className="w-5 h-5 text-brand-gold" />
-            <span className="text-[10px] uppercase tracking-[0.4em] font-extrabold text-slate-500">Official Publication of the Austrian-Mongolian Center</span>
+            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-slate-500">Official Publication of the Austrian-Mongolian Center</span>
             <UlziiSymbol className="w-5 h-5 text-brand-gold" />
           </div>
           
-          <h1 className="font-serif font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight uppercase text-slate-900 my-2 leading-none">
+          <h1 className="font-serif font-semibold text-4xl sm:text-6xl md:text-6xl lg:text-6xl tracking-tight uppercase text-slate-900 my-2 leading-none">
             THE MCA GAZETTE
           </h1>
           
@@ -70,7 +70,7 @@ export default function News() {
           </p>
 
           {/* Newspaper Metadata Double Line Bar */}
-          <div className="border-t-2 border-b-2 border-slate-900 my-4 py-2 flex flex-wrap items-center justify-between text-[9px] md:text-[10px] uppercase tracking-[0.25em] font-sans font-extrabold text-slate-800 gap-2">
+          <div className="border-t-2 border-b-2 border-slate-900 my-4 py-2 flex flex-wrap items-center justify-between text-[11px] md:text-xs uppercase tracking-[0.25em] font-sans font-semibold text-slate-800 gap-2">
             <div>VOL. I • VIENNA EDITION</div>
             <div className="hidden sm:block">ESTABLISHED 2026 • AUSTRIA & MONGOLIA</div>
             <div>{new Date().toLocaleDateString(t('common.locale'), { weekday: 'short', month: 'long', day: 'numeric', year: 'numeric' })}</div>
@@ -93,11 +93,11 @@ export default function News() {
               return (
                 <article className="border-b-2 border-slate-900 pb-12">
                   <div className="text-center max-w-4xl mx-auto mb-6">
-                    <span className="text-[10px] uppercase tracking-[0.3em] font-extrabold text-brand-gold bg-slate-900 text-white px-3 py-1 inline-block mb-3">
+                    <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold bg-slate-900 text-white px-3 py-1 inline-block mb-3">
                       {t('news.featured', 'LEAD DISPATCH')}
                     </span>
                     <Link to={linkUrl}>
-                      <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif font-black text-slate-900 leading-[1.08] hover:text-[#0066B3] transition-colors tracking-tight">
+                      <h2 className="text-3xl md:text-5xl lg:text-5xl font-serif font-black text-slate-900 leading-[1.08] hover:text-[#0066B3] transition-colors tracking-tight">
                         {dTitle}
                       </h2>
                     </Link>
@@ -127,7 +127,7 @@ export default function News() {
                     <div className="lg:col-span-5 flex flex-col justify-between h-full space-y-6">
                       <div className="space-y-4">
                         <div className="flex items-center gap-2">
-                          <span className="text-[9px] uppercase tracking-[0.25em] font-sans font-extrabold text-slate-500 bg-slate-100 px-2 py-0.5 border border-slate-300">
+                          <span className="text-[11px] uppercase tracking-[0.25em] font-sans font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 border border-slate-300">
                             SPECIAL COVERAGE
                           </span>
                           {(() => {
@@ -137,7 +137,7 @@ export default function News() {
                                   ? p.galleryImages.split(/[,;\n]/).filter((s: string) => s.trim().length > 0).length
                                   : 0);
                             return count > 0 ? (
-                              <span className="text-[9px] uppercase tracking-[0.2em] font-sans font-bold text-amber-800 bg-amber-50 px-2 py-0.5 border border-amber-200">
+                              <span className="text-[11px] uppercase tracking-[0.14em] font-sans font-bold text-amber-800 bg-amber-50 px-2 py-0.5 border border-amber-200">
                                 📷 +{count} Photo{count === 1 ? '' : 's'}
                               </span>
                             ) : null;
@@ -162,14 +162,14 @@ export default function News() {
                       </div>
 
                       <div className="pt-4 border-t border-slate-300 flex flex-wrap items-center justify-between gap-4">
-                        <span className="text-[10px] uppercase tracking-widest font-extrabold text-slate-500 flex items-center gap-1.5">
+                        <span className="text-xs uppercase tracking-widest font-semibold text-slate-500 flex items-center gap-1.5">
                           <Calendar size={12} className="text-brand-gold" />
                           {formatNewsDate(p.createdAt, t('common.locale'), { month: 'long', day: 'numeric', year: 'numeric' })}
                         </span>
 
                         <Link 
                           to={linkUrl} 
-                          className="inline-flex items-center gap-2 font-serif text-xs uppercase tracking-[0.2em] font-extrabold text-slate-900 hover:text-brand-gold transition-colors border-b-2 border-slate-900 pb-0.5 group"
+                          className="inline-flex items-center gap-2 font-serif text-xs uppercase tracking-[0.2em] font-semibold text-slate-900 hover:text-brand-gold transition-colors border-b-2 border-slate-900 pb-0.5 group"
                         >
                           <span>READ FULL DISPATCH</span>
                           <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
@@ -184,7 +184,7 @@ export default function News() {
             {/* Broadsheet Columnist Archive Grid */}
             <div>
               <div className="border-y-2 border-slate-900 py-2 mb-10 text-center bg-slate-100">
-                <h3 className="font-serif text-sm md:text-base font-bold uppercase tracking-[0.3em] text-slate-900">
+                <h3 className="font-serif text-sm md:text-base font-semibold uppercase tracking-[0.18em] text-slate-900">
                   RECENT DISPATCHES & BILATERAL STATEMENTS
                 </h3>
               </div>
@@ -201,7 +201,7 @@ export default function News() {
                       className="border-b md:border-b-0 md:border-r border-slate-300 md:pr-8 last:border-r-0 pb-8 md:pb-0 flex flex-col justify-between"
                     >
                       <div>
-                        <div className="flex items-center justify-between text-[9px] uppercase tracking-widest font-extrabold text-slate-500 mb-3 border-b border-slate-200 pb-2">
+                        <div className="flex items-center justify-between text-[11px] uppercase tracking-widest font-semibold text-slate-500 mb-3 border-b border-slate-200 pb-2">
                           <span>VIENNA JOURNAL</span>
                           <span>{formatNewsDate(post.createdAt, t('common.locale'), { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                         </div>
@@ -232,7 +232,7 @@ export default function News() {
 
                       <Link 
                         to={linkUrl} 
-                        className="inline-flex items-center gap-1.5 font-serif text-[11px] uppercase tracking-[0.18em] font-extrabold text-slate-900 hover:text-brand-gold transition-colors pt-3 border-t border-slate-200"
+                        className="inline-flex items-center gap-1.5 font-serif text-[11px] uppercase tracking-[0.18em] font-semibold text-slate-900 hover:text-brand-gold transition-colors pt-3 border-t border-slate-200"
                       >
                         <span>FULL ARTICLE →</span>
                       </Link>
@@ -251,12 +251,12 @@ export default function News() {
       </section>
 
       {/* Broadsheet Newsletter Suite */}
-      <section className="py-16 md:py-16 md:py-24 px-6 bg-[#0A1128] text-white relative overflow-hidden border-t-4 border-slate-900">
+      <section className="py-16 md:py-24 px-6 bg-[#0A1128] text-white relative overflow-hidden border-t-4 border-slate-900">
         <div className="max-w-4xl mx-auto relative z-10 text-center">
           <h2 className="text-3xl md:text-5xl font-serif mb-4 tracking-tight">
             {t('news.newsletter.title')} <span className="italic text-brand-gold font-light">{t('news.newsletter.titleItalic')}</span>
           </h2>
-          <p className="text-sm md:text-base text-slate-300 font-sans font-light leading-relaxed mb-8 max-w-2xl mx-auto">
+          <p className="text-sm md:text-base text-slate-300 font-sans font-normal leading-relaxed mb-8 max-w-2xl mx-auto">
             {t('news.newsletter.desc')}
           </p>
           <NewsletterForm variant="dark" />

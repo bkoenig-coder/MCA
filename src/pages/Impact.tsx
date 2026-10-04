@@ -3,7 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Heart, Globe, ShieldCheck, TrendingUp, ArrowRight, Loader2, CheckCircle2, AlertCircle, Sparkles, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { UlziiSymbol, SoyomboSymbol, ArcherSymbol, MongolianLine, MongolianFormalFrame, MongolianKhasDivider, EyebrowMark } from '../components/MongolianDesign';
+import { UlziiSymbol, SoyomboSymbol, ArcherSymbol, MongolianLine, MongolianFormalFrame, MongolianKhasDivider, EyebrowMark, SectionSeam } from '../components/MongolianDesign';
 import { useAuth } from '../contexts/AuthContext';
 import { signInWithGoogle } from '../firebase';
 
@@ -147,7 +147,7 @@ export default function Impact() {
   const filteredInitiatives = initiatives.filter(item => activeFundFilter === 'All' || item.category === activeFundFilter);
 
   return (
-    <div className="pt-[140px] md:pt-[152px] bg-brand-paper text-slate-900 min-h-screen">
+    <div className="pt-[140px] md:pt-[152px] bg-white text-slate-900 min-h-screen">
       {/* Success Notification */}
       <AnimatePresence>
         {showSuccess && (
@@ -155,7 +155,7 @@ export default function Impact() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
-            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-slate-950 text-white px-8 py-4 rounded-full shadow-2xl border border-brand-gold/50 flex items-center gap-4 min-w-[320px]"
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-slate-950 text-white px-8 py-4 rounded-full shadow-lg border border-brand-gold/50 flex items-center gap-4 min-w-[320px]"
           >
             <div className="bg-brand-gold/20 p-2 rounded-full">
               <CheckCircle2 className="text-brand-gold" size={24} />
@@ -169,7 +169,7 @@ export default function Impact() {
       </AnimatePresence>
 
       {/* Executive Hero */}
-      <section className="relative min-h-[380px] md:h-[460px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
+      <section className="relative min-h-[320px] md:h-[400px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1630559878810-fe220c9273a7?q=80&w=1600&auto=format&fit=crop" 
@@ -190,12 +190,12 @@ export default function Impact() {
             >
               <div className="flex items-center gap-3 mb-6">
                 <UlziiSymbol className="w-5 h-5 text-brand-gold" />
-                <span className="text-[10px] uppercase tracking-[0.4em] font-extrabold text-brand-gold">{t('impact.tag')}</span>
+                <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('impact.tag')}</span>
               </div>
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif text-white tracking-tight leading-tight mb-4">
+              <h1 className="text-4xl md:text-6xl lg:text-6xl font-serif text-white tracking-tight leading-tight mb-4">
                 {t('impact.title')} <br className="hidden md:block" /><span className="italic text-brand-gold font-light">{t('impact.titleItalic')}</span>
               </h1>
-              <p className="text-base md:text-lg text-slate-300 font-sans font-light max-w-xl leading-relaxed">
+              <p className="text-base md:text-lg text-slate-300 font-sans font-normal max-w-xl leading-relaxed">
                 {t('impact.subtitle')}
               </p>
             </motion.div>
@@ -211,7 +211,7 @@ export default function Impact() {
                 <button
                   key={cat.id}
                   onClick={() => setActiveFundFilter(cat.id)}
-                  className={`px-6 py-3 rounded-full text-[10px] uppercase tracking-widest font-extrabold transition-all border ${
+                  className={`px-6 py-3 rounded-lg text-xs uppercase tracking-widest font-semibold transition-all border ${
                     activeFundFilter === cat.id 
                       ? "bg-brand-gold text-slate-950 border-brand-gold shadow-md" 
                       : "bg-white/10 text-white/80 border-white/20 hover:border-brand-gold hover:text-brand-gold backdrop-blur-md"
@@ -226,7 +226,7 @@ export default function Impact() {
       </section>
 
       {/* Bright Executive Donation Suite */}
-      <section className="py-16 md:py-16 md:py-24 bg-brand-paper relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             <motion.div
@@ -237,15 +237,15 @@ export default function Impact() {
             >
               <div className="inline-flex items-center gap-3 text-brand-gold">
                 <Heart className="fill-brand-gold w-5 h-5" />
-                <span className="text-[10px] uppercase tracking-[0.4em] font-extrabold">{t('impact.donation.tag')}</span>
+                <span className="text-xs uppercase tracking-[0.18em] font-semibold">{t('impact.donation.tag')}</span>
               </div>
 
-              <h2 className="text-4xl md:text-6xl font-serif text-slate-900 leading-tight tracking-tight font-medium">
+              <h2 className="text-4xl md:text-5xl font-serif text-slate-900 leading-tight tracking-tight font-medium">
                 {t('impact.donation.title1')} <span className="italic text-brand-gold font-light">{t('impact.donation.title2')}</span> <br />
                 {t('impact.donation.title3')} <span className="italic font-light">{t('impact.donation.title4')}</span>
               </h2>
 
-              <p className="text-base md:text-lg text-slate-600 font-sans font-light leading-relaxed">
+              <p className="text-base md:text-lg text-slate-600 font-sans font-normal leading-relaxed">
                 {t('impact.donation.mainDesc')}
               </p>
               
@@ -255,7 +255,7 @@ export default function Impact() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-slate-900 mb-1">{t('impact.donation.impactNote')}</p>
-                  <p className="text-xs text-slate-500 font-light">{t('impact.donation.taxNote')}</p>
+                  <p className="text-xs text-slate-500 font-normal">{t('impact.donation.taxNote')}</p>
                 </div>
               </div>
             </motion.div>
@@ -267,12 +267,12 @@ export default function Impact() {
               viewport={{ once: true }}
               className="lg:col-span-6"
             >
-              <div className="bg-white border border-brand-gold/30 p-8 md:p-12 rounded-[32px] md:rounded-[48px] shadow-2xl relative overflow-hidden">
+              <div className="bg-white border border-brand-gold/30 p-8 md:p-12 rounded-2xl md:rounded-2xl shadow-lg relative overflow-hidden">
                 <form onSubmit={handleDonateSubmit} className="space-y-6">
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <label className="text-xs font-extrabold uppercase tracking-widest text-slate-900">{t('impact.donation.select', 'Select Amount')}</label>
-                      <span className="text-[10px] uppercase tracking-widest text-slate-400 font-sans">EUR (€)</span>
+                      <label className="text-xs font-semibold uppercase tracking-widest text-slate-900">{t('impact.donation.select', 'Select Amount')}</label>
+                      <span className="text-xs uppercase tracking-widest text-slate-400 font-sans">EUR (€)</span>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       {donationAmounts.map((opt) => (
@@ -298,7 +298,7 @@ export default function Impact() {
                   </div>
 
                   <div className="space-y-3">
-                    <label className="text-xs font-extrabold uppercase tracking-widest text-slate-900">{t('impact.donation.custom', 'Custom Amount')}</label>
+                    <label className="text-xs font-semibold uppercase tracking-widest text-slate-900">{t('impact.donation.custom', 'Custom Amount')}</label>
                     <div className={`flex items-center px-5 py-4 rounded-2xl border-2 transition-all duration-300 ${
                       selectedAmount === 'custom' 
                         ? 'border-brand-gold bg-brand-gold/5 shadow-sm' 
@@ -332,7 +332,7 @@ export default function Impact() {
                   <button
                     type="submit"
                     disabled={loadingAmount !== null}
-                    className="w-full bg-brand-gold hover:bg-amber-400 text-slate-950 p-5 rounded-full uppercase tracking-[0.2em] font-extrabold text-xs transition-all shadow-md flex items-center justify-center gap-3 disabled:opacity-70 group"
+                    className="w-full bg-brand-gold hover:bg-amber-400 text-slate-950 p-5 rounded-full uppercase tracking-[0.2em] font-semibold text-xs transition-all shadow-md flex items-center justify-center gap-3 disabled:opacity-70 group"
                   >
                     {loadingAmount !== null ? (
                       <><Loader2 className="animate-spin w-5 h-5" /> {t('common.processing')}</>
@@ -350,17 +350,18 @@ export default function Impact() {
         </div>
       </section>
 
+      <SectionSeam />
       {/* Bright Cultural Heritage Funds & Initiatives */}
-      <section className="py-16 md:py-16 md:py-24 bg-brand-paper relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-3 mb-4">
               <EyebrowMark />
-              <span className="text-[10px] uppercase tracking-[0.3em] font-extrabold text-brand-gold">{t('impact.initiatives.tag')}</span>
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('impact.initiatives.tag')}</span>
               <EyebrowMark />
             </div>
-            <h2 className="text-4xl md:text-6xl font-serif text-slate-900 mb-4 tracking-tight">{t('impact.initiatives.title')}</h2>
-            <p className="text-base md:text-lg text-slate-600 font-sans font-light max-w-3xl mx-auto leading-relaxed">{t('impact.initiatives.desc')}</p>
+            <h2 className="text-4xl md:text-5xl font-serif text-slate-900 mb-4 tracking-tight">{t('impact.initiatives.title')}</h2>
+            <p className="text-base md:text-lg text-slate-600 font-sans font-normal max-w-3xl mx-auto leading-relaxed">{t('impact.initiatives.desc')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
@@ -371,7 +372,7 @@ export default function Impact() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
-                className="bg-white border border-brand-gold/30 rounded-[32px] md:rounded-[40px] p-6 flex flex-col justify-between relative overflow-hidden group shadow-lg hover:shadow-xl hover:border-brand-gold transition-all duration-300"
+                className="bg-white border border-brand-gold/30 rounded-2xl md:rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group shadow-lg hover:shadow-xl hover:border-brand-gold transition-all duration-300"
               >
                 <div>
                   <div className="aspect-[16/10] rounded-[24px] overflow-hidden mb-6 relative bg-slate-900 border border-slate-200">
@@ -381,20 +382,20 @@ export default function Impact() {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       referrerPolicy="no-referrer"
                     />
-                    <div className="absolute top-4 left-4 bg-slate-950/90 text-brand-gold px-3 py-1 rounded-full text-[9px] uppercase tracking-widest font-extrabold border border-brand-gold/40">
+                    <div className="absolute top-4 left-4 bg-slate-950/90 text-brand-gold px-3 py-1 rounded-lg text-[11px] uppercase tracking-widest font-semibold border border-brand-gold/40">
                       Fund 0{idx + 1}
                     </div>
                   </div>
 
                   <h3 className="text-2xl font-serif text-slate-900 mb-3 group-hover:text-brand-gold transition-colors duration-300 font-semibold">{item.title}</h3>
-                  <p className="text-xs text-slate-600 font-sans font-light leading-relaxed mb-6">
+                  <p className="text-xs text-slate-600 font-sans font-normal leading-relaxed mb-6">
                     {item.desc}
                   </p>
                 </div>
 
                 <Link 
                   to={`/initiative/${item.id}`} 
-                  className="inline-flex items-center justify-between text-[11px] uppercase tracking-[0.18em] font-extrabold text-slate-900 hover:text-brand-gold transition-colors pt-4 border-t border-slate-100"
+                  className="inline-flex items-center justify-between text-[11px] uppercase tracking-[0.18em] font-semibold text-slate-900 hover:text-brand-gold transition-colors pt-4 border-t border-slate-100"
                 >
                   <span>Explore Fund</span>
                   <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform text-brand-gold" />
@@ -407,12 +408,13 @@ export default function Impact() {
         <MongolianKhasDivider className="max-w-4xl mx-auto my-16" />
       </section>
 
+      <SectionSeam />
       {/* Bright Impact Metrics Bento Grid */}
-      <section className="py-16 md:py-16 md:py-24 bg-brand-paper relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
-            <span className="text-[10px] uppercase tracking-[0.4em] font-extrabold text-brand-gold mb-3 block">{t('impact.tag')}</span>
-            <h2 className="text-4xl md:text-6xl font-serif text-slate-900 tracking-tight">{t('impact.totalImpact')}</h2>
+            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold mb-3 block">{t('impact.tag')}</span>
+            <h2 className="text-4xl md:text-5xl font-serif text-slate-900 tracking-tight">{t('impact.totalImpact')}</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -423,7 +425,7 @@ export default function Impact() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-white border border-brand-gold/30 rounded-[32px] md:rounded-[40px] p-8 md:p-10 relative overflow-hidden group flex flex-col justify-between min-h-[220px] shadow-lg hover:shadow-xl hover:border-brand-gold transition-all"
+                className="bg-white border border-brand-gold/30 rounded-2xl md:rounded-2xl p-8 md:p-10 relative overflow-hidden group flex flex-col justify-between min-h-[220px] shadow-lg hover:shadow-xl hover:border-brand-gold transition-all"
               >
                 <div className="flex items-center justify-between mb-6">
                   <div className="text-brand-gold">
@@ -433,7 +435,7 @@ export default function Impact() {
                 </div>
                 <div>
                   <div className="text-5xl md:text-7xl font-serif text-slate-900 mb-2 font-bold">{stat.value}</div>
-                  <div className="text-xs uppercase tracking-[0.25em] font-extrabold text-brand-gold">{stat.label}</div>
+                  <div className="text-xs uppercase tracking-[0.25em] font-semibold text-brand-gold">{stat.label}</div>
                 </div>
               </motion.div>
             ))}
@@ -441,8 +443,9 @@ export default function Impact() {
         </div>
       </section>
 
+      <SectionSeam />
       {/* Transparency Suite */}
-      <section className="py-16 md:py-16 md:py-24 bg-[#0A1128] text-white relative overflow-hidden border-t border-brand-gold/20">
+      <section className="py-16 md:py-24 bg-[#0A1128] text-white relative overflow-hidden border-t border-brand-gold/20">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <motion.div
@@ -453,15 +456,15 @@ export default function Impact() {
             >
               <div className="flex items-center gap-3 text-brand-gold">
                 <ShieldCheck size={22} />
-                <span className="text-[10px] uppercase tracking-[0.4em] font-extrabold">Accountability</span>
+                <span className="text-xs uppercase tracking-[0.18em] font-semibold">Accountability</span>
               </div>
-              <h2 className="text-4xl md:text-6xl font-serif text-white tracking-tight font-medium">
+              <h2 className="text-4xl md:text-5xl font-serif text-white tracking-tight font-medium">
                 {t('impact.transparency.title')} <br/><span className="italic text-brand-gold font-light">{t('impact.transparency.titleItalic')}</span>
               </h2>
-              <p className="text-base md:text-lg text-slate-300 font-sans font-light leading-relaxed">
+              <p className="text-base md:text-lg text-slate-300 font-sans font-normal leading-relaxed">
                 {t('impact.transparency.desc')}
               </p>
-              <button className="inline-flex items-center gap-3 bg-brand-gold text-slate-950 hover:bg-amber-400 px-8 py-4 rounded-full text-xs uppercase tracking-[0.2em] font-extrabold transition-all duration-300 shadow-md">
+              <button className="inline-flex items-center gap-3 bg-brand-gold text-slate-950 hover:bg-amber-400 px-8 py-4 rounded-lg text-xs uppercase tracking-[0.14em] font-semibold transition-all duration-300 shadow-md">
                 <span>{t('impact.transparency.cta')}</span>
                 <ArrowRight size={14} />
               </button>
@@ -473,16 +476,16 @@ export default function Impact() {
               viewport={{ once: true }}
               className="lg:col-span-5"
             >
-              <div className="bg-slate-900/90 border border-brand-gold/40 p-8 md:p-12 rounded-[32px] md:rounded-[48px] shadow-2xl text-center">
+              <div className="bg-slate-900/90 border border-brand-gold/40 p-8 md:p-12 rounded-2xl md:rounded-2xl shadow-lg text-center">
                 <div className="w-16 h-16 bg-brand-gold/20 border border-brand-gold/40 rounded-full flex items-center justify-center mx-auto mb-6 text-brand-gold">
                   <ShieldCheck className="w-8 h-8 text-brand-gold" />
                 </div>
                 <h3 className="text-2xl font-serif text-white mb-2 font-semibold">Fiscal Impact Report</h3>
-                <p className="text-brand-gold text-[10px] uppercase tracking-[0.25em] font-extrabold mb-6">Fiscal Year 2025/2026</p>
-                <p className="text-xs text-slate-300 font-sans font-light leading-relaxed mb-6">
+                <p className="text-brand-gold text-xs uppercase tracking-[0.25em] font-semibold mb-6">Fiscal Year 2025/2026</p>
+                <p className="text-xs text-slate-300 font-sans font-normal leading-relaxed mb-6">
                   Complete audited overview of financial accountability, cultural endowment funds, and bilateral community impact.
                 </p>
-                <div className="px-5 py-2.5 bg-slate-950 border border-brand-gold/40 rounded-full inline-block text-brand-gold text-[10px] uppercase tracking-widest font-extrabold shadow-lg">
+                <div className="px-5 py-2.5 bg-slate-950 border border-brand-gold/40 rounded-lg inline-block text-brand-gold text-xs uppercase tracking-widest font-semibold shadow-lg">
                   100% Audited & Transparent
                 </div>
               </div>
