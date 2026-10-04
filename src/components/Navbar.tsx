@@ -241,7 +241,7 @@ export default function Navbar() {
         "bg-[#0A1128] text-white/80 transition-all duration-500 border-b border-white/5 relative z-[130] overflow-visible",
         scrolled ? "h-0 opacity-0 pointer-events-none overflow-hidden" : "hidden sm:flex h-9 items-center"
       )}>
-        <div className="max-w-[1600px] w-full mx-auto px-4 md:px-16 flex items-center justify-between h-full text-[9px] uppercase tracking-[0.18em] font-sans font-bold select-none min-w-0">
+        <div className="max-w-[1600px] w-full mx-auto px-4 md:px-10 2xl:px-16 flex items-center justify-between h-full text-[9px] uppercase tracking-[0.18em] font-sans font-bold select-none min-w-0">
           {/* Left: Embassy Flags & Organization details */}
           <div className="flex items-center gap-2.5 sm:gap-4 text-white/75 min-w-0">
             <div className="flex items-center flex-shrink-0">
@@ -339,18 +339,18 @@ export default function Navbar() {
 
       <nav
         className={cn(
-          'transition-all duration-500 px-4 md:px-16 relative w-full bg-white',
+          'transition-all duration-500 px-4 md:px-10 2xl:px-16 relative w-full bg-white',
           isOpen ? 'z-[155]' : 'z-[120]',
           scrolled 
             ? 'py-2 shadow-[0_4px_30px_rgba(0,0,0,0.04)] border-b border-brand-gold/15 bg-white/95 backdrop-blur-md' 
-            : 'py-3 border-b border-[#0F0F0F]/5',
+            : 'py-2.5 border-b border-[#0F0F0F]/5',
           isOpen && 'border-b-0 bg-white'
         )}
       >
-        <div className="max-w-[1600px] w-full mx-auto flex items-center justify-between relative">
+        <div className="max-w-[1600px] w-full mx-auto flex items-center justify-between relative xl:grid xl:grid-cols-[1fr_auto_1fr] xl:gap-0">
           
           {/* Left Nav Links (Desktop only) */}
-          <div className="hidden lg:flex items-center gap-4 xl:gap-6 flex-1 justify-start">
+          <div className="hidden xl:flex items-center justify-end gap-8 pr-10">
             {navItems.filter(item => ['/about', '/events', '/membership', '/news'].includes(item.path)).map((item) => {
               const isActive = location.pathname === item.path;
               return (
@@ -358,8 +358,8 @@ export default function Navbar() {
                   key={item.path}
                   to={item.path}
                   className={cn(
-                    "group text-[10px] xl:text-[11px] uppercase tracking-[0.16em] font-sans font-extrabold transition-all duration-300 relative py-2",
-                    isActive ? "text-[#0066B3]" : "text-slate-600 hover:text-[#0066B3] hover:translate-y-[-0.5px]"
+                    "group text-xs uppercase tracking-[0.1em] font-sans font-semibold transition-colors duration-300 relative py-2 whitespace-nowrap",
+                    isActive ? "text-[#0066B3]" : "text-slate-700 hover:text-[#0066B3]"
                   )}
                 >
                   <span className="relative z-10">{item.name}</span>
@@ -378,16 +378,16 @@ export default function Navbar() {
           </div>
 
           {/* Centered full logo (already contains the organization name) */}
-          <Link to="/" aria-label="Mongolisches Zentrum in Österreich – Home" className="group flex-shrink-0 z-10 absolute left-1/2 -translate-x-1/2 pointer-events-auto">
+          <Link to="/" aria-label="Mongolisches Zentrum in Österreich – Home" className="group flex-shrink-0 z-10 absolute left-1/2 -translate-x-1/2 xl:static xl:left-auto xl:translate-x-0 pointer-events-auto">
             <img
               src={mcaLogoWide}
               alt="Mongolische Zentrum in Österreich"
-              className={cn("w-auto object-contain select-none transition-all duration-500 group-hover:scale-105", scrolled ? "h-9 sm:h-10 lg:h-11" : "h-11 sm:h-12 lg:h-16")}
+              className={cn("w-auto object-contain select-none transition-all duration-500 group-hover:scale-105", scrolled ? "h-9 sm:h-10 xl:h-12" : "h-11 sm:h-12 xl:h-[72px]")}
             />
           </Link>
 
           {/* Right Nav Links & Actions (Desktop only) */}
-          <div className="hidden lg:flex items-center justify-end gap-3 xl:gap-5 flex-1 min-w-0 lg:pl-16">
+          <div className="hidden xl:flex items-center gap-8 pl-10 min-w-0">
             {navItems.filter(item => ['/gallery', '/impact', '/contact', '/heritage'].includes(item.path)).map((item) => {
               const isActive = location.pathname === item.path;
               return (
@@ -395,8 +395,8 @@ export default function Navbar() {
                   key={item.path}
                   to={item.path}
                   className={cn(
-                    "group text-[10px] xl:text-[11px] uppercase tracking-[0.16em] font-sans font-extrabold transition-all duration-300 relative py-2",
-                    isActive ? "text-[#0066B3]" : "text-slate-600 hover:text-[#0066B3] hover:translate-y-[-0.5px]"
+                    "group text-xs uppercase tracking-[0.1em] font-sans font-semibold transition-colors duration-300 relative py-2 whitespace-nowrap",
+                    isActive ? "text-[#0066B3]" : "text-slate-700 hover:text-[#0066B3]"
                   )}
                 >
                   <span className="relative z-10">{item.name}</span>
@@ -413,29 +413,18 @@ export default function Navbar() {
               );
             })}
 
-            <div className="hidden 2xl:block h-4 w-px bg-slate-200 ml-1 mr-1" />
-
-            <Link
-              to="/membership"
-              className="hidden 2xl:inline-block text-[9px] uppercase tracking-[0.15em] font-extrabold px-4 py-2.5 rounded border border-[#0A1128] hover:bg-[#0A1128] hover:text-white transition-all duration-300 shadow-sm hover:shadow active:scale-95"
-            >
-              Member
-            </Link>
-
             <button
               onClick={() => setIsOpen(!isOpen)}
-              aria-label={isOpen ? "Close directory menu" : "Open directory menu"}
-              className={cn(
-                "flex items-center gap-2 text-[9px] uppercase tracking-[0.15em] font-extrabold transition-all duration-300 py-2.5 px-4 rounded bg-[#0A1128] border border-[#0A1128] text-white hover:bg-neutral-800 hover:border-neutral-800 shadow-sm active:scale-95"
-              )}
+              aria-label={isOpen ? "Close menu" : "Open menu"}
+              className="ml-auto flex items-center gap-2 text-xs uppercase tracking-[0.1em] font-semibold py-2.5 px-4 rounded-lg bg-[#0A1128] text-white hover:bg-[#0066B3] transition-colors duration-300"
             >
-              {isOpen ? <X size={12} className="text-[#C5A059]" /> : <Menu size={12} className="text-[#C5A059]" />}
-              <span className="hidden xl:inline">{isOpen ? t('common.close', 'CLOSE') : 'DIRECTORY'}</span>
+              {isOpen ? <X size={14} className="text-[#C5A059]" /> : <Menu size={14} className="text-[#C5A059]" />}
+              <span className="hidden 2xl:inline">{isOpen ? t('common.close', 'Close') : t('nav.menu', 'Menu')}</span>
             </button>
           </div>
 
           {/* Mobile Layout Actions Row */}
-          <div className="lg:hidden flex items-center gap-2 sm:gap-3 z-10 ml-auto">
+          <div className="xl:hidden flex items-center gap-2 sm:gap-3 z-10 ml-auto">
             {/* Lang cycler flag */}
             <button
               onClick={() => {
