@@ -19,8 +19,6 @@ import NaadamGames from '../components/NaadamGames';
 
 import LetsPlayGame from '../components/game/LetsPlayGame';
 
-const PARTNER_PATTERN = "url(\"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22 viewBox=%220 0 48 48%22%3E%3Cpath d=%22M24 2 L46 24 L24 46 L2 24 Z%22 fill=%22none%22 stroke=%22%23D4AF37%22 stroke-opacity=%220.10%22 stroke-width=%221%22/%3E%3Cpath d=%22M24 18 L30 24 L24 30 L18 24 Z%22 fill=%22%23D4AF37%22 fill-opacity=%220.10%22/%3E%3C/svg%3E\")";
-
 export default function Home() {
   const { t, i18n } = useTranslation();
   const [events, setEvents] = useState<any[]>([]);
@@ -949,10 +947,6 @@ export default function Home() {
       <SectionSeam />
 {/* Partnership invitation */}
       <section className="relative overflow-hidden bg-[#0A1128] text-white py-20 md:py-28">
-        {/* Heritage lattice (no photo) */}
-        <div aria-hidden="true" className="absolute inset-0 pointer-events-none" style={{ backgroundImage: PARTNER_PATTERN }} />
-        {/* Large faint endless knot */}
-        <UlziiSymbol className="absolute -right-16 top-1/2 -translate-y-1/2 w-[420px] md:w-[560px] h-auto text-brand-gold opacity-[0.06] pointer-events-none" />
         {/* Gold frame and meander borders */}
         <MeanderBand className="absolute top-0 inset-x-0 bg-brand-gold/40" />
         <MeanderBand className="absolute bottom-0 inset-x-0 bg-brand-gold/40" />
