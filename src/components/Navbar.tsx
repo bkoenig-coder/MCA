@@ -1,6 +1,6 @@
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Globe, LogIn, LogOut, User as UserIcon, ChevronDown, Calendar, ArrowRight, Info, Newspaper, Image as ImageIcon, Heart, Mail, Compass, Shield, Award, ChevronRight, Linkedin, Instagram, Facebook, ArrowLeft, ChevronLeft } from 'lucide-react';
+import { Menu, X, Globe, LogIn, LogOut, User as UserIcon, ChevronDown, Calendar, ArrowRight, Info, Newspaper, Image as ImageIcon, Heart, Mail, Compass, Shield, Award, ChevronRight, Linkedin, Instagram, Facebook, ArrowLeft, ChevronLeft, Briefcase } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState, useEffect, useRef } from 'react';
 import { cn } from '@/src/lib/utils';
@@ -60,6 +60,7 @@ export default function Navbar() {
     { name: t('nav.impact'), path: '/impact', icon: Heart },
     { name: t('nav.contact'), path: '/contact', icon: Mail },
     { name: t('nav.heritage', 'Heritage'), path: '/heritage', icon: Compass },
+    { name: t('nav.careers', 'Careers'), path: '/careers', icon: Briefcase },
   ];
 
   const isSuperAdmin = user?.email?.toLowerCase() === 'emeraldtorstein@gmail.com';

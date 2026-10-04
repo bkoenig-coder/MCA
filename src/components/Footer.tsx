@@ -101,6 +101,7 @@ export default function Footer() {
                 <li><Link to="/gallery" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.gallery')}</Link></li>
                 <li><Link to="/impact" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.impact')}</Link></li>
                 <li><Link to="/news" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.news')}</Link></li>
+                <li><Link to="/careers" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.careers', 'Careers')}</Link></li>
               </ul>
             </motion.div>
 

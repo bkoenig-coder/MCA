@@ -20,6 +20,7 @@ const ROUTE_TITLES: Record<string, { titleKey: string; defaultTitle: string; des
   '/contact': { titleKey: 'nav.contact', defaultTitle: 'Contact Us | Mongolian Center Austria' },
   '/membership': { titleKey: 'nav.membership', defaultTitle: 'Membership | Mongolian Center Austria' },
   '/members': { titleKey: 'nav.members', defaultTitle: 'Members Directory | Mongolian Center Austria' },
+  '/careers': { titleKey: 'nav.careers', defaultTitle: 'Careers | Mongolian Center Austria' },
   '/heritage': { titleKey: 'nav.heritage', defaultTitle: 'Cultural Heritage | Mongolian Center Austria' },
   '/diorama': { titleKey: 'nav.diorama', defaultTitle: '3D Interactive Diorama | Mongolian Center Austria' },
   '/privacy': { titleKey: 'footer.privacy', defaultTitle: 'Privacy Policy | Mongolian Center Austria' },

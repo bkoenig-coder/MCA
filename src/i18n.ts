@@ -6,6 +6,7 @@ const resources = {
   en: {
     translation: {
       nav: {
+        careers: 'Careers',
         home: 'Home',
         about: 'About',
         events: 'Events',
@@ -59,6 +60,41 @@ const resources = {
         impact: {
           title: 'Sustainable Impact',
           desc: 'Driving meaningful social change and civic solidarity through targeted philanthropic initiatives in Austria and Mongolia.'
+        }
+      },
+      careers: {
+        tag: 'Join us',
+        title: 'Careers',
+        intro: 'Work or volunteer with the Mongolian Center in Austria and help build bridges between Austria and Mongolia.',
+        openRoles: 'Open positions',
+        noRoles: 'There are no open positions at the moment.',
+        noRolesHint: 'Please check back soon, or introduce yourself through our contact page.',
+        openAppTitle: 'Open application',
+        openAppText: 'Do not see the right role? Tell us how you would like to contribute.',
+        openAppCta: 'Get in touch',
+        viewRole: 'View role',
+        deadline: 'Apply by',
+        apply: 'Apply now',
+        back: 'All positions',
+        aboutRole: 'About the role',
+        requirements: 'Requirements',
+        closed: 'This position is no longer open.',
+        loadError: 'The positions could not be loaded. Please try again later.',
+        form: {
+          title: 'Apply for this role',
+          name: 'Full name',
+          email: 'Email',
+          phone: 'Phone (optional)',
+          linkedin: 'LinkedIn or portfolio (optional)',
+          cv: 'Link to your CV',
+          cvHelp: 'Share a link, for example Google Drive, Dropbox or LinkedIn.',
+          message: 'Why are you interested?',
+          consent: 'I agree that my data is used to process this application.',
+          submit: 'Send application',
+          sending: 'Sending...',
+          successTitle: 'Application sent',
+          successText: 'Thank you. We have received your application and will get back to you.',
+          error: 'Your application could not be sent. Please try again.'
         }
       },
       collab: {
@@ -655,6 +691,7 @@ const resources = {
   de: {
     translation: {
       nav: {
+        careers: 'Karriere',
         home: 'Startseite',
         about: 'Über uns',
         events: 'Veranstaltungen',
@@ -708,6 +745,41 @@ const resources = {
         impact: {
           title: 'Nachhaltige Wirkung',
           desc: 'Förderung von sozialem Wandel und zivilgesellschaftlicher Solidarität durch gezielte philanthropische Initiativen.'
+        }
+      },
+      careers: {
+        tag: 'Mach mit',
+        title: 'Karriere',
+        intro: 'Arbeite oder engagiere dich ehrenamtlich beim Mongolischen Zentrum in Österreich und baue mit uns Brücken zwischen Österreich und der Mongolei.',
+        openRoles: 'Offene Stellen',
+        noRoles: 'Derzeit gibt es keine offenen Stellen.',
+        noRolesHint: 'Schau bald wieder vorbei oder stelle dich über unsere Kontaktseite vor.',
+        openAppTitle: 'Initiativbewerbung',
+        openAppText: 'Keine passende Stelle dabei? Erzähl uns, wie du dich einbringen möchtest.',
+        openAppCta: 'Kontakt aufnehmen',
+        viewRole: 'Stelle ansehen',
+        deadline: 'Bewerbung bis',
+        apply: 'Jetzt bewerben',
+        back: 'Alle Stellen',
+        aboutRole: 'Über die Stelle',
+        requirements: 'Anforderungen',
+        closed: 'Diese Stelle ist nicht mehr offen.',
+        loadError: 'Die Stellen konnten nicht geladen werden. Bitte versuche es später erneut.',
+        form: {
+          title: 'Für diese Stelle bewerben',
+          name: 'Vollständiger Name',
+          email: 'E-Mail',
+          phone: 'Telefon (optional)',
+          linkedin: 'LinkedIn oder Portfolio (optional)',
+          cv: 'Link zu deinem Lebenslauf',
+          cvHelp: 'Teile einen Link, zum Beispiel Google Drive, Dropbox oder LinkedIn.',
+          message: 'Warum interessierst du dich dafür?',
+          consent: 'Ich bin einverstanden, dass meine Daten zur Bearbeitung dieser Bewerbung verwendet werden.',
+          submit: 'Bewerbung senden',
+          sending: 'Wird gesendet ...',
+          successTitle: 'Bewerbung gesendet',
+          successText: 'Danke. Wir haben deine Bewerbung erhalten und melden uns bei dir.',
+          error: 'Deine Bewerbung konnte nicht gesendet werden. Bitte versuche es erneut.'
         }
       },
       collab: {
@@ -1299,6 +1371,7 @@ const resources = {
   mn: {
     translation: {
       nav: {
+        careers: 'Ажлын байр',
         home: 'Нүүр',
         about: 'Бидний тухай',
         events: 'Арга хэмжээ',
@@ -1352,6 +1425,41 @@ const resources = {
         impact: {
           title: 'Тогтвортой нөлөөлөл',
           desc: 'Австри болон Монгол улсад чиглэсэн зорилтот сайн үйлсийн санаачилгуудаар дамжуулан нийгмийн бодит өөрчлөлтийг хөтлөх.'
+        }
+      },
+      careers: {
+        tag: 'Бидэнтэй нэгдээрэй',
+        title: 'Ажлын байр',
+        intro: 'Австри дахь Монгол Төвд ажиллаж эсвэл сайн дураар оролцож, Австри, Монголын хоорондын гүүрийг хамтдаа бүтээцгээе.',
+        openRoles: 'Нээлттэй ажлын байр',
+        noRoles: 'Одоогоор нээлттэй ажлын байр алга байна.',
+        noRolesHint: 'Удахгүй дахин шалгана уу, эсвэл холбоо барих хуудасаар дамжуулан өөрийгөө танилцуулна уу.',
+        openAppTitle: 'Чөлөөт өргөдөл',
+        openAppText: 'Тохирох ажлын байр олдсонгүй юу? Та хэрхэн хувь нэмэр оруулахыг хүсэж буйгаа бидэнд хэлээрэй.',
+        openAppCta: 'Холбогдох',
+        viewRole: 'Дэлгэрэнгүй',
+        deadline: 'Өргөдөл хүлээн авах хугацаа',
+        apply: 'Өргөдөл илгээх',
+        back: 'Бүх ажлын байр',
+        aboutRole: 'Ажлын байрны тухай',
+        requirements: 'Шаардлага',
+        closed: 'Энэ ажлын байр хаагдсан.',
+        loadError: 'Ажлын байруудыг ачаалж чадсангүй. Даараа дахин оролдоно уу.',
+        form: {
+          title: 'Энэ ажлын байранд өргөдөл өгөх',
+          name: 'Овог нэр',
+          email: 'И-мэйл',
+          phone: 'Утас (заавал бус)',
+          linkedin: 'LinkedIn эсвэл портфолио (заавал бус)',
+          cv: 'CV-ийнхээ холбоос',
+          cvHelp: 'Google Drive, Dropbox эсвэл LinkedIn зэрэг холбоос илгээнэ үү.',
+          message: 'Та яагаад сонирхож байна вэ?',
+          consent: 'Миний мэдээллийг энэ өргөдлийг хянахад ашиглахыг зөвшөөрч байна.',
+          submit: 'Өргөдөл илгээх',
+          sending: 'Илгээж байна...',
+          successTitle: 'Өргөдөл илгээгдлээ',
+          successText: 'Баярлалаа. Бид таны өргөдлийг хүлээн авсан бөгөөд тантай эргэн холбогдох болно.',
+          error: 'Өргөдлийг илгээж чадсангүй. Дахин оролдоно уу.'
         }
       },
       collab: {
@@ -1943,6 +2051,7 @@ const resources = {
   tr: {
     translation: {
       nav: {
+        careers: 'Kariyer',
         home: 'Ana Sayfa',
         about: 'Hakkımızda',
         events: 'Etkinlikler',
@@ -1996,6 +2105,41 @@ const resources = {
         impact: {
           title: 'Sürdürülebilir Etki',
           desc: 'Avusturya ve Moğolistan\'daki hedeflenen hayırseverlik girişimleri aracılığıyla anlamlı bir sosyal değişim ve sivil dayanışma sağlamak.'
+        }
+      },
+      careers: {
+        tag: 'Bize katılın',
+        title: 'Kariyer',
+        intro: 'Avusturya’daki Moğol Merkezi’nde çalışın veya gönüllü olun ve Avusturya ile Moğolistan arasında köprüler kurmamıza yardım edin.',
+        openRoles: 'Açık pozisyonlar',
+        noRoles: 'Şu anda açık pozisyon bulunmuyor.',
+        noRolesHint: 'Lütfen yakında tekrar bakın veya iletişim sayfamız üzerinden kendinizi tanıtın.',
+        openAppTitle: 'Açık başvuru',
+        openAppText: 'Uygun bir pozisyon göremediniz mi? Nasıl katkıda bulunmak istediğinizi bize yazın.',
+        openAppCta: 'İletişime geçin',
+        viewRole: 'Pozisyonu gör',
+        deadline: 'Son başvuru',
+        apply: 'Hemen başvurun',
+        back: 'Tüm pozisyonlar',
+        aboutRole: 'Pozisyon hakkında',
+        requirements: 'Gereksinimler',
+        closed: 'Bu pozisyon artık açık değil.',
+        loadError: 'Pozisyonlar yüklenemedi. Lütfen daha sonra tekrar deneyin.',
+        form: {
+          title: 'Bu pozisyona başvurun',
+          name: 'Ad soyad',
+          email: 'E-posta',
+          phone: 'Telefon (isteğe bağlı)',
+          linkedin: 'LinkedIn veya portfolyo (isteğe bağlı)',
+          cv: 'Özgeçmiş bağlantınız',
+          cvHelp: 'Google Drive, Dropbox veya LinkedIn gibi bir bağlantı paylaşın.',
+          message: 'Neden ilgileniyorsunuz?',
+          consent: 'Verilerimin bu başvuruyu işlemek için kullanılmasını kabul ediyorum.',
+          submit: 'Başvuruyu gönder',
+          sending: 'Gönderiliyor...',
+          successTitle: 'Başvuru gönderildi',
+          successText: 'Teşekkürler. Başvurunuzu aldık ve size dönüş yapacağız.',
+          error: 'Başvurunuz gönderilemedi. Lütfen tekrar deneyin.'
         }
       },
       collab: {

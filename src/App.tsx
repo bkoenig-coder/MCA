@@ -40,6 +40,8 @@ const TeamMember = lazy(() => import('./pages/TeamMember'));
 const InitiativeDetails = lazy(() => import('./pages/InitiativeDetails'));
 const EasterEgg = lazy(() => import('./pages/EasterEgg'));
 const Heritage = lazy(() => import('./pages/Heritage'));
+const Careers = lazy(() => import('./pages/Careers'));
+const CareerDetails = lazy(() => import('./pages/CareerDetails'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Luxury brand fallback loading screen with traditional Mongolian Ulzii motif
@@ -124,6 +126,8 @@ export default function App() {
                   <Route path="/initiative/:id" element={<InitiativeDetails />} />
                   <Route path="/diorama" element={<EasterEgg />} />
                   <Route path="/heritage" element={<Heritage />} />
+                  <Route path="/careers" element={<Careers />} />
+                  <Route path="/careers/:id" element={<CareerDetails />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
                 </PageTransition>

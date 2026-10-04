@@ -13,6 +13,7 @@ import {
 import { deleteDoc, doc, updateDoc, setDoc } from 'firebase/firestore';
 import { toast } from 'sonner';
 import Modal from '../components/Modal';
+import AdminCareers from '../components/AdminCareers';
 import { autoTranslateRecord } from '../services/translationService';
 
 // Curated High-Resolution Media Library Presets for Instant 1-Click Selection
@@ -263,7 +264,7 @@ export default function AdminDashboard() {
   const isAdminUser = isSuperAdmin || isDomainAdmin || userEmail === 'batmunkh.unen@gmail.com' || profile?.role === 'admin';
   const isEditor = isAdminUser || profile?.role === 'moderator';
 
-  const [activeTab, setActiveTab] = useState<'analytics' | 'events' | 'posts' | 'registrations' | 'gallery' | 'users' | 'applications'>('analytics');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'events' | 'posts' | 'registrations' | 'gallery' | 'users' | 'applications' | 'careers'>('analytics');
 
   // Analytics State
   const [pageViews, setPageViews] = useState<any[]>([]);
@@ -1215,6 +1216,7 @@ export default function AdminDashboard() {
               { id: 'registrations', label: 'Registrations', icon: <Users size={16} />, badge: registrations.length },
               { id: 'users', label: 'Members', icon: <Shield size={16} />, badge: users.length },
               { id: 'applications', label: 'Applications', icon: <FileText size={16} />, badge: applications.filter(a => a.status === 'pending').length || null },
+              { id: 'careers', label: 'Careers', icon: <Users size={16} />, badge: null },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -1811,6 +1813,12 @@ export default function AdminDashboard() {
           )}
 
           {/* 7. APPLICATIONS TAB */}
+          {activeTab === 'careers' && (
+            <motion.div key="careers" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+              <AdminCareers />
+            </motion.div>
+          )}
+
           {activeTab === 'applications' && (
             <motion.div
               key="applications"
