@@ -197,3 +197,18 @@ a[class*="rounded"]:active {
 .btn-shimmer:hover::after {
   transform: translateX(120%);
 }
+
+/* Soft light that slowly passes over the flags in the top bar */
+.flag-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.55) 50%, transparent 65%);
+  transform: translateX(-130%);
+  animation: flag-sheen 7s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes flag-sheen {
+  0%, 70% { transform: translateX(-130%); }
+  100% { transform: translateX(130%); }
+}

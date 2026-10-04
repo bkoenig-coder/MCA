@@ -22,83 +22,12 @@ const languages = [
   { code: 'tr', name: 'Türkçe', Flag: TR },
 ];
 
-const BilateralFlagBadge = () => (
-  <div className="flex items-center relative h-5 select-none pr-1.5 flex-shrink-0">
-    <svg viewBox="0 0 68 32" className="w-14 h-[26px] md:w-16 md:h-[30px] drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)]">
-      <defs>
-        {/* Metallic Gold Gradient */}
-        <linearGradient id="gold-metal" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#FFF2B2" />
-          <stop offset="30%" stopColor="#D4AF37" />
-          <stop offset="70%" stopColor="#AA7C11" />
-          <stop offset="100%" stopColor="#F3E5AB" />
-        </linearGradient>
-        {/* Clips to keep flag content within circles */}
-        <clipPath id="circle-clip-at">
-          <circle cx="16" cy="16" r="12.5" />
-        </clipPath>
-        <clipPath id="circle-clip-mn">
-          <circle cx="42" cy="16" r="12.5" />
-        </clipPath>
-      </defs>
-      
-      {/* LEFT CIRCLE: AUSTRIA */}
-      <g>
-        {/* Shadow / Border background for Austria */}
-        <circle cx="16" cy="16" r="14" fill="url(#gold-metal)" />
-        <circle cx="16" cy="16" r="12.5" fill="#FFFFFF" />
-        {/* Austria Flag Structure (Horizontal Red - White - Red) */}
-        <g clipPath="url(#circle-clip-at)">
-          {/* Top Red */}
-          <rect x="2" y="2.5" width="28" height="9" fill="#ED2939" />
-          {/* Middle White */}
-          <rect x="2" y="11.5" width="28" height="9" fill="#FFFFFF" />
-          {/* Bottom Red */}
-          <rect x="2" y="20.5" width="28" height="9" fill="#ED2939" />
-        </g>
-        {/* Inner gold rim overlay */}
-        <circle cx="16" cy="16" r="12.5" fill="none" stroke="url(#gold-metal)" strokeWidth="0.75" opacity="0.8" />
-      </g>
-
-      {/* RIGHT CIRCLE: MONGOLIA (Overlaps Austria slightly for harmony) */}
-      <g>
-        {/* Shadow / Border background for Mongolia */}
-        <circle cx="42" cy="16" r="14" fill="url(#gold-metal)" />
-        <circle cx="42" cy="16" r="12.5" fill="#0066B3" />
-        {/* Mongolia Flag Structure (Vertical Red - Blue - Red) */}
-        <g clipPath="url(#circle-clip-mn)">
-          {/* Left Red */}
-          <rect x="28" y="2.5" width="9.33" height="27" fill="#DA2032" />
-          {/* Middle Blue */}
-          <rect x="37.33" y="2.5" width="9.33" height="27" fill="#0066B3" />
-          {/* Right Red */}
-          <rect x="46.66" y="2.5" width="9.33" height="27" fill="#DA2032" />
-          
-          {/* High-fidelity miniature Soyombo symbol in the left red stripe */}
-          <g fill="#F8CC1B" transform="translate(29.6, 6) scale(0.25)">
-            {/* Flame */}
-            <path d="M10,0 C11.5,2 12,4 10.5,6.5 C12.5,4.5 13.5,6 12,8.5 C15,7.5 14.5,10 10,11 C5.5,10 5,7.5 8,8.5 C6.5,6 7.5,4.5 9.5,6.5 C8,4 8.5,2 10,0 Z" />
-            {/* Sun/Moon */}
-            <circle cx="10" cy="14" r="3" />
-            <path d="M7,18 A4,4 0 0,0 13,18 A3,3 0 0,1 7,18" />
-            {/* Triangle & rects */}
-            <polygon points="3,20 17,20 10,25" />
-            <rect x="3" y="27" width="14" height="2.5" />
-            {/* Yin-Yang */}
-            <circle cx="10" cy="38" r="4.5" fill="none" stroke="#F8CC1B" strokeWidth="1.2" />
-            <path d="M 5.5,38 A 4.5,4.5 0 0,1 14.5,38 A 2.25,2.25 0 0,1 10,38 A 2.25,2.25 0 0,0 5.5,38 Z" fill="#F8CC1B" />
-            
-            <rect x="3" y="46.5" width="14" height="2.5" />
-            <polygon points="3,51 17,51 10,56" />
-            <rect x="1" y="20" width="2" height="36" />
-            <rect x="17" y="20" width="2" height="36" />
-          </g>
-        </g>
-        {/* Inner gold rim overlay */}
-        <circle cx="42" cy="16" r="12.5" fill="none" stroke="url(#gold-metal)" strokeWidth="0.75" opacity="0.8" />
-      </g>
-    </svg>
-  </div>
+/** Accurate flag tile (the flags carry the real Soyombo and colours), with a gold rim and a slow sheen. */
+const FlagTile = ({ children }: { children: React.ReactNode }) => (
+  <span className="flag-sheen relative block w-9 h-6 rounded-[4px] overflow-hidden ring-1 ring-brand-gold/60 shadow-[0_3px_10px_rgba(0,0,0,0.5)]">
+    {children}
+    <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/15 pointer-events-none" />
+  </span>
 );
 
 export default function Navbar() {
@@ -238,23 +167,33 @@ export default function Navbar() {
 
       {/* Top Utility Bar (Mobile & Desktop) */}
       <div className={cn(
-        "bg-[#0A1128] text-white/80 transition-all duration-500 border-b border-white/5 relative z-[130] overflow-visible",
-        scrolled ? "h-0 opacity-0 pointer-events-none overflow-hidden" : "hidden sm:flex h-9 items-center"
+        "bg-gradient-to-r from-[#0A1128] via-[#11224d] to-[#0A1128] text-white/80 transition-all duration-500 border-b border-brand-gold/40 relative z-[130] overflow-visible",
+        scrolled ? "h-0 opacity-0 pointer-events-none overflow-hidden" : "hidden sm:flex h-11 items-center"
       )}>
-        <div className="max-w-[1600px] w-full mx-auto px-4 md:px-10 2xl:px-16 flex items-center justify-between h-full text-[9px] uppercase tracking-[0.18em] font-sans font-bold select-none min-w-0">
-          {/* Left: Embassy Flags & Organization details */}
-          <div className="flex items-center gap-2.5 sm:gap-4 text-white/75 min-w-0">
-            <div className="flex items-center flex-shrink-0">
-              <BilateralFlagBadge />
-            </div>
-            <span className="h-3 w-px bg-white/10 flex-shrink-0" />
-            <span className="hidden md:inline text-[8.5px] font-medium text-white/70 tracking-[0.18em] uppercase truncate">
-              Cultural &amp; Business Hub
+        <span aria-hidden="true" className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-brand-gold/70 to-transparent" />
+        <MeanderBand className="absolute inset-x-0 top-1/2 -translate-y-1/2 bg-white/[0.04] pointer-events-none" />
+        <div className="max-w-[1600px] w-full mx-auto px-4 md:px-10 2xl:px-16 grid grid-cols-[1fr_auto_1fr] items-center h-full text-[11px] uppercase tracking-[0.18em] font-sans font-bold select-none min-w-0 relative">
+          <div aria-hidden="true" />
+
+          {/* Centre: the banner. Austria | title | Mongolia */}
+          <div className="flex items-center gap-4 min-w-0" role="img" aria-label="Austrian–Mongolian Cultural & Business Center">
+            <FlagTile>
+              <AT className="w-full h-full block" aria-hidden="true" />
+            </FlagTile>
+            <span aria-hidden="true" className="hidden 2xl:block h-px w-12 bg-gradient-to-r from-transparent to-brand-gold/80" />
+            <span className="hidden md:flex items-center gap-3 text-xs tracking-[0.22em] uppercase whitespace-nowrap">
+              <span className="font-semibold text-brand-gold">{t('nav.hubPrefix', { defaultValue: 'Austrian–Mongolian' })}</span>
+              <span aria-hidden="true" className="h-3.5 w-px bg-brand-gold/60 shrink-0" />
+              <span className="font-medium text-white">{t('nav.hub', { defaultValue: 'Cultural & Business Center' })}</span>
             </span>
+            <span aria-hidden="true" className="hidden 2xl:block h-px w-12 bg-gradient-to-l from-transparent to-brand-gold/80" />
+            <FlagTile>
+              <MN className="w-full h-full block" aria-hidden="true" />
+            </FlagTile>
           </div>
 
           {/* Right: Language Selector and Sign In */}
-          <div className="hidden sm:flex items-center gap-6 flex-shrink-0">
+          <div className="hidden sm:flex items-center gap-6 flex-shrink-0 justify-self-end">
             {/* Language Selection Trigger */}
             <div className="relative" ref={langRef}>
               <button 
@@ -263,7 +202,7 @@ export default function Navbar() {
                 className="flex items-center gap-2 text-white/85 hover:text-[#C5A059] transition-all py-1"
               >
                 <span><currentLang.Flag className="w-5 h-auto rounded-[2px] shadow-sm" aria-hidden="true" /></span>
-                <span className="font-extrabold text-[9px]">{currentLang.code}</span>
+                <span className="font-extrabold text-[11px]">{currentLang.code}</span>
                 <ChevronDown size={10} className={cn('transition-all text-[#C5A059] opacity-70', isLangOpen && 'rotate-180')} />
               </button>
 
@@ -283,7 +222,7 @@ export default function Navbar() {
                           setIsLangOpen(false);
                         }}
                         className={cn(
-                          'w-full flex items-center justify-between px-3.5 py-2.5 rounded text-[9px] uppercase tracking-widest hover:bg-white/5 transition-all text-left',
+                          'w-full flex items-center justify-between px-3.5 py-2.5 rounded text-[11px] uppercase tracking-widest hover:bg-white/5 transition-all text-left',
                           i18n.language?.startsWith(lang.code) ? 'text-[#C5A059] font-black bg-white/10' : 'text-white/70'
                         )}
                       >
@@ -308,7 +247,7 @@ export default function Navbar() {
                     ) : (
                       <UserIcon size={11} className="text-[#C5A059]" />
                     )}
-                    <span className="text-[9px] normal-case truncate max-w-[80px]">{user.displayName || 'Member'}</span>
+                    <span className="text-[11px] normal-case truncate max-w-[80px]">{user.displayName || 'Member'}</span>
                   </Link>
                   <button onClick={() => logOut()} aria-label="Log out" className="text-white/40 hover:text-red-400 transition-all">
                     <LogOut size={11} />
@@ -326,7 +265,7 @@ export default function Navbar() {
                     }
                   }}
                   aria-label="Member portal sign in"
-                  className="flex items-center gap-1.5 text-white/85 hover:text-[#C5A059] transition-all font-bold text-[9px]"
+                  className="flex items-center gap-1.5 text-white/85 hover:text-[#C5A059] transition-all font-bold text-[11px]"
                 >
                   <LogIn size={10} className="text-[#C5A059]" />
                   <span>Member Portal</span>

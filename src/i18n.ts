@@ -539,7 +539,7 @@ const resources = {
         info: {
           location: 'Headquarters',
           vienna: 'Vienna, Austria',
-          hub: 'Cultural & Business Hub',
+          hub: 'Cultural & Business Center',
           email: 'Executive Contact',
           phone: 'Direct Line',
           hours: 'Mon-Fri, 10:00 - 18:00',
