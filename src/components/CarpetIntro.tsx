@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { SoyomboSymbol, MongolianLine, GerSymbol } from './MongolianDesign';
+import { SoyomboSymbol, GerSymbol } from './MongolianDesign';
 
 export default function CarpetIntro() {
   const [isVisible, setIsVisible] = useState(true);
@@ -15,11 +15,11 @@ export default function CarpetIntro() {
     };
   }, []);
 
-  // Carpet texture overlaid on deep rich carmine red
+  // Carpet texture overlaid on a deep brand blue
   const carpetBg = (
     <>
-      {/* Base realistic carpet red */}
-      <div className="absolute inset-0 bg-[#8c0808]" /> 
+      {/* Base carpet blue */}
+      <div className="absolute inset-0 bg-[#0A57A0]" /> 
       
       {/* Concentric circles pattern mimicking the uploaded pattern */}
       <div 
@@ -45,22 +45,6 @@ export default function CarpetIntro() {
           backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"
         }}
       />
-
-      {/* Golden border accents */}
-      <div className="absolute inset-x-2 inset-y-2 md:inset-x-6 md:inset-y-6 border-[6px] border-double border-brand-gold/30 pointer-events-none" />
-      <div className="absolute inset-x-5 inset-y-5 md:inset-x-9 md:inset-y-9 border-[1px] border-brand-gold/40 pointer-events-none bg-[#3a0606]/30 mix-blend-multiply" />
-      
-      {/* Decorative lines at top and bottom */}
-      <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[60%] flex gap-4 overflow-hidden opacity-20">
-        {[...Array(6)].map((_, i) => (
-          <MongolianLine key={i} className="w-20 md:w-32 h-6 flex-shrink-0 text-brand-gold" />
-        ))}
-      </div>
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 w-[60%] flex gap-4 overflow-hidden opacity-20">
-        {[...Array(6)].map((_, i) => (
-          <MongolianLine key={i} className="w-20 md:w-32 h-6 flex-shrink-0 text-brand-gold" />
-        ))}
-      </div>
     </>
   );
 
@@ -73,7 +57,7 @@ export default function CarpetIntro() {
         >
           {/* Top half */}
           <motion.div 
-            className="w-full h-1/2 bg-[#3a0606] shadow-[0_30px_60px_rgba(0,0,0,0.9)] overflow-hidden relative z-10"
+            className="w-full h-1/2 bg-[#06284f] shadow-[0_30px_60px_rgba(0,0,0,0.9)] overflow-hidden relative z-10"
             initial={{ y: "0%" }}
             animate={{ y: "-100%" }}
             transition={{ duration: 1.5, delay: 1.0, ease: [0.85, 0, 0.15, 1] }}
@@ -92,21 +76,12 @@ export default function CarpetIntro() {
               </div>
             </div>
 
-            {/* Fringe for top half */}
-            <div 
-              className="absolute bottom-0 left-0 w-full h-4 md:h-6 z-30 border-b border-black/50" 
-              style={{
-                backgroundImage: 'repeating-linear-gradient(90deg, #d4af37 0px, #d4af37 2px, transparent 2px, transparent 6px), linear-gradient(to bottom, transparent, rgba(0,0,0,0.6))',
-              }} 
-            />
-            {/* Thick golden border right above fringe */}
-            <div className="absolute bottom-4 md:bottom-6 left-0 w-full h-2 md:h-3 bg-gradient-to-r from-[#8a681c] via-brand-gold to-[#8a681c] shadow-[0_4px_15px_rgba(0,0,0,0.8)] z-30 border-y border-[#ffe28a]/40" />
 
           </motion.div>
 
           {/* Bottom half */}
           <motion.div 
-            className="w-full h-1/2 bg-[#3a0606] shadow-[0_-30px_60px_rgba(0,0,0,0.9)] overflow-hidden relative z-10"
+            className="w-full h-1/2 bg-[#06284f] shadow-[0_-30px_60px_rgba(0,0,0,0.9)] overflow-hidden relative z-10"
             initial={{ y: "0%" }}
             animate={{ y: "100%" }}
             transition={{ duration: 1.5, delay: 1.0, ease: [0.85, 0, 0.15, 1] }}
@@ -127,15 +102,6 @@ export default function CarpetIntro() {
               </div>
             </div>
 
-            {/* Fringe for bottom half */}
-            <div 
-              className="absolute top-0 left-0 w-full h-4 md:h-6 z-30 border-t border-black/50" 
-              style={{
-                backgroundImage: 'repeating-linear-gradient(90deg, #d4af37 0px, #d4af37 2px, transparent 2px, transparent 6px), linear-gradient(to top, transparent, rgba(0,0,0,0.6))',
-              }} 
-            />
-            {/* Thick golden border right below fringe */}
-            <div className="absolute top-4 md:top-6 left-0 w-full h-2 md:h-3 bg-gradient-to-r from-[#8a681c] via-brand-gold to-[#8a681c] shadow-[0_-4px_15px_rgba(0,0,0,0.8)] z-30 border-y border-[#ffe28a]/40" />
 
           </motion.div>
         </motion.div>
