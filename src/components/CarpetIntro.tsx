@@ -104,8 +104,8 @@ export default function CarpetIntro() {
               <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
                 <div className="flex flex-col items-center translate-y-32 md:translate-y-48">
                   <h1 className="flex flex-col items-center justify-center text-center font-serif leading-[1.1]">
-                    <span className="text-4xl sm:text-6xl md:text-8xl lg:text-[88px] text-white font-light tracking-[0.12em] md:tracking-[0.18em] drop-shadow-xl mb-4">MONGOLISCHE</span>
-                    <span className="text-xl sm:text-3xl md:text-5xl lg:text-[52px] text-brand-gold italic font-light tracking-[0.14em] md:tracking-[0.2em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)]">ZENTRUM IN ÖSTERREICH</span>
+                    <span className="text-xl min-[400px]:text-2xl sm:text-4xl md:text-6xl lg:text-[68px] text-white font-light tracking-[0.1em] md:tracking-[0.14em] drop-shadow-xl mb-3 md:mb-5 whitespace-nowrap">MONGOLISCHE ZENTRUM</span>
+                    <span className="text-2xl sm:text-4xl md:text-5xl lg:text-[56px] text-brand-gold italic font-light tracking-[0.18em] md:tracking-[0.24em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)]">IN ÖSTERREICH</span>
                   </h1>
                 </div>
               </div>
