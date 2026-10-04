@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { SoyomboSymbol, GerSymbol } from './MongolianDesign';
+import NaadamMedallions from './NaadamIllustrations';
 
 export default function CarpetIntro() {
   const [isVisible, setIsVisible] = useState(true);
@@ -21,30 +22,14 @@ export default function CarpetIntro() {
       {/* Base carpet blue */}
       <div className="absolute inset-0 bg-[#0A57A0]" /> 
       
-      {/* Concentric circles pattern mimicking the uploaded pattern */}
-      <div 
-        className="absolute inset-0 mix-blend-color-dodge opacity-[0.15]" 
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='4' opacity='0.7'%3E%3Ccircle cx='30' cy='30' r='6'/%3E%3Ccircle cx='30' cy='30' r='16'/%3E%3Ccircle cx='30' cy='30' r='26'/%3E%3Ccircle cx='90' cy='30' r='6'/%3E%3Ccircle cx='90' cy='30' r='16'/%3E%3Ccircle cx='90' cy='30' r='26'/%3E%3Ccircle cx='30' cy='90' r='6'/%3E%3Ccircle cx='30' cy='90' r='16'/%3E%3Ccircle cx='30' cy='90' r='26'/%3E%3Ccircle cx='90' cy='90' r='6'/%3E%3Ccircle cx='90' cy='90' r='16'/%3E%3Ccircle cx='90' cy='90' r='26'/%3E%3Ccircle cx='60' cy='60' r='8'/%3E%3Ccircle cx='60' cy='60' r='20'/%3E%3Ccircle cx='60' cy='60' r='32'/%3E%3Ccircle cx='60' cy='0' r='8'/%3E%3Ccircle cx='60' cy='0' r='20'/%3E%3Ccircle cx='60' cy='0' r='32'/%3E%3Ccircle cx='60' cy='120' r='8'/%3E%3Ccircle cx='60' cy='120' r='20'/%3E%3Ccircle cx='60' cy='120' r='32'/%3E%3Ccircle cx='0' cy='60' r='8'/%3E%3Ccircle cx='0' cy='60' r='20'/%3E%3Ccircle cx='0' cy='60' r='32'/%3E%3Ccircle cx='120' cy='60' r='8'/%3E%3Ccircle cx='120' cy='60' r='20'/%3E%3Ccircle cx='120' cy='60' r='32'/%3E%3C/g%3E%3C/svg%3E")`,
-          backgroundSize: '100px 100px'
-        }}
-      />
-      
-      <div 
-        className="absolute inset-0 opacity-[0.25] mix-blend-multiply" 
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23000000' stroke-width='4' opacity='0.7'%3E%3Ccircle cx='30' cy='30' r='6'/%3E%3Ccircle cx='30' cy='30' r='16'/%3E%3Ccircle cx='30' cy='30' r='26'/%3E%3Ccircle cx='90' cy='30' r='6'/%3E%3Ccircle cx='90' cy='30' r='16'/%3E%3Ccircle cx='90' cy='30' r='26'/%3E%3Ccircle cx='30' cy='90' r='6'/%3E%3Ccircle cx='30' cy='90' r='16'/%3E%3Ccircle cx='30' cy='90' r='26'/%3E%3Ccircle cx='90' cy='90' r='6'/%3E%3Ccircle cx='90' cy='90' r='16'/%3E%3Ccircle cx='90' cy='90' r='26'/%3E%3Ccircle cx='60' cy='60' r='8'/%3E%3Ccircle cx='60' cy='60' r='20'/%3E%3Ccircle cx='60' cy='60' r='32'/%3E%3Ccircle cx='60' cy='0' r='8'/%3E%3Ccircle cx='60' cy='0' r='20'/%3E%3Ccircle cx='60' cy='0' r='32'/%3E%3Ccircle cx='60' cy='120' r='8'/%3E%3Ccircle cx='60' cy='120' r='20'/%3E%3Ccircle cx='60' cy='120' r='32'/%3E%3Ccircle cx='0' cy='60' r='8'/%3E%3Ccircle cx='0' cy='60' r='20'/%3E%3Ccircle cx='0' cy='60' r='32'/%3E%3Ccircle cx='120' cy='60' r='8'/%3E%3Ccircle cx='120' cy='60' r='20'/%3E%3Ccircle cx='120' cy='60' r='32'/%3E%3C/g%3E%3C/svg%3E")`,
-          backgroundSize: '100px 100px'
-        }}
+      {/* Traditional cloud-scroll pattern, tiled */}
+      <div
+        className="absolute inset-0"
+        style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22150%22 height=%2296%22 viewBox=%220 0 150 96%22%3E%3Cg fill=%22none%22 stroke=%22%23D4AF37%22 stroke-opacity=%220.13%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cg transform=%22scale(0.6)%22%3E%3Cpath d=%22M6 74C6 66 14 64 18 68C21 71 17 76 13 74%22/%3E%3Cpath d=%22M18 78H202%22/%3E%3Cpath d=%22M214 74C214 66 206 64 202 68C199 71 203 76 207 74%22/%3E%3Cpath d=%22M30 78C24 56 44 40 62 50C74 57 70 74 58 72C49 70 50 60 58 60%22/%3E%3Cpath d=%22M72 78C66 42 98 18 128 30C148 38 148 64 130 64C116 64 114 48 126 46C134 45 138 52 133 56%22/%3E%3Cpath d=%22M150 78C150 57 172 44 188 54C198 60 194 74 183 72C175 70 176 61 184 61%22/%3E%3C/g%3E%3Cg transform=%22translate(75 48) scale(0.6)%22%3E%3Cpath d=%22M6 74C6 66 14 64 18 68C21 71 17 76 13 74%22/%3E%3Cpath d=%22M18 78H202%22/%3E%3Cpath d=%22M214 74C214 66 206 64 202 68C199 71 203 76 207 74%22/%3E%3Cpath d=%22M30 78C24 56 44 40 62 50C74 57 70 74 58 72C49 70 50 60 58 60%22/%3E%3Cpath d=%22M72 78C66 42 98 18 128 30C148 38 148 64 130 64C116 64 114 48 126 46C134 45 138 52 133 56%22/%3E%3Cpath d=%22M150 78C150 57 172 44 188 54C198 60 194 74 183 72C175 70 176 61 184 61%22/%3E%3C/g%3E%3Cg transform=%22translate(-75 48) scale(0.6)%22%3E%3Cpath d=%22M6 74C6 66 14 64 18 68C21 71 17 76 13 74%22/%3E%3Cpath d=%22M18 78H202%22/%3E%3Cpath d=%22M214 74C214 66 206 64 202 68C199 71 203 76 207 74%22/%3E%3Cpath d=%22M30 78C24 56 44 40 62 50C74 57 70 74 58 72C49 70 50 60 58 60%22/%3E%3Cpath d=%22M72 78C66 42 98 18 128 30C148 38 148 64 130 64C116 64 114 48 126 46C134 45 138 52 133 56%22/%3E%3Cpath d=%22M150 78C150 57 172 44 188 54C198 60 194 74 183 72C175 70 176 61 184 61%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")", backgroundSize: "150px 96px" }}
       />
 
-      {/* Noise for fabric texture */}
-      <div 
-        className="absolute inset-0 opacity-[0.25] mix-blend-overlay pointer-events-none"
-        style={{
-          backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"
-        }}
-      />
+      {/* Soft vignette for depth */}
+      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, rgba(0,0,0,0) 45%, rgba(3,22,48,0.55) 100%)" }} />
     </>
   );
 
@@ -101,13 +86,13 @@ export default function CarpetIntro() {
             {/* The duplicated absolute contents structure handles the bottom half */}
             <div className="absolute bottom-0 left-0 w-full h-[200%]">
               {carpetBg}
-              <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
-                <div className="flex flex-col items-center translate-y-32 md:translate-y-48">
-                  <h1 className="flex flex-col items-center justify-center text-center font-serif leading-[1.1]">
-                    <span className="text-xl min-[400px]:text-2xl sm:text-4xl md:text-6xl lg:text-[68px] text-white font-light tracking-[0.1em] md:tracking-[0.14em] drop-shadow-xl mb-3 md:mb-5 whitespace-nowrap">MONGOLISCHE ZENTRUM</span>
-                    <span className="text-2xl sm:text-4xl md:text-5xl lg:text-[56px] text-brand-gold italic font-light tracking-[0.18em] md:tracking-[0.24em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)]">IN ÖSTERREICH</span>
-                  </h1>
-                </div>
+              {/* Starts just under the fringe at the seam and sizes itself to the screen height */}
+              <div className="absolute left-0 right-0 top-1/2 flex flex-col items-center px-4 pt-[clamp(3.25rem,10vh,6.5rem)]">
+                <h1 className="flex flex-col items-center justify-center text-center font-serif leading-[1.1]">
+                  <span className="text-[min(6.2vw,8.5vh)] text-white font-light tracking-[0.1em] md:tracking-[0.14em] drop-shadow-xl mb-[1.2vh] whitespace-nowrap">MONGOLISCHE ZENTRUM</span>
+                  <span className="text-[min(5.4vw,7vh)] text-brand-gold italic font-light tracking-[0.18em] md:tracking-[0.24em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)]">IN ÖSTERREICH</span>
+                </h1>
+                <NaadamMedallions className="mt-[3vh]" />
               </div>
             </div>
 
