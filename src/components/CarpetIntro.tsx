@@ -81,14 +81,13 @@ export default function CarpetIntro() {
             {/* The duplicated absolute contents structure handles the top half */}
             <div className="absolute top-0 left-0 w-full h-[200%]">
               {carpetBg}
-              <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
-                <div className="flex flex-col items-center -translate-y-36 md:-translate-y-56">
-                  <div className="relative flex flex-col items-center justify-center select-none">
-                    <SoyomboSymbol className="w-56 h-48 md:w-[420px] md:h-[340px] text-brand-gold opacity-90 drop-shadow-[0_0_15px_rgba(212,175,55,0.5)] translate-y-10 md:translate-y-16" />
-                    <GerSymbol className="absolute -bottom-4 md:-bottom-6 w-32 h-24 md:w-60 md:h-44 drop-shadow-[0_6px_12px_rgba(0,0,0,0.5)]" strokeColor="#d4af37" fillColor="#fdfbf7" />
-                  </div>
-                  <span className="text-sm md:text-lg uppercase tracking-[0.6em] md:tracking-[0.8em] text-brand-gold/80 font-medium mt-14 md:mt-24">Welcome To</span>
+              {/* Sits just above the fringe at the seam; sizes follow the screen height so proportions hold on any screen */}
+              <div className="absolute left-0 right-0 bottom-1/2 flex flex-col items-center px-4 pb-[clamp(2.5rem,9vh,5.5rem)]">
+                <div className="relative select-none h-[min(34vh,24rem)] aspect-[400/330]">
+                  <SoyomboSymbol className="absolute inset-0 w-full h-full text-brand-gold opacity-90 drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]" />
+                  <GerSymbol className="absolute left-1/2 -translate-x-1/2 -bottom-[3%] w-[58%] h-[52%] drop-shadow-[0_6px_12px_rgba(0,0,0,0.5)]" strokeColor="#d4af37" fillColor="#fdfbf7" />
                 </div>
+                <span className="text-[min(3.4vw,2.6vh)] uppercase tracking-[0.6em] md:tracking-[0.8em] text-brand-gold/80 font-medium mt-[3vh]">Welcome To</span>
               </div>
             </div>
 
@@ -117,13 +116,11 @@ export default function CarpetIntro() {
             {/* The duplicated absolute contents structure handles the bottom half */}
             <div className="absolute bottom-0 left-0 w-full h-[200%]">
               {carpetBg}
-              <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
-                <div className="flex flex-col items-center translate-y-32 md:translate-y-48">
-                  <h1 className="flex flex-col items-center justify-center text-center font-serif leading-[1.1]">
-                    <span className="text-4xl sm:text-6xl md:text-8xl lg:text-[100px] text-white font-light tracking-[0.15em] md:tracking-[0.2em] drop-shadow-xl mb-4">MONGOLIAN</span>
-                    <span className="text-3xl sm:text-4xl md:text-6xl lg:text-[70px] text-brand-gold italic font-light tracking-[0.2em] md:tracking-[0.3em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)] pr-4">CENTER</span>
-                  </h1>
-                </div>
+              <div className="absolute left-0 right-0 top-1/2 flex flex-col items-center px-4 pt-[clamp(3rem,10vh,6.5rem)]">
+                <h1 className="flex flex-col items-center justify-center text-center font-serif leading-[1.1]">
+                  <span className="text-[min(9.5vw,12vh)] text-white font-light tracking-[0.15em] md:tracking-[0.2em] drop-shadow-xl mb-[1.5vh]">MONGOLIAN</span>
+                  <span className="text-[min(7vw,8.5vh)] text-brand-gold italic font-light tracking-[0.2em] md:tracking-[0.3em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)]">CENTER</span>
+                </h1>
               </div>
             </div>
 
