@@ -76,6 +76,15 @@ export default function CarpetIntro() {
               </div>
             </div>
 
+            {/* Fringe for top half */}
+            <div 
+              className="absolute bottom-0 left-0 w-full h-4 md:h-6 z-30 border-b border-black/50" 
+              style={{
+                backgroundImage: 'repeating-linear-gradient(90deg, #d4af37 0px, #d4af37 2px, transparent 2px, transparent 6px), linear-gradient(to bottom, transparent, rgba(0,0,0,0.6))',
+              }} 
+            />
+            {/* Thick golden border right above fringe */}
+            <div className="absolute bottom-4 md:bottom-6 left-0 w-full h-2 md:h-3 bg-gradient-to-r from-[#8a681c] via-brand-gold to-[#8a681c] shadow-[0_4px_15px_rgba(0,0,0,0.8)] z-30 border-y border-[#ffe28a]/40" />
 
           </motion.div>
 
@@ -95,13 +104,22 @@ export default function CarpetIntro() {
               <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
                 <div className="flex flex-col items-center translate-y-32 md:translate-y-48">
                   <h1 className="flex flex-col items-center justify-center text-center font-serif leading-[1.1]">
-                    <span className="text-4xl sm:text-6xl md:text-8xl lg:text-[100px] text-white font-light tracking-[0.15em] md:tracking-[0.2em] drop-shadow-xl mb-4">MONGOLIAN</span>
-                    <span className="text-3xl sm:text-4xl md:text-6xl lg:text-[70px] text-brand-gold italic font-light tracking-[0.2em] md:tracking-[0.3em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)] pr-4">CENTER</span>
+                    <span className="text-4xl sm:text-6xl md:text-8xl lg:text-[88px] text-white font-light tracking-[0.12em] md:tracking-[0.18em] drop-shadow-xl mb-4">MONGOLISCHE</span>
+                    <span className="text-xl sm:text-3xl md:text-5xl lg:text-[52px] text-brand-gold italic font-light tracking-[0.14em] md:tracking-[0.2em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)]">ZENTRUM IN ÖSTERREICH</span>
                   </h1>
                 </div>
               </div>
             </div>
 
+            {/* Fringe for bottom half */}
+            <div 
+              className="absolute top-0 left-0 w-full h-4 md:h-6 z-30 border-t border-black/50" 
+              style={{
+                backgroundImage: 'repeating-linear-gradient(90deg, #d4af37 0px, #d4af37 2px, transparent 2px, transparent 6px), linear-gradient(to top, transparent, rgba(0,0,0,0.6))',
+              }} 
+            />
+            {/* Thick golden border right below fringe */}
+            <div className="absolute top-4 md:top-6 left-0 w-full h-2 md:h-3 bg-gradient-to-r from-[#8a681c] via-brand-gold to-[#8a681c] shadow-[0_-4px_15px_rgba(0,0,0,0.8)] z-30 border-y border-[#ffe28a]/40" />
 
           </motion.div>
         </motion.div>
