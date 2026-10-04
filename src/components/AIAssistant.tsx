@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, MessageSquare, Send } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 import { useTranslation } from 'react-i18next';
+import WavingBoy from './WavingBoy';
 
 const MENU_OPTIONS = '[ Upcoming Events ]\n[ About Us ]\n[ How To ]';
 const INITIAL_MESSAGE = `Hi! What information would you like to get today?\n\n${MENU_OPTIONS}`;
@@ -14,7 +15,7 @@ const RESPONSES: Record<string, string> = {
 };
 
 export default function AIAssistant() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [inputText, setInputText] = useState('');
   const [messages, setMessages] = useState<{ role: 'user' | 'model'; text: string }[]>([
@@ -25,6 +26,10 @@ export default function AIAssistant() {
   const [isMobile, setIsMobile] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const fabRef = useRef<HTMLDivElement>(null);
+  const [boyVisible, setBoyVisible] = useState(false);
+  const boyTimer = useRef<number | undefined>(undefined);
+  const boyLastShown = useRef(0);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -43,6 +48,50 @@ export default function AIAssistant() {
       window.removeEventListener('game-ended', handleGameEnd);
     };
   }, []);
+
+  // A friendly boy pops up above the Support button when someone moves, clicks or taps near it,
+  // or pauses after scrolling (so touch screens, which have no hover, see him too).
+  useEffect(() => {
+    if (isOpen || isGamePlaying) {
+      setBoyVisible(false);
+      return;
+    }
+    const peek = (ms: number) => {
+      setBoyVisible(true);
+      boyLastShown.current = Date.now();
+      window.clearTimeout(boyTimer.current);
+      boyTimer.current = window.setTimeout(() => setBoyVisible(false), ms);
+    };
+    const isNear = (x: number, y: number, radius: number) => {
+      const el = fabRef.current;
+      if (!el) return false;
+      const b = el.getBoundingClientRect();
+      return Math.hypot(x - (b.left + b.width / 2), y - (b.top + b.height / 2)) < radius;
+    };
+    const onMove = (e: PointerEvent) => {
+      if (e.pointerType !== 'touch' && isNear(e.clientX, e.clientY, 170)) peek(3500);
+    };
+    const onDown = (e: PointerEvent) => {
+      if (isNear(e.clientX, e.clientY, 240)) peek(5000);
+    };
+    let scrollTimer: number | undefined;
+    const onScroll = () => {
+      window.clearTimeout(scrollTimer);
+      scrollTimer = window.setTimeout(() => {
+        if (window.scrollY > 300 && Date.now() - boyLastShown.current > 25000) peek(4500);
+      }, 450);
+    };
+    window.addEventListener('pointermove', onMove, { passive: true });
+    window.addEventListener('pointerdown', onDown, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerdown', onDown);
+      window.removeEventListener('scroll', onScroll);
+      window.clearTimeout(scrollTimer);
+      window.clearTimeout(boyTimer.current);
+    };
+  }, [isOpen, isGamePlaying]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -144,8 +193,30 @@ export default function AIAssistant() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
+            ref={fabRef}
             className="fixed bottom-6 right-6 z-50 flex items-center justify-center"
           >
+            {/* The boy rises from behind the button */}
+            <AnimatePresence>
+              {boyVisible && (
+                <motion.button
+                  key="hello-boy"
+                  type="button"
+                  onClick={() => setIsOpen(true)}
+                  aria-label="Say hello: open the support chat"
+                  initial={{ y: 70, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 70, opacity: 0 }}
+                  transition={{ type: 'spring', stiffness: 240, damping: 20 }}
+                  className="absolute bottom-[calc(100%-16px)] right-1 z-0 flex items-end gap-1 cursor-pointer"
+                >
+                  <span className="mb-14 whitespace-nowrap rounded-2xl rounded-br-sm bg-white border border-brand-ink/10 px-3 py-1.5 text-xs font-medium text-brand-ink shadow-md">
+                    {t('nav.hello', { defaultValue: 'Сайн байна уу!' })}
+                  </span>
+                  <WavingBoy className="h-28 w-auto" />
+                </motion.button>
+              )}
+            </AnimatePresence>
             {/* Pulse effect rings */}
             <div className="absolute inset-0 rounded-full animate-ping opacity-20 bg-brand-ink/50" />
             <div className="absolute -inset-2 rounded-full animate-pulse opacity-10 bg-brand-gold/30" />
@@ -156,7 +227,7 @@ export default function AIAssistant() {
               onClick={() => setIsOpen(true)}
               aria-label="Open support chat"
               style={{ borderRadius: '24px' }}
-              className="relative flex items-center gap-2 px-5 py-3 bg-brand-ink text-white shadow-[0_10px_20px_rgba(0,0,0,0.15)] transition-all duration-300 border border-brand-ink/20 hover:bg-white hover:text-brand-ink hover:border-brand-ink"
+              className="relative z-10 flex items-center gap-2 px-5 py-3 bg-brand-ink text-white shadow-[0_10px_20px_rgba(0,0,0,0.15)] transition-all duration-300 border border-brand-ink/20 hover:bg-white hover:text-brand-ink hover:border-brand-ink"
             >
               <MessageSquare className="w-4 h-4 text-brand-gold" />
               <span className="font-bold text-[10px] uppercase tracking-widest">Support</span>
