@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { SoyomboSymbol, MongolianLine, GerSymbol } from './MongolianDesign';
+import { SoyomboSymbol, GerSymbol } from './MongolianDesign';
 
 export default function CarpetIntro() {
   const [isVisible, setIsVisible] = useState(true);
@@ -49,18 +49,6 @@ export default function CarpetIntro() {
       {/* Golden border accents */}
       <div className="absolute inset-x-2 inset-y-2 md:inset-x-6 md:inset-y-6 border-[6px] border-double border-brand-gold/30 pointer-events-none" />
       <div className="absolute inset-x-5 inset-y-5 md:inset-x-9 md:inset-y-9 border-[1px] border-brand-gold/40 pointer-events-none bg-[#3a0606]/30 mix-blend-multiply" />
-      
-      {/* Decorative lines at top and bottom */}
-      <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[60%] flex gap-4 overflow-hidden opacity-20">
-        {[...Array(6)].map((_, i) => (
-          <MongolianLine key={i} className="w-20 md:w-32 h-6 flex-shrink-0 text-brand-gold" />
-        ))}
-      </div>
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 w-[60%] flex gap-4 overflow-hidden opacity-20">
-        {[...Array(6)].map((_, i) => (
-          <MongolianLine key={i} className="w-20 md:w-32 h-6 flex-shrink-0 text-brand-gold" />
-        ))}
-      </div>
     </>
   );
 
@@ -87,7 +75,6 @@ export default function CarpetIntro() {
                   <SoyomboSymbol className="absolute inset-0 w-full h-full text-brand-gold opacity-90 drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]" />
                   <GerSymbol className="absolute left-1/2 -translate-x-1/2 -bottom-[3%] w-[58%] h-[52%] drop-shadow-[0_6px_12px_rgba(0,0,0,0.5)]" strokeColor="#d4af37" fillColor="#fdfbf7" />
                 </div>
-                <span className="text-[min(3.4vw,2.6vh)] uppercase tracking-[0.6em] md:tracking-[0.8em] text-brand-gold/80 font-medium mt-[3vh]">Welcome To</span>
               </div>
             </div>
 
