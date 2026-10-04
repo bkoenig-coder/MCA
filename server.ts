@@ -467,8 +467,8 @@ Keep responses concise, polite, helpful, and respond in the language the user as
           const data = await response.json();
           const fields = data.fields;
           if (fields) {
-            title = fields.titleMn?.stringValue || fields.title?.stringValue || fields.titleEn?.stringValue || "";
-            desc = fields.descriptionMn?.stringValue || fields.description?.stringValue || fields.descriptionEn?.stringValue || "";
+            title = fields.titleEn?.stringValue || fields.title?.stringValue || fields.titleMn?.stringValue || "";
+            desc = fields.descriptionEn?.stringValue || fields.description?.stringValue || fields.descriptionMn?.stringValue || "";
             image = fields.imageUrl?.stringValue || "";
           }
         }
@@ -477,8 +477,8 @@ Keep responses concise, polite, helpful, and respond in the language the user as
         
         if (!docId) {
           // Just the /news section
-          title = "Мэдээ, мэдээлэл | Вена дахь Монгол Төв";
-          desc = "Вена хот дахь Монгол Төвийн сүүлийн үеийн мэдээ, мэдэгдэл болон соёлын арга хэмжээнүүдийн мэдээллийг цаг алдалгүй хүлээн аваарай.";
+          title = "News | Mongolian Center Austria";
+          desc = "The latest news, announcements and cultural events from the Mongolian Center in Vienna.";
         } else {
           // Fetch news/post by slug using runQuery
           const queryBody = {
@@ -508,8 +508,8 @@ Keep responses concise, polite, helpful, and respond in the language the user as
               if (data && data.length > 0 && data[0].document) {
                 const fields = data[0].document.fields;
                 if (fields) {
-                  title = fields.titleMn?.stringValue || fields.title?.stringValue || fields.titleEn?.stringValue || "";
-                  desc = fields.contentMn?.stringValue || fields.content?.stringValue || fields.excerptMn?.stringValue || fields.excerpt?.stringValue || fields.contentEn?.stringValue || fields.excerptEn?.stringValue || "";
+                  title = fields.titleEn?.stringValue || fields.title?.stringValue || fields.titleMn?.stringValue || "";
+                  desc = fields.contentEn?.stringValue || fields.excerptEn?.stringValue || fields.content?.stringValue || fields.excerpt?.stringValue || fields.contentMn?.stringValue || fields.excerptMn?.stringValue || "";
                   image = fields.imageUrl?.stringValue || fields.image?.stringValue || "";
                   
                   if (desc.length > 200) desc = desc.substring(0, 197) + '...';
@@ -527,8 +527,8 @@ Keep responses concise, polite, helpful, and respond in the language the user as
                 const fallbackData = await fallbackResponse.json();
                 const fields = fallbackData.fields;
                 if (fields) {
-                  title = fields.titleMn?.stringValue || fields.title?.stringValue || fields.titleEn?.stringValue || "";
-                  desc = fields.contentMn?.stringValue || fields.content?.stringValue || fields.excerptMn?.stringValue || fields.excerpt?.stringValue || fields.contentEn?.stringValue || fields.excerptEn?.stringValue || "";
+                  title = fields.titleEn?.stringValue || fields.title?.stringValue || fields.titleMn?.stringValue || "";
+                  desc = fields.contentEn?.stringValue || fields.excerptEn?.stringValue || fields.content?.stringValue || fields.excerpt?.stringValue || fields.contentMn?.stringValue || fields.excerptMn?.stringValue || "";
                   image = fields.imageUrl?.stringValue || "";
                   
                   if (desc.length > 200) desc = desc.substring(0, 197) + '...';
@@ -539,16 +539,16 @@ Keep responses concise, polite, helpful, and respond in the language the user as
           }
           
           if (!found) {
-             title = "Мэдээ, мэдээлэл | Вена дахь Монгол Төв";
-             desc = "Сүүлийн үеийн мэдээ, удирдамж, соёлын арга хэмжээнүүдтэй танилцаарай.";
+             title = "News | Mongolian Center Austria";
+             desc = "Read the latest news, announcements and cultural events.";
           }
         }
       } else if (isGallery) {
         const docId = req.params.id;
         
         if (!docId) {
-          title = "Виртуал галлерей | Вена дахь Монгол Төв";
-          desc = "Монгол уран бүтээлчдийн уран зураг, соёлын өвийг харуулсан виртуал галлерейтай танилцана уу.";
+          title = "Virtual Gallery | Mongolian Center Austria";
+          desc = "Explore paintings and cultural heritage by Mongolian artists in our virtual gallery.";
         } else {
           let foundGallery = false;
           try {
@@ -557,8 +557,8 @@ Keep responses concise, polite, helpful, and respond in the language the user as
               const fallbackData = await fallbackResponse.json();
               const fields = fallbackData.fields;
               if (fields) {
-                title = fields.titleMn?.stringValue || fields.titleEn?.stringValue || "Зургийн бүтээл";
-                desc = fields.descriptionMn?.stringValue || fields.descriptionEn?.stringValue || "";
+                title = fields.titleEn?.stringValue || fields.titleMn?.stringValue || "Artwork";
+                desc = fields.descriptionEn?.stringValue || fields.descriptionMn?.stringValue || "";
                 image = fields.imageUrl?.stringValue || "";
                 
                 if (desc.length > 200) desc = desc.substring(0, 197) + '...';
@@ -568,18 +568,18 @@ Keep responses concise, polite, helpful, and respond in the language the user as
           } catch(e) {}
           
           if (!foundGallery) {
-             title = "Виртуал уран бүтээл | Вена дахь Монгол Төв";
-             desc = "Манай дижитал галерейгаас сонирхох боломжтой гайхалтай уран бүтээл.";
+             title = "Virtual Artwork | Mongolian Center Austria";
+             desc = "Discover remarkable artworks from our digital gallery.";
           }
         }
       } else if (isDiorama || hasScore) {
          const score = req.query?.score;
          if (score) {
-           title = `Би Монгол Төв - Талын Гүйгч тоглоомонд ${score} оноо авлаа!`;
-           desc = "Та миний оноог даваарай! Саад бэрхшээлийг давж, Монгол өв соёлын ховор олдворуудыг цуглуулан, уудам тал нутгаар хязгааргүй аялаарай.";
+           title = `I scored ${score} points in the Mongolian Center Steppe Runner game!`;
+           desc = "Can you beat my score? Leap over obstacles, collect rare Mongolian heritage artefacts and run across the endless steppe.";
          } else {
-           title = "Монгол Төв - Талын Гүйгч тоглоом";
-           desc = "Монголын соёл, уламжлалыг харуулсан гүйгч тоглоомыг тоглож, олдвор цуглуулж, өндөр онооны тэргүүлэгчдийн самбарт өрсөлдөөрэй!";
+           title = "Steppe Runner game | Mongolian Center Austria";
+           desc = "Play a runner game inspired by Mongolian culture and tradition, collect artefacts and compete for the high-score board!";
          }
          image = "https://images.unsplash.com/photo-1542642596-f3310061e888?q=80&w=1170&auto=format&fit=crop";
       }
