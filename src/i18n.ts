@@ -41,7 +41,7 @@ const resources = {
         tag: 'Vienna • Austria',
         title: 'The Mongolian Cultural &',
         titleItalic: 'Community Hub in Vienna',
-        subtitle: 'Welcome to the official platform of the Mongolian Center in Vienna. We are a non-governmental organization with the goal of preserving our cultural heritage and fostering strong community connections in Austria. Through this website, you can explore our initiatives, learn about upcoming events, and follow the development of our project.',
+        subtitle: 'Welcome to the official platform of the Mongolian Center in Austria. We are a non-governmental organization with the goal of preserving our cultural heritage and fostering strong community connections in Austria. Through this website, you can explore our initiatives, learn about upcoming events, and follow the development of our project.',
         ctaEvents: 'Explore Events',
         ctaImpact: 'Our Mission',
         ctaStory: 'Our Heritage',

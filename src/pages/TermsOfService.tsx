@@ -28,7 +28,7 @@ export default function TermsOfService() {
             
             <div className="prose prose-lg prose-brand max-w-none text-brand-ink/70 font-normal leading-relaxed space-y-8">
               <p className="text-xl text-brand-ink font-normal italic">
-                Last updated: April 2026. These terms apply to all visitors and users of the Mongolian Center in Vienna platform.
+                Last updated: April 2026. These terms apply to all visitors and users of the Mongolian Center in Austria platform.
               </p>
 
               <div className="grid md:grid-cols-2 gap-8 my-16">
@@ -47,14 +47,14 @@ export default function TermsOfService() {
               <section>
                 <h2 className="text-3xl font-serif text-brand-ink mb-6">1. Scope</h2>
                 <p>
-                  These General Terms and Conditions (GTC) apply to all legal transactions concluded via the online platform of the Mongolian Center in Vienna.
+                  These General Terms and Conditions (GTC) apply to all legal transactions concluded via the online platform of the Mongolian Center in Austria.
                 </p>
               </section>
 
               <section>
                 <h2 className="text-3xl font-serif text-brand-ink mb-6">2. Services</h2>
                 <p>
-                  The Mongolian Center in Vienna provides information, event registration, and cultural resources. We reserve the right to modify or discontinue services at any time.
+                  The Mongolian Center in Austria provides information, event registration, and cultural resources. We reserve the right to modify or discontinue services at any time.
                 </p>
               </section>
 
@@ -68,14 +68,14 @@ export default function TermsOfService() {
               <section>
                 <h2 className="text-3xl font-serif text-brand-ink mb-6">4. Intellectual Property</h2>
                 <p>
-                  All content on this website, including text, graphics, logos, and images, is the property of the Mongolian Center in Vienna or its content suppliers and is protected by copyright laws.
+                  All content on this website, including text, graphics, logos, and images, is the property of the Mongolian Center in Austria or its content suppliers and is protected by copyright laws.
                 </p>
               </section>
 
               <section>
                 <h2 className="text-3xl font-serif text-brand-ink mb-6">5. Limitation of Liability</h2>
                 <p>
-                  The Mongolian Center in Vienna shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from the use or inability to use our services.
+                  The Mongolian Center in Austria shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from the use or inability to use our services.
                 </p>
               </section>
 
@@ -88,7 +88,7 @@ export default function TermsOfService() {
 
               <section className="pt-12 border-t border-brand-ink/10">
                 <h2 className="text-2xl font-serif text-brand-ink mb-4">Questions about our Terms?</h2>
-                <p className="font-medium">Mongolian Center in Vienna</p>
+                <p className="font-medium">Mongolian Center in Austria</p>
                 <p>Email: info@mongoliancenter.org</p>
               </section>
             </div>

@@ -38,7 +38,7 @@ export default function Imprint() {
                     Operator Information
                   </h2>
                   <div className="space-y-2">
-                    <p className="font-bold text-brand-ink">Mongolian Center in Vienna</p>
+                    <p className="font-bold text-brand-ink">Mongolian Center in Austria</p>
                     <p>ZVR-Zahl: 1673049268 from Magistrat der Stadt Wien (Vereinsregister)</p>
                     <p>Non-profit association (Verein). The website mongoliancenter.org is the official website of this association, which owns and operates it.</p>
                   </div>
@@ -101,7 +101,7 @@ export default function Imprint() {
 
               <section className="pt-12 border-t border-brand-ink/10 text-sm italic">
                 <p>Disclosure according to the Austrian Media Act (Offenlegungspflicht gemäß § 25 MedienG).</p>
-                <p>Media owner and publisher: Mongolian Center in Vienna.</p>
+                <p>Media owner and publisher: Mongolian Center in Austria.</p>
                 <p>Purpose of the association: Promotion of Mongolian culture and heritage in Austria.</p>
               </section>
             </div>

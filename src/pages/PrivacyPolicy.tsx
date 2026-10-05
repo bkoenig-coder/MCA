@@ -100,7 +100,7 @@ You have the right to access, correct, delete, or restrict the processing of you
 
               <section className="pt-12 border-t border-brand-ink/10">
                 <h2 className="text-2xl font-serif text-brand-ink mb-4">Contact for Data Protection</h2>
-                <p className="font-medium">Mongolian Center in Vienna</p>
+                <p className="font-medium">Mongolian Center in Austria</p>
                 <p>Email: info@mongoliancenter.org</p>
                 <p>Address: Vienna, Austria</p>
               </section>

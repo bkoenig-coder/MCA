@@ -10,7 +10,7 @@ const INITIAL_MESSAGE = `Hi! What information would you like to get today?\n\n${
 
 const RESPONSES: Record<string, string> = {
   'Upcoming Events': 'We regularly host cultural events, workshops, and exhibitions. These include traditional music performances, Mongolian calligraphy workshops, and Shagai (ankle bone) game nights. You can view the full schedule and RSVP on our Events page.',
-  'About Us': 'The Mongolian Center in Vienna, Austria, is a cultural hub dedicated to preserving and promoting Mongolian heritage. We offer a space for the community to gather, learn, and celebrate traditional arts, language, and nomadic customs.',
+  'About Us': 'The Mongolian Center in Austria, based in Vienna, is a cultural hub dedicated to preserving and promoting Mongolian heritage. We offer a space for the community to gather, learn, and celebrate traditional arts, language, and nomadic customs.',
   'How To': 'Here are some quick guides:\n• How to join: You can sign up via our website\'s Membership button or visit us in Vienna.\n• How to volunteer: We are always looking for passionate volunteers. Contact us through the Contact page.\n• How to explore: Check out our interactive 3D Diorama from the menu to learn about the Ger, Shagai, and the Three Manly Skills.'
 };
 
@@ -141,7 +141,7 @@ export default function AIAssistant() {
     } catch {
       setMessages(prev => [...prev, {
         role: 'model',
-        text: "The Mongolian Center in Vienna warmly welcomes you! For specific inquiries, you can reach our team at info@mongoliancenter.org or visit our Contact page."
+        text: "The Mongolian Center in Austria warmly welcomes you! For specific inquiries, you can reach our team at info@mongoliancenter.org or visit our Contact page."
       }]);
     } finally {
       setIsTyping(false);
