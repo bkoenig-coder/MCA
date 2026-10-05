@@ -122,7 +122,9 @@ export default function Footer() {
               <ul className="space-y-5 text-[10px] md:text-sm text-brand-ink/60 font-light flex flex-col">
                 <li className="flex items-start gap-2 sm:gap-4">
                   <MapPin className="text-brand-gold mt-0.5 shrink-0 w-3 h-3 sm:w-[18px] sm:h-[18px]" />
-                  <span className="leading-tight sm:leading-relaxed break-words">Vienna, Austria</span>
+                  <address className="not-italic leading-tight sm:leading-relaxed break-words">
+                    Schöpfleuthergasse 25<br />1210 Vienna, Austria
+                  </address>
                 </li>
                 <li className="flex items-center gap-2 sm:gap-4 break-all">
                   <Phone className="text-brand-gold shrink-0 w-3 h-3 sm:w-[18px] sm:h-[18px]" />
@@ -150,6 +152,10 @@ export default function Footer() {
              <Link to="/diorama" className="inline-block w-1.5 h-1.5 rounded-full bg-brand-gold/30 hover:bg-brand-gold transition-colors" title="Discover the Steppe" />
           </div>
           
+          <p className="text-[10px] text-brand-ink/50 text-center md:text-left max-w-xl leading-relaxed">
+            Mongolian Center in Austria is a registered non-profit association (Verein), ZVR-Zahl 1673049268 (Vereinsregister, Magistrat der Stadt Wien). mongoliancenter.org is the organization's official website, owned and operated by the association.
+          </p>
+
           <div className="flex gap-8 md:gap-12 text-[9px] uppercase font-bold tracking-[0.3em] text-brand-ink/40">
             <span className="flex items-center gap-2 italic">
               <div className="w-1.5 h-1.5 bg-brand-gold rounded-full" />

@@ -486,27 +486,6 @@ export default function Membership() {
       </section>
 
       <SectionSeam />
-      {/* Directory Access */}
-      <section className="py-16 md:py-24 bg-brand-ink text-white px-6 text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-ink via-brand-ink to-[#1a1f33] z-0" />
-        <div className="max-w-3xl mx-auto relative z-10">
-          <h2 className="text-3xl md:text-5xl font-serif mb-6 text-white drop-shadow-lg">
-            {t('membershipPage.directory.titleNormal')}<span className="italic text-brand-gold">{t('membershipPage.directory.titleItalic')}</span>
-          </h2>
-          <p className="text-lg text-white/70 font-normal mb-10 leading-relaxed max-w-2xl mx-auto">
-            {t('membershipPage.directory.desc')}
-          </p>
-          <Link 
-            to="/members"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-transparent border border-brand-gold text-brand-gold rounded-lg text-xs uppercase tracking-[0.18em] font-semibold hover:bg-brand-gold hover:text-brand-ink transition-all duration-300"
-          >
-            {t('membershipPage.directory.cta')}
-            <ArrowRight size={14} />
-          </Link>
-        </div>
-      </section>
-
-      <SectionSeam />
       {/* Final CTA */}
       <section className="py-20 md:py-32 px-6 bg-white relative overflow-hidden">
         

@@ -30,7 +30,6 @@ const Membership = lazy(() => import('./pages/Membership'));
 const ApplyStudent = lazy(() => import('./pages/ApplyStudent'));
 const ApplyProfessional = lazy(() => import('./pages/ApplyProfessional'));
 const ApplyInstitutional = lazy(() => import('./pages/ApplyInstitutional'));
-const MembersDirectory = lazy(() => import('./pages/MembersDirectory'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 const Imprint = lazy(() => import('./pages/Imprint'));
@@ -116,7 +115,6 @@ export default function App() {
                   <Route path="/membership/apply-student" element={<ApplyStudent />} />
                   <Route path="/membership/apply-professional" element={<ApplyProfessional />} />
                   <Route path="/membership/apply-institutional" element={<ApplyInstitutional />} />
-                  <Route path="/members" element={<MembersDirectory />} />
                   <Route path="/privacy" element={<PrivacyPolicy />} />
                   <Route path="/terms" element={<TermsOfService />} />
                   <Route path="/imprint" element={<Imprint />} />

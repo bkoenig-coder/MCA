@@ -40,6 +40,7 @@ export default function Imprint() {
                   <div className="space-y-2">
                     <p className="font-bold text-brand-ink">Mongolian Center in Vienna</p>
                     <p>ZVR-Zahl: 1673049268 from Magistrat der Stadt Wien (Vereinsregister)</p>
+                    <p>Non-profit association (Verein). The website mongoliancenter.org is the official website of this association, which owns and operates it.</p>
                   </div>
                 </section>
 
