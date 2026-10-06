@@ -76,9 +76,8 @@ export default function CarpetIntro() {
   }, []);
 
   const outerBand = typeof window !== 'undefined' && window.innerWidth < 768 ? 26 : 38;
-  const medBand = typeof window !== 'undefined' && window.innerWidth < 768 ? 22 : 30;
 
-  // Deep blue wool carpet: lozenge-woven field, central medallion and a meander border
+  // Deep blue wool carpet: lozenge-woven field and a meander border
   const carpetBg = (
     <>
       {/* Field */}
@@ -99,13 +98,6 @@ export default function CarpetIntro() {
       <MeanderFrame band={outerBand} className="inset-3 md:inset-6" />
       <div className="absolute border" style={{ inset: outerBand + (outerBand > 30 ? 28 : 18), borderColor: `${CREAM}99` }} />
       <div className="absolute border-2" style={{ inset: outerBand + (outerBand > 30 ? 33 : 22), borderColor: `${GOLD}aa` }} />
-
-      {/* Central medallion: a framed lozenge field that holds the emblem and the name */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(80vw,62rem)] h-[min(78vh,40rem)]">
-        <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at center, #0D3470 0%, #071F46 100%)`, boxShadow: '0 0 0 3px #E0B94A55, 0 18px 50px rgba(0,0,0,0.45)' }} />
-        <MeanderFrame band={medBand} className="inset-0" />
-        <div className="absolute border" style={{ inset: medBand + 8, borderColor: `${CREAM}88` }} />
-      </div>
 
       {/* Rosettes in the four corners of the field */}
       <Rosette className="absolute w-12 h-12 md:w-20 md:h-20 left-[14%] top-[16%] opacity-95" />
