@@ -470,7 +470,7 @@ export default function Home() {
       <SectionSeam />
       {/* Featured News Carousel */}
       <section className="py-16 md:py-24 bg-white relative overflow-hidden">
-        <CloudDrift className="top-8 right-[4%] w-36 md:w-60 opacity-[0.15]" delay={2} duration={30} />
+        <CloudDrift variant="b" className="top-8 right-[4%] w-36 md:w-60 opacity-[0.2]" delay={2} duration={30} />
         <div className="max-w-7xl mx-auto px-6 lg:px-8 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 relative z-10">
           <div>
             <div className="flex items-center gap-4 mb-3">
@@ -731,7 +731,7 @@ export default function Home() {
       <SectionSeam />
       {/* Pillars Section - Redesigned for Prestige & Impact */}
       <section className="py-16 md:py-24 bg-white relative overflow-hidden">
-        <CloudDrift className="bottom-10 left-[3%] w-36 md:w-64 opacity-[0.16]" duration={26} />
+        <CloudDrift variant="a" className="bottom-10 left-[3%] w-36 md:w-64 opacity-[0.2]" duration={26} />
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}

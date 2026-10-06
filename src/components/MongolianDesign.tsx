@@ -285,14 +285,4 @@ export const CloudMotif = ({ className = "w-48 h-auto" }: { className?: string }
   </svg>
 );
 
-/** Decorative cloud that drifts slowly side to side. Place inside a `relative overflow-hidden` section. */
-export const CloudDrift = ({ className = "", delay = 0, duration = 22, tone = "blue" }: { className?: string; delay?: number; duration?: number; tone?: "gold" | "blue" }) => (
-  <motion.div
-    aria-hidden="true"
-    className={`absolute pointer-events-none ${tone === "gold" ? "text-brand-gold" : "text-brand-blue"} ${className}`}
-    animate={{ x: [0, 28, 0], y: [0, -6, 0] }}
-    transition={{ duration, delay, repeat: Infinity, ease: "easeInOut" }}
-  >
-    <CloudMotif className="w-full h-auto" />
-  </motion.div>
-);
+export { CloudDrift, CloudSky, CuteCloud } from './CuteClouds';

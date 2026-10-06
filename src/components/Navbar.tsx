@@ -523,7 +523,7 @@ export default function Navbar() {
                   <div className="flex flex-col gap-5 lg:pl-4 border-t lg:border-t-0 border-brand-ink/10 pt-6 lg:pt-0 mt-6 lg:mt-0">
                      {/* Cloud sits right above the map */}
                      <div aria-hidden="true" className="relative h-14 -mb-2">
-                       <CloudDrift className="top-0 right-2 w-40 md:w-52 opacity-[0.4]" duration={26} />
+                       <CloudDrift variant="c" className="top-0 right-2 w-40 md:w-52 opacity-[0.75]" duration={26} />
                      </div>
 
                      <motion.div

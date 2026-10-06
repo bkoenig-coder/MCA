@@ -2,7 +2,7 @@ import { Globe, Mail, MapPin, Phone, Instagram, Facebook, Linkedin, ArrowRight }
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, Variants } from 'motion/react';
-import { UlziiSymbol, MeanderBand, CloudDrift } from './MongolianDesign';
+import { UlziiSymbol, MeanderBand, CloudDrift, CloudSky } from './MongolianDesign';
 import mcaLogoWide from '../assets/media/mca-logo-wide.png';
 
 const containerVariants: Variants = {
@@ -37,10 +37,12 @@ export default function Footer() {
   return (
     <footer className="bg-brand-paper border-t border-brand-ink/5 pt-12 md:pt-16 pb-6 px-6 mt-12 relative overflow-hidden">
       <MeanderBand className="absolute top-0 left-0 right-0 bg-brand-gold/40" />
-      <CloudDrift className="top-16 left-[4%] w-32 md:w-56 opacity-[0.12]" duration={30} />
-      <CloudDrift className="bottom-24 right-[5%] w-28 md:w-48 opacity-[0.12]" delay={5} duration={26} />
+      <CloudDrift variant="b" className="bottom-44 left-[2%] w-32 md:w-56 opacity-[0.22]" duration={30} />
+      <CloudDrift variant="c" tone="gold" className="bottom-24 right-[5%] w-28 md:w-48 opacity-[0.2]" delay={5} duration={26} />
 
       
+      <CloudSky className="-mx-6 mb-6 h-28 opacity-90" />
+
       <div className="max-w-7xl mx-auto relative z-10 flex flex-col">
         {/* Giant Monogram / Title - Moved to top */}
         <motion.div 

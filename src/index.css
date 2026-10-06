@@ -153,6 +153,26 @@ a[class*="rounded"]:active {
   transform: translateY(-2px);
 }
 
+/* ---- Cloud illustrations ---- */
+@keyframes cloud-sway {
+  0%, 100% { transform: rotate(-9deg); }
+  50% { transform: rotate(11deg); }
+}
+@keyframes cloud-twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.55); }
+  50% { opacity: 1; transform: scale(1); }
+}
+.cloud-spiral {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cloud-sway 9s ease-in-out infinite;
+}
+.cloud-spark {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cloud-twinkle 3.4s ease-in-out infinite;
+}
+
 /* Respect users who prefer less motion */
 @media (prefers-reduced-motion: reduce) {
   html {
