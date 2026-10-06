@@ -203,30 +203,6 @@ export default function Heritage() {
       <section className="py-16 px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-200">
         <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm text-slate-900">
           
-          {/* Top Header Bar matching Virtual Nomadic Settlement style */}
-          <div className="p-6 sm:p-8 bg-slate-50 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-amber-50 text-amber-900 rounded text-xs uppercase font-mono tracking-widest border border-amber-200/80 font-bold">
-                  <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
-                  {t('heritagePage.objects.badge')}
-                </span>
-                <span className="text-xs text-slate-400">•</span>
-                <span className="text-xs text-slate-600 font-sans">{t('heritagePage.objects.tag')}</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-serif font-normal text-slate-900">
-                {t('heritagePage.objects.title1')} <span className="italic text-[#C5A059] font-light">{t('heritagePage.objects.title2')}</span>
-              </h2>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <div className="hidden sm:flex items-center gap-2 text-xs text-slate-700 font-mono">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37]" />
-                <span>{t('heritagePage.objects.turn')}</span>
-              </div>
-            </div>
-          </div>
-
           {/* Embedded Full-Width Artifact Explorer */}
           <div className="p-4 sm:p-6 lg:p-8 bg-white">
             <Artifact3DExplorer />
