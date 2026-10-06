@@ -45,7 +45,7 @@ const Rosette = ({ className = '' }: { className?: string }) => (
 const MeanderFrame = ({ band, className }: { band: number; className: string }) => {
   const h = { backgroundColor: BURGUNDY, backgroundImage: MEANDER_H, backgroundSize: `${band * 1.3}px ${band * 0.65}px`, backgroundRepeat: 'repeat-x', backgroundPosition: 'center' } as const;
   const v = { backgroundColor: BURGUNDY, backgroundImage: MEANDER_V, backgroundSize: `${band * 0.65}px ${band * 1.3}px`, backgroundRepeat: 'repeat-y', backgroundPosition: 'center' } as const;
-  const corner = { width: band, height: band, backgroundColor: CREAM } as const;
+  const corner = { width: band, height: band, backgroundColor: '#07204A', boxShadow: `inset 0 0 0 2px ${GOLD}, inset 0 0 0 4px ${BURGUNDY}, inset 0 0 0 5px ${GOLD}88` } as const;
   return (
     <div className={`absolute ${className}`}>
       <div className="absolute inset-x-0 top-0" style={{ height: band, ...h }} />
@@ -53,7 +53,7 @@ const MeanderFrame = ({ band, className }: { band: number; className: string }) 
       <div className="absolute inset-y-0 left-0" style={{ width: band, ...v }} />
       <div className="absolute inset-y-0 right-0" style={{ width: band, ...v }} />
       {['left-0 top-0', 'right-0 top-0', 'left-0 bottom-0', 'right-0 bottom-0'].map((pos) => (
-        <div key={pos} className={`absolute ${pos} p-[3px]`} style={corner}>
+        <div key={pos} className={`absolute ${pos} p-[6px]`} style={corner}>
           <Rosette className="w-full h-full" />
         </div>
       ))}
