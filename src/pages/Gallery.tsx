@@ -6,7 +6,6 @@ import { UlziiSymbol, SoyomboSymbol, ArcherSymbol, MongolianLine, SectionSeam } 
 import { cn } from '@/src/lib/utils';
 import { db, collection, onSnapshot, query, orderBy, handleFirestoreError, OperationType } from '../firebase';
 
-import { DEFAULT_GALLERY } from '../data/fallbackContent';
 
 export default function Gallery() {
   const { t, i18n } = useTranslation();
@@ -21,12 +20,12 @@ export default function Gallery() {
         const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setArtworks(items);
       } else {
-        setArtworks(DEFAULT_GALLERY);
+        setArtworks([]);
       }
       setLoading(false);
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, 'gallery');
-      setArtworks(DEFAULT_GALLERY);
+      setArtworks([]);
       setLoading(false);
     });
 

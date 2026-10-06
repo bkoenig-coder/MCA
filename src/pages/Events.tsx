@@ -7,7 +7,6 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol, SectionSeam } from '../components/MongolianDesign';
 import { cn } from '@/src/lib/utils';
-import { DEFAULT_EVENTS } from '../data/fallbackContent';
 
 export default function Events() {
   const { t, i18n } = useTranslation();
@@ -106,12 +105,12 @@ export default function Events() {
       if (!snapshot.empty) {
         setEvents(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       } else {
-        setEvents(DEFAULT_EVENTS);
+        setEvents([]);
       }
       setLoading(false);
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, 'events');
-      setEvents(DEFAULT_EVENTS);
+      setEvents([]);
       setLoading(false);
     });
     return () => unsubscribe();

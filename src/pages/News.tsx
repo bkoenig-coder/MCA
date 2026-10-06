@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, SoyomboSymbol, MongolianLine, ArcherSymbol, MongolianFormalFrame, MongolianKhasDivider } from '../components/MongolianDesign';
 import NewsletterForm from '../components/NewsletterForm';
 
-import { DEFAULT_POSTS } from '../data/fallbackContent';
 
 function formatNewsDate(val: any, locale: string = 'en', options?: Intl.DateTimeFormatOptions): string {
   if (!val) return 'Recent';
@@ -40,12 +39,12 @@ export default function News() {
       if (!snapshot.empty) {
         setPosts(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       } else {
-        setPosts(DEFAULT_POSTS);
+        setPosts([]);
       }
       setLoading(false);
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, 'posts');
-      setPosts(DEFAULT_POSTS);
+      setPosts([]);
       setLoading(false);
     });
     return () => unsubscribe();

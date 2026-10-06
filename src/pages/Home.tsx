@@ -11,7 +11,6 @@ import euActiveLogo from '../assets/media/euactivelogo.png';
 import amoxLogo from '../assets/media/amoxlogo.png';
 import delgerLogo from '../assets/media/delgerlogo.png';
 import mcaLogoWideLight from '../assets/media/mca-logo-wide-light.png';
-import { DEFAULT_POSTS, DEFAULT_GALLERY } from '../data/fallbackContent';
 
 import { Overlay } from '../components/diorama/Overlay';
 import BridgeMap, { BRIDGE_DISTANCE_KM } from '../components/BridgeMap';
@@ -131,11 +130,11 @@ export default function Home() {
       if (!snapshot.empty) {
         setNews(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       } else {
-        setNews(DEFAULT_POSTS);
+        setNews([]);
       }
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, 'posts');
-      setNews(DEFAULT_POSTS);
+      setNews([]);
     });
 
     const qGallery = query(collection(db, 'gallery'), orderBy('createdAt', 'desc'), limit(12));
@@ -143,11 +142,11 @@ export default function Home() {
       if (!snapshot.empty) {
         setGallery(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       } else {
-        setGallery(DEFAULT_GALLERY);
+        setGallery([]);
       }
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, 'gallery');
-      setGallery(DEFAULT_GALLERY);
+      setGallery([]);
     });
 
     return () => { unsubscribe(); unsubNews(); unsubGallery(); };
@@ -468,6 +467,7 @@ export default function Home() {
         </div>
       </section>
 
+      {news.length > 0 && (<>
       <SectionSeam />
       {/* Featured News Carousel */}
       <section className="py-16 md:py-24 bg-white relative overflow-hidden">
@@ -545,7 +545,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </>)}
 
+      {gallery.length > 0 && (<>
       <SectionSeam />
       {/* Featured Gallery Carousel */}
       <section className="py-16 md:py-24 bg-white relative overflow-hidden">
@@ -628,6 +630,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </>)}
 
       {(loading || events.length > 0) && (
         <>
