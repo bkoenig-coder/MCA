@@ -38,7 +38,6 @@ interface HeritageArtifact {
 
 // Display texts come from the translation keys heritagePage.items.<id>.*
 const HERITAGE_COLLECTIONS: HeritageArtifact[] = [
-  { id: 'morin-khuur', category: 'intangible', imageUrl: 'https://images.unsplash.com/photo-1548089195-9167dd374516?q=80&w=800&auto=format&fit=crop' },
   { id: 'mongolian-ger', category: 'material', imageUrl: 'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=800&auto=format&fit=crop' },
   { id: 'bichig-script', category: 'calligraphy', imageUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=800&auto=format&fit=crop' },
   { id: 'naadam-festival', category: 'ceremony', imageUrl: 'https://images.unsplash.com/photo-1542642596-f3310061e888?q=80&w=800&auto=format&fit=crop' },
