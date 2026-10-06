@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { Heart, Globe, ShieldCheck, TrendingUp, ArrowRight, Loader2, CheckCircle2, AlertCircle, Sparkles, Clock } from 'lucide-react';
+import { Users, HandHeart, Handshake, Landmark, Heart, Globe, ShieldCheck, TrendingUp, ArrowRight, Loader2, CheckCircle2, AlertCircle, Sparkles, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, SoyomboSymbol, ArcherSymbol, MongolianLine, MongolianFormalFrame, MongolianKhasDivider, EyebrowMark, SectionSeam } from '../components/MongolianDesign';
 
@@ -184,27 +184,6 @@ export default function Impact() {
               </p>
             </motion.div>
 
-            {/* Fund Category Filter Pills */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="flex flex-wrap gap-3"
-            >
-              {fundCategories.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveFundFilter(cat.id)}
-                  className={`px-6 py-3 rounded-lg text-xs uppercase tracking-widest font-semibold transition-all border ${
-                    activeFundFilter === cat.id 
-                      ? "bg-brand-gold text-slate-950 border-brand-gold shadow-md" 
-                      : "bg-white/10 text-white/80 border-white/20 hover:border-brand-gold hover:text-brand-gold backdrop-blur-md"
-                  }`}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </motion.div>
           </div>
         </div>
       </section>
@@ -373,7 +352,7 @@ export default function Impact() {
                       referrerPolicy="no-referrer"
                     />
                     <div className="absolute top-4 left-4 bg-slate-950/90 text-brand-gold px-3 py-1 rounded-lg text-[11px] uppercase tracking-widest font-semibold border border-brand-gold/40">
-                      Fund 0{idx + 1}
+                      0{idx + 1}
                     </div>
                   </div>
 
@@ -387,7 +366,7 @@ export default function Impact() {
                   to={`/initiative/${item.id}`} 
                   className="inline-flex items-center justify-between text-[11px] uppercase tracking-[0.18em] font-semibold text-slate-900 hover:text-brand-gold transition-colors pt-4 border-t border-slate-100"
                 >
-                  <span>Explore Fund</span>
+                  <span>{t('impact.more.explore')}</span>
                   <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform text-brand-gold" />
                 </Link>
               </motion.div>
@@ -399,85 +378,89 @@ export default function Impact() {
       </section>
 
       <SectionSeam />
-      {/* Bright Impact Metrics Bento Grid */}
+      {/* More ways to give */}
       <section className="py-16 md:py-24 bg-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-16">
-            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold mb-3 block">{t('impact.tag')}</span>
-            <h2 className="text-4xl md:text-5xl font-serif text-slate-900 tracking-tight">{t('impact.totalImpact')}</h2>
+        <div className="max-w-6xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="max-w-2xl mb-12">
+            <div className="flex items-center gap-4 mb-4">
+              <EyebrowMark />
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('impact.more.tag')}</span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-serif text-brand-ink leading-tight">{t('impact.more.title')}</h2>
+            <p className="mt-4 text-base md:text-lg text-slate-600 leading-relaxed">{t('impact.more.desc')}</p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {stats.map((stat, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="bg-white border border-brand-gold/30 rounded-2xl md:rounded-2xl p-8 md:p-10 relative overflow-hidden group flex flex-col justify-between min-h-[220px] shadow-lg hover:shadow-xl hover:border-brand-gold transition-all"
-              >
-                <div className="flex items-center justify-between mb-6">
-                  <div className="text-brand-gold">
-                    {stat.icon}
-                  </div>
-                  <SoyomboSymbol className="w-10 h-10 text-brand-gold/20" />
-                </div>
-                <div>
-                  <div className="text-5xl md:text-7xl font-serif text-slate-900 mb-2 font-bold">{stat.value}</div>
-                  <div className="text-xs uppercase tracking-[0.25em] font-semibold text-brand-gold">{stat.label}</div>
-                </div>
-              </motion.div>
-            ))}
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { key: 'w1', icon: <Users className="w-6 h-6" />, to: '/membership' },
+              { key: 'w2', icon: <HandHeart className="w-6 h-6" />, to: '/careers' },
+              { key: 'w3', icon: <Handshake className="w-6 h-6" />, to: '/contact' },
+              { key: 'w4', icon: <Landmark className="w-6 h-6" />, href: 'mailto:info@mongoliancenter.org?subject=Donation%20by%20bank%20transfer' },
+            ].map((w, i) => {
+              const body = (
+                <>
+                  <div className="text-brand-blue mb-5">{w.icon}</div>
+                  <h3 className="text-xl font-serif text-brand-ink mb-2">{t(`impact.more.${w.key}Title`)}</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed flex-1">{t(`impact.more.${w.key}Desc`)}</p>
+                  <span className="mt-6 inline-flex items-center gap-2 text-xs uppercase tracking-[0.14em] font-semibold text-brand-ink group-hover:text-brand-blue transition-colors">
+                    {t(`impact.more.${w.key}Cta`)} <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </>
+              );
+              const cls = 'group flex flex-col h-full p-7 rounded-2xl border border-slate-200 bg-white hover:border-brand-gold hover:shadow-[0_18px_40px_-24px_rgba(15,23,42,0.3)] transition-all';
+              return (
+                <motion.div key={w.key} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07 }}>
+                  {w.to ? (
+                    <Link to={w.to} className={cls}>{body}</Link>
+                  ) : (
+                    <a href={w.href} className={cls}>{body}</a>
+                  )}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       <SectionSeam />
-      {/* Transparency Suite */}
-      <section className="py-16 md:py-24 bg-[#0A1128] text-white relative overflow-hidden border-t border-brand-gold/20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+      {/* Accountability */}
+      <section className="py-16 md:py-24 bg-brand-ink text-white relative overflow-hidden">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="lg:col-span-7 space-y-6"
-            >
-              <div className="flex items-center gap-3 text-brand-gold">
-                <ShieldCheck size={22} />
-                <span className="text-xs uppercase tracking-[0.18em] font-semibold">Accountability</span>
+            <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="lg:col-span-7">
+              <div className="flex items-center gap-3 text-brand-gold mb-5">
+                <ShieldCheck size={20} />
+                <span className="text-xs uppercase tracking-[0.18em] font-semibold">{t('impact.trust.tag')}</span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-serif text-white tracking-tight font-medium">
-                {t('impact.transparency.title')} <br/><span className="italic text-brand-gold font-light">{t('impact.transparency.titleItalic')}</span>
-              </h2>
-              <p className="text-base md:text-lg text-slate-300 font-sans font-normal leading-relaxed">
-                {t('impact.transparency.desc')}
-              </p>
-              <button className="inline-flex items-center gap-3 bg-brand-gold text-slate-950 hover:bg-amber-400 px-8 py-4 rounded-lg text-xs uppercase tracking-[0.14em] font-semibold transition-all duration-300 shadow-md">
-                <span>{t('impact.transparency.cta')}</span>
-                <ArrowRight size={14} />
-              </button>
+              <h2 className="text-3xl md:text-5xl font-serif leading-tight">{t('impact.trust.title')}</h2>
+              <p className="mt-5 text-base md:text-lg text-white/75 leading-relaxed max-w-xl">{t('impact.trust.desc')}</p>
+              <div className="mt-8 flex flex-wrap gap-4">
+                <Link to="/governance" className="inline-flex items-center gap-3 bg-brand-gold text-slate-950 hover:bg-amber-400 px-7 py-3.5 rounded-lg text-xs uppercase tracking-[0.14em] font-semibold transition-colors">
+                  {t('impact.trust.cta')} <ArrowRight size={14} />
+                </Link>
+                <Link to="/imprint" className="inline-flex items-center gap-3 border border-white/30 hover:border-brand-gold hover:text-brand-gold px-7 py-3.5 rounded-lg text-xs uppercase tracking-[0.14em] font-semibold transition-colors">
+                  {t('impact.trust.cta2')}
+                </Link>
+              </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="lg:col-span-5"
-            >
-              <div className="bg-slate-900/90 border border-brand-gold/40 p-8 md:p-12 rounded-2xl md:rounded-2xl shadow-lg text-center">
-                <div className="w-16 h-16 bg-brand-gold/20 border border-brand-gold/40 rounded-full flex items-center justify-center mx-auto mb-6 text-brand-gold">
-                  <ShieldCheck className="w-8 h-8 text-brand-gold" />
-                </div>
-                <h3 className="text-2xl font-serif text-white mb-2 font-semibold">Fiscal Impact Report</h3>
-                <p className="text-brand-gold text-xs uppercase tracking-[0.25em] font-semibold mb-6">Fiscal Year 2025/2026</p>
-                <p className="text-xs text-slate-300 font-sans font-normal leading-relaxed mb-6">
-                  Complete audited overview of financial accountability, cultural endowment funds, and bilateral community impact.
-                </p>
-                <div className="px-5 py-2.5 bg-slate-950 border border-brand-gold/40 rounded-lg inline-block text-brand-gold text-xs uppercase tracking-widest font-semibold shadow-lg">
-                  100% Audited & Transparent
-                </div>
+            <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="lg:col-span-5">
+              <div className="rounded-2xl border border-white/15 bg-white/5 p-8">
+                <p className="text-xs uppercase tracking-[0.16em] font-semibold text-brand-gold mb-5">{t('impact.trust.cardTitle')}</p>
+                <dl className="space-y-4 text-sm">
+                  <div>
+                    <dt className="text-white/50 text-xs uppercase tracking-[0.12em]">{t('impact.trust.nameLabel')}</dt>
+                    <dd className="mt-1 font-serif text-lg">Mongolian Center in Austria</dd>
+                  </div>
+                  <div>
+                    <dt className="text-white/50 text-xs uppercase tracking-[0.12em]">ZVR-Zahl</dt>
+                    <dd className="mt-1">1673049268 · Vereinsregister, Magistrat der Stadt Wien</dd>
+                  </div>
+                  <div>
+                    <dt className="text-white/50 text-xs uppercase tracking-[0.12em]">{t('impact.trust.addressLabel')}</dt>
+                    <dd className="mt-1">Schöpfleuthergasse 25, 1210 Vienna, Austria</dd>
+                  </div>
+                </dl>
               </div>
             </motion.div>
           </div>

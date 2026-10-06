@@ -371,6 +371,34 @@ const resources = {
           scholarships: 'Scholarships Awarded',
           partnerships: 'Business Partnerships'
         },
+        more: {
+          tag: 'More ways to help',
+          title: 'There are many ways to give',
+          desc: 'A donation is only one way. You can also give your time, your skills or your network.',
+          w1Title: 'Become a member',
+          w1Desc: 'Join the community and support our work all year round.',
+          w1Cta: 'See membership',
+          w2Title: 'Volunteer or join us',
+          w2Desc: 'Share your time and skills at our events and projects.',
+          w2Cta: 'View opportunities',
+          w3Title: 'Partner with us',
+          w3Desc: 'Organisations and businesses can support projects and events together with us.',
+          w3Cta: 'Get in touch',
+          w4Title: 'Bank transfer',
+          w4Desc: 'Prefer to give directly? Write to us and we will send you our bank details.',
+          w4Cta: 'Email us',
+          explore: 'Learn more'
+        },
+        trust: {
+          tag: 'Accountability',
+          title: 'Open about who we are',
+          desc: 'We are a registered non-profit association in Vienna. Our registration details, governance and contact information are public.',
+          cta: 'Read our governance',
+          cta2: 'Imprint',
+          cardTitle: 'Registered association',
+          nameLabel: 'Name',
+          addressLabel: 'Address'
+        },
         donation: {
           tag: 'Support Our Mission',
           title1: 'A piece of',
@@ -1062,6 +1090,34 @@ const resources = {
           scholarships: 'Vergebene Stipendien',
           partnerships: 'Geschäftspartnerschaften'
         },
+        more: {
+          tag: 'Weitere Möglichkeiten zu helfen',
+          title: 'Es gibt viele Wege zu helfen',
+          desc: 'Eine Spende ist nur eine Möglichkeit. Sie können auch Ihre Zeit, Ihre Fähigkeiten oder Ihr Netzwerk einbringen.',
+          w1Title: 'Mitglied werden',
+          w1Desc: 'Werden Sie Teil der Gemeinschaft und unterstützen Sie unsere Arbeit das ganze Jahr über.',
+          w1Cta: 'Zur Mitgliedschaft',
+          w2Title: 'Mithelfen oder mitarbeiten',
+          w2Desc: 'Bringen Sie Ihre Zeit und Fähigkeiten bei unseren Veranstaltungen und Projekten ein.',
+          w2Cta: 'Möglichkeiten ansehen',
+          w3Title: 'Partner werden',
+          w3Desc: 'Organisationen und Unternehmen können Projekte und Veranstaltungen gemeinsam mit uns unterstützen.',
+          w3Cta: 'Kontakt aufnehmen',
+          w4Title: 'Banküberweisung',
+          w4Desc: 'Sie möchten direkt spenden? Schreiben Sie uns, wir senden Ihnen gerne unsere Bankdaten.',
+          w4Cta: 'E-Mail schreiben',
+          explore: 'Mehr erfahren'
+        },
+        trust: {
+          tag: 'Transparenz',
+          title: 'Offen darüber, wer wir sind',
+          desc: 'Wir sind ein eingetragener gemeinnütziger Verein in Wien. Unsere Registerdaten, Organisation und Kontaktdaten sind öffentlich.',
+          cta: 'Zur Governance',
+          cta2: 'Impressum',
+          cardTitle: 'Eingetragener Verein',
+          nameLabel: 'Name',
+          addressLabel: 'Adresse'
+        },
         donation: {
           tag: 'Unterstützen Sie unsere Mission',
           title1: 'Ein Stück',
@@ -1748,6 +1804,34 @@ const resources = {
           scholarships: 'Олгосон тэтгэлэг',
           partnerships: 'Бизнесийн түншлэл'
         },
+        more: {
+          tag: 'Тусалах бусад арга',
+          title: 'Дэмжих олон арга бий',
+          desc: 'Хандив бол зөвхөн нэг арга. Та цаг заваа, ур чадвараа, танил тал нөхөрлөлөө ч өгч болно.',
+          w1Title: 'Гишүүн болох',
+          w1Desc: 'Хамт олонд нэгдэж, бидний ажлыг жилийн турш дэмжээрэй.',
+          w1Cta: 'Гишүүнчлэл үзэх',
+          w2Title: 'Сайн дурын ажил, хамтрах',
+          w2Desc: 'Арга хэмжээ, төслүүд дээр цаг заваа, ур чадвараа нэмэрлээрэй.',
+          w2Cta: 'Боломжуудыг үзэх',
+          w3Title: 'Түнш болох',
+          w3Desc: 'Байгууллага, компаниуд төсөл, арга хэмжээг бидэнтэй хамтран дэмжиж болно.',
+          w3Cta: 'Холбогдох',
+          w4Title: 'Банкны шилжүүлэг',
+          w4Desc: 'Шууд хандивлахыг хүсвэл бидэнд бичээрэй, бид банкны мэдээллээ илгээнэ.',
+          w4Cta: 'И-мэйл бичих',
+          explore: 'Дэлгэрэнгүй'
+        },
+        trust: {
+          tag: 'Ил тод байдал',
+          title: 'Бид хэн болохоо нээлттэй хэлнэ',
+          desc: 'Бид Вена хотод бүртгэлтэй ашгийн бус нийгэмлэг юм. Бүртгэлийн мэдээлэл, засаглал, холбоо барих мэдээлэл нийтэд нээлттэй.',
+          cta: 'Засаглалтай танилцах',
+          cta2: 'Хууль ёсны мэдээлэл',
+          cardTitle: 'Бүртгэлтэй нийгэмлэг',
+          nameLabel: 'Нэр',
+          addressLabel: 'Хаяг'
+        },
         donation: {
           tag: 'Бидний зорилгыг дэмжих',
           title1: 'Гэрээс хол,',
@@ -2433,6 +2517,34 @@ const resources = {
           members: 'Topluluk Üyeleri',
           scholarships: 'Verilen Burslar',
           partnerships: 'İş Ortaklıkları'
+        },
+        more: {
+          tag: 'Yardım etmenin diğer yolları',
+          title: 'Destek olmanın birçok yolu var',
+          desc: 'Bağış yalnızca bir yoldur. Zamanınızı, becerilerinizi veya çevrenizi de paylaşabilirsiniz.',
+          w1Title: 'Üye olun',
+          w1Desc: 'Topluluğa katılın ve çalışmalarımızı yıl boyunca destekleyin.',
+          w1Cta: 'Üyeliğe bakın',
+          w2Title: 'Gönüllü olun veya katılın',
+          w2Desc: 'Etkinliklerimizde ve projelerimizde zamanınızı ve becerilerinizi paylaşın.',
+          w2Cta: 'Fırsatlara bakın',
+          w3Title: 'Ortağımız olun',
+          w3Desc: 'Kuruluşlar ve şirketler projeleri ve etkinlikleri bizimle birlikte destekleyebilir.',
+          w3Cta: 'İletişime geçin',
+          w4Title: 'Banka havalesi',
+          w4Desc: 'Doğrudan bağış yapmak mı istiyorsunuz? Bize yazın, banka bilgilerimizi gönderelim.',
+          w4Cta: 'E-posta gönderin',
+          explore: 'Daha fazla'
+        },
+        trust: {
+          tag: 'Şeffaflık',
+          title: 'Kim olduğumuz konusunda açığız',
+          desc: 'Viyana\'da kayıtlı, kar amacı gütmeyen bir derneğiz. Kayıt bilgilerimiz, yönetişimimiz ve iletişim bilgilerimiz herkese açıktır.',
+          cta: 'Yönetişimi okuyun',
+          cta2: 'Künye',
+          cardTitle: 'Kayıtlı dernek',
+          nameLabel: 'Ad',
+          addressLabel: 'Adres'
         },
         donation: {
           tag: 'Misyonumuzu Destekleyin',
