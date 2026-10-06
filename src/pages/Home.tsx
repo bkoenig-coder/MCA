@@ -4,7 +4,7 @@ import { cn } from '../lib/utils';
 import { ArrowRight, Calendar, Palette, Heart, Users, Shield, Sword, Clock, MapPin, Loader2, Info, Star, Handshake, Lightbulb, ArrowRightLeft, TrendingUp, Instagram, ChevronLeft, ChevronRight, Award, CheckCircle2, Landmark, Briefcase } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol, MongolianFormalFrame, MongolianKhasDivider, MeanderBand, EyebrowMark, SectionSeam, CloudDrift } from '../components/MongolianDesign';
+import { UlziiSymbol, MongolianLine, SoyomboSymbol, ArcherSymbol, MongolianFormalFrame, MongolianKhasDivider, MeanderBand, EyebrowMark, SectionSeam, CloudDrift, CloudSky } from '../components/MongolianDesign';
 import { db, collection, onSnapshot, query, orderBy, limit, where, handleFirestoreError, OperationType } from '../firebase';
 import deutschotekLogo from '../assets/media/deutschoteklogo.jpg';
 import euActiveLogo from '../assets/media/euactivelogo.png';
@@ -317,7 +317,8 @@ export default function Home() {
       </section>
 
       {/* Bridge: Ulaanbaatar to Vienna */}
-      <section className="py-16 md:py-24 bg-white relative overflow-hidden">
+      <section className="pt-6 pb-16 md:pb-24 bg-white relative overflow-hidden">
+        <CloudSky className="h-28 mb-8 md:mb-12 opacity-90" />
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
             <motion.div
