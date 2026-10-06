@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import CloudHeader from '../components/CloudHeader';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -97,32 +98,8 @@ export default function About() {
 
   return (
     <div className="pt-[140px] md:pt-[152px] bg-white min-h-screen text-slate-900 font-sans selection:bg-brand-gold/30 selection:text-slate-900">
-      {/* Hero */}
-      <section className="relative min-h-[320px] md:h-[400px] flex items-center overflow-hidden border-b border-brand-gold/30">
-        <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1695555875394-4e8aa542ccdc?q=80&w=1600&auto=format&fit=crop"
-            alt={t('siteUi.about.heroAlt')}
-            className="w-full h-full object-cover object-center"
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/45 to-black/30" />
-        </div>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10 py-10 md:py-0">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <div className="flex items-center gap-4 mb-5">
-              <EyebrowMark />
-              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('about.tag')}</span>
-            </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white leading-tight">
-              {t('about.bridging')} <span className="italic text-brand-gold">{t('about.cultures')}</span>
-            </h1>
-            <p className="mt-5 max-w-2xl text-base md:text-lg text-white/85 leading-relaxed">
-              {t('siteUi.about.heroLead')}
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      {/* Header */}
+      <CloudHeader tag={t('about.tag')} title={t('about.bridging')} italic={t('about.cultures')} subtitle={t('siteUi.about.heroLead')} />
 
       {/* Facts */}
       <section className="bg-white border-b border-slate-200">

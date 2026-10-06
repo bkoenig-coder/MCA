@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
+import CloudHeader from '../components/CloudHeader';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -43,58 +44,25 @@ export default function Gallery() {
 
   return (
     <div className="pt-[140px] md:pt-[152px]">
-      {/* Hero */}
-      <section className="relative min-h-[320px] md:h-[400px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1536611004753-2ceaea518206?q=80&w=1600&auto=format&fit=crop" 
-            alt="Mongolian Landscape" 
-            className="w-full h-full object-cover object-center"
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/25" />
-        </div>
-        <div className="max-w-7xl mx-auto w-full relative z-10 py-10 md:py-0">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="max-w-2xl"
+      {/* Header */}
+      <CloudHeader tag={t('gallery.tag')} title={t('gallery.title')} italic={t('gallery.titleItalic')} subtitle={t('gallery.subtitle')}>
+        <div className="flex flex-wrap gap-3">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setFilter(cat.id)}
+              className={cn(
+                'px-5 md:px-6 py-2.5 rounded-full text-[11px] uppercase tracking-widest font-semibold transition-colors border',
+                filter === cat.id
+                  ? 'bg-brand-ink text-white border-brand-ink'
+                  : 'bg-white/70 text-brand-ink/70 border-brand-ink/20 hover:border-brand-blue hover:text-brand-blue'
+              )}
             >
-              <div className="flex items-center gap-3 mb-6">
-                <UlziiSymbol className="w-5 h-5 text-brand-gold" />
-                <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('gallery.tag')}</span>
-              </div>
-              <h1 className="text-4xl sm:text-6xl lg:text-6xl font-serif text-white tracking-tight leading-tight">
-                {t('gallery.title')} <br className="hidden md:block" /><span className="italic text-brand-gold">{t('gallery.titleItalic')}</span>
-              </h1>
-            </motion.div>
-            
-            {/* Filter UI */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="flex flex-wrap gap-3 md:gap-4"
-            >
-              {categories.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setFilter(cat.id)}
-                  className={cn(
-                    "px-6 md:px-8 py-3 rounded-full text-[10px] uppercase tracking-widest font-bold transition-all border",
-                    filter === cat.id 
-                      ? "bg-brand-gold text-brand-ink border-brand-gold shadow-xl" 
-                      : "bg-white/10 text-white/60 border-white/10 hover:border-brand-gold hover:text-brand-gold"
-                  )}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </motion.div>
-          </div>
+              {cat.label}
+            </button>
+          ))}
         </div>
-      </section>
+      </CloudHeader>
 
       {/* Gallery Grid */}
       <section className="py-16 md:py-24 bg-white relative">

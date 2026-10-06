@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import CloudHeader from '../components/CloudHeader';
 import { useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Users, HandHeart, Handshake, Landmark, Heart, Globe, ShieldCheck, TrendingUp, ArrowRight, Loader2, CheckCircle2, AlertCircle, Sparkles, Clock } from 'lucide-react';
@@ -152,41 +153,8 @@ export default function Impact() {
         )}
       </AnimatePresence>
 
-      {/* Executive Hero */}
-      <section className="relative min-h-[320px] md:h-[400px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1630559878810-fe220c9273a7?q=80&w=1600&auto=format&fit=crop" 
-            alt={t('siteUi.impact.heroAlt')} 
-            className="w-full h-full object-cover object-center"
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/25" />
-        </div>
-
-        <div className="max-w-7xl mx-auto w-full relative z-10 py-10 md:py-0">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-3xl"
-            >
-              <div className="flex items-center gap-3 mb-6">
-                <UlziiSymbol className="w-5 h-5 text-brand-gold" />
-                <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('impact.tag')}</span>
-              </div>
-              <h1 className="text-4xl md:text-6xl lg:text-6xl font-serif text-white tracking-tight leading-tight mb-4">
-                {t('impact.title')} <br className="hidden md:block" /><span className="italic text-brand-gold font-light">{t('impact.titleItalic')}</span>
-              </h1>
-              <p className="text-base md:text-lg text-slate-300 font-sans font-normal max-w-xl leading-relaxed">
-                {t('impact.subtitle')}
-              </p>
-            </motion.div>
-
-          </div>
-        </div>
-      </section>
+      {/* Header */}
+      <CloudHeader tag={t('impact.tag')} title={t('impact.title')} italic={t('impact.titleItalic')} subtitle={t('impact.subtitle')} />
 
       {/* Donation */}
       <section className="py-16 md:py-24 bg-white relative overflow-hidden">

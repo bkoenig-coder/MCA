@@ -1,4 +1,5 @@
 import React, { useState, Suspense } from 'react';
+import CloudHeader from '../components/CloudHeader';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
@@ -85,38 +86,8 @@ export default function Heritage() {
   return (
     <div className="pt-[140px] md:pt-[152px] bg-white min-h-screen text-slate-900 font-sans selection:bg-brand-gold/30 selection:text-slate-900">
       
-      {/* 1. Official Institutional Header */}
-      <section className="relative min-h-[320px] md:h-[400px] flex items-center px-6 text-white border-b border-[#D4AF37]/30 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1548089195-9167dd374516?q=80&w=1600&auto=format&fit=crop" 
-            alt={t('heritagePage.heroImageAlt')} 
-            className="w-full h-full object-cover object-center"
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/25" />
-        </div>
-        
-        <div className="max-w-7xl mx-auto w-full relative z-10 py-10 md:py-0">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl"
-          >
-            <div className="flex items-center gap-3 mb-5">
-              <UlziiSymbol className="w-5 h-5 text-brand-gold" />
-              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('heritagePage.heroBadge')}</span>
-            </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white tracking-tight leading-[1.1] mb-5">
-              {t('heritagePage.heroTitle1')} <span className="italic text-[#D4AF37]">{t('heritagePage.heroTitle2')}</span>
-            </h1>
-            <p className="text-base md:text-lg text-slate-200 leading-relaxed max-w-2xl">
-              {t('heritagePage.heroIntro')}
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      {/* Header */}
+      <CloudHeader tag={t('heritagePage.heroBadge')} title={t('heritagePage.heroTitle1')} italic={t('heritagePage.heroTitle2')} subtitle={t('heritagePage.heroIntro')} />
 
       {/* 2. Interactive 3D Nomadic Diorama Live Preview (AT THE TOP) */}
       <section className="py-16 px-6 lg:px-8 max-w-7xl mx-auto">

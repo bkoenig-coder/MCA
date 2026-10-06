@@ -1,4 +1,5 @@
 import { motion } from 'motion/react';
+import CloudHeader from '../components/CloudHeader';
 import { useState, useEffect } from 'react';
 import { db, collection, onSnapshot, query, orderBy, handleFirestoreError, OperationType } from '../firebase';
 import { Link } from 'react-router-dom';
@@ -61,6 +62,9 @@ export default function News() {
 
   return (
     <div className="pt-[140px] md:pt-[152px] bg-white min-h-screen">
+      {/* Header */}
+      <CloudHeader tag={t('news.tag')} title={t('news.title')} italic={t('news.titleItalic')} subtitle={t('news.subtitle')} />
+
       {/* Newspaper front page: a paper sheet on the page */}
       <section className="relative mx-auto w-[calc(100%-2rem)] max-w-7xl my-6 md:my-10 px-5 md:px-12 py-8 md:py-12 bg-[#FAF7EF] border border-slate-300 shadow-[0_10px_40px_rgba(15,23,42,0.08)]">
         {/* Paper grain */}

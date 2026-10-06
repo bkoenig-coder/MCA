@@ -1,4 +1,5 @@
 import React from 'react';
+import CloudHeader from '../components/CloudHeader';
 import { motion } from 'motion/react';
 import { ArrowRight, Globe, Users, Calendar, Award, CheckCircle2, ChevronRight, Building2, GraduationCap, Briefcase, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -27,74 +28,30 @@ export default function Membership() {
 
   return (
     <div className="min-h-screen bg-white pt-[140px] md:pt-[152px]">
-      {/* Hero Section */}
-      <section className="relative min-h-[320px] md:h-[400px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=1600&auto=format&fit=crop" 
-            alt="Mongolian Community" 
-            className="w-full h-full object-cover object-center"
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/25" />
+      {/* Header */}
+      <CloudHeader
+        align="center"
+        tag={t('membershipPage.hero.tag')}
+        title={t('membershipPage.hero.titleNormal')}
+        italic={t('membershipPage.hero.titleItalic')}
+        subtitle={t('membershipPage.hero.subtitle')}
+      >
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button
+            onClick={() => document.getElementById('membership-tiers')?.scrollIntoView({ behavior: 'smooth' })}
+            className="w-full sm:w-auto px-8 py-4 bg-brand-ink text-white rounded-lg text-xs uppercase tracking-[0.18em] font-semibold hover:bg-brand-blue transition-colors flex items-center justify-center gap-3 group cursor-pointer"
+          >
+            {t('membershipPage.hero.btnIndividual')}
+            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+          </button>
+          <button
+            onClick={() => document.getElementById('membership-tiers')?.scrollIntoView({ behavior: 'smooth' })}
+            className="w-full sm:w-auto px-8 py-4 bg-white/70 border border-brand-ink/25 text-brand-ink rounded-lg text-xs uppercase tracking-[0.18em] font-semibold hover:border-brand-blue hover:text-brand-blue transition-colors flex items-center justify-center gap-3 cursor-pointer"
+          >
+            {t('membershipPage.hero.btnInstitutional')}
+          </button>
         </div>
-
-        <div className="max-w-7xl mx-auto w-full relative z-10 text-center py-10 md:py-0">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="inline-flex items-center gap-4 mb-8"
-          >
-            <EyebrowMark />
-            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('membershipPage.hero.tag')}</span>
-            <EyebrowMark />
-          </motion.div>
-
-          <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-            className="text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-8 tracking-tight"
-          >
-            {t('membershipPage.hero.titleNormal')} <span className="italic text-brand-gold">{t('membershipPage.hero.titleItalic')}</span>
-          </motion.h1>
-
-          <motion.p 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-lg md:text-2xl text-white/70 font-normal max-w-3xl mx-auto leading-relaxed mb-12"
-          >
-            {t('membershipPage.hero.subtitle')}
-          </motion.p>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-6"
-          >
-            <button 
-              onClick={() => {
-                document.getElementById('membership-tiers')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="w-full sm:w-auto px-8 py-4 bg-brand-gold text-brand-ink rounded-lg text-xs uppercase tracking-[0.18em] font-semibold hover:bg-white transition-all duration-500 shadow-[0_0_40px_rgba(212,175,55,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.4)] flex items-center justify-center gap-3 group cursor-pointer"
-            >
-              {t('membershipPage.hero.btnIndividual')}
-              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button 
-              onClick={() => {
-                document.getElementById('membership-tiers')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/20 text-white rounded-lg text-xs uppercase tracking-[0.18em] font-semibold hover:bg-white/10 hover:border-white/40 transition-all duration-500 flex items-center justify-center gap-3 cursor-pointer"
-            >
-              {t('membershipPage.hero.btnInstitutional')}
-            </button>
-          </motion.div>
-        </div>
-      </section>
+      </CloudHeader>
 
       {/* Benefits Section */}
       <section className="py-16 md:py-24 bg-white relative">

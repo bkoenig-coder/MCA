@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
+import CloudHeader from '../components/CloudHeader';
 import { Calendar, MapPin, Clock, ArrowRight, Loader2, Info, X, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { signInWithGoogle, db, collection, onSnapshot, query, orderBy, addDoc, serverTimestamp, writeBatch, doc, increment, getDocs, where, handleFirestoreError, OperationType } from '../firebase';
@@ -227,32 +228,8 @@ export default function Events() {
 
   return (
     <div className="pt-[140px] md:pt-[152px]">
-      {/* Hero */}
-      <section className="relative min-h-[320px] md:h-[400px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://plus.unsplash.com/premium_photo-1769868292024-22f57678074e?q=80&w=1600&auto=format&fit=crop" 
-            alt={t('pagesMisc.events.heroAlt')} 
-            className="w-full h-full object-cover object-center"
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/25" />
-        </div>
-        <div className="max-w-7xl mx-auto w-full relative z-10 py-10 md:py-0">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <UlziiSymbol className="w-5 h-5 text-brand-gold" />
-              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('events.tag')}</span>
-            </div>
-            <h1 className="text-4xl sm:text-6xl lg:text-6xl font-serif text-white tracking-tight leading-tight">
-              {t('events.title')} <br className="hidden md:block" /><span className="italic text-brand-gold">{t('events.titleItalic')}</span>
-            </h1>
-          </motion.div>
-        </div>
-      </section>
+      {/* Header */}
+      <CloudHeader tag={t('events.tag')} title={t('events.title')} italic={t('events.titleItalic')} subtitle={t('events.subtitle')} />
 
       {/* Events List */}
       <section className="py-16 md:py-24 bg-white relative">

@@ -1,4 +1,5 @@
 import { motion } from 'motion/react';
+import CloudHeader from '../components/CloudHeader';
 import { useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2, AlertCircle, ArrowUpRight } from 'lucide-react';
@@ -69,21 +70,7 @@ export default function Contact() {
   return (
     <div className="pt-[140px] md:pt-[152px] bg-white text-slate-900 font-sans">
       {/* Header */}
-      <section className="relative border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-14 md:py-20">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
-            <div className="flex items-center gap-4 mb-4">
-              <EyebrowMark />
-              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('contactPage.tag')}</span>
-            </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-brand-ink leading-tight">
-              {t('contactPage.title')} <span className="italic text-brand-gold">{t('contactPage.titleItalic')}</span>
-            </h1>
-            <p className="mt-5 text-base md:text-lg text-brand-ink/80 leading-relaxed">{t('contactPage.intro')}</p>
-          </motion.div>
-        </div>
-        <MeanderBand className="absolute bottom-0 inset-x-0 translate-y-1/2 bg-brand-gold/40" />
-      </section>
+      <CloudHeader tag={t('contactPage.tag')} title={t('contactPage.title')} italic={t('contactPage.titleItalic')} subtitle={t('contactPage.intro')} />
 
       <section className="py-14 md:py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
