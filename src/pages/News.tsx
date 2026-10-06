@@ -28,6 +28,15 @@ function formatNewsDate(val: any, locale: string = 'en', options?: Intl.DateTime
 
 const NOISE = "url(\"data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E\")";
 
+/** Plain-text excerpt: strips markdown marks from article content. */
+const plain = (text?: string) =>
+  (text || '')
+    .replace(/^#+\s+/gm, '')
+    .replace(/^[-•>]\s+/gm, '')
+    .replace(/[*_`]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
 export default function News() {
   const { t, i18n } = useTranslation();
   const [posts, setPosts] = useState<any[]>([]);
@@ -53,55 +62,28 @@ export default function News() {
   return (
     <div className="pt-[140px] md:pt-[152px] bg-white min-h-screen">
       {/* Newspaper front page: a paper sheet on the page */}
-      <section className="relative mx-auto w-[calc(100%-2rem)] max-w-7xl my-6 md:my-10 px-5 md:px-10 py-8 md:py-10 bg-[#FAF7EF] border border-slate-300 shadow-[0_10px_40px_rgba(15,23,42,0.08)]">
+      <section className="relative mx-auto w-[calc(100%-2rem)] max-w-7xl my-6 md:my-10 px-5 md:px-12 py-8 md:py-12 bg-[#FAF7EF] border border-slate-300 shadow-[0_10px_40px_rgba(15,23,42,0.08)]">
         {/* Paper grain */}
         <div aria-hidden="true" className="absolute inset-0 pointer-events-none opacity-[0.05] mix-blend-multiply" style={{ backgroundImage: NOISE }} />
 
         {/* Masthead */}
-        <header className="relative mb-8">
-          {/* Top rule: thick over thin */}
-          <div aria-hidden="true" className="border-t-[5px] border-slate-900" />
-          <div aria-hidden="true" className="border-t border-slate-900 mt-1" />
-
-          {/* Edition strip */}
-          <div className="flex items-center justify-between gap-4 py-2 text-[11px] md:text-xs uppercase tracking-[0.18em] font-sans font-semibold text-slate-700">
-            <span>{t('news.vol', { defaultValue: 'Vol. I' })} &bull; {t('news.edition', { defaultValue: 'Vienna Edition' })}</span>
-            <span className="hidden sm:inline">{t('news.estab', { defaultValue: 'Established 2026' })} &bull; Austria &amp; Mongolia</span>
+        <header className="relative mb-10 md:mb-14">
+          <div aria-hidden="true" className="border-t-[4px] border-slate-900" />
+          <div className="flex items-center justify-between gap-4 py-2.5 text-xs uppercase tracking-[0.16em] font-sans font-semibold text-slate-600">
+            <span>Vienna</span>
             <span>{new Date().toLocaleDateString(t('common.locale'), { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</span>
           </div>
           <div aria-hidden="true" className="border-t border-slate-900" />
 
-          {/* Title with the two "ears" */}
-          <div className="grid lg:grid-cols-[11rem_1fr_11rem] gap-6 items-center py-6 md:py-8">
-            <div className="hidden lg:block border border-slate-900 p-3 text-[11px] uppercase tracking-[0.12em] leading-snug text-slate-800">
-              <p className="font-semibold border-b border-slate-900 pb-1.5 mb-2">{t('news.inThisEdition', { defaultValue: 'In this edition' })}</p>
-              <ul className="space-y-1">
-                <li>{t('news.specialCoverage', { defaultValue: 'Special coverage' })}</li>
-                <li>{t('news.recentDispatches', { defaultValue: 'Recent dispatches' })}</li>
-              </ul>
-            </div>
-
-            <div className="text-center">
-              <p className="text-xs uppercase tracking-[0.18em] font-semibold text-slate-500 mb-2">Official Publication of the Austrian-Mongolian Center</p>
-              <h1 className="font-serif font-semibold text-5xl sm:text-6xl lg:text-7xl tracking-tight uppercase text-slate-900 leading-none">
-                THE MCA GAZETTE
-              </h1>
-              <p className="mt-3 font-serif italic text-sm md:text-base text-slate-600 tracking-wide">
-                Bridging Cultural Heritage, Bilateral Trade &amp; Academic Diplomacy in Vienna
-              </p>
-            </div>
-
-            <div className="hidden lg:block border border-slate-900 p-3 text-[11px] uppercase tracking-[0.12em] leading-snug text-slate-800 text-right">
-              <p className="font-semibold border-b border-slate-900 pb-1.5 mb-2">{t('news.publishedBy', { defaultValue: 'Published by' })}</p>
-              <p>Mongolian Center Austria</p>
-              <p className="mt-1">Vienna, Austria</p>
-              <p className="mt-1 font-semibold">{t('news.free', { defaultValue: 'Free to read' })}</p>
-            </div>
+          <div className="text-center py-7 md:py-10">
+            <h1 className="font-serif font-semibold text-5xl sm:text-6xl lg:text-7xl tracking-tight uppercase text-slate-900 leading-none">
+              The MCA Gazette
+            </h1>
+            <p className="mt-4 font-serif italic text-base md:text-lg text-slate-600">{t('news.tagline')}</p>
           </div>
 
-          {/* Bottom rule: thin over thick */}
           <div aria-hidden="true" className="border-t border-slate-900" />
-          <div aria-hidden="true" className="border-t-[5px] border-slate-900 mt-1" />
+          <div aria-hidden="true" className="border-t-[4px] border-slate-900 mt-1" />
         </header>
 
         {loading ? (
@@ -109,169 +91,85 @@ export default function News() {
             <Loader2 className="animate-spin text-brand-gold" size={44} />
           </div>
         ) : posts.length > 0 ? (
-          <div className="space-y-16">
-            {/* Front Page Lead Headline Story */}
+          <div className="relative space-y-16 md:space-y-20">
+            {/* Lead story */}
             {(() => {
               const p = posts[0];
               const lang = i18n.language;
               const dTitle = lang === 'mn' ? (p.titleMn || p.title) : lang === 'de' ? (p.titleDe || p.title) : (p.titleEn || p.title);
               const dContent = lang === 'mn' ? (p.contentMn || p.content) : lang === 'de' ? (p.contentDe || p.content) : (p.contentEn || p.content);
               const linkUrl = `/news/${p.slug || p.id}`;
+              const count = Array.isArray(p.galleryImages)
+                ? p.galleryImages.length
+                : typeof p.galleryImages === 'string' && p.galleryImages.trim()
+                  ? p.galleryImages.split(/[,;\n]/).filter((s: string) => s.trim().length > 0).length
+                  : 0;
               return (
-                <article className="border-b-2 border-slate-900 pb-12">
-                  <div className="text-center max-w-4xl mx-auto mb-6">
-                    <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold bg-slate-900 text-white px-3 py-1 inline-block mb-3">
-                      {t('news.featured', 'LEAD DISPATCH')}
-                    </span>
+                <article className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center pb-14 md:pb-16 border-b border-slate-900">
+                  <Link to={linkUrl} className="lg:col-span-7 block group">
+                    <div className="aspect-[16/10] overflow-hidden bg-slate-100 border border-slate-300">
+                      <img src={p.imageUrl} alt={dTitle} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
+                    </div>
+                  </Link>
+
+                  <div className="lg:col-span-5">
+                    <p className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold mb-4">{t('news.latest')}</p>
                     <Link to={linkUrl}>
-                      <h2 className="text-3xl md:text-5xl lg:text-5xl font-serif font-black text-slate-900 leading-[1.08] hover:text-[#0066B3] transition-colors tracking-tight">
-                        {dTitle}
-                      </h2>
+                      <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 leading-[1.15] hover:text-[#0066B3] transition-colors">{dTitle}</h2>
                     </Link>
-                  </div>
-
-                  <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start mt-8">
-                    {/* Photo with Newspaper Caption Frame */}
-                    <div className="lg:col-span-7">
-                      <Link to={linkUrl} className="block group">
-                        <div className="border border-slate-300 p-2 bg-white shadow-md">
-                          <div className="aspect-[16/10] overflow-hidden bg-slate-100">
-                            <img 
-                              src={p.imageUrl} 
-                              alt={dTitle} 
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                              referrerPolicy="no-referrer"
-                            />
-                          </div>
-                          <p className="font-serif italic text-xs text-slate-600 pt-2 text-center border-t border-slate-200 mt-2">
-                            Official Press Photograph — Austrian-Mongolian Center Dispatch
-                          </p>
-                        </div>
-                      </Link>
-                    </div>
-
-                    {/* Broadsheet Text Column */}
-                    <div className="lg:col-span-5 flex flex-col justify-between h-full space-y-6">
-                      <div className="space-y-4">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[11px] uppercase tracking-[0.25em] font-sans font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 border border-slate-300">
-                            SPECIAL COVERAGE
-                          </span>
-                          {(() => {
-                            const count = Array.isArray(p.galleryImages)
-                              ? p.galleryImages.length
-                              : (typeof p.galleryImages === 'string' && p.galleryImages.trim()
-                                  ? p.galleryImages.split(/[,;\n]/).filter((s: string) => s.trim().length > 0).length
-                                  : 0);
-                            return count > 0 ? (
-                              <span className="text-[11px] uppercase tracking-[0.14em] font-sans font-bold text-amber-800 bg-amber-50 px-2 py-0.5 border border-amber-200">
-                                📷 +{count} Photo{count === 1 ? '' : 's'}
-                              </span>
-                            ) : null;
-                          })()}
-                        </div>
-
-                        <div className="relative">
-                          <div className="font-serif text-slate-800 text-base md:text-lg leading-[1.8] font-normal line-clamp-5 md:line-clamp-6">
-                            <p className="first-letter:text-6xl first-letter:font-serif first-letter:font-black first-letter:float-left first-letter:mr-3 first-letter:text-brand-gold first-letter:leading-none">
-                              {dContent
-                                ? dContent
-                                    .replace(/^#+\s+/gm, '')
-                                    .replace(/^[-•]\s+/gm, '')
-                                    .replace(/^>\s+/gm, '')
-                                    .trim()
-                                : ''}
-                            </p>
-                          </div>
-                          {/* Fade Out Gradient */}
-                          <div className="h-8 w-full bg-gradient-to-t from-brand-paper to-transparent absolute bottom-0 left-0 pointer-events-none" />
-                        </div>
-                      </div>
-
-                      <div className="pt-4 border-t border-slate-300 flex flex-wrap items-center justify-between gap-4">
-                        <span className="text-xs uppercase tracking-widest font-semibold text-slate-500 flex items-center gap-1.5">
-                          <Calendar size={12} className="text-brand-gold" />
-                          {formatNewsDate(p.createdAt, t('common.locale'), { month: 'long', day: 'numeric', year: 'numeric' })}
-                        </span>
-
-                        <Link 
-                          to={linkUrl} 
-                          className="inline-flex items-center gap-2 font-serif text-xs uppercase tracking-[0.2em] font-semibold text-slate-900 hover:text-brand-gold transition-colors border-b-2 border-slate-900 pb-0.5 group"
-                        >
-                          <span>READ FULL DISPATCH</span>
-                          <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                      </div>
-                    </div>
+                    <p className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs uppercase tracking-[0.12em] font-semibold text-slate-500">
+                      <span className="flex items-center gap-1.5">
+                        <Calendar size={12} className="text-brand-gold" />
+                        {formatNewsDate(p.createdAt, t('common.locale'), { month: 'long', day: 'numeric', year: 'numeric' })}
+                      </span>
+                      {count > 0 && <span>+{count} {count === 1 ? 'photo' : 'photos'}</span>}
+                    </p>
+                    <p className="mt-5 font-serif text-base md:text-lg text-slate-700 leading-relaxed line-clamp-5">{plain(dContent)}</p>
+                    <Link to={linkUrl} className="mt-6 inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] font-semibold text-slate-900 hover:text-brand-blue transition-colors group">
+                      {t('news.readMore')} <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    </Link>
                   </div>
                 </article>
               );
             })()}
 
-            {/* Broadsheet Columnist Archive Grid */}
-            <div>
-              <div className="border-y-2 border-slate-900 py-2 mb-10 text-center bg-slate-100">
-                <h3 className="font-serif text-sm md:text-base font-semibold uppercase tracking-[0.18em] text-slate-900">
-                  RECENT DISPATCHES & BILATERAL STATEMENTS
-                </h3>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
-                {posts.slice(1).map((post, index) => {
-                  const lang = i18n.language;
-                  const dTitle = lang === 'mn' ? (post.titleMn || post.title) : lang === 'de' ? (post.titleDe || post.title) : (post.titleEn || post.title);
-                  const dContent = lang === 'mn' ? (post.contentMn || post.content) : lang === 'de' ? (post.contentDe || post.content) : (post.contentEn || post.content);
-                  const linkUrl = `/news/${post.slug || post.id}`;
-                  return (
-                    <article 
-                      key={post.id}
-                      className="border-b md:border-b-0 md:border-r border-slate-300 md:pr-8 last:border-r-0 pb-8 md:pb-0 flex flex-col justify-between"
-                    >
-                      <div>
-                        <div className="flex items-center justify-between text-[11px] uppercase tracking-widest font-semibold text-slate-500 mb-3 border-b border-slate-200 pb-2">
-                          <span>VIENNA JOURNAL</span>
-                          <span>{formatNewsDate(post.createdAt, t('common.locale'), { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-                        </div>
-
-                        <Link to={linkUrl}>
-                          <h3 className="font-serif text-xl md:text-2xl font-bold text-slate-900 mb-4 leading-snug hover:text-[#0066B3] transition-colors">
-                            {dTitle}
-                          </h3>
-                        </Link>
-
+            {/* More stories */}
+            {posts.length > 1 && (
+              <div>
+                <h3 className="font-serif text-2xl md:text-3xl text-slate-900 mb-8 pb-3 border-b border-slate-300">{t('news.moreNews')}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                  {posts.slice(1).map((post) => {
+                    const lang = i18n.language;
+                    const dTitle = lang === 'mn' ? (post.titleMn || post.title) : lang === 'de' ? (post.titleDe || post.title) : (post.titleEn || post.title);
+                    const dContent = lang === 'mn' ? (post.contentMn || post.content) : lang === 'de' ? (post.contentDe || post.content) : (post.contentEn || post.content);
+                    const linkUrl = `/news/${post.slug || post.id}`;
+                    return (
+                      <article key={post.id} className="flex flex-col group">
                         <Link to={linkUrl} className="block mb-4">
-                          <div className="border border-slate-300 p-1 bg-white">
-                            <div className="aspect-[16/10] overflow-hidden bg-slate-100">
-                              <img 
-                                src={post.imageUrl} 
-                                alt={dTitle} 
-                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                                referrerPolicy="no-referrer"
-                              />
-                            </div>
+                          <div className="aspect-[16/10] overflow-hidden bg-slate-100 border border-slate-300">
+                            <img src={post.imageUrl} alt={dTitle} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
                           </div>
                         </Link>
-
-                        <p className="font-serif text-xs md:text-sm text-slate-700 leading-relaxed line-clamp-4 font-normal mb-6">
-                          {dContent}
+                        <p className="text-xs uppercase tracking-[0.14em] font-semibold text-slate-500 mb-2">
+                          {formatNewsDate(post.createdAt, t('common.locale'), { month: 'long', day: 'numeric', year: 'numeric' })}
                         </p>
-                      </div>
-
-                      <Link 
-                        to={linkUrl} 
-                        className="inline-flex items-center gap-1.5 font-serif text-[11px] uppercase tracking-[0.18em] font-semibold text-slate-900 hover:text-brand-gold transition-colors pt-3 border-t border-slate-200"
-                      >
-                        <span>FULL ARTICLE →</span>
-                      </Link>
-                    </article>
-                  );
-                })}
+                        <Link to={linkUrl}>
+                          <h3 className="font-serif text-xl md:text-2xl font-bold text-slate-900 leading-snug group-hover:text-[#0066B3] transition-colors line-clamp-3">{dTitle}</h3>
+                        </Link>
+                        <p className="mt-3 font-serif text-sm md:text-base text-slate-700 leading-relaxed line-clamp-3 flex-1">{plain(dContent)}</p>
+                        <Link to={linkUrl} className="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] font-semibold text-slate-900 hover:text-brand-blue transition-colors">
+                          {t('news.readMore')} <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                      </article>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         ) : (
-          <div className="text-center py-24 bg-white border border-slate-300 shadow-sm max-w-xl mx-auto p-8">
-            <UlziiSymbol className="w-16 h-16 text-brand-gold/40 mx-auto mb-6" />
+          <div className="relative text-center py-20 max-w-xl mx-auto">
+            <UlziiSymbol className="w-14 h-14 text-brand-gold/40 mx-auto mb-6" />
             <p className="text-slate-700 font-serif text-xl italic">{t('news.noNews')}</p>
           </div>
         )}
