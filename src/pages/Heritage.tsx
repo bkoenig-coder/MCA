@@ -102,7 +102,7 @@ const HERITAGE_COLLECTIONS: HeritageArtifact[] = [
     significance: 'An unbroken literary tradition capturing historical treaties, imperial decrees, philosophy, and poetry in vertical symmetry symbolizing the connection between Heaven and Earth.',
     details: [
       'Characters have initial, medial, and final forms depending on their structural placement',
-      'Preserved through master-to-apprentice calligraphic transmission and academic workshops in Vienna',
+      'Traditionally passed on from master to apprentice',
       'Officially inscribed on the UNESCO Urgent Safeguarding List in 2013'
     ]
   },
@@ -210,59 +210,37 @@ const HERITAGE_COLLECTIONS: HeritageArtifact[] = [
 
 const ADVANCED_BILATERAL_CHRONOLOGY = [
   {
-    id: 'silk-road',
-    year: '1246 - 1289',
-    eraBadge: '13th Century',
-    eraCategory: 'Silk Road & Early Envoys',
-    titleEn: 'Early Diplomatic Contact & Transcontinental Exchange',
-    titleMn: 'Эртний дипломат харилцааны эхлэл',
-    descEn: 'Transcontinental trade routes and imperial envoys connected Central Europe with the Mongol Empire at Karakorum. Papal and royal letters fostered early geographical understanding and initial intercultural trade along the Silk Road.',
-    highlights: ['Transcontinental Silk Road routes', 'Papal envoys to Karakorum', 'Early cartography and trade agreements'],
-    location: 'Karakorum & Central European Courts'
+    id: 'early-contact',
+    year: '13th century',
+    eraBadge: 'Early contact',
+    eraCategory: 'Europe and the Mongol Empire',
+    titleEn: 'Envoys travel between Europe and the Mongol court',
+    titleMn: 'Европ ба Монгол гүрний эртний харилцаа',
+    descEn: 'In the 13th century, envoys and merchants travelled between European courts and the Mongol Empire. Their written accounts are among the earliest descriptions of the steppe and its people in Europe.',
+    highlights: ['Envoys at the Mongol court', 'Early written accounts of the steppe'],
+    location: 'Mongol Empire and European courts'
   },
   {
-    id: 'diplomatic-treaty',
+    id: 'diplomatic-relations',
     year: '1963',
-    eraBadge: 'Formal Accord',
-    eraCategory: 'Official Bilateral Relations',
-    titleEn: 'Establishment of Official Diplomatic Relations',
-    titleMn: 'Дипломат харилцаа албан ёсоор тогтов',
-    descEn: 'On July 1, 1963, the Republic of Austria and Mongolia officially established formal diplomatic relations. This historic milestone catalyzed decades of bilateral academic fellowships, medical partnerships, environmental cooperation, and musical exchange.',
-    highlights: ['Formal diplomatic accord signed July 1, 1963', 'Academic research exchanges', 'Bilateral trade & developmental cooperation'],
-    location: 'Vienna & Ulaanbaatar'
-  },
-  {
-    id: 'embassy-founded',
-    year: '1992',
-    eraBadge: 'Resident Mission',
-    eraCategory: 'Embassy & Multilateral Mission',
-    titleEn: 'Establishment of the Embassy of Mongolia in Vienna',
-    titleMn: 'Вена хотноо Монгол Улсын Элчин сайдын яам байгуулагдав',
-    descEn: 'Mongolia opened its resident Embassy in Vienna in 1992, serving concurrently as the Permanent Mission of Mongolia to the United Nations and International Organizations in Vienna (including IAEA, UNODC, UNIDO, CTBTO, and OSCE), anchoring bilateral and multilateral diplomacy in Central Europe.',
-    highlights: ['Resident Embassy established in Vienna (1992)', 'Permanent Mission to UN, IAEA, UNODC & OSCE', 'Consular services and diaspora community engagement'],
-    location: 'Embassy of Mongolia, Vienna, Austria'
-  },
-  {
-    id: 'academic-museum',
-    year: '1990 - Present',
-    eraBadge: 'Academic Era',
-    eraCategory: 'Museum & Scholarly Partnerships',
-    titleEn: 'Museum Exhibitions & Archival Research',
-    titleMn: 'Музей, эрдэм шинжилгээний хамтын ажиллагаа',
-    descEn: 'Collaborative research and cultural exhibitions between Austrian institutions—including Weltmuseum Wien and the Austrian Academy of Sciences—and Mongolian national museums, preserving nomadic artifacts and historical collections in Central Europe.',
-    highlights: ['Weltmuseum Wien ethnographic collections', 'Joint archaeological and historical symposiums', 'Austrian-Mongolian academic societies'],
-    location: 'Vienna Cultural & Academic Institutions'
+    eraBadge: 'Diplomacy',
+    eraCategory: 'Austria and Mongolia',
+    titleEn: 'Austria and Mongolia establish diplomatic relations',
+    titleMn: 'Австри, Монгол Улсын хооронд дипломат харилцаа тогтоов',
+    descEn: 'Austria and Mongolia established diplomatic relations in 1963, opening the way for cooperation in culture, education and trade.',
+    highlights: ['Official relations between two countries'],
+    location: 'Vienna and Ulaanbaatar'
   },
   {
     id: 'vienna-center',
     year: '2026',
-    eraBadge: 'New Chapter',
-    eraCategory: 'Community & Cultural Bridge',
-    titleEn: 'Establishment of the Mongolian Center Austria',
-    titleMn: 'Вена дахь Монгол Төв албан ёсоор байгуулагдав',
-    descEn: 'Founded as a registered Austrian cultural association (Verein) in Vienna. The Center serves as a permanent hub for community integration, language learning, living heritage safeguarding, and Austrian-Mongolian cultural diplomacy in the heart of Europe.',
-    highlights: ['Registered cultural association (Verein) in Vienna', 'Traditional music, calligraphy & language academies', 'Intercultural events and community integration hub'],
-    location: 'Mongolian Center Austria, Vienna'
+    eraBadge: 'Today',
+    eraCategory: 'Community',
+    titleEn: 'Mongolian Center in Austria is founded',
+    titleMn: 'Австри дахь Монгол Төв байгуулагдав',
+    descEn: 'Mongolian Center in Austria is a registered non-profit association (Verein) in Vienna. It brings the Mongolian community together to celebrate traditions, share culture and build friendship with Austria.',
+    highlights: ['Registered association (Verein)', 'Celebrations and community events'],
+    location: 'Vienna, Austria'
   }
 ];
 
@@ -281,7 +259,7 @@ export default function Heritage() {
       item.titleEn.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.titleMn.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.catalogId.toLowerCase().includes(searchQuery.toLowerCase());
+      item.region.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
@@ -307,13 +285,15 @@ export default function Heritage() {
             transition={{ duration: 0.6 }}
             className="max-w-4xl"
           >
-            <h1 className="text-4xl sm:text-6xl lg:text-6xl font-serif text-white font-normal tracking-tight leading-[1.15] mb-6">
-              Mongolian Cultural Heritage <br />
-              <span className="italic font-light text-[#D4AF37]">& Living Traditions</span>
+            <div className="flex items-center gap-3 mb-5">
+              <UlziiSymbol className="w-5 h-5 text-brand-gold" />
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">Heritage</span>
+            </div>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white tracking-tight leading-[1.1] mb-5">
+              Mongolian heritage <span className="italic text-[#D4AF37]">and living traditions</span>
             </h1>
-            <p className="text-sm sm:text-base md:text-lg text-slate-300 font-normal leading-relaxed max-w-3xl">
-              The cultural documentation archive of the Mongolian Center Austria in Vienna. 
-              Dedicated to safeguarding UNESCO-recognized intangible cultural heritage, traditional craftsmanship, and classical vertical script through education, workshops, and community preservation in Central Europe.
+            <p className="text-base md:text-lg text-slate-200 leading-relaxed max-w-2xl">
+              Music, craft, script and celebration: the traditions that shape Mongolian culture and travel with our community to Austria. Several of them are recognised by UNESCO as intangible cultural heritage.
             </p>
           </motion.div>
         </div>
@@ -328,13 +308,13 @@ export default function Heritage() {
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-amber-50 text-amber-900 rounded text-xs uppercase font-mono tracking-widest border border-amber-200/80 font-bold">
                   <Compass className="w-3.5 h-3.5 text-[#D4AF37]" />
-                  Digital Exhibition
+                  Interactive
                 </span>
                 <span className="text-xs text-slate-400">•</span>
-                <span className="text-xs text-slate-600 font-sans">Traditional Steppe Settlement</span>
+                <span className="text-xs text-slate-600 font-sans">Steppe life</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-serif font-normal text-slate-900">
-                Virtual Nomadic Settlement <span className="italic text-[#C5A059] font-light">Interactive 3D Overview</span>
+                A nomadic settlement <span className="italic text-[#C5A059] font-light">in 3D</span>
               </h2>
             </div>
 
@@ -344,7 +324,7 @@ export default function Heritage() {
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0A1128] text-white font-bold text-xs uppercase tracking-wider rounded-lg hover:bg-[#D4AF37] hover:text-[#0A1128] transition-colors shadow-md"
               >
                 <Maximize2 className="w-3.5 h-3.5" />
-                <span>Explore Fullscreen Diorama</span>
+                <span>Open full screen</span>
               </Link>
             </div>
           </div>
@@ -409,20 +389,20 @@ export default function Heritage() {
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-amber-50 text-amber-900 rounded text-xs uppercase font-mono tracking-widest border border-amber-200/80 font-bold">
                   <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
-                  3D Artifact Archive
+                  3D Objects
                 </span>
                 <span className="text-xs text-slate-400">•</span>
-                <span className="text-xs text-slate-600 font-sans">Traditional Craftsmanship & Instruments</span>
+                <span className="text-xs text-slate-600 font-sans">Craft and instruments</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-serif font-normal text-slate-900">
-                Traditional Craftsmanship & Instruments <span className="italic text-[#C5A059] font-light">Interactive 3D Views</span>
+                Craft and instruments <span className="italic text-[#C5A059] font-light">up close</span>
               </h2>
             </div>
 
             <div className="flex items-center gap-4">
               <div className="hidden sm:flex items-center gap-2 text-xs text-slate-700 font-mono">
                 <CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37]" />
-                <span>360° Rotational Inspection</span>
+                <span>Turn each object 360°</span>
               </div>
             </div>
           </div>
@@ -451,7 +431,7 @@ export default function Heritage() {
               </h2>
 
               <p className="text-sm text-slate-600 font-normal leading-relaxed">
-                Created in the early 13th century, the classical vertical script is written continuously from top to bottom. Inscribed on the UNESCO List of Intangible Cultural Heritage, it remains an enduring symbol of Mongolian cultural identity and historical literature.
+                The classical vertical script was adopted in the early 13th century and is written from top to bottom. Mongolian calligraphy is on UNESCO's list of intangible heritage in need of urgent safeguarding, and the script remains a strong symbol of Mongolian identity.
               </p>
 
               <div className="grid sm:grid-cols-3 gap-4 pt-2">
@@ -490,7 +470,7 @@ export default function Heritage() {
                 </div>
 
                 <span className="text-xs uppercase font-mono tracking-widest text-[#C5A059] font-bold mt-6">
-                  Calligraphy Workshops in Vienna
+                  Classical Mongolian script
                 </span>
               </div>
             </div>
@@ -505,41 +485,14 @@ export default function Heritage() {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 rounded-lg border border-amber-200 text-xs uppercase tracking-widest font-mono text-amber-900 font-bold mb-3">
             <Landmark className="w-3.5 h-3.5 text-[#D4AF37]" />
-            Bilateral History & Diplomacy
+            History
           </div>
           <h2 className="text-3xl sm:text-4xl font-serif text-slate-900 font-normal">
-            Austrian-Mongolian <span className="italic text-[#C5A059]">Historical Relations</span>
+            Austria and Mongolia <span className="italic text-[#C5A059]">through time</span>
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 font-normal mt-2.5 leading-relaxed">
-            Key milestones in diplomatic, cultural, and academic cooperation connecting Vienna and Mongolia across the centuries.
+            A few milestones in the long connection between Europe, Austria and Mongolia.
           </p>
-
-          {/* Quick Interactive Era Filter Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
-            <button
-              onClick={() => setActiveEraId('all')}
-              className={`px-3 py-1.5 rounded-lg text-[11px] font-mono uppercase tracking-wider font-semibold transition-all ${
-                activeEraId === 'all'
-                  ? 'bg-[#0A1128] text-white shadow-sm'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-              }`}
-            >
-              All Eras
-            </button>
-            {ADVANCED_BILATERAL_CHRONOLOGY.map(era => (
-              <button
-                key={era.id}
-                onClick={() => setActiveEraId(era.id)}
-                className={`px-3 py-1.5 rounded-full text-[11px] font-mono tracking-wider transition-all ${
-                  activeEraId === era.id
-                    ? 'bg-[#D4AF37] text-[#0A1128] font-bold shadow-sm'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
-              >
-                {era.year}
-              </button>
-            ))}
-          </div>
         </div>
 
         {/* Central Alternating Timeline Track */}
@@ -635,13 +588,13 @@ export default function Heritage() {
             <div className="flex items-center gap-2 mb-1">
               <span className="text-[11px] font-mono uppercase tracking-widest text-[#D4AF37] font-bold">Cultural Collection</span>
               <span className="text-slate-300">•</span>
-              <span className="text-xs text-slate-500">{filteredArtifacts.length} Traditions Documented</span>
+              <span className="text-xs text-slate-500">{filteredArtifacts.length} traditions</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-serif text-slate-900 font-medium">
-              UNESCO Heritage & Traditional Arts
+              Traditions recognised by UNESCO
             </h2>
             <p className="text-xs text-slate-500 font-normal mt-1">
-              Selected traditions, material arts, and living customs recognized by UNESCO and preserved by the community.
+              Music, dance, craft, script and festivals that communities in Mongolia keep alive today.
             </p>
           </div>
 
@@ -651,8 +604,8 @@ export default function Heritage() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search traditions or artifacts..."
-              aria-label="Search cultural heritage catalog"
+              placeholder="Search traditions..."
+              aria-label="Search traditions"
               className="w-full pl-9 pr-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-[#D4AF37] text-slate-800 placeholder:text-slate-400 transition-colors"
             />
           </div>
@@ -660,11 +613,11 @@ export default function Heritage() {
 
         <div className="flex items-center gap-2 overflow-x-auto w-full pb-4 mb-8 custom-scrollbar">
           {[
-            { id: 'all', label: 'All Collections', count: HERITAGE_COLLECTIONS.length },
-            { id: 'intangible', label: 'Music & Oral Traditions', count: HERITAGE_COLLECTIONS.filter(x => x.category === 'intangible').length },
-            { id: 'material', label: 'Nomadic Architecture', count: HERITAGE_COLLECTIONS.filter(x => x.category === 'material').length },
-            { id: 'calligraphy', label: 'Calligraphy (Bichig)', count: HERITAGE_COLLECTIONS.filter(x => x.category === 'calligraphy').length },
-            { id: 'ceremony', label: 'Festivals & Traditional Games', count: HERITAGE_COLLECTIONS.filter(x => x.category === 'ceremony').length }
+            { id: 'all', label: 'All', count: HERITAGE_COLLECTIONS.length },
+            { id: 'intangible', label: 'Music and song', count: HERITAGE_COLLECTIONS.filter(x => x.category === 'intangible').length },
+            { id: 'material', label: 'Nomadic home', count: HERITAGE_COLLECTIONS.filter(x => x.category === 'material').length },
+            { id: 'calligraphy', label: 'Script', count: HERITAGE_COLLECTIONS.filter(x => x.category === 'calligraphy').length },
+            { id: 'ceremony', label: 'Festivals and games', count: HERITAGE_COLLECTIONS.filter(x => x.category === 'ceremony').length }
           ].map(tab => (
             <button
               key={tab.id}
@@ -705,9 +658,6 @@ export default function Heritage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 
                 <div className="absolute top-3 left-3 flex items-center gap-2">
-                  <span className="px-2.5 py-1 bg-black/60 backdrop-blur-md rounded text-xs font-mono text-[#D4AF37] border border-[#D4AF37]/30">
-                    {artifact.catalogId}
-                  </span>
                   {artifact.unescoYear && (
                     <span className="px-2.5 py-1 bg-amber-500/90 text-slate-900 font-bold rounded text-xs font-mono">
                       UNESCO {artifact.unescoYear}
@@ -733,7 +683,7 @@ export default function Heritage() {
 
                   <div className="bg-slate-50 rounded-lg p-3.5 border border-slate-100 space-y-2 text-[11px]">
                     <div className="flex items-start justify-between gap-2">
-                      <span className="text-slate-400 uppercase text-xs">Origin / Period</span>
+                      <span className="text-slate-400 uppercase text-xs">Period</span>
                       <span className="font-medium text-slate-700 text-right">{artifact.period}</span>
                     </div>
                     <div className="flex items-start justify-between gap-2">
@@ -755,7 +705,7 @@ export default function Heritage() {
                     className="text-xs font-semibold text-[#0A1128] hover:text-[#D4AF37] flex items-center gap-1.5 transition-colors"
                   >
                     <BookOpen className="w-3.5 h-3.5 text-[#D4AF37]" />
-                    <span>View Cultural Record</span>
+                    <span>Read more</span>
                   </button>
                   <SoyomboSymbol className="w-4 h-4 text-slate-300 group-hover:text-[#D4AF37] transition-colors" />
                 </div>
@@ -772,13 +722,13 @@ export default function Heritage() {
             <div>
               <div className="inline-flex items-center gap-2 mb-2 bg-amber-50 px-3 py-1 rounded-lg border border-amber-200 text-xs uppercase tracking-widest font-mono text-amber-900 font-bold">
                 <Gamepad2 className="w-3.5 h-3.5 text-[#D4AF37]" />
-                Interactive Mini-Game
+                Game
               </div>
               <h2 className="text-2xl sm:text-3xl font-serif text-slate-900 font-normal">
                 Steppe Runner <span className="italic text-[#C5A059]">(Талын Гүйгч)</span>
               </h2>
               <p className="text-xs text-slate-500 font-normal mt-1 max-w-xl">
-                An educational endless runner set across the Mongolian steppe. Collect traditional items (bows, shields, and horses), avoid obstacles, and learn about nomadic symbols.
+                A small endless runner set on the Mongolian steppe. Collect traditional items, avoid obstacles and discover nomadic symbols.
               </p>
             </div>
 
@@ -822,13 +772,13 @@ export default function Heritage() {
                   <Gamepad2 className="w-8 h-8 animate-pulse" />
                 </div>
                 <h3 className="text-white text-xl font-serif mb-2">
-                  Ready to explore the Steppe?
+                  Ready to run across the steppe?
                 </h3>
                 <p className="text-slate-300 text-xs font-normal leading-relaxed mb-6">
                   Controls: Press <strong className="text-[#D4AF37]">SPACEBAR</strong> or <strong className="text-[#D4AF37]">UP ARROW</strong> to jump. On mobile: tap the screen.
                 </p>
                 <span className="px-6 py-3 bg-[#D4AF37] text-[#0A1128] rounded-lg text-xs uppercase tracking-widest font-semibold shadow-lg group-hover:bg-white transition-colors">
-                  Click to Start Game
+                  Start
                 </span>
               </div>
             </div>
@@ -855,9 +805,6 @@ export default function Heritage() {
             >
               <div className="bg-[#0A1128] text-white p-6 relative border-b border-[#D4AF37]/30">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="px-2.5 py-0.5 bg-[#D4AF37] text-[#0A1128] font-mono text-xs font-bold rounded">
-                    {selectedArtifact.catalogId}
-                  </span>
                   {selectedArtifact.unescoYear && (
                     <span className="text-xs text-[#D4AF37] font-mono">
                       UNESCO Recognized ({selectedArtifact.unescoYear})
@@ -874,14 +821,14 @@ export default function Heritage() {
 
               <div className="p-6 overflow-y-auto space-y-6 text-xs text-slate-700">
                 <div className="space-y-2">
-                  <h4 className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold">Cultural Background</h4>
+                  <h4 className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold">Background</h4>
                   <p className="text-slate-700 leading-relaxed font-normal text-sm">
                     {selectedArtifact.significance}
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold">Details & Tradition</h4>
+                  <h4 className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold">Good to know</h4>
                   <ul className="space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-100">
                     {selectedArtifact.details.map((detail, idx) => (
                       <li key={idx} className="flex items-start gap-2 text-slate-600 font-normal">
@@ -899,7 +846,7 @@ export default function Heritage() {
                   </div>
                   <div>
                     <span className="text-slate-400 uppercase text-xs block">Category</span>
-                    <span className="font-medium text-slate-800 text-xs capitalize">{selectedArtifact.category} Heritage</span>
+                    <span className="font-medium text-slate-800 text-xs capitalize">{selectedArtifact.category}</span>
                   </div>
                 </div>
               </div>
@@ -909,7 +856,7 @@ export default function Heritage() {
                   onClick={() => setSelectedArtifact(null)}
                   className="px-5 py-2 bg-[#0A1128] text-white text-xs font-semibold rounded-lg hover:bg-slate-800 transition-colors"
                 >
-                  Close Record
+                  Close
                 </button>
               </div>
             </motion.div>
