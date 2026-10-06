@@ -4,8 +4,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Heart, Globe, ShieldCheck, TrendingUp, ArrowRight, Loader2, CheckCircle2, AlertCircle, Sparkles, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, SoyomboSymbol, ArcherSymbol, MongolianLine, MongolianFormalFrame, MongolianKhasDivider, EyebrowMark, SectionSeam } from '../components/MongolianDesign';
-import { useAuth } from '../contexts/AuthContext';
-import { signInWithGoogle } from '../firebase';
 
 const EMBER_PARTICLES = Array.from({ length: 30 }).map((_, i) => ({
   id: i,
@@ -43,7 +41,6 @@ const EmberBackground = () => (
 
 export default function Impact() {
   const { t } = useTranslation();
-  const { user } = useAuth();
   const [searchParams] = useSearchParams();
   const [loadingAmount, setLoadingAmount] = useState<number | null>(null);
   const [selectedAmount, setSelectedAmount] = useState<number | 'custom'>(2500);
@@ -67,31 +64,18 @@ export default function Impact() {
     { value: 10000, label: '€100' }
   ];
 
-  const handleDonate = async (amount: number) => {
+  const handleDonate = (amount: number) => {
     setError(null);
-    let currentUser = user;
-    if (!currentUser) {
-      try {
-        const result = await signInWithGoogle();
-        if (!result) return;
-        currentUser = result;
-      } catch (err) {
-        setError(t('common.error.signIn'));
-        return;
-      }
-    }
-
     setLoadingAmount(amount);
-    try {
-      const amountInEuro = amount / 100;
-      const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=artxcorestudio@gmail.com&item_name=Donation+to+Mongolian+Center+Austria&currency_code=EUR&amount=${amountInEuro}`;
-      window.open(paypalUrl, '_blank', 'noopener,noreferrer');
-      setLoadingAmount(null);
-    } catch (err: any) {
-      setError(err.message || t('common.error.unexpected'));
-      setLoadingAmount(null);
-    }
+    const amountInEuro = amount / 100;
+    const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=artxcorestudio@gmail.com&item_name=Donation+to+Mongolian+Center+Austria&currency_code=EUR&amount=${amountInEuro}`;
+    window.open(paypalUrl, '_blank', 'noopener,noreferrer');
+    setLoadingAmount(null);
   };
+
+  const customValue = parseFloat(customAmount);
+  const giveAmount = selectedAmount === 'custom' ? (customValue > 0 ? customValue : 0) : selectedAmount / 100;
+  const giveLabel = giveAmount > 0 ? t('impact.donation.giveBtn', { amount: giveAmount }) : t('impact.donation.btn', 'Donate Now');
 
   const handleDonateSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -225,126 +209,132 @@ export default function Impact() {
         </div>
       </section>
 
-      {/* Bright Executive Donation Suite */}
+      {/* Donation */}
       <section className="py-16 md:py-24 bg-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="lg:col-span-6 space-y-6"
+              className="lg:col-span-7"
             >
-              <div className="inline-flex items-center gap-3 text-brand-gold">
-                <Heart className="fill-brand-gold w-5 h-5" />
-                <span className="text-xs uppercase tracking-[0.18em] font-semibold">{t('impact.donation.tag')}</span>
+              <div className="flex items-center gap-4 mb-5">
+                <EyebrowMark />
+                <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('impact.donation.tag')}</span>
               </div>
 
-              <h2 className="text-4xl md:text-5xl font-serif text-slate-900 leading-tight tracking-tight font-medium">
-                {t('impact.donation.title1')} <span className="italic text-brand-gold font-light">{t('impact.donation.title2')}</span> <br />
-                {t('impact.donation.title3')} <span className="italic font-light">{t('impact.donation.title4')}</span>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-brand-ink leading-[1.08] tracking-tight">
+                {t('impact.donation.title1')} <span className="italic text-brand-gold">{t('impact.donation.title2')}</span>{' '}
+                {t('impact.donation.title3')} <span className="italic">{t('impact.donation.title4')}</span>
               </h2>
 
-              <p className="text-base md:text-lg text-slate-600 font-sans font-normal leading-relaxed">
-                {t('impact.donation.mainDesc')}
-              </p>
-              
-              <div className="flex items-center gap-5 p-6 bg-white rounded-[24px] border border-brand-gold/30 shadow-md">
-                <div className="bg-brand-gold/15 border border-brand-gold/30 p-3.5 rounded-xl shrink-0 text-brand-gold">
-                  <Sparkles size={24} />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-slate-900 mb-1">{t('impact.donation.impactNote')}</p>
-                  <p className="text-xs text-slate-500 font-normal">{t('impact.donation.taxNote')}</p>
-                </div>
+              <p className="mt-6 text-base md:text-lg text-slate-600 leading-relaxed max-w-2xl">{t('impact.donation.mainDesc')}</p>
+
+              <div className="mt-10 pt-8 border-t border-slate-200 max-w-2xl">
+                <p className="text-xs uppercase tracking-[0.16em] font-semibold text-slate-500 mb-5">{t('impact.donation.gives')}</p>
+                <ul className="space-y-4">
+                  {['g1', 'g2', 'g3'].map((k) => (
+                    <li key={k} className="flex items-start gap-4">
+                      <span aria-hidden="true" className="mt-2.5 w-2 h-2 rotate-45 bg-brand-gold shrink-0" />
+                      <span className="text-lg font-serif text-brand-ink leading-snug">{t(`impact.donation.${k}`)}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
+
+              <p className="mt-10 font-serif italic text-xl text-brand-blue">{t('impact.donation.thanks')}</p>
             </motion.div>
 
-            {/* Bright White Donation Card */}
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="lg:col-span-6"
+              transition={{ delay: 0.1 }}
+              className="lg:col-span-5"
             >
-              <div className="bg-white border border-brand-gold/30 p-8 md:p-12 rounded-2xl md:rounded-2xl shadow-lg relative overflow-hidden">
-                <form onSubmit={handleDonateSubmit} className="space-y-6">
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <label className="text-xs font-semibold uppercase tracking-widest text-slate-900">{t('impact.donation.select', 'Select Amount')}</label>
-                      <span className="text-xs uppercase tracking-widest text-slate-400 font-sans">EUR (€)</span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      {donationAmounts.map((opt) => (
-                        <button
-                          key={opt.value}
-                          type="button"
-                          onClick={() => {
-                            setSelectedAmount(opt.value);
-                            setError(null);
-                          }}
-                          className={`p-4 rounded-2xl border-2 transition-all duration-300 text-center font-extrabold ${
-                            selectedAmount === opt.value
-                              ? 'border-brand-gold bg-brand-gold/10 text-slate-950 shadow-md'
-                              : 'border-slate-200 hover:border-brand-gold/50 bg-slate-50 text-slate-700'
-                          }`}
-                        >
-                          <div className={`text-2xl font-serif ${selectedAmount === opt.value ? 'text-brand-gold' : 'text-slate-900'}`}>
-                            {opt.label}
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+              <form onSubmit={handleDonateSubmit} className="bg-white border border-slate-200 rounded-2xl p-7 md:p-9 shadow-[0_20px_50px_-24px_rgba(15,23,42,0.25)] border-t-4 border-t-brand-gold">
+                <div className="flex items-center gap-2.5 mb-6">
+                  <Heart className="w-5 h-5 text-brand-gold fill-brand-gold" />
+                  <span className="text-xs uppercase tracking-[0.16em] font-semibold text-brand-ink">{t('impact.donation.oneTime')}</span>
+                </div>
 
-                  <div className="space-y-3">
-                    <label className="text-xs font-semibold uppercase tracking-widest text-slate-900">{t('impact.donation.custom', 'Custom Amount')}</label>
-                    <div className={`flex items-center px-5 py-4 rounded-2xl border-2 transition-all duration-300 ${
-                      selectedAmount === 'custom' 
-                        ? 'border-brand-gold bg-brand-gold/5 shadow-sm' 
-                        : 'border-slate-200 bg-white'
-                    }`}>
-                      <span className="text-2xl font-serif text-slate-400 mr-3">€</span>
-                      <input
-                        type="number"
-                        min="1"
-                        step="1"
-                        placeholder="0.00"
-                        className="bg-transparent text-2xl font-serif text-slate-900 outline-none w-full placeholder:text-slate-300 font-semibold"
-                        value={customAmount}
-                        onChange={(e) => {
-                          setCustomAmount(e.target.value);
-                          setSelectedAmount('custom');
+                <div role="radiogroup" aria-label={t('impact.donation.chooseAmount')} className="grid grid-cols-2 gap-3">
+                  {donationAmounts.map((opt) => {
+                    const active = selectedAmount === opt.value;
+                    return (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        role="radio"
+                        aria-checked={active}
+                        onClick={() => {
+                          setSelectedAmount(opt.value);
                           setError(null);
                         }}
-                        onClick={() => setSelectedAmount('custom')}
-                      />
-                    </div>
+                        className={`py-4 rounded-xl border text-2xl font-serif transition-colors ${
+                          active ? 'border-brand-ink bg-brand-ink text-white' : 'border-slate-300 text-brand-ink hover:border-brand-gold'
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div
+                  className={`mt-3 flex items-center px-5 py-3.5 rounded-xl border transition-colors ${
+                    selectedAmount === 'custom' ? 'border-brand-ink' : 'border-slate-300'
+                  }`}
+                >
+                  <span className="text-xl font-serif text-slate-400 mr-3">€</span>
+                  <input
+                    type="number"
+                    min="1"
+                    step="1"
+                    inputMode="decimal"
+                    aria-label={t('impact.donation.custom', 'Custom Amount')}
+                    placeholder={t('impact.donation.customPlaceholder')}
+                    className="bg-transparent text-lg text-brand-ink outline-none w-full placeholder:text-slate-400"
+                    value={customAmount}
+                    onChange={(e) => {
+                      setCustomAmount(e.target.value);
+                      setSelectedAmount('custom');
+                      setError(null);
+                    }}
+                    onClick={() => setSelectedAmount('custom')}
+                  />
+                </div>
+
+                {error && (
+                  <div role="alert" className="mt-4 p-3.5 bg-red-50 border border-red-200 text-red-600 rounded-lg text-xs flex items-start gap-2.5 font-medium">
+                    <AlertCircle className="shrink-0 w-4 h-4 mt-0.5" />
+                    <p>{error}</p>
                   </div>
+                )}
 
-                  {error && (
-                    <div className="p-4 bg-red-50 border border-red-200 text-red-600 rounded-xl text-xs flex items-start gap-2.5 font-medium">
-                      <AlertCircle className="shrink-0 w-4 h-4 mt-0.5" />
-                      <p>{error}</p>
-                    </div>
+                <button
+                  type="submit"
+                  disabled={loadingAmount !== null}
+                  className="mt-6 w-full bg-brand-gold hover:bg-amber-400 text-slate-950 py-4 rounded-xl uppercase tracking-[0.16em] font-semibold text-xs transition-colors flex items-center justify-center gap-3 disabled:opacity-70 group"
+                >
+                  {loadingAmount !== null ? (
+                    <><Loader2 className="animate-spin w-5 h-5" /> {t('common.processing')}</>
+                  ) : (
+                    <>
+                      <Heart className="w-4 h-4 fill-slate-950" />
+                      <span>{giveLabel}</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                    </>
                   )}
+                </button>
 
-                  <button
-                    type="submit"
-                    disabled={loadingAmount !== null}
-                    className="w-full bg-brand-gold hover:bg-amber-400 text-slate-950 p-5 rounded-full uppercase tracking-[0.2em] font-semibold text-xs transition-all shadow-md flex items-center justify-center gap-3 disabled:opacity-70 group"
-                  >
-                    {loadingAmount !== null ? (
-                      <><Loader2 className="animate-spin w-5 h-5" /> {t('common.processing')}</>
-                    ) : (
-                      <>
-                        <span>{t('impact.donation.btn', 'Donate Now')}</span>
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
-                      </>
-                    )}
-                  </button>
-                </form>
-              </div>
+                <p className="mt-5 flex items-center justify-center gap-2 text-xs text-slate-500">
+                  <ShieldCheck className="w-4 h-4 text-brand-blue" /> {t('impact.donation.secure')}
+                </p>
+                <p className="mt-3 text-xs text-slate-500 text-center leading-relaxed">{t('impact.donation.impactNote')}</p>
+                <p className="mt-2 text-xs text-slate-400 text-center leading-relaxed">{t('impact.donation.taxNote')}</p>
+              </form>
             </motion.div>
           </div>
         </div>
