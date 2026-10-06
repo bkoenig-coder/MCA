@@ -1,47 +1,47 @@
 import { motion } from 'motion/react';
 import { useState, FormEvent } from 'react';
-import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2, AlertCircle, ArrowUpRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { UlziiSymbol, SoyomboSymbol, MongolianLine, ArcherSymbol, MongolianFormalFrame, MongolianKhasDivider, SectionSeam } from '../components/MongolianDesign';
+import { EyebrowMark, MeanderBand } from '../components/MongolianDesign';
 import NewsletterForm from '../components/NewsletterForm';
+
+const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Schöpfleuthergasse 25, 1210 Wien');
+
+const inputClass =
+  'w-full bg-white border border-slate-300 rounded-lg px-4 py-3 text-sm text-brand-ink placeholder:text-slate-400 focus:outline-none focus:border-brand-blue focus:ring-1 focus:ring-brand-blue transition-colors';
+const labelClass = 'block mb-2 text-xs uppercase tracking-[0.12em] font-semibold text-slate-600';
+
+const TOPIC_KEYS = ['t1', 't2', 't3', 't4', 't5', 't6'] as const;
 
 export default function Contact() {
   const { t } = useTranslation();
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    subject: t('contact.form.subjects.general'),
-    message: '',
-    subscribe: false
-  });
+  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', topic: 't1', message: '', subscribe: false, website: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (status === 'loading') return;
+    if (formData.website) {
+      // Hidden field filled in: a bot. Pretend success.
+      setStatus('success');
+      return;
+    }
     setStatus('loading');
-
     try {
-      // 1. Send contact form data
-      const contactResponse = await fetch('/api/contact', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           firstName: formData.firstName,
           lastName: formData.lastName,
           email: formData.email,
-          subject: formData.subject,
-          message: formData.message
+          subject: t(`contactPage.${formData.topic}`, { lng: 'en' }),
+          message: formData.message,
         }),
       });
+      if (!res.ok) throw new Error('Failed to send contact form');
 
-      if (!contactResponse.ok) {
-        throw new Error('Failed to send contact form');
-      }
-
-      console.log('Contact form submitted successfully');
-
-      // 2. If subscribe is checked, send to newsletter endpoint
       if (formData.subscribe) {
         try {
           await fetch('/api/newsletter/subscribe', {
@@ -51,247 +51,177 @@ export default function Contact() {
           });
         } catch (err) {
           console.error('Newsletter subscription failed during contact form submission:', err);
-          // We don't fail the whole form if just the newsletter fails
         }
       }
-      
-      setStatus('success');
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        subject: t('contact.form.subjects.general'),
-        message: '',
-        subscribe: false
-      });
 
-      setTimeout(() => setStatus('idle'), 5000);
+      setStatus('success');
+      setFormData({ firstName: '', lastName: '', email: '', topic: 't1', message: '', subscribe: false, website: '' });
     } catch (error) {
+      console.error(error);
       setStatus('error');
-      setTimeout(() => setStatus('idle'), 5000);
     }
   };
 
+  const infoCard = 'flex items-start gap-5 py-6 border-b border-slate-200 last:border-b-0';
+  const infoIcon = 'w-11 h-11 rounded-full bg-brand-blue/10 text-brand-blue flex items-center justify-center shrink-0';
+  const infoLabel = 'text-xs uppercase tracking-[0.14em] font-semibold text-slate-500 mb-1.5';
+
   return (
-    <div className="pt-[140px] md:pt-[152px] bg-white">
-      {/* Executive Hero */}
-      <section className="relative min-h-[320px] md:h-[400px] flex items-center px-6 text-white overflow-hidden border-b border-[#D4AF37]/30">
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://plus.unsplash.com/premium_photo-1697730217843-764889ae1995?q=80&w=1600&auto=format&fit=crop" 
-            alt="Mongolian Landscape" 
-            className="w-full h-full object-cover object-center"
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/25" />
-        </div>
-        <div className="max-w-7xl mx-auto w-full relative z-10 py-10 md:py-0">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <UlziiSymbol className="w-5 h-5 text-brand-gold" />
-              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('contact.tag')}</span>
+    <div className="pt-[140px] md:pt-[152px] bg-white text-slate-900 font-sans">
+      {/* Header */}
+      <section className="relative border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-14 md:py-20">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
+            <div className="flex items-center gap-4 mb-4">
+              <EyebrowMark />
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('contactPage.tag')}</span>
             </div>
-            <h1 className="text-4xl md:text-6xl lg:text-6xl font-serif text-white tracking-tight leading-tight">
-              {t('contact.title')} <br className="hidden md:block" /><span className="italic text-brand-gold font-light">{t('contact.titleItalic')}</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-brand-ink leading-tight">
+              {t('contactPage.title')} <span className="italic text-brand-gold">{t('contactPage.titleItalic')}</span>
             </h1>
+            <p className="mt-5 text-base md:text-lg text-brand-ink/80 leading-relaxed">{t('contactPage.intro')}</p>
           </motion.div>
         </div>
+        <MeanderBand className="absolute bottom-0 inset-x-0 translate-y-1/2 bg-brand-gold/40" />
       </section>
 
-      {/* Bright Executive Contact Content */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-            {/* Info Cards */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="lg:col-span-5 space-y-6"
-            >
-              <div className="space-y-6">
-                <div className="bg-white border border-brand-gold/30 rounded-[24px] md:rounded-2xl p-6 md:p-8 shadow-lg hover:border-brand-gold hover:shadow-xl transition-all duration-300 flex items-start gap-6 group">
-                  <div className="w-16 h-16 bg-brand-gold/15 text-brand-gold rounded-2xl border border-brand-gold/30 flex items-center justify-center flex-shrink-0 group-hover:bg-brand-gold group-hover:text-slate-950 transition-colors duration-300">
-                    <MapPin size={26} />
-                  </div>
-                  <div>
-                    <h4 className="text-xs uppercase tracking-[0.25em] font-semibold text-slate-400 mb-2">{t('contact.info.location')}</h4>
-                    <p className="text-xl font-serif text-slate-900 leading-snug font-semibold">
-                      Vienna, Austria
-                    </p>
-                  </div>
-                </div>
+      <section className="py-14 md:py-20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Details */}
+          <motion.aside initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="lg:col-span-5">
+            <p className="font-serif text-2xl text-brand-ink mb-2">Mongolian Center in Austria</p>
+            <p className="text-sm text-slate-500 mb-4">Mongolische Zentrum in Österreich</p>
 
-                <div className="bg-white border border-brand-gold/30 rounded-[24px] md:rounded-2xl p-6 md:p-8 shadow-lg hover:border-brand-gold hover:shadow-xl transition-all duration-300 flex items-start gap-6 group">
-                  <div className="w-16 h-16 bg-brand-gold/15 text-brand-gold rounded-2xl border border-brand-gold/30 flex items-center justify-center flex-shrink-0 group-hover:bg-brand-gold group-hover:text-slate-950 transition-colors duration-300">
-                    <Mail size={26} />
-                  </div>
-                  <div>
-                    <h4 className="text-xs uppercase tracking-[0.25em] font-semibold text-slate-400 mb-2">{t('contact.info.email')}</h4>
-                    <p className="text-xl font-serif text-slate-900 leading-snug break-all font-semibold">
-                      info@mongoliancenter.org
-                    </p>
-                  </div>
-                </div>
-
-                <div className="bg-white border border-brand-gold/30 rounded-[24px] md:rounded-2xl p-6 md:p-8 shadow-lg hover:border-brand-gold hover:shadow-xl transition-all duration-300 flex items-start gap-6 group">
-                  <div className="w-16 h-16 bg-brand-gold/15 text-brand-gold rounded-2xl border border-brand-gold/30 flex items-center justify-center flex-shrink-0 group-hover:bg-brand-gold group-hover:text-slate-950 transition-colors duration-300">
-                    <Phone size={26} />
-                  </div>
-                  <div>
-                    <h4 className="text-xs uppercase tracking-[0.25em] font-semibold text-slate-400 mb-2">{t('contact.info.phone')}</h4>
-                    <p className="text-xl font-serif text-slate-900 leading-snug font-semibold">
-                      +4367761160389
-                    </p>
-                  </div>
+            <div className="border-t border-slate-200">
+              <div className={infoCard}>
+                <span className={infoIcon}><MapPin size={20} /></span>
+                <div>
+                  <p className={infoLabel}>{t('contactPage.visit')}</p>
+                  <address className="not-italic text-lg font-serif text-brand-ink leading-snug">
+                    Schöpfleuthergasse 25<br />1210 Vienna, Austria
+                  </address>
+                  <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center gap-1.5 text-sm text-brand-blue hover:underline">
+                    {t('contactPage.maps')} <ArrowUpRight size={14} />
+                  </a>
                 </div>
               </div>
 
-              {/* Cultural Quote Box */}
-              <div className="p-8 bg-white border border-brand-gold/30 rounded-[24px] md:rounded-2xl shadow-md">
-                <div className="flex items-center gap-5">
-                  <UlziiSymbol className="w-10 h-10 text-brand-gold flex-shrink-0" />
-                  <p className="text-xs md:text-sm text-slate-600 font-serif italic leading-relaxed">
-                    "{t('contact.quote')}"
-                  </p>
+              <div className={infoCard}>
+                <span className={infoIcon}><Mail size={20} /></span>
+                <div>
+                  <p className={infoLabel}>{t('contactPage.email')}</p>
+                  <a href="mailto:info@mongoliancenter.org" className="text-lg font-serif text-brand-ink hover:text-brand-blue break-all">info@mongoliancenter.org</a>
                 </div>
               </div>
-            </motion.div>
 
-            {/* Smooth Rounded Form Container */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="lg:col-span-7"
-            >
-              <div className="bg-white p-8 md:p-14 rounded-2xl md:rounded-2xl border border-brand-gold/30 shadow-lg relative overflow-hidden">
-                <div className="mb-8">
-                  <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold block mb-1">Official Inquiry</span>
-                  <h3 className="text-2xl md:text-4xl font-serif text-slate-900 font-semibold">Send Us a Message</h3>
+              <div className={infoCard}>
+                <span className={infoIcon}><Phone size={20} /></span>
+                <div>
+                  <p className={infoLabel}>{t('contactPage.phone')}</p>
+                  <a href="tel:+4367761160389" className="text-lg font-serif text-brand-ink hover:text-brand-blue">+43 677 6116 0389</a>
                 </div>
+              </div>
+            </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-widest font-semibold text-slate-700 ml-1">{t('contact.form.firstName')}</label>
-                      <input 
-                        type="text" 
-                        required
-                        value={formData.firstName}
-                        onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all outline-none font-sans text-sm text-slate-900" 
-                        placeholder={t('contact.form.placeholders.firstName')} 
-                      />
+            <p className="mt-6 text-xs text-slate-500">ZVR-Zahl 1673049268 · Vereinsregister, Magistrat der Stadt Wien</p>
+          </motion.aside>
+
+          {/* Form */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="lg:col-span-7">
+            <div className="border border-slate-200 rounded-2xl p-7 md:p-10 border-t-4 border-t-brand-gold bg-white shadow-[0_20px_50px_-28px_rgba(15,23,42,0.25)]">
+              <h2 className="text-2xl md:text-3xl font-serif text-brand-ink">{t('contactPage.formTitle')}</h2>
+              <p className="mt-2 mb-8 text-slate-600">{t('contactPage.formIntro')}</p>
+
+              {status === 'success' ? (
+                <div role="status" className="text-center py-10">
+                  <CheckCircle2 className="w-12 h-12 text-brand-blue mx-auto mb-4" />
+                  <p className="text-lg font-serif text-brand-ink max-w-md mx-auto">{t('contactPage.success')}</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid md:grid-cols-2 gap-5">
+                    <div>
+                      <label className={labelClass} htmlFor="c-first">{t('contactPage.firstName')}</label>
+                      <input id="c-first" required maxLength={100} autoComplete="given-name" value={formData.firstName} onChange={(e) => setFormData({ ...formData, firstName: e.target.value })} className={inputClass} />
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-widest font-semibold text-slate-700 ml-1">{t('contact.form.lastName')}</label>
-                      <input 
-                        type="text" 
-                        required
-                        value={formData.lastName}
-                        onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all outline-none font-sans text-sm text-slate-900" 
-                        placeholder={t('contact.form.placeholders.lastName')} 
-                      />
+                    <div>
+                      <label className={labelClass} htmlFor="c-last">{t('contactPage.lastName')}</label>
+                      <input id="c-last" required maxLength={100} autoComplete="family-name" value={formData.lastName} onChange={(e) => setFormData({ ...formData, lastName: e.target.value })} className={inputClass} />
                     </div>
                   </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-xs uppercase tracking-widest font-semibold text-slate-700 ml-1">{t('contact.form.email')}</label>
-                    <input 
-                      type="email" 
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all outline-none font-sans text-sm text-slate-900" 
-                      placeholder={t('contact.form.placeholders.email')} 
-                    />
+
+                  <div>
+                    <label className={labelClass} htmlFor="c-email">{t('contactPage.yourEmail')}</label>
+                    <input id="c-email" type="email" required maxLength={200} autoComplete="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className={inputClass} />
                   </div>
 
-                  <div className="space-y-2">
-                    <label className="text-xs uppercase tracking-widest font-semibold text-slate-700 ml-1">{t('contact.form.subject')}</label>
-                    <select 
-                      value={formData.subject}
-                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all outline-none appearance-none font-sans text-sm text-slate-900"
-                    >
-                      <option>{t('contact.form.subjects.general')}</option>
-                      <option>{t('contact.form.subjects.investment')}</option>
-                      <option>{t('contact.form.subjects.cultural')}</option>
+                  <div>
+                    <label className={labelClass} htmlFor="c-topic">{t('contactPage.topic')}</label>
+                    <select id="c-topic" value={formData.topic} onChange={(e) => setFormData({ ...formData, topic: e.target.value })} className={inputClass}>
+                      {TOPIC_KEYS.map((k) => (
+                        <option key={k} value={k}>{t(`contactPage.${k}`)}</option>
+                      ))}
                     </select>
                   </div>
 
-                  <div className="space-y-2">
-                    <label className="text-xs uppercase tracking-widest font-semibold text-slate-700 ml-1">{t('contact.form.message')}</label>
-                    <textarea 
-                      rows={5} 
-                      required
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all outline-none font-sans text-sm text-slate-900 resize-none" 
-                      placeholder={t('contact.form.placeholders.message')}
-                    ></textarea>
+                  <div>
+                    <label className={labelClass} htmlFor="c-message">{t('contactPage.message')}</label>
+                    <textarea id="c-message" required rows={6} maxLength={5000} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} placeholder={t('contactPage.messagePh')} className={`${inputClass} resize-none`} />
                   </div>
 
-                  <div className="flex items-center gap-3 ml-1">
-                    <input 
-                      type="checkbox" 
-                      id="subscribe"
-                      checked={formData.subscribe}
-                      onChange={(e) => setFormData({ ...formData, subscribe: e.target.checked })}
-                      className="w-4 h-4 rounded border-slate-300 text-brand-gold focus:ring-brand-gold"
-                    />
-                    <label htmlFor="subscribe" className="text-xs text-slate-600 font-sans cursor-pointer">
-                      {t('news.newsletter.desc')}
+                  {/* Honeypot: real people never see or fill this */}
+                  <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+                    <label>
+                      Website
+                      <input tabIndex={-1} autoComplete="off" value={formData.website} onChange={(e) => setFormData({ ...formData, website: e.target.value })} />
                     </label>
                   </div>
 
-                  <button 
+                  <label className="flex items-start gap-3 text-sm text-slate-600 cursor-pointer">
+                    <input type="checkbox" checked={formData.subscribe} onChange={(e) => setFormData({ ...formData, subscribe: e.target.checked })} className="mt-0.5 h-4 w-4 accent-[#0066B3]" />
+                    <span>{t('contactPage.newsletter')}</span>
+                  </label>
+
+                  <p className="text-xs text-slate-500 leading-relaxed">
+                    {t('contactPage.consent')} <Link to="/privacy" className="underline hover:text-brand-blue">{t('contactPage.nameTitle')}</Link>.
+                  </p>
+
+                  {status === 'error' && (
+                    <div role="alert" className="p-3.5 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm flex items-start gap-2.5">
+                      <AlertCircle className="shrink-0 w-4 h-4 mt-0.5" />
+                      <p>{t('contactPage.error')}</p>
+                    </div>
+                  )}
+
+                  <button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="w-full bg-brand-gold hover:bg-amber-400 text-slate-950 py-5 rounded-full font-semibold flex items-center justify-center gap-3 transition-all shadow-[0_10px_30px_rgba(212,175,55,0.3)] group uppercase tracking-[0.2em] text-xs disabled:opacity-70"
+                    className="w-full bg-brand-ink text-white hover:bg-brand-blue py-4 rounded-lg uppercase tracking-[0.16em] font-semibold text-xs transition-colors flex items-center justify-center gap-3 disabled:opacity-60 group"
                   >
                     {status === 'loading' ? (
-                      <Loader2 className="animate-spin" size={18} />
-                    ) : status === 'success' ? (
-                      <>
-                        <span>{t('contact.success')}</span>
-                        <CheckCircle2 size={18} />
-                      </>
+                      <><Loader2 className="animate-spin" size={16} /> {t('contactPage.sending')}</>
                     ) : (
                       <>
-                        <span>{t('contact.form.send')}</span>
-                        <Send size={14} className="group-hover:translate-x-1 transition-transform" />
+                        <span>{t('contactPage.send')}</span>
+                        <Send size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                       </>
                     )}
                   </button>
                 </form>
-              </div>
-            </motion.div>
-          </div>
+              )}
+            </div>
+          </motion.div>
         </div>
-
-        <MongolianKhasDivider className="max-w-4xl mx-auto my-16" />
       </section>
 
-      <SectionSeam />
-      {/* Newsletter Section */}
-      <section className="py-16 md:py-24 px-6 bg-[#0A1128] text-white relative overflow-hidden border-t border-brand-gold/20">
-        <div className="max-w-4xl mx-auto relative z-10">
-          <div className="bg-slate-900/90 border border-brand-gold/40 p-8 md:p-14 rounded-2xl md:rounded-2xl shadow-lg text-center">
-            <h2 className="text-3xl md:text-5xl font-serif mb-4 tracking-tight">
-              {t('news.newsletter.title')} <span className="italic text-brand-gold font-light">{t('news.newsletter.titleItalic')}</span>
-            </h2>
-            <p className="text-sm md:text-base text-slate-300 font-sans font-normal leading-relaxed mb-8 max-w-2xl mx-auto">
-              {t('news.newsletter.desc')}
-            </p>
-            <NewsletterForm variant="dark" />
-          </div>
+      {/* Newsletter */}
+      <section className="py-16 md:py-20 px-6 bg-brand-ink text-white relative overflow-hidden">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-serif mb-4">
+            {t('news.newsletter.title')} <span className="italic text-brand-gold">{t('news.newsletter.titleItalic')}</span>
+          </h2>
+          <p className="text-base text-white/75 leading-relaxed mb-8 max-w-xl mx-auto">{t('news.newsletter.desc')}</p>
+          <NewsletterForm variant="dark" />
         </div>
       </section>
     </div>
