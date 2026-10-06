@@ -1,27 +1,65 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from 'react-i18next';
-import { SoyomboSymbol, GerSymbol, MeanderBand } from './MongolianDesign';
-import { CuteCloud } from './CuteClouds';
+import { SoyomboSymbol, GerSymbol } from './MongolianDesign';
 
-/** One tile of the woven cloud-scroll pattern: two rows of curling clouds, the lower row shifted half a tile. */
-const cloudTile = (stroke: string) => {
-  const cloud =
-    '<path d="M6 74C6 66 14 64 18 68C21 71 17 76 13 74M18 78H202M214 74C214 66 206 64 202 68C199 71 203 76 207 74"/>' +
-    '<path d="M30 78C24 56 44 40 62 50C74 57 70 74 58 72C49 70 50 60 58 60"/>' +
-    '<path d="M72 78C66 42 98 18 128 30C148 38 148 64 130 64C116 64 114 48 126 46C134 45 138 52 133 56"/>' +
-    '<path d="M150 78C150 57 172 44 188 54C198 60 194 74 183 72C175 70 176 61 184 61"/>';
-  const svg =
-    '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="140" viewBox="0 0 200 140">' +
-    `<g fill="none" stroke="${stroke}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">` +
-    `<g transform="translate(6 6) scale(0.82)">${cloud}</g>` +
-    `<g transform="translate(-94 76) scale(0.82)">${cloud}</g>` +
-    `<g transform="translate(106 76) scale(0.82)">${cloud}</g>` +
-    '</g></svg>';
-  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+// ---- Mongolian carpet design: a field with a central medallion, framed by meander (alkhan khee) borders ----
+const NAVY = '#0A2A5C';
+const BURGUNDY = '#6E1B2C';
+const CREAM = '#F1E3C0';
+const TEAL = '#6FB3B8';
+const GOLD = '#E0B94A';
+
+const dataUri = (svg: string) => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+
+// Meander key, horizontal (24x12) and vertical (12x24) tiles
+const MEANDER_H = dataUri(
+  `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="12" viewBox="0 0 24 12"><path d="M0 11H3V1.5H21V11H24M8 11V5H16V11" fill="none" stroke="${GOLD}" stroke-width="1.7" stroke-linejoin="miter"/></svg>`
+);
+const MEANDER_V = dataUri(
+  `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24"><path d="M11 0V3H1.5V21H11V24M11 8H5V16H11" fill="none" stroke="${GOLD}" stroke-width="1.7" stroke-linejoin="miter"/></svg>`
+);
+
+// Field weave: small lozenges, light thread and dark shadow thread
+const lozenge = (stroke: string) =>
+  dataUri(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><g fill="none" stroke="${stroke}" stroke-width="2"><path d="M28 4L52 28L28 52L4 28Z"/><path d="M28 14L42 28L28 42L14 28Z"/></g><circle cx="28" cy="28" r="2.5" fill="${stroke}"/></svg>`
+  );
+const LOZENGE_LIGHT = lozenge('#8FB6E6');
+const LOZENGE_DARK = lozenge('#021430');
+
+/** Eight-petal rosette used in the corners of the borders. */
+const Rosette = ({ className = '' }: { className?: string }) => (
+  <svg viewBox="0 0 100 100" className={className} aria-hidden="true">
+    <circle cx="50" cy="50" r="46" fill={BURGUNDY} />
+    <circle cx="50" cy="50" r="46" fill="none" stroke={GOLD} strokeWidth="3" />
+    {Array.from({ length: 8 }).map((_, i) => (
+      <ellipse key={i} cx="50" cy="26" rx="9" ry="17" fill={i % 2 ? TEAL : CREAM} transform={`rotate(${i * 45} 50 50)`} />
+    ))}
+    <circle cx="50" cy="50" r="13" fill={NAVY} />
+    <circle cx="50" cy="50" r="7" fill={GOLD} />
+  </svg>
+);
+
+/** A rectangular band of meander key with a rosette in each corner. */
+const MeanderFrame = ({ band, className }: { band: number; className: string }) => {
+  const h = { backgroundColor: BURGUNDY, backgroundImage: MEANDER_H, backgroundSize: `${band * 1.3}px ${band * 0.65}px`, backgroundRepeat: 'repeat-x', backgroundPosition: 'center' } as const;
+  const v = { backgroundColor: BURGUNDY, backgroundImage: MEANDER_V, backgroundSize: `${band * 0.65}px ${band * 1.3}px`, backgroundRepeat: 'repeat-y', backgroundPosition: 'center' } as const;
+  const corner = { width: band, height: band, backgroundColor: CREAM } as const;
+  return (
+    <div className={`absolute ${className}`}>
+      <div className="absolute inset-x-0 top-0" style={{ height: band, ...h }} />
+      <div className="absolute inset-x-0 bottom-0" style={{ height: band, ...h }} />
+      <div className="absolute inset-y-0 left-0" style={{ width: band, ...v }} />
+      <div className="absolute inset-y-0 right-0" style={{ width: band, ...v }} />
+      {['left-0 top-0', 'right-0 top-0', 'left-0 bottom-0', 'right-0 bottom-0'].map((pos) => (
+        <div key={pos} className={`absolute ${pos} p-[3px]`} style={corner}>
+          <Rosette className="w-full h-full" />
+        </div>
+      ))}
+    </div>
+  );
 };
-const CLOUD_TILE_LIGHT = cloudTile('#9CC8F5');
-const CLOUD_TILE_DARK = cloudTile('#021A3A');
 
 export default function CarpetIntro() {
   const { t } = useTranslation();
@@ -37,23 +75,18 @@ export default function CarpetIntro() {
     };
   }, []);
 
-  // Deep blue wool carpet woven with a Mongolian cloud-scroll pattern, cute gold clouds and a golden border
+  const outerBand = typeof window !== 'undefined' && window.innerWidth < 768 ? 26 : 38;
+  const medBand = typeof window !== 'undefined' && window.innerWidth < 768 ? 22 : 30;
+
+  // Deep blue wool carpet: lozenge-woven field, central medallion and a meander border
   const carpetBg = (
     <>
-      {/* Base blue wool, lighter in the middle like a lit carpet */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#0F5BAA_0%,#0A417F_55%,#062A57_100%)]" />
+      {/* Field */}
+      <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at center, #11407F 0%, ${NAVY} 60%, #061936 100%)` }} />
+      <div className="absolute inset-0 opacity-[0.22] mix-blend-screen" style={{ backgroundImage: LOZENGE_LIGHT, backgroundSize: '56px 56px' }} />
+      <div className="absolute inset-0 opacity-[0.4] mix-blend-multiply" style={{ backgroundImage: LOZENGE_DARK, backgroundSize: '56px 56px', backgroundPosition: '2px 2px' }} />
 
-      {/* Cloud-scroll weave: light thread and a dark shadow thread, offset like real pile */}
-      <div
-        className="absolute inset-0 opacity-[0.3] mix-blend-screen"
-        style={{ backgroundImage: CLOUD_TILE_LIGHT, backgroundSize: '200px 140px' }}
-      />
-      <div
-        className="absolute inset-0 opacity-[0.35] mix-blend-multiply"
-        style={{ backgroundImage: CLOUD_TILE_DARK, backgroundSize: '200px 140px', backgroundPosition: '2px 2px' }}
-      />
-
-      {/* Noise for fabric texture */}
+      {/* Fabric noise */}
       <div
         className="absolute inset-0 opacity-[0.25] mix-blend-overlay pointer-events-none"
         style={{
@@ -61,17 +94,24 @@ export default function CarpetIntro() {
         }}
       />
 
-      {/* Woven cloud medallions in gold, one in each corner of the field */}
-      <CuteCloud variant="b" tone="gold" className="absolute left-[7%] top-[14%] w-[20vw] max-w-[260px] min-w-[96px] opacity-90" />
-      <CuteCloud variant="c" tone="gold" className="absolute right-[7%] top-[20%] w-[16vw] max-w-[210px] min-w-[80px] opacity-90" />
-      <CuteCloud variant="a" tone="gold" className="absolute left-[9%] bottom-[12%] w-[17vw] max-w-[220px] min-w-[84px] opacity-90" />
-      <CuteCloud variant="b" tone="gold" className="absolute right-[6%] bottom-[16%] w-[19vw] max-w-[250px] min-w-[92px] opacity-90" />
+      {/* Outer border: gold edge, meander band, cream and gold guard lines */}
+      <div className="absolute inset-1.5 md:inset-3 border-[3px]" style={{ borderColor: GOLD }} />
+      <MeanderFrame band={outerBand} className="inset-3 md:inset-6" />
+      <div className="absolute border" style={{ inset: outerBand + (outerBand > 30 ? 28 : 18), borderColor: `${CREAM}99` }} />
+      <div className="absolute border-2" style={{ inset: outerBand + (outerBand > 30 ? 33 : 22), borderColor: `${GOLD}aa` }} />
 
-      {/* Golden border accents and a meander band inside the frame */}
-      <div className="absolute inset-x-2 inset-y-2 md:inset-x-6 md:inset-y-6 border-[6px] border-double border-brand-gold/40 pointer-events-none" />
-      <div className="absolute inset-x-5 inset-y-5 md:inset-x-9 md:inset-y-9 border-[1px] border-brand-gold/50 pointer-events-none bg-[#031a38]/25 mix-blend-multiply" />
-      <MeanderBand className="absolute left-6 right-6 top-6 md:left-11 md:right-11 md:top-11 bg-brand-gold/60" />
-      <MeanderBand className="absolute left-6 right-6 bottom-6 md:left-11 md:right-11 md:bottom-11 bg-brand-gold/60" />
+      {/* Central medallion: a framed lozenge field that holds the emblem and the name */}
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(80vw,62rem)] h-[min(78vh,40rem)]">
+        <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at center, #0D3470 0%, #071F46 100%)`, boxShadow: '0 0 0 3px #E0B94A55, 0 18px 50px rgba(0,0,0,0.45)' }} />
+        <MeanderFrame band={medBand} className="inset-0" />
+        <div className="absolute border" style={{ inset: medBand + 8, borderColor: `${CREAM}88` }} />
+      </div>
+
+      {/* Rosettes in the four corners of the field */}
+      <Rosette className="absolute w-12 h-12 md:w-20 md:h-20 left-[14%] top-[16%] opacity-95" />
+      <Rosette className="absolute w-12 h-12 md:w-20 md:h-20 right-[14%] top-[16%] opacity-95" />
+      <Rosette className="absolute w-12 h-12 md:w-20 md:h-20 left-[14%] bottom-[16%] opacity-95" />
+      <Rosette className="absolute w-12 h-12 md:w-20 md:h-20 right-[14%] bottom-[16%] opacity-95" />
     </>
   );
 
@@ -94,7 +134,7 @@ export default function CarpetIntro() {
               {carpetBg}
               {/* Sits just above the fringe at the seam; sizes follow the screen height so proportions hold on any screen */}
               <div className="absolute left-0 right-0 bottom-1/2 flex flex-col items-center px-4 pb-[clamp(2.5rem,9vh,5.5rem)]">
-                <div className="relative select-none h-[min(34vh,24rem)] aspect-[400/330]">
+                <div className="relative select-none h-[min(21vh,15rem)] aspect-[400/330]">
                   <SoyomboSymbol className="absolute inset-0 w-full h-full text-brand-gold opacity-90 drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]" />
                   <GerSymbol className="absolute left-1/2 -translate-x-1/2 -bottom-[3%] w-[58%] h-[52%] drop-shadow-[0_6px_12px_rgba(0,0,0,0.5)]" strokeColor="#d4af37" fillColor="#fdfbf7" />
                 </div>
@@ -126,10 +166,10 @@ export default function CarpetIntro() {
             {/* The duplicated absolute contents structure handles the bottom half */}
             <div className="absolute bottom-0 left-0 w-full h-[200%]">
               {carpetBg}
-              <div className="absolute left-0 right-0 top-1/2 flex flex-col items-center px-4 pt-[clamp(3rem,10vh,6.5rem)]">
+              <div className="absolute left-0 right-0 top-1/2 flex flex-col items-center px-4 pt-[clamp(3.5rem,11vh,6rem)]">
                 <h1 className="flex flex-col items-center justify-center text-center font-serif leading-[1.1]">
-                  <span className="text-[min(9.5vw,12vh)] text-white font-light tracking-[0.15em] md:tracking-[0.2em] drop-shadow-xl mb-[1.5vh]">{t('siteUi.footer.monogram1')}</span>
-                  <span className="text-[min(7vw,8.5vh)] text-brand-gold italic font-light tracking-[0.2em] md:tracking-[0.3em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)]">{t('siteUi.footer.monogram2')}</span>
+                  <span className="text-[min(7.5vw,8vh)] text-white font-light tracking-[0.15em] md:tracking-[0.2em] drop-shadow-xl mb-[1.5vh]">{t('siteUi.footer.monogram1')}</span>
+                  <span className="text-[min(5.5vw,6vh)] text-brand-gold italic font-light tracking-[0.2em] md:tracking-[0.3em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)]">{t('siteUi.footer.monogram2')}</span>
                 </h1>
               </div>
             </div>
