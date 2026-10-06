@@ -14,7 +14,6 @@ import mcaLogoWideLight from '../assets/media/mca-logo-wide-light.png';
 
 import { Overlay } from '../components/diorama/Overlay';
 import BridgeMap, { BRIDGE_DISTANCE_KM } from '../components/BridgeMap';
-import NaadamGames from '../components/NaadamGames';
 
 import LetsPlayGame from '../components/game/LetsPlayGame';
 
@@ -805,11 +804,6 @@ export default function Home() {
         </div>
       </section>
 
-      <SectionSeam />
-      {/* The Three Games of Naadam */}
-      <section className="py-16 md:py-24 bg-white relative overflow-hidden">
-        <NaadamGames />
-      </section>
 
       <SectionSeam />
       {/* Key Metrics / Impact Section */}
