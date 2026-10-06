@@ -99,11 +99,21 @@ export default function CarpetIntro() {
       <div className="absolute border" style={{ inset: outerBand + (outerBand > 30 ? 28 : 18), borderColor: `${CREAM}99` }} />
       <div className="absolute border-2" style={{ inset: outerBand + (outerBand > 30 ? 33 : 22), borderColor: `${GOLD}aa` }} />
 
+      {/* Phones: a rosette cartouche flanked by meander, top and bottom of the field */}
+      <div className="md:hidden">
+        {['top-[7.5%]', 'bottom-[7.5%]'].map((pos) => (
+          <div key={pos} className={`absolute ${pos} left-12 right-12 flex items-center gap-3`}>
+            <div className="flex-1 h-3" style={{ backgroundImage: MEANDER_H, backgroundSize: '18px 9px', backgroundRepeat: 'repeat-x' }} />
+            <Rosette className="w-10 h-10 shrink-0" />
+            <div className="flex-1 h-3" style={{ backgroundImage: MEANDER_H, backgroundSize: '18px 9px', backgroundRepeat: 'repeat-x' }} />
+          </div>
+        ))}
+      </div>
       {/* Rosettes in the four corners of the field */}
-      <Rosette className="absolute w-12 h-12 md:w-20 md:h-20 left-[14%] top-[16%] opacity-95" />
-      <Rosette className="absolute w-12 h-12 md:w-20 md:h-20 right-[14%] top-[16%] opacity-95" />
-      <Rosette className="absolute w-12 h-12 md:w-20 md:h-20 left-[14%] bottom-[16%] opacity-95" />
-      <Rosette className="absolute w-12 h-12 md:w-20 md:h-20 right-[14%] bottom-[16%] opacity-95" />
+      <Rosette className="absolute hidden md:block w-20 h-20 left-[14%] top-[16%] opacity-95" />
+      <Rosette className="absolute hidden md:block w-20 h-20 right-[14%] top-[16%] opacity-95" />
+      <Rosette className="absolute hidden md:block w-20 h-20 left-[14%] bottom-[16%] opacity-95" />
+      <Rosette className="absolute hidden md:block w-20 h-20 right-[14%] bottom-[16%] opacity-95" />
     </>
   );
 
@@ -126,7 +136,7 @@ export default function CarpetIntro() {
               {carpetBg}
               {/* Sits just above the fringe at the seam; sizes follow the screen height so proportions hold on any screen */}
               <div className="absolute left-0 right-0 bottom-1/2 flex flex-col items-center px-4 pb-[clamp(2.5rem,9vh,5.5rem)]">
-                <div className="relative select-none h-[min(21vh,15rem)] aspect-[400/330]">
+                <div className="relative select-none h-[min(26vh,18rem)] md:h-[min(21vh,15rem)] aspect-[400/330]">
                   <SoyomboSymbol className="absolute inset-0 w-full h-full text-brand-gold opacity-90 drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]" />
                   <GerSymbol className="absolute left-1/2 -translate-x-1/2 -bottom-[3%] w-[58%] h-[52%] drop-shadow-[0_6px_12px_rgba(0,0,0,0.5)]" strokeColor="#d4af37" fillColor="#fdfbf7" />
                 </div>
@@ -160,8 +170,8 @@ export default function CarpetIntro() {
               {carpetBg}
               <div className="absolute left-0 right-0 top-1/2 flex flex-col items-center px-4 pt-[clamp(3.5rem,11vh,6rem)]">
                 <h1 className="flex flex-col items-center justify-center text-center font-serif leading-[1.1]">
-                  <span className="text-[min(7.5vw,8vh)] text-white font-light tracking-[0.15em] md:tracking-[0.2em] drop-shadow-xl mb-[1.5vh]">{t('siteUi.footer.monogram1')}</span>
-                  <span className="text-[min(5.5vw,6vh)] text-brand-gold italic font-light tracking-[0.2em] md:tracking-[0.3em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)]">{t('siteUi.footer.monogram2')}</span>
+                  <span className="text-[min(9.5vw,8vh)] md:text-[min(7.5vw,8vh)] text-white font-light tracking-[0.15em] md:tracking-[0.2em] drop-shadow-xl mb-[1.5vh]">{t('siteUi.footer.monogram1')}</span>
+                  <span className="text-[min(7vw,6vh)] md:text-[min(5.5vw,6vh)] text-brand-gold italic font-light tracking-[0.2em] md:tracking-[0.3em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)]">{t('siteUi.footer.monogram2')}</span>
                 </h1>
               </div>
             </div>
