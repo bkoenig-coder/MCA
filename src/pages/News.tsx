@@ -67,7 +67,7 @@ export default function News() {
         <div aria-hidden="true" className="absolute inset-0 pointer-events-none opacity-[0.05] mix-blend-multiply" style={{ backgroundImage: NOISE }} />
 
         {/* Masthead */}
-        <header className="relative mb-10 md:mb-14">
+        <header className="relative mb-8 md:mb-10">
           <div aria-hidden="true" className="border-t-[4px] border-slate-900" />
           <div className="flex items-center justify-between gap-4 py-2.5 text-xs uppercase tracking-[0.16em] font-sans font-semibold text-slate-600">
             <span>Vienna</span>
@@ -75,11 +75,11 @@ export default function News() {
           </div>
           <div aria-hidden="true" className="border-t border-slate-900" />
 
-          <div className="text-center py-7 md:py-10">
-            <h1 className="font-serif font-semibold text-5xl sm:text-6xl lg:text-7xl tracking-tight uppercase text-slate-900 leading-none">
+          <div className="text-center py-4 md:py-5">
+            <h1 className="font-serif font-semibold text-3xl sm:text-4xl lg:text-5xl tracking-tight uppercase text-slate-900 leading-none">
               The MCA Gazette
             </h1>
-            <p className="mt-4 font-serif italic text-base md:text-lg text-slate-600">{t('news.tagline')}</p>
+            <p className="mt-2 font-serif italic text-sm text-slate-600">{t('news.tagline')}</p>
           </div>
 
           <div aria-hidden="true" className="border-t border-slate-900" />
