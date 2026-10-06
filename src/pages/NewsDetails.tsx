@@ -39,8 +39,8 @@ import mcaLogo from "../assets/media/mcalogo-1.png";
 
 import { getFallbackPost } from "../data/fallbackContent";
 
-function formatNewsDate(val: any, locale: string = 'en', options?: Intl.DateTimeFormatOptions): string {
-  if (!val) return 'Recent';
+function formatNewsDate(val: any, locale: string = 'en', options?: Intl.DateTimeFormatOptions, fallback: string = ''): string {
+  if (!val) return fallback;
   try {
     let d: Date;
     if (typeof val?.toDate === 'function') {
@@ -50,10 +50,10 @@ function formatNewsDate(val: any, locale: string = 'en', options?: Intl.DateTime
     } else {
       d = new Date(val);
     }
-    if (isNaN(d.getTime())) return 'Recent';
+    if (isNaN(d.getTime())) return fallback;
     return d.toLocaleDateString(locale, options || { month: 'long', day: 'numeric', year: 'numeric' });
   } catch {
-    return 'Recent';
+    return fallback;
   }
 }
 
@@ -223,7 +223,7 @@ export default function NewsDetails() {
             size={16}
             className="group-hover:-translate-x-1 transition-transform text-brand-gold"
           />{" "}
-          {t("news.details.back", "← BACK TO GAZETTE INDEX")}
+          {t("news.details.back")}
         </Link>
 
         {/* Newspaper Article Container */}
@@ -237,7 +237,7 @@ export default function NewsDetails() {
             <div className="flex items-center justify-center gap-2 mb-2">
               <UlziiSymbol className="w-4 h-4 text-brand-gold" />
               <span className="text-xs uppercase tracking-[0.18em] font-semibold text-slate-500">
-                THE AUSTRIAN-MONGOLIAN GAZETTE • OFFICIAL DISPATCH
+                {t("pagesMisc.newsDetails.banner")}
               </span>
               <UlziiSymbol className="w-4 h-4 text-brand-gold" />
             </div>
@@ -248,16 +248,16 @@ export default function NewsDetails() {
 
             {/* Newspaper Dateline Strip */}
             <div className="border-t-2 border-b-2 border-slate-900 my-4 py-2 flex flex-wrap items-center justify-between text-[11px] md:text-xs uppercase tracking-[0.2em] font-sans font-semibold text-slate-800 gap-2">
-              <div>BY THE MCA EDITORIAL BOARD</div>
-              <div>VIENNA, AUSTRIA</div>
+              <div>{t("pagesMisc.newsDetails.byline")}</div>
+              <div>{t("pagesMisc.newsDetails.place")}</div>
               <div>
                 {formatNewsDate(post.createdAt, t("common.locale"), {
                   month: "long",
                   day: "numeric",
                   year: "numeric",
-                })}
+                }, t("pagesMisc.newsDetails.recent"))}
               </div>
-              <div>SPECIAL DISPATCH</div>
+              <div>{t("pagesMisc.newsDetails.label")}</div>
             </div>
           </div>
 
@@ -290,7 +290,7 @@ export default function NewsDetails() {
                       animate={{ scale: 1 }}
                       transition={{ duration: 0.35 }}
                       src={uniquePhotos[currentSlide]}
-                      alt={`${dTitle} - Press Photograph ${currentSlide + 1}`}
+                      alt={t("pagesMisc.newsDetails.photoAlt", { title: dTitle, n: currentSlide + 1 })}
                       className="w-full h-full max-h-[82vh] object-contain relative z-10 hover:scale-[1.01] transition-transform duration-300"
                       referrerPolicy="no-referrer"
                       drag={uniquePhotos.length > 1 ? "x" : false}
@@ -312,16 +312,16 @@ export default function NewsDetails() {
                 <button
                   onClick={() => setIsLightboxOpen(true)}
                   className="absolute top-3 left-3 z-20 bg-slate-900/80 hover:bg-slate-900 backdrop-blur-sm text-white/90 hover:text-white text-xs font-sans font-bold tracking-wider px-2.5 py-1 rounded border border-white/10 shadow-sm flex items-center gap-1.5 opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity"
-                  aria-label="View full picture"
+                  aria-label={t("pagesMisc.newsDetails.viewFull")}
                 >
                   <Maximize2 size={12} className="text-brand-gold" />
-                  <span>VIEW FULL PIC</span>
+                  <span>{t("pagesMisc.newsDetails.viewFull")}</span>
                 </button>
 
                 {/* Top Right Plate Counter Badge */}
                 {uniquePhotos.length > 1 && (
                   <div className="absolute top-3 right-3 z-20 bg-slate-900/80 backdrop-blur-sm text-amber-200 text-xs font-sans font-semibold uppercase tracking-widest px-2.5 py-1 rounded border border-amber-400/20 shadow-sm">
-                    PLATE {currentSlide + 1} / {uniquePhotos.length}
+                    {t("pagesMisc.newsDetails.photoCounter", { current: currentSlide + 1, total: uniquePhotos.length })}
                   </div>
                 )}
 
@@ -335,7 +335,7 @@ export default function NewsDetails() {
                           setCurrentSlide((prev) => (prev - 1 + uniquePhotos.length) % uniquePhotos.length);
                         }}
                         className="p-2.5 bg-slate-900/70 hover:bg-brand-gold text-white rounded-full transition-all duration-200 opacity-90 sm:opacity-0 group-hover:opacity-100 pointer-events-auto backdrop-blur-sm shadow-md"
-                        aria-label="Previous slide"
+                        aria-label={t("pagesMisc.common.prevImage")}
                       >
                         <ChevronLeft size={20} />
                       </button>
@@ -345,7 +345,7 @@ export default function NewsDetails() {
                           setCurrentSlide((prev) => (prev + 1) % uniquePhotos.length);
                         }}
                         className="p-2.5 bg-slate-900/70 hover:bg-brand-gold text-white rounded-full transition-all duration-200 opacity-90 sm:opacity-0 group-hover:opacity-100 pointer-events-auto backdrop-blur-sm shadow-md"
-                        aria-label="Next slide"
+                        aria-label={t("pagesMisc.common.nextImage")}
                       >
                         <ChevronRight size={20} />
                       </button>
@@ -365,7 +365,7 @@ export default function NewsDetails() {
                               ? "w-6 bg-brand-gold shadow-sm"
                               : "w-2 bg-white/60 hover:bg-white"
                           }`}
-                          aria-label={`Go to slide ${idx + 1}`}
+                          aria-label={t("pagesMisc.common.goToSlide", { n: idx + 1 })}
                         />
                       ))}
                     </div>
@@ -379,12 +379,12 @@ export default function NewsDetails() {
                   onClick={() => setIsLightboxOpen(true)}
                   className="font-serif italic text-xs hover:text-brand-gold transition-colors text-left flex items-center gap-1.5 group/cap"
                 >
-                  <span>Official Press Photograph — Austrian-Mongolian Center Dispatch</span>
+                  <span>{t("pagesMisc.newsDetails.caption")}</span>
                   <ZoomIn size={12} className="opacity-0 group-hover/cap:opacity-100 text-brand-gold transition-opacity" />
                 </button>
                 {uniquePhotos.length > 1 && (
                   <span className="text-xs font-sans uppercase tracking-widest text-slate-500 font-bold">
-                    PRESS ARCHIVE • {currentSlide + 1} OF {uniquePhotos.length}
+                    {t("pagesMisc.newsDetails.archive", { current: currentSlide + 1, total: uniquePhotos.length })}
                   </span>
                 )}
               </div>
@@ -404,7 +404,7 @@ export default function NewsDetails() {
                     >
                       <img
                         src={photoUrl}
-                        alt={`Thumbnail ${idx + 1}`}
+                        alt={t("pagesMisc.newsDetails.thumb", { n: idx + 1 })}
                         className="w-full h-full object-cover"
                         referrerPolicy="no-referrer"
                       />
@@ -418,34 +418,34 @@ export default function NewsDetails() {
           {/* Social Share Bar */}
           <div className="flex items-center justify-between border-y border-slate-200 py-3 mb-10 text-slate-600">
             <span className="text-xs uppercase tracking-widest font-semibold text-slate-500">
-              SHARE ARTICLE
+              {t("pagesMisc.newsDetails.shareArticle")}
             </span>
             <div className="flex gap-2">
               <button
                 onClick={() => handleShare("facebook")}
                 className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-colors"
-                aria-label="Share Facebook"
+                aria-label={t("pagesMisc.common.shareFacebook")}
               >
                 <Facebook size={14} />
               </button>
               <button
                 onClick={() => handleShare("twitter")}
                 className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center hover:bg-[#1DA1F2] hover:text-white transition-colors"
-                aria-label="Share Twitter"
+                aria-label={t("pagesMisc.common.shareTwitter")}
               >
                 <Twitter size={14} />
               </button>
               <button
                 onClick={() => handleShare("linkedin")}
                 className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center hover:bg-[#0A66C2] hover:text-white transition-colors"
-                aria-label="Share LinkedIn"
+                aria-label={t("pagesMisc.common.shareLinkedIn")}
               >
                 <Linkedin size={14} />
               </button>
               <button
                 onClick={handleCopyLink}
                 className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center hover:bg-slate-900 hover:text-white transition-colors"
-                aria-label="Copy Link"
+                aria-label={t("pagesMisc.common.copyLink")}
               >
                 {copied ? <Check size={14} /> : <LinkIcon size={14} />}
               </button>
@@ -551,7 +551,7 @@ export default function NewsDetails() {
           <div className="mt-12 pt-6 border-t-2 border-slate-900 text-center flex flex-col items-center justify-center">
             <UlziiSymbol className="w-8 h-8 text-brand-gold/60 mb-2" />
             <span className="text-xs font-sans uppercase tracking-[0.18em] font-semibold text-slate-500">
-              — END OF OFFICIAL DISPATCH —
+              — {t("pagesMisc.newsDetails.end")} —
             </span>
           </div>
         </motion.article>
@@ -577,7 +577,7 @@ export default function NewsDetails() {
                 <UlziiSymbol className="w-5 h-5 text-brand-gold shrink-0" />
                 <div>
                   <span className="text-xs uppercase font-sans tracking-[0.25em] font-semibold text-amber-300 block">
-                    MCA PRESS ARCHIVE • OFFICIAL PRESS PHOTOGRAPH
+                    {t("pagesMisc.newsDetails.lightboxHeader")}
                   </span>
                   <span className="text-xs text-white/70 font-serif truncate max-w-[240px] sm:max-w-md block">
                     {dTitle}
@@ -594,7 +594,7 @@ export default function NewsDetails() {
                 <button
                   onClick={() => setIsLightboxOpen(false)}
                   className="p-2.5 rounded-full bg-white/15 hover:bg-brand-gold hover:text-slate-950 text-white transition-colors flex items-center justify-center shadow-lg border border-white/10"
-                  aria-label="Close full picture"
+                  aria-label={t("pagesMisc.newsDetails.closeFull")}
                 >
                   <X size={22} />
                 </button>
@@ -614,7 +614,7 @@ export default function NewsDetails() {
                   exit={{ opacity: 0, scale: 0.96 }}
                   transition={{ duration: 0.25 }}
                   src={uniquePhotos[currentSlide]}
-                  alt={`${dTitle} - Full Press Photograph ${currentSlide + 1}`}
+                  alt={t("pagesMisc.newsDetails.photoAlt", { title: dTitle, n: currentSlide + 1 })}
                   className="max-h-[84vh] sm:max-h-[88vh] max-w-[98vw] sm:max-w-[96vw] w-auto h-auto object-contain shadow-lg rounded-sm"
                   referrerPolicy="no-referrer"
                   drag={uniquePhotos.length > 1 ? "x" : false}
@@ -639,7 +639,7 @@ export default function NewsDetails() {
                       setCurrentSlide((prev) => (prev - 1 + uniquePhotos.length) % uniquePhotos.length);
                     }}
                     className="absolute left-2 sm:left-6 p-3 sm:p-4 rounded-full bg-black/60 hover:bg-brand-gold text-white hover:text-slate-950 transition-all backdrop-blur-sm shadow-xl z-20"
-                    aria-label="Previous image"
+                    aria-label={t("pagesMisc.common.prevImage")}
                   >
                     <ChevronLeft size={28} />
                   </button>
@@ -649,7 +649,7 @@ export default function NewsDetails() {
                       setCurrentSlide((prev) => (prev + 1) % uniquePhotos.length);
                     }}
                     className="absolute right-2 sm:right-6 p-3 sm:p-4 rounded-full bg-black/60 hover:bg-brand-gold text-white hover:text-slate-950 transition-all backdrop-blur-sm shadow-xl z-20"
-                    aria-label="Next image"
+                    aria-label={t("pagesMisc.common.nextImage")}
                   >
                     <ChevronRight size={28} />
                   </button>
@@ -663,7 +663,7 @@ export default function NewsDetails() {
               onClick={(e) => e.stopPropagation()}
             >
               <p className="font-serif italic text-xs sm:text-sm text-slate-300">
-                Official Press Photograph — Austrian-Mongolian Center Dispatch
+                {t("pagesMisc.newsDetails.caption")}
               </p>
 
               {uniquePhotos.length > 1 && (
@@ -680,7 +680,7 @@ export default function NewsDetails() {
                     >
                       <img
                         src={photoUrl}
-                        alt={`Thumbnail ${idx + 1}`}
+                        alt={t("pagesMisc.newsDetails.thumb", { n: idx + 1 })}
                         className="w-full h-full object-cover"
                         referrerPolicy="no-referrer"
                       />

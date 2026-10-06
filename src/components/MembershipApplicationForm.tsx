@@ -12,8 +12,9 @@ interface MembershipApplicationFormProps {
   title: string;
 }
 
-export default function MembershipApplicationForm({ tier, title }: MembershipApplicationFormProps) {
+export default function MembershipApplicationForm({ tier, title: titleProp }: MembershipApplicationFormProps) {
   const { t } = useTranslation();
+  const title = t(`pagesMisc.tiers.${tier}`, { defaultValue: titleProp });
   const { user, profile, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   
@@ -27,7 +28,7 @@ export default function MembershipApplicationForm({ tier, title }: MembershipApp
   const [gender, setGender] = useState('prefer-not-to-say');
   const [dob, setDob] = useState('');
   const [phone, setPhone] = useState('');
-  const [nationality, setNationality] = useState('Austrian');
+  const [nationality, setNationality] = useState('');
   
   // Specific values
   const [school, setSchool] = useState('');
@@ -166,7 +167,7 @@ export default function MembershipApplicationForm({ tier, title }: MembershipApp
     try {
       await signInWithGoogle();
     } catch (err) {
-      toast.error("Google authentication failed. Please try again.");
+      toast.error(t('pagesMisc.membership.googleFailed'));
     } finally {
       setLoading(false);
     }
@@ -229,12 +230,12 @@ export default function MembershipApplicationForm({ tier, title }: MembershipApp
             <div className="grid grid-cols-2 gap-4 text-sm font-medium">
               <div>
                 <span className="block text-brand-ink/40 text-[10px] uppercase font-bold tracking-wider">{t('membershipPage.form.requestedTier')}</span>
-                <span className="text-brand-ink capitalize">{existingApp.tier} Membership</span>
+                <span className="text-brand-ink">{t('pagesMisc.membership.tierMembership', { tier: t(`pagesMisc.tiers.${existingApp.tier}`, { defaultValue: existingApp.tier }) })}</span>
               </div>
               <div>
                 <span className="block text-brand-ink/40 text-[10px] uppercase font-bold tracking-wider">{t('membershipPage.form.submittedOn')}</span>
                 <span className="text-brand-ink">
-                  {existingApp.createdAt ? (typeof existingApp.createdAt?.toDate === 'function' ? existingApp.createdAt.toDate() : new Date(existingApp.createdAt)).toLocaleDateString() : 'N/A'}
+                  {existingApp.createdAt ? (typeof existingApp.createdAt?.toDate === 'function' ? existingApp.createdAt.toDate() : new Date(existingApp.createdAt)).toLocaleDateString(t('common.locale')) : t('pagesMisc.membership.notAvailable')}
                 </span>
               </div>
               <div className="col-span-2">
@@ -355,7 +356,7 @@ export default function MembershipApplicationForm({ tier, title }: MembershipApp
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2">{t('membershipPage.form.labelNationality')}</label>
-                  <input type="text" required value={nationality} onChange={e => setNationality(e.target.value)} className="w-full px-4 py-3.5 bg-white rounded-xl border border-brand-ink/5 font-medium text-sm text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder="Austrian, Mongolian, etc." />
+                  <input type="text" required value={nationality} onChange={e => setNationality(e.target.value)} className="w-full px-4 py-3.5 bg-white rounded-xl border border-brand-ink/5 font-medium text-sm text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder={t('pagesMisc.membership.placeholderNationality')} />
                 </div>
               </div>
             </div>
@@ -368,11 +369,11 @@ export default function MembershipApplicationForm({ tier, title }: MembershipApp
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2">{t('membershipPage.form.labelSchool')}</label>
-                    <input type="text" required value={school} onChange={e => setSchool(e.target.value)} className="w-full px-4 py-3.5 bg-white rounded-xl border border-brand-ink/5 font-medium text-sm text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder="e.g., University of Vienna" />
+                    <input type="text" required value={school} onChange={e => setSchool(e.target.value)} className="w-full px-4 py-3.5 bg-white rounded-xl border border-brand-ink/5 font-medium text-sm text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder={t('pagesMisc.membership.placeholderSchool')} />
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2">{t('membershipPage.form.labelStudentId')}</label>
-                    <input type="text" required value={studentId} onChange={e => setStudentId(e.target.value)} className="w-full px-4 py-3.5 bg-white rounded-xl border border-brand-ink/5 font-medium text-sm text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder="e.g., matriculation number" />
+                    <input type="text" required value={studentId} onChange={e => setStudentId(e.target.value)} className="w-full px-4 py-3.5 bg-white rounded-xl border border-brand-ink/5 font-medium text-sm text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder={t('pagesMisc.membership.placeholderStudentId')} />
                   </div>
                 </div>
               )}
@@ -381,11 +382,11 @@ export default function MembershipApplicationForm({ tier, title }: MembershipApp
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2">{t('membershipPage.form.labelOrgName')}</label>
-                    <input type="text" required value={orgName} onChange={e => setOrgName(e.target.value)} className="w-full px-4 py-3.5 bg-white rounded-xl border border-brand-ink/5 font-medium text-sm text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder="e.g., McKinsey Austria" />
+                    <input type="text" required value={orgName} onChange={e => setOrgName(e.target.value)} className="w-full px-4 py-3.5 bg-white rounded-xl border border-brand-ink/5 font-medium text-sm text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder={t('pagesMisc.membership.placeholderOrg')} />
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2">{t('membershipPage.form.labelPosition')}</label>
-                    <input type="text" required value={position} onChange={e => setPosition(e.target.value)} className="w-full px-4 py-3.5 bg-white rounded-xl border border-brand-ink/5 font-medium text-sm text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder="e.g., Senior Research Associate" />
+                    <input type="text" required value={position} onChange={e => setPosition(e.target.value)} className="w-full px-4 py-3.5 bg-white rounded-xl border border-brand-ink/5 font-medium text-sm text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder={t('pagesMisc.membership.placeholderPosition')} />
                   </div>
                   <div className="col-span-2">
                     <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2">{t('membershipPage.form.labelLinkedin')}</label>
@@ -401,7 +402,7 @@ export default function MembershipApplicationForm({ tier, title }: MembershipApp
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="col-span-2">
                     <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2">{t('membershipPage.form.labelInstName')}</label>
-                    <input type="text" required value={orgName} onChange={e => setOrgName(e.target.value)} className="w-full px-4 py-3.5 bg-white rounded-xl border border-brand-ink/5 font-medium text-sm text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder="e.g., Mongolia Trade Representative Office" />
+                    <input type="text" required value={orgName} onChange={e => setOrgName(e.target.value)} className="w-full px-4 py-3.5 bg-white rounded-xl border border-brand-ink/5 font-medium text-sm text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder={t('pagesMisc.membership.placeholderInstitution')} />
                   </div>
                   <div className="col-span-2">
                     <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2">{t('membershipPage.form.labelWebsite')}</label>

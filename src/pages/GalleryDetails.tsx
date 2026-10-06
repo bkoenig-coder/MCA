@@ -121,7 +121,7 @@ export default function GalleryDetails() {
           <header className="mb-10 md:mb-12 text-center max-w-4xl mx-auto flex flex-col items-center">
             <div className="flex items-center justify-center gap-4 mb-6">
               <span className="text-xs uppercase tracking-[0.18em] font-semibold text-[#b82736] bg-[#b82736]/10 px-3 py-1 rounded-sm">
-                {dCat || "Gallery"}
+                {dCat || t("pagesMisc.gallery.category")}
               </span>
               <div className="h-px w-6 bg-brand-ink/20" />
               <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-ink/50">
@@ -136,10 +136,10 @@ export default function GalleryDetails() {
             <div className="flex items-center gap-4 mt-2">
               <div className="flex flex-col text-center">
                 <span className="text-sm font-bold text-brand-ink leading-tight">
-                  {dArtist || "Anonymous Artist"}
+                  {dArtist || t("pagesMisc.gallery.anonymous")}
                 </span>
                 <span className="text-xs text-brand-ink/50 uppercase tracking-widest font-bold">
-                  Featured Artwork
+                  {t("pagesMisc.gallery.featured")}
                 </span>
               </div>
             </div>
@@ -172,26 +172,27 @@ export default function GalleryDetails() {
                 className="text-[11px] uppercase tracking-widest font-bold text-brand-ink/30 mb-2 rotate-180"
                 style={{ writingMode: "vertical-rl" }}
               >
-                Share Artwork
+                {t("pagesMisc.gallery.shareArtwork")}
               </span>
               <div className="w-px h-12 bg-brand-ink/10 mx-auto mb-2" />
               <button
                 onClick={() => {
                   const shareUrl =
                     "https://mongoliancenter.org" + window.location.pathname;
-                  navigator
-                    .share?.({
-                      title: dTitle,
-                      text: `Check out this artwork: ${dTitle} by ${dArtist}`,
-                      url: shareUrl,
-                    })
-                    .catch(() => {
-                      navigator.clipboard.writeText(shareUrl);
-                      alert("Link copied to clipboard!");
-                    });
+                  (navigator.share
+                    ? navigator.share({
+                        title: dTitle,
+                        text: t("pagesMisc.gallery.shareText", { title: dTitle, artist: dArtist || t("pagesMisc.gallery.anonymous") }),
+                        url: shareUrl,
+                      })
+                    : Promise.reject(new Error("share unsupported"))
+                  ).catch(() => {
+                    navigator.clipboard.writeText(shareUrl);
+                    alert(t("pagesMisc.gallery.copied"));
+                  });
                 }}
                 className="w-10 h-10 rounded-full border border-brand-ink/10 flex items-center justify-center hover:bg-brand-ink hover:text-white transition-colors"
-                aria-label="Share"
+                aria-label={t("pagesMisc.gallery.shareLabel")}
               >
                 <Share2 size={16} />
               </button>
@@ -205,7 +206,7 @@ export default function GalleryDetails() {
                   to="/contact"
                   className="flex items-center gap-3 px-8 py-4 bg-brand-ink text-white rounded-sm text-xs uppercase tracking-widest font-bold hover:bg-brand-gold transition-all shadow-xl shadow-brand-ink/20"
                 >
-                  Inquire About Piece
+                  {t("pagesMisc.gallery.inquire")}
                 </Link>
               </div>
 
@@ -226,7 +227,7 @@ export default function GalleryDetails() {
                 })()
               ) : (
                 <p className="text-center italic text-brand-ink/50 mt-12 mb-12">
-                  No detailed description provided for this artwork.
+                  {t("pagesMisc.gallery.noDesc")}
                 </p>
               )}
 
@@ -235,10 +236,7 @@ export default function GalleryDetails() {
                 <div className="mt-16 pt-10 border-t border-brand-ink/10">
                   <div className="flex items-center justify-between mb-8">
                     <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-ink font-sans">
-                      ADDITIONAL ARTWORK PLATES ({galleryPlates.length} VIEWS)
-                    </span>
-                    <span className="text-[11px] uppercase tracking-widest font-sans font-bold text-brand-ink/40">
-                      CURATED DETAILS
+                      {t("pagesMisc.gallery.moreImages", { count: galleryPlates.length })}
                     </span>
                   </div>
 
@@ -248,12 +246,12 @@ export default function GalleryDetails() {
                         <div className="aspect-[4/3] overflow-hidden bg-slate-900 rounded">
                           <img 
                             src={imgUrl} 
-                            alt={`${dTitle} Plate ${gIdx + 1}`} 
+                            alt={t("pagesMisc.gallery.plateAlt", { title: dTitle, n: gIdx + 1 })} 
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                           />
                         </div>
                         <p className="font-serif italic text-[11px] text-slate-600 pt-2 text-center border-t border-slate-100 mt-2">
-                          Detail Plate {gIdx + 1}
+                          {t("pagesMisc.gallery.detail", { n: gIdx + 1 })}
                         </p>
                       </div>
                     ))}

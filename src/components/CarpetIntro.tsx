@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useTranslation } from 'react-i18next';
 import { SoyomboSymbol, GerSymbol } from './MongolianDesign';
 
 export default function CarpetIntro() {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -105,8 +107,8 @@ export default function CarpetIntro() {
               {carpetBg}
               <div className="absolute left-0 right-0 top-1/2 flex flex-col items-center px-4 pt-[clamp(3rem,10vh,6.5rem)]">
                 <h1 className="flex flex-col items-center justify-center text-center font-serif leading-[1.1]">
-                  <span className="text-[min(9.5vw,12vh)] text-white font-light tracking-[0.15em] md:tracking-[0.2em] drop-shadow-xl mb-[1.5vh]">MONGOLIAN</span>
-                  <span className="text-[min(7vw,8.5vh)] text-brand-gold italic font-light tracking-[0.2em] md:tracking-[0.3em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)]">CENTER</span>
+                  <span className="text-[min(9.5vw,12vh)] text-white font-light tracking-[0.15em] md:tracking-[0.2em] drop-shadow-xl mb-[1.5vh]">{t('siteUi.footer.monogram1')}</span>
+                  <span className="text-[min(7vw,8.5vh)] text-brand-gold italic font-light tracking-[0.2em] md:tracking-[0.3em] drop-shadow-[0_0_40px_rgba(212,175,55,0.5)]">{t('siteUi.footer.monogram2')}</span>
                 </h1>
               </div>
             </div>

@@ -29,7 +29,7 @@ export default function NewsletterForm({ variant = 'dark' }: NewsletterFormProps
       try {
         data = await response.json();
       } catch (e) {
-        data = { error: 'Failed to process response.' };
+        data = { error: t('pagesMisc.newsletter.parseError') };
       }
 
       if (response.ok) {

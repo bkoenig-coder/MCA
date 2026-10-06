@@ -140,7 +140,7 @@ export default function EventDetails() {
       }, 3000);
     } catch (err) {
       console.error("Error registering:", err);
-      setError("Failed to register. Please try again.");
+      setError(t('pagesMisc.eventReg.failed'));
     } finally {
       setIsRegisteringFree(false);
     }
@@ -253,7 +253,7 @@ export default function EventDetails() {
             
             <div className="flex items-center gap-4 mt-2">
               <div className="flex flex-col text-center">
-                <span className="text-sm font-bold text-brand-ink leading-tight">MONGOLIAN CENTER</span>
+                <span className="text-sm font-bold text-brand-ink leading-tight">{t('pagesMisc.eventDetails.organizer')}</span>
                 <span className="text-xs text-brand-ink/50 uppercase tracking-widest font-bold">{dLocation || t('events.vienna')} • {event.time || t('events.tba')}</span>
               </div>
             </div>
@@ -310,14 +310,14 @@ export default function EventDetails() {
                   <button 
                     onClick={() => setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length)}
                     className="p-3 bg-brand-ink/30 backdrop-blur text-white rounded-full hover:bg-brand-gold transition-colors pointer-events-auto"
-                    aria-label="Previous image"
+                    aria-label={t('pagesMisc.common.prevImage')}
                   >
                     <ChevronLeft size={24} />
                   </button>
                   <button 
                     onClick={() => setCurrentImageIndex((prev) => (prev + 1) % allImages.length)}
                     className="p-3 bg-brand-ink/30 backdrop-blur text-white rounded-full hover:bg-brand-gold transition-colors pointer-events-auto"
-                    aria-label="Next image"
+                    aria-label={t('pagesMisc.common.nextImage')}
                   >
                     <ChevronRight size={24} />
                   </button>
@@ -329,7 +329,7 @@ export default function EventDetails() {
                       key={i}
                       onClick={() => setCurrentImageIndex(i)}
                       className={`w-2 h-2 rounded-full transition-all ${i === currentImageIndex ? 'w-6 bg-brand-gold' : 'bg-white/50 hover:bg-white'}`}
-                      aria-label={`Go to slide ${i + 1}`}
+                      aria-label={t('pagesMisc.common.goToSlide', { n: i + 1 })}
                     />
                   ))}
                 </div>
@@ -345,11 +345,11 @@ export default function EventDetails() {
               <div className="bg-white p-6 rounded-2xl md:rounded-[4px] border border-brand-ink/10 shadow-sm flex flex-col items-center text-center">
                  <p className="text-xs uppercase tracking-widest font-bold text-brand-ink/50 mb-2">{t('events.details.fee')}</p>
                  <p className="text-3xl md:text-4xl font-serif text-brand-ink mb-6">
-                   {event.price === 0 ? 'Free' : `€${(event.price / 100).toFixed(2)}`}
+                   {event.price === 0 ? t('pagesMisc.events.free') : `€${(event.price / 100).toFixed(2)}`}
                  </p>
                  {event.capacity > 0 && (
                    <span className="inline-block px-3 py-1 mb-6 rounded-sm bg-brand-ink/5 text-brand-ink/60 text-xs font-bold uppercase tracking-widest">
-                     {event.registeredCount || 0}/{event.capacity} Spots Filled
+                     {t('pagesMisc.events.spotsFilled', { registered: event.registeredCount || 0, capacity: event.capacity })}
                    </span>
                  )}
                  <button
@@ -357,7 +357,7 @@ export default function EventDetails() {
                    disabled={registering || (event.capacity > 0 && (event.registeredCount || 0) >= event.capacity)}
                    className="w-full bg-brand-ink text-white py-4 rounded-sm text-xs uppercase tracking-widest font-bold hover:bg-brand-gold transition-all flex items-center justify-center gap-3 disabled:opacity-50"
                  >
-                   {registering ? <Loader2 className="animate-spin" size={18} /> : (event.capacity > 0 && (event.registeredCount || 0) >= event.capacity) ? 'Sold Out' : t('events.details.cta')}
+                   {registering ? <Loader2 className="animate-spin" size={18} /> : (event.capacity > 0 && (event.registeredCount || 0) >= event.capacity) ? t('pagesMisc.events.soldOut') : t('events.details.cta')}
                  </button>
               </div>
 
@@ -388,33 +388,33 @@ export default function EventDetails() {
 
                {/* Share snippet */}
                <div className="flex flex-col gap-4 px-2 mt-8 mb-4 border-t border-brand-ink/10 pt-8">
-                 <span className="text-xs font-bold uppercase tracking-widest text-brand-ink/50">Share Event</span>
+                 <span className="text-xs font-bold uppercase tracking-widest text-brand-ink/50">{t('pagesMisc.eventDetails.shareEvent')}</span>
                  <div className="flex gap-2">
                    <button
                      onClick={() => handleShare("facebook")}
                      className="w-10 h-10 rounded-full border border-brand-ink/10 flex items-center justify-center hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-colors"
-                     aria-label="Share Facebook"
+                     aria-label={t('pagesMisc.common.shareFacebook')}
                    >
                      <Facebook size={16} />
                    </button>
                    <button
                      onClick={() => handleShare("twitter")}
                      className="w-10 h-10 rounded-full border border-brand-ink/10 flex items-center justify-center hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2] transition-colors"
-                     aria-label="Share Twitter"
+                     aria-label={t('pagesMisc.common.shareTwitter')}
                    >
                      <Twitter size={16} />
                    </button>
                    <button
                      onClick={() => handleShare("linkedin")}
                      className="w-10 h-10 rounded-full border border-brand-ink/10 flex items-center justify-center hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-colors"
-                     aria-label="Share LinkedIn"
+                     aria-label={t('pagesMisc.common.shareLinkedIn')}
                    >
                      <Linkedin size={16} />
                    </button>
                    <button
                      onClick={handleCopyLink}
                      className="w-10 h-10 rounded-full border border-brand-ink/10 flex items-center justify-center hover:bg-brand-ink hover:text-white hover:border-brand-ink transition-colors"
-                     aria-label="Copy Link"
+                     aria-label={t('pagesMisc.common.copyLink')}
                    >
                      {copied ? <Check size={16} /> : <LinkIcon size={16} />}
                    </button>
@@ -431,31 +431,34 @@ export default function EventDetails() {
               {/* Mobile Share Snippet */}
               <div className="flex lg:hidden items-center justify-between border-b border-brand-ink/10 pb-10 mb-10">
                 <span className="text-xs uppercase tracking-widest font-bold text-brand-ink/50">
-                  Share Event
+                  {t('pagesMisc.eventDetails.shareEvent')}
                 </span>
                 <div className="flex gap-2">
                   <button
                      onClick={() => handleShare("facebook")}
                      className="w-8 h-8 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/50 hover:bg-[#1877F2] hover:text-white transition-colors"
+                     aria-label={t('pagesMisc.common.shareFacebook')}
                   >
                     <Facebook size={14} />
                   </button>
                   <button
                      onClick={() => handleShare("twitter")}
                      className="w-8 h-8 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/50 hover:bg-[#1DA1F2] hover:text-white transition-colors"
+                     aria-label={t('pagesMisc.common.shareTwitter')}
                   >
                     <Twitter size={14} />
                   </button>
                   <button
                      onClick={() => handleShare("linkedin")}
                      className="w-8 h-8 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/50 hover:bg-[#0A66C2] hover:text-white transition-colors"
+                     aria-label={t('pagesMisc.common.shareLinkedIn')}
                   >
                     <Linkedin size={14} />
                   </button>
                   <button
                      onClick={handleCopyLink}
                      className="w-8 h-8 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/50 hover:bg-brand-ink hover:text-white transition-colors"
-                     aria-label="Copy Link"
+                     aria-label={t('pagesMisc.common.copyLink')}
                   >
                     {copied ? <Check size={14} /> : <LinkIcon size={14} />}
                   </button>
@@ -520,6 +523,7 @@ export default function EventDetails() {
               {!registrationSuccess && (
                 <button 
                   onClick={() => setShowRegistrationModal(false)}
+                  aria-label={t('pagesMisc.eventReg.close')}
                   className="absolute top-8 right-8 text-brand-ink/40 hover:text-brand-ink transition-colors"
                 >
                   <X size={24} />
@@ -536,22 +540,22 @@ export default function EventDetails() {
                   >
                     <CheckCircle2 size={48} />
                   </motion.div>
-                  <h3 className="text-3xl font-serif text-brand-ink mb-4">Registration Complete!</h3>
-                  <p className="text-brand-ink/60">We look forward to seeing you at {event.title}.</p>
+                  <h3 className="text-3xl font-serif text-brand-ink mb-4">{t('pagesMisc.eventReg.complete')}</h3>
+                  <p className="text-brand-ink/60">{t('pagesMisc.eventReg.lookForward', { title: dTitle })}</p>
                 </div>
               ) : (
                 <>
                   <div className="mb-8">
                     <span className="inline-block px-3 py-1 bg-brand-gold/10 text-brand-gold rounded-lg text-xs uppercase tracking-widest font-bold mb-4">
-                      {event.price === 0 ? 'Free Event Registration' : 'Event Registration'}
+                      {event.price === 0 ? t('pagesMisc.eventReg.tagFree') : t('pagesMisc.eventReg.tag')}
                     </span>
-                    <h3 className="text-3xl font-serif text-brand-ink mb-2">{event.title}</h3>
-                    <p className="text-brand-ink/60 text-sm">Please provide your details to secure your spot.</p>
+                    <h3 className="text-3xl font-serif text-brand-ink mb-2">{dTitle}</h3>
+                    <p className="text-brand-ink/60 text-sm">{t('pagesMisc.eventReg.intro')}</p>
                   </div>
 
                   <form onSubmit={submitRegistration} className="space-y-5">
                     <div>
-                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Full Name</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">{t('pagesMisc.eventReg.fullName')}</label>
                       <input 
                         required
                         type="text"
@@ -561,7 +565,7 @@ export default function EventDetails() {
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Email Address</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">{t('pagesMisc.eventReg.email')}</label>
                       <input 
                         required
                         type="email"
@@ -571,7 +575,7 @@ export default function EventDetails() {
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Phone Number (Optional)</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">{t('pagesMisc.eventReg.phone')}</label>
                       <input 
                         type="tel"
                         value={registrationForm.phone}
@@ -580,7 +584,7 @@ export default function EventDetails() {
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Additional Notes (Optional)</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">{t('pagesMisc.eventReg.notes')}</label>
                       <textarea 
                         value={registrationForm.notes}
                         onChange={e => setRegistrationForm({...registrationForm, notes: e.target.value})}
@@ -594,7 +598,7 @@ export default function EventDetails() {
                       disabled={isRegisteringFree}
                       className="w-full bg-brand-ink text-white py-5 rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-brand-gold transition-all disabled:opacity-50 shadow-xl shadow-brand-ink/10 flex items-center justify-center gap-3 mt-4"
                     >
-                      {isRegisteringFree ? <Loader2 className="animate-spin" size={18} /> : 'Complete Registration'}
+                      {isRegisteringFree ? <Loader2 className="animate-spin" size={18} /> : t('pagesMisc.eventReg.submit')}
                     </button>
                   </form>
                 </>

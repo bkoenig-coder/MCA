@@ -19,77 +19,77 @@ export default function TermsOfService() {
             <div className="flex items-center gap-4 mb-8">
               <EyebrowMark />
               <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">
-                Legal & Compliance
+                {t('legalPages.eyebrow')}
               </span>
             </div>
             <h1 className="text-5xl md:text-6xl font-serif mb-12 tracking-tight text-brand-ink">
-              Terms of <span className="italic text-brand-gold">Service</span>
+              {t('legalPages.terms.title')} <span className="italic text-brand-gold">{t('legalPages.terms.titleAccent')}</span>
             </h1>
             
             <div className="prose prose-lg prose-brand max-w-none text-brand-ink/70 font-normal leading-relaxed space-y-8">
               <p className="text-xl text-brand-ink font-normal italic">
-                Last updated: April 2026. These terms apply to all visitors and users of the Mongolian Center in Austria platform.
+                {t('legalPages.terms.intro')}
               </p>
 
               <div className="grid md:grid-cols-2 gap-8 my-16">
                 <div className="p-8 bg-white rounded-2xl border border-brand-ink/5 shadow-sm">
                   <Scale className="text-brand-gold mb-4" size={32} />
-                  <h3 className="text-xl font-serif text-brand-ink mb-2">Legal Framework</h3>
-                  <p className="text-sm">Our services are governed by the laws of the Republic of Austria.</p>
+                  <h3 className="text-xl font-serif text-brand-ink mb-2">{t('legalPages.terms.frameworkTitle')}</h3>
+                  <p className="text-sm">{t('legalPages.terms.frameworkText')}</p>
                 </div>
                 <div className="p-8 bg-white rounded-2xl border border-brand-ink/5 shadow-sm">
                   <CheckCircle className="text-brand-gold mb-4" size={32} />
-                  <h3 className="text-xl font-serif text-brand-ink mb-2">User Responsibility</h3>
-                  <p className="text-sm">By using our platform, you agree to act in accordance with our community standards.</p>
+                  <h3 className="text-xl font-serif text-brand-ink mb-2">{t('legalPages.terms.responsibilityTitle')}</h3>
+                  <p className="text-sm">{t('legalPages.terms.responsibilityText')}</p>
                 </div>
               </div>
 
               <section>
-                <h2 className="text-3xl font-serif text-brand-ink mb-6">1. Scope</h2>
+                <h2 className="text-3xl font-serif text-brand-ink mb-6">{t('legalPages.terms.s1Title')}</h2>
                 <p>
-                  These General Terms and Conditions (GTC) apply to all legal transactions concluded via the online platform of the Mongolian Center in Austria.
+                  {t('legalPages.terms.s1Text')}
                 </p>
               </section>
 
               <section>
-                <h2 className="text-3xl font-serif text-brand-ink mb-6">2. Services</h2>
+                <h2 className="text-3xl font-serif text-brand-ink mb-6">{t('legalPages.terms.s2Title')}</h2>
                 <p>
-                  The Mongolian Center in Austria provides information, event registration, and cultural resources. We reserve the right to modify or discontinue services at any time.
+                  {t('legalPages.terms.s2Text')}
                 </p>
               </section>
 
               <section>
-                <h2 className="text-3xl font-serif text-brand-ink mb-6">3. Registration and Account</h2>
+                <h2 className="text-3xl font-serif text-brand-ink mb-6">{t('legalPages.terms.s3Title')}</h2>
                 <p>
-                  Registration may be required for certain services. You are responsible for maintaining the confidentiality of your account information and for all activities that occur under your account.
+                  {t('legalPages.terms.s3Text')}
                 </p>
               </section>
 
               <section>
-                <h2 className="text-3xl font-serif text-brand-ink mb-6">4. Intellectual Property</h2>
+                <h2 className="text-3xl font-serif text-brand-ink mb-6">{t('legalPages.terms.s4Title')}</h2>
                 <p>
-                  All content on this website, including text, graphics, logos, and images, is the property of the Mongolian Center in Austria or its content suppliers and is protected by copyright laws.
+                  {t('legalPages.terms.s4Text')}
                 </p>
               </section>
 
               <section>
-                <h2 className="text-3xl font-serif text-brand-ink mb-6">5. Limitation of Liability</h2>
+                <h2 className="text-3xl font-serif text-brand-ink mb-6">{t('legalPages.terms.s5Title')}</h2>
                 <p>
-                  The Mongolian Center in Austria shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from the use or inability to use our services.
+                  {t('legalPages.terms.s5Text')}
                 </p>
               </section>
 
               <section>
-                <h2 className="text-3xl font-serif text-brand-ink mb-6">6. Governing Law</h2>
+                <h2 className="text-3xl font-serif text-brand-ink mb-6">{t('legalPages.terms.s6Title')}</h2>
                 <p>
-                  These terms shall be governed by and construed in accordance with the laws of Austria. Any disputes arising under or in connection with these terms shall be subject to the exclusive jurisdiction of the courts in Vienna.
+                  {t('legalPages.terms.s6Text')}
                 </p>
               </section>
 
               <section className="pt-12 border-t border-brand-ink/10">
-                <h2 className="text-2xl font-serif text-brand-ink mb-4">Questions about our Terms?</h2>
-                <p className="font-medium">Mongolian Center in Austria</p>
-                <p>Email: info@mongoliancenter.org</p>
+                <h2 className="text-2xl font-serif text-brand-ink mb-4">{t('legalPages.terms.questionsTitle')}</h2>
+                <p className="font-medium">{t('legalPages.orgName')}</p>
+                <p>{t('legalPages.emailLabel')}: info@mongoliancenter.org</p>
               </section>
             </div>
           </motion.div>

@@ -54,13 +54,13 @@ export default function Navbar() {
   const navItems = [
     { name: t('nav.about'), path: '/about', icon: Info },
     { name: t('nav.events'), path: '/events', icon: Calendar },
-    { name: t('nav.membership', { defaultValue: 'Membership' }), path: '/membership', icon: Award },
+    { name: t('nav.membership'), path: '/membership', icon: Award },
     { name: t('nav.news'), path: '/news', icon: Newspaper },
     { name: t('nav.gallery'), path: '/gallery', icon: ImageIcon },
     { name: t('nav.impact'), path: '/impact', icon: Heart },
     { name: t('nav.contact'), path: '/contact', icon: Mail },
-    { name: t('nav.heritage', 'Heritage'), path: '/heritage', icon: Compass },
-    { name: t('nav.careers', 'Careers'), path: '/careers', icon: Briefcase },
+    { name: t('nav.heritage'), path: '/heritage', icon: Compass },
+    { name: t('nav.careers'), path: '/careers', icon: Briefcase },
   ];
 
   const isSuperAdmin = user?.email?.toLowerCase() === 'emeraldtorstein@gmail.com';
@@ -178,16 +178,16 @@ export default function Navbar() {
           <div aria-hidden="true" />
 
           {/* Centre: the banner. Austria | title | Mongolia */}
-          <div className="flex items-center gap-4 min-w-0" role="img" aria-label="Austrian–Mongolian Cultural & Business Center">
+          <div className="flex items-center gap-4 min-w-0" role="img" aria-label={t('siteUi.nav.bannerLabel')}>
             <FlagTile>
               <AT className="w-full h-full block" aria-hidden="true" />
             </FlagTile>
             <span aria-hidden="true" className="lg:hidden h-px w-10 bg-gradient-to-r from-brand-gold/80 to-transparent" />
             <span aria-hidden="true" className="hidden 2xl:block h-px w-12 bg-gradient-to-r from-transparent to-brand-gold/80" />
             <span className="hidden lg:flex items-center gap-3 text-xs tracking-[0.22em] uppercase whitespace-nowrap">
-              <span className="font-semibold text-brand-gold">{t('nav.hubPrefix', { defaultValue: 'Austrian–Mongolian' })}</span>
+              <span className="font-semibold text-brand-gold">{t('siteUi.nav.bannerPrefix')}</span>
               <span aria-hidden="true" className="h-3.5 w-px bg-brand-gold/60 shrink-0" />
-              <span className="font-medium text-white">{t('nav.hub', { defaultValue: 'Cultural & Business Center' })}</span>
+              <span className="font-medium text-white">{t('siteUi.nav.bannerTitle')}</span>
             </span>
             <span aria-hidden="true" className="lg:hidden h-px w-10 bg-gradient-to-l from-brand-gold/80 to-transparent" />
             <span aria-hidden="true" className="hidden 2xl:block h-px w-12 bg-gradient-to-l from-transparent to-brand-gold/80" />
@@ -202,7 +202,7 @@ export default function Navbar() {
             <div className="relative" ref={langRef}>
               <button 
                 onClick={() => setIsLangOpen(!isLangOpen)}
-                aria-label="Select language"
+                aria-label={t('siteUi.nav.selectLanguage')}
                 className="flex items-center gap-2 text-white/85 hover:text-[#C5A059] transition-all py-1"
               >
                 <span><currentLang.Flag className="w-5 h-auto rounded-[2px] shadow-sm" aria-hidden="true" /></span>
@@ -251,9 +251,9 @@ export default function Navbar() {
                     ) : (
                       <UserIcon size={11} className="text-[#C5A059]" />
                     )}
-                    <span className="text-[11px] normal-case truncate max-w-[80px]">{user.displayName || 'Member'}</span>
+                    <span className="text-[11px] normal-case truncate max-w-[80px]">{user.displayName || t('nav.member')}</span>
                   </Link>
-                  <button onClick={() => logOut()} aria-label="Log out" className="text-white/40 hover:text-red-400 transition-all">
+                  <button onClick={() => logOut()} aria-label={t('siteUi.nav.logOut')} className="text-white/40 hover:text-red-400 transition-all">
                     <LogOut size={11} />
                   </button>
                 </div>
@@ -264,15 +264,15 @@ export default function Navbar() {
                       await signInWithGoogle();
                     } catch (error: any) {
                       if (error?.code !== 'auth/popup-closed-by-user') {
-                        toast.error('Login failed, retry opening in new tab.');
+                        toast.error(t('siteUi.nav.loginFailed'));
                       }
                     }
                   }}
-                  aria-label="Member portal sign in"
+                  aria-label={t('siteUi.nav.memberPortalAria')}
                   className="flex items-center gap-1.5 text-white/85 hover:text-[#C5A059] transition-all font-bold text-[11px]"
                 >
                   <LogIn size={10} className="text-[#C5A059]" />
-                  <span>Member Portal</span>
+                  <span>{t('siteUi.nav.memberPortal')}</span>
                 </button>
               )}
             </div>
@@ -321,10 +321,10 @@ export default function Navbar() {
           </div>
 
           {/* Centered full logo (already contains the organization name) */}
-          <Link to="/" aria-label="Mongolisches Zentrum in Österreich – Home" className="group flex-shrink-0 z-10 absolute left-1/2 -translate-x-1/2 xl:static xl:left-auto xl:translate-x-0 pointer-events-auto">
+          <Link to="/" aria-label={t('siteUi.nav.homeAria')} className="group flex-shrink-0 z-10 absolute left-1/2 -translate-x-1/2 xl:static xl:left-auto xl:translate-x-0 pointer-events-auto">
             <img
               src={mcaLogoWide}
-              alt="Mongolische Zentrum in Österreich"
+              alt={t('siteUi.org.name')}
               className={cn("w-auto object-contain select-none transition-all duration-500 group-hover:scale-105", scrolled ? "h-9 sm:h-10 xl:h-12" : "h-11 sm:h-12 xl:h-[72px]")}
             />
           </Link>
@@ -358,11 +358,11 @@ export default function Navbar() {
 
             <button
               onClick={() => setIsOpen(!isOpen)}
-              aria-label={isOpen ? "Close menu" : "Open menu"}
+              aria-label={isOpen ? t('siteUi.nav.closeMenu') : t('siteUi.nav.openMenu')}
               className="ml-auto flex items-center gap-2 text-xs uppercase tracking-[0.1em] font-semibold py-2.5 px-4 rounded-lg bg-[#0A1128] text-white hover:bg-[#0066B3] transition-colors duration-300"
             >
               {isOpen ? <X size={14} className="text-[#C5A059]" /> : <Menu size={14} className="text-[#C5A059]" />}
-              <span className="hidden 2xl:inline">{isOpen ? t('common.close', 'Close') : t('nav.menu', 'Menu')}</span>
+              <span className="hidden 2xl:inline">{isOpen ? t('siteUi.nav.close') : t('siteUi.nav.menu')}</span>
             </button>
           </div>
 
@@ -376,7 +376,7 @@ export default function Navbar() {
                 const nextLang = languages[nextIndex];
                 i18n.changeLanguage(nextLang.code);
               }}
-              aria-label="Switch language"
+              aria-label={t('siteUi.nav.switchLanguage')}
               className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border flex items-center justify-center text-xs sm:text-sm transition-all duration-300 bg-brand-paper hover:bg-white text-brand-ink border-brand-ink/10 shadow-sm active:scale-90"
             >
               <currentLang.Flag className="w-5 h-auto rounded-[2px] shadow-sm" aria-hidden="true" />
@@ -384,7 +384,7 @@ export default function Navbar() {
 
             {/* Profile Avatar Trigger */}
             {user && (
-              <Link to="/profile" aria-label="View user profile" className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-[#C5A059]/30 p-0.5 bg-white flex items-center justify-center shadow-sm">
+              <Link to="/profile" aria-label={t('siteUi.nav.viewProfile')} className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-[#C5A059]/30 p-0.5 bg-white flex items-center justify-center shadow-sm">
                 {user.photoURL ? (
                   <img src={user.photoURL} alt="" className="w-full h-full rounded-full object-cover" />
                 ) : (
@@ -397,7 +397,7 @@ export default function Navbar() {
             <button 
               className="p-2 sm:p-2.5 transition-all duration-300 text-white rounded bg-[#0A1128] hover:bg-neutral-800 active:scale-95 flex items-center justify-center shadow-sm"
               onClick={() => setIsOpen(!isOpen)}
-              aria-label={isOpen ? "Close menu" : "Open menu"}
+              aria-label={isOpen ? t('siteUi.nav.closeMenu') : t('siteUi.nav.openMenu')}
             >
               {isOpen ? <X size={15} className="text-[#C5A059]" /> : <Menu size={15} className="text-[#C5A059]" />}
             </button>
@@ -420,7 +420,7 @@ export default function Navbar() {
                 <div className="max-w-[1600px] w-full mx-auto px-4 sm:px-8 md:px-12 flex items-center justify-between select-none min-w-0 relative">
                   {/* Centered full logo */}
                   <div className="mx-auto flex items-center">
-                    <img src={mcaLogoWide} alt="Mongolische Zentrum in Österreich" className="h-9 sm:h-10 w-auto object-contain" />
+                    <img src={mcaLogoWide} alt={t('siteUi.org.name')} className="h-9 sm:h-10 w-auto object-contain" />
                   </div>
 
                   <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
@@ -433,7 +433,7 @@ export default function Navbar() {
                         i18n.changeLanguage(nextLang.code);
                       }}
                       className="w-8 h-8 rounded-full border flex items-center justify-center text-xs transition-all duration-300 bg-[#0A1128]/5 hover:bg-[#0A1128]/10 text-brand-ink border-brand-ink/5 shadow-sm active:scale-90"
-                      title="Change Language"
+                      title={t('siteUi.nav.changeLanguage')}
                     >
                       <currentLang.Flag className="w-5 h-auto rounded-[2px] shadow-sm" aria-hidden="true" />
                     </button>
@@ -444,7 +444,7 @@ export default function Navbar() {
                       className="group flex items-center gap-2 text-[9px] md:text-[10px] uppercase tracking-[0.18em] font-sans font-black text-white bg-[#0A1128] hover:bg-[#0066B3] transition-all py-2 px-3 sm:px-4.5 rounded shadow-sm hover:shadow active:scale-95"
                     >
                       <X size={13} className="text-[#C5A059]" />
-                      <span className="hidden min-[400px]:inline">CLOSE</span>
+                      <span className="hidden min-[400px]:inline">{t('siteUi.nav.close')}</span>
                     </button>
                   </div>
                 </div>
@@ -466,7 +466,7 @@ export default function Navbar() {
                   {/* Left Column: Menu Links */}
                   <div className="flex flex-col justify-start lg:border-r border-brand-ink/10 lg:pr-12 text-left">
                      <span className="text-xs uppercase tracking-[0.18em] font-semibold text-[#C5A059] mb-3 lg:mb-4 block">
-                        {t('footer.navTitle', 'Navigation')}
+                        {t('footer.navTitle')}
                      </span>
                      <nav className="flex flex-col">
                        {navItems.map((item, idx) => {
@@ -496,17 +496,17 @@ export default function Navbar() {
                                  <div className="flex items-center gap-2">
                                    {item.path === '/events' && (
                                      <span className="text-[11px] bg-[#C5A059]/15 text-[#8a6b2a] px-2 py-0.5 rounded uppercase tracking-[0.1em] font-sans font-semibold">
-                                       UPCOMING
+                                       {t('siteUi.nav.badgeUpcoming')}
                                      </span>
                                    )}
                                    {item.path === '/membership' && (
                                      <span className="text-[11px] bg-[#0066B3]/10 text-[#0066B3] px-2 py-0.5 rounded uppercase tracking-[0.1em] font-sans font-semibold whitespace-nowrap">
-                                        JOIN
+                                        {t('siteUi.nav.badgeJoin')}
                                      </span>
                                    )}
                                    {item.path === '/impact' && (
                                      <span className="text-[11px] bg-[#DA2032]/10 text-[#DA2032] px-2 py-0.5 rounded uppercase tracking-[0.1em] font-sans font-semibold whitespace-nowrap">
-                                        GIVE
+                                        {t('siteUi.nav.badgeGive')}
                                       </span>
                                    )}
                                    <UlziiSymbol className={cn("w-4 h-4 transition-all duration-300", isActive ? "text-brand-gold opacity-100" : "text-brand-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0")} />
@@ -532,7 +532,7 @@ export default function Navbar() {
                        transition={{ duration: 0.8, delay: 0.1 }}
                        className="w-full rounded-xl border border-brand-ink/10 bg-white/80 px-6 py-5"
                      >
-                       <BridgeMap viennaLabel={t('bridge.vienna', { defaultValue: 'Vienna' })} ulaanbaatarLabel={t('bridge.ulaanbaatar', { defaultValue: 'Ulaanbaatar' })} />
+                       <BridgeMap viennaLabel={t('footer.vienna')} ulaanbaatarLabel={t('footer.ulaanbaatar')} />
                      </motion.div>
 
                      <div className="flex flex-col">
@@ -543,7 +543,7 @@ export default function Navbar() {
                           className="mb-3"
                         >
                           <span className="bg-[#0A1128] text-white px-2.5 py-1 rounded-md text-[9px] uppercase tracking-[0.18em] font-sans font-black shadow-sm inline-block">
-                            {t('nav.featured.badge', 'Connecting cultures,')}
+                            {t('siteUi.nav.featuredBadge')}
                           </span>
                         </motion.div>
                         
@@ -553,7 +553,7 @@ export default function Navbar() {
                           transition={{ duration: 0.7, delay: 0.2 }}
                           className="font-serif text-2xl sm:text-3xl lg:text-[34px] text-brand-ink font-light leading-tight tracking-tight mb-3"
                         >
-                          {t('nav.featured.title', 'We major in connection')}
+                          {t('siteUi.nav.featuredTitle')}
                         </motion.h2>
 
                         <motion.p 
@@ -562,7 +562,7 @@ export default function Navbar() {
                           transition={{ duration: 0.8, delay: 0.3 }}
                           className="font-sans text-xs sm:text-[13px] text-brand-ink/70 max-w-xl leading-relaxed mb-4"
                         >
-                          {t('nav.featured.desc', "We're dedicated to helping you discover new opportunities, bridging cultural insights with professional success.")}
+                          {t('siteUi.nav.featuredDesc')}
                         </motion.p>
                      </div>
 
@@ -573,7 +573,7 @@ export default function Navbar() {
                        className="mt-auto flex items-end justify-end gap-2 pr-2"
                      >
                        <span className="relative mb-24 rounded-2xl rounded-br-sm bg-white border border-brand-ink/10 px-4 py-2 text-sm font-medium text-brand-ink shadow-sm">
-                         {t('nav.hello', { defaultValue: 'Сайн байна уу!' })}
+                         {t('siteUi.nav.hello')}
                        </span>
                        <WavingBoy className="h-44 sm:h-52 w-auto" />
                      </motion.div>
@@ -589,9 +589,9 @@ export default function Navbar() {
                 >
                   {/* Left: Quick Portal links */}
                   <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-6 text-[9px] font-sans font-bold uppercase tracking-[0.2em] text-brand-ink/60">
-                     <Link to="/membership/apply-student" onClick={() => setIsOpen(false)} className="hover:text-[#0066B3] transition-colors">FOR STUDENTS</Link>
-                     <Link to="/membership/apply-professional" onClick={() => setIsOpen(false)} className="hover:text-[#0066B3] transition-colors">FOR COMPANIES</Link>
-                     <Link to="/contact" onClick={() => setIsOpen(false)} className="hover:text-[#0066B3] transition-colors">FOR INSTITUTIONS</Link>
+                     <Link to="/membership/apply-student" onClick={() => setIsOpen(false)} className="hover:text-[#0066B3] transition-colors">{t('siteUi.nav.forStudents')}</Link>
+                     <Link to="/membership/apply-professional" onClick={() => setIsOpen(false)} className="hover:text-[#0066B3] transition-colors">{t('siteUi.nav.forCompanies')}</Link>
+                     <Link to="/contact" onClick={() => setIsOpen(false)} className="hover:text-[#0066B3] transition-colors">{t('siteUi.nav.forInstitutions')}</Link>
                   </div>
 
                   {/* Right: Social icons & Sign in */}
@@ -618,7 +618,7 @@ export default function Navbar() {
                              </Link>
                              <div className="h-2 w-px bg-brand-ink/20" />
                              <button onClick={() => { logOut(); setIsOpen(false); }} className="text-brand-ink/50 hover:text-brand-gold transition-colors">
-                               Sign Out
+                               {t('nav.signOut')}
                              </button>
                           </div>
                         ) : (
@@ -629,13 +629,13 @@ export default function Navbar() {
                                  setIsOpen(false);
                                } catch (error: any) {
                                  if (error?.code !== 'auth/popup-closed-by-user') {
-                                   toast.error('Login failed, try opening in a new tab.');
+                                   toast.error(t('siteUi.nav.loginFailed'));
                                  }
                                }
                             }}
                             className="text-[9px] font-bold uppercase tracking-[0.2em] text-brand-ink hover:text-brand-gold transition-colors flex items-center gap-1.5"
                           >
-                            <LogIn size={11} /> Member Access
+                            <LogIn size={11} /> {t('siteUi.nav.memberAccess')}
                           </button>
                         )}
                      </div>

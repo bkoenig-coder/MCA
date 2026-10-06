@@ -218,7 +218,7 @@ export default function Home() {
                       
                       <div className="flex flex-col items-center gap-3 mb-4">
                         <div className="px-3 py-1 border border-brand-gold/40 rounded-sm bg-[#151a25]/90">
-                          <span className="text-[6px] uppercase tracking-[0.4em] text-brand-gold font-bold whitespace-nowrap">Est. 2026</span>
+                          <span className="text-[6px] uppercase tracking-[0.4em] text-brand-gold font-bold whitespace-nowrap">{t('siteUi.home.estShort')}</span>
                         </div>
                         <div className="h-8 w-px bg-brand-gold/40" />
                       </div>
@@ -233,7 +233,7 @@ export default function Home() {
                       <div className="flex flex-col items-center gap-3 mt-4">
                         <div className="h-8 w-px bg-brand-gold/40" />
                         <div className="px-3 py-1 border-2 border-brand-gold/60 rounded-sm bg-[#151a25]/90">
-                          <span className="text-[8px] uppercase tracking-[0.4em] text-brand-gold font-bold">Official</span>
+                          <span className="text-[8px] uppercase tracking-[0.4em] text-brand-gold font-bold">{t('siteUi.home.official')}</span>
                         </div>
                       </div>
                     </div>
@@ -256,7 +256,7 @@ export default function Home() {
                 </Link>
                 <Link to="/diorama" className="w-full sm:w-auto flex-1 text-center border border-white/20 text-white/90 hover:text-white hover:border-white/40 px-6 py-3.5 md:py-4 rounded-lg text-[11px] md:text-xs uppercase tracking-[0.14em] font-semibold transition-all shadow-sm flex items-center justify-center gap-2 group whitespace-nowrap bg-white/5 backdrop-blur-md">
                   <SoyomboSymbol className="w-3.5 h-3.5 text-brand-gold group-hover:rotate-12 transition-transform duration-300" />
-                  <span>3D Culture Hub</span>
+                  <span>{t('siteUi.home.tour')}</span>
                 </Link>
               </motion.div>
             </div>
@@ -284,7 +284,7 @@ export default function Home() {
                   {/* Horizontal Established Text with Border */}
                   <div className="flex flex-col items-center gap-3 mb-4">
                     <div className="px-4 py-1.5 border border-brand-gold/40 rounded-sm bg-[#151a25]/90">
-                      <span className="text-[10px] uppercase tracking-[0.4em] text-brand-gold font-bold">Established 2026</span>
+                      <span className="text-[10px] uppercase tracking-[0.4em] text-brand-gold font-bold">{t('siteUi.home.established')}</span>
                     </div>
                     <div className="h-12 w-px bg-brand-gold/40" />
                   </div>
@@ -303,7 +303,7 @@ export default function Home() {
                   <div className="flex flex-col items-center gap-5 mt-4">
                     <div className="h-12 w-px bg-brand-gold/40" />
                     <div className="px-6 py-2 border-2 border-brand-gold/60 rounded-sm bg-[#151a25]/90">
-                      <span className="text-xs uppercase tracking-[0.6em] text-brand-gold font-bold">Official</span>
+                      <span className="text-xs uppercase tracking-[0.6em] text-brand-gold font-bold">{t('siteUi.home.official')}</span>
                     </div>
                   </div>
                 </div>
@@ -330,21 +330,21 @@ export default function Home() {
             >
               <div className="flex items-center gap-4 mb-3">
                 <EyebrowMark />
-                <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('bridge.tag', { defaultValue: 'Our mission' })}</span>
+                <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('siteUi.home.bridge.tag')}</span>
               </div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight text-brand-ink mb-5">
-                {t('bridge.titleNormal', { defaultValue: 'Two countries, ' })}<span className="italic text-brand-gold">{t('bridge.titleItalic', { defaultValue: 'one bridge' })}</span>
+                {t('siteUi.home.bridge.titleNormal')}<span className="italic text-brand-gold">{t('siteUi.home.bridge.titleItalic')}</span>
               </h2>
               <p className="text-base md:text-lg text-brand-ink/80 leading-relaxed mb-8">
-                {t('bridge.desc', { defaultValue: 'From Ulaanbaatar to Vienna, we connect communities, students, artists and businesses, turning a long distance into a shared path of culture, education and opportunity.' })}
+                {t('siteUi.home.bridge.desc')}
               </p>
               <div className="flex items-baseline gap-3 border-t border-slate-200 pt-6">
                 <span className="text-4xl font-serif text-brand-blue">{'≈ ' + BRIDGE_DISTANCE_KM.toLocaleString('en')}</span>
-                <span className="text-sm text-slate-600">{t('bridge.km', { defaultValue: 'km between Ulaanbaatar and Vienna' })}</span>
+                <span className="text-sm text-slate-600">{t('siteUi.home.bridge.km')}</span>
               </div>
             </motion.div>
             <div className="lg:col-span-7">
-              <BridgeMap viennaLabel={t('bridge.vienna', { defaultValue: 'Vienna' })} ulaanbaatarLabel={t('bridge.ulaanbaatar', { defaultValue: 'Ulaanbaatar' })} />
+              <BridgeMap viennaLabel={t('footer.vienna')} ulaanbaatarLabel={t('footer.ulaanbaatar')} />
             </div>
           </div>
         </div>
@@ -355,7 +355,7 @@ export default function Home() {
       <section className="py-10 md:py-12 bg-white relative overflow-hidden border-y border-gray-200">
         <div className="text-center mb-6 relative z-20">
           <h3 className="text-xs md:text-xs font-bold uppercase tracking-[0.2em] text-gray-500">
-            Our partners & sponsors
+            {t('siteUi.home.partnersTitle')}
           </h3>
           <div className="w-8 h-0.5 bg-[#760000] mx-auto mt-2.5" />
         </div>
@@ -642,7 +642,7 @@ export default function Home() {
               <div>
                 <div className="flex items-center gap-4 mb-3">
                   <EyebrowMark />
-                  <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{showingPastEvents ? t('events.past', { defaultValue: 'Past events' }) : t('highlight.tag')}</span>
+                  <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{showingPastEvents ? t('siteUi.home.pastEvents') : t('highlight.tag')}</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight text-brand-ink">
                   {t('highlight.title')} <span className="italic text-brand-gold">{t('highlight.titleItalic')}</span>
@@ -742,10 +742,10 @@ export default function Home() {
           >
             <div className="flex items-center gap-4 mb-6 md:mb-8">
               <EyebrowMark />
-              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">Our Foundation</span>
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('siteUi.home.foundation.tag')}</span>
             </div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight text-brand-ink">
-              The Three <span className="italic text-brand-gold">Pillars</span>
+              {t('siteUi.home.foundation.titleNormal')}<span className="italic text-brand-gold">{t('siteUi.home.foundation.titleItalic')}</span>
             </h2>
           </motion.div>
 
@@ -796,7 +796,7 @@ export default function Home() {
                 </div>
                 
                 <div className="flex items-center justify-between mt-auto pt-6 border-t border-brand-ink/5 text-xs uppercase tracking-widest font-bold text-brand-ink group-hover:text-brand-blue transition-colors duration-300">
-                  <span>Learn More</span>
+                  <span>{t('siteUi.home.foundation.learnMore')}</span>
                   <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>
@@ -817,10 +817,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
             {[
-              { label: 'Year Established', value: '2026', desc: 'Registered Association (Verein) in Austria' },
-              { label: 'Active Members', value: '100+', desc: 'Students, professionals and institutional partners' },
-              { label: 'Bilateral Partners', value: '5+', desc: 'Embassy of Mongolia & educational partners' },
-              { label: 'Culture & Integration Projects', value: '4+', desc: 'Diorama, language courses & events' }
+              { label: t('siteUi.home.stats.yearLabel'), value: '2026', desc: t('siteUi.home.stats.yearDesc') },
+              { label: t('siteUi.home.stats.membersLabel'), value: '100+', desc: t('siteUi.home.stats.membersDesc') },
+              { label: t('siteUi.home.stats.partnersLabel'), value: '5+', desc: t('siteUi.home.stats.partnersDesc') },
+              { label: t('siteUi.home.stats.projectsLabel'), value: '4+', desc: t('siteUi.home.stats.projectsDesc') }
             ].map((stat, idx) => (
               <motion.div
                 key={idx}
@@ -871,7 +871,7 @@ export default function Home() {
               >
                 <EyebrowMark />
                 <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">
-                  Donation
+                  {t('nav.impact')}
                 </span>
               </motion.div>
 
@@ -917,7 +917,7 @@ export default function Home() {
               >
                 <img 
                   src="https://plus.unsplash.com/premium_photo-1734713079348-ea48690b11b1?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-                  alt="Impact" 
+                  alt={t('siteUi.home.impactAlt')} 
                   loading="lazy"
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
@@ -938,10 +938,10 @@ export default function Home() {
                   <div className="w-12 h-12 rounded-full bg-brand-gold flex items-center justify-center text-brand-ink shadow-lg">
                     <Users size={20} />
                   </div>
-                  <span className="text-xs uppercase tracking-[0.2em] font-semibold text-brand-gold">Community Reach</span>
+                  <span className="text-xs uppercase tracking-[0.2em] font-semibold text-brand-gold">{t('siteUi.home.reach.label')}</span>
                 </div>
                 <div className="font-serif text-5xl mb-4 font-bold">+500</div>
-                <p className="text-sm text-white/70 font-normal leading-relaxed">Lives touched through our cultural and social initiatives in 2026. Your support makes this possible.</p>
+                <p className="text-sm text-white/70 font-normal leading-relaxed">{t('siteUi.home.reach.text')}</p>
               </motion.div>
             </div>
           </motion.div>

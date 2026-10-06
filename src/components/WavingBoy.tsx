@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Flat illustration of a Mongolian boy in a deel (traditional robe) waving hello.
@@ -7,6 +8,7 @@ import { motion } from 'motion/react';
  * The raised arm waves gently; respects reduced-motion through the global CSS rule.
  */
 export default function WavingBoy({ className = 'h-48 w-auto' }: { className?: string }) {
+  const { t } = useTranslation();
   const skin = '#F1C7A0';
   const skinShade = '#E0AE85';
   const deel = '#0A5FA8';
@@ -16,7 +18,7 @@ export default function WavingBoy({ className = 'h-48 w-auto' }: { className?: s
   const ink = '#17181C';
 
   return (
-    <svg viewBox="0 0 200 300" className={className} role="img" aria-label="A Mongolian boy in a deel waving hello" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 200 300" className={className} role="img" aria-label={t('siteUi.boy.alt')} xmlns="http://www.w3.org/2000/svg">
       {/* ground shadow */}
       <ellipse cx="100" cy="290" rx="58" ry="6" fill="#0F172A" opacity="0.12" />
 

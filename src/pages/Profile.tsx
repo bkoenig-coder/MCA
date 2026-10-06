@@ -6,8 +6,10 @@ import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { toast } from 'sonner';
 import { User as UserIcon, LogOut, Save, Shield, Mail, Calendar, Award } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function Profile() {
+  const { t } = useTranslation();
   const { user, profile, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -15,9 +17,13 @@ export default function Profile() {
   const [isSaving, setIsSaving] = useState(false);
   const [isCanceling, setIsCanceling] = useState(false);
 
+  const tierName = (tier: string) => t(`pagesMisc.tiers.${tier}`, { defaultValue: tier });
+  const formatDate = (value: any) =>
+    (typeof value?.toDate === 'function' ? value.toDate() : new Date(value)).toLocaleDateString(t('common.locale'));
+
   const handleCancelSubscription = async () => {
     if (!profile?.stripeSessionId) return;
-    if (!window.confirm("Are you sure you want to cancel your membership? There are no refunds, but you'll retain access until the end of your billing period.")) return;
+    if (!window.confirm(t('pagesMisc.profile.confirmCancel'))) return;
     
     setIsCanceling(true);
     try {
@@ -27,17 +33,17 @@ export default function Profile() {
         body: JSON.stringify({ sessionId: profile.stripeSessionId })
       });
       if (!res.ok) {
-        throw new Error("Failed to cancel subscription");
+        throw new Error(t('pagesMisc.profile.cancelFailed'));
       }
       
       await updateDoc(doc(db, 'users', user.uid), {
         membershipStatus: 'canceled',
         updatedAt: serverTimestamp()
       });
-      toast.success("Your membership has been canceled.");
+      toast.success(t('pagesMisc.profile.canceledToast'));
     } catch (err: any) {
       console.error(err);
-      toast.error(err.message || "Something went wrong.");
+      toast.error(err.message || t('common.error.unexpected'));
     } finally {
       setIsCanceling(false);
     }
@@ -61,7 +67,7 @@ export default function Profile() {
     if (query.get('success') === 'true' && query.get('membership')) {
       const membership = query.get('membership');
       const sessionId = query.get('session_id');
-      toast.success(`Successfully subscribed to ${membership} membership!`);
+      toast.success(t('pagesMisc.profile.subscribed', { membership: tierName(membership || '') }));
       
       // Update user doc with membership info
       if (user) {
@@ -100,10 +106,10 @@ export default function Profile() {
         displayName,
         updatedAt: serverTimestamp()
       });
-      toast.success('Profile updated successfully');
+      toast.success(t('pagesMisc.profile.updated'));
     } catch (error) {
       console.error('Error updating profile:', error);
-      toast.error('Failed to update profile');
+      toast.error(t('pagesMisc.profile.updateFailed'));
     } finally {
       setIsSaving(false);
     }
@@ -113,9 +119,9 @@ export default function Profile() {
     try {
       await logOut();
       navigate('/');
-      toast.success('Logged out successfully');
+      toast.success(t('pagesMisc.profile.loggedOut'));
     } catch (error) {
-      toast.error('Failed to log out');
+      toast.error(t('pagesMisc.profile.logoutFailed'));
     }
   };
 
@@ -137,19 +143,19 @@ export default function Profile() {
                 )}
               </div>
               {(profile?.role === 'admin' || user.email?.toLowerCase() === 'emeraldtorstein@gmail.com' || user.email?.toLowerCase() === 'batmunkh.unen@gmail.com') && (
-                <div className="absolute -bottom-2 -right-2 bg-brand-ink text-brand-gold p-2 rounded-xl shadow-lg" title="Admin">
+                <div className="absolute -bottom-2 -right-2 bg-brand-ink text-brand-gold p-2 rounded-xl shadow-lg" title={t('pagesMisc.profile.admin')}>
                   <Shield size={16} />
                 </div>
               )}
               {profile?.role === 'moderator' && (
-                <div className="absolute -bottom-2 -right-2 bg-blue-500 text-white p-2 rounded-xl shadow-lg" title="Moderator">
+                <div className="absolute -bottom-2 -right-2 bg-blue-500 text-white p-2 rounded-xl shadow-lg" title={t('pagesMisc.profile.moderator')}>
                   <Shield size={16} />
                 </div>
               )}
             </div>
             <div className="text-center md:text-left flex-1">
               <h1 className="text-3xl md:text-4xl font-serif text-brand-ink mb-2">
-                {profile?.displayName || 'Welcome Back'}
+                {profile?.displayName || t('pagesMisc.profile.welcome')}
               </h1>
               <p className="text-brand-ink/40 text-sm font-medium uppercase tracking-widest flex items-center justify-center md:justify-start gap-2">
                 <Mail size={14} />
@@ -158,7 +164,7 @@ export default function Profile() {
               {profile?.membershipTier && (
                 <div className="mt-4 inline-flex items-center gap-2 px-3 py-1 bg-brand-gold/10 text-brand-gold rounded-full border border-brand-gold/20">
                   <Award size={14} />
-                  <span className="text-xs font-bold uppercase tracking-widest">{profile.membershipTier} Member</span>
+                  <span className="text-xs font-bold uppercase tracking-widest">{t('pagesMisc.profile.memberBadge', { tier: tierName(profile.membershipTier) })}</span>
                 </div>
               )}
             </div>
@@ -166,7 +172,7 @@ export default function Profile() {
 
           <form onSubmit={handleUpdateProfile} className="space-y-8">
             <div className="space-y-4">
-              <label className="block text-xs font-bold uppercase tracking-widest text-brand-ink/40">Full Name</label>
+              <label className="block text-xs font-bold uppercase tracking-widest text-brand-ink/40">{t('pagesMisc.profile.fullName')}</label>
               <div className="relative">
                 <UserIcon className="absolute left-6 top-1/2 -translate-y-1/2 text-brand-gold w-5 h-5" />
                 <input
@@ -175,7 +181,7 @@ export default function Profile() {
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
                   className="w-full pl-16 pr-6 py-5 bg-white rounded-2xl border-none focus:ring-2 focus:ring-brand-gold/20 transition-all text-brand-ink font-medium"
-                  placeholder="Your full name"
+                  placeholder={t('pagesMisc.profile.fullNamePlaceholder')}
                 />
               </div>
             </div>
@@ -187,7 +193,7 @@ export default function Profile() {
                 className="flex items-center justify-center gap-3 bg-brand-ink text-white py-5 rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-brand-gold transition-all disabled:opacity-50 shadow-xl shadow-brand-ink/10"
               >
                 <Save size={18} />
-                {isSaving ? 'Saving...' : 'Save Changes'}
+                {isSaving ? t('pagesMisc.profile.saving') : t('pagesMisc.profile.save')}
               </button>
               <button
                 type="button"
@@ -195,22 +201,22 @@ export default function Profile() {
                 className="flex items-center justify-center gap-3 bg-white text-brand-ink py-5 rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-red-50 hover:text-red-600 transition-all"
               >
                 <LogOut size={18} />
-                Log Out
+                {t('pagesMisc.profile.logOut')}
               </button>
             </div>
           </form>
 
           {profile?.membershipTier && (
             <div className="mt-12 pt-12 border-t border-brand-ink/5">
-              <h3 className="text-xl font-serif text-brand-ink mb-2">Subscription</h3>
+              <h3 className="text-xl font-serif text-brand-ink mb-2">{t('pagesMisc.profile.subscription')}</h3>
               <div className="bg-white rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 border border-brand-ink/5">
                 <div>
-                  <p className="font-bold text-brand-ink capitalize">{profile.membershipTier} Member</p>
+                  <p className="font-bold text-brand-ink">{t('pagesMisc.profile.memberBadge', { tier: tierName(profile.membershipTier) })}</p>
                   <p className="text-sm font-medium text-brand-ink/60 mt-1">
-                    Status: <span className={profile.membershipStatus === 'canceled' ? 'text-brand-ink/40' : 'text-green-600'}>{profile.membershipStatus === 'canceled' ? 'Canceled (Active until period ends)' : 'Active'}</span>
+                    {t('pagesMisc.profile.status')} <span className={profile.membershipStatus === 'canceled' ? 'text-brand-ink/40' : 'text-green-600'}>{profile.membershipStatus === 'canceled' ? t('pagesMisc.profile.canceled') : t('pagesMisc.profile.active')}</span>
                   </p>
                   <p className="text-xs text-brand-ink/40 mt-2 max-w-sm">
-                    No refunds are provided based on our refund policy. You'll retain access until the end of your billing cycle.
+                    {t('pagesMisc.profile.refundNote')}
                   </p>
                 </div>
                 {profile.membershipStatus === 'active' && profile.stripeSessionId && (
@@ -219,7 +225,7 @@ export default function Profile() {
                     disabled={isCanceling}
                     className="shrink-0 px-6 py-3 bg-white text-brand-ink rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-red-50 hover:text-red-600 transition-colors shadow-sm disabled:opacity-50"
                   >
-                    {isCanceling ? 'Canceling...' : 'Cancel Membership'}
+                    {isCanceling ? t('pagesMisc.profile.canceling') : t('pagesMisc.profile.cancel')}
                   </button>
                 )}
               </div>
@@ -230,7 +236,7 @@ export default function Profile() {
             <div className="flex items-center gap-4 text-brand-ink/40">
               <Calendar size={16} />
               <span className="text-xs font-medium uppercase tracking-widest">
-                Member since {profile?.createdAt ? (typeof profile.createdAt?.toDate === 'function' ? profile.createdAt.toDate() : new Date(profile.createdAt)).toLocaleDateString() : 'Recently'}
+                {profile?.createdAt ? t('pagesMisc.profile.memberSince', { date: formatDate(profile.createdAt) }) : t('pagesMisc.profile.memberSinceRecent')}
               </span>
             </div>
           </div>

@@ -52,7 +52,7 @@ export default function Footer() {
         >
           <div className="w-full overflow-hidden flex justify-center text-center select-none pointer-events-none">
              <div aria-hidden="true" className="text-[14vw] sm:text-[8.5vw] md:text-[7.5vw] lg:text-[7vw] xl:text-[90px] leading-none font-sans font-black tracking-tighter text-brand-ink/5 uppercase">
-                MONGOLIAN<br className="md:hidden" /> <span className="hidden md:inline"> </span>CENTER
+                {t('siteUi.footer.monogram1')}<br className="md:hidden" /> <span className="hidden md:inline"> </span>{t('siteUi.footer.monogram2')}
              </div>
           </div>
         </motion.div>
@@ -66,8 +66,8 @@ export default function Footer() {
         >
           {/* Brand Column */}
           <motion.div variants={itemVariants} className="md:col-span-12 lg:col-span-5 flex flex-col">
-            <Link to="/" aria-label="Home" className="mb-8 group inline-block w-max">
-              <img src={mcaLogoWide} alt="Mongolische Zentrum in Österreich" className="h-16 md:h-20 w-auto object-contain transition-transform duration-500 group-hover:scale-105" />
+            <Link to="/" aria-label={t('nav.home')} className="mb-8 group inline-block w-max">
+              <img src={mcaLogoWide} alt={t('siteUi.org.name')} className="h-16 md:h-20 w-auto object-contain transition-transform duration-500 group-hover:scale-105" />
             </Link>
             <p className="text-sm md:text-base text-brand-ink/70 font-light leading-relaxed max-w-sm mb-10">
               {t('footer.desc')}
@@ -94,14 +94,14 @@ export default function Footer() {
           <div className="col-span-1 md:col-span-12 lg:col-span-6 grid grid-cols-3 gap-3 md:gap-8 overflow-hidden">
             {/* Links: Navigate */}
             <motion.div variants={itemVariants} className="flex flex-col">
-              <h4 className="text-[8px] sm:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-brand-gold mb-6 md:mb-8 break-words">{t('footer.navTitle', 'Navigation')}</h4>
+              <h4 className="text-[8px] sm:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-brand-gold mb-6 md:mb-8 break-words">{t('footer.navTitle')}</h4>
               <ul className="space-y-4 text-xs md:text-sm text-brand-ink/60 font-light flex flex-col">
                 <li><Link to="/about" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.about')}</Link></li>
                 <li><Link to="/events" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.events')}</Link></li>
                 <li><Link to="/gallery" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.gallery')}</Link></li>
                 <li><Link to="/impact" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.impact')}</Link></li>
                 <li><Link to="/news" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.news')}</Link></li>
-                <li><Link to="/careers" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.careers', 'Careers')}</Link></li>
+                <li><Link to="/careers" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.careers')}</Link></li>
               </ul>
             </motion.div>
 
@@ -123,7 +123,7 @@ export default function Footer() {
                 <li className="flex items-start gap-2 sm:gap-4">
                   <MapPin className="text-brand-gold mt-0.5 shrink-0 w-3 h-3 sm:w-[18px] sm:h-[18px]" />
                   <address className="not-italic leading-tight sm:leading-relaxed break-words">
-                    Schöpfleuthergasse 25<br />1210 Vienna, Austria
+                    Schöpfleuthergasse 25<br />1210 {t('contact.info.vienna')}
                   </address>
                 </li>
                 <li className="flex items-center gap-2 sm:gap-4 break-all">
@@ -149,11 +149,11 @@ export default function Footer() {
         >
           <div className="text-[9px] uppercase font-bold tracking-[0.3em] text-brand-ink/40 flex items-center gap-3">
              {t('footer.copyright')}
-             <Link to="/diorama" className="inline-block w-1.5 h-1.5 rounded-full bg-brand-gold/30 hover:bg-brand-gold transition-colors" title="Discover the Steppe" />
+             <Link to="/diorama" className="inline-block w-1.5 h-1.5 rounded-full bg-brand-gold/30 hover:bg-brand-gold transition-colors" title={t('siteUi.footer.discoverSteppe')} />
           </div>
           
           <p className="text-[10px] text-brand-ink/50 text-center md:text-left max-w-xl leading-relaxed">
-            Mongolian Center in Austria is a registered non-profit association (Verein), ZVR-Zahl 1673049268 (Vereinsregister, Magistrat der Stadt Wien). mongoliancenter.org is the organization's official website, owned and operated by the association.
+            {t('siteUi.footer.legalNote')}
           </p>
 
           <div className="flex gap-8 md:gap-12 text-[9px] uppercase font-bold tracking-[0.3em] text-brand-ink/40">
@@ -172,7 +172,7 @@ export default function Footer() {
         <motion.button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="absolute right-0 md:right-0 bottom-[140px] md:bottom-auto md:top-1/2 -translate-y-1/2 w-12 h-12 border border-brand-ink/10 rounded-full flex items-center justify-center hover:bg-brand-ink hover:text-white transition-colors duration-300 z-50 text-brand-ink group cursor-pointer"
-          title="Back to Top"
+          title={t('siteUi.footer.backToTop')}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >

@@ -58,28 +58,22 @@ export default function NaadamGames() {
       key: 'wrestling',
       Icon: WrestlingIcon,
       mn: 'Бөх',
-      title: t('naadam.wrestling.title', { defaultValue: 'Wrestling' }),
-      text: t('naadam.wrestling.text', {
-        defaultValue: 'No weight classes and no time limit: a bout ends when any part of the body other than the feet and hands touches the ground.',
-      }),
+      title: t('siteUi.naadam.wrestlingTitle'),
+      text: t('siteUi.naadam.wrestlingText'),
     },
     {
       key: 'archery',
       Icon: ArcheryIcon,
       mn: 'Сур харваа',
-      title: t('naadam.archery.title', { defaultValue: 'Archery' }),
-      text: t('naadam.archery.text', {
-        defaultValue: 'Traditional archery with a recurve bow, in which both men and women compete.',
-      }),
+      title: t('siteUi.naadam.archeryTitle'),
+      text: t('siteUi.naadam.archeryText'),
     },
     {
       key: 'horse',
       Icon: HorseRacingIcon,
       mn: 'Морин уралдаан',
-      title: t('naadam.horse.title', { defaultValue: 'Horse racing' }),
-      text: t('naadam.horse.text', {
-        defaultValue: 'Long-distance races across the open steppe, ridden by young jockeys.',
-      }),
+      title: t('siteUi.naadam.horseTitle'),
+      text: t('siteUi.naadam.horseText'),
     },
   ];
 
@@ -89,17 +83,15 @@ export default function NaadamGames() {
         <div className="flex items-center gap-4 mb-3">
           <EyebrowMark />
           <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">
-            {t('naadam.tag', { defaultValue: 'Naadam' })}
+            {t('siteUi.naadam.tag')}
           </span>
         </div>
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight text-brand-ink mb-5">
-          {t('naadam.titleNormal', { defaultValue: 'The Three Games of ' })}
-          <span className="italic text-brand-gold">{t('naadam.titleItalic', { defaultValue: 'Naadam' })}</span>
+          {t('siteUi.naadam.titleNormal')}
+          <span className="italic text-brand-gold">{t('siteUi.naadam.titleItalic')}</span>
         </h2>
         <p className="text-base md:text-lg text-brand-ink/80 leading-relaxed">
-          {t('naadam.desc', {
-            defaultValue: 'Eriin gurvan naadam, the festival at the heart of Mongolian culture, brings together wrestling, archery and horse racing each summer.',
-          })}
+          {t('siteUi.naadam.desc')}
         </p>
       </div>
 

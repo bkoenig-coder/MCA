@@ -22,6 +22,12 @@ export default function Events() {
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // Localized field for user/admin-generated content (Turkish falls back to English)
+  const loc = (ev: any, field: string) => {
+    const lang = i18n.language;
+    return lang === 'mn' ? (ev[`${field}Mn`] || ev[field]) : lang === 'de' ? (ev[`${field}De`] || ev[field]) : (ev[`${field}En`] || ev[field]);
+  };
+
   useEffect(() => {
     const handleSuccessRedirect = async () => {
       const isSuccess = searchParams.get('success') === 'true';
@@ -213,7 +219,7 @@ export default function Events() {
       }, 3000);
     } catch (err) {
       console.error("Error registering:", err);
-      setError("Failed to register. Please try again.");
+      setError(t('pagesMisc.eventReg.failed'));
     } finally {
       setIsRegistering(false);
     }
@@ -226,7 +232,7 @@ export default function Events() {
         <div className="absolute inset-0 z-0">
           <img 
             src="https://plus.unsplash.com/premium_photo-1769868292024-22f57678074e?q=80&w=1600&auto=format&fit=crop" 
-            alt="Mongolian Landscape" 
+            alt={t('pagesMisc.events.heroAlt')} 
             className="w-full h-full object-cover object-center"
             loading="eager"
           />
@@ -259,10 +265,10 @@ export default function Events() {
             <div className="space-y-24 md:space-y-40">
               {/* Upcoming Events */}
               <div>
-                <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-12">Upcoming Events</h2>
+                <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-12">{t('pagesMisc.events.upcoming')}</h2>
                 <div className="space-y-8 md:space-y-12">
                   {events.filter(e => new Date(e.date).getTime() >= new Date().setHours(0, 0, 0, 0)).length === 0 ? (
-                    <p className="text-brand-ink/60 font-medium">No upcoming events at the moment.</p>
+                    <p className="text-brand-ink/60 font-medium">{t('pagesMisc.events.noUpcoming')}</p>
                   ) : events.filter(e => new Date(e.date).getTime() >= new Date().setHours(0, 0, 0, 0)).map((event, idx) => {
                     const lang = i18n.language;
                     const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : (event.titleEn || event.title);
@@ -299,12 +305,12 @@ export default function Events() {
                             </span>
                             {event.capacity > 0 && (
                               <span className="px-4 py-1.5 bg-brand-ink/5 rounded-lg text-xs uppercase tracking-widest font-bold text-brand-ink/60">
-                                {event.registeredCount || 0}/{event.capacity} Spots Filled
+                                {t('pagesMisc.events.spotsFilled', { registered: event.registeredCount || 0, capacity: event.capacity })}
                               </span>
                             )}
                           </div>
                           <span className="font-serif text-xl text-brand-ink">
-                            {event.price === 0 ? 'Free' : `€${(event.price / 100).toFixed(2)}`}
+                            {event.price === 0 ? t('pagesMisc.events.free') : `€${(event.price / 100).toFixed(2)}`}
                           </span>
                         </div>
                         
@@ -346,7 +352,7 @@ export default function Events() {
                             {loadingId === event.id ? (
                               <Loader2 className="animate-spin" size={14} />
                             ) : (event.capacity > 0 && (event.registeredCount || 0) >= event.capacity) ? (
-                              <>Sold Out <X size={14} /></>
+                              <>{t('pagesMisc.events.soldOut')} <X size={14} /></>
                             ) : (
                               <>{t('events.register')} <ArrowRight size={14} /></>
                             )}
@@ -368,7 +374,7 @@ export default function Events() {
               {/* Past Events */}
               {events.filter(e => new Date(e.date).getTime() < new Date().setHours(0, 0, 0, 0)).length > 0 && (
                 <div>
-                  <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-12">Past Events</h2>
+                  <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-12">{t('pagesMisc.events.past')}</h2>
                   <div className="space-y-8 md:space-y-12">
                     {events.filter(e => new Date(e.date).getTime() < new Date().setHours(0, 0, 0, 0)).map((event, idx) => {
                       const lang = i18n.language;
@@ -406,7 +412,7 @@ export default function Events() {
                               </span>
                             </div>
                             <span className="font-serif text-xs uppercase tracking-widest font-bold text-brand-ink/40">
-                              Completed
+                              {t('pagesMisc.events.completed')}
                             </span>
                           </div>
                           
@@ -444,7 +450,7 @@ export default function Events() {
                               to={`/events/${event.id}`}
                               className="w-full bg-brand-sand/50 text-brand-ink px-8 py-4 rounded-lg text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-sand transition-all text-center flex items-center justify-center gap-3"
                             >
-                              View Event Details & Photos <ArrowRight size={14} />
+                              {t('pagesMisc.events.viewPast')} <ArrowRight size={14} />
                             </Link>
                           </div>
                         </div>
@@ -498,6 +504,7 @@ export default function Events() {
               {!registrationSuccess && (
                 <button 
                   onClick={() => setShowRegistrationModal(false)}
+                  aria-label={t('pagesMisc.eventReg.close')}
                   className="absolute top-8 right-8 text-brand-ink/40 hover:text-brand-ink transition-colors"
                 >
                   <X size={24} />
@@ -514,22 +521,22 @@ export default function Events() {
                   >
                     <CheckCircle2 size={48} />
                   </motion.div>
-                  <h3 className="text-3xl font-serif text-brand-ink mb-4">Registration Complete!</h3>
-                  <p className="text-brand-ink/60">We look forward to seeing you at {selectedEvent.title}.</p>
+                  <h3 className="text-3xl font-serif text-brand-ink mb-4">{t('pagesMisc.eventReg.complete')}</h3>
+                  <p className="text-brand-ink/60">{t('pagesMisc.eventReg.lookForward', { title: loc(selectedEvent, 'title') })}</p>
                 </div>
               ) : (
                 <>
                   <div className="mb-8">
                     <span className="inline-block px-3 py-1 bg-brand-gold/10 text-brand-gold rounded-lg text-xs uppercase tracking-widest font-bold mb-4">
-                      {selectedEvent.price === 0 ? 'Free Event Registration' : 'Event Registration'}
+                      {selectedEvent.price === 0 ? t('pagesMisc.eventReg.tagFree') : t('pagesMisc.eventReg.tag')}
                     </span>
-                    <h3 className="text-3xl font-serif text-brand-ink mb-2">{selectedEvent.title}</h3>
-                    <p className="text-brand-ink/60 text-sm">Please provide your details to secure your spot.</p>
+                    <h3 className="text-3xl font-serif text-brand-ink mb-2">{loc(selectedEvent, 'title')}</h3>
+                    <p className="text-brand-ink/60 text-sm">{t('pagesMisc.eventReg.intro')}</p>
                   </div>
 
                   <form onSubmit={submitRegistration} className="space-y-5">
                     <div>
-                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Full Name</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">{t('pagesMisc.eventReg.fullName')}</label>
                       <input 
                         required
                         type="text"
@@ -539,7 +546,7 @@ export default function Events() {
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Email Address</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">{t('pagesMisc.eventReg.email')}</label>
                       <input 
                         required
                         type="email"
@@ -549,7 +556,7 @@ export default function Events() {
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Phone Number (Optional)</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">{t('pagesMisc.eventReg.phone')}</label>
                       <input 
                         type="tel"
                         value={registrationForm.phone}
@@ -558,7 +565,7 @@ export default function Events() {
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">Additional Notes (Optional)</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-brand-ink/40 mb-2 block">{t('pagesMisc.eventReg.notes')}</label>
                       <textarea 
                         value={registrationForm.notes}
                         onChange={e => setRegistrationForm({...registrationForm, notes: e.target.value})}
@@ -572,7 +579,7 @@ export default function Events() {
                       disabled={isRegistering}
                       className="w-full bg-brand-ink text-white px-8 py-4 rounded-lg text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-gold transition-all disabled:opacity-50 shadow-xl flex items-center justify-center gap-3 mt-4"
                     >
-                      {isRegistering ? <Loader2 className="animate-spin" size={18} /> : 'Complete Registration'}
+                      {isRegistering ? <Loader2 className="animate-spin" size={18} /> : t('pagesMisc.eventReg.submit')}
                     </button>
                   </form>
                 </>

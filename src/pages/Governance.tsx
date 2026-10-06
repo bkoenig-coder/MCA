@@ -19,70 +19,70 @@ export default function Governance() {
             <div className="flex items-center gap-4 mb-8">
               <EyebrowMark />
               <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">
-                Legal & Compliance
+                {t('legalPages.eyebrow')}
               </span>
             </div>
             <h1 className="text-5xl md:text-6xl font-serif mb-12 tracking-tight text-brand-ink">
-              Governance <span className="italic text-brand-gold">& Ethics</span>
+              {t('legalPages.governance.title')} <span className="italic text-brand-gold">{t('legalPages.governance.titleAccent')}</span>
             </h1>
             
             <div className="prose prose-lg prose-brand max-w-none text-brand-ink/70 font-normal leading-relaxed space-y-12">
               <p className="text-xl text-brand-ink font-normal italic">
-                The Mongolian Center in Austria is committed to the highest standards of transparency, accountability, and ethical conduct in all its operations.
+                {t('legalPages.governance.intro')}
               </p>
 
               <div className="grid md:grid-cols-2 gap-8 my-16">
                 <div className="p-8 bg-white rounded-2xl border border-brand-ink/5 shadow-sm">
                   <ShieldCheck className="text-brand-gold mb-4" size={32} />
-                  <h3 className="text-xl font-serif text-brand-ink mb-2">Integrity</h3>
-                  <p className="text-sm">We maintain absolute integrity in our financial and operational reporting.</p>
+                  <h3 className="text-xl font-serif text-brand-ink mb-2">{t('legalPages.governance.integrityTitle')}</h3>
+                  <p className="text-sm">{t('legalPages.governance.integrityText')}</p>
                 </div>
                 <div className="p-8 bg-white rounded-2xl border border-brand-ink/5 shadow-sm">
                   <Users className="text-brand-gold mb-4" size={32} />
-                  <h3 className="text-xl font-serif text-brand-ink mb-2">Inclusivity</h3>
-                  <p className="text-sm">Our governance structure ensures diverse representation and inclusive decision-making.</p>
+                  <h3 className="text-xl font-serif text-brand-ink mb-2">{t('legalPages.governance.inclusivityTitle')}</h3>
+                  <p className="text-sm">{t('legalPages.governance.inclusivityText')}</p>
                 </div>
               </div>
 
               <section>
-                <h2 className="text-3xl font-serif text-brand-ink mb-6">1. Organizational Structure</h2>
+                <h2 className="text-3xl font-serif text-brand-ink mb-6">{t('legalPages.governance.s1Title')}</h2>
                 <p>
-                  As a registered association (Verein) in Austria, our structure consists of the General Assembly, the Executive Board, and the Auditors. The General Assembly is the supreme body of the association and meets annually.
+                  {t('legalPages.governance.s1Text')}
                 </p>
               </section>
 
               <section>
-                <h2 className="text-3xl font-serif text-brand-ink mb-6">2. Board of Directors</h2>
+                <h2 className="text-3xl font-serif text-brand-ink mb-6">{t('legalPages.governance.s2Title')}</h2>
                 <p>
-                  The Executive Board is responsible for the strategic direction and day-to-day management of the center. Board members are elected by the General Assembly for a term of two years.
+                  {t('legalPages.governance.s2Text')}
                 </p>
               </section>
 
               <section>
-                <h2 className="text-3xl font-serif text-brand-ink mb-6">3. Ethical Standards</h2>
+                <h2 className="text-3xl font-serif text-brand-ink mb-6">{t('legalPages.governance.s3Title')}</h2>
                 <p>
-                  We adhere to a strict Code of Conduct that prohibits conflicts of interest, bribery, and discrimination. All staff and volunteers are required to sign and uphold these standards.
+                  {t('legalPages.governance.s3Text')}
                 </p>
               </section>
 
               <section>
-                <h2 className="text-3xl font-serif text-brand-ink mb-6">4. Financial Transparency</h2>
+                <h2 className="text-3xl font-serif text-brand-ink mb-6">{t('legalPages.governance.s4Title')}</h2>
                 <p>
-                  Our financial records are audited annually by independent auditors. We publish an annual report detailing our activities and financial performance to ensure full transparency for our members and donors.
+                  {t('legalPages.governance.s4Text')}
                 </p>
               </section>
 
               <section>
-                <h2 className="text-3xl font-serif text-brand-ink mb-6">5. Compliance with Austrian Law</h2>
+                <h2 className="text-3xl font-serif text-brand-ink mb-6">{t('legalPages.governance.s5Title')}</h2>
                 <p>
-                  We operate in full compliance with the Austrian Association Act (Vereinsgesetz) and all other relevant legal and regulatory requirements.
+                  {t('legalPages.governance.s5Text')}
                 </p>
               </section>
 
               <section className="pt-12 border-t border-brand-ink/10">
-                <h2 className="text-2xl font-serif text-brand-ink mb-4">Governance Inquiries</h2>
-                <p className="font-medium">Mongolian Center in Austria</p>
-                <p>Email: info@mongoliancenter.org</p>
+                <h2 className="text-2xl font-serif text-brand-ink mb-4">{t('legalPages.governance.inquiriesTitle')}</h2>
+                <p className="font-medium">{t('legalPages.orgName')}</p>
+                <p>{t('legalPages.emailLabel')}: info@mongoliancenter.org</p>
               </section>
             </div>
           </motion.div>

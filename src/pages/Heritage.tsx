@@ -1,7 +1,7 @@
 import React, { useState, Suspense } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { Canvas } from '@react-three/fiber';
 import { MapControls, BakeShadows, Preload } from '@react-three/drei';
 import { 
@@ -28,220 +28,38 @@ import Artifact3DExplorer from '../components/diorama/Artifact3DExplorer';
 import LetsPlayGame from '../components/game/LetsPlayGame';
 import { SoyomboSymbol, UlziiSymbol } from '../components/MongolianDesign';
 
+type HeritageCategory = 'intangible' | 'material' | 'calligraphy' | 'ceremony';
+
 interface HeritageArtifact {
   id: string;
-  catalogId: string;
-  unescoYear?: string;
-  category: 'intangible' | 'material' | 'calligraphy' | 'ceremony';
-  titleEn: string;
-  titleMn: string;
-  titleDe: string;
-  summary: string;
-  materials?: string;
-  period: string;
-  region: string;
+  category: HeritageCategory;
   imageUrl: string;
-  significance: string;
-  details: string[];
 }
 
+// Display texts come from the translation keys heritagePage.items.<id>.*
 const HERITAGE_COLLECTIONS: HeritageArtifact[] = [
-  {
-    id: 'morin-khuur',
-    catalogId: 'MCA-ICH-001',
-    unescoYear: '2008 (Proclaimed 2003)',
-    category: 'intangible',
-    titleEn: 'Traditional Music of the Morin Khuur',
-    titleMn: 'Морин хуурын уламжлалт хөгжим',
-    titleDe: 'Traditionelle Musik der Pferdekopfgeige (Morin Khuur)',
-    summary: 'Inscribed on the UNESCO Representative List of the Intangible Cultural Heritage of Humanity (originally proclaimed in 2003). A two-stringed bowed instrument adorned with a carved horse head, expressing the soul, rhythms, and poetic oral traditions of the steppe.',
-    materials: 'Seasoned birch or pine resonator box, cedar soundboard, horsehair strings, ebony fingerboard',
-    period: 'Circa 13th Century – Living Heritage',
-    region: 'Steppe & Mountain Pastoralist Communities Across Mongolia',
-    imageUrl: 'https://images.unsplash.com/photo-1548089195-9167dd374516?q=80&w=800&auto=format&fit=crop',
-    significance: 'Regarded as a cornerstone of Mongolian national identity, performing solo pieces (Tatlag), accompanying epic poetry (Tuuli), and pacing the traditional Long Songs (Urtiin Duu).',
-    details: [
-      'Two strings: inner "female" string (approx. 105 hairs of a mare) and outer "male" string (approx. 130 hairs of a stallion)',
-      'Trapezoidal wooden soundboard with carved Soyombo or f-shaped sound holes',
-      'Inscribed on the UNESCO Representative List of Intangible Cultural Heritage in 2008'
-    ]
-  },
-  {
-    id: 'mongolian-ger',
-    catalogId: 'MCA-ICH-002',
-    unescoYear: '2013 Inscribed',
-    category: 'material',
-    titleEn: 'Traditional Craftsmanship of the Mongol Ger and Associated Customs',
-    titleMn: 'Монгол гэрийн уламжлалт урлал, зан үйл',
-    titleDe: 'Traditionelle Handwerkskunst der Mongolischen Jurte (Ger)',
-    summary: 'Inscribed on the UNESCO Representative List in 2013. A circular, self-supporting wooden structure covered with pressed wool felt, engineered for rapid assembly and resilience against extreme continental climates.',
-    materials: 'Lattice wood walls (Khana), radial roof rafters (Uni), crown ring (Toono), twin pillars (Bagan), felt and canvas',
-    period: 'Ancient Living Architectural Tradition',
-    region: 'Nationwide Nomadic Pastoral Regions',
-    imageUrl: 'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=800&auto=format&fit=crop',
-    significance: 'Functions as a sacred microcosm reflecting cosmic orientation, family hospitality customs, and harmonious ecological balance with nature.',
-    details: [
-      'Engineered without nails; wooden joints are tied with raw leather thongs and braided horsehair ropes',
-      'Assembled, disassembled, and loaded onto pack animals in under two hours',
-      'Central hearth (Gal Golomt) represents continuity of ancestral lineage'
-    ]
-  },
-  {
-    id: 'bichig-script',
-    catalogId: 'MCA-ICH-003',
-    unescoYear: '2013 (Urgent Safeguarding)',
-    category: 'calligraphy',
-    titleEn: 'Mongolian Calligraphy (Classical Bichig)',
-    titleMn: 'Монгол бичгийн уран бичлэг',
-    titleDe: 'Mongolische Kalligraphie (Bichig)',
-    summary: 'Inscribed on the UNESCO List of Intangible Cultural Heritage in Need of Urgent Safeguarding in 2013. The 800-year-old classical vertical script written from top to bottom in unbroken strokes of the brush.',
-    materials: 'Natural animal-hair brush, mineral inkstone, traditional parchment',
-    period: '1204 CE – Contemporary Revival',
-    region: 'Historical Mongol Empire & Modern Cultural Diaspora',
-    imageUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=800&auto=format&fit=crop',
-    significance: 'An unbroken literary tradition capturing historical treaties, imperial decrees, philosophy, and poetry in vertical symmetry symbolizing the connection between Heaven and Earth.',
-    details: [
-      'Characters have initial, medial, and final forms depending on their structural placement',
-      'Traditionally passed on from master to apprentice',
-      'Officially inscribed on the UNESCO Urgent Safeguarding List in 2013'
-    ]
-  },
-  {
-    id: 'naadam-festival',
-    catalogId: 'MCA-ICH-004',
-    unescoYear: '2010 Inscribed',
-    category: 'ceremony',
-    titleEn: 'Naadam: Mongolian Traditional Festival',
-    titleMn: 'Эрийн гурван наадам',
-    titleDe: 'Naadam: Mongolisches traditionelles Fest',
-    summary: 'Inscribed on the UNESCO Representative List in 2010. Celebrates the "Three Manly Games" of traditional wrestling (Bökh), composite bow archery (Sur Kharvaa), and long-distance horse racing (Mori Uraldaan).',
-    materials: 'Silk and leather wrestling attire (Zodog, Shuudag), horn composite bows, handcrafted saddles',
-    period: 'Ancient Steppe Assemblies – Contemporary National Festival',
-    region: 'Nationwide across Mongolia and Diaspora Centers Worldwide',
-    imageUrl: 'https://images.unsplash.com/photo-1542642596-f3310061e888?q=80&w=800&auto=format&fit=crop',
-    significance: 'Embraces communal solidarity, respect for nature and livestock, and oral rituals such as the praise songs (Tsol) and the eagle dance (Devjee).',
-    details: [
-      'Traditional wrestling begins with the ceremonial Eagle Dance invoking strength and grace',
-      'Archery uses layered composite bows crafted from horn, birch, and sinew',
-      'Cross-country horse racing covers 15 to 30 kilometers across open natural steppe terrain'
-    ]
-  },
-  {
-    id: 'khoomei-throat-singing',
-    catalogId: 'MCA-ICH-005',
-    unescoYear: '2010 Inscribed',
-    category: 'intangible',
-    titleEn: 'Mongolian Traditional Art of Khöömei (Throat Singing)',
-    titleMn: 'Монгол хөөмийн уламжлалт урлаг',
-    titleDe: 'Mongolischer Obertongesang (Khöömei)',
-    summary: 'Inscribed on the UNESCO Representative List in 2010. A master vocal art where the performer simultaneously produces a deep fundamental drone pitch and clear flute-like harmonic overtones.',
-    materials: 'Human vocal resonance, breath control, and pharyngeal acoustic articulation',
-    period: 'Pastoral Steppe & Altai Mountain Heritage',
-    region: 'Western Mongolia (Altai, Khovd, Uvs Mountain Ranges)',
-    imageUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800&auto=format&fit=crop',
-    significance: 'Imitates and pays homage to natural acoustic phenomena including flowing mountain rivers, whistling winds, and animal calls.',
-    details: [
-      'Includes chest-drone resonance (Kharhiraa) and whistling overtone harmonics (Isgeree)',
-      'Historically practiced by nomadic pastoralists in open alpine landscapes',
-      'Transmitted orally across generations of nomadic families and masters'
-    ]
-  },
-  {
-    id: 'urtiin-duu',
-    catalogId: 'MCA-ICH-006',
-    unescoYear: '2008 (Proclaimed 2005)',
-    category: 'intangible',
-    titleEn: 'Urtiin Duu: Traditional Folk Long Song',
-    titleMn: 'Уртын дууны уламжлалт урлаг',
-    titleDe: 'Traditionelles mongolisches langes Lied (Urtiin Duu)',
-    summary: 'Inscribed on the UNESCO Representative List in 2008 (originally proclaimed in 2005). Characterized by expansive, drawn-out melodies, wide vocal registers, and microtonal ornamentation (Nugalaan).',
-    materials: 'Acoustic vocal performance accompanied by the Morin Khuur and Limbe flute',
-    period: 'Over 2,000 Years of Nomadic Oral Continuity',
-    region: 'Eastern Steppes, Gobi, and Central Mongolia',
-    imageUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=800&auto=format&fit=crop',
-    significance: 'Performs essential ritual functions during state ceremonies, family milestones, and nomadic seasonal feasts, evoking the vast horizons of the steppe.',
-    details: [
-      'Each song contains complex ornamentation, wide melodic leaps, and philosophical lyrics',
-      'Traditionally sung at weddings, ger consecrations, and national Naadam festivals',
-      'Co-nominated and inscribed on the UNESCO Representative List'
-    ]
-  },
-  {
-    id: 'shagai-shooting',
-    catalogId: 'MCA-ICH-007',
-    unescoYear: '2014 Inscribed',
-    category: 'ceremony',
-    titleEn: 'Mongolian Knuckle-Bone Shooting (Shagai)',
-    titleMn: 'Шагайн харвааны уламжлалт наадам',
-    titleDe: 'Mongolisches Knöchelknochenschießen (Shagai)',
-    summary: 'Inscribed on the UNESCO Representative List in 2014. A team-based traditional game where players flick polished sheep knuckle-bones using a wooden launcher (Khashlaga) to strike target bone dominoes.',
-    materials: 'Cleaned sheep astragalus knuckle-bones, polished wooden launcher board, felt backstop',
-    period: 'Ancient Nomadic Living Tradition',
-    region: 'Communities Across Mongolia and International Clubs',
-    imageUrl: 'https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=800&auto=format&fit=crop',
-    significance: 'Fosters team solidarity, sharp focus, mutual sportsmanship, and the preservation of customary praise chants during play.',
-    details: [
-      'Players flick small bone tablets over a precise distance of 4.7 meters (9 tokhoy)',
-      'Accompanied by traditional rhythmic songs called Uukhai praising successful shots',
-      'Practiced as an official sporting event alongside Naadam festivals'
-    ]
-  },
-  {
-    id: 'biyelgee-dance',
-    catalogId: 'MCA-ICH-008',
-    unescoYear: '2009 (Urgent Safeguarding)',
-    category: 'intangible',
-    titleEn: 'Mongol Biyelgee: Traditional Folk Dance',
-    titleMn: 'Монгол биелгээ: Ардын уламжлалт бүжиг',
-    titleDe: 'Mongol Biyelgee: Traditioneller Volkstanz',
-    summary: 'Inscribed on the UNESCO List of Intangible Cultural Heritage in Need of Urgent Safeguarding in 2009. A unique folk dance performed within the confined space of a Ger, featuring rapid chest, shoulder, and arm gestures.',
-    materials: 'Ethnic silk robes (Deel), boots, accompanied by the Morin Khuur or Tovshuur',
-    period: 'Ancient Living Dance Tradition',
-    region: 'Western Mongolian Ethnic Groups (Oirat, Zakhchin, Torguud, Uriankhai)',
-    imageUrl: 'https://images.unsplash.com/photo-1605509818829-ac62b9142944?q=80&w=800&auto=format&fit=crop',
-    significance: 'Articulates the daily nomadic lifestyle, horse riding, milking, wool processing, and hunting movements through expressive upper-body choreography.',
-    details: [
-      'Performed in half-sitting or kneeling positions inside the family Ger',
-      'Distinct movement styles distinguish individual ethnic subgroups across Western Mongolia',
-      'Inscribed on the UNESCO Urgent Safeguarding List in 2009'
-    ]
-  }
+  { id: 'morin-khuur', category: 'intangible', imageUrl: 'https://images.unsplash.com/photo-1548089195-9167dd374516?q=80&w=800&auto=format&fit=crop' },
+  { id: 'mongolian-ger', category: 'material', imageUrl: 'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=800&auto=format&fit=crop' },
+  { id: 'bichig-script', category: 'calligraphy', imageUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=800&auto=format&fit=crop' },
+  { id: 'naadam-festival', category: 'ceremony', imageUrl: 'https://images.unsplash.com/photo-1542642596-f3310061e888?q=80&w=800&auto=format&fit=crop' },
+  { id: 'khoomei-throat-singing', category: 'intangible', imageUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800&auto=format&fit=crop' },
+  { id: 'urtiin-duu', category: 'intangible', imageUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=800&auto=format&fit=crop' },
+  { id: 'shagai-shooting', category: 'ceremony', imageUrl: 'https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=800&auto=format&fit=crop' },
+  { id: 'biyelgee-dance', category: 'intangible', imageUrl: 'https://images.unsplash.com/photo-1605509818829-ac62b9142944?q=80&w=800&auto=format&fit=crop' }
 ];
 
+const CATEGORY_LABEL_KEYS: Record<HeritageCategory, string> = {
+  intangible: 'heritagePage.modal.categoryIntangible',
+  material: 'heritagePage.modal.categoryMaterial',
+  calligraphy: 'heritagePage.modal.categoryCalligraphy',
+  ceremony: 'heritagePage.modal.categoryCeremony',
+};
+
+// Display texts come from the translation keys heritagePage.timeline.<id>.*
 const ADVANCED_BILATERAL_CHRONOLOGY = [
-  {
-    id: 'early-contact',
-    year: '13th century',
-    eraBadge: 'Early contact',
-    eraCategory: 'Europe and the Mongol Empire',
-    titleEn: 'Envoys travel between Europe and the Mongol court',
-    titleMn: 'Европ ба Монгол гүрний эртний харилцаа',
-    descEn: 'In the 13th century, envoys and merchants travelled between European courts and the Mongol Empire. Their written accounts are among the earliest descriptions of the steppe and its people in Europe.',
-    highlights: ['Envoys at the Mongol court', 'Early written accounts of the steppe'],
-    location: 'Mongol Empire and European courts'
-  },
-  {
-    id: 'diplomatic-relations',
-    year: '1963',
-    eraBadge: 'Diplomacy',
-    eraCategory: 'Austria and Mongolia',
-    titleEn: 'Austria and Mongolia establish diplomatic relations',
-    titleMn: 'Австри, Монгол Улсын хооронд дипломат харилцаа тогтоов',
-    descEn: 'Austria and Mongolia established diplomatic relations in 1963, opening the way for cooperation in culture, education and trade.',
-    highlights: ['Official relations between two countries'],
-    location: 'Vienna and Ulaanbaatar'
-  },
-  {
-    id: 'vienna-center',
-    year: '2026',
-    eraBadge: 'Today',
-    eraCategory: 'Community',
-    titleEn: 'Mongolian Center in Austria is founded',
-    titleMn: 'Австри дахь Монгол Төв байгуулагдав',
-    descEn: 'Mongolian Center in Austria is a registered non-profit association (Verein) in Vienna. It brings the Mongolian community together to celebrate traditions, share culture and build friendship with Austria.',
-    highlights: ['Registered association (Verein)', 'Celebrations and community events'],
-    location: 'Vienna, Austria'
-  }
+  { id: 'early-contact', highlights: ['h1', 'h2'] },
+  { id: 'diplomatic-relations', highlights: ['h1'] },
+  { id: 'vienna-center', highlights: ['h1', 'h2'] }
 ];
 
 export default function Heritage() {
@@ -253,13 +71,15 @@ export default function Heritage() {
   const [isGameActive, setIsGameActive] = useState(false);
   const [activeEraId, setActiveEraId] = useState<string>('all');
 
+  const itemKey = (id: string, field: string) => `heritagePage.items.${id}.${field}`;
+  const q = searchQuery.trim().toLowerCase();
+
   const filteredArtifacts = HERITAGE_COLLECTIONS.filter(item => {
     const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
-    const matchesSearch = !searchQuery || 
-      item.titleEn.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.titleMn.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.region.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = !q ||
+      ['title', 'summary', 'region', 'period', 'materials'].some(field =>
+        t(itemKey(item.id, field)).toLowerCase().includes(q)
+      );
     return matchesCategory && matchesSearch;
   });
 
@@ -271,7 +91,7 @@ export default function Heritage() {
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1548089195-9167dd374516?q=80&w=1600&auto=format&fit=crop" 
-            alt="Mongolian Cultural Heritage" 
+            alt={t('heritagePage.heroImageAlt')} 
             className="w-full h-full object-cover object-center"
             loading="eager"
           />
@@ -287,13 +107,13 @@ export default function Heritage() {
           >
             <div className="flex items-center gap-3 mb-5">
               <UlziiSymbol className="w-5 h-5 text-brand-gold" />
-              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">Heritage</span>
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('heritagePage.heroBadge')}</span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white tracking-tight leading-[1.1] mb-5">
-              Mongolian heritage <span className="italic text-[#D4AF37]">and living traditions</span>
+              {t('heritagePage.heroTitle1')} <span className="italic text-[#D4AF37]">{t('heritagePage.heroTitle2')}</span>
             </h1>
             <p className="text-base md:text-lg text-slate-200 leading-relaxed max-w-2xl">
-              Music, craft, script and celebration: the traditions that shape Mongolian culture and travel with our community to Austria. Several of them are recognised by UNESCO as intangible cultural heritage.
+              {t('heritagePage.heroIntro')}
             </p>
           </motion.div>
         </div>
@@ -308,13 +128,13 @@ export default function Heritage() {
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-amber-50 text-amber-900 rounded text-xs uppercase font-mono tracking-widest border border-amber-200/80 font-bold">
                   <Compass className="w-3.5 h-3.5 text-[#D4AF37]" />
-                  Interactive
+                  {t('heritagePage.diorama.badge')}
                 </span>
                 <span className="text-xs text-slate-400">•</span>
-                <span className="text-xs text-slate-600 font-sans">Steppe life</span>
+                <span className="text-xs text-slate-600 font-sans">{t('heritagePage.diorama.tag')}</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-serif font-normal text-slate-900">
-                A nomadic settlement <span className="italic text-[#C5A059] font-light">in 3D</span>
+                {t('heritagePage.diorama.title1')} <span className="italic text-[#C5A059] font-light">{t('heritagePage.diorama.title2')}</span>
               </h2>
             </div>
 
@@ -324,7 +144,7 @@ export default function Heritage() {
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0A1128] text-white font-bold text-xs uppercase tracking-wider rounded-lg hover:bg-[#D4AF37] hover:text-[#0A1128] transition-colors shadow-md"
               >
                 <Maximize2 className="w-3.5 h-3.5" />
-                <span>Open full screen</span>
+                <span>{t('heritagePage.diorama.openFullscreen')}</span>
               </Link>
             </div>
           </div>
@@ -333,7 +153,7 @@ export default function Heritage() {
             <Suspense fallback={
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#E8EEF5] z-20">
                 <Loader className="w-8 h-8 text-[#D4AF37] animate-spin mb-3" />
-                <p className="text-xs font-mono tracking-widest text-slate-700 uppercase">Loading 3D Steppe Environment...</p>
+                <p className="text-xs font-mono tracking-widest text-slate-700 uppercase">{t('heritagePage.diorama.loading')}</p>
               </div>
             }>
               <Canvas 
@@ -373,7 +193,7 @@ export default function Heritage() {
 
             <div className="absolute bottom-4 left-4 z-10 flex items-center gap-2 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-slate-200 text-[11px] text-slate-700 font-sans shadow-sm pointer-events-none">
               <Info className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>Drag to rotate • Scroll to zoom • Click markers to read details</span>
+              <span>{t('heritagePage.diorama.hint')}</span>
             </div>
           </div>
         </div>
@@ -389,20 +209,20 @@ export default function Heritage() {
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-amber-50 text-amber-900 rounded text-xs uppercase font-mono tracking-widest border border-amber-200/80 font-bold">
                   <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
-                  3D Objects
+                  {t('heritagePage.objects.badge')}
                 </span>
                 <span className="text-xs text-slate-400">•</span>
-                <span className="text-xs text-slate-600 font-sans">Craft and instruments</span>
+                <span className="text-xs text-slate-600 font-sans">{t('heritagePage.objects.tag')}</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-serif font-normal text-slate-900">
-                Craft and instruments <span className="italic text-[#C5A059] font-light">up close</span>
+                {t('heritagePage.objects.title1')} <span className="italic text-[#C5A059] font-light">{t('heritagePage.objects.title2')}</span>
               </h2>
             </div>
 
             <div className="flex items-center gap-4">
               <div className="hidden sm:flex items-center gap-2 text-xs text-slate-700 font-mono">
                 <CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37]" />
-                <span>Turn each object 360°</span>
+                <span>{t('heritagePage.objects.turn')}</span>
               </div>
             </div>
           </div>
@@ -422,23 +242,23 @@ export default function Heritage() {
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 rounded border border-amber-200/80 text-xs uppercase tracking-[0.14em] font-mono text-amber-900 font-bold">
                 <FileText className="w-3.5 h-3.5 text-[#D4AF37]" />
-                Language & Calligraphy
+                {t('heritagePage.script.badge')}
               </div>
 
               <h2 className="text-3xl md:text-4xl font-serif text-slate-900 font-normal leading-tight">
-                Classical Mongolian Script <br />
-                <span className="italic text-[#C5A059] font-light">(Bichig)</span>
+                {t('heritagePage.script.title1')} <br />
+                <span className="italic text-[#C5A059] font-light">{t('heritagePage.script.title2')}</span>
               </h2>
 
               <p className="text-sm text-slate-600 font-normal leading-relaxed">
-                The classical vertical script was adopted in the early 13th century and is written from top to bottom. Mongolian calligraphy is on UNESCO's list of intangible heritage in need of urgent safeguarding, and the script remains a strong symbol of Mongolian identity.
+                {t('heritagePage.script.body')}
               </p>
 
               <div className="grid sm:grid-cols-3 gap-4 pt-2">
                 {[
-                  { mn: 'Найрамдал', script: 'Nayramdal', en: 'Friendship & Cultural Exchange' },
-                  { mn: 'Өв соёл', script: 'Öv Soyol', en: 'Cultural Heritage & Memory' },
-                  { mn: 'Эв нэгдэл', script: 'Ev Negdel', en: 'Community & Mutual Respect' },
+                  { mn: t('heritagePage.script.phrase1Mn'), script: t('heritagePage.script.phrase1Latin'), en: t('heritagePage.script.phrase1Text') },
+                  { mn: t('heritagePage.script.phrase2Mn'), script: t('heritagePage.script.phrase2Latin'), en: t('heritagePage.script.phrase2Text') },
+                  { mn: t('heritagePage.script.phrase3Mn'), script: t('heritagePage.script.phrase3Latin'), en: t('heritagePage.script.phrase3Text') },
                 ].map(phrase => (
                   <div key={phrase.mn} className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
                     <span className="text-xs font-serif text-slate-900 font-bold block">{phrase.mn}</span>
@@ -470,7 +290,7 @@ export default function Heritage() {
                 </div>
 
                 <span className="text-xs uppercase font-mono tracking-widest text-[#C5A059] font-bold mt-6">
-                  Classical Mongolian script
+                  {t('heritagePage.script.caption')}
                 </span>
               </div>
             </div>
@@ -485,13 +305,13 @@ export default function Heritage() {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 rounded-lg border border-amber-200 text-xs uppercase tracking-widest font-mono text-amber-900 font-bold mb-3">
             <Landmark className="w-3.5 h-3.5 text-[#D4AF37]" />
-            History
+            {t('heritagePage.history.badge')}
           </div>
           <h2 className="text-3xl sm:text-4xl font-serif text-slate-900 font-normal">
-            Austria and Mongolia <span className="italic text-[#C5A059]">through time</span>
+            {t('heritagePage.history.title1')} <span className="italic text-[#C5A059]">{t('heritagePage.history.title2')}</span>
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 font-normal mt-2.5 leading-relaxed">
-            A few milestones in the long connection between Europe, Austria and Mongolia.
+            {t('heritagePage.history.intro')}
           </p>
         </div>
 
@@ -529,28 +349,24 @@ export default function Heritage() {
                         {/* Milestone Top Metadata Bar */}
                         <div className={`flex flex-wrap items-center gap-2 mb-3 ${isEven ? 'md:justify-end' : 'md:justify-start'}`}>
                           <span className="px-2.5 py-0.5 bg-[#0A1128] text-white rounded text-xs font-mono font-bold tracking-wider">
-                            {event.eraBadge}
+                            {t(`heritagePage.timeline.${event.id}.badge`)}
                           </span>
                           <span className="text-xs font-mono uppercase tracking-widest text-[#C5A059] font-bold">
-                            {event.eraCategory}
+                            {t(`heritagePage.timeline.${event.id}.category`)}
                           </span>
                         </div>
 
                         {/* Year Display with Serif Typography */}
                         <span className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 tracking-tight block mb-1">
-                          {event.year}
+                          {t(`heritagePage.timeline.${event.id}.year`)}
                         </span>
 
                         <h3 className="text-base sm:text-lg font-serif font-semibold text-[#0A1128] mb-1 leading-snug">
-                          {event.titleEn}
+                          {t(`heritagePage.timeline.${event.id}.title`)}
                         </h3>
 
-                        <span className="text-xs font-serif text-[#C5A059] font-medium block mb-3">
-                          {event.titleMn}
-                        </span>
-
                         <p className="text-xs text-slate-600 font-normal leading-relaxed mb-4">
-                          {event.descEn}
+                          {t(`heritagePage.timeline.${event.id}.desc`)}
                         </p>
 
                         {/* Key Highlight Chips */}
@@ -558,7 +374,7 @@ export default function Heritage() {
                           {event.highlights.map((h, i) => (
                             <span key={i} className="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-50 border border-slate-100 rounded-md text-xs text-slate-600 font-sans">
                               <CheckCircle2 className="w-3 h-3 text-[#D4AF37]" />
-                              <span>{h}</span>
+                              <span>{t(`heritagePage.timeline.${event.id}.${h}`)}</span>
                             </span>
                           ))}
                         </div>
@@ -566,7 +382,7 @@ export default function Heritage() {
                         {/* Location footnote */}
                         <div className={`mt-3 pt-2 text-xs font-mono text-slate-400 flex items-center gap-1.5 ${isEven ? 'md:justify-end' : 'md:justify-start'}`}>
                           <Landmark className="w-3 h-3 text-slate-400" />
-                          <span>{event.location}</span>
+                          <span>{t(`heritagePage.timeline.${event.id}.location`)}</span>
                         </div>
                       </div>
                     </div>
@@ -586,15 +402,15 @@ export default function Heritage() {
         <div className="mb-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-[11px] font-mono uppercase tracking-widest text-[#D4AF37] font-bold">Cultural Collection</span>
+              <span className="text-[11px] font-mono uppercase tracking-widest text-[#D4AF37] font-bold">{t('heritagePage.collection.label')}</span>
               <span className="text-slate-300">•</span>
-              <span className="text-xs text-slate-500">{filteredArtifacts.length} traditions</span>
+              <span className="text-xs text-slate-500">{t('heritagePage.collection.count', { count: filteredArtifacts.length })}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-serif text-slate-900 font-medium">
-              Traditions recognised by UNESCO
+              {t('heritagePage.collection.title')}
             </h2>
             <p className="text-xs text-slate-500 font-normal mt-1">
-              Music, dance, craft, script and festivals that communities in Mongolia keep alive today.
+              {t('heritagePage.collection.subtitle')}
             </p>
           </div>
 
@@ -604,8 +420,8 @@ export default function Heritage() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search traditions..."
-              aria-label="Search traditions"
+              placeholder={t('heritagePage.collection.searchPlaceholder')}
+              aria-label={t('heritagePage.collection.searchLabel')}
               className="w-full pl-9 pr-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-[#D4AF37] text-slate-800 placeholder:text-slate-400 transition-colors"
             />
           </div>
@@ -613,11 +429,11 @@ export default function Heritage() {
 
         <div className="flex items-center gap-2 overflow-x-auto w-full pb-4 mb-8 custom-scrollbar">
           {[
-            { id: 'all', label: 'All', count: HERITAGE_COLLECTIONS.length },
-            { id: 'intangible', label: 'Music and song', count: HERITAGE_COLLECTIONS.filter(x => x.category === 'intangible').length },
-            { id: 'material', label: 'Nomadic home', count: HERITAGE_COLLECTIONS.filter(x => x.category === 'material').length },
-            { id: 'calligraphy', label: 'Script', count: HERITAGE_COLLECTIONS.filter(x => x.category === 'calligraphy').length },
-            { id: 'ceremony', label: 'Festivals and games', count: HERITAGE_COLLECTIONS.filter(x => x.category === 'ceremony').length }
+            { id: 'all', label: t('heritagePage.collection.tabAll'), count: HERITAGE_COLLECTIONS.length },
+            { id: 'intangible', label: t('heritagePage.collection.tabIntangible'), count: HERITAGE_COLLECTIONS.filter(x => x.category === 'intangible').length },
+            { id: 'material', label: t('heritagePage.collection.tabMaterial'), count: HERITAGE_COLLECTIONS.filter(x => x.category === 'material').length },
+            { id: 'calligraphy', label: t('heritagePage.collection.tabCalligraphy'), count: HERITAGE_COLLECTIONS.filter(x => x.category === 'calligraphy').length },
+            { id: 'ceremony', label: t('heritagePage.collection.tabCeremony'), count: HERITAGE_COLLECTIONS.filter(x => x.category === 'ceremony').length }
           ].map(tab => (
             <button
               key={tab.id}
@@ -651,26 +467,21 @@ export default function Heritage() {
               <div className="relative h-56 overflow-hidden bg-slate-900 border-b border-slate-100">
                 <img 
                   src={artifact.imageUrl} 
-                  alt={artifact.titleEn}
+                  alt={t(itemKey(artifact.id, 'title'))}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 
                 <div className="absolute top-3 left-3 flex items-center gap-2">
-                  {artifact.unescoYear && (
-                    <span className="px-2.5 py-1 bg-amber-500/90 text-slate-900 font-bold rounded text-xs font-mono">
-                      UNESCO {artifact.unescoYear}
-                    </span>
-                  )}
+                  <span className="px-2.5 py-1 bg-amber-500/90 text-slate-900 font-bold rounded text-xs font-mono">
+                    {t('heritagePage.collection.unesco', { year: t(itemKey(artifact.id, 'unesco')) })}
+                  </span>
                 </div>
 
                 <div className="absolute bottom-3 left-3 right-3">
-                  <span className="text-[11px] font-serif text-amber-200/90 tracking-wide block">
-                    {artifact.titleMn}
-                  </span>
                   <h3 className="text-lg font-serif font-medium text-white leading-snug">
-                    {artifact.titleEn}
+                    {t(itemKey(artifact.id, 'title'))}
                   </h3>
                 </div>
               </div>
@@ -678,24 +489,22 @@ export default function Heritage() {
               <div className="p-6 flex flex-col flex-grow justify-between">
                 <div className="space-y-4">
                   <p className="text-xs text-slate-600 font-normal leading-relaxed">
-                    {artifact.summary}
+                    {t(itemKey(artifact.id, 'summary'))}
                   </p>
 
                   <div className="bg-slate-50 rounded-lg p-3.5 border border-slate-100 space-y-2 text-[11px]">
                     <div className="flex items-start justify-between gap-2">
-                      <span className="text-slate-400 uppercase text-xs">Period</span>
-                      <span className="font-medium text-slate-700 text-right">{artifact.period}</span>
+                      <span className="text-slate-400 uppercase text-xs">{t('heritagePage.collection.period')}</span>
+                      <span className="font-medium text-slate-700 text-right">{t(itemKey(artifact.id, 'period'))}</span>
                     </div>
                     <div className="flex items-start justify-between gap-2">
-                      <span className="text-slate-400 uppercase text-xs">Region</span>
-                      <span className="font-medium text-slate-700 text-right">{artifact.region}</span>
+                      <span className="text-slate-400 uppercase text-xs">{t('heritagePage.collection.region')}</span>
+                      <span className="font-medium text-slate-700 text-right">{t(itemKey(artifact.id, 'region'))}</span>
                     </div>
-                    {artifact.materials && (
-                      <div className="flex items-start justify-between gap-2 border-t border-slate-200/60 pt-1.5">
-                        <span className="text-slate-400 uppercase text-xs">Materials</span>
-                        <span className="text-slate-600 text-right text-xs max-w-[180px] truncate">{artifact.materials}</span>
-                      </div>
-                    )}
+                    <div className="flex items-start justify-between gap-2 border-t border-slate-200/60 pt-1.5">
+                      <span className="text-slate-400 uppercase text-xs">{t('heritagePage.collection.materials')}</span>
+                      <span className="text-slate-600 text-right text-xs max-w-[180px] truncate" title={t(itemKey(artifact.id, 'materials'))}>{t(itemKey(artifact.id, 'materials'))}</span>
+                    </div>
                   </div>
                 </div>
 
@@ -705,7 +514,7 @@ export default function Heritage() {
                     className="text-xs font-semibold text-[#0A1128] hover:text-[#D4AF37] flex items-center gap-1.5 transition-colors"
                   >
                     <BookOpen className="w-3.5 h-3.5 text-[#D4AF37]" />
-                    <span>Read more</span>
+                    <span>{t('heritagePage.collection.readMore')}</span>
                   </button>
                   <SoyomboSymbol className="w-4 h-4 text-slate-300 group-hover:text-[#D4AF37] transition-colors" />
                 </div>
@@ -722,13 +531,13 @@ export default function Heritage() {
             <div>
               <div className="inline-flex items-center gap-2 mb-2 bg-amber-50 px-3 py-1 rounded-lg border border-amber-200 text-xs uppercase tracking-widest font-mono text-amber-900 font-bold">
                 <Gamepad2 className="w-3.5 h-3.5 text-[#D4AF37]" />
-                Game
+                {t('heritagePage.game.badge')}
               </div>
               <h2 className="text-2xl sm:text-3xl font-serif text-slate-900 font-normal">
-                Steppe Runner <span className="italic text-[#C5A059]">(Талын Гүйгч)</span>
+                {t('heritagePage.game.title')} <span className="italic text-[#C5A059]">{t('heritagePage.game.titleNative')}</span>
               </h2>
               <p className="text-xs text-slate-500 font-normal mt-1 max-w-xl">
-                A small endless runner set on the Mongolian steppe. Collect traditional items, avoid obstacles and discover nomadic symbols.
+                {t('heritagePage.game.blurb')}
               </p>
             </div>
 
@@ -738,14 +547,14 @@ export default function Heritage() {
                   onClick={() => setIsGameActive(true)}
                   className="px-6 py-3 bg-[#0A1128] text-white rounded-lg text-xs uppercase tracking-wider font-bold hover:bg-[#D4AF37] hover:text-[#0A1128] transition-all shadow-md active:scale-95"
                 >
-                  Play Game
+                  {t('heritagePage.game.play')}
                 </button>
               ) : (
                 <button
                   onClick={() => setIsGameActive(false)}
                   className="px-4 py-2.5 bg-slate-100 text-slate-700 rounded-lg text-xs uppercase tracking-wider font-semibold hover:bg-slate-200 transition-colors"
                 >
-                  Reset / Hide Game
+                  {t('heritagePage.game.hide')}
                 </button>
               )}
             </div>
@@ -762,7 +571,7 @@ export default function Heritage() {
             >
               <img 
                 src="https://images.unsplash.com/photo-1542642596-f3310061e888?q=80&w=1200&auto=format&fit=crop" 
-                alt="Steppe Runner preview" 
+                alt={t('heritagePage.game.previewAlt')} 
                 className="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-slate-950/70 group-hover:bg-slate-950/50 transition-colors" />
@@ -772,13 +581,16 @@ export default function Heritage() {
                   <Gamepad2 className="w-8 h-8 animate-pulse" />
                 </div>
                 <h3 className="text-white text-xl font-serif mb-2">
-                  Ready to run across the steppe?
+                  {t('heritagePage.game.ready')}
                 </h3>
                 <p className="text-slate-300 text-xs font-normal leading-relaxed mb-6">
-                  Controls: Press <strong className="text-[#D4AF37]">SPACEBAR</strong> or <strong className="text-[#D4AF37]">UP ARROW</strong> to jump. On mobile: tap the screen.
+                  <Trans
+                    i18nKey="heritagePage.game.controls"
+                    components={{ k: <strong className="text-[#D4AF37]" /> }}
+                  />
                 </p>
                 <span className="px-6 py-3 bg-[#D4AF37] text-[#0A1128] rounded-lg text-xs uppercase tracking-widest font-semibold shadow-lg group-hover:bg-white transition-colors">
-                  Start
+                  {t('heritagePage.game.start')}
                 </span>
               </div>
             </div>
@@ -805,35 +617,30 @@ export default function Heritage() {
             >
               <div className="bg-[#0A1128] text-white p-6 relative border-b border-[#D4AF37]/30">
                 <div className="flex items-center gap-2 mb-2">
-                  {selectedArtifact.unescoYear && (
-                    <span className="text-xs text-[#D4AF37] font-mono">
-                      UNESCO Recognized ({selectedArtifact.unescoYear})
-                    </span>
-                  )}
+                  <span className="text-xs text-[#D4AF37] font-mono">
+                    {t('heritagePage.modal.unescoRecognized', { year: t(itemKey(selectedArtifact.id, 'unesco')) })}
+                  </span>
                 </div>
                 <h3 className="text-2xl font-serif font-normal text-white">
-                  {selectedArtifact.titleEn}
+                  {t(itemKey(selectedArtifact.id, 'title'))}
                 </h3>
-                <span className="text-sm text-amber-200/80 font-serif">
-                  {selectedArtifact.titleMn}
-                </span>
               </div>
 
               <div className="p-6 overflow-y-auto space-y-6 text-xs text-slate-700">
                 <div className="space-y-2">
-                  <h4 className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold">Background</h4>
+                  <h4 className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold">{t('heritagePage.modal.background')}</h4>
                   <p className="text-slate-700 leading-relaxed font-normal text-sm">
-                    {selectedArtifact.significance}
+                    {t(itemKey(selectedArtifact.id, 'significance'))}
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold">Good to know</h4>
+                  <h4 className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold">{t('heritagePage.modal.goodToKnow')}</h4>
                   <ul className="space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                    {selectedArtifact.details.map((detail, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-slate-600 font-normal">
+                    {['d1', 'd2', 'd3'].map((field) => (
+                      <li key={field} className="flex items-start gap-2 text-slate-600 font-normal">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] mt-1.5 shrink-0" />
-                        <span>{detail}</span>
+                        <span>{t(itemKey(selectedArtifact.id, field))}</span>
                       </li>
                     ))}
                   </ul>
@@ -841,12 +648,12 @@ export default function Heritage() {
 
                 <div className="grid grid-cols-2 gap-4 pt-2 border-t border-slate-100">
                   <div>
-                    <span className="text-slate-400 uppercase text-xs block">Materials</span>
-                    <span className="font-medium text-slate-800 text-xs">{selectedArtifact.materials || 'Traditional Materials'}</span>
+                    <span className="text-slate-400 uppercase text-xs block">{t('heritagePage.modal.materials')}</span>
+                    <span className="font-medium text-slate-800 text-xs">{t(itemKey(selectedArtifact.id, 'materials'))}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 uppercase text-xs block">Category</span>
-                    <span className="font-medium text-slate-800 text-xs capitalize">{selectedArtifact.category}</span>
+                    <span className="text-slate-400 uppercase text-xs block">{t('heritagePage.modal.category')}</span>
+                    <span className="font-medium text-slate-800 text-xs">{t(CATEGORY_LABEL_KEYS[selectedArtifact.category])}</span>
                   </div>
                 </div>
               </div>
@@ -856,7 +663,7 @@ export default function Heritage() {
                   onClick={() => setSelectedArtifact(null)}
                   className="px-5 py-2 bg-[#0A1128] text-white text-xs font-semibold rounded-lg hover:bg-slate-800 transition-colors"
                 >
-                  Close
+                  {t('heritagePage.modal.close')}
                 </button>
               </div>
             </motion.div>

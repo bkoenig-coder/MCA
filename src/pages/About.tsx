@@ -61,10 +61,10 @@ export default function About() {
   };
 
   const facts = [
-    { label: t('about.facts.established', { defaultValue: 'Established' }), value: '2026' },
-    { label: t('about.facts.form', { defaultValue: 'Legal form' }), value: t('about.facts.formValue', { defaultValue: 'Registered association (Verein)' }) },
-    { label: t('about.facts.seat', { defaultValue: 'Seat' }), value: t('about.facts.seatValue', { defaultValue: 'Vienna, Austria' }) },
-    { label: t('about.facts.languages', { defaultValue: 'Working languages' }), value: 'English · Deutsch · Монгол' },
+    { label: t('siteUi.about.factEstablished'), value: '2026' },
+    { label: t('siteUi.about.factForm'), value: t('siteUi.about.factFormValue') },
+    { label: t('siteUi.about.factSeat'), value: t('contact.info.vienna') },
+    { label: t('siteUi.about.factLanguages'), value: 'English · Deutsch · Монгол' },
   ];
 
   const principles = [
@@ -86,9 +86,9 @@ export default function About() {
   ];
 
   const governance = [
-    { to: '/governance', icon: Scale, title: t('about.gov.governance', { defaultValue: 'Governance' }), text: t('about.gov.governanceText', { defaultValue: 'How the association is organised and run.' }) },
-    { to: '/imprint', icon: FileText, title: t('about.gov.imprint', { defaultValue: 'Imprint' }), text: t('about.gov.imprintText', { defaultValue: 'Legal notice and responsible persons.' }) },
-    { to: '/privacy', icon: ShieldCheck, title: t('about.gov.privacy', { defaultValue: 'Privacy' }), text: t('about.gov.privacyText', { defaultValue: 'How we handle personal data.' }) },
+    { to: '/governance', icon: Scale, title: t('siteUi.about.govGovernance'), text: t('siteUi.about.govGovernanceText') },
+    { to: '/imprint', icon: FileText, title: t('siteUi.about.govImprint'), text: t('siteUi.about.govImprintText') },
+    { to: '/privacy', icon: ShieldCheck, title: t('siteUi.about.govPrivacy'), text: t('siteUi.about.govPrivacyText') },
   ];
 
   const inputClass =
@@ -102,7 +102,7 @@ export default function About() {
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1695555875394-4e8aa542ccdc?q=80&w=1600&auto=format&fit=crop"
-            alt="Mongolian landscape"
+            alt={t('siteUi.about.heroAlt')}
             className="w-full h-full object-cover object-center"
             loading="eager"
           />
@@ -118,7 +118,7 @@ export default function About() {
               {t('about.bridging')} <span className="italic text-brand-gold">{t('about.cultures')}</span>
             </h1>
             <p className="mt-5 max-w-2xl text-base md:text-lg text-white/85 leading-relaxed">
-              {t('about.heroLead', { defaultValue: 'The Mongolian Center in Austria connects Mongolian heritage with European partners through culture, education and business.' })}
+              {t('siteUi.about.heroLead')}
             </p>
           </motion.div>
         </div>
@@ -143,7 +143,7 @@ export default function About() {
       <section className="py-16 md:py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-12 gap-12 lg:gap-16">
           <motion.div {...reveal} className="lg:col-span-7">
-            <SectionHeader tag={t('about.who', { defaultValue: 'Who we are' })} title={t('about.hubTitle')} />
+            <SectionHeader tag={t('siteUi.about.who')} title={t('about.hubTitle')} />
             <div className="space-y-5 text-base md:text-lg text-brand-ink/80 leading-relaxed -mt-4">
               <p>{t('about.hubDesc1')}</p>
               <p>{t('about.hubDesc2')}</p>
@@ -153,7 +153,7 @@ export default function About() {
 
           <motion.aside {...reveal} className="lg:col-span-5">
             <div className="border border-slate-200 rounded-xl p-8 md:p-10 bg-white">
-              <p className="text-xs uppercase tracking-[0.14em] font-semibold text-brand-gold mb-3">{t('about.vision.label', { defaultValue: 'Vision' })}</p>
+              <p className="text-xs uppercase tracking-[0.14em] font-semibold text-brand-gold mb-3">{t('siteUi.about.visionLabel')}</p>
               <h3 className="text-2xl md:text-3xl font-serif text-brand-ink leading-snug mb-4">{t('about.vision.title')}</h3>
               <p className="text-base text-brand-ink/80 leading-relaxed">{t('about.vision.desc')}</p>
             </div>
@@ -165,7 +165,7 @@ export default function About() {
       {/* Principles */}
       <section className="py-16 md:py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <SectionHeader tag={t('about.values.tag')} title={t('about.principlesTitle', { defaultValue: 'What guides our work' })} />
+          <SectionHeader tag={t('about.values.tag')} title={t('siteUi.about.principlesTitle')} />
           <div className="grid md:grid-cols-3 border-t border-slate-200">
             {principles.map((p, i) => (
               <motion.div
@@ -206,7 +206,7 @@ export default function About() {
           </div>
           <div className="mt-10">
             <Link to="/membership" className="group inline-flex items-center gap-3 bg-brand-ink text-white px-6 py-3 rounded-lg text-xs uppercase tracking-[0.14em] font-semibold hover:bg-brand-blue transition-colors duration-300">
-              {t('about.seeMembership', { defaultValue: 'See membership options' })}
+              {t('siteUi.about.seeMembership')}
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
@@ -245,7 +245,7 @@ export default function About() {
       {/* Governance and contact */}
       <section className="py-16 md:py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <SectionHeader tag={t('about.gov.tag', { defaultValue: 'Transparency' })} title={t('about.gov.title', { defaultValue: 'Governance and contact' })} />
+          <SectionHeader tag={t('siteUi.about.govTag')} title={t('siteUi.about.govTitle')} />
           <div className="grid lg:grid-cols-12 gap-8">
             <div className="lg:col-span-7 grid sm:grid-cols-3 gap-6">
               {governance.map((g) => (
@@ -258,18 +258,18 @@ export default function About() {
                   <h3 className="text-xl font-serif text-brand-ink mb-2">{g.title}</h3>
                   <p className="text-sm text-slate-600 leading-relaxed mb-4">{g.text}</p>
                   <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.14em] font-semibold text-brand-ink group-hover:text-brand-blue transition-colors">
-                    {t('about.gov.open', { defaultValue: 'Read more' })} <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+                    {t('siteUi.about.govOpen')} <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Link>
               ))}
             </div>
             <div className="lg:col-span-5 border border-slate-200 rounded-xl p-8">
-              <h3 className="text-2xl font-serif text-brand-ink mb-1">Mongolian Center Austria</h3>
-              <p className="text-sm text-slate-500 mb-6">Mongolische Zentrum in Österreich</p>
+              <h3 className="text-2xl font-serif text-brand-ink mb-1">{t('siteUi.org.name')}</h3>
+              <p className="text-sm text-slate-500 mb-6">{t('siteUi.org.legalLine')}</p>
               <ul className="space-y-4 text-sm text-brand-ink/85">
                 <li className="flex items-start gap-3">
                   <MapPin size={16} className="text-brand-blue mt-0.5 shrink-0" />
-                  <span>{t('about.facts.seatValue', { defaultValue: 'Vienna, Austria' })}</span>
+                  <span>{t('contact.info.vienna')}</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Mail size={16} className="text-brand-blue mt-0.5 shrink-0" />
@@ -277,7 +277,7 @@ export default function About() {
                 </li>
               </ul>
               <Link to="/contact" className="mt-7 group inline-flex items-center gap-2 text-xs uppercase tracking-[0.14em] font-semibold text-brand-ink hover:text-brand-blue transition-colors">
-                {t('about.gov.contact', { defaultValue: 'Contact us' })} <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+                {t('siteUi.about.govContact')} <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
@@ -297,8 +297,8 @@ export default function About() {
           <div className="border border-slate-200 rounded-xl p-6 md:p-10 bg-white">
             {isSuccess ? (
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-10">
-                <h3 className="text-3xl font-serif mb-3 text-brand-ink">Application submitted</h3>
-                <p className="text-slate-600">We've received your application and will contact you shortly.</p>
+                <h3 className="text-3xl font-serif mb-3 text-brand-ink">{t('siteUi.about.submittedTitle')}</h3>
+                <p className="text-slate-600">{t('siteUi.about.submittedText')}</p>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -311,7 +311,7 @@ export default function About() {
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className={inputClass}
-                      placeholder="e.g. Saran"
+                      placeholder={t('siteUi.about.phName')}
                     />
                   </div>
                   <div>
@@ -322,7 +322,7 @@ export default function About() {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className={inputClass}
-                      placeholder="hello@example.com"
+                      placeholder={t('siteUi.about.phEmail')}
                     />
                   </div>
                 </div>
@@ -334,7 +334,7 @@ export default function About() {
                     onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
                     rows={4}
                     className={`${inputClass} resize-none`}
-                    placeholder="I'd love to help with..."
+                    placeholder={t('siteUi.about.phReason')}
                   />
                 </div>
                 <button
@@ -343,7 +343,7 @@ export default function About() {
                   className="w-full bg-brand-ink text-white hover:bg-brand-blue px-8 py-4 rounded-lg text-xs uppercase tracking-[0.14em] font-semibold transition-colors duration-300 disabled:opacity-50 flex items-center justify-center gap-3 group"
                 >
                   {isSubmitting ? (
-                    <span className="animate-pulse">Submitting...</span>
+                    <span className="animate-pulse">{t('siteUi.about.submitting')}</span>
                   ) : (
                     <>
                       <span>{t('about.join.form.submit')}</span>

@@ -89,8 +89,8 @@ export default function Contact() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Details */}
           <motion.aside initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="lg:col-span-5">
-            <p className="font-serif text-2xl text-brand-ink mb-2">Mongolian Center in Austria</p>
-            <p className="text-sm text-slate-500 mb-4">Mongolische Zentrum in Österreich</p>
+            <p className="font-serif text-2xl text-brand-ink mb-2">{t('siteUi.org.name')}</p>
+            <p className="text-sm text-slate-500 mb-4">{t('siteUi.org.legalLine')}</p>
 
             <div className="border-t border-slate-200">
               <div className={infoCard}>
@@ -98,7 +98,7 @@ export default function Contact() {
                 <div>
                   <p className={infoLabel}>{t('contactPage.visit')}</p>
                   <address className="not-italic text-lg font-serif text-brand-ink leading-snug">
-                    Schöpfleuthergasse 25<br />1210 Vienna, Austria
+                    Schöpfleuthergasse 25<br />1210 {t('contact.info.vienna')}
                   </address>
                   <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center gap-1.5 text-sm text-brand-blue hover:underline">
                     {t('contactPage.maps')} <ArrowUpRight size={14} />
@@ -123,7 +123,7 @@ export default function Contact() {
               </div>
             </div>
 
-            <p className="mt-6 text-xs text-slate-500">ZVR-Zahl 1673049268 · Vereinsregister, Magistrat der Stadt Wien</p>
+            <p className="mt-6 text-xs text-slate-500">{t('siteUi.impact.zvrLabel')} 1673049268 · {t('siteUi.impact.zvrRegister')}</p>
           </motion.aside>
 
           {/* Form */}

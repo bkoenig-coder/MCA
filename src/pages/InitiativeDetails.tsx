@@ -13,25 +13,25 @@ export default function InitiativeDetails() {
       id: "preservation",
       title: t('impact.initiatives.preservation', 'Cultural Preservation'),
       desc: t('impact.initiatives.preservationDesc', 'Protecting and promoting traditional Mongolian arts, music, and literature through dedicated workshops and archival projects.'),
-      fullDesc: "Our Cultural Preservation initiative is at the heart of what we do. We host specialized workshops, support artists in residence, and actively digitize rare Mongolian manuscripts and musical recordings. By safeguarding these treasures, we ensure that future generations can experience and learn from Mongolia's rich heritage.",
+      fullDesc: t('pagesMisc.initiative.items.preservation.fullDesc'),
       image: "https://images.unsplash.com/photo-1745155541633-da6d9bb28f5c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      goals: ["Archive 500+ oral histories", "Support 10 traditional artists annually", "Publish translated literary works"]
+      goals: t('pagesMisc.initiative.items.preservation.goals', { returnObjects: true }) as unknown as string[]
     },
     {
       id: "bridge",
       title: t('impact.initiatives.bridge', 'Community Bridge'),
       desc: t('impact.initiatives.bridgeDesc', 'Creating meaningful connections between the Mongolian diaspora and local Austrian communities via shared events and festivals.'),
-      fullDesc: "The Community Bridge program brings people together. Through cross-cultural festivals, food tasting events, and language exchange programs, we break down barriers and foster mutual understanding. It's about celebrating diversity while finding common ground in our shared humanity.",
+      fullDesc: t('pagesMisc.initiative.items.bridge.fullDesc'),
       image: "https://images.unsplash.com/photo-1623266880158-c683344cd073?q=80&w=765&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      goals: ["Host quarterly community festivals", "Facilitate language exchange pairings", "Organize joint cultural exhibitions"]
+      goals: t('pagesMisc.initiative.items.bridge.goals', { returnObjects: true }) as unknown as string[]
     },
     {
       id: "exchange",
       title: t('impact.initiatives.exchange', 'Youth Exchange'),
       desc: t('impact.initiatives.exchangeDesc', 'Empowering the next generation with scholarships and cross-cultural study programs to build a connected future.'),
-      fullDesc: "Investing in youth is investing in our future. Our Youth Exchange initiative provides scholarships for students to study abroad, organizes summer camps focusing on leadership, and connects young professionals with mentors across borders. We aim to nurture global citizens who appreciate their roots.",
+      fullDesc: t('pagesMisc.initiative.items.exchange.fullDesc'),
       image: "https://images.unsplash.com/photo-1645539818874-1801c031a86a?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      goals: ["Award 25 annual scholarships", "Run summer leadership camps", "Establish a youth mentorship network"]
+      goals: t('pagesMisc.initiative.items.exchange.goals', { returnObjects: true }) as unknown as string[]
     }
   ];
 
@@ -40,9 +40,9 @@ export default function InitiativeDetails() {
   if (!initiative) {
     return (
       <div className="pt-32 pb-24 min-h-[60vh] flex flex-col items-center justify-center bg-white px-6">
-        <h1 className="text-3xl font-serif text-brand-ink mb-6">Initiative Not Found</h1>
+        <h1 className="text-3xl font-serif text-brand-ink mb-6">{t('pagesMisc.initiative.notFound')}</h1>
         <Link to="/impact" className="flex items-center gap-2 text-brand-gold hover:text-brand-ink transition-colors font-sans uppercase tracking-widest text-xs font-bold">
-          <ArrowLeft size={16} /> Return to Impact
+          <ArrowLeft size={16} /> {t('pagesMisc.initiative.back')}
         </Link>
       </div>
     );
@@ -56,7 +56,7 @@ export default function InitiativeDetails() {
           className="inline-flex items-center gap-2 text-brand-ink/50 hover:text-brand-gold transition-colors font-sans uppercase tracking-[0.2em] text-xs font-bold mb-12"
         >
           <ArrowLeft size={14} /> 
-          {t('common.back', 'Return to Impact')}
+          {t('pagesMisc.initiative.back')}
         </Link>
 
         <div className="grid md:grid-cols-2 gap-12 lg:gap-24 items-start">
@@ -82,7 +82,7 @@ export default function InitiativeDetails() {
             className="pt-4"
           >
             <div className="text-xs text-brand-gold font-semibold tracking-[0.18em] uppercase mb-4">
-              Initiative
+              {t('pagesMisc.initiative.tag')}
             </div>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-brand-ink leading-tight mb-8">
@@ -94,7 +94,7 @@ export default function InitiativeDetails() {
             </p>
             
             <div className="mb-12">
-              <h3 className="text-xs uppercase tracking-[0.2em] font-sans font-bold text-brand-ink mb-6">Key Goals</h3>
+              <h3 className="text-xs uppercase tracking-[0.2em] font-sans font-bold text-brand-ink mb-6">{t('pagesMisc.initiative.keyGoals')}</h3>
               <ul className="space-y-4">
                 {initiative.goals.map((goal, idx) => (
                   <li key={idx} className="flex items-start gap-4">

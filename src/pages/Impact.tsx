@@ -75,7 +75,7 @@ export default function Impact() {
 
   const customValue = parseFloat(customAmount);
   const giveAmount = selectedAmount === 'custom' ? (customValue > 0 ? customValue : 0) : selectedAmount / 100;
-  const giveLabel = giveAmount > 0 ? t('impact.donation.giveBtn', { amount: giveAmount }) : t('impact.donation.btn', 'Donate Now');
+  const giveLabel = giveAmount > 0 ? t('impact.donation.giveBtn', { amount: giveAmount }) : t('impact.donate');
 
   const handleDonateSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,10 +92,10 @@ export default function Impact() {
   };
 
   const fundCategories = [
-    { id: 'All', label: 'All Funds' },
-    { id: 'Heritage', label: 'Nomadic Heritage' },
-    { id: 'Bridge', label: 'Bilateral Bridges' },
-    { id: 'Exchange', label: 'Youth Exchange' }
+    { id: 'All', label: t('siteUi.impact.fundAll') },
+    { id: 'Heritage', label: t('siteUi.impact.fundHeritage') },
+    { id: 'Bridge', label: t('siteUi.impact.fundBridge') },
+    { id: 'Exchange', label: t('siteUi.impact.fundExchange') }
   ];
 
   const stats = [
@@ -157,7 +157,7 @@ export default function Impact() {
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1630559878810-fe220c9273a7?q=80&w=1600&auto=format&fit=crop" 
-            alt="Mongolian Landscape" 
+            alt={t('siteUi.impact.heroAlt')} 
             className="w-full h-full object-cover object-center"
             loading="eager"
           />
@@ -272,7 +272,7 @@ export default function Impact() {
                     min="1"
                     step="1"
                     inputMode="decimal"
-                    aria-label={t('impact.donation.custom', 'Custom Amount')}
+                    aria-label={t('siteUi.impact.customAmount')}
                     placeholder={t('impact.donation.customPlaceholder')}
                     className="bg-transparent text-lg text-brand-ink outline-none w-full placeholder:text-slate-400"
                     value={customAmount}
@@ -298,7 +298,7 @@ export default function Impact() {
                   className="mt-6 w-full bg-brand-gold hover:bg-amber-400 text-slate-950 py-4 rounded-xl uppercase tracking-[0.16em] font-semibold text-xs transition-colors flex items-center justify-center gap-3 disabled:opacity-70 group"
                 >
                   {loadingAmount !== null ? (
-                    <><Loader2 className="animate-spin w-5 h-5" /> {t('common.processing')}</>
+                    <><Loader2 className="animate-spin w-5 h-5" /> {t('siteUi.impact.processing')}</>
                   ) : (
                     <>
                       <Heart className="w-4 h-4 fill-slate-950" />
@@ -450,15 +450,15 @@ export default function Impact() {
                 <dl className="space-y-4 text-sm">
                   <div>
                     <dt className="text-white/50 text-xs uppercase tracking-[0.12em]">{t('impact.trust.nameLabel')}</dt>
-                    <dd className="mt-1 font-serif text-lg">Mongolian Center in Austria</dd>
+                    <dd className="mt-1 font-serif text-lg">{t('siteUi.org.name')}</dd>
                   </div>
                   <div>
-                    <dt className="text-white/50 text-xs uppercase tracking-[0.12em]">ZVR-Zahl</dt>
-                    <dd className="mt-1">1673049268 · Vereinsregister, Magistrat der Stadt Wien</dd>
+                    <dt className="text-white/50 text-xs uppercase tracking-[0.12em]">{t('siteUi.impact.zvrLabel')}</dt>
+                    <dd className="mt-1">1673049268 · {t('siteUi.impact.zvrRegister')}</dd>
                   </div>
                   <div>
                     <dt className="text-white/50 text-xs uppercase tracking-[0.12em]">{t('impact.trust.addressLabel')}</dt>
-                    <dd className="mt-1">Schöpfleuthergasse 25, 1210 Vienna, Austria</dd>
+                    <dd className="mt-1">Schöpfleuthergasse 25, 1210 {t('contact.info.vienna')}</dd>
                   </div>
                 </dl>
               </div>

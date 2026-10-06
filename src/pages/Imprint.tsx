@@ -19,90 +19,90 @@ export default function Imprint() {
             <div className="flex items-center gap-4 mb-8">
               <EyebrowMark />
               <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">
-                Legal & Compliance
+                {t('legalPages.eyebrow')}
               </span>
             </div>
             <h1 className="text-5xl md:text-6xl font-serif mb-12 tracking-tight text-brand-ink">
-              Imprint <span className="italic text-brand-gold">(Impressum)</span>
+              {t('legalPages.imprint.title')} <span className="italic text-brand-gold">{t('legalPages.imprint.titleAccent')}</span>
             </h1>
             
             <div className="prose prose-lg prose-brand max-w-none text-brand-ink/70 font-normal leading-relaxed space-y-12">
               <p className="text-xl text-brand-ink font-normal italic">
-                Information according to § 5 ECG, § 14 UGB, § 25 MedienG and § 63 GewO.
+                {t('legalPages.imprint.intro')}
               </p>
 
               <div className="grid md:grid-cols-2 gap-12">
                 <section>
                   <h2 className="text-2xl font-serif text-brand-ink mb-6 flex items-center gap-3">
                     <Info className="text-brand-gold" size={24} />
-                    Operator Information
+                    {t('legalPages.imprint.operatorTitle')}
                   </h2>
                   <div className="space-y-2">
-                    <p className="font-bold text-brand-ink">Mongolian Center in Austria</p>
-                    <p>ZVR-Zahl: 1673049268 from Magistrat der Stadt Wien (Vereinsregister)</p>
-                    <p>Non-profit association (Verein). The website mongoliancenter.org is the official website of this association, which owns and operates it.</p>
+                    <p className="font-bold text-brand-ink">{t('legalPages.orgName')}</p>
+                    <p>{t('legalPages.imprint.registry')}</p>
+                    <p>{t('legalPages.imprint.nonprofit')}</p>
                   </div>
                 </section>
 
                 <section>
                   <h2 className="text-2xl font-serif text-brand-ink mb-6 flex items-center gap-3">
                     <MapPin className="text-brand-gold" size={24} />
-                    Address
+                    {t('legalPages.imprint.addressTitle')}
                   </h2>
                   <div className="space-y-2">
-                    <p>Schöpfleuthergasse 25, Vienna, Austria, 1210</p>
+                    <p>{t('legalPages.imprint.address')}</p>
                   </div>
                 </section>
 
                 <section>
                   <h2 className="text-2xl font-serif text-brand-ink mb-6 flex items-center gap-3">
                     <Mail className="text-brand-gold" size={24} />
-                    Contact
+                    {t('legalPages.imprint.contactTitle')}
                   </h2>
                   <div className="space-y-2">
-                    <p>Phone: +4367761160389</p>
-                    <p>Email: info@mongoliancenter.org</p>
-                    <p>Web: www.mongoliancenter.org</p>
+                    <p>{t('legalPages.imprint.phoneLabel')}: +4367761160389</p>
+                    <p>{t('legalPages.emailLabel')}: info@mongoliancenter.org</p>
+                    <p>{t('legalPages.imprint.webLabel')}: www.mongoliancenter.org</p>
                   </div>
                 </section>
 
                 <section>
                   <h2 className="text-2xl font-serif text-brand-ink mb-6 flex items-center gap-3">
                     <Globe className="text-brand-gold" size={24} />
-                    Supervisory Authority
+                    {t('legalPages.imprint.authorityTitle')}
                   </h2>
                   <div className="space-y-2">
-                    <p>Magistrat der Stadt Wien</p>
-                    <p>District Administration (Bezirkshauptmannschaft)</p>
+                    <p>{t('legalPages.imprint.authority1')}</p>
+                    <p>{t('legalPages.imprint.authority2')}</p>
                   </div>
                 </section>
               </div>
 
               <section>
-                <h2 className="text-3xl font-serif text-brand-ink mb-6">Liability for Content</h2>
+                <h2 className="text-3xl font-serif text-brand-ink mb-6">{t('legalPages.imprint.liabilityContentTitle')}</h2>
                 <p>
-                  The contents of our pages were created with great care. However, we cannot guarantee the accuracy, completeness and timeliness of the content. As a service provider, we are responsible for our own content on these pages according to the general laws.
+                  {t('legalPages.imprint.liabilityContent')}
                 </p>
               </section>
 
               <section>
-                <h2 className="text-3xl font-serif text-brand-ink mb-6">Liability for Links</h2>
+                <h2 className="text-3xl font-serif text-brand-ink mb-6">{t('legalPages.imprint.liabilityLinksTitle')}</h2>
                 <p>
-                  Our offer contains links to external websites of third parties, on whose contents we have no influence. Therefore, we cannot assume any liability for these external contents. The respective provider or operator of the pages is always responsible for the contents of the linked pages.
+                  {t('legalPages.imprint.liabilityLinks')}
                 </p>
               </section>
 
               <section>
-                <h2 className="text-3xl font-serif text-brand-ink mb-6">Copyright</h2>
+                <h2 className="text-3xl font-serif text-brand-ink mb-6">{t('legalPages.imprint.copyrightTitle')}</h2>
                 <p>
-                  The contents and works on these pages created by the site operators are subject to Austrian copyright law. The reproduction, processing, distribution and any kind of exploitation outside the limits of copyright require the written consent of the respective author or creator.
+                  {t('legalPages.imprint.copyright')}
                 </p>
               </section>
 
               <section className="pt-12 border-t border-brand-ink/10 text-sm italic">
-                <p>Disclosure according to the Austrian Media Act (Offenlegungspflicht gemäß § 25 MedienG).</p>
-                <p>Media owner and publisher: Mongolian Center in Austria.</p>
-                <p>Purpose of the association: Promotion of Mongolian culture and heritage in Austria.</p>
+                <p>{t('legalPages.imprint.disclosure')}</p>
+                <p>{t('legalPages.imprint.mediaOwner')}</p>
+                <p>{t('legalPages.imprint.purpose')}</p>
               </section>
             </div>
           </motion.div>

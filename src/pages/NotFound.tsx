@@ -30,11 +30,11 @@ export default function NotFound() {
         </div>
 
         <h1 className="text-4xl md:text-6xl font-serif text-brand-ink mb-6 tracking-tight">
-          Lost in the <span className="italic text-brand-gold">Steppe</span>
+          {t('pagesMisc.notFound.titleStart')} <span className="italic text-brand-gold">{t('pagesMisc.notFound.titleItalic')}</span>
         </h1>
         
         <p className="text-lg text-brand-ink/60 mb-10 leading-relaxed font-normal">
-          The path you are looking for seems to have faded like tracks in the wind. Let us guide you back to familiar terrain.
+          {t('pagesMisc.notFound.desc')}
         </p>
 
         <Link 
@@ -42,7 +42,7 @@ export default function NotFound() {
           className="inline-flex items-center gap-3 bg-brand-ink text-white px-8 py-4 rounded-lg font-bold uppercase tracking-widest text-[11px] hover:bg-brand-gold transition-colors duration-300 group"
         >
           <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
-          Return Home
+          {t('pagesMisc.notFound.home')}
         </Link>
       </motion.div>
     </div>

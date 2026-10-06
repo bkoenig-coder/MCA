@@ -1,6 +1,10 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import heritagePage from './locales/heritagePage';
+import legalPages from './locales/legalPages';
+import pagesMisc from './locales/pagesMisc';
+import siteUi from './locales/siteUi';
 
 const resources = {
   en: {
@@ -31,7 +35,7 @@ const resources = {
         register: 'Register Now',
         or: 'or',
         error: {
-          signIn: 'Failed to sign in. Please check if popups are blocked.',
+          signIn: 'Sign-in failed. Please check whether your browser is blocking pop-ups.',
           server: 'Server error: {{status}}',
           checkout: 'No checkout URL received from server',
           unexpected: 'An unexpected error occurred. Please try again.'
@@ -40,7 +44,7 @@ const resources = {
       hero: {
         tag: 'Vienna • Austria',
         title: 'The Mongolian Cultural &',
-        titleItalic: 'Community Hub in Vienna',
+        titleItalic: 'Community Center in Vienna',
         subtitle: 'Welcome to the official platform of the Mongolian Center in Austria. We are a non-governmental organization with the goal of preserving our cultural heritage and fostering strong community connections in Austria. Through this website, you can explore our initiatives, learn about upcoming events, and follow the development of our project.',
         ctaEvents: 'Explore Events',
         ctaImpact: 'Our Mission',
@@ -135,7 +139,7 @@ const resources = {
       impactCta: {
         title: 'Drive Global Impact',
         desc: 'Partner with us to sustain this vital cultural bridge and sponsor bilateral social initiatives that generate measurable results.',
-        cta: 'Donate to us!'
+        cta: 'Donate Now'
       },
       homeMembership: {
         tag: 'Official Membership',
@@ -176,8 +180,8 @@ const resources = {
         cultures: 'Story',
         founded: 'Established in Vienna, the Mongolian Center in Austria emerged from a strategic vision to cultivate a premier platform for bilateral cultural exchange, diplomatic relations, and socioeconomic solidarity.',
         heritage: 'Our Strategy',
-        hubTitle: 'A Hub for Bilateral Excellence',
-        hubDesc1: 'Operating from the heart of Europe, our NGO serves as a dynamic nexus connecting Mongolian heritage with European innovation. We facilitate high-leverage networking, cultural showcases, and collaborative ventures.',
+        hubTitle: 'A Center for Bilateral Excellence',
+        hubDesc1: 'Operating from the heart of Europe, our non-governmental organization connects Mongolian heritage with European innovation. We support networking, cultural showcases and joint projects.',
         hubDesc2: 'Our portfolio spans executive networking symposiums, contemporary cultural diplomacy events, and academic workshops designed to foster long-term partnerships between Austria and Mongolia.',
         hubDesc3: 'We view culture as the ultimate foundation for mutual trust. By integrating Mongolian traditions with European contexts, we engineer alliances that yield both cultural enrichment and strategic growth.',
         vision: {
@@ -238,7 +242,7 @@ const resources = {
           tag: 'Join Our Family',
           title: 'Become a',
           titleItalic: 'Member',
-          desc: 'We are always looking for passionate souls to join our journey. Let\'s make an impact together!',
+          desc: 'We are always looking for passionate people to join our journey. Let\'s make an impact together!',
           form: {
             name: 'Your Name',
             email: 'Email Address',
@@ -318,7 +322,7 @@ const resources = {
         ourVision: 'Our Vision',
         featuredGallery: 'Featured Gallery',
         allGallery: 'All Gallery',
-        viewCapture: 'View Capture',
+        viewCapture: 'View',
         painting: 'Painting',
         photography: 'Photography',
         crafts: 'Crafts',
@@ -417,8 +421,8 @@ const resources = {
           medium: 'Supports a cultural workshop for the community.',
           large: 'Funds the preservation of traditional artifacts.',
           extra: 'Sponsors a major cultural exchange event.',
-          customPlaceholder: 'Enter custom amount',
-          customCta: 'Donate Custom Amount',
+          customPlaceholder: 'Enter another amount',
+          customCta: 'Donate This Amount',
           secure: 'Secure payment via PayPal',
           invalidAmount: 'Please enter a valid amount.',
           successTitle: 'Thank You for Your Support!',
@@ -605,7 +609,7 @@ const resources = {
         }
       },
       footer: {
-        desc: 'The Mongolian Center in Austria is a non-governmental organization dedicated to bilateral cultural diplomacy, strategic community engagement, and the preservation of Mongolian heritage through high-leverage partnerships.',
+        desc: 'The Mongolian Center in Austria is a non-governmental organization dedicated to bilateral cultural diplomacy, community engagement and the preservation of Mongolian heritage through strong partnerships.',
         navTitle: 'Navigation',
         legalTitle: 'Legal',
         privacy: 'Privacy Policy',
@@ -781,7 +785,7 @@ const resources = {
         locale: 'de-AT',
         back: 'Zurück',
         loading: 'Wird geladen...',
-        register: 'Jetzt registrieren',
+        register: 'Jetzt anmelden',
         or: 'oder',
         error: {
           signIn: 'Anmeldung fehlgeschlagen. Bitte prüfen Sie, ob Popups blockiert sind.',
@@ -794,7 +798,7 @@ const resources = {
         tag: 'Wien • Österreich',
         title: 'Das Mongolische Kultur- &',
         titleItalic: 'Gemeinschaftszentrum in Wien',
-        subtitle: 'Willkommen auf der offiziellen Plattform des Mongolischen Zentrums in Wien. Wir sind ein gemeinnütziger Verein mit dem Ziel, unser kulturelles Erbe zu bewahren und starke Gemeinschaftsbindungen in Österreich zu fördern. Über diese Website können Sie mehr über unsere Initiativen erfahren, sich über kommende Veranstaltungen informieren und die Entwicklung unseres Projekts verfolgen.',
+        subtitle: 'Willkommen auf der offiziellen Plattform des Mongolischen Zentrums in Österreich. Wir sind ein gemeinnütziger Verein mit dem Ziel, unser kulturelles Erbe zu bewahren und starke Gemeinschaftsbindungen in Österreich zu fördern. Über diese Website können Sie mehr über unsere Initiativen erfahren, sich über kommende Veranstaltungen informieren und die Entwicklung unseres Projekts verfolgen.',
         ctaEvents: 'Veranstaltungen',
         ctaImpact: 'Unsere Mission',
         ctaStory: 'Unsere Geschichte',
@@ -804,7 +808,7 @@ const resources = {
         title: 'Unsere strategischen Säulen',
         community: {
           title: 'Netzwerk & Gemeinschaft',
-          desc: 'Aufbau eines erstklassigen Netzwerks, in dem mongolische Fachkräfte, Studierende und österreichische Partner kooperieren.'
+          desc: 'Aufbau eines erstklassigen Netzwerks, in dem mongolische Fachkräfte, Studierende und österreichische Partner zusammenkommen und zusammenarbeiten.'
         },
         arts: {
           title: 'Kulturdiplomatie',
@@ -812,18 +816,18 @@ const resources = {
         },
         impact: {
           title: 'Nachhaltige Wirkung',
-          desc: 'Förderung von sozialem Wandel und zivilgesellschaftlicher Solidarität durch gezielte philanthropische Initiativen.'
+          desc: 'Förderung von sozialem Wandel und zivilgesellschaftlicher Solidarität durch gezielte gemeinnützige Initiativen in Österreich und der Mongolei.'
         }
       },
       careers: {
-        tag: 'Mach mit',
+        tag: 'Machen Sie mit',
         title: 'Karriere',
-        intro: 'Arbeite oder engagiere dich ehrenamtlich beim Mongolischen Zentrum in Österreich und baue mit uns Brücken zwischen Österreich und der Mongolei.',
+        intro: 'Arbeiten Sie oder engagieren Sie sich ehrenamtlich beim Mongolischen Zentrum in Österreich und bauen Sie mit uns Brücken zwischen Österreich und der Mongolei.',
         openRoles: 'Offene Stellen',
         noRoles: 'Derzeit gibt es keine offenen Stellen.',
-        noRolesHint: 'Schau bald wieder vorbei oder stelle dich über unsere Kontaktseite vor.',
+        noRolesHint: 'Schauen Sie bald wieder vorbei oder stellen Sie sich über unsere Kontaktseite vor.',
         openAppTitle: 'Initiativbewerbung',
-        openAppText: 'Keine passende Stelle dabei? Erzähl uns, wie du dich einbringen möchtest.',
+        openAppText: 'Keine passende Stelle dabei? Erzählen Sie uns, wie Sie sich einbringen möchten.',
         openAppCta: 'Kontakt aufnehmen',
         viewRole: 'Stelle ansehen',
         deadline: 'Bewerbung bis',
@@ -832,22 +836,22 @@ const resources = {
         aboutRole: 'Über die Stelle',
         requirements: 'Anforderungen',
         closed: 'Diese Stelle ist nicht mehr offen.',
-        loadError: 'Die Stellen konnten nicht geladen werden. Bitte versuche es später erneut.',
+        loadError: 'Die Stellen konnten nicht geladen werden. Bitte versuchen Sie es später erneut.',
         form: {
           title: 'Für diese Stelle bewerben',
           name: 'Vollständiger Name',
           email: 'E-Mail',
           phone: 'Telefon (optional)',
           linkedin: 'LinkedIn oder Portfolio (optional)',
-          cv: 'Link zu deinem Lebenslauf',
-          cvHelp: 'Teile einen Link, zum Beispiel Google Drive, Dropbox oder LinkedIn.',
-          message: 'Warum interessierst du dich dafür?',
+          cv: 'Link zu Ihrem Lebenslauf',
+          cvHelp: 'Teilen Sie einen Link, zum Beispiel zu Google Drive, Dropbox oder LinkedIn.',
+          message: 'Warum interessieren Sie sich dafür?',
           consent: 'Ich bin einverstanden, dass meine Daten zur Bearbeitung dieser Bewerbung verwendet werden.',
           submit: 'Bewerbung senden',
-          sending: 'Wird gesendet ...',
+          sending: 'Wird gesendet…',
           successTitle: 'Bewerbung gesendet',
-          successText: 'Danke. Wir haben deine Bewerbung erhalten und melden uns bei dir.',
-          error: 'Deine Bewerbung konnte nicht gesendet werden. Bitte versuche es erneut.'
+          successText: 'Danke. Wir haben Ihre Bewerbung erhalten und melden uns bei Ihnen.',
+          error: 'Ihre Bewerbung konnte nicht gesendet werden. Bitte versuchen Sie es erneut.'
         }
       },
       collab: {
@@ -879,16 +883,16 @@ const resources = {
         tag: 'Highlight',
         title: 'Kulturfestival:',
         titleItalic: 'Echos der Steppe',
-        desc: 'Begleiten Sie uns zu einem immersiven Wochenende mit mongolischer Musik, traditionellem Tanz und kulinarischen Köstlichkeiten. Erleben Sie das reiche Erbe der Mongolei direkt hier in Wien.',
-        date: '15.-17. Juni 2026',
+        desc: 'Begleiten Sie uns zu einem unvergesslichen Wochenende mit mongolischer Musik, traditionellem Tanz und kulinarischen Köstlichkeiten. Erleben Sie das reiche Erbe der Mongolei direkt hier in Wien.',
+        date: '15.–17. Juni 2026',
         nextEvent: 'Nächste Veranstaltung',
-        audience: 'Offen für alle Community-Mitglieder',
+        audience: 'Offen für alle Mitglieder der Gemeinschaft',
         cta: 'Alle Veranstaltungen ansehen'
       },
       impactCta: {
         title: 'Gemeinsam Wirkung erzielen',
         desc: 'Werden Sie Partner, um diese wichtige kulturelle Brücke zu erhalten und bilaterale soziale Initiativen mit messbaren Ergebnissen zu fördern.',
-        cta: 'Spenden Sie an uns!'
+        cta: 'Jetzt spenden'
       },
       homeMembership: {
         tag: 'Offizielle Mitgliedschaft',
@@ -901,23 +905,23 @@ const resources = {
           professional: {
             title: 'Professionelles Netzwerk',
             benefit1: 'Internationaler Netzwerkzugang',
-            benefit2: 'Exklusive Einladungen zu Events',
-            benefit3: 'Bevorzugte Anmeldung im Forum',
+            benefit2: 'Exklusive Einladungen zu Veranstaltungen',
+            benefit3: 'Bevorzugte Anmeldung zu Foren',
             benefit4: 'Kultureller & beruflicher Austausch'
           },
           student: {
-            title: 'Studentische Mitgliedschaft',
+            title: 'Mitgliedschaft für Studierende',
             benefit1: 'Zugang zum Junior-Netzwerk',
             benefit2: 'Mentoring-Möglichkeiten',
             benefit3: 'Ermäßigte Veranstaltungstickets',
-            benefit4: 'Karriereentwicklungsunterstützung'
+            benefit4: 'Unterstützung bei der Karriereentwicklung'
           },
           institutional: {
             title: 'Institutioneller Partner',
-            benefit1: 'Markensichtbarkeit',
+            benefit1: 'Sichtbarkeit Ihrer Marke',
             benefit2: 'Maßgeschneiderte B2B-Kontakte',
             benefit3: 'Möglichkeiten zum Co-Hosting',
-            benefit4: 'Umfassender strategischer Rat'
+            benefit4: 'Strategische Beratung'
           }
         }
       },
@@ -927,11 +931,11 @@ const resources = {
         mission: 'Vision',
         bridging: 'Unsere',
         cultures: 'Geschichte',
-        founded: 'Gegründet in Wien, entstand das Mongolische Kulturzentrum Österreich aus der strategischen Vision, eine erstklassige Plattform für bilateralen Kulturaustausch, diplomatische Beziehungen und sozioökonomische Solidarität zu schaffen.',
+        founded: 'Gegründet in Wien, entstand das Mongolische Zentrum in Österreich aus der strategischen Vision, eine erstklassige Plattform für bilateralen Kulturaustausch, diplomatische Beziehungen und sozioökonomische Solidarität zu schaffen.',
         heritage: 'Unsere Strategie',
         hubTitle: 'Ein Zentrum für bilaterale Exzellenz',
-        hubDesc1: 'Als im Herzen Europas agierende NGO fungieren wir als dynamischer Knotenpunkt, der mongolisches Erbe mit europäischer Innovation verbindet. Wir fördern hochgradiges Networking, kulturelle Präsentationen und gemeinsame Unternehmungen.',
-        hubDesc2: 'Unser Portfolio umfasst exklusive Networking-Symposien, moderne Veranstaltungen zur Kulturdiplomatie und akademische Workshops, die darauf abzielen, langfristige Partnerschaften aufzubauen.',
+        hubDesc1: 'Als Organisation im Herzen Europas verbinden wir mongolisches Erbe mit europäischer Innovation. Wir fördern Networking, kulturelle Präsentationen und gemeinsame Vorhaben.',
+        hubDesc2: 'Unser Portfolio umfasst Networking-Symposien für Führungskräfte, zeitgenössische Veranstaltungen der Kulturdiplomatie und akademische Workshops, die langfristige Partnerschaften zwischen Österreich und der Mongolei fördern.',
         hubDesc3: 'Wir betrachten Kultur als das ultimative Fundament für gegenseitiges Vertrauen. Durch die Verbindung mongolischer Traditionen mit europäischen Kontexten schaffen wir Allianzen, die kulturelle Bereicherung und strategisches Wachstum fördern.',
         vision: {
           title: 'Unsere strategische Vision',
@@ -951,9 +955,9 @@ const resources = {
           title: 'Unser Team',
           quote: '"Engagierte Fachleute, die sich für die Bewahrung und Förderung des mongolischen Erbes in Europa einsetzen."',
           roles: {
-            director: 'Direktor',
-            manager: 'Manager',
-            outreach: 'Gemeinschaftsarbeit'
+            director: 'Gründungsmitglied',
+            manager: 'Gründungsmitglied',
+            outreach: 'Community-Arbeit'
           }
         },
         benefitsSection: {
@@ -971,7 +975,7 @@ const resources = {
             },
             visibility: {
               title: 'Sichtbarkeit & Werbung',
-              desc: 'Präsentieren Sie Ihre traditionellen Projekte oder Geschäftsinitiativen über unsere digitalen Plattformen und Gemeinschaftsveranstaltungen.'
+              desc: 'Präsentieren Sie Ihre kulturell ausgerichteten Projekte oder Geschäftsinitiativen über unsere digitalen Plattformen und Gemeinschaftsveranstaltungen.'
             },
             insights: {
               title: 'Kulturelle Einblicke',
@@ -991,12 +995,12 @@ const resources = {
           tag: 'Werden Sie Teil unserer Familie',
           title: 'Werden Sie',
           titleItalic: 'Mitglied',
-          desc: 'Wir sind immer auf der Suche nach leidenschaftlichen Seelen, die sich unserer Reise anschließen. Lassen Sie uns gemeinsam etwas bewirken!',
+          desc: 'Wir sind immer auf der Suche nach engagierten Menschen, die uns auf unserem Weg begleiten. Lassen Sie uns gemeinsam etwas bewirken!',
           form: {
             name: 'Ihr Name',
             email: 'E-Mail-Adresse',
             reason: 'Warum möchten Sie sich uns anschließen?',
-            submit: 'Bewerben'
+            submit: 'Beitritt beantragen'
           }
         }
       },
@@ -1005,7 +1009,7 @@ const resources = {
         title: 'Kommende',
         titleItalic: 'Veranstaltungen',
         subtitle: 'Von Kulturfestivals bis hin zu Bildungs-Workshops – feiern und erleben Sie mit uns das mongolische Erbe.',
-        register: 'Jetzt registrieren',
+        register: 'Jetzt anmelden',
         nextUpcoming: 'Nächste Veranstaltung',
         viewDetails: 'Details anzeigen',
         price: 'Preis',
@@ -1018,7 +1022,7 @@ const resources = {
         defaultCategory: 'Veranstaltung',
         bespoke: {
           title: 'Maßgeschneiderte',
-          titleItalic: 'Kulturelle Erlebnisse',
+          titleItalic: 'Kulturerlebnisse',
           desc: 'Wir bieten private Kulturberatung und maßgeschneiderte Veranstaltungsplanung für Organisationen und Einzelpersonen, die eine tiefere Verbindung zum mongolischen Erbe suchen.',
           cta: 'Privat anfragen'
         },
@@ -1027,7 +1031,7 @@ const resources = {
           back: 'Zurück zu den Veranstaltungen',
           category: 'Kulturveranstaltung',
           date: 'Datum',
-          time: 'Zeit',
+          time: 'Uhrzeit',
           location: 'Ort',
           included: 'Was ist enthalten',
           fee: 'Anmeldegebühr',
@@ -1037,16 +1041,16 @@ const resources = {
       news: {
         tag: 'Journal',
         title: 'Einblicke &',
-        titleItalic: 'Updates',
+        titleItalic: 'Neuigkeiten',
         subtitle: 'Bleiben Sie über unsere Gemeinschaftsaktivitäten, kulturellen Einblicke und organisatorischen Updates informiert.',
         readMore: 'Weiterlesen',
         readFull: 'Ganze Geschichte lesen',
         featured: 'Hervorgehoben',
-        update: 'Update',
-        noNews: 'Derzeit keine Journal-Einträge gefunden.',
+        update: 'Aktuelles',
+        noNews: 'Derzeit sind keine Beiträge vorhanden.',
         tagline: 'Neuigkeiten aus der mongolischen Gemeinschaft in Österreich',
         latest: 'Neueste',
-        moreNews: 'Weitere Nachrichten',
+        moreNews: 'Weitere Neuigkeiten',
         postedOn: 'Veröffentlicht am',
         ourVoice: 'Unsere Stimme',
         featuredNews: 'Ausgewählte Neuigkeiten',
@@ -1083,7 +1087,7 @@ const resources = {
         submission: {
           title: 'Präsentieren Sie Ihre',
           titleItalic: 'Vision',
-          desc: 'Wir sind immer auf der Suche nach talentierten Künstlern, die wir in unseren physischen und digitalen Ausstellungen präsentieren können. Teilen Sie Ihre Arbeit mit unserer internationalen Community.',
+          desc: 'Wir suchen laufend talentierte Künstlerinnen und Künstler für unsere physischen und digitalen Ausstellungen. Teilen Sie Ihre Arbeit mit unserer internationalen Gemeinschaft.',
           cta: 'Portfolio einreichen'
         },
         artworks: {
@@ -1102,7 +1106,7 @@ const resources = {
         subtitle: 'Im Kern sind wir von Wirkung getrieben. Durch unsere Spendeninitiativen fördern wir einen Geist der Solidarität, des kulturellen Austauschs und der sozialen Verantwortung.',
         totalImpact: 'Gesamtwirkung im Jahr 2026',
         initiatives: {
-          tag: 'Kern-',
+          tag: 'Zentrale',
           title: 'Initiativen',
           desc: 'Unsere Arbeit konzentriert sich auf drei strategische Säulen, die nachhaltiges Wachstum und kulturelles Verständnis fördern.',
           preservation: 'Kulturelle Bewahrung',
@@ -1110,14 +1114,14 @@ const resources = {
           bridge: 'Wirtschaftliche Brücke',
           bridgeDesc: 'Erleichterung von Handels- und Investitionsmöglichkeiten zwischen österreichischen und mongolischen Unternehmen.',
           exchange: 'Bildungsaustausch',
-          exchangeDesc: 'Schaffung von Wegen für akademische Zusammenarbeit und Studentenaustauschprogramme.'
+          exchangeDesc: 'Schaffung von Wegen für akademische Zusammenarbeit und Austauschprogramme für Studierende.'
         },
         donate: 'Jetzt spenden',
         goal: 'Ziel',
         transparency: {
           title: 'Engagement für',
           titleItalic: 'Transparenz',
-          desc: 'Als gemeinnützige Organisation halten wir höchste Standards an finanzieller Rechenschaftspflicht und ethischer Führung ein. Unsere Jahresberichte stehen zur öffentlichen Einsichtnahme zur Verfügung.',
+          desc: 'Als gemeinnützige Organisation halten wir höchste Standards bei finanzieller Rechenschaft und ethischer Führung ein. Unsere Jahresberichte stehen zur öffentlichen Einsichtnahme zur Verfügung.',
           cta: 'Jahresbericht herunterladen'
         },
         report: 'Impact Report 2026 herunterladen (PDF)',
@@ -1146,9 +1150,9 @@ const resources = {
           explore: 'Mehr erfahren'
         },
         trust: {
-          tag: 'Transparenz',
+          tag: 'Rechenschaft',
           title: 'Offen darüber, wer wir sind',
-          desc: 'Wir sind ein eingetragener gemeinnütziger Verein in Wien. Unsere Registerdaten, Organisation und Kontaktdaten sind öffentlich.',
+          desc: 'Wir sind ein eingetragener gemeinnütziger Verein in Wien. Unsere Registerdaten, Organisationsstruktur und Kontaktdaten sind öffentlich.',
           cta: 'Zur Governance',
           cta2: 'Impressum',
           cardTitle: 'Eingetragener Verein',
@@ -1169,9 +1173,9 @@ const resources = {
           small: 'Stellt Lehrmaterialien für ein Kind bereit.',
           medium: 'Unterstützt einen Kulturworkshop für die Gemeinschaft.',
           large: 'Finanziert die Bewahrung traditioneller Artefakte.',
-          extra: 'Sponsert eine große kulturelle Austauschveranstaltung.',
-          customPlaceholder: 'Benutzerdefinierten Betrag eingeben',
-          customCta: 'Benutzerdefinierten Betrag spenden',
+          extra: 'Ermöglicht eine große kulturelle Austauschveranstaltung.',
+          customPlaceholder: 'Anderen Betrag eingeben',
+          customCta: 'Diesen Betrag spenden',
           secure: 'Sichere Zahlung über PayPal',
           invalidAmount: 'Bitte geben Sie einen gültigen Betrag ein.',
           successTitle: 'Vielen Dank für Ihre Unterstützung!',
@@ -1185,7 +1189,7 @@ const resources = {
         }
       },
       footer: {
-        desc: 'Das Mongolische Kulturzentrum Wien ist ein Verein, der sich der bilateralen Kulturdiplomatie, dem strategischen Engagement der Gemeinschaft und der Bewahrung des mongolischen Erbes durch den Aufbau hochwertiger Partnerschaften widmet.',
+        desc: 'Das Mongolische Zentrum in Österreich ist ein Verein, der sich der bilateralen Kulturdiplomatie, dem Engagement für die Gemeinschaft und der Bewahrung des mongolischen Erbes durch starke Partnerschaften widmet.',
         navTitle: 'Navigation',
         legalTitle: 'Rechtliches',
         privacy: 'Datenschutzerklärung',
@@ -1230,13 +1234,13 @@ const resources = {
       contact: {
         tag: 'Kontakt aufnehmen',
         title: 'Partner',
-        titleItalic: 'Werden',
-        subtitle: 'Möchten Sie zusammenarbeiten, eine Initiative sponsern oder kulturelle und wirtschaftliche Möglichkeiten ausloten? Verbinden Sie sich direkt mit unserem Führungsteam in Wien.',
+        titleItalic: 'werden',
+        subtitle: 'Möchten Sie zusammenarbeiten, eine Initiative sponsern oder kulturelle und wirtschaftliche Möglichkeiten ausloten? Nehmen Sie direkt Kontakt mit unserem Führungsteam in Wien auf.',
         info: {
           location: 'Hauptsitz',
           vienna: 'Wien, Österreich',
           hub: 'Kultur- & Geschäftszentrum',
-          email: 'Executive Kontakt',
+          email: 'Kontakt zur Leitung',
           phone: 'Direktwahl',
           hours: 'Mo-Fr, 10:00 - 18:00',
           quote: '"Brückenbau zwischen Märkten und Kulturen durch bedeutungsvollen Dialog und hochwertige, nachhaltige Partnerschaften."'
@@ -1246,28 +1250,28 @@ const resources = {
           firstName: 'Vorname',
           lastName: 'Nachname',
           email: 'Geschäftliche E-Mail',
-          subject: 'Interessensgebiet',
+          subject: 'Interessengebiet',
           message: 'Vorschlag / Anfrage',
           send: 'Anfrage senden',
           placeholders: {
             firstName: 'Max',
             lastName: 'Mustermann',
-            email: 'max@unternehmen.de',
-            message: 'Wie können wir zusammenarbeiten, um gegenseitige Vorteile zu generieren?'
+            email: 'max@unternehmen.at',
+            message: 'Wie können wir zusammenarbeiten, um gemeinsam Wirkung zu erzielen?'
           },
           subjects: {
             general: 'Allgemeine Anfrage',
             investment: 'Investitionsmöglichkeiten',
             cultural: 'Kulturelle Partnerschaften',
-            events: 'Veranstaltungszusammenarbeit'
+            events: 'Zusammenarbeit bei Veranstaltungen'
           }
         },
-        success: 'Ihre Anfrage wurde empfangen. Unser Team wird sich in Kürze bei Ihnen melden.',
+        success: 'Ihre Anfrage ist bei uns eingegangen. Unser Team wird sich in Kürze bei Ihnen melden.',
         error: 'Fehler beim Senden der Anfrage. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.'
       },
       cookies: {
         title: 'Datenschutz & Erbe',
-        description: 'Um das digitale Erlebnis unseres Kulturzentrums zu bewahren, verwenden wir Cookies. Einige sind für das Funktionieren der Website unerlässlich, während andere uns helfen, unsere Gemeinschaft besser zu verstehen. Gemäß den österreichischen DSGVO-Standards haben Sie die volle Kontrolle über Ihre Daten.',
+        description: 'Um das digitale Erlebnis unseres Kulturzentrums zu bewahren, verwenden wir Cookies. Einige sind für das Funktionieren der Website unerlässlich, während andere uns helfen, unsere Gemeinschaft besser zu verstehen. Gemäß der DSGVO haben Sie die volle Kontrolle über Ihre Daten.',
         policy: 'Datenschutzerklärung',
         settings: 'Einstellungen',
         reject: 'Alle ablehnen',
@@ -1279,19 +1283,19 @@ const resources = {
         analytics: 'Analyse',
         analyticsDesc: 'Hilft uns, Besuchermuster zu verstehen.',
         marketing: 'Marketing',
-        marketingDesc: 'Wird für die Bekanntmachung kultureller Veranstaltungen verwendet.'
+        marketingDesc: 'Wird zur Bewerbung kultureller Veranstaltungen verwendet.'
       },
       membershipPage: {
         hero: {
           tag: 'Mitgliedschaft',
-          titleNormal: 'Werden Sie ein ',
+          titleNormal: 'Werden Sie ',
           titleItalic: 'Mitglied',
           subtitle: 'Schließen Sie sich einer wachsenden Plattform an, die Österreich und die Mongolei durch Kultur, Bildung, Wirtschaft und internationale Zusammenarbeit verbindet.',
           btnIndividual: 'Einzelmitgliedschaft',
           btnInstitutional: 'Institutionelle Mitgliedschaft'
         },
         benefits: {
-          tag: 'Wertversprechen',
+          tag: 'Ihre Vorteile',
           titleNormal: 'Werden Sie Mitglied und ',
           titleItalic: 'profitieren Sie',
           titleSuffix: ' von unseren Angeboten',
@@ -1310,17 +1314,17 @@ const resources = {
             desc: 'Direkte Kanäle zur mongolischen Botschaft in Wien und zu hochrangigen politischen Entscheidungsträgern in beiden Ländern.'
           },
           feature4: {
-            title: 'Interessensvertretung & Lobbying',
+            title: 'Interessenvertretung & Lobbying',
             desc: 'Eine gemeinsame Stimme, die die Interessen der mongolisch-österreichischen Gemeinschaft in Wirtschaft und Kultur vertritt.'
           },
           feature5: {
             title: 'Und vieles mehr...',
-            desc: 'Von Mentorenprogrammen bis hin zum bevorzugten Zugang zu gemeinsamen Initiativen und Gemeinschaftsprojekten.'
+            desc: 'Von Mentoring-Programmen bis hin zum bevorzugten Zugang zu gemeinsamen Initiativen und Gemeinschaftsprojekten.'
           }
         },
         process: {
-          titleNormal: 'Wie man sich ',
-          titleItalic: 'bewirbt',
+          titleNormal: 'So bewerben ',
+          titleItalic: 'Sie sich',
           desc: 'Der Beitritt zum Mongolischen Zentrum ist ein einfacher Prozess, der sicherstellt, dass unsere Gemeinschaft dynamisch und engagiert bleibt.',
           step1: {
             title: 'Bewerbung einreichen',
@@ -1346,8 +1350,8 @@ const resources = {
           under25: '/ unter 25',
           recommended: 'Empfohlen',
           student: {
-            name: 'Studenten & Jugend',
-            desc: 'Völlig kostenlose Jahresmitgliedschaft für Studenten und Jugendliche unter 25 Jahren.',
+            name: 'Studierende & Jugend',
+            desc: 'Völlig kostenlose Jahresmitgliedschaft für Studierende und Jugendliche unter 25 Jahren.',
             cta: 'Kostenlose Mitgliedschaft aktivieren',
             benefits: [
               'Freier Eintritt zu Veranstaltungen (2-mal im Jahr)',
@@ -1358,14 +1362,14 @@ const resources = {
             ]
           },
           professional: {
-            name: 'Professionell',
-            desc: 'Für Fachleute, Unternehmer, Akademiker und Kreative.',
-            cta: 'Für Fachleute bewerben',
+            name: 'Fachleute',
+            desc: 'Für Fachkräfte, Unternehmerinnen und Unternehmer, Akademikerinnen und Akademiker sowie Kreative.',
+            cta: 'Als Fachkraft bewerben',
             benefits: [
               'Vollständiger Zugang zum professionellen Netzwerk',
               'Ermäßigte Eintrittskarten',
               'Exklusive Networking-Dinner',
-              'Priorisierte Registrierung für Foren',
+              'Bevorzugte Anmeldung zu Foren',
               'Eintragung im Mitgliederverzeichnis',
               'Stimmrecht bei der Generalversammlung'
             ]
@@ -1384,14 +1388,14 @@ const resources = {
           }
         },
         partners: {
-          tag: 'Vertraut Von',
+          tag: 'Unsere Partner',
           title: 'Unsere Unternehmens- & Institutionspartner',
           desc: 'Schließen Sie sich einem bedeutenden Netzwerk von Organisationen an, das sich für bilaterale Beziehungen, Kulturaustausch und nachhaltiges Wachstum einsetzt.'
         },
         directory: {
           titleNormal: 'Erkunden Sie unsere ',
           titleItalic: 'Gemeinschaft',
-          desc: 'Unsere Mitglieder reichen von Studenten über Diplomaten und Künstler bis hin zu Unternehmensleitern. Durchstöbern Sie unser Verzeichnis, um zu sehen, wer bereits aktiv ist.',
+          desc: 'Unsere Mitglieder reichen von Studierenden über Diplomaten und Künstler bis hin zu Unternehmensleitern. Durchstöbern Sie unser Verzeichnis, um zu sehen, wer im Österreich-Mongolei-Netzwerk bereits aktiv ist.',
           cta: 'Mitgliederverzeichnis ansehen'
         },
         finalCta: {
@@ -1404,30 +1408,30 @@ const resources = {
           signInRequired: 'Anmeldung erforderlich',
           loginDesc: 'Sie müssen mit Ihrem Google-Konto angemeldet sein, um eine {{tier}}-Mitgliedschaft zu beantragen.',
           signInBtn: 'Mit Google anmelden',
-          backBtn: 'Abbrechen & Zurück',
+          backBtn: 'Abbrechen und zurück',
           submittedTitle: 'Formular übermittelt!',
-          submittedDesc: 'Vielen Dank für Ihre Bewerbung. Da Mitgliedschaften von unserem Vorstand manuell genehmigt werden müssen, ist Ihr Status nun auf Ausstehende Prüfung gesetzt.',
-          submittedStudentTip: 'Wenn Sie sich für die Stufe Studenten & Jugend beworben haben: Nach der Genehmigung und Aktivierung können Sie sich zweimal im Jahr kostenlos für Veranstaltungen anmelden!',
-          profileBtn: 'Zum Profil gehen',
+          submittedDesc: 'Vielen Dank für Ihre Bewerbung. Da Mitgliedschaften von unserem Vorstand manuell genehmigt werden müssen, steht Ihr Status nun auf „Ausstehende Prüfung“.',
+          submittedStudentTip: 'Wenn Sie sich für die Stufe „Studierende & Jugend“ beworben haben, können Sie sich nach der Genehmigung und Aktivierung zweimal im Jahr kostenlos für Veranstaltungen anmelden!',
+          profileBtn: 'Zum Profil',
           tiersBtn: 'Mitgliedschaftsstufen',
           backToMemberships: 'Zurück zu Mitgliedschaften',
           applyTitle: '{{tier}}-Bewerbung',
           subtitleText: 'Österreich-Mongolei Community-Netzwerk',
-          errAge: 'Die Studenten- und Jugendstufe ist ausschließlich Personen unter 25 Jahren vorbehalten. Sie sind derzeit {{age}} Jahre alt. Bitte bewerben Sie sich stattdessen für die Professional-Stufe.',
-          errSubmit: 'Bitte beheben Sie die Formularfehler, bevor Sie es absenden.',
+          errAge: 'Die Stufe „Studierende & Jugend“ ist ausschließlich Personen unter 25 Jahren vorbehalten. Sie sind derzeit {{age}} Jahre alt. Bitte bewerben Sie sich stattdessen für die Stufe „Fachleute“.',
+          errSubmit: 'Bitte beheben Sie die Formularfehler, bevor Sie das Formular absenden.',
           errGeneric: 'Fehler beim Senden der Bewerbung.',
           statusPending: 'Bewerbung ausstehend',
           statusApproved: 'Bewerbung genehmigt',
           statusRejected: 'Bewerbung abgelehnt',
-          pendingDesc: 'Wir haben Ihre Bewerbung für die {{tier}}-Mitgliedschaft erhalten. Unsere Administration führt derzeit eine manuelle Prüfung durch. Sie werden benachrichtigt, sobald diese abgeschlossen ist.',
+          pendingDesc: 'Wir haben Ihre Bewerbung für die {{tier}}-Mitgliedschaft erhalten. Unser Team führt derzeit eine manuelle Prüfung durch. Sie werden benachrichtigt, sobald diese abgeschlossen ist.',
           approvedDesc: 'Ihre Bewerbung für die {{tier}}-Mitgliedschaft wurde genehmigt! Ihr Profil wurde nun erfolgreich im System aktualisiert.',
-          rejectedDesc: 'Wir haben Ihre Bewerbung für die {{tier}}-Mitgliedschaft bearbeitet. Leider konnte sie zu diesem Zeitpunkt nicht genehmigt werden. Bitte kontaktieren Sie uns für Unterstützung.',
+          rejectedDesc: 'Wir haben Ihre Bewerbung für die {{tier}}-Mitgliedschaft bearbeitet. Leider konnte sie zu diesem Zeitpunkt nicht genehmigt werden. Bei Fragen kontaktieren Sie uns bitte.',
           appSummary: 'Zusammenfassung der Bewerbung',
           requestedTier: 'Beantragte Stufe',
           submittedOn: 'Eingereicht am',
-          applicantName: 'Name des Bewerbers',
-          myProfile: 'Zu meinem Profil gehen',
-          browseMemberships: 'Mitgliedschaften durchsuchen',
+          applicantName: 'Name der antragstellenden Person',
+          myProfile: 'Zu meinem Profil',
+          browseMemberships: 'Mitgliedschaften ansehen',
           secContact: '1. Kontaktinformationen',
           labelFirstName: 'Vorname',
           labelLastName: 'Nachname',
@@ -1439,15 +1443,15 @@ const resources = {
           genderMale: 'Männlich',
           genderFemale: 'Weiblich',
           genderOther: 'Andere',
-          genderPreferNotToSay: 'Keine Angabe bevorzugt',
-          secCredentials: '2. {{tier}}-Referenzen',
+          genderPreferNotToSay: 'Keine Angabe',
+          secCredentials: '2. Angaben zur {{tier}}-Mitgliedschaft',
           labelSchool: 'Schule / Universität',
-          labelStudentId: 'Studentenausweis-Registrierungsnummer',
+          labelStudentId: 'Matrikelnummer',
           labelOrgName: 'Name des Unternehmens / der Organisation',
           labelPosition: 'Aktuelle Berufsbezeichnung / Position',
-          labelLinkedin: 'LinkedIn / Professionelle Website-URL',
+          labelLinkedin: 'LinkedIn-Profil oder berufliche Website',
           labelInstName: 'Name der Institution / des Unternehmens',
-          labelWebsite: 'Offizieller Website-Link',
+          labelWebsite: 'Offizielle Website',
           secMotivation: '3. Motivationsschreiben',
           labelMotivation: 'Erzählen Sie uns von Ihrem Interesse am kulturellen oder geschäftlichen Austausch zwischen Österreich und der Mongolei sowie Ihrer Motivation für den Beitritt',
           placeholderMotivation: 'Bitte erläutern Sie kurz, welchen Mehrwert Sie einbringen möchten und was Sie von der Gemeinschaft erwarten.',
@@ -1455,7 +1459,7 @@ const resources = {
         }
       },
       marquee: {
-        next: 'Nächste bevorstehende Veranstaltung'
+        next: 'Nächste Veranstaltung'
       },
       diorama: {
         ger: {
@@ -1481,17 +1485,22 @@ const resources = {
         naadam: {
           label: 'Naadam-Festival',
           title: 'Naadam-Festival',
-          content: 'Erleben Sie das energiegeladene Sommerfest der mongolischen Steppe. Erleben Sie Ringer beim Adlertanz, schnelle Pferderennen, geschickte Bogenschützen und farbenfrohe kulturelle Feiern!'
+          content: 'Erleben Sie das energiegeladene Sommerfest der mongolischen Steppe. Sehen Sie Ringer beim Adlertanz, rasante Pferderennen, geschickte Bogenschützen und farbenfrohe kulturelle Feiern!'
         },
         imperial: {
           label: 'Kaiserlicher Hof',
           title: 'Der Kaiserliche Hof',
-          content: 'Treten Sie ein in den souveränen Hof des Mongolenreiches, ein historisches Vorbild für makroökonomische Integration und internationale Zusammenarbeit. Hier schuf die Führung von Dschingis Khan einen Rahmen, in dem sich verschiedene Nationen, Kulturen und Handelsnetzwerke unter einer zentralen Autorität sicher kreuzen konnten.\n\nBewacht von der hochdisziplinierten kaiserlichen Eskorte und beaufsichtigt von den Neun Weißen Banners des Friedens und der Stabilität, stellt der Hof ein sicheres Umfeld für hochrangige Diplomatie dar.'
+          content: 'Treten Sie ein in den souveränen Hof des Mongolenreiches, ein historisches Vorbild für Integration auf übergeordneter Ebene und internationale Zusammenarbeit. Hier schuf die Führung von Dschingis Khan einen Rahmen, in dem sich verschiedene Nationen, Kulturen und Handelsnetzwerke unter einer zentralen Autorität sicher begegnen konnten.\n\nBewacht von der hochdisziplinierten kaiserlichen Eskorte und beaufsichtigt von den Neun Weißen Bannern des Friedens und der Stabilität, stellt der Hof ein sicheres Umfeld für hochrangige Diplomatie dar.'
         },
         nomadic: {
           label: 'Nomadenleben',
           title: 'Nomadenleben',
           content: 'Erleben Sie den warmen, friedlichen Rhythmus des traditionellen mongolischen Alltags. Familien versammeln sich um Lagerfeuer in ihren Ger-Lagern, während Hirten, spielende Kinder und verschiedenes Vieh das lebendige Steppendorf zum Leben erwecken.'
+        },
+        unesco: {
+          label: 'UNESCO-Kulturerbe-Schrein',
+          title: 'Lebendiges immaterielles UNESCO-Kulturerbe',
+          content: 'Der Schrein des lebendigen UNESCO-Erbes würdigt die Meisterwerke der Menschheit, die das Erbe der mongolischen Nomaden bewahrt, darunter die Pferdekopfgeige Morin Khuur, die traditionelle Deel-Kleidung, die Naadam-Sportarten und das traditionelle Ger-Handwerk.'
         },
         center: {
           label: 'Neun Weiße Banner',
@@ -1499,7 +1508,7 @@ const resources = {
           title: 'Die Neun Weißen Banner',
           content: 'Die Neun Weißen Banner (Yisün Tsagaan Süld) repräsentieren den Geist des mongolischen Staates und seines Friedens. Hergestellt aus dem Schweifhaar weißer Pferde, verkörpern diese Totems das schützende Genie von Dschingis Khan und die dauerhafte Souveränität der Nation.'
         },
-        loading: 'Laden der Steppe...',
+        loading: 'Die Steppe wird geladen ...',
         instructions: 'Ziehen zum Drehen • Scrollen zum Zoomen'
       }
     }
@@ -1542,7 +1551,7 @@ const resources = {
         tag: 'Вена • Австри',
         title: 'Вена дахь Монгол соёл,',
         titleItalic: 'олон нийтийн төв',
-        subtitle: 'Вена дахь Монгол Төвийн албан ёсны цахим платформд тавтай морилно уу. Бид Монгол орныхоо баялаг өв соёлыг түгээн дэлгэрүүлэх, Австри улс дахь монгол иргэдийнхээ эв нэгдэл, хамтын ажиллагааг бэхжүүлэх зорилготой төрийн бус байгууллага юм. Энэхүү цахим хуудсаар дамжуулан та манай байгууллагын хэрэгжүүлж буй төсөл хөтөлбөрүүдтэй танилцах, удахгүй болох соёлын арга хэмжээний хуваарийг харах, цахимаар бүртгүүлэх болон хамгийн сүүлийн үеийн мэдээ мэдээллийг хүлээн авах боломжтой.',
+        subtitle: 'Австри дахь Монголын Төвийн албан ёсны платформд тавтай морилно уу. Бид соёлын өвөө хадгалан хамгаалах, Австри дахь монгол хамт олны холбоо, эв нэгдлийг бэхжүүлэх зорилготой төрийн бус байгууллага юм. Энэ вэбсайтаар дамжуулан та манай санаачилгуудтай танилцаж, удахгүй болох арга хэмжээний мэдээлэл авч, төслийн хөгжлийг дагаж болно.',
         ctaEvents: 'Арга хэмжээнүүд',
         ctaImpact: 'Бидний зорилго',
         ctaStory: 'Бидний түүх',
@@ -1566,21 +1575,21 @@ const resources = {
       careers: {
         tag: 'Бидэнтэй нэгдээрэй',
         title: 'Ажлын байр',
-        intro: 'Австри дахь Монгол Төвд ажиллаж эсвэл сайн дураар оролцож, Австри, Монголын хоорондын гүүрийг хамтдаа бүтээцгээе.',
+        intro: 'Австри дахь Монголын Төвд ажиллаж эсвэл сайн дураар оролцож, Австри, Монгол хоёр орны хоорондын гүүрийг хамтдаа бүтээцгээе.',
         openRoles: 'Нээлттэй ажлын байр',
-        noRoles: 'Одоогоор нээлттэй ажлын байр алга байна.',
+        noRoles: 'Одоогоор нээлттэй ажлын байр байхгүй байна.',
         noRolesHint: 'Удахгүй дахин шалгана уу, эсвэл холбоо барих хуудасаар дамжуулан өөрийгөө танилцуулна уу.',
         openAppTitle: 'Чөлөөт өргөдөл',
         openAppText: 'Тохирох ажлын байр олдсонгүй юу? Та хэрхэн хувь нэмэр оруулахыг хүсэж буйгаа бидэнд хэлээрэй.',
         openAppCta: 'Холбогдох',
         viewRole: 'Дэлгэрэнгүй',
-        deadline: 'Өргөдөл хүлээн авах хугацаа',
+        deadline: 'Өргөдлийн эцсийн хугацаа',
         apply: 'Өргөдөл илгээх',
         back: 'Бүх ажлын байр',
         aboutRole: 'Ажлын байрны тухай',
         requirements: 'Шаардлага',
         closed: 'Энэ ажлын байр хаагдсан.',
-        loadError: 'Ажлын байруудыг ачаалж чадсангүй. Даараа дахин оролдоно уу.',
+        loadError: 'Ажлын байруудыг ачаалж чадсангүй. Дараа дахин оролдоно уу.',
         form: {
           title: 'Энэ ажлын байранд өргөдөл өгөх',
           name: 'Овог нэр',
@@ -1588,7 +1597,7 @@ const resources = {
           phone: 'Утас (заавал бус)',
           linkedin: 'LinkedIn эсвэл портфолио (заавал бус)',
           cv: 'CV-ийнхээ холбоос',
-          cvHelp: 'Google Drive, Dropbox эсвэл LinkedIn зэрэг холбоос илгээнэ үү.',
+          cvHelp: 'Google Drive, Dropbox эсвэл LinkedIn зэрэг холбоос оруулна уу.',
           message: 'Та яагаад сонирхож байна вэ?',
           consent: 'Миний мэдээллийг энэ өргөдлийг хянахад ашиглахыг зөвшөөрч байна.',
           submit: 'Өргөдөл илгээх',
@@ -1602,10 +1611,10 @@ const resources = {
         tag: 'Түншлэл',
         titleNormal: 'Дараагийн бүлгийг ',
         titleItalic: 'хамтдаа бүтээцгээе',
-        desc: 'Соёл нь Австри, Монгол хоёрын хооронд бат бөх гүүр босгодог гэдэгт итгэдэг түнш, байгууллага, хувь хүмүүстэй хамтран ажиллахыг бид сайшааж байна.',
+        desc: 'Соёл нь Австри, Монгол хоёрын хооронд бат бөх гүүр босгодог гэдэгт бидэнтэй адил итгэдэг түнш, байгууллага, хувь хүмүүстэй хамтран ажиллахад бид таатай байна.',
         institutions: { title: 'Байгууллагууд', text: 'Элчин сайдын яам, их сургууль, соёлын байгууллагууд: хамтарсан хөтөлбөр, солилцоо, арга хэмжээ.' },
-        businesses: { title: 'Бизнесүүд', text: 'Австри, Монголтой холбоотой компаниуд: сүлжээ, нэр хүнд, ивээн тэтгэлэг.' },
-        individuals: { title: 'Хувь хүмүүс', text: 'Оюутан, мэргэжилтэн, сайн дурынхын: манай нийгэмлэг, арга хэмжээ, төслүүдэд нэгдээрэй.' },
+        businesses: { title: 'Бизнесүүд', text: 'Австри, Монголтой холбоотой компаниуд: холбоо сүлжээ, танигдах байдал, ивээн тэтгэлэг.' },
+        individuals: { title: 'Хувь хүмүүс', text: 'Оюутан, мэргэжилтэн, сайн дурынхан: манай хамт олон, арга хэмжээ, төслүүдэд нэгдээрэй.' },
         learnMore: 'Дэлгэрэнгүй',
         ctaPartner: 'Түнш болох',
         ctaMember: 'Гишүүн болох'
@@ -1613,7 +1622,7 @@ const resources = {
       legacy: {
         title: 'Хамтын ажиллагааны',
         titleItalic: 'Урилга',
-        quote: 'Аугаа үйл хэрэг хамтын хүчээр бүтдэг гэдэгт бид итгэдэг. Тиймээс шинийг санаачлагчид, соёлын зүтгэлтнүүд болон байгууллагуудыг Австри, Монгол хоёр орныг холбох гүүрийг хамтдаа хамтран бүтээхийг урьж байна.',
+        quote: 'Аугаа үйл хэрэг хамтын хүчээр бүтдэг гэдэгт бид итгэдэг. Тиймээс шинийг санаачлагчид, соёлын зүтгэлтнүүд болон байгууллагуудыг Австри, Монгол хоёр орныг холбох динамик гүүрийг хамтдаа бүтээхийг урьж байна.',
         archery: 'Түншлэл',
         tradition: 'Эв нэгдэл',
         horsemanship: 'Инноваци',
@@ -1636,12 +1645,12 @@ const resources = {
       impactCta: {
         title: 'Хамтдаа бодит өөрчлөлтийг бүтээцгээе',
         desc: 'Энэхүү соёлын гүүрийг улам бэхжүүлж, хоёр орны нийгэмд бодит үр өгөөжөө өгөх төслүүдийг хамтран хэрэгжүүлэх урилга.',
-        cta: 'Бидэнд хандив өргөх!'
+        cta: 'Хандив өгөх'
       },
       homeMembership: {
         tag: 'Албан ёсны гишүүнчлэл',
         titleNormal: 'Хамт олондоо ',
-        titleItalic: 'Нэгдээрэй',
+        titleItalic: 'нэгдээрэй',
         desc: 'Австри, Монголыг холбосон энэхүү өргөжин тэлж буй платформд нэгдээрэй. Дээд зэрэглэлийн холбоо сүлжээ, соёлын арга хэмжээ болон хамтын ажиллагааны боломжуудыг аваарай.',
         btnApply: 'Гишүүнээр элсэх',
         btnExplore: 'Боломжуудыг үзэх',
@@ -1663,9 +1672,9 @@ const resources = {
           institutional: {
             title: 'Байгууллагын түншлэл',
             benefit1: 'Брэндийн танигдах байдал',
-            benefit2: 'B2B холбоо сүлжээ байгуулах',
+            benefit2: 'Тусгайлан зохион байгуулсан B2B танилцуулга',
             benefit3: 'Хамтран зохион байгуулах боломж',
-            benefit4: 'Стратегийн зөвлөгөө мэдээлэл'
+            benefit4: 'Стратегийн зөвлөгөө авах боломж'
           }
         }
       },
@@ -1676,23 +1685,23 @@ const resources = {
         bridging: 'Бидний',
         cultures: 'түүх',
         founded: 'Австри дахь Монгол Төв нь хоёр орны соёлын солилцоо, дипломат харилцааг өргөжүүлэх, нийгэм-эдийн засгийн хамтын ажиллагааг хөгжүүлэх стратегийн алсын харааны үндсэн дээр Вена хотноо байгуулагдсан.',
-        heritage: 'Бидний Стратеги',
+        heritage: 'Бидний стратеги',
         hubTitle: 'Хоёр талт харилцааны төв',
-        hubDesc1: 'Манай байгууллага нь Монголын өв соёлыг Европын инновацтай холбогч гүүр юм. Бид хамтрагч, гишүүдийнхээ холбоо сүлжээг өргөтгөж, хамтарсан төсөл хөтөлбөр, соёлын арга хэмжээг Европын зүрх, Вена хотод зохион байгуулж, өргөжин тэлж байна.',
+        hubDesc1: 'Европын зүрхэнд үйл ажиллагаа явуулдаг манай байгууллага Монголын өв соёлыг Европын шинэлэг санаатай холбодог. Бид холбоо сүлжээ тогтоох, соёлын танилцуулга, хамтарсан төсөл хөтөлбөрийг дэмждэг.',
         hubDesc2: 'Бидний үйл ажиллагаа нь Австри болон Монгол улсын хооронд урт хугацааны түншлэлийг бий болгох зорилготой бизнес уулзалт, орчин үеийн соёлын арга хэмжээ болон академик сургалтуудаас бүрддэг.',
         hubDesc3: 'Соёл бол харилцан итгэлцлийн хамгийн бат бөх суурь гэж бид үздэг. Монгол уламжлалыг Европын хэв маягтай уялдуулснаар бид эдийн засаг болон соёлын өсөлтийг авчрах стратегийн түншлэлийг байгуулахыг зорьдог.',
         vision: {
-          title: 'Бидний зорилго',
-          desc: 'Австри, Монголын нийтлэг эрх ашгийг холбогч гол гүүр нь байж—харилцан хүндэтгэл, соёлын олон талт байдал, бат бэх стратегийн түншлэлд суурилсан ирээдүйг цогцлоох.'
+          title: 'Бидний стратегийн алсын хараа',
+          desc: 'Австри, Монголын эрх ашгийг холбосон найдвартай гүүр болж, харилцан хүндэтгэл, соёлын олон талт байдал, бат бөх стратегийн түншлэл дээр суурилсан ирээдүйг цогцлоох.'
         },
         values: {
           tag: 'Үндсэн зарчим',
           title: 'Үнэт зүйлс',
-          desc: 'Шударга байдал, соёлын дипломат харилцаа, нийгмийн хариуцлага бөгөөд мэргэжлийн өндөр түвшин нь бидний бүх санаачилгыг удирдан чиглүүлдэг.'
+          desc: 'Шударга байдал, соёлын дипломат харилцаа, нийгмийн хариуцлага болон мэргэжлийн өндөр түвшин нь бидний хэрэгжүүлэх санаачилга бүрийг чиглүүлдэг.'
         },
         impact: {
           title: 'Бидний нөлөө',
-          desc: 'Бид сайн үйлсийн аянаараа дамжуулан Вена хот болон Монгол орны өргөн уудам нутаг дэвсгэрт хэрэгтэй тусламжийг үзүүлдэг.'
+          desc: 'Бид хандивын санаачилгаараа дамжуулан Вена хот болон Монгол орны өргөн уудам нутагт утга учиртай үйл хэргийг дэмждэг.'
         },
         team: {
           tag: 'Удирдлага',
@@ -1705,32 +1714,32 @@ const resources = {
           }
         },
         benefitsSection: {
-          tag: 'Зорилго ба Давуу талууд',
+          tag: 'Зорилго ба давуу талууд',
           title: 'Яагаад манай сүлжээнд нэгдэх вэ?',
           desc: 'Олон улсын танхимуудын жишгээр Австри дахь Монгол Төв нь холбоо тогтоох, суралцах, хөгжих хосгүй боломжуудыг санал болгодог. Бидний зорилго бол Австри, Монголын хооронд хоёр талын бат бөх харилцааг хөгжүүлэхийн зэрэгцээ манай хамт олонд бодит үр өгөөжийг хүргэх явдал юм.',
           items: {
             networking: {
-              title: 'Холбоо сүлжээ ба Түншлэл',
-              desc: 'Австри дахь Монгол мэргэжилтнүүд, соёлын элч төлөөлөгчид болон Австрийн түншүүдтэй дээд түвшний сүлжээнд урт хугацааны бат бөх харилцааг бий болгох.'
+              title: 'Холбоо сүлжээ ба харилцаа',
+              desc: 'Монгол мэргэжилтнүүд, соёлын элч төлөөлөгчид болон Австрийн түншүүдтэй дээд түвшний сүлжээнд урт хугацааны бат бөх харилцаа бий болгох.'
             },
             events: {
               title: 'Тусгай арга хэмжээнүүд',
               desc: 'Манай соёлын наадам, хаалттай воркшоп, VIP уулзалтууд олон нийтэд зарлагдахаас өмнө урьдчилан оролцох давуу эрхтэй болох.'
             },
             visibility: {
-              title: 'Илтгэл ба Сурталчилгаа',
-              desc: 'Манай дижитал платформууд болон олон нийтийн арга хэмжээнүүдээр дамжуулан соёлын болон бизнесийн төслүүдээ танилцуулах.'
+              title: 'Танигдах байдал ба сурталчилгаа',
+              desc: 'Монгол өвтэй уялдсан төсөл, бизнесийн санаачилгаа манай дижитал платформ болон олон нийтийн арга хэмжээгээр дамжуулан танилцуулах.'
             },
             insights: {
-              title: 'Соёлын Гүн Мэдээлэл',
+              title: 'Соёлын гүнзгий мэдээлэл',
               desc: 'Монголын түүх, соёл, орчин үеийн хөгжил, бизнесийн харилцааны талаарх мэргэжлийн түвшний гүн гүнзгий мэдээлэл, судалгааг авах.'
             },
             advocacy: {
-              title: 'Дуу Хоолой ба Дэмжлэг',
-              desc: 'Хилийн чанад дахь Монголчуудыг дэмжих, соёлыг хүндэтгэсэн бодлогыг дэмжихэд өөрийн дуу хоолойгоо нэгтгэх.'
+              title: 'Эрх ашгийг хамгаалах, дуу хоолой',
+              desc: 'Гадаад дахь монголчуудыг дэмжих, шударга, соёлыг хүндэтгэсэн бодлогыг сурталчлах нийтийн хүчин чармайлтад өөрийн дуу хоолойгоо нэмээрэй.'
             },
             mentorship: {
-              title: 'Менторшип ба Зөвлөгөө',
+              title: 'Менторшип',
               desc: 'Төв Европын орнуудад ажил мэргэжлээ хөгжүүлэх, дасан зохицоход туршлагатай мэргэжилтнүүдээс заавар, зөвлөгөө, дэмжлэг авах.'
             }
           }
@@ -1742,7 +1751,7 @@ const resources = {
           desc: 'Бидний аялалд нэгдэх хүсэл тэмүүлэлтэй хүмүүсийг бид үргэлж хайж байдаг. Хамтдаа өөрчлөлтийг бүтээцгээе!',
           form: {
             name: 'Таны нэр',
-            email: 'Имэйл хаяг',
+            email: 'И-мэйл хаяг',
             reason: 'Та яагаад бидэнтэй нэгдэхийг хүсэж байна вэ?',
             submit: 'Өргөдөл илгээх'
           }
@@ -1791,7 +1800,7 @@ const resources = {
         readFull: 'Бүрэн эхийг унших',
         featured: 'Онцлох',
         update: 'Шинэчлэлт',
-        noNews: 'Одоогоор сэтгүүл олдсонгүй.',
+        noNews: 'Одоогоор нийтлэл олдсонгүй.',
         tagline: 'Австри дахь монголчуудын нийгэмлэгийн мэдээ',
         latest: 'Сүүлийн мэдээ',
         moreNews: 'Бусад мэдээ',
@@ -1804,9 +1813,9 @@ const resources = {
         featuredEvent: 'Онцлох арга хэмжээ',
         newsletter: {
           title: 'Мэдээлэлтэй',
-          titleItalic: 'байх',
-          desc: 'Австри болон Монгол улсын соёл, эдийн засгийн байдлын талаарх онцлох мэдээллийг авахын тулд манай улирал тутмын сэтгүүлд бүртгүүлээрэй.',
-          placeholder: 'Имэйл хаяг',
+          titleItalic: 'байгаарай',
+          desc: 'Австри болон Монгол улсын соёл, эдийн засгийн талаарх онцгой мэдээлэл авахын тулд манай улирал тутмын сэтгүүлд бүртгүүлээрэй.',
+          placeholder: 'И-мэйл хаяг',
           cta: 'Бүртгүүлэх'
         }
       },
@@ -1827,11 +1836,11 @@ const resources = {
         contemporary: 'Орчин үеийн',
         crossCultural: 'Олон соёлын',
         viewArtwork: 'Бүтээлийг үзэх',
-        by: '-ийн',
+        by: 'Зохиогч:',
         submission: {
           title: 'Өөрийн',
-          titleItalic: 'төсөөллөө харуул',
-          desc: 'Бид биет болон дижитал үзэсгэлэндээ авьяаслаг уран бүтээлчдийг оролцуулахдаа үргэлж таатай байдаг. Өөрийн бүтээлээ манай олон улсын хамт олонтой хуваалцаарай.',
+          titleItalic: 'төсөөллөө харуулаарай',
+          desc: 'Бид биет болон дижитал үзэсгэлэндээ оролцуулах авьяаслаг уран бүтээлчдийг үргэлж эрж байдаг. Өөрийн бүтээлээ манай олон улсын хамт олонтой хуваалцаарай.',
           cta: 'Портфолио илгээх'
         },
         artworks: {
@@ -1858,7 +1867,7 @@ const resources = {
           bridge: 'Эдийн засгийн гүүр',
           bridgeDesc: 'Австри болон Монголын аж ахуйн нэгжүүдийн хооронд худалдаа, хөрөнгө оруулалтын боломжийг хөнгөвчлөх.',
           exchange: 'Боловсролын солилцоо',
-          exchangeDesc: 'Академик хамтын ажиллагаа болон оюутан солилцооны хөтөлбөрүүдийн замыг бий болгох.'
+          exchangeDesc: 'Академик хамтын ажиллагаа болон оюутан солилцооны хөтөлбөрүүдийн боломжийг бий болгох.'
         },
         donate: 'Хандив өгөх',
         goal: 'Зорилго',
@@ -1878,11 +1887,11 @@ const resources = {
         more: {
           tag: 'Тусалах бусад арга',
           title: 'Дэмжих олон арга бий',
-          desc: 'Хандив бол зөвхөн нэг арга. Та цаг заваа, ур чадвараа, танил тал нөхөрлөлөө ч өгч болно.',
+          desc: 'Хандив бол зөвхөн нэг арга. Та цаг заваа, ур чадвараа, танил тал, холбоо сүлжээгээ ч өгч болно.',
           w1Title: 'Гишүүн болох',
           w1Desc: 'Хамт олонд нэгдэж, бидний ажлыг жилийн турш дэмжээрэй.',
           w1Cta: 'Гишүүнчлэл үзэх',
-          w2Title: 'Сайн дурын ажил, хамтрах',
+          w2Title: 'Сайн дураар ажиллах эсвэл нэгдэх',
           w2Desc: 'Арга хэмжээ, төслүүд дээр цаг заваа, ур чадвараа нэмэрлээрэй.',
           w2Cta: 'Боломжуудыг үзэх',
           w3Title: 'Түнш болох',
@@ -1898,7 +1907,7 @@ const resources = {
           title: 'Бид хэн болохоо нээлттэй хэлнэ',
           desc: 'Бид Вена хотод бүртгэлтэй ашгийн бус нийгэмлэг юм. Бүртгэлийн мэдээлэл, засаглал, холбоо барих мэдээлэл нийтэд нээлттэй.',
           cta: 'Засаглалтай танилцах',
-          cta2: 'Хууль ёсны мэдээлэл',
+          cta2: 'Хуулийн мэдээлэл',
           cardTitle: 'Бүртгэлтэй нийгэмлэг',
           nameLabel: 'Нэр',
           addressLabel: 'Хаяг'
@@ -1912,16 +1921,16 @@ const resources = {
           mainDesc: 'Тал нутгаас хол ч манай хүүхдүүд монгол бичиг сурч, ахмадууд маань дуугаа дамжуулж, гэр бүлүүд Наадам, Цагаан сараа хамтдаа тэмдэглэдэг. Таны хандив Австри дахь энэ хамт олныг амьд байлгана.',
           impactNote: 'Хандив бүр Австри дахь монгол хэлний хичээл, соёлын баяр ёслол, хамт олны уулзалтыг дэмжинэ.',
           taxNote: 'Австри дахь Монголын Төв нь бүртгэлтэй ашгийн бус нийгэмлэг юм (ZVR 1673049268).',
-          chooseAmount: 'Хэмжээгээ сонгоно уу',
+          chooseAmount: 'Дүнгээ сонгоно уу',
           oneTime: 'Нэг удаагийн хандив',
           small: 'Нэг хүүхдэд сургалтын материал олгоно.',
           medium: 'Хамт олны соёлын сургалтыг дэмжинэ.',
           large: 'Уламжлалт олдворуудыг хадгалан хамгаалахад зарцуулна.',
           extra: 'Соёлын томоохон солилцооны арга хэмжээг ивээн тэтгэнэ.',
-          customPlaceholder: 'Хэмжээгээ оруулна уу',
+          customPlaceholder: 'Дүнгээ оруулна уу',
           customCta: 'Хандив өгөх',
           secure: 'PayPal-ээр найдвартай төлбөр',
-          invalidAmount: 'Хүчинтэй хэмжээ оруулна уу.',
+          invalidAmount: 'Зөв дүн оруулна уу.',
           successTitle: 'Дэмжлэг үзүүлсэнд баярлалаа!',
           successDesc: 'Таны хувь нэмэр бодит өөрчлөлтийг авчирна.',
           gives: 'Таны хандив бидэнд тусална',
@@ -1933,14 +1942,14 @@ const resources = {
         }
       },
       footer: {
-        desc: 'Австри дахь Монгол Төв нь хоёр орны соёлын дипломат харилцааг өргөжүүлэх, стратегийн түншлэлийг дэмжих, соёлын өвийг хамгаалах чиглэлээр үйл ажиллагаа явуулдаг төрийн бус байгууллага юм.',
+        desc: 'Австри дахь Монголын Төв нь хоёр орны соёлын дипломат харилцааг өргөжүүлэх, стратегийн түншлэлийг дэмжих, соёлын өвийг хамгаалах чиглэлээр үйл ажиллагаа явуулдаг төрийн бус байгууллага юм.',
         navTitle: 'Цэс',
         legalTitle: 'Хууль эрх зүй',
         privacy: 'Нууцлалын бодлого',
         terms: 'Үйлчилгээний нөхцөл',
-        imprint: 'Импринт',
+        imprint: 'Хуулийн мэдээлэл',
         governance: 'Засаглал',
-        copyright: '© 2026 Австри дахь Монгол Төв.',
+        copyright: '© 2026 Австри дахь Монголын Төв.',
         vienna: 'Вена',
         ulaanbaatar: 'Улаанбаатар'
       },
@@ -1949,11 +1958,11 @@ const resources = {
         title: 'Бид таны',
         titleItalic: 'мэдээг хүлээж байна',
         intro: 'Арга хэмжээ, гишүүнчлэл, сайн дурын ажил эсвэл хамтын ажиллагааны талаар асуух зүйл байна уу? Бидэнд бичээрэй, бид аль болох түргэн хариулна.',
-        visit: 'Биднийг зочлоорой',
+        visit: 'Бидэнтэй уулзаарай',
         maps: 'Google Maps дээр нээх',
         email: 'И-мэйл',
         phone: 'Утас',
-        formTitle: 'Бидэнд захидал бичих',
+        formTitle: 'Бидэнд зурвас илгээх',
         formIntro: 'Маягтыг бөглөхөд таны зурвас манай багт шууд очно.',
         firstName: 'Нэр',
         lastName: 'Овог',
@@ -1961,17 +1970,17 @@ const resources = {
         topic: 'Юуны тухай вэ?',
         message: 'Таны зурвас',
         messagePh: 'Бид хэрхэн туслах вэ?',
-        newsletter: 'Мэдээллийн товхимол надад бас илгээгээрэй',
-        consent: 'Илгээснээр та бидэнд мэдээллийг зөвхөн хариу өгөх зорилгоор ашиглахыг зөвшөөрч байна. Манай',
+        newsletter: 'Мэдээллийн товхимол бас илгээгээрэй',
+        consent: 'Илгээснээр та мэдээллээ зөвхөн танд хариу өгөх зорилгоор ашиглахыг бидэнд зөвшөөрч байна. Манай',
         send: 'Илгээх',
         sending: 'Илгээж байна…',
         success: 'Баярлалаа! Таны зурвас илгээгдлээ. Бид удахгүй хариу өгнө.',
-        error: 'Уучлаарай, зурвас илгээгдсэнгүй. Дахин оролдох эсвэл info@mongoliancenter.org хаягаар бичнэ үү.',
+        error: 'Уучлаарай, зурвас илгээгдсэнгүй. Дахин оролдоно уу эсвэл info@mongoliancenter.org хаягаар бичнэ үү.',
         t1: 'Ерөнхий асуулт',
         t2: 'Гишүүнчлэл',
         t3: 'Арга хэмжээ',
         t4: 'Сайн дурын ажил, ажлын байр',
-        t5: 'Хамтын ажиллагаа, ивээн тэтгэх',
+        t5: 'Түншлэл, ивээн тэтгэлэг',
         t6: 'Хэвлэл мэдээлэл',
         nameTitle: 'Нууцлалын бодлого'
       },
@@ -1983,8 +1992,8 @@ const resources = {
         info: {
           location: 'Төв оффис',
           vienna: 'Вена, Австри',
-          hub: 'Соёл ба Бизнесийн Төв',
-          email: 'Гүйцэтгэх багийн имэйл',
+          hub: 'Соёл, бизнесийн төв',
+          email: 'Гүйцэтгэх багийн и-мэйл',
           phone: 'Шууд холбогдох утас',
           hours: 'Да-Ба, 10:00 - 18:00',
           quote: '"Утга учиртай яриа хэлцэл, өндөр үнэ цэнэ бүхий тогтвортой түншлэлээр дамжуулан зах зээл болон соёлыг холбоно."'
@@ -1993,7 +2002,7 @@ const resources = {
           title: 'Түншлэл эхлүүлэх',
           firstName: 'Нэр',
           lastName: 'Овог',
-          email: 'Албаны имэйл',
+          email: 'Албаны и-мэйл',
           subject: 'Сонирхсон чиглэл',
           message: 'Санал / Хүсэлт',
           send: 'Хүсэлт илгээх',
@@ -2004,7 +2013,7 @@ const resources = {
             message: 'Харилцан ашигтай нөлөөллийг бий болгохын тулд бид хэрхэн хамтран ажиллах вэ?'
           },
           subjects: {
-            general: 'Ерөнхий асуулга',
+            general: 'Ерөнхий асуулт',
             investment: 'Хөрөнгө оруулалтын боломж',
             cultural: 'Соёлын түншлэл',
             events: 'Арга хэмжээний хамтын ажиллагаа'
@@ -2023,64 +2032,64 @@ const resources = {
         preferences: 'Өгөгдлийн тохиргоо',
         save: 'Тохиргоог хадгалах',
         essential: 'Үндсэн',
-        essentialDesc: 'Сайтын аюулгүй ажиллагаанд шаардлагатай.',
+        essentialDesc: 'Сайтыг аюулгүй ажиллуулахад шаардлагатай.',
         analytics: 'Шинжилгээ',
-        analyticsDesc: 'Зочдын хандалтыг ойлгоход тусална.',
+        analyticsDesc: 'Зочдын хандалтын хэв шинжийг ойлгоход тусална.',
         marketing: 'Маркетинг',
         marketingDesc: 'Соёлын арга хэмжээг сурталчлахад ашиглана.'
       },
       membershipPage: {
         hero: {
           tag: 'Гишүүнчлэл',
-          titleNormal: 'Манай холбоонд ',
-          titleItalic: 'Нэгдээрэй',
-          subtitle: 'Соёл, боловсрол, бизнес болон олон улсын хамтын ажиллагаагаар дамжуулан Австри, Монголын харилцааг хөгжүүлж буй улам өргөжин тэлж буй платформд нэгдээрэй.',
+          titleNormal: 'Манай хамт олонд ',
+          titleItalic: 'нэгдээрэй',
+          subtitle: 'Соёл, боловсрол, бизнес болон олон улсын хамтын ажиллагаагаар дамжуулан Австри, Монголын харилцааг хөгжүүлж буй, өргөжин тэлж буй платформд нэгдээрэй.',
           btnIndividual: 'Хувь хүний гишүүнчлэл',
           btnInstitutional: 'Байгууллагын гишүүнчлэл'
         },
         benefits: {
-          tag: 'Нэмэлт боломжууд',
-          titleNormal: 'Хамт олондоо гишүүнээр элсэж, ',
+          tag: 'Давуу талууд',
+          titleNormal: 'Гишүүн болж, манай ',
           titleItalic: 'боломжуудыг',
-          titleSuffix: ' аваарай',
+          titleSuffix: ' ашиглаарай',
           desc: 'Хоёр орны хамтын ажиллагааны дээд түвшний сүлжээнд нэгдэж, зөвхөн манай гишүүдэд зориулсан давуу талуудыг мэдрээрэй.',
-          btnPlans: 'Төлөвлөгөө үзэх',
+          btnPlans: 'Сонголтуудыг үзэх',
           feature1: {
             title: 'Холбоо тогтоох боломж ба арга хэмжээ',
-            desc: 'Мэргэжлийн бизнес форум, соёлын үдшүүд, олон улсын арга хэмжээнд хамрагдаж салбар бүрийн төлөөлөлтэй танилцан харилцаа тогтоох.'
+            desc: 'Онцгой форум, соёлын үдэш, холбоо сүлжээний хүлээн авалтаар дамжуулан мэргэжилтнүүд, дипломатууд, бизнесийн удирдагчидтай танилцаж харилцаа тогтоох.'
           },
           feature2: {
-            title: 'Нээлттэй мэдээлэл хүлээн авах',
+            title: 'Дэлгэрэнгүй мэдээлэлд хандах',
             desc: 'Хоёр талын харилцаа, соёлын хөгжил болон эдийн засгийн боломжуудын талаарх дэлгэрэнгүй мэдээ мэдээллийг цаг алдалгүй хүлээн авах.'
           },
           feature3: {
             title: 'Элчин сайдын яам болон шийдвэр гаргагчидтай холбогдох',
-            desc: 'Вена дахь Монгол Улсын Элчин сайдын яам болон хоёр орны төр засаг, олон нийтийн шийдвэр гаргагчидтай шууд харилцаа тогтоох, санал уламжлах.'
+            desc: 'Вена дахь Монгол Улсын Элчин сайдын яам болон хоёр орны өндөр түвшний улс төрийн шийдвэр гаргагчидтай шууд холбогдох боломж.'
           },
           feature4: {
-            title: 'Эрх ашгийг хамгаалах & Санал уламжлах',
-            desc: 'Соёл ба бизнесийн талбарт монгол-австрийн хамтын нийгэмлэгийн ашиг сонирхлыг төлөөлөн илэрхийлэх нэгдсэн дуу хоолой болох.'
+            title: 'Эрх ашгийг хамгаалах ба төлөөлөх',
+            desc: 'Соёл ба бизнесийн талбарт монгол-австрийн хамт олны ашиг сонирхлыг төлөөлөн илэрхийлэх нэгдсэн дуу хоолой болох.'
           },
           feature5: {
-            title: 'Гэх мэт өөр олон боломжууд...',
-            desc: 'Залуучуудад чиглэсэн менторшип хөтөлбөр, хамтарсан төслүүдэд тэргүүн ээлжинд оролцох давуу эрхүүд.'
+            title: 'Мөн бусад олон боломж...',
+            desc: 'Менторшип хөтөлбөрөөс эхлээд хамтарсан санаачилга, олон нийтийн төслүүдэд тэргүүлэн оролцох боломж хүртэл.'
           }
         },
         process: {
           titleNormal: 'Хэрхэн ',
-          titleItalic: 'Бүртгүүлэх вэ',
-          desc: 'Монгол Төвийн гишүүн болох үйл явц маш хялбар бөгөөд хамт олныхоо идэвхтэй уур амьсгалыг бэхжүүлэхэд тусалдаг.',
+          titleItalic: 'өргөдөл гаргах вэ',
+          desc: 'Австри дахь Монголын Төвд элсэх үйл явц энгийн бөгөөд хамт олноо идэвхтэй, эв нэгдэлтэй байлгахад чиглэнэ.',
           step1: {
             title: 'Өргөдөл гаргах',
-            desc: 'Онлайн өргөдлийн маягтыг бөглөж, өөрийн цахим мэдээлэл болон мэргэжлийн чиглэлээ илгээнэ.'
+            desc: 'Онлайн гишүүнчлэлийн маягтыг өөрийн мэдээлэл болон мэргэжлийн туршлагаа бичиж бөглөнө үү.'
           },
           step2: {
             title: 'Удирдах зөвлөлийн хяналт',
-            desc: 'Монгол Төвийн удирдлагууд өргөдлийг сар бүр хянаж, манай эрхэм зорилго, үнэт зүйлтэй тохирч байгаа эсэхийг баталгаажуулдаг.'
+            desc: 'Манай удирдах зөвлөл өргөдлийг сар бүр хянаж, манай үнэт зүйл, зорилготой нийцэж буйг баталгаажуулдаг.'
           },
           step3: {
             title: 'Тавтай морил!',
-            desc: 'Өргөдөл зөвшөөрөгдсөний дараа гишүүнчлэлийн багц болон хамтран ажиллах сүлжээнд бүрэн нэвтрэх эрх нээгдэнэ.'
+            desc: 'Өргөдөл батлагдсаны дараа та угтах багц хүлээн авч, сүлжээнд нэвтрэх эрхтэй болно.'
           }
         },
         tiers: {
@@ -2094,92 +2103,92 @@ const resources = {
           under25: '/ 25-аас доош насны',
           recommended: 'Санал болгох',
           student: {
-            name: 'Оюутан & Залуучууд',
+            name: 'Оюутан ба залуучууд',
             desc: '25 хүртэлх насны залуучууд болон суралцаж буй оюутнуудад зориулсан бүрэн үнэ төлбөргүй жилийн гишүүнчлэл.',
             cta: 'Үнэгүй гишүүнчлэлийг идэвхжүүлэх',
             benefits: [
               'Арга хэмжээнд үнэ төлбөргүй оролцох эрх (жилд 2 удаа)',
-              'Олон нийтийн хамтын ажиллагааны арга хэмжээнүүд',
-              'Оюутан залуусын нэгдсэн уулзалт, арга хэмжээ',
-              'Сүүлийн үеийн мэдээ сэтгүүл хүлээн авах',
-              'Залуучуудын төлөөлөл болон хурлын санал өгөх эрх'
+              'Олон нийтийн арга хэмжээнд оролцох',
+              'Оюутнуудын сүлжээний уулзалт',
+              'Мэдээллийн товхимол хүлээн авах',
+              'Залуучуудын төлөөлөл ба санал өгөх эрх'
             ]
           },
           professional: {
             name: 'Мэргэжилтэн',
-            desc: 'Мэргэжилтнүүд, бизнес эрхлэгчид, эрдэмтэн судлаачид болон уран бүтээлч залууст зориулсан.',
+            desc: 'Мэргэжилтнүүд, бизнес эрхлэгчид, эрдэмтэн судлаачид болон уран бүтээлчдэд зориулсан.',
             cta: 'Мэргэжлийн гишүүнээр элсэх',
             benefits: [
               'Мэргэжилтнүүдийн сүлжээнд бүрэн нэвтрэх эрх',
-              'Нийтийн арга хэмжээний тасалбарыг хөнгөлөлттэй авах',
-              'Онцгой сүлжээний оройн хоолонд уригдах',
-              'Томоохон бизнес хурал, форумд түрүүлж бүртгүүлэх',
-              'Гишүүдийн нэгдсэн сан доторх мэдээллийн хэсэг',
-              'Хурлын шийдвэрүүдэд санал өгөх эрх'
+              'Арга хэмжээний тасалбарыг хямдралтай авах',
+              'Онцгой холбоо сүлжээний оройн зоог',
+              'Форумд тэргүүлэн бүртгүүлэх',
+              'Гишүүдийн лавлахад нэр бичигдэх',
+              'Ерөнхий чуулганд санал өгөх эрх'
             ]
           },
           institutional: {
-            name: 'Байгууллагын гишүүнчлэл',
+            name: 'Байгууллага',
             desc: 'Компаниуд, их дээд сургуулиуд, элчин сайдын яам, олон улсын болон төрийн бус байгууллагуудад зориулсан.',
             cta: 'Байгууллагын гишүүнээр элсэх',
             benefits: [
-              'Төлөөлөгчийн 5 хүртэлх гишүүнчлэлийн эрх',
-              'Түнш байгууллага болж манайд лого байршуулах эрх',
+              'Төлөөлөгчийн 5 хүртэлх гишүүнчлэл',
+              'Түншээр лого байршуулах',
               'Арга хэмжээг хамтран зохион байгуулах боломжууд',
-              'B2B/B2G бизнес уулзалт холболтууд',
-              'Сүлжээний сан дахь дээд зэрэглэлийн профайл хуудас'
+              'B2B/B2G түншлэл олоход дэмжлэг',
+              'Лавлах дахь тусгай профайл'
             ]
           }
         },
         partners: {
-          tag: 'Бидэнтэй хамтран ажиллагсад',
-          title: 'Корпораци ба байгууллагын түншүүд',
-          desc: 'Хоёр орны харилцаа, соёлын солилцоо, тогтвортой өсөлтийг дэмжих зорилготой нэр хүндтэй дотоод, гадаадын байгууллагуудын сүлжээнд нэгдээрэй.'
+          tag: 'Бидэнд итгэдэг',
+          title: 'Манай компани, байгууллагын түншүүд',
+          desc: 'Хоёр орны харилцаа, соёлын солилцоо, тогтвортой өсөлтийг дэмжих зорилготой нэр хүндтэй байгууллагуудын сүлжээнд нэгдээрэй.'
         },
         directory: {
           titleNormal: 'Манай хамт олонтой ',
-          titleItalic: 'танилц',
-          desc: 'Бидний эгнээнд оюутан залуус, дипломатууд, уран бүтээлчдээс эхлээд бизнесийн лидерүүд багтдаг. Сүлжээний залуусыг харж танилцаарай.',
-          cta: 'Гишүүдийн нэгдсэн санг үзэх'
+          titleItalic: 'танилцаарай',
+          desc: 'Бидний эгнээнд оюутан залуус, дипломатууд, уран бүтээлчдээс эхлээд бизнесийн удирдагчид багтдаг. Австри-Монголын сүлжээнд хэн аль хэдийн нөлөө үзүүлж байгааг лавлахаас харна уу.',
+          cta: 'Гишүүдийн лавлахыг үзэх'
         },
         finalCta: {
           titleNormal: 'Австри-Монголын хамтын ажиллагааны ',
-          titleItalic: 'сүлжээнд нэгдэнэ үү',
-          desc: 'Соёлын солилцоо, мэргэжлийн хамтын ажиллагаа, олон улсын бат бэх холбооны нэгэн үнэ цэнтэй хэсэг болоорой.',
-          cta: 'Гишүүн болохоор бүртгүүлэх'
+          titleItalic: 'сүлжээнд нэгдээрэй',
+          desc: 'Соёлын солилцоо, мэргэжлийн хамтын ажиллагаа, олон улсын харилцааны нэг хэсэг болоорой.',
+          cta: 'Гишүүнчлэлд өргөдөл гаргах'
         },
         form: {
-          signInRequired: 'Тиймээс системд нэвтрэх шаардлагатай',
+          signInRequired: 'Нэвтрэх шаардлагатай',
           loginDesc: 'Та Google хаягаараа системд нэвтэрснээр {{tier}} гишүүнчлэлд бүртгүүлэх боломжтой болно.',
           signInBtn: 'Google хаягаар нэвтрэх',
-          backBtn: 'Цуцлаад ухрах',
-          submittedTitle: 'Өргөдөл амжилттай илгээгдлэлээ!',
-          submittedDesc: 'Өргөдөл гаргасанд баярлалаа. Гишүүнчлэлийн өргөдлийг манай удирдах зөвлөлөөс гар аргаар хянаж баталгаажуулдаг тул одоогоор таны төлөв "Шүүж байна" гэж өөрчлөгдлөө.',
-          submittedStudentTip: 'Хэрэв та Оюутан & Залуучуудын гишүүнчлэлээр бүртгүүлсэн бол баталгаажсаны дараа жилд 2 удаа арга хэмжээнүүдэд үнэ төлбөргүй оролцох боломжтой.',
-          profileBtn: 'Хувийн хуудас руу очих',
+          backBtn: 'Цуцлах ба буцах',
+          submittedTitle: 'Өргөдөл амжилттай илгээгдлээ!',
+          submittedDesc: 'Өргөдөл гаргасанд баярлалаа. Гишүүнчлэлийн өргөдлийг манай удирдах зөвлөл гараар хянаж баталгаажуулдаг тул таны төлөв одоогоор "Хянагдаж байна" болсон.',
+          submittedStudentTip: 'Хэрэв та "Оюутан ба залуучууд" зэрэглэлээр өргөдөл гаргасан бол батлагдаж идэвхжсэний дараа жилд 2 удаа арга хэмжээнд үнэ төлбөргүй бүртгүүлэх боломжтой.',
+          profileBtn: 'Профайл руу очих',
           tiersBtn: 'Гишүүнчлэлийн зэрэглэлүүд',
           backToMemberships: 'Гишүүнчлэл рүү буцах',
           applyTitle: '{{tier}} гишүүнчлэлийн өргөдөл',
           subtitleText: 'Австри-Монголын хамтын ажиллагааны сүлжээ',
-          errAge: 'Оюутан & Залуучуудын зэрэглэл нь зөвхөн 25 хүртэлх насны залууст зориулагдсан. Та одоогоор {{age}} настай байна. Тиймээс Мэргэжилтний зэрэглэлээр бүртгүүлнэ үү.',
+          errAge: '"Оюутан ба залуучууд" зэрэглэл нь зөвхөн 25 хүртэлх насны хүмүүст зориулагдсан. Та одоогоор {{age}} настай байна. Тиймээс "Мэргэжилтэн" зэрэглэлээр өргөдөл гаргана уу.',
           errSubmit: 'Өргөдлийг илгээхээс өмнө маягтын алдааг засна уу.',
           errGeneric: 'Өргөдлийг илгээхэд алдаа гарлаа.',
           statusPending: 'Өргөдлийг хянаж байна',
-          statusApproved: 'Гишүүнчлэл баталгаажсан',
-          statusRejected: 'Өргөдөлөөс татгалзсан',
-          pendingDesc: 'Таны {{tier}} гишүүнчлэлийн өргөдлийг хүлээн авлаа. Манай удирдлага одоогоор хяналтын шатанд шалгаж байна. Шүүлт дууссаны дараа танд мэдэгдэнэ.',
-          approvedDesc: 'Баяр хүргэе! Таны {{tier}} гишүүнчлэл амжилттай баталгаажлаа! Таны хувийн мэдээлэл системд шинэчлэгдсэн байна.',
-          rejectedDesc: 'Таны {{tier}} гишүүнчлэлийн хүсэлтийг хянаж дууслаа. Харамсалтай нь одоогоор батлах боломжгүй байна. Манайхаас дэмжлэг авна уу.',
+          statusApproved: 'Өргөдөл батлагдсан',
+          statusRejected: 'Өргөдөл татгалзагдсан',
+          pendingDesc: 'Таны {{tier}} гишүүнчлэлийн өргөдлийг хүлээн авлаа. Манай баг одоогоор гараар хянаж байна. Дууссаны дараа танд мэдэгдэнэ.',
+          approvedDesc: 'Баяр хүргэе! Таны {{tier}} гишүүнчлэлийн өргөдөл батлагдлаа! Таны профайл системд амжилттай шинэчлэгдлээ.',
+          rejectedDesc: 'Таны {{tier}} гишүүнчлэлийн өргөдлийг хянаж дууслаа. Харамсалтай нь одоогоор батлах боломжгүй байна. Тусламж хэрэгтэй бол бидэнтэй холбогдоно уу.',
           appSummary: 'Өргөдлийн хураангуй',
           requestedTier: 'Хүссэн зэрэглэл',
           submittedOn: 'Илгээсэн огноо',
           applicantName: 'Өргөдөл гаргагчийн нэр',
-          myProfile: 'Миний профайл хуудас',
-          browseMemberships: 'Бусад гишүүнчлэлүүд',
+          myProfile: 'Миний профайл',
+          browseMemberships: 'Гишүүнчлэлүүдийг үзэх',
           secContact: '1. Холбоо барих мэдээлэл',
-          labelFirstName: 'Өөрийн нэр',
-          labelLastName: 'Овог нэр',
-          labelEmail: 'Хэрэглэж буй Google Емэйл',
+          labelFirstName: 'Нэр',
+          labelLastName: 'Овог',
+          labelEmail: 'Google и-мэйл хаяг (холбогдсон)',
           labelPhone: 'Утасны дугаар',
           labelGender: 'Хүйс',
           labelDob: 'Төрсөн огноо',
@@ -2187,29 +2196,29 @@ const resources = {
           genderMale: 'Эрэгтэй',
           genderFemale: 'Эмэгтэй',
           genderOther: 'Бусад',
-          genderPreferNotToSay: 'Мэдээлэхгүй байх',
+          genderPreferNotToSay: 'Хэлэхийг хүсэхгүй байна',
           secCredentials: '2. {{tier}} гишүүний мэдээлэл',
-          labelSchool: 'Суралцаж буй сургууль / Их сургууль',
-          labelStudentId: 'Оюутны үнэмлэх / Бүртгэлийн дугаар',
-          labelOrgName: 'Байгууллага / Компани, сургуулийн нэр',
-          labelPosition: 'Эрхэлж буй ажил, албан тушаал',
+          labelSchool: 'Сургууль / Их сургууль',
+          labelStudentId: 'Оюутны үнэмлэхний дугаар',
+          labelOrgName: 'Байгууллага / компанийн нэр',
+          labelPosition: 'Одоогийн албан тушаал',
           labelLinkedin: 'LinkedIn эсвэл мэргэжлийн вэбсайт',
           labelInstName: 'Байгууллагын бүтэн нэр',
-          labelWebsite: 'Албан ёсны вэбсайтын линк',
-          secMotivation: '3. Хамтран ажиллах хүсэл, сэдэл',
+          labelWebsite: 'Албан ёсны вэбсайт',
+          secMotivation: '3. Элсэх сэдэл',
           labelMotivation: 'Австри-Монголын соёл, бизнесийн хамтын ажиллагаанд та яагаад оролцох хүсэлтэй байгаагаа тайлбарлана уу',
-          placeholderMotivation: 'Манай хамт олонд нэгдсэнээр та юу авч, ямар үнэ цэнийг харилцан бүтээх вэ гэдгээ товчхон бичнэ үү.',
+          placeholderMotivation: 'Хамт олондоо ямар үнэ цэн нэмж, юу хүртэхийг хүсэж байгаагаа товч бичнэ үү.',
           submitBtn: 'Гишүүнчлэлийн өргөдөл илгээх'
         }
       },
       marquee: {
-        next: 'Дараагийн удаа болох арга хэмжээ'
+        next: 'Дараагийн арга хэмжээ'
       },
       diorama: {
         ger: {
           label: 'Гэр',
           title: 'Монгол Гэр',
-          content: 'Уламжлалт Монгол гэр нь арьс шир, эсгийгээр бүрсэн зөөврийн, дугуй хэлбэртэй сууц юм. Мод, эсгийгээр хурдан барьж, буулгах боломжтой бөгөөд нүүдэлчдийн амьдралын хэв маягт төгс зохицсон байдаг.'
+          content: 'Уламжлалт монгол гэр нь арьс шир, эсгийгээр бүрсэн зөөврийн, дугуй хэлбэртэй сууц юм. Хурдан буулгаж, морь, сарлагаар зөөх зориулалттай тул тал нутгийн нүүдэлчдийн амьдралд төгс зохицдог.'
         },
         play: {
           label: 'Шагайн наадгай',
@@ -2241,6 +2250,11 @@ const resources = {
           title: 'Нүүдэлчний амьдрал',
           content: 'Монголчуудын өдөр тутмын уламжлалт, тайван амьдралыг мэдрээрэй. Гэр бүлүүд галын дэргэд цугларч, малчид болон хүүхдүүд тал нутгийг амь оруулдаг.'
         },
+        unesco: {
+          label: 'ЮНЕСКО-гийн өвийн өргөө',
+          title: 'ЮНЕСКО-гийн соёлын биет бус өв',
+          content: 'ЮНЕСКО-гийн амьд өвийн өргөө нь Монголын нүүдэлчдийн өвлөн уламжилсан хүн төрөлхтний шилдэг бүтээлүүд болох морин хуур, уламжлалт дээл хувцас, наадмын спорт, гэр барих уламжлалт урлагийг бэлгэдэн дэлгэнэ.'
+        },
         center: {
           label: 'Есөн хөлт цагаан сүлд',
           description: 'Төрийн сүлд шүтээн',
@@ -2248,7 +2262,7 @@ const resources = {
           content: 'Есөн хөлт цагаан сүлд нь Монгол төрийн сүлд шүтээн бөгөөд амар амгаланг бэлгэддэг. Цагаан морины дэл, сүүлний хялгасаар бүтээгдсэн энэхүү сүлд нь улс үндэстний бүрэн эрхт байдлыг илэрхийлдэг.'
         },
         loading: 'Тал нутгийг ачаалж байна...',
-        instructions: 'Чирч эргүүлнэ үү • Скролдож томруулна уу'
+        instructions: 'Чирч эргүүлнэ үү • Гүйлгэж томруулна уу'
       }
     }
   },
@@ -2290,7 +2304,7 @@ const resources = {
         tag: 'Viyana • Avusturya',
         title: 'Viyana\'daki Moğol Kültür &',
         titleItalic: 'Topluluk Merkezi',
-        subtitle: 'Viyana\'daki Moğol Merkezi\'nin resmi platformuna hoş geldiniz. Kültürel mirasımızı korumak ve Avusturya\'daki güçlü topluluk bağlarını geliştirmek amacıyla kurulmuş kar amacı gütmeyen bir sivil toplum kuruluşuyuz. Bu web sitesi aracılığıyla girişimlerimizi inceleyebilir, yaklaşan etkinlikler hakkında bilgi edinebilir ve projemizin gelişimini takip edebilirsiniz.',
+        subtitle: 'Avusturya Moğol Merkezi\'nin resmi platformuna hoş geldiniz. Kültürel mirasımızı korumak ve Avusturya\'daki güçlü topluluk bağlarını geliştirmek amacıyla kurulmuş kar amacı gütmeyen bir sivil toplum kuruluşuyuz. Bu web sitesi aracılığıyla girişimlerimizi inceleyebilir, yaklaşan etkinlikler hakkında bilgi edinebilir ve projemizin gelişimini takip edebilirsiniz.',
         ctaEvents: 'Etkinlikleri Keşfet',
         ctaImpact: 'Misyonumuz',
         ctaStory: 'Mirasımız',
@@ -2314,7 +2328,7 @@ const resources = {
       careers: {
         tag: 'Bize katılın',
         title: 'Kariyer',
-        intro: 'Avusturya’daki Moğol Merkezi’nde çalışın veya gönüllü olun ve Avusturya ile Moğolistan arasında köprüler kurmamıza yardım edin.',
+        intro: 'Avusturya Moğol Merkezi\'nde çalışın veya gönüllü olun ve Avusturya ile Moğolistan arasında köprüler kurmamıza yardım edin.',
         openRoles: 'Açık pozisyonlar',
         noRoles: 'Şu anda açık pozisyon bulunmuyor.',
         noRolesHint: 'Lütfen yakında tekrar bakın veya iletişim sayfamız üzerinden kendinizi tanıtın.',
@@ -2354,7 +2368,7 @@ const resources = {
         institutions: { title: 'Kurumlar', text: 'Büyükelçilikler, üniversiteler ve kültür kuruluşları: ortak programlar, değişim ve etkinlikler.' },
         businesses: { title: 'İşletmeler', text: 'Avusturya ve Moğolistan ile bağlantısı olan şirketler: ağ kurma, görünürlük ve sponsorluk.' },
         individuals: { title: 'Bireyler', text: 'Öğrenciler, profesyoneller ve gönüllüler: topluluğumuza, etkinliklerimize ve projelerimize katılın.' },
-        learnMore: 'Daha fazla',
+        learnMore: 'Daha fazla bilgi',
         ctaPartner: 'Ortak olun',
         ctaMember: 'Üye olun'
       },
@@ -2384,12 +2398,12 @@ const resources = {
       impactCta: {
         title: 'Küresel Etki Yaratın',
         desc: 'Bu hayati kültürel köprüyü sürdürmek ve ölçülebilir sonuçlar üreten ikili sosyal girişimlere sponsor olmak için bizimle ortak olun.',
-        cta: 'Bize Bağış Yapın!'
+        cta: 'Bağış Yapın'
       },
       homeMembership: {
         tag: 'Resmi Üyelik',
-        titleNormal: 'Nasıl ',
-        titleItalic: 'Üye Olunur',
+        titleNormal: 'Topluluğumuza ',
+        titleItalic: 'Üye Olun',
         desc: 'Avusturya ve Moğolistan\'ı birbirine bağlayan, büyüyen bir platforma katılın. Seçkin bir ağa, özel kültürel etkinliklere ve üst düzey ikili fırsatlara erişim kazanın.',
         btnApply: 'Üye Ol',
         btnExplore: 'Avantajları Keşfet',
@@ -2418,7 +2432,7 @@ const resources = {
         }
       },
       about: {
-        tag: 'Bizim Hikayemiz',
+        tag: 'Hikayemiz',
         story: 'Hikayemiz &',
         mission: 'Vizyonumuz',
         bridging: 'Bizim',
@@ -2426,7 +2440,7 @@ const resources = {
         founded: 'Viyana\'da kurulan Avusturya Moğol Merkezi, ikili kültürel değişim, diplomatik ilişkiler ve sosyoekonomik dayanışma için seçkin bir platform oluşturma stratejik vizyonundan doğmuştur.',
         heritage: 'Stratejimiz',
         hubTitle: 'İkili Mükemmeliyet Merkezi',
-        hubDesc1: 'Avrupa\'nın kalbinden faaliyet gösteren STK\'mız, Moğol mirasını Avrupa inovasyonu ile birleştiren dinamik bir bağ görevi görmektedir. Yüksek etkili ağ oluşturma, kültürel gösterimler ve ortak girişimleri kolaylaştırıyoruz.',
+        hubDesc1: 'Avrupa\'nın kalbinden faaliyet gösteren STK\'mız, Moğol mirasını Avrupa inovasyonu ile birleştiren dinamik bir bağ görevi görmektedir. Etkili ağ oluşturma, kültürel gösterimler ve ortak girişimleri kolaylaştırıyoruz.',
         hubDesc2: 'Portföyümüz; Avusturya ile Moğolistan arasında uzun vadeli ortaklıkları teşvik etmek için tasarlanmış yönetici düzeyinde ağ oluşturma sempozyumlarını, çağdaş kültürel diplomasi etkinliklerini ve akademik çalıştayları kapsamaktadır.',
         hubDesc3: 'Kültürü, karşılıklı güvenin nihai temeli olarak görüyoruz. Moğol geleneklerini Avrupa bağlamlarıyla bütünleştirerek, hem kültürel zenginleşme hem de stratejik büyüme sağlayan ittifaklar tasarlıyoruz.',
         vision: {
@@ -2436,7 +2450,7 @@ const resources = {
         values: {
           tag: 'Temel İlkeler',
           title: 'Değerlerimiz',
-          desc: 'Dürüstlük, kültürel diplomasi, kurumsal sorumluluk ve sanatsal mükemmeliyet, yönettiğimiz every stratejik girişimi şekillendirir.'
+          desc: 'Dürüstlük, kültürel diplomasi, kurumsal sorumluluk ve sanatsal mükemmeliyet, yönettiğimiz her stratejik girişimi şekillendirir.'
         },
         impact: {
           title: 'Etkimiz',
@@ -2453,9 +2467,9 @@ const resources = {
           }
         },
         benefitsSection: {
-          tag: 'Görevler ve Avantajlar',
+          tag: 'Misyon ve Avantajlar',
           title: 'Neden ağımıza katılmalısınız?',
-          desc: 'Küresel odaların çerçevesini takip eden Moğol Merkezi; bağlantı kurmak, öğrenmek ve büyümek için benzersiz fırsatlar sunar. Misyonumuz, topluluğumuza somut faydalar sağlarken Avusturya ve Moğolistan arasında güçlü ikili ilişkiler geliştirmektir.',
+          desc: 'Küresel ticaret odalarının modelini izleyen Avusturya Moğol Merkezi; bağlantı kurmak, öğrenmek ve büyümek için benzersiz fırsatlar sunar. Misyonumuz, topluluğumuza somut faydalar sağlarken Avusturya ve Moğolistan arasında güçlü ikili ilişkiler geliştirmektir.',
           items: {
             networking: {
               title: 'Ağ Oluşturma ve Bağlantılar',
@@ -2485,14 +2499,14 @@ const resources = {
         },
         join: {
           tag: 'Ailemize Katılın',
-          title: 'Become a',
-          titleItalic: 'Member',
-          desc: 'Yolculuğumuza katılacak tutkulu ruhlar arıyoruz. Birlikte bir etki yaratalım!',
+          title: 'Topluluğumuza',
+          titleItalic: 'Üye Olun',
+          desc: 'Yolculuğumuza katılacak tutkulu insanlar arıyoruz. Birlikte fark yaratalım!',
           form: {
             name: 'Adınız',
             email: 'E-posta Adresiniz',
             reason: 'Bize neden katılmak istiyorsunuz?',
-            submit: 'Katılmak İçin Başvur'
+            submit: 'Katılım Başvurusu Gönder'
           }
         }
       },
@@ -2502,7 +2516,7 @@ const resources = {
         titleItalic: 'Etkinlikler',
         subtitle: 'Kültür festivallerinden eğitici çalıştaylara kadar, Moğol mirasını kutlamak ve deneyimlemek için bize katılın.',
         register: 'Şimdi Kaydol',
-        nextUpcoming: 'Sıradaki Yaklaşan Etkinlik',
+        nextUpcoming: 'Sıradaki Etkinlik',
         viewDetails: 'Detayları Görüntüle',
         price: 'Ücret',
         date: 'Tarih',
@@ -2536,12 +2550,12 @@ const resources = {
         titleItalic: 'Gelişmeler',
         subtitle: 'Topluluk faaliyetlerimiz, kültürel görüşlerimiz ve kurumsal güncellemelerimiz hakkında bilgi sahibi olun.',
         readMore: 'Devamını Oku',
-        readFull: 'Tüm Hikayeyi Oku',
+        readFull: 'Haberin Tamamını Oku',
         featured: 'Öne Çıkan',
         update: 'Güncelleme',
         noNews: 'Şu anda dergi yazısı bulunamadı.',
         tagline: 'Avusturya\'daki Moğol topluluğundan haberler',
-        latest: 'Son haber',
+        latest: 'Son Haberler',
         moreNews: 'Diğer haberler',
         postedOn: 'Yayınlanma tarihi',
         ourVoice: 'Sesimiz',
@@ -2551,8 +2565,8 @@ const resources = {
         featuredTag: 'Öne Çıkan',
         featuredEvent: 'Öne Çıkan Etkinlik',
         newsletter: {
-          title: 'Bilgi',
-          titleItalic: 'Sahibi Olun',
+          title: 'Haberdar',
+          titleItalic: 'Olun',
           desc: 'Avusturya ve Moğolistan\'ın kültürel ve ekonomik ortamına dair özel bilgiler için üç aylık dergimize abone olun.',
           placeholder: 'E-posta Adresi',
           cta: 'Abone Ol'
@@ -2575,12 +2589,12 @@ const resources = {
         contemporary: 'Çağdaş',
         crossCultural: 'Kültürler Arası',
         viewArtwork: 'Sanat Eserini Görüntüle',
-        by: 'Yazar:',
+        by: 'Sanatçı:',
         submission: {
           title: 'Vizyonunuzu',
           titleItalic: 'Sergileyin',
           desc: 'Fiziksel ve dijital sergilerimizde yer alacak yetenekli sanatçılar arıyoruz. Çalışmalarınızı uluslararası topluluğumuzla paylaşın.',
-          cta: 'Portföy Gönder'
+          cta: 'Portfolyo Gönder'
         },
         artworks: {
           spirit: { title: 'Bozkırın Ruhu', artist: 'Bat-Erdene B.' },
@@ -2659,17 +2673,17 @@ const resources = {
           title4: '',
           mainDesc: 'Bozkırdan uzakta çocuklarımız Moğol yazısını öğreniyor, büyüklerimiz şarkılarını aktarıyor, ailelerimiz Naadam ve Tsagaan Sar\'ı birlikte kutluyor. Bağışınız bu topluluğu Avusturya\'da yaşatır.',
           impactNote: 'Her bağış, Avusturya\'daki Moğolca derslerini, kültürel kutlamaları ve topluluk buluşmalarını destekler.',
-          taxNote: 'Avusturya Moğol Merkezi, kayıtlı ve kar amacı gütmeyen bir derneğdir (ZVR 1673049268).',
-          chooseAmount: 'Bir Miktar Seçin',
+          taxNote: 'Avusturya Moğol Merkezi, kayıtlı ve kar amacı gütmeyen bir dernektir (ZVR 1673049268).',
+          chooseAmount: 'Bir Tutar Seçin',
           oneTime: 'Tek seferlik katkı',
           small: 'Bir çocuk için eğitim materyali sağlar.',
           medium: 'Topluluk için kültürel bir çalıştayı destekler.',
           large: 'Geleneksel eserlerin korunmasını finanse eder.',
           extra: 'Büyük bir kültürel değişim etkinliğine sponsor olur.',
-          customPlaceholder: 'Özel miktar girin',
-          customCta: 'Özel Miktar Bağışla',
+          customPlaceholder: 'Başka bir tutar girin',
+          customCta: 'Bu Tutarı Bağışla',
           secure: 'PayPal ile güvenli ödeme',
-          invalidAmount: 'Lütfen geçerli bir miktar girin.',
+          invalidAmount: 'Lütfen geçerli bir tutar girin.',
           successTitle: 'Desteğiniz İçin Teşekkür Ederiz!',
           successDesc: 'Katkınız gerçek bir fark yaratıyor.',
           gives: 'Bağışınız bize şunlarda yardımcı olur',
@@ -2683,19 +2697,19 @@ const resources = {
       membershipPage: {
         hero: {
           tag: 'Üyelik',
-          titleNormal: 'Nasıl ',
-          titleItalic: 'Üye Olunur',
+          titleNormal: 'Topluluğumuza ',
+          titleItalic: 'Üye Olun',
           subtitle: 'Kültür, eğitim, iş dünyası ve uluslararası iş birliği yoluyla Avusturya ve Moğolistan\'ı birbirine bağlayan büyüyen bir platforma katılın.',
           btnIndividual: 'Bireysel Üyelik',
           btnInstitutional: 'Kurumsal Üyelik'
         },
         benefits: {
-          tag: 'Değer Teklifi',
+          tag: 'Avantajlarınız',
           titleNormal: 'Üye olun ve sunulan ',
           titleItalic: 'avantajlardan',
           titleSuffix: ' yararlanın',
           desc: 'Özel fırsatların kapısını açın ve Avusturya ile Moğolistan\'ı bağlayan seçkin bir ikili ağın parçası olun.',
-          btnPlans: 'Planları Görüntüle',
+          btnPlans: 'Üyelik Seviyelerini Gör',
           feature1: {
             title: 'Ağ oluşturma fırsatları ve etkinlikler',
             desc: 'Özel forumlarımız, kültürel gecelerimiz ve ağ oluşturma resepsiyonlarımız aracılığıyla profesyoneller, diplomatlar ve iş liderleriyle bağlantı kurun.'
@@ -2720,7 +2734,7 @@ const resources = {
         process: {
           titleNormal: 'Nasıl ',
           titleItalic: 'Başvurulur',
-          desc: 'Moğol Merkezi\'ye katılmak, topluluğumuzun canlı ve aktif kalmasını sağlamak için tasarlanmış basit bir süreçtir.',
+          desc: 'Avusturya Moğol Merkezi\'ne katılmak, topluluğumuzun canlı ve aktif kalmasını sağlamak için tasarlanmış basit bir süreçtir.',
           step1: {
             title: 'Başvuruyu Gönderin',
             desc: 'Çevrimiçi üyelik başvuru formunu bilgileriniz ve mesleki geçmişinizle doldurun.'
@@ -2751,7 +2765,7 @@ const resources = {
             benefits: [
               'Ücretsiz etkinlik katılımı (yılda 2 kez)',
               'Topluluk etkinliklerine erişim',
-              'Öğrenci ağ oluşturma oturumları',
+              'Öğrenciler için ağ oluşturma buluşmaları',
               'Bülten güncellemeleri',
               'Gençlik temsili ve oy hakkı'
             ]
@@ -2766,7 +2780,7 @@ const resources = {
               'Özel ağ oluşturma akşam yemekleri',
               'Forumlar için öncelikli kayıt',
               'Dizinde listelenme',
-              'Genel kurulda oy kullanma hakları'
+              'Genel kurulda oy hakkı'
             ]
           },
           institutional: {
@@ -2775,16 +2789,16 @@ const resources = {
             cta: 'Kurumsal Üyelik İçin Başvur',
             benefits: [
               'En fazla 5 delege üyeliği',
-              'Ortak olarak logo yerleşimi',
+              'Ortak olarak logonuzun yer alması',
               'Ortak etkinlik düzenleme fırsatları',
               'B2B/B2G eşleştirme desteği',
-              'Seçkin dizin profili'
+              'Öne çıkan dizin profili'
             ]
           }
         },
         partners: {
           tag: 'Ortaklarımız',
-          title: 'Kurumsal ve Kurumsal Ortaklarımız',
+          title: 'Şirket ve Kurum Ortaklarımız',
           desc: 'İkili ilişkileri, kültürel değişimi ve sürdürülebilir büyümeyi teşvik etmeyi taahhüt eden seçkin bir kuruluşlar ağına katılın.'
         },
         directory: {
@@ -2808,7 +2822,7 @@ const resources = {
           submittedDesc: 'Başvurduğunuz için teşekkür ederiz. Üyeliklerin yönetim kurulumuz tarafından manuel olarak onaylanması gerektiğinden, durumunuz şu anda İnceleme Bekliyor olarak ayarlanmıştır.',
           submittedStudentTip: 'Öğrenci ve Gençlik seviyesine başvurduysanız, onaylanıp aktif hale geldikten sonra yılda iki kez etkinliklere ücretsiz kaydolabilirsiniz!',
           profileBtn: 'Profile Git',
-          tiersBtn: 'Üyelik Kademeleri',
+          tiersBtn: 'Üyelik Seviyeleri',
           backToMemberships: 'Üyeliklere Geri Dön',
           applyTitle: '{{tier}} Başvurusu',
           subtitleText: 'Avusturya-Moğolistan Topluluk Ağı',
@@ -2818,7 +2832,7 @@ const resources = {
           statusPending: 'Başvuru beklemede',
           statusApproved: 'Başvuru onaylandı',
           statusRejected: 'Başvuru reddedildi',
-          pendingDesc: '{{tier}} üyeliği için başvurunuzu aldık. Yönetimimiz şu anda manuel bir inceleme yürütmektedir. Tamamlandığında bilgilendirileceksiniz.',
+          pendingDesc: '{{tier}} üyeliği için başvurunuzu aldık. Ekibimiz başvurunuzu şu anda elle inceliyor. Tamamlandığında bilgilendirileceksiniz.',
           approvedDesc: '{{tier}} üyeliği için başvurunuz onaylandı! Profiliniz sistemde başarıyla güncellendi.',
           rejectedDesc: '{{tier}} üyeliği için başvurunuzu işleme aldık. Maalesef şu anda onaylanamadı. Destek için lütfen bizimle iletişime geçin.',
           appSummary: 'Başvuru Özeti',
@@ -2841,11 +2855,11 @@ const resources = {
           genderPreferNotToSay: 'Belirtmek istemiyorum',
           secCredentials: '2. {{tier}} Bilgileri',
           labelSchool: 'Okul / Üniversite',
-          labelStudentId: 'Öğrenci Kimlik Numarası',
+          labelStudentId: 'Öğrenci Numarası',
           labelOrgName: 'Kuruluş / Şirket Adı',
           labelPosition: 'Mevcut Görev Unvanı / Pozisyon',
           labelLinkedin: 'LinkedIn / Profesyonel Web Sitesi Adresi',
-          labelInstName: 'Kurum / Kurumsal Varlık Adı',
+          labelInstName: 'Kurumun / Kuruluşun Adı',
           labelWebsite: 'Resmi Web Sitesi Bağlantısı',
           secMotivation: '3. Motivasyon Beyanı',
           labelMotivation: 'Bize Avusturya-Moğolistan kültürel veya ticari alışverişine olan ilginiz ve katılma motivasyonunuz hakkında bilgi verin',
@@ -2854,13 +2868,13 @@ const resources = {
         }
       },
       footer: {
-        desc: 'Avusturya Moğol Merkezi, ikili kültürel diplomasiye, stratejik topluluk katılımına ve yüksek etkili ortaklıklar yoluyla Moğol mirasının korunmasına adanmış sivil toplum kuruluşudur.',
-        navTitle: 'Gezinti',
+        desc: 'Avusturya Moğol Merkezi, ikili kültürel diplomasiye, topluluk katılımına ve güçlü ortaklıklar yoluyla Moğol mirasının korunmasına adanmış bir sivil toplum kuruluşudur.',
+        navTitle: 'Sayfalar',
         legalTitle: 'Yasal',
         privacy: 'Gizlilik Politikası',
         terms: 'Kullanım Koşulları',
         imprint: 'Künye',
-        governance: 'Yönetim',
+        governance: 'Yönetişim',
         copyright: '© 2026 Avusturya Moğol Merkezi.',
         vienna: 'Viyana',
         ulaanbaatar: 'Ulanbator'
@@ -2882,7 +2896,7 @@ const resources = {
         topic: 'Konu nedir?',
         message: 'Mesajınız',
         messagePh: 'Size nasıl yardımcı olabiliriz?',
-        newsletter: 'Bülteni de bana gönderin',
+        newsletter: 'Bana bülten de gönderin',
         consent: 'Formu göndererek bilgilerinizi yalnızca size yanıt vermek için kullanmamızı kabul edersiniz. Bkz.',
         send: 'Mesaj gönder',
         sending: 'Gönderiliyor…',
@@ -2905,7 +2919,7 @@ const resources = {
           location: 'Genel Merkez',
           vienna: 'Viyana, Avusturya',
           hub: 'Kültürel ve Ticari Merkez',
-          email: 'Yönetici İletişim',
+          email: 'Yönetim Ekibi İletişimi',
           phone: 'Doğrudan Hat',
           hours: 'Pzt-Cum, 10:00 - 18:00',
           quote: '"Anlamlı diyaloglar ve yüksek değerli sürdürülebilir ortaklıklar aracılığıyla pazarları ve kültürleri birbirine bağlıyoruz."'
@@ -2936,7 +2950,7 @@ const resources = {
       },
       cookies: {
         title: 'Gizlilik ve Miras',
-        description: 'Kültür merkezimizin dijital deneyimini korumak için çerezler kullanıyoruz. Bazıları sitenin çalışması için temel öneme sahipken, diğerleri topluluğumuzu daha iyi anlamamıza yardımcı olur. Avusturya DSGVO standartlarına uygun olarak verileriniz üzerinde tam kontrole sahipsiniz.',
+        description: 'Kültür merkezimizin dijital deneyimini korumak için çerezler kullanıyoruz. Bazıları sitenin çalışması için temel öneme sahipken, diğerleri topluluğumuzu daha iyi anlamamıza yardımcı olur. Avusturya\'da geçerli DSGVO (GDPR) standartlarına uygun olarak verileriniz üzerinde tam kontrole sahipsiniz.',
         policy: 'Gizlilik Politikası',
         settings: 'Ayarlar',
         reject: 'Tümünü Reddet',
@@ -2946,18 +2960,18 @@ const resources = {
         essential: 'Gerekli',
         essentialDesc: 'Sitenin güvenli bir şekilde çalışması için gereklidir.',
         analytics: 'Analizler',
-        analyticsDesc: 'Ziyaretçi kalıplarını anlamamıza yardımcı olur.',
+        analyticsDesc: 'Ziyaretçi davranışlarını anlamamıza yardımcı olur.',
         marketing: 'Pazarlama',
         marketingDesc: 'Kültürel etkinlik tanıtımı için kullanılır.'
       },
       marquee: {
-        next: 'Sıradaki Yaklaşan Etkinlik'
+        next: 'Sıradaki Etkinlik'
       },
       diorama: {
         ger: {
           label: 'Ger (Yurt)',
           title: 'Ger (Yurt)',
-          content: 'Geleneksel Moğol Geri (Yurt), deri veya keçe ile kaplanmış, taşınabilir yuvarlak bir çadırdır. Atlar veya yaklar üzerinde kolayca sökülüp taşınabilecek şekilde tasarlanmış olup, bozkırın göçebe yaşam tarzına mükemmel uyum sağlar.'
+          content: 'Geleneksel Moğol evi olan ger (yurt), deri veya keçe ile kaplanmış, taşınabilir yuvarlak bir çadırdır. Atlar veya yaklar üzerinde kolayca sökülüp taşınabilecek şekilde tasarlanmış olup, bozkırın göçebe yaşam tarzına mükemmel uyum sağlar.'
         },
         play: {
           label: 'Şagai Oyunu',
@@ -2988,6 +3002,11 @@ const resources = {
           label: 'Göçebe Yaşamı',
           title: 'Göçebe Yaşamı',
           content: 'Geleneksel Moğol günlük yaşamının sıcak ve huzurlu ritmini deneyimleyin. Aileler yurt kamplarında kamp ateşlerinin etrafında toplanırken, çobanlar, oyun oynayan çocuklar ve çeşitli hayvanlar canlı bozkır köyüne hayat veriyor.'
+        },
+        unesco: {
+          label: 'UNESCO Yaşayan Miras Anıtı',
+          title: 'UNESCO Yaşayan Somut Olmayan Miras',
+          content: 'UNESCO Yaşayan Miras Anıtı, Moğol göçebe geleneğinin koruduğu insanlığın başyapıtlarını kutlar: morin khuur kemanı, geleneksel deel kıyafeti, Naadam sporları ve geleneksel ger ustalığı.'
         },
         center: {
           label: 'Dokuz Beyaz Tuğ',
@@ -3021,5 +3040,12 @@ i18n
       caches: ['localStorage'],
     }
   });
+
+// Page-level translation files are merged on top of the base resources above.
+for (const bundle of [heritagePage, legalPages, pagesMisc, siteUi]) {
+  for (const lng of Object.keys(bundle) as Array<keyof typeof bundle>) {
+    i18n.addResourceBundle(lng, 'translation', bundle[lng], true, true);
+  }
+}
 
 export default i18n;

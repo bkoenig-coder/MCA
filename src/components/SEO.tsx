@@ -9,25 +9,26 @@ interface SEOProps {
   type?: 'website' | 'article';
 }
 
-const ROUTE_TITLES: Record<string, { titleKey: string; defaultTitle: string; descKey?: string }> = {
-  '/': { titleKey: 'nav.home', defaultTitle: 'Mongolian Center Austria | Cultural & Business Center in Vienna' },
-  '/about': { titleKey: 'nav.about', defaultTitle: 'About Us | Mongolian Center Austria' },
-  '/events': { titleKey: 'nav.events', defaultTitle: 'Events | Mongolian Center Austria' },
-  '/news': { titleKey: 'nav.news', defaultTitle: 'News | Mongolian Center Austria' },
-  '/gallery': { titleKey: 'nav.gallery', defaultTitle: 'Gallery | Mongolian Center Austria' },
-  '/impact': { titleKey: 'nav.impact', defaultTitle: 'Impact | Mongolian Center Austria' },
-  '/donate': { titleKey: 'nav.impact', defaultTitle: 'Donate | Mongolian Center Austria' },
-  '/contact': { titleKey: 'nav.contact', defaultTitle: 'Contact Us | Mongolian Center Austria' },
-  '/membership': { titleKey: 'nav.membership', defaultTitle: 'Membership | Mongolian Center Austria' },
-  '/members': { titleKey: 'nav.members', defaultTitle: 'Members Directory | Mongolian Center Austria' },
-  '/careers': { titleKey: 'nav.careers', defaultTitle: 'Careers | Mongolian Center Austria' },
-  '/heritage': { titleKey: 'nav.heritage', defaultTitle: 'Cultural Heritage | Mongolian Center Austria' },
-  '/diorama': { titleKey: 'nav.diorama', defaultTitle: '3D Interactive Diorama | Mongolian Center Austria' },
-  '/privacy': { titleKey: 'footer.privacy', defaultTitle: 'Privacy Policy | Mongolian Center Austria' },
-  '/terms': { titleKey: 'footer.terms', defaultTitle: 'Terms of Service | Mongolian Center Austria' },
-  '/imprint': { titleKey: 'footer.imprint', defaultTitle: 'Imprint | Mongolian Center Austria' },
-  '/governance': { titleKey: 'footer.governance', defaultTitle: 'Governance | Mongolian Center Austria' },
-  '/admin': { titleKey: 'nav.admin', defaultTitle: 'Admin Dashboard | Mongolian Center Austria' },
+// Route -> translation key for the page name. The site name is appended and follows the current language.
+const ROUTE_TITLES: Record<string, string> = {
+  '/': 'siteUi.seo.home',
+  '/about': 'nav.about',
+  '/events': 'nav.events',
+  '/news': 'nav.news',
+  '/gallery': 'nav.gallery',
+  '/impact': 'nav.impact',
+  '/donate': 'nav.impact',
+  '/contact': 'nav.contact',
+  '/membership': 'nav.membership',
+  '/members': 'siteUi.seo.members',
+  '/careers': 'nav.careers',
+  '/heritage': 'nav.heritage',
+  '/diorama': 'siteUi.seo.diorama',
+  '/privacy': 'footer.privacy',
+  '/terms': 'footer.terms',
+  '/imprint': 'footer.imprint',
+  '/governance': 'footer.governance',
+  '/admin': 'nav.admin',
 };
 
 export default function SEO({ title, description, image, type = 'website' }: SEOProps) {
@@ -36,24 +37,16 @@ export default function SEO({ title, description, image, type = 'website' }: SEO
 
   useEffect(() => {
     // Determine title
+    const siteName = t('siteUi.org.name');
     let pageTitle = title;
     if (!pageTitle) {
-      const match = ROUTE_TITLES[pathname];
-      if (match) {
-        const translated = t(match.titleKey, { defaultValue: '' });
-        pageTitle = translated 
-          ? `${translated} | Mongolian Center Austria` 
-          : match.defaultTitle;
-      } else {
-        pageTitle = 'Mongolian Center Austria';
-      }
+      const key = ROUTE_TITLES[pathname];
+      pageTitle = key ? `${t(key)} | ${siteName}` : siteName;
     }
     document.title = pageTitle;
 
     // Determine description
-    const metaDesc = description || t('meta.description', {
-      defaultValue: 'The cooperation center of Mongolian citizens in Austria. Join cultural events, language courses, traditional arts and Austrian–Mongolian cultural exchange through our center.'
-    });
+    const metaDesc = description || t('siteUi.seo.description');
 
     const setMeta = (selector: string, attr: string, value: string) => {
       let element = document.querySelector(selector);

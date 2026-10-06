@@ -17,24 +17,24 @@ export default function MemberDetails() {
       name: "Margad-Erdene Ganbold", 
       role: t('about.team.roles.director', 'Founder & Head — Mongolian Center in Austria'), 
       image: margadPic,
-      bio: "Margad-Erdene Ganbold is the Founder of the Mongolian Center in Austria, an organization dedicated to strengthening cultural, educational, and professional connections between Mongolia and Austria. Based in Vienna, he is currently pursuing a Master's degree in Finance and Economics at the University of Vienna and has gained international experience across Europe and Asia.\n\nHe has worked on Erasmus+ youth and education projects, international conferences at the United Nations Office in Vienna, and cross-cultural initiatives, bringing together young people and communities from different backgrounds. His experience in project management, international relations, marketing, and event coordination supports his work in developing opportunities for the Mongolian community in Austria and fostering stronger Mongolian–Austrian cultural and professional exchange.",
-      skills: ["Founder & Managing Director", "Finance & Economics (Univ. of Vienna)", "Erasmus+ & UN Vienna Projects", "International Relations & Marketing"]
+      bio: t('pagesMisc.team.members.margad.bio'),
+      skills: t('pagesMisc.team.members.margad.skills', { returnObjects: true }) as unknown as string[]
     },
     { 
       id: "bernadette-konig",
       name: "Bernadette König", 
       role: t('about.team.roles.manager', 'Operations Manager'), 
       image: berniPic,
-      bio: "Bernadette König is an Austrian cellist and accomplished young artist with extensive experience in solo, chamber music, and orchestral performance. She studied at the Music and Arts University of the City of Vienna (MUK), where she completed her Bachelor's degree with a performance scholarship and is currently pursuing her Master's degree.\n\nShe has performed at renowned venues including the Vienna Musikverein, Vienna Rathaus, Hofburg, and Schloss Schönbrunn, and has received multiple First Prizes at the Austrian national Prima la Musica competition in both solo and chamber music categories.\n\nAs the wife of Mongolian Center in Austria founder Margad-Erdene Ganbold, Bernadette is also closely involved in supporting cultural exchange and strengthening the connections between Austrian and Mongolian communities through music and the arts.",
-      skills: ["Cellist & Music Performance", "Operations & Event Management", "Austrian-Mongolian Cultural Exchange"]
+      bio: t('pagesMisc.team.members.bernadette.bio'),
+      skills: t('pagesMisc.team.members.bernadette.skills', { returnObjects: true }) as unknown as string[]
     },
     { 
       id: "batmunkh-unenbaatar",
       name: "Batmunkh Unenbaatar", 
       role: t('about.team.roles.outreach', 'Community Outreach'), 
       image: chinggisPic,
-      bio: "Batmunkh is the community glue of our organization. He specializes in maintaining strong relationships with artists, local institutions, and community leaders. By developing meaningful cultural programs, he promotes cross-border heritage appreciation and widespread engagement.",
-      skills: ["Community Building", "Public Relations", "Cultural Outreach"]
+      bio: t('pagesMisc.team.members.batmunkh.bio'),
+      skills: t('pagesMisc.team.members.batmunkh.skills', { returnObjects: true }) as unknown as string[]
     }
   ];
 
@@ -43,9 +43,9 @@ export default function MemberDetails() {
   if (!member) {
     return (
       <div className="pt-32 pb-24 min-h-[60vh] flex flex-col items-center justify-center bg-white px-6">
-        <h1 className="text-3xl font-serif text-brand-ink mb-6">Member Not Found</h1>
+        <h1 className="text-3xl font-serif text-brand-ink mb-6">{t('pagesMisc.team.notFound')}</h1>
         <Link to="/about" className="flex items-center gap-2 text-brand-gold hover:text-brand-ink transition-colors font-sans uppercase tracking-widest text-xs font-bold">
-          <ArrowLeft size={16} /> Returns to About
+          <ArrowLeft size={16} /> {t('pagesMisc.team.back')}
         </Link>
       </div>
     );
@@ -59,7 +59,7 @@ export default function MemberDetails() {
           className="inline-flex items-center gap-2 text-brand-ink/50 hover:text-brand-gold transition-colors font-sans uppercase tracking-[0.2em] text-xs font-bold mb-12"
         >
           <ArrowLeft size={14} /> 
-          {t('common.back', 'Return to About')}
+          {t('pagesMisc.team.back')}
         </Link>
 
         <div className="grid md:grid-cols-12 gap-12 lg:gap-24 items-start">
@@ -98,7 +98,7 @@ export default function MemberDetails() {
             </p>
             
             <div className="mb-12">
-              <h3 className="text-xs uppercase tracking-[0.2em] font-sans font-bold text-brand-ink mb-4">Core Focus</h3>
+              <h3 className="text-xs uppercase tracking-[0.2em] font-sans font-bold text-brand-ink mb-4">{t('pagesMisc.team.coreFocus')}</h3>
               <div className="flex flex-wrap gap-2">
                 {member.skills.map(skill => (
                   <span key={skill} className="px-4 py-2 border border-brand-ink/10 rounded-full text-xs font-sans text-brand-ink/60 bg-white shadow-sm">
@@ -109,10 +109,10 @@ export default function MemberDetails() {
             </div>
             
             <div className="flex gap-4">
-              <a href="mailto:contact@mongoliancenter.org" className="w-12 h-12 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/60 hover:text-brand-gold hover:border-brand-gold transition-colors duration-300">
+              <a href="mailto:contact@mongoliancenter.org" aria-label={t('pagesMisc.team.email')} className="w-12 h-12 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/60 hover:text-brand-gold hover:border-brand-gold transition-colors duration-300">
                 <Mail size={20} />
               </a>
-              <a href="#" className="w-12 h-12 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/60 hover:text-brand-gold hover:border-brand-gold transition-colors duration-300">
+              <a href="#" aria-label={t('pagesMisc.team.linkedin')} className="w-12 h-12 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/60 hover:text-brand-gold hover:border-brand-gold transition-colors duration-300">
                 <Linkedin size={20} />
               </a>
             </div>
