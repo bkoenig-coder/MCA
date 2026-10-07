@@ -26,7 +26,6 @@ import LazyMount from '../components/LazyMount';
 
 // Heavy parts load only when the visitor scrolls to them
 const DioramaCanvas = lazy(() => import('../components/diorama/DioramaCanvas'));
-const Artifact3DExplorer = lazy(() => import('../components/diorama/Artifact3DExplorer'));
 const LetsPlayGame = lazy(() => import('../components/game/LetsPlayGame'));
 import { SoyomboSymbol, UlziiSymbol } from '../components/MongolianDesign';
 
@@ -144,22 +143,6 @@ export default function Heritage() {
               <span>{t('heritagePage.diorama.hint')}</span>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* 3. 3D 360° Artifact Inspector */}
-      <section className="py-16 px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-200">
-        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm text-slate-900">
-          
-          {/* Embedded Full-Width Artifact Explorer */}
-          <div className="p-4 sm:p-6 lg:p-8 bg-white">
-            <LazyMount className="min-h-[420px]">
-              <Suspense fallback={<div className="h-[420px] flex items-center justify-center"><Loader className="w-8 h-8 text-[#D4AF37] animate-spin" /></div>}>
-                <Artifact3DExplorer />
-              </Suspense>
-            </LazyMount>
-          </div>
-
         </div>
       </section>
 
