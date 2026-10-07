@@ -1,24 +1,51 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { SoyomboSymbol, GerSymbol } from './MongolianDesign';
 
-// ---- Mongolian carpet design: a field with a central medallion, framed by meander (alkhan khee) borders ----
+// ---- Mongolian carpet design: a woven field framed by traditional ornament bands ----
 const NAVY = '#0A2A5C';
 const BURGUNDY = '#6E1B2C';
-const CREAM = '#F1E3C0';
-const TEAL = '#6FB3B8';
 const GOLD = '#E0B94A';
 
 const dataUri = (svg: string) => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
 
-// Meander key, horizontal (24x12) and vertical (12x24) tiles
-const MEANDER_H = dataUri(
-  `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="12" viewBox="0 0 24 12"><path d="M0 11H3V1.5H21V11H24M8 11V5H16V11" fill="none" stroke="${GOLD}" stroke-width="1.7" stroke-linejoin="miter"/></svg>`
-);
-const MEANDER_V = dataUri(
-  `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24"><path d="M11 0V3H1.5V21H11V24M11 8H5V16H11" fill="none" stroke="${GOLD}" stroke-width="1.7" stroke-linejoin="miter"/></svg>`
-);
+/**
+ * Ornament tiles. Each is drawn horizontally; the vertical version rotates the same drawing,
+ * so the pattern reads correctly on all four sides of the frame.
+ *  - curl: a row of curling waves (khuiten / cloud-scroll motif)
+ *  - plait: two interlaced waves (the endless "ulzii" plait)
+ */
+const ORNAMENTS = {
+  curl: {
+    w: 40,
+    h: 20,
+    art:
+      '<path d="M0 18.5H40"/>' +
+      '<path d="M6 18.5C6 9 12 3.5 20 4.5C28 5.5 29.5 13.5 23.5 14.5C18.5 15.3 16.5 9.5 20.5 8.8"/>' +
+      '<path d="M32 18.5C32 14 35 12 38 13"/>',
+    sw: 3,
+  },
+  plait: {
+    w: 32,
+    h: 16,
+    art: '<path d="M0 8C5 0 11 0 16 8S27 16 32 8"/><path d="M0 8C5 16 11 16 16 8S27 0 32 8"/>',
+    sw: 2.8,
+  },
+} as const;
+
+const ornamentTile = (kind: keyof typeof ORNAMENTS, vertical: boolean) => {
+  const { w, h, art, sw } = ORNAMENTS[kind];
+  const body = `<g fill="none" stroke="${GOLD}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${art}</g>`;
+  const svg = vertical
+    ? `<svg xmlns="http://www.w3.org/2000/svg" width="${h}" height="${w}" viewBox="0 0 ${h} ${w}"><g transform="translate(${h} 0) rotate(90)">${body}</g></svg>`
+    : `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${body}</svg>`;
+  return dataUri(svg);
+};
+const TILES = {
+  curl: { h: ornamentTile('curl', false), v: ornamentTile('curl', true), ratio: ORNAMENTS.curl.w / ORNAMENTS.curl.h },
+  plait: { h: ornamentTile('plait', false), v: ornamentTile('plait', true), ratio: ORNAMENTS.plait.w / ORNAMENTS.plait.h },
+};
 
 // Field weave: small lozenges, light thread and dark shadow thread
 const lozenge = (stroke: string) =>
@@ -28,34 +55,40 @@ const lozenge = (stroke: string) =>
 const LOZENGE_LIGHT = lozenge('#8FB6E6');
 const LOZENGE_DARK = lozenge('#021430');
 
-/** Eight-petal rosette used in the corners of the borders. */
-const Rosette = ({ className = '' }: { className?: string }) => (
-  <svg viewBox="0 0 100 100" className={className} aria-hidden="true">
-    <circle cx="50" cy="50" r="46" fill={BURGUNDY} />
-    <circle cx="50" cy="50" r="46" fill="none" stroke={GOLD} strokeWidth="3" />
-    {Array.from({ length: 8 }).map((_, i) => (
-      <ellipse key={i} cx="50" cy="26" rx="9" ry="17" fill={i % 2 ? TEAL : CREAM} transform={`rotate(${i * 45} 50 50)`} />
-    ))}
-    <circle cx="50" cy="50" r="13" fill={NAVY} />
-    <circle cx="50" cy="50" r="7" fill={GOLD} />
+/** Nested squares with a diamond: the corner stone where two ornament bands meet. */
+const CornerStone = ({ className = '', size }: { className?: string; size: number }) => (
+  <svg viewBox="0 0 40 40" className={className} width={size} height={size} aria-hidden="true">
+    <rect width="40" height="40" fill="#07204A" />
+    <rect x="3" y="3" width="34" height="34" fill="none" stroke={GOLD} strokeWidth="2" />
+    <rect x="8" y="8" width="24" height="24" fill={BURGUNDY} stroke={GOLD} strokeWidth="1.2" />
+    <path d="M20 11L29 20L20 29L11 20Z" fill={GOLD} />
+    <path d="M20 16L24 20L20 24L16 20Z" fill={BURGUNDY} />
   </svg>
 );
 
-/** A rectangular band of meander key with a rosette in each corner. */
-const MeanderFrame = ({ band, className }: { band: number; className: string }) => {
-  const h = { backgroundColor: BURGUNDY, backgroundImage: MEANDER_H, backgroundSize: `${band * 1.3}px ${band * 0.65}px`, backgroundRepeat: 'repeat-x', backgroundPosition: 'center' } as const;
-  const v = { backgroundColor: BURGUNDY, backgroundImage: MEANDER_V, backgroundSize: `${band * 0.65}px ${band * 1.3}px`, backgroundRepeat: 'repeat-y', backgroundPosition: 'center' } as const;
-  const corner = { width: band, height: band, backgroundColor: '#07204A', boxShadow: `inset 0 0 0 2px ${GOLD}, inset 0 0 0 4px ${BURGUNDY}, inset 0 0 0 5px ${GOLD}88` } as const;
+/** A diamond medallion used in the middle of the phone cartouches. */
+const DiamondSeal = ({ className = '' }: { className?: string }) => (
+  <svg viewBox="0 0 40 40" className={className} aria-hidden="true">
+    <path d="M20 2L38 20L20 38L2 20Z" fill={BURGUNDY} stroke={GOLD} strokeWidth="2" />
+    <path d="M20 9L31 20L20 31L9 20Z" fill="none" stroke={GOLD} strokeWidth="1.5" />
+    <path d="M20 15L25 20L20 25L15 20Z" fill={GOLD} />
+  </svg>
+);
+
+/** A rectangular ornament band with a corner stone in each corner. */
+const OrnamentFrame = ({ band, kind, className, style }: { band: number; kind: keyof typeof TILES; className?: string; style?: React.CSSProperties }) => {
+  const t = TILES[kind];
+  const th = band * 0.8;
+  const h = { backgroundColor: BURGUNDY, backgroundImage: t.h, backgroundSize: `${th * t.ratio}px ${th}px`, backgroundRepeat: 'repeat-x', backgroundPosition: 'center' } as const;
+  const v = { backgroundColor: BURGUNDY, backgroundImage: t.v, backgroundSize: `${th}px ${th * t.ratio}px`, backgroundRepeat: 'repeat-y', backgroundPosition: 'center' } as const;
   return (
-    <div className={`absolute ${className}`}>
+    <div className={`absolute ${className ?? ''}`} style={style}>
       <div className="absolute inset-x-0 top-0" style={{ height: band, ...h }} />
       <div className="absolute inset-x-0 bottom-0" style={{ height: band, ...h }} />
       <div className="absolute inset-y-0 left-0" style={{ width: band, ...v }} />
       <div className="absolute inset-y-0 right-0" style={{ width: band, ...v }} />
       {['left-0 top-0', 'right-0 top-0', 'left-0 bottom-0', 'right-0 bottom-0'].map((pos) => (
-        <div key={pos} className={`absolute ${pos} p-[6px]`} style={corner}>
-          <Rosette className="w-full h-full" />
-        </div>
+        <CornerStone key={pos} size={band} className={`absolute ${pos}`} />
       ))}
     </div>
   );
@@ -75,9 +108,14 @@ export default function CarpetIntro() {
     };
   }, []);
 
-  const outerBand = typeof window !== 'undefined' && window.innerWidth < 768 ? 16 : 24;
+  const phone = typeof window !== 'undefined' && window.innerWidth < 768;
+  const frameInset = phone ? 12 : 24; // distance of the outer ornament band from the screen edge
+  const outerBand = phone ? 20 : 30; // curling-wave band
+  const innerBand = phone ? 11 : 14; // plait band
+  const innerInset = frameInset + outerBand + 4;
+  const lineInset = innerInset + innerBand + 5;
 
-  // Deep blue wool carpet: lozenge-woven field and a meander border
+  // Deep blue wool carpet: lozenge-woven field framed by a curl band and a plait band
   const carpetBg = (
     <>
       {/* Field */}
@@ -93,27 +131,22 @@ export default function CarpetIntro() {
         }}
       />
 
-      {/* Outer border: gold edge, meander band, cream and gold guard lines */}
-      <div className="absolute inset-1.5 md:inset-3 border-[3px]" style={{ borderColor: GOLD }} />
-      <MeanderFrame band={outerBand} className="inset-3 md:inset-6" />
-      <div className="absolute border" style={{ inset: outerBand + (outerBand > 20 ? 28 : 16), borderColor: `${CREAM}99` }} />
-      <div className="absolute border-2" style={{ inset: outerBand + (outerBand > 20 ? 32 : 20), borderColor: `${GOLD}aa` }} />
+      {/* Border: gold edge, curling-wave band, plait band, fine gold line */}
+      <div className="absolute border-[3px]" style={{ inset: frameInset / 2, borderColor: GOLD }} />
+      <OrnamentFrame kind="curl" band={outerBand} style={{ inset: frameInset }} />
+      <OrnamentFrame kind="plait" band={innerBand} style={{ inset: innerInset }} />
+      <div className="absolute border" style={{ inset: lineInset, borderColor: `${GOLD}aa` }} />
 
-      {/* Phones: a rosette cartouche flanked by meander, top and bottom of the field */}
+      {/* Phones: a diamond seal flanked by meander, top and bottom of the field */}
       <div className="md:hidden">
         {['top-[7.5%]', 'bottom-[7.5%]'].map((pos) => (
           <div key={pos} className={`absolute ${pos} left-12 right-12 flex items-center gap-3`}>
-            <div className="flex-1 h-3" style={{ backgroundImage: MEANDER_H, backgroundSize: '18px 9px', backgroundRepeat: 'repeat-x' }} />
-            <Rosette className="w-10 h-10 shrink-0" />
-            <div className="flex-1 h-3" style={{ backgroundImage: MEANDER_H, backgroundSize: '18px 9px', backgroundRepeat: 'repeat-x' }} />
+            <div className="flex-1 h-3" style={{ backgroundImage: TILES.plait.h, backgroundSize: '27px 13.5px', backgroundRepeat: 'repeat-x', backgroundPosition: 'center' }} />
+            <DiamondSeal className="w-9 h-9 shrink-0" />
+            <div className="flex-1 h-3" style={{ backgroundImage: TILES.plait.h, backgroundSize: '27px 13.5px', backgroundRepeat: 'repeat-x', backgroundPosition: 'center' }} />
           </div>
         ))}
       </div>
-      {/* Rosettes in the four corners of the field */}
-      <Rosette className="absolute hidden md:block w-20 h-20 left-[14%] top-[16%] opacity-95" />
-      <Rosette className="absolute hidden md:block w-20 h-20 right-[14%] top-[16%] opacity-95" />
-      <Rosette className="absolute hidden md:block w-20 h-20 left-[14%] bottom-[16%] opacity-95" />
-      <Rosette className="absolute hidden md:block w-20 h-20 right-[14%] bottom-[16%] opacity-95" />
     </>
   );
 
