@@ -13,6 +13,9 @@ import {
 import { deleteDoc, doc, updateDoc, setDoc } from 'firebase/firestore';
 import { toast } from 'sonner';
 import Modal from '../components/Modal';
+import CoverImageField from '../components/admin/CoverImageField';
+import RichTextArea from '../components/admin/RichTextArea';
+import { renderInline } from '../lib/renderInline';
 import AdminCareers from '../components/AdminCareers';
 import { autoTranslateRecord } from '../services/translationService';
 
@@ -339,6 +342,11 @@ export default function AdminDashboard() {
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
   const [postLangTab, setPostLangTab] = useState<'mn' | 'en' | 'de'>('mn');
   const [postEditorMode, setPostEditorMode] = useState<'edit' | 'preview'>('edit');
+  const [postBaseline, setPostBaseline] = useState('');
+  const [eventBaseline, setEventBaseline] = useState('');
+  const [galleryBaseline, setGalleryBaseline] = useState('');
+  const [postDraftOffer, setPostDraftOffer] = useState<{ savedAt: number; form: any } | null>(null);
+  const [translateOnPublish, setTranslateOnPublish] = useState(true);
 
   const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
   const [galleryLangTab, setGalleryLangTab] = useState<'en' | 'mn' | 'de'>('en');
@@ -434,6 +442,32 @@ export default function AdminDashboard() {
     };
     return text.split('').map(char => map[char] || char).join('');
   };
+
+  // Remember what each studio looked like when it opened, to warn before losing changes
+  useEffect(() => {
+    if (isEventModalOpen) setEventBaseline(JSON.stringify(eventForm));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEventModalOpen]);
+  useEffect(() => {
+    if (isGalleryModalOpen) setGalleryBaseline(JSON.stringify(galleryForm));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isGalleryModalOpen]);
+
+  // Keep an unsent new article safe: save it locally while writing
+  useEffect(() => {
+    if (!isPostModalOpen || isEditing) return;
+    if (JSON.stringify(postForm) === postBaseline) return;
+    const timer = setTimeout(() => {
+      try {
+        localStorage.setItem('mca-draft-post', JSON.stringify({ savedAt: Date.now(), form: postForm }));
+      } catch {
+        try {
+          localStorage.setItem('mca-draft-post', JSON.stringify({ savedAt: Date.now(), form: { ...postForm, galleryImages: '' } }));
+        } catch { /* storage full: skip */ }
+      }
+    }, 700);
+    return () => clearTimeout(timer);
+  }, [postForm, isPostModalOpen, isEditing, postBaseline]);
 
   // 1-Click AI Auto-Translation for Events
   const handleAutoTranslateEvent = async () => {
@@ -726,10 +760,12 @@ export default function AdminDashboard() {
   };
 
   // Open Post Modal for Create or Edit
+  const POST_DRAFT_KEY = 'mca-draft-post';
   const openPostStudio = (existingPost?: any) => {
+    let next: typeof postForm;
     if (existingPost) {
       setIsEditing(true);
-      setPostForm({
+      next = {
         id: existingPost.id,
         slug: existingPost.slug || '',
         titleEn: existingPost.titleEn || '',
@@ -742,18 +778,31 @@ export default function AdminDashboard() {
         galleryImages: Array.isArray(existingPost.galleryImages)
           ? existingPost.galleryImages.join('\n')
           : (typeof existingPost.galleryImages === 'string' ? existingPost.galleryImages : '')
-      });
+      };
+      setPostDraftOffer(null);
     } else {
       setIsEditing(false);
-      setPostForm({
+      next = {
         id: '',
         slug: '',
         titleEn: '', titleMn: '', titleDe: '',
         contentEn: '', contentMn: '', contentDe: '',
-        imageUrl: 'https://images.unsplash.com/photo-1695555875394-4e8aa542ccdc?q=80&w=1600&auto=format&fit=crop',
+        imageUrl: '',
         galleryImages: ''
-      });
+      };
+      // Offer to continue an unsent draft
+      try {
+        const raw = localStorage.getItem(POST_DRAFT_KEY);
+        const draft = raw ? JSON.parse(raw) : null;
+        const f = draft?.form;
+        const hasText = f && (f.titleMn || f.titleEn || f.titleDe || f.contentMn || f.contentEn || f.contentDe);
+        setPostDraftOffer(hasText ? draft : null);
+      } catch {
+        setPostDraftOffer(null);
+      }
     }
+    setPostForm(next);
+    setPostBaseline(JSON.stringify(next));
     setPostEditorMode('edit');
     setIsPostModalOpen(true);
   };
@@ -800,6 +849,10 @@ export default function AdminDashboard() {
   // Submit Event
   const handleAddEvent = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!(eventForm.imageUrl || '').trim()) {
+      toast.error('Please add a cover photo for this event.');
+      return;
+    }
     const fallbackTitle = (eventForm.titleEn || eventForm.titleMn || eventForm.titleDe || '').trim();
     if (!fallbackTitle) {
       toast.error('Please enter an event title in at least one language.');
@@ -880,6 +933,14 @@ export default function AdminDashboard() {
       toast.error('Please enter an article headline in at least one language.');
       return;
     }
+    const sourceContent = (postForm.contentMn || postForm.contentEn || postForm.contentDe || '').trim();
+    if (!sourceContent) {
+      toast.error('Please write the article text in at least one language.');
+      return;
+    }
+    if (!(postForm.imageUrl || '').trim() && !window.confirm('This article has no cover photo. Publish it with the default site photo?')) {
+      return;
+    }
 
     if (!auth.currentUser) {
       toast.error('You must be signed in with an authorized Google account to save posts.', {
@@ -893,6 +954,28 @@ export default function AdminDashboard() {
 
     setIsSubmitting(true);
     try {
+      // Fill the languages that are still empty, so one article reads well everywhere
+      let titles = { en: postForm.titleEn.trim(), mn: postForm.titleMn.trim(), de: postForm.titleDe.trim() };
+      let contents = { en: postForm.contentEn.trim(), mn: postForm.contentMn.trim(), de: postForm.contentDe.trim() };
+      const missingSomething = Object.values(titles).some(v => !v) || Object.values(contents).some(v => !v);
+      if (translateOnPublish && missingSomething) {
+        try {
+          const translated = await autoTranslateRecord({ title: fallbackTitle, content: sourceContent }, ['title', 'content']);
+          titles = {
+            en: titles.en || translated.titleEn || '',
+            mn: titles.mn || translated.titleMn || '',
+            de: titles.de || translated.titleDe || '',
+          };
+          contents = {
+            en: contents.en || translated.contentEn || '',
+            mn: contents.mn || translated.contentMn || '',
+            de: contents.de || translated.contentDe || '',
+          };
+        } catch (err) {
+          console.error('Auto-translation on publish failed, using the original text:', err);
+        }
+      }
+
       const rawSlugSource = postForm.titleEn || postForm.titleMn || 'post';
       const transliteratedSource = transliterateCyrillic(rawSlugSource);
       const generatedSlug = transliteratedSource
@@ -900,7 +983,6 @@ export default function AdminDashboard() {
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/(^-|-$)+/g, '') || `post-${Date.now()}`;
 
-      const fallbackContent = (postForm.contentMn || postForm.contentEn || postForm.contentDe || '').trim() || 'Article content details.';
       const fallbackAuthorId = user?.uid || auth.currentUser?.uid || 'admin-author';
       const fallbackImageUrl = (postForm.imageUrl || '').trim() || 'https://images.unsplash.com/photo-1695555875394-4e8aa542ccdc?q=80&w=1600&auto=format&fit=crop';
 
@@ -908,14 +990,14 @@ export default function AdminDashboard() {
 
       const postData: any = {
         title: fallbackTitle,
-        titleEn: postForm.titleEn?.trim() || fallbackTitle,
-        titleMn: postForm.titleMn?.trim() || fallbackTitle,
-        titleDe: postForm.titleDe?.trim() || fallbackTitle,
+        titleEn: titles.en || fallbackTitle,
+        titleMn: titles.mn || fallbackTitle,
+        titleDe: titles.de || fallbackTitle,
         slug: postForm.slug?.trim() || generatedSlug,
-        content: fallbackContent,
-        contentEn: postForm.contentEn?.trim() || fallbackContent,
-        contentMn: postForm.contentMn?.trim() || fallbackContent,
-        contentDe: postForm.contentDe?.trim() || fallbackContent,
+        content: sourceContent,
+        contentEn: contents.en || sourceContent,
+        contentMn: contents.mn || sourceContent,
+        contentDe: contents.de || sourceContent,
         imageUrl: fallbackImageUrl,
         galleryImages: galleryList,
         updatedAt: serverTimestamp(),
@@ -930,9 +1012,12 @@ export default function AdminDashboard() {
           authorId: fallbackAuthorId,
           createdAt: serverTimestamp()
         });
-        toast.success('Gazette Article published successfully');
+        toast.success('Article published. It is live on the News page.');
       }
 
+      try { localStorage.removeItem(POST_DRAFT_KEY); } catch { /* ignore */ }
+      setPostDraftOffer(null);
+      setPostBaseline(JSON.stringify(postForm));
       setIsPostModalOpen(false);
       setIsEditing(false);
     } catch (error: any) {
@@ -952,6 +1037,10 @@ export default function AdminDashboard() {
   // Submit Gallery Item
   const handleAddGalleryItem = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!(galleryForm.imageUrl || '').trim()) {
+      toast.error('Please add a cover photo for this artwork.');
+      return;
+    }
     const fallbackTitle = (galleryForm.titleEn || galleryForm.titleMn || galleryForm.titleDe || '').trim();
     if (!fallbackTitle) {
       toast.error('Please enter an artwork title in at least one language.');
@@ -1921,6 +2010,26 @@ export default function AdminDashboard() {
         onClose={() => setIsEventModalOpen(false)}
         title={isEditing ? "Edit Event" : "Create New Event"}
         className="max-w-4xl"
+        isDirty={isEventModalOpen && eventBaseline !== '' && JSON.stringify(eventForm) !== eventBaseline}
+        footer={
+          <div className="flex items-center justify-between gap-3">
+            <button
+              type="button"
+              onClick={() => { if (JSON.stringify(eventForm) === eventBaseline || window.confirm('You have unsaved changes. Close without saving?')) setIsEventModalOpen(false); }}
+              className="px-5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold uppercase tracking-wider text-xs"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              form="event-form"
+              disabled={isSubmitting}
+              className="px-7 py-3 rounded-xl bg-[#0A1128] text-white hover:bg-brand-gold hover:text-slate-950 font-bold uppercase tracking-wider text-xs transition-all shadow-md disabled:opacity-50"
+            >
+              {isSubmitting ? 'Saving…' : isEditing ? 'Save changes' : 'Publish event'}
+            </button>
+          </div>
+        }
       >
         <div className="space-y-6">
           {/* Top Control Bar: Mode Toggle & 1-Click Auto Translate */}
@@ -1958,30 +2067,17 @@ export default function AdminDashboard() {
           </div>
 
           {eventEditorMode === 'edit' ? (
-            <form onSubmit={handleAddEvent} className="space-y-6">
+            <form id="event-form" onSubmit={handleAddEvent} className="space-y-6">
               
               {/* Media & Key Event Details Strip */}
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 bg-slate-50 p-6 rounded-3xl border border-slate-200">
                 <div className="md:col-span-8 space-y-4">
-                  <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600">Cover Image URL</label>
-                      <button
-                        type="button"
-                        onClick={() => { setActiveMediaTarget('event'); setIsMediaPickerOpen(true); }}
-                        className="text-[10px] text-amber-800 hover:text-brand-gold font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer"
-                      >
-                        <ImageIcon size={12} /> 📸 Browse Media Presets
-                      </button>
-                    </div>
-                    <input
-                      required
-                      value={eventForm.imageUrl}
-                      onChange={e => setEventForm({ ...eventForm, imageUrl: e.target.value })}
-                      className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:ring-2 focus:ring-brand-gold/20"
-                      placeholder="https://images.unsplash.com/..."
-                    />
-                  </div>
+                  <CoverImageField
+                    label="Cover photo"
+                    value={eventForm.imageUrl}
+                    onChange={url => setEventForm(prev => ({ ...prev, imageUrl: url }))}
+                    onOpenLibrary={() => { setActiveMediaTarget('event'); setIsMediaPickerOpen(true); }}
+                  />
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
@@ -2197,23 +2293,6 @@ export default function AdminDashboard() {
                 )}
               </div>
 
-              {/* Submit Buttons */}
-              <div className="pt-4 border-t border-slate-200 flex items-center justify-between gap-4">
-                <button
-                  type="button"
-                  onClick={() => setIsEventModalOpen(false)}
-                  className="px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold uppercase tracking-wider text-xs"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="px-8 py-3 rounded-xl bg-[#0A1128] text-white hover:bg-brand-gold hover:text-slate-950 font-bold uppercase tracking-wider text-xs transition-all shadow-md disabled:opacity-50"
-                >
-                  {isSubmitting ? 'Saving Event...' : isEditing ? 'Update Event' : 'Publish Event'}
-                </button>
-              </div>
             </form>
           ) : (
             /* Event Live Card Preview */
@@ -2260,30 +2339,94 @@ export default function AdminDashboard() {
       <Modal
         isOpen={isPostModalOpen}
         onClose={() => setIsPostModalOpen(false)}
-        title={isEditing ? "Edit Gazette Article" : "Write Gazette Article"}
+        title={isEditing ? "Edit article" : "Write an article"}
         className="max-w-5xl"
+        isDirty={isPostModalOpen && JSON.stringify(postForm) !== postBaseline}
+        footer={(() => {
+          const hasTitle = !!(postForm.titleMn || postForm.titleEn || postForm.titleDe).trim();
+          const hasText = !!(postForm.contentMn || postForm.contentEn || postForm.contentDe).trim();
+          const hasCover = !!postForm.imageUrl.trim();
+          const langsDone = [postForm.contentMn, postForm.contentEn, postForm.contentDe].filter(c => c.trim()).length;
+          const chip = (ok: boolean, label: string) => (
+            <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border ${ok ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : 'bg-slate-50 text-slate-500 border-slate-200'}`}>
+              {ok ? '✓' : '○'} {label}
+            </span>
+          );
+          return (
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+              <div className="flex flex-wrap items-center gap-2">
+                {chip(hasTitle, 'Headline')}
+                {chip(hasText, 'Text')}
+                {chip(hasCover, 'Cover photo')}
+                {chip(langsDone === 3, `Languages ${langsDone}/3`)}
+              </div>
+              <div className="flex flex-wrap items-center justify-end gap-3">
+                {langsDone < 3 && (
+                  <label className="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
+                    <input type="checkbox" checked={translateOnPublish} onChange={e => setTranslateOnPublish(e.target.checked)} className="h-4 w-4 accent-[#0066B3]" />
+                    Translate the missing languages when publishing
+                  </label>
+                )}
+                <button
+                  type="button"
+                  onClick={() => { if (JSON.stringify(postForm) === postBaseline || window.confirm('You have unsaved changes. Close without saving?')) setIsPostModalOpen(false); }}
+                  className="px-5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold uppercase tracking-wider text-xs"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  form="post-form"
+                  disabled={isSubmitting}
+                  className="px-7 py-3 rounded-xl bg-[#0A1128] text-white hover:bg-brand-gold hover:text-slate-950 font-bold uppercase tracking-wider text-xs transition-all shadow-md disabled:opacity-50"
+                >
+                  {isSubmitting ? 'Publishing…' : isEditing ? 'Save changes' : 'Publish article'}
+                </button>
+              </div>
+            </div>
+          );
+        })()}
       >
-        <div className="space-y-6">
-          {/* Mode Selector & 1-Click Translate */}
-          <div className="flex flex-wrap items-center justify-between gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-200">
-            <div className="flex items-center gap-1.5">
+        <div className="space-y-5">
+          {/* Unsent draft */}
+          {!isEditing && postDraftOffer && (
+            <div className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-sm text-amber-900">
+              <span>You have an unsent draft from {new Date(postDraftOffer.savedAt).toLocaleString()}.</span>
+              <span className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => { setPostForm({ ...postForm, ...postDraftOffer.form }); setPostDraftOffer(null); }}
+                  className="px-4 py-1.5 rounded-lg bg-[#0A1128] text-white text-xs font-bold uppercase tracking-wider"
+                >
+                  Continue draft
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { try { localStorage.removeItem(POST_DRAFT_KEY); } catch { /* ignore */ } setPostDraftOffer(null); }}
+                  className="px-4 py-1.5 rounded-lg bg-white border border-amber-300 text-xs font-bold uppercase tracking-wider"
+                >
+                  Discard
+                </button>
+              </span>
+            </div>
+          )}
+
+          {/* Edit / preview and translation */}
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl">
               <button
                 type="button"
                 onClick={() => setPostEditorMode('edit')}
-                className={`px-4 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                  postEditorMode === 'edit' ? 'bg-[#0A1128] text-white shadow-sm' : 'text-slate-600 hover:bg-slate-200'
-                }`}
+                className={`px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider cursor-pointer ${postEditorMode === 'edit' ? 'bg-[#0A1128] text-white shadow-sm' : 'text-slate-600 hover:bg-slate-200'}`}
               >
-                <Edit3 size={13} className="inline mr-1.5" /> Edit Article
+                <Edit3 size={13} className="inline mr-1.5" /> Write
               </button>
               <button
                 type="button"
                 onClick={() => setPostEditorMode('preview')}
-                className={`px-4 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                  postEditorMode === 'preview' ? 'bg-[#0A1128] text-white shadow-sm' : 'text-slate-600 hover:bg-slate-200'
-                }`}
+                className={`px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider cursor-pointer ${postEditorMode === 'preview' ? 'bg-[#0A1128] text-white shadow-sm' : 'text-slate-600 hover:bg-slate-200'}`}
               >
-                <Eye size={13} className="inline mr-1.5" /> Broadsheet Preview
+                <Eye size={13} className="inline mr-1.5" /> Preview
               </button>
             </div>
 
@@ -2291,53 +2434,77 @@ export default function AdminDashboard() {
               type="button"
               onClick={handleAutoTranslatePost}
               disabled={isTranslating}
-              className="flex items-center gap-2 px-4 py-2 bg-amber-100 hover:bg-brand-gold hover:text-slate-950 text-amber-900 rounded-xl text-xs font-bold uppercase tracking-wider transition-all border border-amber-300 shadow-sm disabled:opacity-50 cursor-pointer"
+              className="flex items-center gap-2 px-4 py-2 bg-amber-100 hover:bg-brand-gold hover:text-slate-950 text-amber-900 rounded-xl text-xs font-bold uppercase tracking-wider border border-amber-300 shadow-sm disabled:opacity-50 cursor-pointer"
             >
               <Wand2 size={14} className={isTranslating ? "animate-spin" : ""} />
-              <span>{isTranslating ? 'Translating...' : '✨ Auto-Translate All Languages'}</span>
+              <span>{isTranslating ? 'Translating…' : 'Translate now'}</span>
             </button>
           </div>
 
           {postEditorMode === 'edit' ? (
-            <form onSubmit={handleAddPost} className="space-y-6">
-              
-              {/* Media & Slug Strip */}
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 bg-slate-50 p-6 rounded-3xl border border-slate-200">
-                <div className="md:col-span-8 space-y-4">
-                  <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600">Article Hero Photo URL</label>
-                      <button
-                        type="button"
-                        onClick={() => { setActiveMediaTarget('post'); setIsMediaPickerOpen(true); }}
-                        className="text-[10px] text-amber-800 hover:text-brand-gold font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer"
-                      >
-                        <ImageIcon size={12} /> 📸 Browse Media Presets
-                      </button>
+            <form id="post-form" onSubmit={handleAddPost} className="space-y-6">
+              {/* Headline and text, one language at a time */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mr-1">Language</span>
+                  {([
+                    { id: 'mn', label: 'Монгол', done: postForm.titleMn && postForm.contentMn },
+                    { id: 'en', label: 'English', done: postForm.titleEn && postForm.contentEn },
+                    { id: 'de', label: 'Deutsch', done: postForm.titleDe && postForm.contentDe },
+                  ] as const).map(l => (
+                    <button
+                      key={l.id}
+                      type="button"
+                      onClick={() => setPostLangTab(l.id)}
+                      className={`px-4 py-1.5 rounded-xl text-xs font-extrabold border transition-all cursor-pointer ${postLangTab === l.id ? 'bg-[#0A1128] text-white border-[#0A1128]' : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'}`}
+                    >
+                      {l.label} {l.done ? '✓' : ''}
+                    </button>
+                  ))}
+                </div>
+
+                {(() => {
+                  const tf = postLangTab === 'mn' ? 'titleMn' : postLangTab === 'en' ? 'titleEn' : 'titleDe';
+                  const cf = postLangTab === 'mn' ? 'contentMn' : postLangTab === 'en' ? 'contentEn' : 'contentDe';
+                  const ph = {
+                    mn: ['Нийтлэлийн гарчиг…', 'Нийтлэлийн агуулгыг энд бичнэ үү…'],
+                    en: ['Headline', 'Write the article here…'],
+                    de: ['Überschrift', 'Artikeltext hier schreiben…'],
+                  }[postLangTab];
+                  return (
+                    <div className="space-y-4">
+                      <input
+                        key={`t-${postLangTab}`}
+                        value={postForm[tf]}
+                        onChange={e => setPostForm({ ...postForm, [tf]: e.target.value })}
+                        className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-xl font-serif font-bold text-slate-900 focus:ring-2 focus:ring-brand-gold/25 outline-none"
+                        placeholder={ph[0]}
+                      />
+                      <RichTextArea
+                        key={`c-${postLangTab}`}
+                        value={postForm[cf]}
+                        onChange={v => setPostForm(prev => ({ ...prev, [cf]: v }))}
+                        placeholder={ph[1]}
+                        rows={14}
+                      />
                     </div>
-                    <input
-                      required
-                      value={postForm.imageUrl}
-                      onChange={e => setPostForm({ ...postForm, imageUrl: e.target.value })}
-                      className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:ring-2 focus:ring-brand-gold/20"
-                      placeholder="https://images.unsplash.com/..."
-                    />
-                  </div>
+                  );
+                })()}
+              </div>
 
-                  <div>
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">
-                      Custom URL Slug (Leave empty for auto-generation)
-                    </label>
-                    <input
-                      value={postForm.slug}
-                      onChange={e => setPostForm({ ...postForm, slug: e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') })}
-                      placeholder="e.g. bilateral-austrian-mongolian-heritage-symposium-2026"
-                      className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-mono text-slate-900"
-                    />
-                  </div>
-
+              {/* Photos */}
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 bg-slate-50 p-5 md:p-6 rounded-3xl border border-slate-200">
+                <div className="md:col-span-5">
+                  <CoverImageField
+                    label="Cover photo"
+                    value={postForm.imageUrl}
+                    onChange={url => setPostForm(prev => ({ ...prev, imageUrl: url }))}
+                    onOpenLibrary={() => { setActiveMediaTarget('post'); setIsMediaPickerOpen(true); }}
+                  />
+                </div>
+                <div className="md:col-span-7">
                   <MultiPhotoUploader
-                    label="Extra Gallery Images (Multi-photo upload)"
+                    label="More photos for the article (optional)"
                     target="post"
                     galleryImages={postForm.galleryImages}
                     isUploading={isUploadingPhoto}
@@ -2353,230 +2520,54 @@ export default function AdminDashboard() {
                     onClearAll={() => setPostForm(prev => ({ ...prev, galleryImages: '' }))}
                   />
                 </div>
-
-                {/* Cover Image Preview */}
-                <div className="md:col-span-4 flex flex-col justify-center">
-                  <div className="aspect-[16/10] rounded-2xl overflow-hidden bg-slate-200 border border-slate-300 relative shadow-sm">
-                    {postForm.imageUrl ? (
-                      <img src={postForm.imageUrl} alt="" className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center text-slate-400">
-                        <ImageIcon size={28} />
-                        <span className="text-[9px] uppercase tracking-wider font-bold mt-2">No Photo Set</span>
-                      </div>
-                    )}
-                  </div>
-                  <span className="text-[10px] text-center text-slate-500 font-mono mt-2">Article Photo Preview</span>
-                </div>
               </div>
 
-              {/* Language Switcher */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mr-2">Language:</span>
-                    <button
-                      type="button"
-                      onClick={() => setPostLangTab('mn')}
-                      className={`px-3.5 py-1.5 rounded-xl text-xs uppercase font-extrabold border transition-all ${
-                        postLangTab === 'mn' ? 'bg-[#0A1128] text-white border-[#0A1128]' : 'bg-white text-slate-700 border-slate-200'
-                      }`}
-                    >
-                      🇲🇳 Монгол {postForm.titleMn && '✓'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setPostLangTab('en')}
-                      className={`px-3.5 py-1.5 rounded-xl text-xs uppercase font-extrabold border transition-all ${
-                        postLangTab === 'en' ? 'bg-[#0A1128] text-white border-[#0A1128]' : 'bg-white text-slate-700 border-slate-200'
-                      }`}
-                    >
-                      🇬🇧 English {postForm.titleEn && '✓'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setPostLangTab('de')}
-                      className={`px-3.5 py-1.5 rounded-xl text-xs uppercase font-extrabold border transition-all ${
-                        postLangTab === 'de' ? 'bg-[#0A1128] text-white border-[#0A1128]' : 'bg-white text-slate-700 border-slate-200'
-                      }`}
-                    >
-                      🇩🇪 Deutsch {postForm.titleDe && '✓'}
-                    </button>
-                  </div>
+              {/* Advanced */}
+              <details className="rounded-2xl border border-slate-200 bg-white">
+                <summary className="px-5 py-3 text-xs font-bold uppercase tracking-widest text-slate-600 cursor-pointer">Advanced: web address of the article</summary>
+                <div className="px-5 pb-5">
+                  <input
+                    value={postForm.slug}
+                    onChange={e => setPostForm({ ...postForm, slug: e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') })}
+                    placeholder="Leave empty: it is made from the headline"
+                    className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-mono text-slate-900"
+                  />
                 </div>
-
-                {/* Text Formatting Toolbar */}
-                <div className="flex flex-wrap items-center gap-2 p-2.5 bg-slate-100 rounded-xl border border-slate-200 text-xs">
-                  <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mr-1">QUICK FORMAT:</span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const field = postLangTab === 'mn' ? 'contentMn' : postLangTab === 'en' ? 'contentEn' : 'contentDe';
-                      setPostForm(prev => ({ ...prev, [field]: prev[field] + '\n\n' }));
-                    }}
-                    className="px-2.5 py-1 bg-white hover:bg-slate-200 text-slate-800 rounded-lg border border-slate-200 font-bold"
-                  >
-                    + Paragraph
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const field = postLangTab === 'mn' ? 'contentMn' : postLangTab === 'en' ? 'contentEn' : 'contentDe';
-                      setPostForm(prev => ({ ...prev, [field]: prev[field] + '\n### Section Subtitle\n' }));
-                    }}
-                    className="px-2.5 py-1 bg-white hover:bg-slate-200 text-slate-800 rounded-lg border border-slate-200 font-bold"
-                  >
-                    📌 Subheading
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const field = postLangTab === 'mn' ? 'contentMn' : postLangTab === 'en' ? 'contentEn' : 'contentDe';
-                      setPostForm(prev => ({ ...prev, [field]: prev[field] + '\n"Featured quote goes here"\n' }));
-                    }}
-                    className="px-2.5 py-1 bg-white hover:bg-slate-200 text-slate-800 rounded-lg border border-slate-200 font-bold"
-                  >
-                    ❝ Pull Quote ❞
-                  </button>
-                </div>
-
-                {postLangTab === 'mn' && (
-                  <div className="space-y-4">
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Headline (Mongolian)</label>
-                      <input
-                        value={postForm.titleMn}
-                        onChange={e => setPostForm({ ...postForm, titleMn: e.target.value })}
-                        className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-lg font-serif font-bold text-slate-900"
-                        placeholder="Нийтлэлийн гарчиг..."
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Article Content (Mongolian)</label>
-                      <textarea
-                        value={postForm.contentMn}
-                        onChange={e => setPostForm({ ...postForm, contentMn: e.target.value })}
-                        className="w-full bg-white border border-slate-300 rounded-xl p-4 text-sm font-serif text-slate-900 h-64 leading-relaxed"
-                        placeholder="Нийтлэлийн агуулгыг энд бичнэ үү..."
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {postLangTab === 'en' && (
-                  <div className="space-y-4">
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Headline (English)</label>
-                      <input
-                        value={postForm.titleEn}
-                        onChange={e => setPostForm({ ...postForm, titleEn: e.target.value })}
-                        className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-lg font-serif font-bold text-slate-900"
-                        placeholder="English Headline..."
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Article Content (English)</label>
-                      <textarea
-                        value={postForm.contentEn}
-                        onChange={e => setPostForm({ ...postForm, contentEn: e.target.value })}
-                        className="w-full bg-white border border-slate-300 rounded-xl p-4 text-sm font-serif text-slate-900 h-64 leading-relaxed"
-                        placeholder="Write article body in English..."
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {postLangTab === 'de' && (
-                  <div className="space-y-4">
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Headline (German)</label>
-                      <input
-                        value={postForm.titleDe}
-                        onChange={e => setPostForm({ ...postForm, titleDe: e.target.value })}
-                        className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-lg font-serif font-bold text-slate-900"
-                        placeholder="Deutsche Überschrift..."
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Article Content (German)</label>
-                      <textarea
-                        value={postForm.contentDe}
-                        onChange={e => setPostForm({ ...postForm, contentDe: e.target.value })}
-                        className="w-full bg-white border border-slate-300 rounded-xl p-4 text-sm font-serif text-slate-900 h-64 leading-relaxed"
-                        placeholder="Artikelinhalt auf Deutsch..."
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="pt-4 border-t border-slate-200 flex items-center justify-between gap-4">
-                <button
-                  type="button"
-                  onClick={() => setIsPostModalOpen(false)}
-                  className="px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold uppercase tracking-wider text-xs"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="px-8 py-3 rounded-xl bg-[#0A1128] text-white hover:bg-brand-gold hover:text-slate-950 font-bold uppercase tracking-wider text-xs transition-all shadow-md disabled:opacity-50"
-                >
-                  {isSubmitting ? 'Publishing...' : isEditing ? 'Update Gazette Article' : 'Publish Gazette Article'}
-                </button>
-              </div>
+              </details>
             </form>
           ) : (
-            /* Broadsheet Live Preview */
-            <div className="p-8 bg-[#FAF8F5] rounded-3xl border border-slate-300 space-y-6">
-              <div className="text-center border-b-2 border-slate-900 pb-4">
-                <span className="text-[9px] uppercase tracking-[0.3em] font-extrabold text-slate-500 block mb-1">
-                  THE AUSTRIAN-MONGOLIAN GAZETTE • LIVE PREVIEW
-                </span>
-                <h1 className="text-3xl md:text-4xl font-serif font-black text-slate-900 leading-tight my-3">
-                  {postForm.titleMn || postForm.titleEn || postForm.titleDe || 'Untitled Article'}
+            /* Live preview, written the way the site shows it */
+            <div className="p-6 md:p-8 bg-[#FAF8F5] rounded-3xl border border-slate-300 space-y-6">
+              <div className="border-b-2 border-slate-900 pb-4">
+                <h1 className="text-3xl md:text-4xl font-serif font-black text-slate-900 leading-tight">
+                  {postForm.titleMn || postForm.titleEn || postForm.titleDe || 'Untitled article'}
                 </h1>
-                <div className="border-t border-b border-slate-900 py-1.5 flex justify-between text-[9px] font-mono font-bold text-slate-700">
-                  <span>VIENNA, AUSTRIA</span>
-                  <span>{new Date().toLocaleDateString()}</span>
-                  <span>PREVIEW MODE</span>
-                </div>
+                <p className="mt-2 text-xs font-mono font-bold text-slate-600">{new Date().toLocaleDateString()} · Preview</p>
               </div>
 
               {postForm.imageUrl && (
-                <div className="aspect-[16/10] overflow-hidden rounded-xl bg-slate-200">
+                <div className="aspect-[16/9] overflow-hidden rounded-xl bg-slate-200">
                   <img src={postForm.imageUrl} alt="" className="w-full h-full object-cover" />
                 </div>
               )}
 
               <div className="font-serif text-slate-900 text-base leading-relaxed space-y-4">
-                {(postForm.contentMn || postForm.contentEn || postForm.contentDe || 'Article content will be formatted here...').split('\n\n').map((paragraph, pIdx) => (
-                  <p key={pIdx}>{paragraph}</p>
-                ))}
+                {(postForm.contentMn || postForm.contentEn || postForm.contentDe || 'The article text will appear here.').split(/\n\s*\n/).map((block, i) => {
+                  const t = block.trim();
+                  if (/^#{1,6}\s/.test(t)) return <h2 key={i} className="font-serif font-black text-2xl mt-6">{renderInline(t.replace(/^#+\s+/, ''))}</h2>;
+                  if (t.startsWith('>')) return <blockquote key={i} className="border-y-2 border-brand-gold py-4 text-xl italic text-center">{renderInline(t.replace(/^>\s*/, ''))}</blockquote>;
+                  if (t.startsWith('- ')) return <p key={i} className="pl-4">• {renderInline(t.replace(/^-\s*/, ''))}</p>;
+                  return <p key={i} className="whitespace-pre-line">{renderInline(t)}</p>;
+                })}
               </div>
 
-              {/* Attached Dispatch Gallery Live Preview */}
               {parseGalleryImages(postForm.galleryImages).length > 0 && (
                 <div className="pt-6 border-t-2 border-slate-900">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-[9px] uppercase tracking-[0.25em] font-sans font-extrabold text-slate-800">
-                      OFFICIAL DISPATCH PHOTO GALLERY ({parseGalleryImages(postForm.galleryImages).length} PHOTOS)
-                    </span>
-                    <span className="text-[9px] uppercase tracking-widest font-sans font-bold text-slate-400">
-                      LIVE PREVIEW
-                    </span>
-                  </div>
+                  <p className="text-xs uppercase tracking-[0.2em] font-bold text-slate-700 mb-3">{parseGalleryImages(postForm.galleryImages).length} more photos</p>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {parseGalleryImages(postForm.galleryImages).map((url, idx) => (
-                      <div key={idx} className="border border-slate-300 p-1.5 bg-white shadow-xs">
-                        <div className="aspect-[4/3] rounded overflow-hidden bg-slate-900">
-                          <img src={url} alt="" className="w-full h-full object-cover" />
-                        </div>
-                        <p className="font-serif italic text-[10px] text-slate-500 pt-1 text-center border-t border-slate-100 mt-1">
-                          Plate {idx + 1}
-                        </p>
+                      <div key={idx} className="aspect-[4/3] rounded overflow-hidden bg-slate-900">
+                        <img src={url} alt="" className="w-full h-full object-cover" />
                       </div>
                     ))}
                   </div>
@@ -2595,6 +2586,27 @@ export default function AdminDashboard() {
         onClose={() => setIsGalleryModalOpen(false)}
         title={isEditing ? "Edit Gallery Artwork" : "Add Artwork to Gallery"}
         className="max-w-4xl"
+      
+        isDirty={isGalleryModalOpen && galleryBaseline !== '' && JSON.stringify(galleryForm) !== galleryBaseline}
+        footer={
+          <div className="flex items-center justify-between gap-3">
+            <button
+              type="button"
+              onClick={() => { if (JSON.stringify(galleryForm) === galleryBaseline || window.confirm('You have unsaved changes. Close without saving?')) setIsGalleryModalOpen(false); }}
+              className="px-5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold uppercase tracking-wider text-xs"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              form="gallery-form"
+              disabled={isSubmitting}
+              className="px-7 py-3 rounded-xl bg-[#0A1128] text-white hover:bg-brand-gold hover:text-slate-950 font-bold uppercase tracking-wider text-xs transition-all shadow-md disabled:opacity-50"
+            >
+              {isSubmitting ? 'Saving…' : isEditing ? 'Save changes' : 'Add to gallery'}
+            </button>
+          </div>
+        }
       >
         <div className="space-y-6">
           {/* Mode & Auto-Translate */}
@@ -2632,30 +2644,17 @@ export default function AdminDashboard() {
           </div>
 
           {galleryEditorMode === 'edit' ? (
-            <form onSubmit={handleAddGalleryItem} className="space-y-6">
+            <form id="gallery-form" onSubmit={handleAddGalleryItem} className="space-y-6">
               
               {/* Media & Meta Strip */}
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 bg-slate-50 p-6 rounded-3xl border border-slate-200">
                 <div className="md:col-span-8 space-y-4">
-                  <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600">Artwork Image URL</label>
-                      <button
-                        type="button"
-                        onClick={() => { setActiveMediaTarget('gallery'); setIsMediaPickerOpen(true); }}
-                        className="text-[10px] text-amber-800 hover:text-brand-gold font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer"
-                      >
-                        <ImageIcon size={12} /> 📸 Browse Media Presets
-                      </button>
-                    </div>
-                    <input
-                      required
-                      value={galleryForm.imageUrl}
-                      onChange={e => setGalleryForm({ ...galleryForm, imageUrl: e.target.value })}
-                      className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:ring-2 focus:ring-brand-gold/20"
-                      placeholder="https://images.unsplash.com/..."
-                    />
-                  </div>
+                  <CoverImageField
+                    label="Photo"
+                    value={galleryForm.imageUrl}
+                    onChange={url => setGalleryForm(prev => ({ ...prev, imageUrl: url }))}
+                    onOpenLibrary={() => { setActiveMediaTarget('gallery'); setIsMediaPickerOpen(true); }}
+                  />
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
@@ -2854,23 +2853,6 @@ export default function AdminDashboard() {
                 )}
               </div>
 
-              {/* Action Buttons */}
-              <div className="pt-4 border-t border-slate-200 flex items-center justify-between gap-4">
-                <button
-                  type="button"
-                  onClick={() => setIsGalleryModalOpen(false)}
-                  className="px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold uppercase tracking-wider text-xs"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="px-8 py-3 rounded-xl bg-[#0A1128] text-white hover:bg-brand-gold hover:text-slate-950 font-bold uppercase tracking-wider text-xs transition-all shadow-md disabled:opacity-50"
-                >
-                  {isSubmitting ? 'Saving...' : isEditing ? 'Update Artwork' : 'Add to Gallery Archive'}
-                </button>
-              </div>
             </form>
           ) : (
             /* Gallery Live Card Preview */

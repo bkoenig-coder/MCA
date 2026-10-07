@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { renderInline } from '../lib/renderInline';
 import { useParams, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import {
@@ -499,7 +500,7 @@ export default function NewsDetails() {
                       key={pIdx}
                       className="border-y-2 border-brand-gold py-6 my-8 font-serif text-xl md:text-3xl italic text-center text-slate-900 bg-slate-50 px-6 shadow-inner"
                     >
-                      {text.replace(/(^"|"$|^>\s*)/g, "")}
+                      {renderInline(text.replace(/(^"|"$|^>\s*)/g, ""))}
                     </blockquote>
                   );
                 }
@@ -513,7 +514,7 @@ export default function NewsDetails() {
                       key={pIdx}
                       className="font-serif font-black text-2xl md:text-3xl text-slate-900 mt-10 mb-4 tracking-tight border-b-2 border-slate-900 pb-1"
                     >
-                      {headingText}
+                      {renderInline(headingText)}
                     </h2>
                   );
                 }
@@ -524,7 +525,7 @@ export default function NewsDetails() {
                     <div key={pIdx} className="flex items-start gap-3 my-2 pl-4">
                       <div className="w-1.5 h-1.5 rounded-full bg-brand-gold mt-2.5 shrink-0" />
                       <p className="text-slate-900 font-serif text-lg md:text-xl leading-relaxed">
-                        {text.replace(/^[-•]\s*/, "")}
+                        {renderInline(text.replace(/^[-•]\s*/, ""))}
                       </p>
                     </div>
                   );
@@ -540,7 +541,7 @@ export default function NewsDetails() {
                         : "text-slate-900 font-serif mb-6 leading-[1.8] whitespace-pre-line"
                     }
                   >
-                    {text}
+                    {renderInline(text)}
                   </p>
                 );
               });
