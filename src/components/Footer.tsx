@@ -53,7 +53,7 @@ export default function Footer() {
           className="w-full flex flex-col items-center mb-8 md:mb-12"
         >
           <div className="w-full overflow-hidden flex justify-center text-center select-none pointer-events-none">
-             <div aria-hidden="true" className="text-[14vw] sm:text-[8.5vw] md:text-[7.5vw] lg:text-[7vw] xl:text-[90px] leading-none font-sans font-black tracking-tighter text-brand-ink/5 uppercase">
+             <div aria-hidden="true" className={`${t('siteUi.footer.monogram1').length > 9 ? 'text-[10.5vw]' : 'text-[14vw]'} sm:text-[8.5vw] md:text-[7.5vw] lg:text-[7vw] xl:text-[90px] leading-none font-sans font-black tracking-tighter text-brand-ink/5 uppercase`}>
                 {t('siteUi.footer.monogram1')}<br className="md:hidden" /> <span className="hidden md:inline"> </span>{t('siteUi.footer.monogram2')}
              </div>
           </div>
