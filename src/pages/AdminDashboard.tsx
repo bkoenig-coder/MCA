@@ -15,6 +15,8 @@ import { toast } from 'sonner';
 import Modal from '../components/Modal';
 import CoverImageField from '../components/admin/CoverImageField';
 import RichTextArea from '../components/admin/RichTextArea';
+import LangTabs from '../components/admin/LangTabs';
+import ContentList, { langState } from '../components/admin/ContentList';
 import { renderInline } from '../lib/renderInline';
 import AdminCareers from '../components/AdminCareers';
 import { autoTranslateRecord } from '../services/translationService';
@@ -259,6 +261,15 @@ function MultiPhotoUploader({
   );
 }
 
+const fmtDate = (ts: any) => {
+  try {
+    const d = typeof ts?.toDate === 'function' ? ts.toDate() : new Date(ts);
+    return isNaN(d.getTime()) ? '' : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  } catch {
+    return '';
+  }
+};
+
 export default function AdminDashboard() {
   const { user, profile } = useAuth();
   const userEmail = user?.email?.toLowerCase() || '';
@@ -267,7 +278,7 @@ export default function AdminDashboard() {
   const isAdminUser = isSuperAdmin || isDomainAdmin || userEmail === 'batmunkh.unen@gmail.com' || profile?.role === 'admin';
   const isEditor = isAdminUser || profile?.role === 'moderator';
 
-  const [activeTab, setActiveTab] = useState<'analytics' | 'events' | 'posts' | 'registrations' | 'gallery' | 'users' | 'applications' | 'careers'>('analytics');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'events' | 'posts' | 'registrations' | 'gallery' | 'users' | 'applications' | 'careers'>('posts');
 
   // Analytics State
   const [pageViews, setPageViews] = useState<any[]>([]);
@@ -299,6 +310,7 @@ export default function AdminDashboard() {
     id: '',
     titleEn: '', titleMn: '', titleDe: '',
     descriptionEn: '', descriptionMn: '', descriptionDe: '',
+    titleTr: '', descriptionTr: '',
     date: '',
     time: '18:00',
     location: 'Palais Eschenbach, Eschenbachgasse 11, 1010 Wien',
@@ -313,8 +325,8 @@ export default function AdminDashboard() {
   const [postForm, setPostForm] = useState({ 
     id: '', 
     slug: '', 
-    titleEn: '', titleMn: '', titleDe: '', 
-    contentEn: '', contentMn: '', contentDe: '', 
+    titleEn: '', titleMn: '', titleDe: '', titleTr: '', 
+    contentEn: '', contentMn: '', contentDe: '', contentTr: '', 
     imageUrl: '', 
     galleryImages: '' 
   });
@@ -322,9 +334,9 @@ export default function AdminDashboard() {
   const [galleryForm, setGalleryForm] = useState({ 
     id: '', 
     titleEn: '', titleMn: '', titleDe: '', 
-    artistEn: '', artistMn: '', artistDe: '', 
+    artistEn: '', artistMn: '', artistDe: '', artistTr: '', 
     year: '2026', 
-    descriptionEn: '', descriptionMn: '', descriptionDe: '', 
+    descriptionEn: '', descriptionMn: '', descriptionDe: '', titleTr: '', descriptionTr: '', 
     imageUrl: '', 
     category: 'Traditional',
     galleryImages: ''
@@ -336,11 +348,11 @@ export default function AdminDashboard() {
 
   // Dedicated Studio Modals
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
-  const [eventLangTab, setEventLangTab] = useState<'en' | 'mn' | 'de'>('en');
+  const [eventLangTab, setEventLangTab] = useState<'en' | 'mn' | 'de' | 'tr'>('en');
   const [eventEditorMode, setEventEditorMode] = useState<'edit' | 'preview'>('edit');
 
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
-  const [postLangTab, setPostLangTab] = useState<'mn' | 'en' | 'de'>('mn');
+  const [postLangTab, setPostLangTab] = useState<'mn' | 'en' | 'de' | 'tr'>('mn');
   const [postEditorMode, setPostEditorMode] = useState<'edit' | 'preview'>('edit');
   const [postBaseline, setPostBaseline] = useState('');
   const [eventBaseline, setEventBaseline] = useState('');
@@ -349,7 +361,7 @@ export default function AdminDashboard() {
   const [translateOnPublish, setTranslateOnPublish] = useState(true);
 
   const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
-  const [galleryLangTab, setGalleryLangTab] = useState<'en' | 'mn' | 'de'>('en');
+  const [galleryLangTab, setGalleryLangTab] = useState<'en' | 'mn' | 'de' | 'tr'>('en');
   const [galleryEditorMode, setGalleryEditorMode] = useState<'edit' | 'preview'>('edit');
 
   // Deletion Modal State
@@ -493,9 +505,11 @@ export default function AdminDashboard() {
         titleDe: prev.titleDe || translated.titleDe || srcTitle,
         descriptionEn: prev.descriptionEn || translated.descriptionEn || srcDesc,
         descriptionMn: prev.descriptionMn || translated.descriptionMn || srcDesc,
-        descriptionDe: prev.descriptionDe || translated.descriptionDe || srcDesc
+        descriptionDe: prev.descriptionDe || translated.descriptionDe || srcDesc,
+        titleTr: prev.titleTr || translated.titleTr || srcTitle,
+        descriptionTr: prev.descriptionTr || translated.descriptionTr || srcDesc
       }));
-      toast.success('✨ All event translations generated!');
+      toast.success('All event translations generated.');
     } catch (err) {
       toast.error('Auto-translation failed');
     } finally {
@@ -527,7 +541,9 @@ export default function AdminDashboard() {
         titleDe: prev.titleDe || translated.titleDe || srcTitle,
         contentEn: prev.contentEn || translated.contentEn || srcContent,
         contentMn: prev.contentMn || translated.contentMn || srcContent,
-        contentDe: prev.contentDe || translated.contentDe || srcContent
+        contentDe: prev.contentDe || translated.contentDe || srcContent,
+        titleTr: prev.titleTr || translated.titleTr || srcTitle,
+        contentTr: prev.contentTr || translated.contentTr || srcContent
       }));
       toast.success('✨ All article translations generated!');
     } catch (err) {
@@ -566,7 +582,10 @@ export default function AdminDashboard() {
         descriptionDe: prev.descriptionDe || translated.descriptionDe || srcDesc,
         artistEn: prev.artistEn || translated.artistEn || srcArtist,
         artistMn: prev.artistMn || translated.artistMn || srcArtist,
-        artistDe: prev.artistDe || translated.artistDe || srcArtist
+        artistDe: prev.artistDe || translated.artistDe || srcArtist,
+        titleTr: prev.titleTr || translated.titleTr || srcTitle,
+        descriptionTr: prev.descriptionTr || translated.descriptionTr || srcDesc,
+        artistTr: prev.artistTr || translated.artistTr || srcArtist
       }));
       toast.success('✨ All artwork translations generated!');
     } catch (err) {
@@ -726,6 +745,8 @@ export default function AdminDashboard() {
         descriptionEn: existingEvent.descriptionEn || existingEvent.description || '',
         descriptionMn: existingEvent.descriptionMn || '',
         descriptionDe: existingEvent.descriptionDe || '',
+        titleTr: existingEvent.titleTr || '',
+        descriptionTr: existingEvent.descriptionTr || '',
         date: existingEvent.date || '',
         time: existingEvent.time || '18:00',
         location: existingEvent.location || 'Vienna, Austria',
@@ -744,13 +765,14 @@ export default function AdminDashboard() {
         id: '',
         titleEn: '', titleMn: '', titleDe: '',
         descriptionEn: '', descriptionMn: '', descriptionDe: '',
+        titleTr: '', descriptionTr: '',
         date: new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0],
         time: '18:00',
         location: 'Palais Eschenbach, Eschenbachgasse 11, 1010 Wien',
         category: 'Cultural Celebration',
         price: 0,
         capacity: 100,
-        imageUrl: 'https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=1600&auto=format&fit=crop',
+        imageUrl: '',
         whatsIncluded: 'Authentic Catering, Cultural Performance, Translation Support',
         galleryImages: ''
       });
@@ -771,9 +793,11 @@ export default function AdminDashboard() {
         titleEn: existingPost.titleEn || '',
         titleMn: existingPost.titleMn || existingPost.title || '',
         titleDe: existingPost.titleDe || '',
+        titleTr: existingPost.titleTr || '',
         contentEn: existingPost.contentEn || '',
         contentMn: existingPost.contentMn || existingPost.content || '',
         contentDe: existingPost.contentDe || '',
+        contentTr: existingPost.contentTr || '',
         imageUrl: existingPost.imageUrl || '',
         galleryImages: Array.isArray(existingPost.galleryImages)
           ? existingPost.galleryImages.join('\n')
@@ -785,8 +809,8 @@ export default function AdminDashboard() {
       next = {
         id: '',
         slug: '',
-        titleEn: '', titleMn: '', titleDe: '',
-        contentEn: '', contentMn: '', contentDe: '',
+        titleEn: '', titleMn: '', titleDe: '', titleTr: '',
+        contentEn: '', contentMn: '', contentDe: '', contentTr: '',
         imageUrl: '',
         galleryImages: ''
       };
@@ -823,6 +847,9 @@ export default function AdminDashboard() {
         descriptionEn: existingArtwork.descriptionEn || existingArtwork.description || '',
         descriptionMn: existingArtwork.descriptionMn || '',
         descriptionDe: existingArtwork.descriptionDe || '',
+        titleTr: existingArtwork.titleTr || '',
+        artistTr: existingArtwork.artistTr || '',
+        descriptionTr: existingArtwork.descriptionTr || '',
         imageUrl: existingArtwork.imageUrl || '',
         category: existingArtwork.category || 'Traditional',
         galleryImages: Array.isArray(existingArtwork.galleryImages)
@@ -834,10 +861,11 @@ export default function AdminDashboard() {
       setGalleryForm({
         id: '',
         titleEn: '', titleMn: '', titleDe: '',
-        artistEn: '', artistMn: '', artistDe: '',
+        artistEn: '', artistMn: '', artistDe: '', artistTr: '',
         year: '2026',
         descriptionEn: '', descriptionMn: '', descriptionDe: '',
-        imageUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=1600&auto=format&fit=crop',
+        titleTr: '', descriptionTr: '',
+        imageUrl: '',
         category: 'Traditional',
         galleryImages: ''
       });
@@ -883,6 +911,8 @@ export default function AdminDashboard() {
         descriptionEn: eventForm.descriptionEn?.trim() || fallbackDesc,
         descriptionMn: eventForm.descriptionMn?.trim() || fallbackDesc,
         descriptionDe: eventForm.descriptionDe?.trim() || fallbackDesc,
+        titleTr: eventForm.titleTr?.trim() || '',
+        descriptionTr: eventForm.descriptionTr?.trim() || '',
         date: eventForm.date || new Date().toISOString().split('T')[0],
         time: eventForm.time || '18:00',
         location: eventForm.location?.trim() || 'Palais Eschenbach, Eschenbachgasse 11, 1010 Wien',
@@ -955,8 +985,8 @@ export default function AdminDashboard() {
     setIsSubmitting(true);
     try {
       // Fill the languages that are still empty, so one article reads well everywhere
-      let titles = { en: postForm.titleEn.trim(), mn: postForm.titleMn.trim(), de: postForm.titleDe.trim() };
-      let contents = { en: postForm.contentEn.trim(), mn: postForm.contentMn.trim(), de: postForm.contentDe.trim() };
+      let titles = { en: postForm.titleEn.trim(), mn: postForm.titleMn.trim(), de: postForm.titleDe.trim(), tr: postForm.titleTr.trim() };
+      let contents = { en: postForm.contentEn.trim(), mn: postForm.contentMn.trim(), de: postForm.contentDe.trim(), tr: postForm.contentTr.trim() };
       const missingSomething = Object.values(titles).some(v => !v) || Object.values(contents).some(v => !v);
       if (translateOnPublish && missingSomething) {
         try {
@@ -965,11 +995,13 @@ export default function AdminDashboard() {
             en: titles.en || translated.titleEn || '',
             mn: titles.mn || translated.titleMn || '',
             de: titles.de || translated.titleDe || '',
+            tr: titles.tr || translated.titleTr || '',
           };
           contents = {
             en: contents.en || translated.contentEn || '',
             mn: contents.mn || translated.contentMn || '',
             de: contents.de || translated.contentDe || '',
+            tr: contents.tr || translated.contentTr || '',
           };
         } catch (err) {
           console.error('Auto-translation on publish failed, using the original text:', err);
@@ -993,11 +1025,13 @@ export default function AdminDashboard() {
         titleEn: titles.en || fallbackTitle,
         titleMn: titles.mn || fallbackTitle,
         titleDe: titles.de || fallbackTitle,
+        titleTr: titles.tr || '',
         slug: postForm.slug?.trim() || generatedSlug,
         content: sourceContent,
         contentEn: contents.en || sourceContent,
         contentMn: contents.mn || sourceContent,
         contentDe: contents.de || sourceContent,
+        contentTr: contents.tr || '',
         imageUrl: fallbackImageUrl,
         galleryImages: galleryList,
         updatedAt: serverTimestamp(),
@@ -1077,6 +1111,9 @@ export default function AdminDashboard() {
         descriptionEn: galleryForm.descriptionEn?.trim() || fallbackDesc,
         descriptionMn: galleryForm.descriptionMn?.trim() || fallbackDesc,
         descriptionDe: galleryForm.descriptionDe?.trim() || fallbackDesc,
+        titleTr: galleryForm.titleTr?.trim() || '',
+        artistTr: galleryForm.artistTr?.trim() || '',
+        descriptionTr: galleryForm.descriptionTr?.trim() || '',
         imageUrl: fallbackImage,
         category: galleryForm.category || 'Traditional',
         galleryImages: parseGalleryImages(galleryForm.galleryImages),
@@ -1251,80 +1288,61 @@ export default function AdminDashboard() {
     <div className="pt-[140px] md:pt-[152px] min-h-screen bg-[#FAF8F5] text-slate-900 selection:bg-brand-gold/30 selection:text-slate-900 font-sans pb-24">
       <div className="max-w-7xl mx-auto px-6">
         
-        {/* Executive Studio Header with 1-Click Launchpad */}
-        <div className="mb-10 bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        {/* Header */}
+        <div className="mb-6 flex flex-col lg:flex-row lg:items-end justify-between gap-5">
           <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="px-2.5 py-0.5 bg-[#0A1128] text-brand-gold rounded text-[10px] uppercase font-mono tracking-widest font-bold">
-                Executive Studio
-              </span>
-              <span className="text-xs text-slate-400">•</span>
-              <span className="text-xs text-slate-600 font-medium">Austrian-Mongolian Center Publishing Hub</span>
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-serif font-normal text-slate-900">
-              Admin <span className="italic text-[#C5A059] font-light">Publishing Center</span>
-            </h1>
+            <p className="text-xs uppercase tracking-[0.16em] font-semibold text-brand-gold mb-1">Admin</p>
+            <h1 className="text-3xl sm:text-4xl font-serif text-slate-900">Manage the website</h1>
+            <p className="mt-1 text-sm text-slate-500">Publish news and events, add photos, and look after members.</p>
           </div>
-
-          {/* Quick Post Launchpad Buttons */}
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
             <button
               onClick={() => openPostStudio()}
-              className="flex items-center gap-2 px-5 py-3 bg-slate-900 text-white rounded-xl hover:bg-brand-gold hover:text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-sm group cursor-pointer"
+              className="flex items-center gap-2 px-5 py-2.5 bg-[#0A1128] text-white rounded-xl hover:bg-brand-gold hover:text-slate-950 font-semibold text-sm transition-colors cursor-pointer"
             >
-              <FileText className="w-4 h-4 text-brand-gold group-hover:text-slate-950 transition-colors" />
-              <span>+ Post News</span>
+              <FileText size={16} /> Write an article
             </button>
-
             <button
               onClick={() => openEventStudio()}
-              className="flex items-center gap-2 px-5 py-3 bg-[#0A1128] text-white rounded-xl hover:bg-brand-gold hover:text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-sm group cursor-pointer"
+              className="flex items-center gap-2 px-5 py-2.5 bg-white text-slate-800 border border-slate-300 rounded-xl hover:border-brand-gold hover:text-brand-gold font-semibold text-sm transition-colors cursor-pointer"
             >
-              <Calendar className="w-4 h-4 text-brand-gold group-hover:text-slate-950 transition-colors" />
-              <span>+ Create Event</span>
+              <Calendar size={16} /> New event
             </button>
-
             <button
               onClick={() => openGalleryStudio()}
-              className="flex items-center gap-2 px-5 py-3 bg-white text-slate-800 border border-slate-300 rounded-xl hover:border-brand-gold hover:text-brand-gold font-bold text-xs uppercase tracking-wider transition-all shadow-sm group cursor-pointer"
+              className="flex items-center gap-2 px-5 py-2.5 bg-white text-slate-800 border border-slate-300 rounded-xl hover:border-brand-gold hover:text-brand-gold font-semibold text-sm transition-colors cursor-pointer"
             >
-              <ImageIcon className="w-4 h-4 text-[#D4AF37]" />
-              <span>+ Add Artwork</span>
+              <ImageIcon size={16} /> Add a photo
             </button>
           </div>
         </div>
 
-        {/* Tab Navigation Pill Bar */}
-        <div className="mb-10 overflow-x-auto no-scrollbar">
-          <div className="inline-flex bg-slate-200/80 p-1.5 rounded-2xl border border-slate-200 gap-1 min-w-max">
+        {/* Tabs */}
+        <div className="mb-8 border-b border-slate-200 overflow-x-auto no-scrollbar">
+          <div className="flex gap-1 min-w-max">
             {[
-              { id: 'analytics', label: 'Analytics', icon: <TrendingUp size={16} />, badge: null },
-              { id: 'events', label: 'Events & Galas', icon: <Calendar size={16} />, badge: events.length },
-              { id: 'posts', label: 'News & Gazette', icon: <FileText size={16} />, badge: posts.length },
-              { id: 'gallery', label: 'Gallery Archive', icon: <ImageIcon size={16} />, badge: gallery.length },
+              { id: 'posts', label: 'News', icon: <FileText size={16} />, badge: posts.length },
+              { id: 'events', label: 'Events', icon: <Calendar size={16} />, badge: events.length },
+              { id: 'gallery', label: 'Gallery', icon: <ImageIcon size={16} />, badge: gallery.length },
+              { id: 'careers', label: 'Careers', icon: <Users size={16} />, badge: null },
+              { id: 'applications', label: 'Applications', icon: <FileText size={16} />, badge: applications.filter(a => a.status === 'pending').length || null },
               { id: 'registrations', label: 'Registrations', icon: <Users size={16} />, badge: registrations.length },
               { id: 'users', label: 'Members', icon: <Shield size={16} />, badge: users.length },
-              { id: 'applications', label: 'Applications', icon: <FileText size={16} />, badge: applications.filter(a => a.status === 'pending').length || null },
-              { id: 'careers', label: 'Careers', icon: <Users size={16} />, badge: null },
+              { id: 'analytics', label: 'Visits', icon: <TrendingUp size={16} />, badge: null },
             ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all cursor-pointer ${
-                  activeTab === tab.id
-                    ? 'bg-white text-slate-900 shadow-sm border border-slate-200/80 font-extrabold'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                className={`relative flex items-center gap-2 px-4 py-3 text-sm font-semibold transition-colors cursor-pointer ${
+                  activeTab === tab.id ? 'text-slate-900' : 'text-slate-500 hover:text-slate-800'
                 }`}
               >
                 {tab.icon}
                 <span>{tab.label}</span>
                 {tab.badge !== null && (
-                  <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-mono ${
-                    activeTab === tab.id ? 'bg-[#0A1128] text-white' : 'bg-slate-300 text-slate-700'
-                  }`}>
-                    {tab.badge}
-                  </span>
+                  <span className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${activeTab === tab.id ? 'bg-[#0A1128] text-white' : 'bg-slate-200 text-slate-600'}`}>{tab.badge}</span>
                 )}
+                {activeTab === tab.id && <span className="absolute inset-x-3 -bottom-px h-0.5 bg-brand-gold rounded-full" />}
               </button>
             ))}
           </div>
@@ -1430,111 +1448,37 @@ export default function AdminDashboard() {
               exit={{ opacity: 0, y: -15 }}
               className="space-y-6"
             >
-              {/* Actions & Search Bar */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                <div className="relative w-full sm:w-80">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <input
-                    type="text"
-                    placeholder="Search events by title, location..."
-                    value={eventSearch}
-                    onChange={e => setEventSearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-gold/20 focus:bg-white transition-all text-slate-900 placeholder:text-slate-400"
-                  />
-                </div>
-
-                <div className="flex items-center gap-3 w-full sm:w-auto">
-                  <button
-                    onClick={() => openEventStudio()}
-                    className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-[#0A1128] text-white rounded-xl hover:bg-brand-gold hover:text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer"
-                  >
-                    <Plus size={16} />
-                    <span>Create New Event</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Events Cards Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredEvents.length > 0 ? filteredEvents.map((item) => (
-                  <div key={item.id} className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col group hover:shadow-md transition-all">
-                    <div className="aspect-[16/9] relative overflow-hidden bg-slate-100">
-                      {item.imageUrl ? (
-                        <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-slate-400">
-                          <Calendar size={32} />
-                        </div>
-                      )}
-                      
-                      <div className="absolute top-3 left-3">
-                        <span className="px-2.5 py-1 bg-white/95 backdrop-blur-sm text-slate-900 text-[10px] uppercase tracking-widest font-extrabold rounded-md shadow-sm border border-slate-200">
-                          {item.category || 'Event'}
-                        </span>
-                      </div>
-
-                      <div className="absolute top-3 right-3 flex items-center gap-1.5">
-                        <button
-                          onClick={() => openEventStudio(item)}
-                          className="p-2 bg-white/90 hover:bg-brand-gold hover:text-slate-950 text-slate-700 rounded-lg shadow-sm backdrop-blur-sm transition-colors cursor-pointer"
-                          title="Edit Event"
-                        >
-                          <Edit3 size={14} />
-                        </button>
-                        <button
-                          onClick={() => confirmDelete('events', item.id)}
-                          className="p-2 bg-white/90 hover:bg-red-500 hover:text-white text-red-600 rounded-lg shadow-sm backdrop-blur-sm transition-colors cursor-pointer"
-                          title="Delete Event"
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
-
-                      <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[11px] font-bold text-white bg-slate-950/75 backdrop-blur-md px-3 py-1.5 rounded-lg">
-                        <span className="flex items-center gap-1.5">
-                          <Clock size={12} className="text-brand-gold" />
-                          {item.date} • {item.time}
-                        </span>
-                        <span className="text-brand-gold">
-                          {item.price > 0 ? `€${(item.price / 100).toFixed(2)}` : 'FREE'}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                      <div>
-                        <h4 className="text-xl font-serif text-slate-900 font-semibold line-clamp-1 mb-1">
-                          {item.titleEn || item.title || 'Untitled Event'}
-                        </h4>
-                        <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
-                          {item.descriptionEn || item.description || 'No description provided.'}
-                        </p>
-                      </div>
-
-                      <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                        <span className="flex items-center gap-1 truncate max-w-[200px]" title={item.location}>
-                          <MapPin size={13} className="text-brand-gold shrink-0" />
-                          <span className="truncate">{item.location || 'Vienna'}</span>
-                        </span>
-                        <span className="font-mono text-[11px] font-bold text-slate-700">
-                          {item.registeredCount || 0} RSVPs
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )) : (
-                  <div className="col-span-full py-16 bg-white rounded-3xl border border-slate-200 text-center">
-                    <Calendar size={40} className="mx-auto text-slate-300 mb-3" />
-                    <p className="text-slate-500 text-sm font-medium">No events found matching your search.</p>
-                    <button
-                      onClick={() => openEventStudio()}
-                      className="mt-4 px-5 py-2.5 bg-[#0A1128] text-white rounded-xl text-xs font-bold uppercase tracking-wider"
-                    >
-                      + Create First Event
-                    </button>
-                  </div>
-                )}
-              </div>
+              <ContentList
+                Icon={Calendar}
+                searchPlaceholder="Search events by title or place"
+                search={eventSearch}
+                onSearch={setEventSearch}
+                newLabel="New event"
+                onNew={() => openEventStudio()}
+                emptyText="No events found."
+                onEdit={id => openEventStudio(events.find(e => e.id === id))}
+                onDelete={id => confirmDelete('events', id)}
+                rows={filteredEvents.map(item => ({
+                  id: item.id,
+                  title: item.titleEn || item.titleMn || item.title || 'Untitled event',
+                  thumb: item.imageUrl,
+                  href: `/events/${item.id}`,
+                  meta: (
+                    <>
+                      <span className="flex items-center gap-1"><Clock size={12} className="text-brand-gold" />{item.date} {item.time && `· ${item.time}`}</span>
+                      <span className="flex items-center gap-1"><MapPin size={12} className="text-brand-gold" /><span className="truncate max-w-[220px]">{item.location || 'Vienna'}</span></span>
+                      <span>{item.price > 0 ? `€${(item.price / 100).toFixed(2)}` : 'Free'}</span>
+                      <span>{item.registeredCount || 0} registered</span>
+                    </>
+                  ),
+                  langs: {
+                    mn: langState('mn', item.titleMn),
+                    en: langState('en', item.titleEn),
+                    de: langState('de', item.titleDe),
+                    tr: langState('tr', item.titleTr),
+                  },
+                }))}
+              />
             </motion.div>
           )}
 
@@ -1547,98 +1491,35 @@ export default function AdminDashboard() {
               exit={{ opacity: 0, y: -15 }}
               className="space-y-6"
             >
-              {/* Actions & Search Bar */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                <div className="relative w-full sm:w-80">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <input
-                    type="text"
-                    placeholder="Search news by headline..."
-                    value={postSearch}
-                    onChange={e => setPostSearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-gold/20 focus:bg-white transition-all text-slate-900 placeholder:text-slate-400"
-                  />
-                </div>
-
-                <div className="flex items-center gap-3 w-full sm:w-auto">
-                  <button
-                    onClick={() => openPostStudio()}
-                    className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-[#0A1128] text-white rounded-xl hover:bg-brand-gold hover:text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer"
-                  >
-                    <Plus size={16} />
-                    <span>Write Gazette Article</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* News Articles List */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredPosts.length > 0 ? filteredPosts.map((post) => (
-                  <div key={post.id} className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col group hover:shadow-md transition-all">
-                    <div className="aspect-[16/10] relative overflow-hidden bg-slate-100">
-                      {post.imageUrl ? (
-                        <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-slate-400">
-                          <FileText size={32} />
-                        </div>
-                      )}
-
-                      <div className="absolute top-3 right-3 flex items-center gap-1.5">
-                        <button
-                          onClick={() => openPostStudio(post)}
-                          className="p-2 bg-white/90 hover:bg-brand-gold hover:text-slate-950 text-slate-700 rounded-lg shadow-sm backdrop-blur-sm transition-colors cursor-pointer"
-                          title="Edit Article"
-                        >
-                          <Edit3 size={14} />
-                        </button>
-                        <button
-                          onClick={() => confirmDelete('posts', post.id)}
-                          className="p-2 bg-white/90 hover:bg-red-500 hover:text-white text-red-600 rounded-lg shadow-sm backdrop-blur-sm transition-colors cursor-pointer"
-                          title="Delete Article"
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
-
-                      <div className="absolute bottom-3 left-3">
-                        <span className="px-2.5 py-1 bg-slate-900/80 text-brand-gold text-[9px] uppercase font-mono tracking-widest font-bold rounded">
-                          Gazette Publication
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                      <div>
-                        <h4 className="text-xl font-serif text-slate-900 font-bold line-clamp-2 mb-2">
-                          {post.titleMn || post.titleEn || post.title || 'Untitled Article'}
-                        </h4>
-                        <p className="text-xs text-slate-500 line-clamp-3 leading-relaxed">
-                          {post.contentMn || post.contentEn || post.content || 'No text content.'}
-                        </p>
-                      </div>
-
-                      <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 font-mono">
-                        <span className="truncate max-w-[150px]">/{post.slug || 'news'}</span>
-                        <Link to={`/news/${post.slug || post.id}`} className="text-brand-gold hover:underline font-bold text-[11px] flex items-center gap-1">
-                          View Article <ExternalLink size={11} />
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                )) : (
-                  <div className="col-span-full py-16 bg-white rounded-3xl border border-slate-200 text-center">
-                    <FileText size={40} className="mx-auto text-slate-300 mb-3" />
-                    <p className="text-slate-500 text-sm font-medium">No gazette articles found.</p>
-                    <button
-                      onClick={() => openPostStudio()}
-                      className="mt-4 px-5 py-2.5 bg-[#0A1128] text-white rounded-xl text-xs font-bold uppercase tracking-wider"
-                    >
-                      + Write First Article
-                    </button>
-                  </div>
-                )}
-              </div>
+              <ContentList
+                Icon={FileText}
+                searchPlaceholder="Search articles by headline"
+                search={postSearch}
+                onSearch={setPostSearch}
+                newLabel="Write an article"
+                onNew={() => openPostStudio()}
+                emptyText="No articles yet."
+                onEdit={id => openPostStudio(posts.find(p => p.id === id))}
+                onDelete={id => confirmDelete('posts', id)}
+                rows={filteredPosts.map(post => ({
+                  id: post.id,
+                  title: post.titleMn || post.titleEn || post.title || 'Untitled article',
+                  thumb: post.imageUrl,
+                  href: `/news/${post.slug || post.id}`,
+                  meta: (
+                    <>
+                      <span>{fmtDate(post.createdAt)}</span>
+                      <span className="truncate max-w-[260px]">/{post.slug || 'news'}</span>
+                    </>
+                  ),
+                  langs: {
+                    mn: langState('mn', post.contentMn),
+                    en: langState('en', post.contentEn),
+                    de: langState('de', post.contentDe),
+                    tr: langState('tr', post.contentTr),
+                  },
+                }))}
+              />
             </motion.div>
           )}
 
@@ -1651,83 +1532,36 @@ export default function AdminDashboard() {
               exit={{ opacity: 0, y: -15 }}
               className="space-y-6"
             >
-              {/* Actions & Search Bar */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                <div className="relative w-full sm:w-80">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <input
-                    type="text"
-                    placeholder="Search gallery by title, artist..."
-                    value={gallerySearch}
-                    onChange={e => setGallerySearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-gold/20 focus:bg-white transition-all text-slate-900 placeholder:text-slate-400"
-                  />
-                </div>
-
-                <div className="flex items-center gap-3 w-full sm:w-auto">
-                  <button
-                    onClick={() => openGalleryStudio()}
-                    className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-[#0A1128] text-white rounded-xl hover:bg-brand-gold hover:text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer"
-                  >
-                    <Plus size={16} />
-                    <span>Add Artwork</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Gallery Items Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredGallery.length > 0 ? filteredGallery.map((item) => (
-                  <div key={item.id} className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col group hover:shadow-md transition-all">
-                    <div className="aspect-[4/3] relative overflow-hidden bg-slate-100">
-                      <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                      
-                      <div className="absolute top-3 left-3">
-                        <span className="px-2.5 py-1 bg-white/95 backdrop-blur-sm text-slate-900 text-[10px] uppercase tracking-widest font-extrabold rounded-md shadow-sm border border-slate-200">
-                          {item.category || 'Traditional'}
-                        </span>
-                      </div>
-
-                      <div className="absolute top-3 right-3 flex items-center gap-1.5">
-                        <button
-                          onClick={() => openGalleryStudio(item)}
-                          className="p-2 bg-white/90 hover:bg-brand-gold hover:text-slate-950 text-slate-700 rounded-lg shadow-sm backdrop-blur-sm transition-colors cursor-pointer"
-                          title="Edit Artwork"
-                        >
-                          <Edit3 size={14} />
-                        </button>
-                        <button
-                          onClick={() => confirmDelete('gallery', item.id)}
-                          className="p-2 bg-white/90 hover:bg-red-500 hover:text-white text-red-600 rounded-lg shadow-sm backdrop-blur-sm transition-colors cursor-pointer"
-                          title="Delete Artwork"
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="p-6">
-                      <h4 className="text-xl font-serif text-slate-900 font-semibold truncate mb-1">
-                        {item.titleEn || item.title || 'Untitled'}
-                      </h4>
-                      <p className="text-xs text-slate-500 italic">
-                        {item.artist || item.artistEn || 'Master Artist'} • {item.year || '2026'}
-                      </p>
-                    </div>
-                  </div>
-                )) : (
-                  <div className="col-span-full py-16 bg-white rounded-3xl border border-slate-200 text-center">
-                    <ImageIcon size={40} className="mx-auto text-slate-300 mb-3" />
-                    <p className="text-slate-500 text-sm font-medium">No gallery items found.</p>
-                    <button
-                      onClick={() => openGalleryStudio()}
-                      className="mt-4 px-5 py-2.5 bg-[#0A1128] text-white rounded-xl text-xs font-bold uppercase tracking-wider"
-                    >
-                      + Add First Artwork
-                    </button>
-                  </div>
-                )}
-              </div>
+              <ContentList
+                Icon={ImageIcon}
+                searchPlaceholder="Search the gallery by title or artist"
+                search={gallerySearch}
+                onSearch={setGallerySearch}
+                newLabel="Add a photo"
+                onNew={() => openGalleryStudio()}
+                emptyText="The gallery is empty."
+                onEdit={id => openGalleryStudio(gallery.find(g => g.id === id))}
+                onDelete={id => confirmDelete('gallery', id)}
+                rows={filteredGallery.map(item => ({
+                  id: item.id,
+                  title: item.titleEn || item.titleMn || item.title || 'Untitled',
+                  thumb: item.imageUrl,
+                  href: `/gallery/${item.id}`,
+                  meta: (
+                    <>
+                      <span>{item.artist || item.artistEn || 'Artist'}</span>
+                      <span>{item.year || '2026'}</span>
+                      <span>{item.category || 'Traditional'}</span>
+                    </>
+                  ),
+                  langs: {
+                    mn: langState('mn', item.titleMn),
+                    en: langState('en', item.titleEn),
+                    de: langState('de', item.titleDe),
+                    tr: langState('tr', item.titleTr),
+                  },
+                }))}
+              />
             </motion.div>
           )}
 
@@ -2008,7 +1842,7 @@ export default function AdminDashboard() {
       <Modal
         isOpen={isEventModalOpen}
         onClose={() => setIsEventModalOpen(false)}
-        title={isEditing ? "Edit Event" : "Create New Event"}
+        title={isEditing ? "Edit event" : "New event"}
         className="max-w-4xl"
         isDirty={isEventModalOpen && eventBaseline !== '' && JSON.stringify(eventForm) !== eventBaseline}
         footer={
@@ -2188,109 +2022,46 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              {/* Multilingual Text Tabs */}
+              {/* Multilingual text */}
               <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mr-2">Language:</span>
-                    <button
-                      type="button"
-                      onClick={() => setEventLangTab('en')}
-                      className={`px-3.5 py-1.5 rounded-xl text-xs uppercase font-extrabold border transition-all ${
-                        eventLangTab === 'en' ? 'bg-[#0A1128] text-white border-[#0A1128]' : 'bg-white text-slate-700 border-slate-200'
-                      }`}
-                    >
-                      🇬🇧 English {eventForm.titleEn && '✓'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setEventLangTab('mn')}
-                      className={`px-3.5 py-1.5 rounded-xl text-xs uppercase font-extrabold border transition-all ${
-                        eventLangTab === 'mn' ? 'bg-[#0A1128] text-white border-[#0A1128]' : 'bg-white text-slate-700 border-slate-200'
-                      }`}
-                    >
-                      🇲🇳 Монгол {eventForm.titleMn && '✓'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setEventLangTab('de')}
-                      className={`px-3.5 py-1.5 rounded-xl text-xs uppercase font-extrabold border transition-all ${
-                        eventLangTab === 'de' ? 'bg-[#0A1128] text-white border-[#0A1128]' : 'bg-white text-slate-700 border-slate-200'
-                      }`}
-                    >
-                      🇩🇪 Deutsch {eventForm.titleDe && '✓'}
-                    </button>
-                  </div>
-                </div>
-
-                {eventLangTab === 'en' && (
-                  <div className="space-y-4">
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Title (English)</label>
-                      <input
-                        value={eventForm.titleEn}
-                        onChange={e => setEventForm({ ...eventForm, titleEn: e.target.value })}
-                        className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-semibold text-slate-900"
-                        placeholder="e.g. Tsagaan Sar Traditional Spring Gala 2026"
-                      />
+                <LangTabs
+                  value={eventLangTab}
+                  onChange={setEventLangTab}
+                  order={['en', 'mn', 'de', 'tr']}
+                  done={{ en: !!eventForm.titleEn, mn: !!eventForm.titleMn, de: !!eventForm.titleDe, tr: !!eventForm.titleTr }}
+                />
+                {(() => {
+                  const L = {
+                    en: { sfx: 'En', title: 'Title (English)', desc: 'Description (English)', ph: ['e.g. Tsagaan Sar Spring Gala 2026', 'Describe the schedule, guests and program…'] },
+                    mn: { sfx: 'Mn', title: 'Гарчиг (Монгол)', desc: 'Тайлбар (Монгол)', ph: ['Арга хэмжээний гарчиг…', 'Арга хэмжээний дэлгэрэнгүй тайлбар…'] },
+                    de: { sfx: 'De', title: 'Titel (Deutsch)', desc: 'Beschreibung (Deutsch)', ph: ['Veranstaltungstitel…', 'Beschreibung auf Deutsch…'] },
+                    tr: { sfx: 'Tr', title: 'Başlık (Türkçe)', desc: 'Açıklama (Türkçe)', ph: ['Etkinlik başlığı…', 'Etkinlik programını ve konukları anlatın…'] },
+                  }[eventLangTab];
+                  const tf = `title${L.sfx}`;
+                  const df = `description${L.sfx}`;
+                  return (
+                    <div className="space-y-4" key={eventLangTab}>
+                      <div>
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">{L.title}</label>
+                        <input
+                          value={(eventForm as any)[tf]}
+                          onChange={e => setEventForm(prev => ({ ...prev, [tf]: e.target.value }))}
+                          className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-brand-gold/25 outline-none"
+                          placeholder={L.ph[0]}
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">{L.desc}</label>
+                        <textarea
+                          value={(eventForm as any)[df]}
+                          onChange={e => setEventForm(prev => ({ ...prev, [df]: e.target.value }))}
+                          className="w-full bg-white border border-slate-300 rounded-xl p-4 text-sm text-slate-900 h-36 leading-relaxed focus:ring-2 focus:ring-brand-gold/25 outline-none"
+                          placeholder={L.ph[1]}
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Description (English)</label>
-                      <textarea
-                        value={eventForm.descriptionEn}
-                        onChange={e => setEventForm({ ...eventForm, descriptionEn: e.target.value })}
-                        className="w-full bg-white border border-slate-300 rounded-xl p-4 text-xs text-slate-900 h-32 leading-relaxed"
-                        placeholder="Describe the schedule, guest performers, and program..."
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {eventLangTab === 'mn' && (
-                  <div className="space-y-4">
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Title (Mongolian)</label>
-                      <input
-                        value={eventForm.titleMn}
-                        onChange={e => setEventForm({ ...eventForm, titleMn: e.target.value })}
-                        className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-semibold text-slate-900"
-                        placeholder="Арга хэмжээний гарчиг..."
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Description (Mongolian)</label>
-                      <textarea
-                        value={eventForm.descriptionMn}
-                        onChange={e => setEventForm({ ...eventForm, descriptionMn: e.target.value })}
-                        className="w-full bg-white border border-slate-300 rounded-xl p-4 text-xs text-slate-900 h-32 leading-relaxed"
-                        placeholder="Арга хэмжээний дэлгэрэнгүй тайлбар..."
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {eventLangTab === 'de' && (
-                  <div className="space-y-4">
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Title (German)</label>
-                      <input
-                        value={eventForm.titleDe}
-                        onChange={e => setEventForm({ ...eventForm, titleDe: e.target.value })}
-                        className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-semibold text-slate-900"
-                        placeholder="Veranstaltungstitel auf Deutsch..."
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Description (German)</label>
-                      <textarea
-                        value={eventForm.descriptionDe}
-                        onChange={e => setEventForm({ ...eventForm, descriptionDe: e.target.value })}
-                        className="w-full bg-white border border-slate-300 rounded-xl p-4 text-xs text-slate-900 h-32 leading-relaxed"
-                        placeholder="Beschreibung auf Deutsch..."
-                      />
-                    </div>
-                  </div>
-                )}
+                  );
+                })()}
               </div>
 
             </form>
@@ -2346,7 +2117,7 @@ export default function AdminDashboard() {
           const hasTitle = !!(postForm.titleMn || postForm.titleEn || postForm.titleDe).trim();
           const hasText = !!(postForm.contentMn || postForm.contentEn || postForm.contentDe).trim();
           const hasCover = !!postForm.imageUrl.trim();
-          const langsDone = [postForm.contentMn, postForm.contentEn, postForm.contentDe].filter(c => c.trim()).length;
+          const langsDone = [postForm.contentMn, postForm.contentEn, postForm.contentDe, postForm.contentTr].filter(c => c.trim()).length;
           const chip = (ok: boolean, label: string) => (
             <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border ${ok ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : 'bg-slate-50 text-slate-500 border-slate-200'}`}>
               {ok ? '✓' : '○'} {label}
@@ -2358,10 +2129,10 @@ export default function AdminDashboard() {
                 {chip(hasTitle, 'Headline')}
                 {chip(hasText, 'Text')}
                 {chip(hasCover, 'Cover photo')}
-                {chip(langsDone === 3, `Languages ${langsDone}/3`)}
+                {chip(langsDone === 4, `Languages ${langsDone}/4`)}
               </div>
               <div className="flex flex-wrap items-center justify-end gap-3">
-                {langsDone < 3 && (
+                {langsDone < 4 && (
                   <label className="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
                     <input type="checkbox" checked={translateOnPublish} onChange={e => setTranslateOnPublish(e.target.checked)} className="h-4 w-4 accent-[#0066B3]" />
                     Translate the missing languages when publishing
@@ -2445,31 +2216,25 @@ export default function AdminDashboard() {
             <form id="post-form" onSubmit={handleAddPost} className="space-y-6">
               {/* Headline and text, one language at a time */}
               <div className="space-y-4">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mr-1">Language</span>
-                  {([
-                    { id: 'mn', label: 'Монгол', done: postForm.titleMn && postForm.contentMn },
-                    { id: 'en', label: 'English', done: postForm.titleEn && postForm.contentEn },
-                    { id: 'de', label: 'Deutsch', done: postForm.titleDe && postForm.contentDe },
-                  ] as const).map(l => (
-                    <button
-                      key={l.id}
-                      type="button"
-                      onClick={() => setPostLangTab(l.id)}
-                      className={`px-4 py-1.5 rounded-xl text-xs font-extrabold border transition-all cursor-pointer ${postLangTab === l.id ? 'bg-[#0A1128] text-white border-[#0A1128]' : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'}`}
-                    >
-                      {l.label} {l.done ? '✓' : ''}
-                    </button>
-                  ))}
-                </div>
+                <LangTabs
+                  value={postLangTab}
+                  onChange={setPostLangTab}
+                  done={{
+                    mn: !!(postForm.titleMn && postForm.contentMn),
+                    en: !!(postForm.titleEn && postForm.contentEn),
+                    de: !!(postForm.titleDe && postForm.contentDe),
+                    tr: !!(postForm.titleTr && postForm.contentTr),
+                  }}
+                />
 
                 {(() => {
-                  const tf = postLangTab === 'mn' ? 'titleMn' : postLangTab === 'en' ? 'titleEn' : 'titleDe';
-                  const cf = postLangTab === 'mn' ? 'contentMn' : postLangTab === 'en' ? 'contentEn' : 'contentDe';
+                  const tf = postLangTab === 'mn' ? 'titleMn' : postLangTab === 'en' ? 'titleEn' : postLangTab === 'de' ? 'titleDe' : 'titleTr';
+                  const cf = postLangTab === 'mn' ? 'contentMn' : postLangTab === 'en' ? 'contentEn' : postLangTab === 'de' ? 'contentDe' : 'contentTr';
                   const ph = {
                     mn: ['Нийтлэлийн гарчиг…', 'Нийтлэлийн агуулгыг энд бичнэ үү…'],
                     en: ['Headline', 'Write the article here…'],
                     de: ['Überschrift', 'Artikeltext hier schreiben…'],
+                    tr: ['Başlık', 'Makale metnini buraya yazın…'],
                   }[postLangTab];
                   return (
                     <div className="space-y-4">
@@ -2584,7 +2349,7 @@ export default function AdminDashboard() {
       <Modal
         isOpen={isGalleryModalOpen}
         onClose={() => setIsGalleryModalOpen(false)}
-        title={isEditing ? "Edit Gallery Artwork" : "Add Artwork to Gallery"}
+        title={isEditing ? "Edit photo" : "Add a photo"}
         className="max-w-4xl"
       
         isDirty={isGalleryModalOpen && galleryBaseline !== '' && JSON.stringify(galleryForm) !== galleryBaseline}
@@ -2715,142 +2480,58 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              {/* Language Navigation */}
+              {/* Multilingual text */}
               <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mr-2">Language:</span>
-                    <button
-                      type="button"
-                      onClick={() => setGalleryLangTab('en')}
-                      className={`px-3.5 py-1.5 rounded-xl text-xs uppercase font-extrabold border transition-all ${
-                        galleryLangTab === 'en' ? 'bg-[#0A1128] text-white border-[#0A1128]' : 'bg-white text-slate-700 border-slate-200'
-                      }`}
-                    >
-                      🇬🇧 English {galleryForm.titleEn && '✓'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setGalleryLangTab('mn')}
-                      className={`px-3.5 py-1.5 rounded-xl text-xs uppercase font-extrabold border transition-all ${
-                        galleryLangTab === 'mn' ? 'bg-[#0A1128] text-white border-[#0A1128]' : 'bg-white text-slate-700 border-slate-200'
-                      }`}
-                    >
-                      🇲🇳 Монгол {galleryForm.titleMn && '✓'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setGalleryLangTab('de')}
-                      className={`px-3.5 py-1.5 rounded-xl text-xs uppercase font-extrabold border transition-all ${
-                        galleryLangTab === 'de' ? 'bg-[#0A1128] text-white border-[#0A1128]' : 'bg-white text-slate-700 border-slate-200'
-                      }`}
-                    >
-                      🇩🇪 Deutsch {galleryForm.titleDe && '✓'}
-                    </button>
-                  </div>
-                </div>
-
-                {galleryLangTab === 'en' && (
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Artwork Title (English)</label>
-                        <input
-                          value={galleryForm.titleEn}
-                          onChange={e => setGalleryForm({ ...galleryForm, titleEn: e.target.value })}
-                          className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-semibold text-slate-900"
-                          placeholder="e.g. Masterpiece Morin Khuur Carving"
-                        />
+                <LangTabs
+                  value={galleryLangTab}
+                  onChange={setGalleryLangTab}
+                  order={['en', 'mn', 'de', 'tr']}
+                  done={{ en: !!galleryForm.titleEn, mn: !!galleryForm.titleMn, de: !!galleryForm.titleDe, tr: !!galleryForm.titleTr }}
+                />
+                {(() => {
+                  const L = {
+                    en: { sfx: 'En', title: 'Title (English)', artist: 'Artist (English)', desc: 'Description (English)', ph: ['Artwork title…', 'Name of the artist…', 'The story and craft behind this piece…'] },
+                    mn: { sfx: 'Mn', title: 'Гарчиг (Монгол)', artist: 'Уран бүтээлч (Монгол)', desc: 'Тайлбар (Монгол)', ph: ['Бүтээлийн нэр…', 'Урлаачийн нэр…', 'Бүтээлийн түүх, хийц урлалын тайлбар…'] },
+                    de: { sfx: 'De', title: 'Titel (Deutsch)', artist: 'Künstler (Deutsch)', desc: 'Beschreibung (Deutsch)', ph: ['Titel des Kunstwerks…', 'Name des Künstlers…', 'Beschreibung auf Deutsch…'] },
+                    tr: { sfx: 'Tr', title: 'Başlık (Türkçe)', artist: 'Sanatçı (Türkçe)', desc: 'Açıklama (Türkçe)', ph: ['Eserin adı…', 'Sanatçının adı…', 'Eserin hikâyesi ve işçiliği…'] },
+                  }[galleryLangTab];
+                  const tf = `title${L.sfx}`;
+                  const af = `artist${L.sfx}`;
+                  const df = `description${L.sfx}`;
+                  return (
+                    <div className="space-y-4" key={galleryLangTab}>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">{L.title}</label>
+                          <input
+                            value={(galleryForm as any)[tf]}
+                            onChange={e => setGalleryForm(prev => ({ ...prev, [tf]: e.target.value }))}
+                            className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-brand-gold/25 outline-none"
+                            placeholder={L.ph[0]}
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">{L.artist}</label>
+                          <input
+                            value={(galleryForm as any)[af]}
+                            onChange={e => setGalleryForm(prev => ({ ...prev, [af]: e.target.value }))}
+                            className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-brand-gold/25 outline-none"
+                            placeholder={L.ph[1]}
+                          />
+                        </div>
                       </div>
                       <div>
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Artist Name (English)</label>
-                        <input
-                          value={galleryForm.artistEn}
-                          onChange={e => setGalleryForm({ ...galleryForm, artistEn: e.target.value })}
-                          className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900"
-                          placeholder="e.g. Master Craftsman Baatar"
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">{L.desc}</label>
+                        <textarea
+                          value={(galleryForm as any)[df]}
+                          onChange={e => setGalleryForm(prev => ({ ...prev, [df]: e.target.value }))}
+                          className="w-full bg-white border border-slate-300 rounded-xl p-4 text-sm text-slate-900 h-32 leading-relaxed focus:ring-2 focus:ring-brand-gold/25 outline-none"
+                          placeholder={L.ph[2]}
                         />
                       </div>
                     </div>
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Description / Historical Story (English)</label>
-                      <textarea
-                        value={galleryForm.descriptionEn}
-                        onChange={e => setGalleryForm({ ...galleryForm, descriptionEn: e.target.value })}
-                        className="w-full bg-white border border-slate-300 rounded-xl p-4 text-xs text-slate-900 h-28 leading-relaxed"
-                        placeholder="Tell the cultural story and craftsmanship technique..."
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {galleryLangTab === 'mn' && (
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Гарчиг (Монгол)</label>
-                        <input
-                          value={galleryForm.titleMn}
-                          onChange={e => setGalleryForm({ ...galleryForm, titleMn: e.target.value })}
-                          className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-semibold text-slate-900"
-                          placeholder="Бүтээлийн нэр..."
-                        />
-                      </div>
-                      <div>
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Уран бүтээлч (Монгол)</label>
-                        <input
-                          value={galleryForm.artistMn}
-                          onChange={e => setGalleryForm({ ...galleryForm, artistMn: e.target.value })}
-                          className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900"
-                          placeholder="Урлаачийн нэр..."
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Тайлбар (Монгол)</label>
-                      <textarea
-                        value={galleryForm.descriptionMn}
-                        onChange={e => setGalleryForm({ ...galleryForm, descriptionMn: e.target.value })}
-                        className="w-full bg-white border border-slate-300 rounded-xl p-4 text-xs text-slate-900 h-28 leading-relaxed"
-                        placeholder="Бүтээлийн түүх, хийц урлалын тайлбар..."
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {galleryLangTab === 'de' && (
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Titel (Deutsch)</label>
-                        <input
-                          value={galleryForm.titleDe}
-                          onChange={e => setGalleryForm({ ...galleryForm, titleDe: e.target.value })}
-                          className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-semibold text-slate-900"
-                          placeholder="Kunstwerktitel..."
-                        />
-                      </div>
-                      <div>
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Künstler (Deutsch)</label>
-                        <input
-                          value={galleryForm.artistDe}
-                          onChange={e => setGalleryForm({ ...galleryForm, artistDe: e.target.value })}
-                          className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900"
-                          placeholder="Name des Künstlers..."
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-600 mb-1.5 block">Beschreibung (Deutsch)</label>
-                      <textarea
-                        value={galleryForm.descriptionDe}
-                        onChange={e => setGalleryForm({ ...galleryForm, descriptionDe: e.target.value })}
-                        className="w-full bg-white border border-slate-300 rounded-xl p-4 text-xs text-slate-900 h-28 leading-relaxed"
-                        placeholder="Beschreibung der Handwerkskunst auf Deutsch..."
-                      />
-                    </div>
-                  </div>
-                )}
+                  );
+                })()}
               </div>
 
             </form>

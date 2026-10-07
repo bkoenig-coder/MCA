@@ -26,7 +26,7 @@ export default function Events() {
   // Localized field for user/admin-generated content (Turkish falls back to English)
   const loc = (ev: any, field: string) => {
     const lang = i18n.language;
-    return lang === 'mn' ? (ev[`${field}Mn`] || ev[field]) : lang === 'de' ? (ev[`${field}De`] || ev[field]) : (ev[`${field}En`] || ev[field]);
+    return lang === 'mn' ? (ev[`${field}Mn`] || ev[field]) : lang === 'de' ? (ev[`${field}De`] || ev[field]) : lang === 'tr' ? (ev[`${field}Tr`] || ev[`${field}En`] || ev[field]) : (ev[`${field}En`] || ev[field]);
   };
 
   useEffect(() => {
@@ -248,10 +248,10 @@ export default function Events() {
                     <p className="text-brand-ink/60 font-medium">{t('pagesMisc.events.noUpcoming')}</p>
                   ) : events.filter(e => new Date(e.date).getTime() >= new Date().setHours(0, 0, 0, 0)).map((event, idx) => {
                     const lang = i18n.language;
-                    const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : (event.titleEn || event.title);
-                    const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : (event.descriptionEn || event.description);
-                    const dLocation = lang === 'mn' ? (event.locationMn || event.location) : lang === 'de' ? (event.locationDe || event.location) : (event.locationEn || event.location);
-                    const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : (event.categoryEn || event.category);
+                    const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : lang === 'tr' ? (event.titleTr || event.titleEn || event.title) : (event.titleEn || event.title);
+                    const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : lang === 'tr' ? (event.descriptionTr || event.descriptionEn || event.description) : (event.descriptionEn || event.description);
+                    const dLocation = lang === 'mn' ? (event.locationMn || event.location) : lang === 'de' ? (event.locationDe || event.location) : lang === 'tr' ? (event.locationTr || event.locationEn || event.location) : (event.locationEn || event.location);
+                    const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : lang === 'tr' ? (event.categoryTr || event.categoryEn || event.category) : (event.categoryEn || event.category);
 
                     return (
                     <motion.div 
@@ -355,10 +355,10 @@ export default function Events() {
                   <div className="space-y-8 md:space-y-12">
                     {events.filter(e => new Date(e.date).getTime() < new Date().setHours(0, 0, 0, 0)).map((event, idx) => {
                       const lang = i18n.language;
-                      const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : (event.titleEn || event.title);
-                      const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : (event.descriptionEn || event.description);
-                      const dLocation = lang === 'mn' ? (event.locationMn || event.location) : lang === 'de' ? (event.locationDe || event.location) : (event.locationEn || event.location);
-                      const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : (event.categoryEn || event.category);
+                      const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : lang === 'tr' ? (event.titleTr || event.titleEn || event.title) : (event.titleEn || event.title);
+                      const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : lang === 'tr' ? (event.descriptionTr || event.descriptionEn || event.description) : (event.descriptionEn || event.description);
+                      const dLocation = lang === 'mn' ? (event.locationMn || event.location) : lang === 'de' ? (event.locationDe || event.location) : lang === 'tr' ? (event.locationTr || event.locationEn || event.location) : (event.locationEn || event.location);
+                      const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : lang === 'tr' ? (event.categoryTr || event.categoryEn || event.category) : (event.categoryEn || event.category);
 
                       return (
                       <motion.div 

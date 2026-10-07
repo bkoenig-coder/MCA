@@ -177,13 +177,17 @@ export default function NewsDetails() {
       ? post.titleMn || post.title
       : lang === "de"
         ? post.titleDe || post.title
-        : post.titleEn || post.title;
+        : lang === "tr"
+          ? post.titleTr || post.titleEn || post.title
+          : post.titleEn || post.title;
   const dContent =
     lang === "mn"
       ? post.contentMn || post.content
       : lang === "de"
         ? post.contentDe || post.content
-        : post.contentEn || post.content;
+        : lang === "tr"
+          ? post.contentTr || post.contentEn || post.content
+          : post.contentEn || post.content;
 
   const shareUrl = "https://mongoliancenter.org" + window.location.pathname + "?v=new";
   const shareTitle = dTitle;

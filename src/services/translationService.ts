@@ -1,4 +1,4 @@
-export async function translateContent(text: string, targetLang: 'en' | 'mn' | 'de'): Promise<string> {
+export async function translateContent(text: string, targetLang: 'en' | 'mn' | 'de' | 'tr'): Promise<string> {
   if (!text) return text;
   
   try {
@@ -29,10 +29,12 @@ export async function autoTranslateRecord(record: any, fieldsToTranslate: string
       const en = await translateContent(newRecord[field], 'en');
       const mn = await translateContent(newRecord[field], 'mn');
       const de = await translateContent(newRecord[field], 'de');
+      const tr = await translateContent(newRecord[field], 'tr');
       
       newRecord[`${field}En`] = en;
       newRecord[`${field}Mn`] = mn;
       newRecord[`${field}De`] = de;
+      newRecord[`${field}Tr`] = tr;
     }
   }
   

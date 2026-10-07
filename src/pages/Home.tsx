@@ -504,8 +504,8 @@ export default function Home() {
           >
             {news.map((item, index) => {
               const lang = i18n.language;
-              const dTitle = lang === 'mn' ? (item.titleMn || item.title) : lang === 'de' ? (item.titleDe || item.title) : (item.titleEn || item.title);
-              const dContent = lang === 'mn' ? (item.contentMn || item.content) : lang === 'de' ? (item.contentDe || item.content) : (item.contentEn || item.content);
+              const dTitle = lang === 'mn' ? (item.titleMn || item.title) : lang === 'de' ? (item.titleDe || item.title) : lang === 'tr' ? (item.titleTr || item.titleEn || item.title) : (item.titleEn || item.title);
+              const dContent = lang === 'mn' ? (item.contentMn || item.content) : lang === 'de' ? (item.contentDe || item.content) : lang === 'tr' ? (item.contentTr || item.contentEn || item.content) : (item.contentEn || item.content);
               return (
               <motion.div 
                 key={item.id} 
@@ -583,7 +583,7 @@ export default function Home() {
           >
             {gallery.map((item, index) => {
               const lang = i18n.language;
-              const dTitle = lang === 'mn' ? (item.titleMn || item.title) : lang === 'de' ? (item.titleDe || item.title) : (item.titleEn || item.title);
+              const dTitle = lang === 'mn' ? (item.titleMn || item.title) : lang === 'de' ? (item.titleDe || item.title) : lang === 'tr' ? (item.titleTr || item.titleEn || item.title) : (item.titleEn || item.title);
               return (
               <motion.div 
                 key={item.id} 
@@ -666,10 +666,10 @@ export default function Home() {
                 >
                   {events.map((event, index) => {
                     const lang = i18n.language;
-                    const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : (event.titleEn || event.title);
-                    const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : (event.descriptionEn || event.description);
-                    const dLocation = lang === 'mn' ? (event.locationMn || event.location) : lang === 'de' ? (event.locationDe || event.location) : (event.locationEn || event.location);
-                    const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : (event.categoryEn || event.category);
+                    const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : lang === 'tr' ? (event.titleTr || event.titleEn || event.title) : (event.titleEn || event.title);
+                    const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : lang === 'tr' ? (event.descriptionTr || event.descriptionEn || event.description) : (event.descriptionEn || event.description);
+                    const dLocation = lang === 'mn' ? (event.locationMn || event.location) : lang === 'de' ? (event.locationDe || event.location) : lang === 'tr' ? (event.locationTr || event.locationEn || event.location) : (event.locationEn || event.location);
+                    const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : lang === 'tr' ? (event.categoryTr || event.categoryEn || event.category) : (event.categoryEn || event.category);
 
                     return (
                     <motion.div 

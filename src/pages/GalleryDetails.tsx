@@ -70,25 +70,33 @@ export default function GalleryDetails() {
       ? item.titleMn || item.title
       : lang === "de"
         ? item.titleDe || item.title
-        : item.titleEn || item.title;
+        : lang === "tr"
+          ? item.titleTr || item.titleEn || item.title
+          : item.titleEn || item.title;
   const dArtist =
     lang === "mn"
       ? item.artistMn || item.artist
       : lang === "de"
         ? item.artistDe || item.artist
-        : item.artistEn || item.artist;
+        : lang === "tr"
+          ? item.artistTr || item.artistEn || item.artist
+          : item.artistEn || item.artist;
   const dDesc =
     lang === "mn"
       ? item.descriptionMn || item.description
       : lang === "de"
         ? item.descriptionDe || item.description
-        : item.descriptionEn || item.description;
+        : lang === "tr"
+          ? item.descriptionTr || item.descriptionEn || item.description
+          : item.descriptionEn || item.description;
   const dCat =
     lang === "mn"
       ? item.categoryMn || item.category
       : lang === "de"
         ? item.categoryDe || item.category
-        : item.categoryEn || item.category;
+        : lang === "tr"
+          ? item.categoryTr || item.categoryEn || item.category
+          : item.categoryEn || item.category;
 
   const galleryPlates: string[] = Array.isArray(item?.galleryImages)
     ? item.galleryImages.filter((img: any) => typeof img === 'string' && img.trim().length > 0)

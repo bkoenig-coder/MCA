@@ -61,48 +61,62 @@ function normalizeDocumentData(tableName: string, data: any): any {
   return normalized;
 }
 
+// Columns the content tables really have. Anything else is dropped before saving, because
+// the database rejects a whole save when it sees an unknown field.
+const LANGS = ['en', 'mn', 'de', 'tr'];
+const withLangs = (base: string) => [base, ...LANGS.map(l => `${base}_${l}`)];
+const TABLE_COLUMNS: Record<string, Set<string>> = {
+  posts: new Set([
+    'id', ...withLangs('title'), ...withLangs('content'), ...withLangs('category').filter(c => c !== 'category_tr'),
+    'slug', 'image_url', 'gallery_images', 'tags', 'featured', 'status', 'author_id', 'created_at', 'updated_at',
+  ]),
+  events: new Set([
+    'id', ...withLangs('title'), ...withLangs('description'), ...withLangs('location').filter(c => c !== 'location_tr'),
+    ...withLangs('category').filter(c => c !== 'category_tr'),
+    'price', 'capacity', 'registered_count', 'date', 'time', 'image_url', 'gallery_images', 'whats_included', 'created_at', 'updated_at',
+  ]),
+  gallery: new Set([
+    'id', ...withLangs('title'), ...withLangs('artist'), ...withLangs('description'), ...withLangs('category').filter(c => c !== 'category_tr'),
+    'year', 'image_url', 'gallery_images', 'created_at', 'updated_at',
+  ]),
+};
+
+const toSnake = (key: string) => key.replace(/[A-Z]/g, c => `_${c.toLowerCase()}`);
+
 // Transform incoming payload to Supabase DB columns
 function transformToSupabasePayload(tableName: string, data: any): any {
   if (!data || typeof data !== 'object') return data;
-  const payload: any = { ...data };
+  const payload: any = {};
 
-  // Handle special fields
-  if (payload.titleEn !== undefined) payload.title_en = payload.titleEn;
-  if (payload.titleMn !== undefined) payload.title_mn = payload.titleMn;
-  if (payload.titleDe !== undefined) payload.title_de = payload.titleDe;
+  // camelCase fields from the app become snake_case columns (titleEn -> title_en, imageUrl -> image_url ...)
+  for (const [key, value] of Object.entries(data)) {
+    if (value === undefined) continue;
+    payload[toSnake(key)] = value;
+  }
 
-  if (payload.contentEn !== undefined) payload.content_en = payload.contentEn;
-  if (payload.contentMn !== undefined) payload.content_mn = payload.contentMn;
-  if (payload.contentDe !== undefined) payload.content_de = payload.contentDe;
-
-  if (payload.descriptionEn !== undefined) payload.description_en = payload.descriptionEn;
-  if (payload.descriptionMn !== undefined) payload.description_mn = payload.descriptionMn;
-  if (payload.descriptionDe !== undefined) payload.description_de = payload.descriptionDe;
-
-  if (payload.imageUrl !== undefined) payload.image_url = payload.imageUrl;
-  if (payload.galleryImages !== undefined) payload.gallery_images = payload.galleryImages;
-
-  if (payload.locationEn !== undefined) payload.location_en = payload.locationEn;
-  if (payload.locationMn !== undefined) payload.location_mn = payload.locationMn;
-  if (payload.locationDe !== undefined) payload.location_de = payload.locationDe;
-
-  if (payload.categoryEn !== undefined) payload.category_en = payload.categoryEn;
-  if (payload.categoryMn !== undefined) payload.category_mn = payload.categoryMn;
-  if (payload.categoryDe !== undefined) payload.category_de = payload.categoryDe;
-
-  if (payload.artistEn !== undefined) payload.artist_en = payload.artistEn;
-  if (payload.artistMn !== undefined) payload.artist_mn = payload.artistMn;
-  if (payload.artistDe !== undefined) payload.artist_de = payload.artistDe;
-
-  if (payload.whatsIncluded !== undefined) payload.whats_included = payload.whatsIncluded;
-  if (payload.registeredCount !== undefined) payload.registered_count = payload.registeredCount;
-  if (payload.authorId !== undefined) payload.author_id = payload.authorId;
-  if (payload.userId !== undefined) payload.user_id = payload.userId;
-  if (payload.userEmail !== undefined) payload.user_email = payload.userEmail;
-  if (payload.firstName !== undefined) payload.first_name = payload.firstName;
-  if (payload.lastName !== undefined) payload.last_name = payload.lastName;
-
+  const allowed = TABLE_COLUMNS[tableName];
+  if (allowed) {
+    for (const key of Object.keys(payload)) {
+      if (!allowed.has(key)) delete payload[key];
+    }
+  }
   return payload;
+}
+
+/** True after a save had to leave out the Turkish columns because the database does not have them yet. */
+export let turkishColumnsMissing = false;
+
+/** Runs a write; if only the optional Turkish columns are missing in the database, saves again without them. */
+async function writeWithTurkishFallback(run: (payload: any) => PromiseLike<{ error: any }>, payload: any) {
+  let result = await run(payload);
+  const err = result.error;
+  if (err && (err.code === 'PGRST204' || /column/i.test(err.message || '')) && /_tr/.test(err.message || '')) {
+    const trimmed = Object.fromEntries(Object.entries(payload).filter(([k]) => !k.endsWith('_tr')));
+    console.warn('Turkish columns are missing in the database: saved without them. Run supabase-turkish.sql.');
+    turkishColumnsMissing = true;
+    result = await run(trimmed);
+  }
+  return result;
 }
 
 // ----------------------------------------------------------------------------
@@ -269,7 +283,7 @@ export async function setDoc(docRef: DocRef, data: any, options?: { merge?: bool
   const table = mapTableName(docRef.collectionName);
   const payload = transformToSupabasePayload(table, { id: docRef.id, ...data });
 
-  const { error } = await supabase.from(table).upsert(payload);
+  const { error } = await writeWithTurkishFallback(p => supabase.from(table).upsert(p), payload);
   if (error) {
     console.error(`Error in setDoc (${table}):`, error);
     throw error;
@@ -281,7 +295,7 @@ export async function addDoc(colRef: CollectionRef, data: any) {
   const id = `doc_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
   const payload = transformToSupabasePayload(table, { id, ...data });
 
-  const { error } = await supabase.from(table).insert(payload);
+  const { error } = await writeWithTurkishFallback(p => supabase.from(table).insert(p), payload);
   if (error) {
     console.error(`Error in addDoc (${table}):`, error);
     throw error;
@@ -293,7 +307,7 @@ export async function updateDoc(docRef: DocRef, data: any) {
   const table = mapTableName(docRef.collectionName);
   const payload = transformToSupabasePayload(table, data);
 
-  const { error } = await supabase.from(table).update(payload).eq('id', docRef.id);
+  const { error } = await writeWithTurkishFallback(p => supabase.from(table).update(p).eq('id', docRef.id), payload);
   if (error) {
     console.error(`Error in updateDoc (${table}):`, error);
     throw error;

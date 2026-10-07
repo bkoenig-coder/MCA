@@ -76,9 +76,9 @@ export default function Gallery() {
               <AnimatePresence mode="popLayout">
                 {filteredArt.map((art) => {
                   const lang = i18n.language;
-                  const dTitle = lang === 'mn' ? (art.titleMn || art.title) : lang === 'de' ? (art.titleDe || art.title) : (art.titleEn || art.title);
-                  const dArtist = lang === 'mn' ? (art.artistMn || art.artist) : lang === 'de' ? (art.artistDe || art.artist) : (art.artistEn || art.artist);
-                  const dCat = lang === 'mn' ? (art.categoryMn || art.category) : lang === 'de' ? (art.categoryDe || art.category) : (art.categoryEn || art.category);
+                  const dTitle = lang === 'mn' ? (art.titleMn || art.title) : lang === 'de' ? (art.titleDe || art.title) : lang === 'tr' ? (art.titleTr || art.titleEn || art.title) : (art.titleEn || art.title);
+                  const dArtist = lang === 'mn' ? (art.artistMn || art.artist) : lang === 'de' ? (art.artistDe || art.artist) : lang === 'tr' ? (art.artistTr || art.artistEn || art.artist) : (art.artistEn || art.artist);
+                  const dCat = lang === 'mn' ? (art.categoryMn || art.category) : lang === 'de' ? (art.categoryDe || art.category) : lang === 'tr' ? (art.categoryTr || art.categoryEn || art.category) : (art.categoryEn || art.category);
                   return (
                   <motion.div
                     key={art.id}

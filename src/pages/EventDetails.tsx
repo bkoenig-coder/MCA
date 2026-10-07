@@ -182,10 +182,10 @@ export default function EventDetails() {
   }
 
   const lang = i18n.language;
-  const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : (event.titleEn || event.title);
-  const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : (event.descriptionEn || event.description);
-  const dLocation = lang === 'mn' ? (event.locationMn || event.location) : lang === 'de' ? (event.locationDe || event.location) : (event.locationEn || event.location);
-  const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : (event.categoryEn || event.category);
+  const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : lang === 'tr' ? (event.titleTr || event.titleEn || event.title) : (event.titleEn || event.title);
+  const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : lang === 'tr' ? (event.descriptionTr || event.descriptionEn || event.description) : (event.descriptionEn || event.description);
+  const dLocation = lang === 'mn' ? (event.locationMn || event.location) : lang === 'de' ? (event.locationDe || event.location) : lang === 'tr' ? (event.locationTr || event.locationEn || event.location) : (event.locationEn || event.location);
+  const dCat = lang === 'mn' ? (event.categoryMn || event.category) : lang === 'de' ? (event.categoryDe || event.category) : lang === 'tr' ? (event.categoryTr || event.categoryEn || event.category) : (event.categoryEn || event.category);
 
   // Format title for styling (split last word)
   let titleParts = dTitle.split(' ');

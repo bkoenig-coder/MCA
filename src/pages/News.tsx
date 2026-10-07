@@ -100,8 +100,8 @@ export default function News() {
             {(() => {
               const p = posts[0];
               const lang = i18n.language;
-              const dTitle = lang === 'mn' ? (p.titleMn || p.title) : lang === 'de' ? (p.titleDe || p.title) : (p.titleEn || p.title);
-              const dContent = lang === 'mn' ? (p.contentMn || p.content) : lang === 'de' ? (p.contentDe || p.content) : (p.contentEn || p.content);
+              const dTitle = lang === 'mn' ? (p.titleMn || p.title) : lang === 'de' ? (p.titleDe || p.title) : lang === 'tr' ? (p.titleTr || p.titleEn || p.title) : (p.titleEn || p.title);
+              const dContent = lang === 'mn' ? (p.contentMn || p.content) : lang === 'de' ? (p.contentDe || p.content) : lang === 'tr' ? (p.contentTr || p.contentEn || p.content) : (p.contentEn || p.content);
               const linkUrl = `/news/${p.slug || p.id}`;
               const count = Array.isArray(p.galleryImages)
                 ? p.galleryImages.length
@@ -144,8 +144,8 @@ export default function News() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
                   {posts.slice(1).map((post) => {
                     const lang = i18n.language;
-                    const dTitle = lang === 'mn' ? (post.titleMn || post.title) : lang === 'de' ? (post.titleDe || post.title) : (post.titleEn || post.title);
-                    const dContent = lang === 'mn' ? (post.contentMn || post.content) : lang === 'de' ? (post.contentDe || post.content) : (post.contentEn || post.content);
+                    const dTitle = lang === 'mn' ? (post.titleMn || post.title) : lang === 'de' ? (post.titleDe || post.title) : lang === 'tr' ? (post.titleTr || post.titleEn || post.title) : (post.titleEn || post.title);
+                    const dContent = lang === 'mn' ? (post.contentMn || post.content) : lang === 'de' ? (post.contentDe || post.content) : lang === 'tr' ? (post.contentTr || post.contentEn || post.content) : (post.contentEn || post.content);
                     const linkUrl = `/news/${post.slug || post.id}`;
                     return (
                       <article key={post.id} className="flex flex-col group">
