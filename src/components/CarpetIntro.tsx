@@ -7,6 +7,8 @@ import { SoyomboSymbol, GerSymbol } from './MongolianDesign';
 const NAVY = '#0A2A5C';
 const BURGUNDY = '#6E1B2C';
 const GOLD = '#E0B94A';
+const WHITE = '#F7F2E6'; // carpet-white used for the border bands
+const INK = '#0B4C94'; // blue thread on the white border
 
 const dataUri = (svg: string) => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
 
@@ -34,17 +36,19 @@ const ORNAMENTS = {
   },
 } as const;
 
-const ornamentTile = (kind: keyof typeof ORNAMENTS, vertical: boolean) => {
+const ornamentTile = (kind: keyof typeof ORNAMENTS, vertical: boolean, color: string = GOLD) => {
   const { w, h, art, sw } = ORNAMENTS[kind];
-  const body = `<g fill="none" stroke="${GOLD}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${art}</g>`;
+  const body = `<g fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${art}</g>`;
   const svg = vertical
     ? `<svg xmlns="http://www.w3.org/2000/svg" width="${h}" height="${w}" viewBox="0 0 ${h} ${w}"><g transform="translate(${h} 0) rotate(90)">${body}</g></svg>`
     : `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${body}</svg>`;
   return dataUri(svg);
 };
 const TILES = {
-  curl: { h: ornamentTile('curl', false), v: ornamentTile('curl', true), ratio: ORNAMENTS.curl.w / ORNAMENTS.curl.h },
-  plait: { h: ornamentTile('plait', false), v: ornamentTile('plait', true), ratio: ORNAMENTS.plait.w / ORNAMENTS.plait.h },
+  curl: { h: ornamentTile('curl', false, INK), v: ornamentTile('curl', true, INK), ratio: ORNAMENTS.curl.w / ORNAMENTS.curl.h },
+  plait: { h: ornamentTile('plait', false, INK), v: ornamentTile('plait', true, INK), ratio: ORNAMENTS.plait.w / ORNAMENTS.plait.h },
+  // white thread on the blue field (phone cartouches)
+  plaitLight: { h: ornamentTile('plait', false, WHITE), v: ornamentTile('plait', true, WHITE), ratio: ORNAMENTS.plait.w / ORNAMENTS.plait.h },
 };
 
 // Field weave: small lozenges, light thread and dark shadow thread
@@ -58,20 +62,20 @@ const LOZENGE_DARK = lozenge('#021430');
 /** Nested squares with a diamond: the corner stone where two ornament bands meet. */
 const CornerStone = ({ className = '', size }: { className?: string; size: number }) => (
   <svg viewBox="0 0 40 40" className={className} width={size} height={size} aria-hidden="true">
-    <rect width="40" height="40" fill="#07204A" />
-    <rect x="3" y="3" width="34" height="34" fill="none" stroke={GOLD} strokeWidth="2" />
-    <rect x="8" y="8" width="24" height="24" fill={BURGUNDY} stroke={GOLD} strokeWidth="1.2" />
-    <path d="M20 11L29 20L20 29L11 20Z" fill={GOLD} />
-    <path d="M20 16L24 20L20 24L16 20Z" fill={BURGUNDY} />
+    <rect width="40" height="40" fill={WHITE} />
+    <rect x="3" y="3" width="34" height="34" fill="none" stroke={INK} strokeWidth="2" />
+    <rect x="8" y="8" width="24" height="24" fill={INK} />
+    <path d="M20 11L29 20L20 29L11 20Z" fill={WHITE} />
+    <path d="M20 16L24 20L20 24L16 20Z" fill={INK} />
   </svg>
 );
 
 /** A diamond medallion used in the middle of the phone cartouches. */
 const DiamondSeal = ({ className = '' }: { className?: string }) => (
   <svg viewBox="0 0 40 40" className={className} aria-hidden="true">
-    <path d="M20 2L38 20L20 38L2 20Z" fill={BURGUNDY} stroke={GOLD} strokeWidth="2" />
-    <path d="M20 9L31 20L20 31L9 20Z" fill="none" stroke={GOLD} strokeWidth="1.5" />
-    <path d="M20 15L25 20L20 25L15 20Z" fill={GOLD} />
+    <path d="M20 2L38 20L20 38L2 20Z" fill={WHITE} stroke={GOLD} strokeWidth="2" />
+    <path d="M20 9L31 20L20 31L9 20Z" fill="none" stroke={INK} strokeWidth="1.8" />
+    <path d="M20 15L25 20L20 25L15 20Z" fill={INK} />
   </svg>
 );
 
@@ -79,8 +83,8 @@ const DiamondSeal = ({ className = '' }: { className?: string }) => (
 const OrnamentFrame = ({ band, kind, className, style }: { band: number; kind: keyof typeof TILES; className?: string; style?: React.CSSProperties }) => {
   const t = TILES[kind];
   const th = band * 0.8;
-  const h = { backgroundColor: BURGUNDY, backgroundImage: t.h, backgroundSize: `${th * t.ratio}px ${th}px`, backgroundRepeat: 'repeat-x', backgroundPosition: 'center' } as const;
-  const v = { backgroundColor: BURGUNDY, backgroundImage: t.v, backgroundSize: `${th}px ${th * t.ratio}px`, backgroundRepeat: 'repeat-y', backgroundPosition: 'center' } as const;
+  const h = { backgroundColor: WHITE, backgroundImage: t.h, backgroundSize: `${th * t.ratio}px ${th}px`, backgroundRepeat: 'repeat-x', backgroundPosition: 'center' } as const;
+  const v = { backgroundColor: WHITE, backgroundImage: t.v, backgroundSize: `${th}px ${th * t.ratio}px`, backgroundRepeat: 'repeat-y', backgroundPosition: 'center' } as const;
   return (
     <div className={`absolute ${className ?? ''}`} style={style}>
       <div className="absolute inset-x-0 top-0" style={{ height: band, ...h }} />
@@ -141,9 +145,9 @@ export default function CarpetIntro() {
       <div className="md:hidden">
         {['top-[7.5%]', 'bottom-[7.5%]'].map((pos) => (
           <div key={pos} className={`absolute ${pos} left-12 right-12 flex items-center gap-3`}>
-            <div className="flex-1 h-3" style={{ backgroundImage: TILES.plait.h, backgroundSize: '27px 13.5px', backgroundRepeat: 'repeat-x', backgroundPosition: 'center' }} />
+            <div className="flex-1 h-3" style={{ backgroundImage: TILES.plaitLight.h, backgroundSize: '27px 13.5px', backgroundRepeat: 'repeat-x', backgroundPosition: 'center' }} />
             <DiamondSeal className="w-9 h-9 shrink-0" />
-            <div className="flex-1 h-3" style={{ backgroundImage: TILES.plait.h, backgroundSize: '27px 13.5px', backgroundRepeat: 'repeat-x', backgroundPosition: 'center' }} />
+            <div className="flex-1 h-3" style={{ backgroundImage: TILES.plaitLight.h, backgroundSize: '27px 13.5px', backgroundRepeat: 'repeat-x', backgroundPosition: 'center' }} />
           </div>
         ))}
       </div>
