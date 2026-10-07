@@ -151,6 +151,10 @@ const rows: Row[] = [
   ['naadam.archeryText', 'Traditional archery with a recurve bow, in which both men and women compete.', 'Traditionelles Bogenschießen mit dem Reflexbogen, an dem Männer wie Frauen teilnehmen.', 'Уламжлалт нумаар харвадаг бөгөөд эрэгтэй, эмэгтэй хоёулаа өрсөлддөг сур харваа.', 'Hem kadınların hem erkeklerin yarıştığı, refleks yayla yapılan geleneksel okçuluk.'],
   ['naadam.horseTitle', 'Horse racing', 'Pferderennen', 'Морин уралдаан', 'At yarışı'],
   ['naadam.horseText', 'Long-distance races across the open steppe, ridden by young jockeys.', 'Langstreckenrennen über die offene Steppe, geritten von jungen Jockeys.', 'Задгай тал нутгаар болдог холын зайн уралдаан бөгөөд морийг бага насны унаач хүүхдүүд унадаг.', 'Açık bozkırda yapılan, genç jokeylerin bindiği uzun mesafeli yarışlar.'],
+  ['diorama.mood.dawn', 'Dawn', 'Morgen', 'Үүр', 'Şafak'],
+  ['diorama.mood.day', 'Day', 'Tag', 'Өдөр', 'Gündüz'],
+  ['diorama.mood.sunset', 'Sunset', 'Abend', 'Нар жаргах', 'Gün batımı'],
+  ['diorama.mood.night', 'Night', 'Nacht', 'Шөнө', 'Gece'],
 ];
 
 function build(index: number) {

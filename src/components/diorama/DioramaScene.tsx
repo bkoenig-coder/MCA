@@ -9,13 +9,16 @@ import { NaadamZone } from './vignettes/NaadamZone';
 import { UnescoShrine } from './vignettes/UnescoShrine';
 import { ZoneLabel } from './vignettes/ZoneLabel';
 import { CinematicFocusLight } from './CinematicFocusLight';
+import { Island } from './Island';
+import { MOODS, Mood } from './atmosphere/moods';
 
 interface DioramaSceneProps {
   onSelect: (id: string) => void;
   hideLabels?: boolean;
+  mood?: Mood;
 }
 
-export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
+export function DioramaScene({ onSelect, hideLabels, mood = 'sunset' }: DioramaSceneProps) {
   const { t } = useTranslation();
   const archipelagoRef = useRef<THREE.Group>(null);
   const [centerHovered, setCenterHovered] = useState(false);
@@ -31,18 +34,12 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
     <group ref={archipelagoRef}>
       
       {/* Cinematic Fog / Dust Elements */}
-      <Sparkles count={1000} scale={[45, 15, 45]} size={6} speed={0.3} color="#a2bcfc" opacity={0.5} position={[0, 6, 0]} noise={1.5} />
+      <Sparkles count={600} scale={[48, 16, 48]} size={4} speed={0.25} color={MOODS[mood].sparkle} opacity={mood === 'night' ? 0.9 : 0.5} position={[0, 6, 0]} noise={1.5} />
+      {mood === 'night' && <Sparkles count={160} scale={[40, 6, 40]} size={9} speed={0.5} color="#ffd37a" opacity={1} position={[0, 2, 0]} noise={3} />}
       
       {/* Central Hub Island (State Suld / Flags) */}
       <group position={[0, 0, 0]} onClick={() => onSelect('center')} onPointerOver={(e) => { e.stopPropagation(); setCenterHovered(true); document.body.style.cursor = 'pointer'; }} onPointerOut={(e) => { setCenterHovered(false); document.body.style.cursor = 'auto'; }}>
-         <mesh receiveShadow position={[0, -2, 0]}>
-           <cylinderGeometry args={[4, 2.5, 4, 8]} />
-           <meshStandardMaterial color="#5c4033" roughness={0.9} />
-         </mesh>
-         <mesh receiveShadow position={[0, 0.01, 0]}>
-           <cylinderGeometry args={[4, 4, 0.1, 8]} />
-           <meshStandardMaterial color="#538032" roughness={0.8} />
-         </mesh>
+         <Island radius={4.0} tip={0.62} seed={10} grass={380} />
          <NineWhiteBanners />
          
          <Brazier position={[0, 0.1, 0]} />
@@ -62,61 +59,31 @@ export function DioramaScene({ onSelect, hideLabels }: DioramaSceneProps) {
 
       {/* Nomadic Village Island (South-West) */}
       <group position={[-12, -1, 12]}>
-         <mesh receiveShadow position={[0, -2, 0]}>
-           <cylinderGeometry args={[11, 8, 4, 8]} />
-           <meshStandardMaterial color="#5c4033" roughness={0.9} />
-         </mesh>
-         <mesh receiveShadow position={[0, 0.01, 0]}>
-           <cylinderGeometry args={[11, 11, 0.1, 8]} />
-           <meshStandardMaterial color="#538032" roughness={0.8} />
-         </mesh>
+         <Island radius={11.0} tip={0.73} seed={17} grass={1045} />
          <NomadicZone onSelect={() => onSelect('nomadic')} hideLabels={hideLabels} />
       </group>
 
       {/* Imperial Court Island (East) */}
       <group position={[16, 2, 2]}>
-         <mesh receiveShadow position={[0, -2, 0]}>
-           <cylinderGeometry args={[12.5, 9, 4, 8]} />
-           <meshStandardMaterial color="#5c4033" roughness={0.9} />
-         </mesh>
-         <mesh receiveShadow position={[0, 0.01, 0]}>
-           <cylinderGeometry args={[12.5, 12.5, 0.1, 8]} />
-           <meshStandardMaterial color="#538032" roughness={0.8} />
-         </mesh>
+         <Island radius={12.5} tip={0.72} seed={24} grass={1187} />
          <ImperialZone onSelect={() => onSelect('imperial')} hideLabels={hideLabels} />
       </group>
 
       {/* Naadam Festival Island (North) */}
       <group position={[-2, 1, -16]}>
-         <mesh receiveShadow position={[0, -2, 0]}>
-           <cylinderGeometry args={[10, 7, 4, 8]} />
-           <meshStandardMaterial color="#5c4033" roughness={0.9} />
-         </mesh>
-         <mesh receiveShadow position={[0, 0.01, 0]}>
-           <cylinderGeometry args={[10, 10, 0.1, 8]} />
-           <meshStandardMaterial color="#538032" roughness={0.8} />
-         </mesh>
+         <Island radius={10.0} tip={0.7} seed={31} grass={950} />
          <NaadamZone onSelect={() => onSelect('naadam')} hideLabels={hideLabels} />
       </group>
 
       {/* UNESCO Living Heritage Shrine Island (North-East) */}
       <group position={[14, 0.5, -14]}>
-         <mesh receiveShadow position={[0, -2, 0]}>
-           <cylinderGeometry args={[8, 5.5, 4, 8]} />
-           <meshStandardMaterial color="#5c4033" roughness={0.9} />
-         </mesh>
-         <mesh receiveShadow position={[0, 0.01, 0]}>
-           <cylinderGeometry args={[8, 8, 0.1, 8]} />
-           <meshStandardMaterial color="#538032" roughness={0.8} />
-         </mesh>
+         <Island radius={8.0} tip={0.69} seed={38} grass={760} />
          <UnescoShrine onSelect={() => onSelect('unesco')} hideLabels={hideLabels} />
       </group>
 
       {/* Flying Eagle weaving through the islands */}
       <FlyingEagle />
       
-      {/* Subtle floating volumetric fog planes */}
-      <CinematicPatchyFog />
       
       {/* Decorative Bridges / Floating Rocks */}
       <DecorativeElements />
