@@ -75,7 +75,7 @@ export default function CarpetIntro() {
     };
   }, []);
 
-  const outerBand = typeof window !== 'undefined' && window.innerWidth < 768 ? 26 : 38;
+  const outerBand = typeof window !== 'undefined' && window.innerWidth < 768 ? 16 : 24;
 
   // Deep blue wool carpet: lozenge-woven field and a meander border
   const carpetBg = (
@@ -96,8 +96,8 @@ export default function CarpetIntro() {
       {/* Outer border: gold edge, meander band, cream and gold guard lines */}
       <div className="absolute inset-1.5 md:inset-3 border-[3px]" style={{ borderColor: GOLD }} />
       <MeanderFrame band={outerBand} className="inset-3 md:inset-6" />
-      <div className="absolute border" style={{ inset: outerBand + (outerBand > 30 ? 28 : 18), borderColor: `${CREAM}99` }} />
-      <div className="absolute border-2" style={{ inset: outerBand + (outerBand > 30 ? 33 : 22), borderColor: `${GOLD}aa` }} />
+      <div className="absolute border" style={{ inset: outerBand + (outerBand > 20 ? 28 : 16), borderColor: `${CREAM}99` }} />
+      <div className="absolute border-2" style={{ inset: outerBand + (outerBand > 20 ? 32 : 20), borderColor: `${GOLD}aa` }} />
 
       {/* Phones: a rosette cartouche flanked by meander, top and bottom of the field */}
       <div className="md:hidden">
