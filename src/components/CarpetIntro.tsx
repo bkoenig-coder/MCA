@@ -102,9 +102,22 @@ const OrnamentFrame = ({ band, kind, className, style }: { band: number; kind: k
 
 export default function CarpetIntro() {
   const { t } = useTranslation();
-  const [isVisible, setIsVisible] = useState(true);
+  // Shown once per visit: coming back to another page or reloading goes straight to the site
+  const [isVisible, setIsVisible] = useState(() => {
+    try {
+      return sessionStorage.getItem('mca-intro-seen') !== '1';
+    } catch {
+      return true;
+    }
+  });
 
   useEffect(() => {
+    if (!isVisible) return;
+    try {
+      sessionStorage.setItem('mca-intro-seen', '1');
+    } catch {
+      /* private mode: ignore */
+    }
     const timer = setTimeout(() => {
       setIsVisible(false);
     }, 2800);

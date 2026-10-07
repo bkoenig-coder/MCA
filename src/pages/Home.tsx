@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
+import HeroVideo from '../components/HeroVideo';
 import React, { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import { cn } from '../lib/utils';
 import { ArrowRight, Calendar, Palette, Heart, Users, Shield, Sword, Clock, MapPin, Loader2, Info, Star, Handshake, Lightbulb, ArrowRightLeft, TrendingUp, Instagram, ChevronLeft, ChevronRight, Award, CheckCircle2, Landmark, Briefcase } from 'lucide-react';
@@ -160,17 +161,8 @@ export default function Home() {
           {/* Subtle gradient overlay to ensure text readability */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#050B14]/95 via-[#050B14]/50 to-transparent z-10 pointer-events-none" />
           
-          {/* Background Video */}
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            className="w-full h-full object-cover pointer-events-none opacity-80 md:opacity-100 transition-opacity duration-1000"
-          >
-            <source src="https://ik.imagekit.io/9yplrekzm/MCA/0812(1).mp4" type="video/mp4" />
-          </video>
+          {/* Background video: poster first, then a light 30-second loop */}
+          <HeroVideo />
         </div>
 
         <Overlay activePopup={activePopup} onClose={() => setActivePopup(null)} />

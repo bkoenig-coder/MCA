@@ -3,14 +3,13 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
 import { useAuth } from '../contexts/AuthContext';
-import { db, collection, addDoc, onSnapshot, query, orderBy, limit, serverTimestamp, OperationType, handleFirestoreError, signInWithGoogle, auth } from '../firebase';
+import { db, collection, addDoc, deleteDoc, doc, updateDoc, setDoc, onSnapshot, query, orderBy, limit, serverTimestamp, OperationType, handleFirestoreError, signInWithGoogle, auth } from '../firebase';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { 
   Plus, Calendar, FileText, Users, User as UserIcon, TrendingUp, Image as ImageIcon, 
   Trash2, Edit3, Check, X, AlertCircle, ExternalLink, Download, Shield, Sparkles, 
   Wand2, Copy, Search, Eye, MapPin, Clock, Tag, Compass, Upload, Loader2, Link2, SlidersHorizontal
 } from 'lucide-react';
-import { deleteDoc, doc, updateDoc, setDoc } from 'firebase/firestore';
 import { toast } from 'sonner';
 import Modal from '../components/Modal';
 import CoverImageField from '../components/admin/CoverImageField';

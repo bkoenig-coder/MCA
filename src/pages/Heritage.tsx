@@ -1,10 +1,8 @@
-import React, { useState, Suspense } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import CloudHeader from '../components/CloudHeader';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
-import { Canvas } from '@react-three/fiber';
-import { MapControls, BakeShadows, Preload } from '@react-three/drei';
 import { 
   Compass, 
   ArrowRight, 
@@ -23,10 +21,13 @@ import {
   Landmark,
   ShieldCheck
 } from 'lucide-react';
-import { DioramaScene } from '../components/diorama/DioramaScene';
 import { Overlay } from '../components/diorama/Overlay';
-import Artifact3DExplorer from '../components/diorama/Artifact3DExplorer';
-import LetsPlayGame from '../components/game/LetsPlayGame';
+import LazyMount from '../components/LazyMount';
+
+// Heavy parts load only when the visitor scrolls to them
+const DioramaCanvas = lazy(() => import('../components/diorama/DioramaCanvas'));
+const Artifact3DExplorer = lazy(() => import('../components/diorama/Artifact3DExplorer'));
+const LetsPlayGame = lazy(() => import('../components/game/LetsPlayGame'));
 import { SoyomboSymbol, UlziiSymbol } from '../components/MongolianDesign';
 
 type HeritageCategory = 'intangible' | 'material' | 'calligraphy' | 'ceremony';
@@ -120,44 +121,21 @@ export default function Heritage() {
           </div>
 
           <div className="relative w-full h-[450px] sm:h-[550px] bg-[#E8EEF5]">
-            <Suspense fallback={
+            <LazyMount className="absolute inset-0" placeholder={
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#E8EEF5] z-20">
                 <Loader className="w-8 h-8 text-[#D4AF37] animate-spin mb-3" />
                 <p className="text-xs font-mono tracking-widest text-slate-700 uppercase">{t('heritagePage.diorama.loading')}</p>
               </div>
             }>
-              <Canvas 
-                shadows 
-                camera={{ position: [0, 32, 12], fov: 45 }}
-                gl={{ powerPreference: "high-performance", antialias: false }}
-              >
-                <color attach="background" args={['#E8EEF5']} />
-                <fog attach="fog" args={['#E8EEF5', 30, 95]} />
-                
-                <ambientLight intensity={0.9} />
-                <directionalLight
-                  castShadow
-                  position={[25, 25, 15]}
-                  intensity={1.4}
-                  color="#fffdf5"
-                  shadow-mapSize={[512, 512]}
-                />
-                
-                <DioramaScene onSelect={setActiveDioramaPopup} />
-                
-                <MapControls 
-                  makeDefault 
-                  minPolarAngle={0} 
-                  maxPolarAngle={Math.PI / 2.5} 
-                  minDistance={8}
-                  maxDistance={50}
-                  target={[0, 0, 0]}
-                />
-
-                <BakeShadows />
-                <Preload all />
-              </Canvas>
-            </Suspense>
+              <Suspense fallback={
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#E8EEF5] z-20">
+                <Loader className="w-8 h-8 text-[#D4AF37] animate-spin mb-3" />
+                <p className="text-xs font-mono tracking-widest text-slate-700 uppercase">{t('heritagePage.diorama.loading')}</p>
+              </div>
+              }>
+                <DioramaCanvas onSelect={setActiveDioramaPopup} />
+              </Suspense>
+            </LazyMount>
 
             <Overlay activePopup={activeDioramaPopup} onClose={() => setActiveDioramaPopup(null)} />
 
@@ -175,7 +153,11 @@ export default function Heritage() {
           
           {/* Embedded Full-Width Artifact Explorer */}
           <div className="p-4 sm:p-6 lg:p-8 bg-white">
-            <Artifact3DExplorer />
+            <LazyMount className="min-h-[420px]">
+              <Suspense fallback={<div className="h-[420px] flex items-center justify-center"><Loader className="w-8 h-8 text-[#D4AF37] animate-spin" /></div>}>
+                <Artifact3DExplorer />
+              </Suspense>
+            </LazyMount>
           </div>
 
         </div>
@@ -508,7 +490,9 @@ export default function Heritage() {
 
           {isGameActive ? (
             <div className="w-full bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 shadow-inner">
-              <LetsPlayGame />
+              <Suspense fallback={<div className="h-[320px] flex items-center justify-center text-slate-400"><Loader className="w-8 h-8 animate-spin" /></div>}>
+                <LetsPlayGame />
+              </Suspense>
             </div>
           ) : (
             <div 

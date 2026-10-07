@@ -2,8 +2,8 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowLeft, Mail, Linkedin } from 'lucide-react';
-import margadPic from '../assets/media/margadpic.png';
-import berniPic from '../assets/media/bernipic.png';
+import margadPic from '../assets/media/margadpic.jpg';
+import berniPic from '../assets/media/bernipic.jpg';
 import chinggisPic from '../assets/media/chinggiskhan1.png';
 import { useTranslation } from 'react-i18next';
 

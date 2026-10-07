@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Send, ArrowRight, Mail, MapPin, Scale, FileText, ShieldCheck } from 'lucide-react';
 import { EyebrowMark, SectionSeam } from '../components/MongolianDesign';
-import margadPic from '../assets/media/margadpic.png';
-import berniPic from '../assets/media/bernipic.png';
+import margadPic from '../assets/media/margadpic.jpg';
+import berniPic from '../assets/media/bernipic.jpg';
 import chinggisPic from '../assets/media/chinggiskhan1.png';
 
 const reveal = {

@@ -17,6 +17,10 @@ export default defineConfig(() => {
       rollupOptions: {
         output: {
           manualChunks(id) {
+            // Small shared helpers must not end up inside the heavy 3D chunk, or every page would download it
+            if (id.includes('vite/preload-helper') || id.includes('commonjsHelpers') || id.includes('vite/modulepreload-polyfill')) {
+              return 'react-vendor';
+            }
             if (id.includes('node_modules')) {
               if (id.includes('three') || id.includes('@react-three')) {
                 return 'three-vendor';

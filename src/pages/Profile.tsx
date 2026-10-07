@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useAuth } from '../contexts/AuthContext';
-import { auth, db, logOut } from '../firebase';
-import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { auth, db, logOut, doc, updateDoc, serverTimestamp } from '../firebase';
 import { toast } from 'sonner';
 import { User as UserIcon, LogOut, Save, Shield, Mail, Calendar, Award } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
