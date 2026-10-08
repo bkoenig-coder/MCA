@@ -222,6 +222,11 @@ export default function Home() {
                   <span>{t('siteUi.home.tour')}</span>
                 </Link>
               </motion.div>
+
+              {/* Official Plaque - vertical Mongolian script (phone) */}
+              <div className="md:hidden flex justify-center mt-10 pointer-events-none">
+                <ScriptPlaque compact />
+              </div>
             </div>
 
             {/* Official Plaque - vertical Mongolian script (desktop) */}
