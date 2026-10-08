@@ -17,6 +17,7 @@ import { Overlay } from '../components/diorama/Overlay';
 import BridgeMap, { BRIDGE_DISTANCE_KM } from '../components/BridgeMap';
 
 import LetsPlayGame from '../components/game/LetsPlayGame';
+import ScriptPlaque from '../components/ScriptPlaque';
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -197,38 +198,9 @@ export default function Home() {
                   </motion.div>
                 </div>
 
-                {/* Official Plaque - Vertical Mongolian Script Style (Tablet) */}
-                <div className="hidden md:block lg:hidden relative flex-shrink-0 pt-6">
-                  <motion.div
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="relative flex flex-col items-center p-4 py-8 border-2 border-brand-gold/50 bg-[#151a25]/90 backdrop-blur-xl rounded shadow-xl overflow-hidden min-w-[100px] ml-4 h-fit min-h-[420px]"
-                  >
-                    <div className="flex flex-col items-center relative z-10">
-                      
-                      <div className="flex flex-col items-center gap-3 mb-4">
-                        <div className="px-3 py-1 border border-brand-gold/40 rounded-sm bg-[#151a25]/90">
-                          <span className="text-[6px] uppercase tracking-[0.4em] text-brand-gold font-bold whitespace-nowrap">{t('siteUi.home.estShort')}</span>
-                        </div>
-                        <div className="h-8 w-px bg-brand-gold/40" />
-                      </div>
-
-                      <h2 
-                        className="text-6xl md:text-7xl font-serif text-brand-gold text-center tracking-tighter leading-none relative drop-shadow-md"
-                        style={{ writingMode: 'vertical-lr', fontFamily: '"Noto Sans Mongolian", "Mongolian Baiti", serif', letterSpacing: 'normal' }}
-                      >
-                        <span className="relative z-10">ᠮᠣᠩᠣᠯ ᠲᠥᠸ</span>
-                      </h2>
-
-                      <div className="flex flex-col items-center gap-3 mt-4">
-                        <div className="h-8 w-px bg-brand-gold/40" />
-                        <div className="px-3 py-1 border-2 border-brand-gold/60 rounded-sm bg-[#151a25]/90">
-                          <span className="text-[8px] uppercase tracking-[0.4em] text-brand-gold font-bold">{t('siteUi.home.official')}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
+                {/* Official Plaque - vertical Mongolian script (tablet) */}
+                <div className="hidden md:block lg:hidden relative flex-shrink-0 pt-6 ml-4">
+                  <ScriptPlaque compact />
                 </div>
               </div>
 
@@ -252,56 +224,9 @@ export default function Home() {
               </motion.div>
             </div>
 
-            {/* Official Plaque - Vertical Mongolian Script Style (Desktop) */}
+            {/* Official Plaque - vertical Mongolian script (desktop) */}
             <div className="hidden lg:flex items-center justify-center relative w-full py-4 pointer-events-none">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.0, ease: "easeOut" }}
-                className="relative flex flex-col items-center p-6 py-8 border-2 border-brand-gold/60 bg-[#151a25]/90 md:bg-[#151a25]/80 md:backdrop-blur-xl rounded-sm shadow-lg md:shadow-[0_50px_90px_-20px_rgba(0,0,0,0.5)] group overflow-hidden min-w-[220px] h-fit max-h-[calc(100%-2rem)] pointer-events-auto"
-              >
-                {/* Static Stable Glow Effect */}
-                <div 
-                  className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.1),transparent_70%)] pointer-events-none"
-                />
-                
-                {/* Static Rim Light */}
-                <div 
-                  className="absolute inset-0 border-4 border-brand-gold/20 rounded-sm pointer-events-none"
-                />
-
-                <div className="flex flex-col items-center relative z-10">
-                  
-                  {/* Horizontal Established Text with Border */}
-                  <div className="flex flex-col items-center gap-3 mb-4">
-                    <div className="px-4 py-1.5 border border-brand-gold/40 rounded-sm bg-[#151a25]/90">
-                      <span className="text-[10px] uppercase tracking-[0.4em] text-brand-gold font-bold">{t('siteUi.home.established')}</span>
-                    </div>
-                    <div className="h-12 w-px bg-brand-gold/40" />
-                  </div>
-
-                  {/* Main Vertical Title */}
-                  <div className="relative">
-                    <h2 
-                      className="text-[clamp(56px,9vh,120px)] font-serif text-brand-gold text-center tracking-tighter leading-none select-none relative z-10 drop-shadow-lg"
-                      style={{ writingMode: 'vertical-lr', fontFamily: '"Noto Sans Mongolian", "Mongolian Baiti", serif', letterSpacing: 'normal' }}
-                    >
-                      ᠮᠣᠩᠣᠯ ᠲᠥᠸ
-                    </h2>
-                  </div>
-                  
-                  {/* Bottom Accents and Seal */}
-                  <div className="flex flex-col items-center gap-5 mt-4">
-                    <div className="h-12 w-px bg-brand-gold/40" />
-                    <div className="px-6 py-2 border-2 border-brand-gold/60 rounded-sm bg-[#151a25]/90">
-                      <span className="text-xs uppercase tracking-[0.6em] text-brand-gold font-bold">{t('siteUi.home.official')}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Modern Glass Reflection */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 pointer-events-none" />
-              </motion.div>
+              <ScriptPlaque />
             </div>
           </div>
         </div>
