@@ -198,6 +198,11 @@ export default function Home() {
                   </motion.div>
                 </div>
 
+                {/* Official Plaque - vertical Mongolian script (phone, small, beside the text) */}
+                <div className="md:hidden relative flex-shrink-0 pt-8">
+                  <ScriptPlaque mini />
+                </div>
+
                 {/* Official Plaque - vertical Mongolian script (tablet) */}
                 <div className="hidden md:block lg:hidden relative flex-shrink-0 pt-6 ml-4">
                   <ScriptPlaque compact />
@@ -222,11 +227,6 @@ export default function Home() {
                   <span>{t('siteUi.home.tour')}</span>
                 </Link>
               </motion.div>
-
-              {/* Official Plaque - vertical Mongolian script (phone) */}
-              <div className="md:hidden flex justify-center mt-10 pointer-events-none">
-                <ScriptPlaque compact />
-              </div>
             </div>
 
             {/* Official Plaque - vertical Mongolian script (desktop) */}
