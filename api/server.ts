@@ -249,6 +249,115 @@ const getFirebaseConfig = () => {
   return firebaseConfig;
 };
 
+// ---------- Link previews (Facebook, WhatsApp, Telegram, LinkedIn ...) ----------
+// Social crawlers do not run JavaScript, so for a news / event / gallery link we put the
+// item's own title, summary and cover photo into the page's share tags.
+const SITE_URL = "https://mongoliancenter.org";
+const SB_URL = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || "https://jfmpjkptjfjolnbuahiq.supabase.co";
+const SB_KEY = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || "sb_publishable_vIKfeLyEYMX7Svm5eto-cg_9P3jlUaK";
+const SHARE_TABLES: Record<string, { table: string; bySlug: boolean; text: string[] }> = {
+  news: { table: "posts", bySlug: true, text: ["content_mn", "content", "content_en", "content_de"] },
+  events: { table: "events", bySlug: false, text: ["description_mn", "description", "description_en", "description_de"] },
+  gallery: { table: "gallery", bySlug: false, text: ["description_mn", "description", "description_en", "description_de"] },
+};
+
+async function sbRow(table: string, column: string, value: string): Promise<any | null> {
+  const url = `${SB_URL}/rest/v1/${table}?${column}=eq.${encodeURIComponent(value)}&select=*&limit=1`;
+  const r = await fetch(url, { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } });
+  if (!r.ok) return null;
+  const rows = await r.json();
+  return Array.isArray(rows) && rows.length ? rows[0] : null;
+}
+
+async function findShareRow(section: string, key: string) {
+  const cfg = SHARE_TABLES[section];
+  if (!cfg) return null;
+  let row = cfg.bySlug ? await sbRow(cfg.table, "slug", key) : null;
+  if (!row) row = await sbRow(cfg.table, "id", key);
+  return row ? { cfg, row } : null;
+}
+
+const escAttr = (v: string) => v.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const plainText = (v: string) =>
+  v.replace(/<[^>]*>/g, " ").replace(/!?\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[#*_`>~]/g, "").replace(/\s+/g, " ").trim();
+
+// Cover photos are stored inside the database as data: URLs; crawlers need a real image address.
+app.get("/api/og/:section/:key.jpg", async (req, res) => {
+  try {
+    const found = await findShareRow(req.params.section, req.params.key);
+    const src: string = found?.row?.image_url || "";
+    const m = /^data:(image\/[a-z+.-]+);base64,(.*)$/s.exec(src);
+    res.set({ "Cross-Origin-Resource-Policy": "cross-origin", "Cache-Control": "public, max-age=3600, s-maxage=86400" });
+    if (m) return res.status(200).type(m[1]).send(Buffer.from(m[2], "base64"));
+    if (/^https?:\/\//.test(src)) return res.redirect(302, src);
+    return res.redirect(302, `${SITE_URL}/og-image.png`);
+  } catch {
+    return res.redirect(302, `${SITE_URL}/og-image.png`);
+  }
+});
+
+app.get("*", async (req, res, next) => {
+  try {
+    const rawPath = (req.query.ssrPath as string) || req.path;
+    const parts = rawPath.replace(/\/+$/, "").split("/").filter(Boolean);
+    if (parts.length < 2 || !SHARE_TABLES[parts[0]]) return next();
+    const section = parts[0];
+    const key = decodeURIComponent(parts.slice(1).join("/"));
+    const found = await findShareRow(section, key);
+    if (!found) return next();
+    const { cfg, row } = found;
+
+    const title = plainText(String(row.title_mn || row.title || row.title_en || row.title_de || ""));
+    let desc = "";
+    for (const f of cfg.text) {
+      if (row[f]) { desc = plainText(String(row[f])); break; }
+    }
+    if (desc.length > 200) desc = desc.substring(0, 197) + "...";
+    const img: string = row.image_url || "";
+    const image = /^https?:\/\//.test(img)
+      ? img
+      : img
+        ? `${SITE_URL}/api/og/${section}/${encodeURIComponent(row.slug && cfg.bySlug ? row.slug : row.id)}.jpg`
+        : `${SITE_URL}/og-image.png`;
+    const url = `${SITE_URL}/${section}/${parts.slice(1).join("/")}`;
+
+    let html = "";
+    for (const f of [path.join(process.cwd(), "dist", "index.html"), path.join(process.cwd(), "index.html")]) {
+      if (fs.existsSync(f)) { html = fs.readFileSync(f, "utf-8"); break; }
+    }
+    if (!html) html = await (await fetch(SITE_URL)).text();
+
+    const setTag = (attr: "property" | "name", name: string, value: string) => {
+      const re = new RegExp(`<meta\\s+${attr}="${name}"\\s+content="[^"]*"[^>]*>`, "g");
+      const tag = `<meta ${attr}="${name}" content="${escAttr(value)}" />`;
+      html = re.test(html) ? html.replace(re, () => tag) : html.replace("</head>", () => `${tag}\n</head>`);
+    };
+    if (title) {
+      html = html.replace(/<title>.*?<\/title>/, () => `<title>${escAttr(title)}</title>`);
+      setTag("property", "og:title", title);
+      setTag("name", "twitter:title", title);
+    }
+    if (desc) {
+      setTag("name", "description", desc);
+      setTag("property", "og:description", desc);
+      setTag("name", "twitter:description", desc);
+    }
+    setTag("property", "og:image", image);
+    setTag("name", "twitter:image", image);
+    setTag("property", "og:image:alt", title);
+    setTag("property", "og:type", "article");
+    setTag("property", "og:url", url);
+    setTag("name", "twitter:url", url);
+    // image size is unknown for uploaded photos; drop the fixed logo size so it is not misreported
+    html = html.replace(/<meta\s+property="og:image:(width|height|type)"[^>]*>\s*/g, "");
+
+    res.status(200).set({ "Content-Type": "text/html; charset=utf-8", "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600" }).end(html);
+  } catch (e) {
+    console.error("Share preview error:", e);
+    next();
+  }
+});
+
 // Dynamic SSR routes for Vercel
 app.get('*', async (req, res, next) => {
   try {
