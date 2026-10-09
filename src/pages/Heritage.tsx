@@ -36,15 +36,19 @@ interface HeritageArtifact {
   id: string;
   category: HeritageCategory;
   imageUrl: string;
+  /** Where the photo should stay centred when it is cropped. */
+  focus?: string;
+  /** Photo credit shown on the card, e.g. 'Photo: Name / Source, licence'. Leave empty to show none. */
+  credit?: string;
 }
 
 // Display texts come from the translation keys heritagePage.items.<id>.*
 const HERITAGE_COLLECTIONS: HeritageArtifact[] = [
-  { id: 'mongolian-ger', category: 'material', imageUrl: 'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=800&auto=format&fit=crop' },
+  { id: 'mongolian-ger', category: 'material', imageUrl: '/media/heritage/ger.jpg', credit: '' },
   { id: 'bichig-script', category: 'calligraphy', imageUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=800&auto=format&fit=crop' },
-  { id: 'naadam-festival', category: 'ceremony', imageUrl: 'https://images.unsplash.com/photo-1542642596-f3310061e888?q=80&w=800&auto=format&fit=crop' },
-  { id: 'khoomei-throat-singing', category: 'intangible', imageUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800&auto=format&fit=crop' },
-  { id: 'urtiin-duu', category: 'intangible', imageUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=800&auto=format&fit=crop' },
+  { id: 'naadam-festival', category: 'ceremony', imageUrl: '/media/heritage/naadam-wrestling.jpg', focus: '40% 45%', credit: '' },
+  { id: 'khoomei-throat-singing', category: 'intangible', imageUrl: '/media/heritage/khuurch.jpg', focus: '50% 40%', credit: '' },
+  { id: 'urtiin-duu', category: 'intangible', imageUrl: '/media/heritage/morin-khuur.jpg', focus: '50% 20%', credit: '' },
   { id: 'shagai-shooting', category: 'ceremony', imageUrl: 'https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=800&auto=format&fit=crop' },
   { id: 'biyelgee-dance', category: 'intangible', imageUrl: 'https://images.unsplash.com/photo-1605509818829-ac62b9142944?q=80&w=800&auto=format&fit=crop' }
 ];
@@ -351,7 +355,8 @@ export default function Heritage() {
             >
               <div className="relative h-56 overflow-hidden bg-slate-900 border-b border-slate-100">
                 <img 
-                  src={artifact.imageUrl} 
+                  src={artifact.imageUrl}
+                  style={artifact.focus ? { objectPosition: artifact.focus } : undefined}
                   alt={t(itemKey(artifact.id, 'title'))}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
@@ -369,6 +374,11 @@ export default function Heritage() {
                     {t(itemKey(artifact.id, 'title'))}
                   </h3>
                 </div>
+                {artifact.credit && (
+                  <span className="absolute top-3 right-3 max-w-[60%] truncate text-[10px] text-white/80 bg-black/45 backdrop-blur px-2 py-1 rounded">
+                    {artifact.credit}
+                  </span>
+                )}
               </div>
 
               <div className="p-6 flex flex-col flex-grow justify-between">
