@@ -65,16 +65,12 @@ export default function CultureShowcase() {
       <div aria-hidden="true" className="absolute -top-24 left-1/2 -translate-x-1/2 w-[900px] h-[320px] rounded-full bg-brand-gold/10 blur-3xl pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-        <motion.div {...reveal()} className="text-center max-w-2xl mx-auto mb-12 md:mb-14">
+        <motion.div {...reveal()} className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
           <div className="inline-flex items-center gap-3 mb-4 text-brand-gold">
             <EyebrowMark />
             <span className="text-xs uppercase tracking-[0.2em] font-semibold">{s('badge')}</span>
           </div>
-          <h2 className="font-serif text-4xl md:text-6xl text-brand-ink leading-[1.08] mb-5">
-            {s('title1')} <span className="italic text-[#C5A059]">{s('title2')}</span>
-          </h2>
           <MongolianKhasDivider className="my-5" />
-          <p className="text-slate-600 leading-relaxed">{s('intro')}</p>
         </motion.div>
 
         <div className="grid md:grid-cols-5 md:grid-rows-2 gap-5 md:gap-6 md:h-[760px]">

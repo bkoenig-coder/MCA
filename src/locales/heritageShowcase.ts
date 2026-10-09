@@ -3,15 +3,6 @@ type Row = [path: string, en: string, de: string, mn: string, tr: string];
 
 const rows: Row[] = [
   ['badge', 'Our culture', 'Unsere Kultur', 'Манай соёл', 'Kültürümüz'],
-  ['title1', 'Treasures of', 'Schätze der', 'Монгол соёлын', 'Moğol kültürünün'],
-  ['title2', 'Mongolian culture', 'mongolischen Kultur', 'үнэт өв', 'hazineleri'],
-  [
-    'intro',
-    'Clothing, sounds and signs that travel with our community to Austria.',
-    'Kleidung, Klänge und Zeichen, die mit unserer Gemeinschaft nach Österreich reisen.',
-    'Манай нийгэмлэгийн хамт Австрид ирсэн хувцас, аялгуу, бичиг тэмдэг.',
-    'Topluluğumuzla birlikte Avusturya’ya gelen giysiler, sesler ve işaretler.',
-  ],
   ['deel.title', 'The deel', 'Der Deel', 'Дээл', 'Deel'],
   [
     'deel.text',
