@@ -9,7 +9,7 @@ interface NewsletterFormProps {
 }
 
 export default function NewsletterForm({ variant = 'dark' }: NewsletterFormProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
@@ -23,7 +23,7 @@ export default function NewsletterForm({ variant = 'dark' }: NewsletterFormProps
       const response = await fetch('/api/newsletter/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, lang: (i18n.language || 'en').slice(0, 2) }),
       });
 
       let data;

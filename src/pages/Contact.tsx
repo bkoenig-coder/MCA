@@ -16,7 +16,7 @@ const labelClass = 'block mb-2 text-xs uppercase tracking-[0.12em] font-semibold
 const TOPIC_KEYS = ['t1', 't2', 't3', 't4', 't5', 't6'] as const;
 
 export default function Contact() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', topic: 't1', message: '', subscribe: false, website: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
@@ -48,7 +48,7 @@ export default function Contact() {
           await fetch('/api/newsletter/subscribe', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: formData.email }),
+            body: JSON.stringify({ email: formData.email, lang: (i18n.language || 'en').slice(0, 2) }),
           });
         } catch (err) {
           console.error('Newsletter subscription failed during contact form submission:', err);

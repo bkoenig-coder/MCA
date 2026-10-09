@@ -86,11 +86,13 @@ async function startServer() {
  * MAILERLITE_API_KEY (required) and MAILERLITE_GROUP_ID (optional, the list people join).
  * Switch on "double opt-in" in the MailerLite account so every address is confirmed by email.
  */
-async function addToMailerLite(email: string): Promise<"added" | "not-configured"> {
+async function addToMailerLite(email: string, lang?: string): Promise<"added" | "not-configured"> {
   const key = process.env.MAILERLITE_API_KEY;
   if (!key) return "not-configured";
   const body: Record<string, unknown> = { email };
   if (process.env.MAILERLITE_GROUP_ID) body.groups = [process.env.MAILERLITE_GROUP_ID];
+  // optional: remember the language, so newsletters can be sent per language (create a text field named "language" in MailerLite, then set MAILERLITE_LANGUAGE_FIELD=1)
+  if (process.env.MAILERLITE_LANGUAGE_FIELD === "1" && lang && ["en", "de", "mn", "tr"].includes(lang)) body.fields = { language: lang };
   const r = await fetch("https://connect.mailerlite.com/api/subscribers", {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", Accept: "application/json" },
@@ -183,7 +185,7 @@ Keep responses concise, polite, helpful, and respond in the language the user as
   });
 
   app.post("/api/newsletter/subscribe", async (req, res) => {
-    const { email } = req.body || {};
+    const { email, lang } = req.body || {};
     if (!looksLikeEmail(email)) {
       return res.status(400).json({ error: "Please enter a valid email address." });
     }
@@ -192,7 +194,7 @@ Keep responses concise, polite, helpful, and respond in the language the user as
       // 1. the newsletter list (MailerLite sends the confirmation email)
       let listed: "added" | "not-configured" = "not-configured";
       try {
-        listed = await addToMailerLite(email.trim().toLowerCase());
+        listed = await addToMailerLite(email.trim().toLowerCase(), typeof lang === "string" ? lang.slice(0, 2) : undefined);
       } catch (e) {
         console.error("MailerLite error:", e);
         return res.status(502).json({ error: "We could not save your subscription right now. Please try again later." });
