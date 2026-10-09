@@ -21,7 +21,7 @@ const spawnZ = (speed: number) => -Math.min(160, Math.max(80, speed * 1.6)); // 
 const FOG = '#f1d3a4';
 
 type GameState = 'START' | 'PLAYING' | 'GAMEOVER';
-type ObjType = 'ROCK' | 'FENCE' | 'COIN_BOW' | 'COIN_MORIN' | 'POWER_SHIELD' | 'GER' | 'OVOO' | 'TREE' | 'SHEEP' | 'HORSE' | 'COW' | 'ARMY';
+type ObjType = 'ROCK' | 'FENCE' | 'COIN_BOW' | 'COIN_MORIN' | 'POWER_SHIELD' | 'GER' | 'OVOO' | 'TREE' | 'SHEEP' | 'HORSE' | 'COW' | 'FAMILY';
 
 interface Obj {
   id: number;
@@ -385,64 +385,105 @@ function Rider({ G, dust, character }: { G: React.MutableRefObject<Game>; dust: 
   );
 }
 
-/** A line of Mongolian warriors beside the road. Now and then they raise an arm in salute. */
-function Army({ G, side }: { G: React.MutableRefObject<Game>; side: number }) {
+/** A Mongolian family in deels (father, son, daughter, mother) standing by the road. They look at the rider and greet now and then. */
+interface PersonSpec {
+  z: number;
+  scale: number;
+  deel: string;
+  trim: string;
+  hat: 'cone' | 'round' | 'cap';
+  braids?: boolean;
+}
+
+const FAMILY: PersonSpec[] = [
+  { z: -2.3, scale: 1.0, deel: '#1c4fa8', trim: '#D4AF37', hat: 'cone' }, // father
+  { z: -0.85, scale: 0.62, deel: '#2a62bd', trim: '#D4AF37', hat: 'cone' }, // son
+  { z: 0.85, scale: 0.6, deel: '#8f1d2c', trim: '#D4AF37', hat: 'cap', braids: true }, // daughter
+  { z: 2.3, scale: 0.94, deel: '#0f766e', trim: '#D4AF37', hat: 'round', braids: true }, // mother
+];
+
+/** One family member in a deel, in the same plain low-poly style as the rider. */
+function Person({ spec, armRef }: { spec: PersonSpec; armRef: (g: THREE.Group | null) => void }) {
+  const skin = '#e3b08a';
+  const ink = '#1a1512';
+  const goldMat = { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.3 };
+  return (
+    <group scale={spec.scale}>
+      {/* boots */}
+      {[-0.1, 0.1].map((x) => (
+        <mesh key={x} position={[x, 0.08, -0.03]}><boxGeometry args={[0.15, 0.16, 0.3]} />{mat('#241a14')}</mesh>
+      ))}
+      {/* the deel: a long robe with a high collar, a sash and a hem trim */}
+      <mesh position={[0, 0.78, 0]}><cylinderGeometry args={[0.17, 0.27, 1.25, 12]} />{mat(spec.deel, { roughness: 0.75 })}</mesh>
+      <mesh position={[0, 0.17, 0]}><torusGeometry args={[0.27, 0.022, 6, 18]} />{mat(spec.trim, goldMat)}</mesh>
+      <mesh position={[0, 0.95, 0]}><torusGeometry args={[0.215, 0.04, 6, 18]} />{mat('#b0242b')}</mesh>
+      <mesh position={[0, 1.4, 0]}><torusGeometry args={[0.125, 0.032, 6, 14]} />{mat(spec.trim, goldMat)}</mesh>
+      {/* head, small and plain */}
+      <mesh position={[0, 1.55, 0]}><sphereGeometry args={[0.15, 12, 10]} />{mat(skin, { roughness: 0.85 })}</mesh>
+      {/* headwear */}
+      {spec.hat === 'cone' && (
+        <>
+          <mesh position={[0, 1.66, 0]}><cylinderGeometry args={[0.19, 0.19, 0.04, 12]} />{mat('#D4AF37', goldMat)}</mesh>
+          <mesh position={[0, 1.78, 0]}><coneGeometry args={[0.13, 0.22, 8]} />{mat('#a8322d')}</mesh>
+          <mesh position={[0, 1.9, 0]}><sphereGeometry args={[0.03, 6, 6]} />{mat('#D4AF37', goldMat)}</mesh>
+        </>
+      )}
+      {spec.hat === 'round' && (
+        <>
+          <mesh position={[0, 1.67, 0]}><sphereGeometry args={[0.16, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.5]} />{mat('#a8322d')}</mesh>
+          <mesh position={[0, 1.66, 0]}><torusGeometry args={[0.155, 0.022, 6, 16]} />{mat('#D4AF37', goldMat)}</mesh>
+        </>
+      )}
+      {spec.hat === 'cap' && (
+        <mesh position={[0, 1.65, 0]}><sphereGeometry args={[0.155, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.5]} />{mat(ink)}</mesh>
+      )}
+      {spec.braids &&
+        [-1, 1].map((x) => (
+          <mesh key={x} position={[x * 0.13, 1.28, 0.06]}><cylinderGeometry args={[0.025, 0.02, 0.45, 5]} />{mat(ink)}</mesh>
+        ))}
+      {/* arms: the left hangs, the right can rise to greet */}
+      <group position={[-0.2, 1.3, 0]} rotation={[0, 0, -0.12]}>
+        <mesh position={[0, -0.3, 0]}><cylinderGeometry args={[0.05, 0.062, 0.6, 6]} />{mat(spec.deel, { roughness: 0.75 })}</mesh>
+        <mesh position={[0, -0.62, 0]}><sphereGeometry args={[0.052, 8, 6]} />{mat(skin)}</mesh>
+      </group>
+      <group ref={armRef} position={[0.2, 1.3, 0]}>
+        <mesh position={[0, -0.3, 0]}><cylinderGeometry args={[0.05, 0.062, 0.6, 6]} />{mat(spec.deel, { roughness: 0.75 })}</mesh>
+        <mesh position={[0, -0.62, 0]}><sphereGeometry args={[0.052, 8, 6]} />{mat(skin)}</mesh>
+      </group>
+    </group>
+  );
+}
+
+function Family({ G }: { G: React.MutableRefObject<Game> }) {
   const arms = useRef<(THREE.Group | null)[]>([]);
-  const men = useRef<(THREE.Group | null)[]>([]);
+  const people = useRef<(THREE.Group | null)[]>([]);
   const wp = useMemo(() => new THREE.Vector3(), []);
-  const offsets = [-4.8, -2.4, 0, 2.4, 4.8]; // five warriors in a row
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
-    offsets.forEach((_, i) => {
-      // every warrior turns to look at the rider
-      const m = men.current[i];
+    FAMILY.forEach((spec, i) => {
+      const m = people.current[i];
       if (m) {
+        // everyone turns to look at the rider
         m.getWorldPosition(wp);
         m.rotation.y = Math.atan2(-(G.current.laneX - wp.x), -(0 - wp.z));
       }
       const a = arms.current[i];
       if (!a) return;
-      const k = (t + i * 0.18) % 9; // a salute every nine seconds
+      const k = (t + i * 0.25) % 6; // a wave every six seconds
       let raise = 0;
-      if (k < 0.5) raise = k / 0.5;
-      else if (k < 2.6) raise = 1;
-      else if (k < 3.1) raise = 1 - (k - 2.6) / 0.5;
-      a.rotation.z = 2.55 * raise;
+      if (k < 0.4) raise = k / 0.4;
+      else if (k < 3.2) raise = 1;
+      else if (k < 3.6) raise = 1 - (k - 3.2) / 0.4;
+      a.rotation.z = 2.5 * raise + Math.sin(t * 6 + i) * 0.14 * raise;
     });
   });
-  const armor = '#566379';
-  const skirt = '#a8322d';
   return (
     <group>
-      {offsets.map((z, i) => (
-        <group key={i} ref={(g) => { men.current[i] = g; }} position={[0, 0, z]}>
-          {[-0.12, 0.12].map((x) => (
-            <mesh key={x} position={[x, 0.42, 0]}><cylinderGeometry args={[0.085, 0.075, 0.84, 6]} />{mat('#2a2a35')}</mesh>
-          ))}
-          <mesh position={[0, 0.98, 0]}><cylinderGeometry args={[0.28, 0.2, 0.4, 10]} />{mat(skirt)}</mesh>
-          <mesh position={[0, 1.38, 0]}><cylinderGeometry args={[0.24, 0.27, 0.5, 10]} />{mat(armor, { roughness: 0.6 })}</mesh>
-          <mesh position={[0, 1.2, 0]}><torusGeometry args={[0.26, 0.04, 6, 14]} />{mat('#d4af37', { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.3 })}</mesh>
-          <mesh position={[0, 1.78, 0]}><sphereGeometry args={[0.16, 10, 8]} />{mat('#f0b996')}</mesh>
-          <mesh position={[0, 1.9, 0]}><cylinderGeometry args={[0.21, 0.21, 0.05, 12]} />{mat('#8e99a6', { roughness: 0.5 })}</mesh>
-          <mesh position={[0, 2.06, 0]}><coneGeometry args={[0.17, 0.3, 10]} />{mat('#b8c2cc', { roughness: 0.45 })}</mesh>
-          <mesh position={[0, 2.28, 0]}><coneGeometry args={[0.05, 0.2, 6]} />{mat('#c1121f')}</mesh>
-          {/* right arm: raised for the salute */}
-          <group ref={(g) => { arms.current[i] = g; }} position={[0.3, 1.56, 0]}>
-            <mesh position={[0, -0.28, 0]}><cylinderGeometry args={[0.06, 0.07, 0.56, 6]} />{mat(armor, { roughness: 0.6 })}</mesh>
-            <mesh position={[0, -0.6, 0]}><sphereGeometry args={[0.07, 8, 6]} />{mat('#f0b996')}</mesh>
-          </group>
-          {/* left arm holds a spear */}
-          <mesh position={[-0.3, 1.3, 0]}><cylinderGeometry args={[0.06, 0.07, 0.56, 6]} />{mat(armor, { roughness: 0.6 })}</mesh>
-          <mesh position={[-0.38, 1.35, 0]}><cylinderGeometry args={[0.02, 0.02, 2.9, 5]} />{mat('#5d3a1c')}</mesh>
-          <mesh position={[-0.38, 2.9, 0]}><coneGeometry args={[0.05, 0.25, 5]} />{mat('#cbd2d9', { roughness: 0.4 })}</mesh>
+      {FAMILY.map((spec, i) => (
+        <group key={i} ref={(g) => { people.current[i] = g; }} position={[0, 0, spec.z]}>
+          <Person spec={spec} armRef={(g) => { arms.current[i] = g; }} />
         </group>
       ))}
-      {/* the tug: a standard with horsehair, in the middle of the line */}
-      <group position={[side * 1.4, 0, 0]}>
-        <mesh position={[0, 1.7, 0]}><cylinderGeometry args={[0.03, 0.04, 3.4, 6]} />{mat('#5d3a1c')}</mesh>
-        <mesh position={[0, 3.45, 0]}><coneGeometry args={[0.08, 0.3, 6]} />{mat('#d4af37', { emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
-        <mesh position={[0, 3.1, 0]}><coneGeometry args={[0.38, 0.8, 10, 1, true]} />{mat('#1c1816', { side: THREE.DoubleSide })}</mesh>
-      </group>
     </group>
   );
 }
@@ -684,7 +725,7 @@ function Item({ o, shadows, G }: { o: Obj; shadows: boolean; G: React.MutableRef
           <Horse coat="#d8c9aa" mane="#8d7a58" graze={false} x={-1.6} z={1.3} turn={2.5} />
         </group>
       )}
-      {o.type === 'ARMY' && <Army G={G} side={o.x < 0 ? -1 : 1} />}
+      {o.type === 'FAMILY' && <group scale={1.25}><Family G={G} /></group>}
       {o.type === 'COW' && (
         <group>
           <Cow coat="#f2eee6" patch="#2a2522" graze x={0} z={0} turn={0.6} />
@@ -838,16 +879,9 @@ function Scene({ G, isMobile, character, onHud, onEnd, onShieldHit }: {
     const side = Math.random() < 0.5 ? -1 : 1;
     const x = side * (6.5 + Math.random() * 20);
     const r = Math.random();
-    const type: ObjType = r < 0.28 ? 'GER' : r < 0.46 ? 'SHEEP' : r < 0.54 ? 'HORSE' : r < 0.68 ? 'COW' : r < 0.78 ? 'OVOO' : r < 0.815 ? 'ARMY' : 'TREE';
+    const type: ObjType = r < 0.28 ? 'GER' : r < 0.46 ? 'SHEEP' : r < 0.54 ? 'HORSE' : r < 0.68 ? 'COW' : r < 0.78 ? 'OVOO' : r < 0.82 ? 'FAMILY' : 'TREE';
     // keep gers and trees away from the path, sheep may graze closer
-    const xx = type === 'ARMY' ? side * (5.4 + Math.random() * 1.2) : type === 'SHEEP' || type === 'HORSE' || type === 'COW' ? side * (5.5 + Math.random() * 12) : x;
-    if (type === 'ARMY') {
-      // a long line of warriors on both sides of the road, side by side
-      const off = Math.abs(xx);
-      spawn(g, 'ARMY', -off, 0, sz - 10);
-      spawn(g, 'ARMY', off, 0, sz - 10);
-      return;
-    }
+    const xx = type === 'FAMILY' ? side * (5.6 + Math.random() * 1.6) : type === 'SHEEP' || type === 'HORSE' || type === 'COW' ? side * (5.5 + Math.random() * 12) : x;
     spawn(g, type, xx, 0, sz - 10, type === 'TREE' ? 0.9 + Math.random() * 0.5 : 1);
   };
 
