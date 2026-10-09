@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Sky, Sparkles } from '@react-three/drei';
+import { PerformanceMonitor, Sky, Sparkles } from '@react-three/drei';
 import * as THREE from 'three';
 import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronUp, ChevronRight, Check, Link as LinkIcon, Facebook, Twitter, Linkedin, ShieldCheck, Flame } from 'lucide-react';
@@ -19,6 +19,27 @@ const START_SPEED = 16;
 const RAMP = 0.75; // speed gained per second
 const spawnZ = (speed: number) => -Math.min(160, Math.max(80, speed * 1.6)); // spawn farther away as the game gets faster
 const FOG = '#f1d3a4';
+
+/**
+ * Quality tiers: 2 = desktop (shadows, sky, dust, sharp pixels), 1 = phones and tablets (no shadows,
+ * flat sky, lighter scenery), 0 = weak devices (fewer objects, no clouds, 1x pixels).
+ * The tier is chosen from the device and then lowered automatically if the frame rate is poor.
+ */
+type Quality = 0 | 1 | 2;
+
+function detectQuality(): Quality {
+  if (typeof window === 'undefined') return 2;
+  const nav = navigator as Navigator & { deviceMemory?: number; connection?: { saveData?: boolean } };
+  const touch = !!window.matchMedia?.('(pointer: coarse)').matches || window.innerWidth < 768;
+  const cores = nav.hardwareConcurrency || 4;
+  const memory = nav.deviceMemory || 4;
+  const saver = !!nav.connection?.saveData;
+  let q: Quality = 2;
+  if (touch || cores <= 4 || memory <= 4) q = 1;
+  if ((touch && (cores <= 4 || memory <= 3)) || cores <= 2 || memory <= 2 || saver) q = 0;
+  if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches && q > 1) q = 1;
+  return q;
+}
 
 type GameState = 'START' | 'PLAYING' | 'GAMEOVER';
 type ObjType = 'ROCK' | 'FENCE' | 'COIN_BOW' | 'COIN_MORIN' | 'POWER_SHIELD' | 'GER' | 'OVOO' | 'TREE' | 'SHEEP' | 'HORSE' | 'COW' | 'FAMILY';
@@ -762,7 +783,7 @@ function Item({ o, shadows, G }: { o: Obj; shadows: boolean; G: React.MutableRef
 // ---------------------------------------------------------------------------
 // Backdrop: sun, mountains, hills, drifting clouds
 // ---------------------------------------------------------------------------
-function Backdrop() {
+function Backdrop({ lite }: { lite: boolean }) {
   const clouds = useRef<THREE.Group>(null);
   useFrame((s) => {
     if (clouds.current) clouds.current.position.x = Math.sin(s.clock.getElapsedTime() * 0.03) * 14;
@@ -779,7 +800,7 @@ function Backdrop() {
         <sphereGeometry args={[7, 20, 16]} />
         <meshBasicMaterial color="#fff3cf" fog={false} />
       </mesh>
-      {mountains.map(([x, h, r, c], i) => (
+      {(lite ? mountains.slice(1, 5) : mountains).map(([x, h, r, c], i) => (
         <group key={i} position={[x, 0, -130 - (i % 2) * 14]}>
           <mesh position={[0, h / 2, 0]}>
             <coneGeometry args={[r, h, 6]} />
@@ -797,7 +818,7 @@ function Backdrop() {
           <meshStandardMaterial color={i % 2 ? '#a3a45c' : '#8fa24f'} roughness={1} />
         </mesh>
       ))}
-      <group ref={clouds}>
+      <group ref={clouds} visible={!lite}>
         {[[-48, 24, -100, 1.2], [-8, 30, -115, 1.5], [34, 22, -95, 1], [62, 28, -120, 1.3], [-80, 18, -90, 0.9]].map(([x, y, z, sc], i) => (
           <group key={i} position={[x, y, z]} scale={sc}>
             {[[0, 0, 0, 5], [5, -0.6, 0.5, 4], [-5, -0.5, -0.3, 3.6], [2, 1.4, 0, 3.2]].map(([cx, cy, cz, cr], j) => (
@@ -818,9 +839,9 @@ function Backdrop() {
 // ---------------------------------------------------------------------------
 interface Hud { score: number; mult: number; combo: number; shield: boolean; level: number }
 
-function Scene({ G, isMobile, character, onHud, onEnd, onShieldHit }: {
+function Scene({ G, quality, character, onHud, onEnd, onShieldHit }: {
   G: React.MutableRefObject<Game>;
-  isMobile: boolean;
+  quality: Quality;
   character: CharacterId;
   onHud: (h: Hud) => void;
   onEnd: (score: number) => void;
@@ -832,6 +853,11 @@ function Scene({ G, isMobile, character, onHud, onEnd, onShieldHit }: {
   const path = useMemo(makePathTexture, []);
   const lastHud = useRef('');
   const fovRef = useRef(52);
+
+  useEffect(() => {
+    grass.anisotropy = quality >= 2 ? 4 : 1;
+    path.anisotropy = quality >= 2 ? 4 : 1;
+  }, [grass, path, quality]);
 
   useEffect(() => {
     grass.repeat.set(26, 44);
@@ -879,7 +905,8 @@ function Scene({ G, isMobile, character, onHud, onEnd, onShieldHit }: {
     const side = Math.random() < 0.5 ? -1 : 1;
     const x = side * (6.5 + Math.random() * 20);
     const r = Math.random();
-    const type: ObjType = r < 0.28 ? 'GER' : r < 0.46 ? 'SHEEP' : r < 0.54 ? 'HORSE' : r < 0.68 ? 'COW' : r < 0.78 ? 'OVOO' : r < 0.82 ? 'FAMILY' : 'TREE';
+    let type: ObjType = r < 0.28 ? 'GER' : r < 0.46 ? 'SHEEP' : r < 0.54 ? 'HORSE' : r < 0.68 ? 'COW' : r < 0.78 ? 'OVOO' : r < 0.82 ? 'FAMILY' : 'TREE';
+    if (quality === 0 && (type === 'HORSE' || type === 'COW' || type === 'FAMILY')) type = 'TREE'; // the busiest models only on stronger devices
     // keep gers and trees away from the path, sheep may graze closer
     const xx = type === 'FAMILY' ? side * (5.6 + Math.random() * 1.6) : type === 'SHEEP' || type === 'HORSE' || type === 'COW' ? side * (5.5 + Math.random() * 12) : x;
     spawn(g, type, xx, 0, sz - 10, type === 'TREE' ? 0.9 + Math.random() * 0.5 : 1);
@@ -920,7 +947,7 @@ function Scene({ G, isMobile, character, onHud, onEnd, onShieldHit }: {
     g.nextDeco -= step;
     if (g.nextDeco <= 0) {
       spawnDeco(g);
-      g.nextDeco = 3.5 + Math.random() * 6;
+      g.nextDeco = (3.5 + Math.random() * 6) * (quality >= 2 ? 1 : quality === 1 ? 1.5 : 2.4);
     }
 
     // move objects, collisions
@@ -992,10 +1019,10 @@ function Scene({ G, isMobile, character, onHud, onEnd, onShieldHit }: {
     }
   });
 
-  const shadows = !isMobile;
+  const shadows = quality >= 2;
   return (
     <>
-      <fog attach="fog" args={[FOG, 38, 125]} />
+      <fog attach="fog" args={[FOG, 38, quality === 0 ? 95 : 125]} />
       <hemisphereLight args={['#ffe9c4', '#5d6b33', 0.75]} />
       <directionalLight
         position={[-14, 16, 10]}
@@ -1010,10 +1037,10 @@ function Scene({ G, isMobile, character, onHud, onEnd, onShieldHit }: {
         shadow-camera-near={1}
         shadow-camera-far={60}
       />
-      {!isMobile && <Sky sunPosition={[-34, 7, -120]} turbidity={7} rayleigh={1.8} mieCoefficient={0.012} mieDirectionalG={0.92} />}
-      {isMobile && <color attach="background" args={['#f3cf9d']} />}
+      {quality >= 2 && <Sky sunPosition={[-34, 7, -120]} turbidity={7} rayleigh={1.8} mieCoefficient={0.012} mieDirectionalG={0.92} />}
+      {quality < 2 && <color attach="background" args={['#f3cf9d']} />}
 
-      <Backdrop />
+      <Backdrop lite={quality === 0} />
 
       {/* ground and path */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, -60]} receiveShadow>
@@ -1025,7 +1052,7 @@ function Scene({ G, isMobile, character, onHud, onEnd, onShieldHit }: {
         <meshStandardMaterial map={path} roughness={1} />
       </mesh>
 
-      <Rider G={G} dust={!isMobile} character={character} />
+      <Rider G={G} dust={quality >= 2} character={character} />
       {G.current.objects.map((o) => (
         <Item key={o.id} o={o} shadows={shadows} G={G} />
       ))}
@@ -1055,15 +1082,22 @@ export default function LetsPlayGame() {
   const [hasSubmittedScore, setHasSubmittedScore] = useState(false);
   const [copied, setCopied] = useState(false);
   const [challengeScore, setChallengeScore] = useState<number | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const [quality, setQuality] = useState<Quality>(() => detectQuality());
+  const [onScreen, setOnScreen] = useState(true);
 
   const container = useRef<HTMLDivElement>(null);
   const touch = useRef<{ x: number; y: number } | null>(null);
 
+  // do not draw while the game is scrolled out of view (saves battery on phones)
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
+    const el = container.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(([entry]) => setOnScreen(entry.isIntersecting), { threshold: 0.05 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
 
     try {
       setBest(parseInt(localStorage.getItem('steppe-best') || '0', 10) || 0);
@@ -1086,7 +1120,6 @@ export default function LetsPlayGame() {
     });
 
     return () => {
-      window.removeEventListener('resize', checkMobile);
       unsubscribe();
       window.dispatchEvent(new Event('game-ended'));
     };
@@ -1215,8 +1248,16 @@ export default function LetsPlayGame() {
         else if (dy < -36) act('jump');
       }}
     >
-      <Canvas shadows={!isMobile} dpr={[1, isMobile ? 1.5 : 2]} camera={{ position: [0, 4.3, 8.6], fov: 52, near: 0.1, far: 320 }}>
-        <Scene key={gameKey} G={G} isMobile={isMobile} character={character} onHud={setHud} onEnd={onEnd} onShieldHit={onShieldHit} />
+      <Canvas
+        shadows={quality >= 2}
+        dpr={[1, quality >= 2 ? 2 : quality === 1 ? 1.5 : 1]}
+        frameloop={onScreen ? 'always' : 'never'}
+        gl={{ antialias: quality >= 2, powerPreference: 'high-performance' }}
+        camera={{ position: [0, 4.3, 8.6], fov: 52, near: 0.1, far: quality === 0 ? 200 : 320 }}
+      >
+        {/* if the frame rate stays poor, step down one quality tier */}
+        <PerformanceMonitor bounds={() => [36, 120]} flipflops={3} onDecline={() => setQuality((q) => (q > 0 ? ((q - 1) as Quality) : q))} />
+        <Scene key={gameKey} G={G} quality={quality} character={character} onHud={setHud} onEnd={onEnd} onShieldHit={onShieldHit} />
       </Canvas>
 
       {/* warm vignette */}
