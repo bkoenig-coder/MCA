@@ -16,9 +16,8 @@ const LANE_W = 2.2;
 const GRAVITY = -34;
 const JUMP_V = 12.5;
 const START_SPEED = 16;
-const MAX_SPEED = 46;
 const RAMP = 0.75; // speed gained per second
-const SPAWN_Z = -80;
+const spawnZ = (speed: number) => -Math.min(160, Math.max(80, speed * 1.6)); // spawn farther away as the game gets faster
 const FOG = '#f1d3a4';
 
 type GameState = 'START' | 'PLAYING' | 'GAMEOVER';
@@ -542,43 +541,45 @@ function Scene({ G, isMobile, onHud, onEnd, onShieldHit }: {
   };
 
   const spawnRow = (g: Game) => {
+    const sz = spawnZ(g.speed);
     const lanes = [-1, 0, 1];
     const pick = () => lanes[Math.floor(Math.random() * 3)];
     const r = Math.random();
     const hard = Math.min(0.22, (levelOf(g.speed) - 1) * 0.025); // more obstacles as you go faster
     const obstacle = () => (Math.random() < 0.5 ? 'ROCK' : 'FENCE') as ObjType;
     if (!g.shield && Math.random() < 0.04) {
-      spawn(g, 'POWER_SHIELD', pick() * LANE_W, 1.1, SPAWN_Z);
+      spawn(g, 'POWER_SHIELD', pick() * LANE_W, 1.1, sz);
       return;
     }
     const t1 = 0.28 + hard;
     const t2 = t1 + 0.18 + hard * 0.7;
     const t3 = t2 + Math.max(0.12, 0.3 - hard * 1.4);
     if (r < t1) {
-      spawn(g, obstacle(), pick() * LANE_W, 0, SPAWN_Z);
+      spawn(g, obstacle(), pick() * LANE_W, 0, sz);
     } else if (r < t2) {
       const free = pick();
-      lanes.filter((l) => l !== free).forEach((l) => spawn(g, obstacle(), l * LANE_W, 0, SPAWN_Z));
+      lanes.filter((l) => l !== free).forEach((l) => spawn(g, obstacle(), l * LANE_W, 0, sz));
     } else if (r < t3) {
       const l = pick();
       const type: ObjType = Math.random() < 0.5 ? 'COIN_BOW' : 'COIN_MORIN';
-      for (let i = 0; i < 5; i++) spawn(g, type, l * LANE_W, 1.0, SPAWN_Z - i * 2.4);
+      for (let i = 0; i < 5; i++) spawn(g, type, l * LANE_W, 1.0, sz - i * 2.4);
     } else {
       // an obstacle with a golden arc to jump through
       const l = pick();
-      spawn(g, obstacle(), l * LANE_W, 0, SPAWN_Z);
-      [-2.4, 0, 2.4].forEach((dz, i) => spawn(g, 'COIN_BOW', l * LANE_W, i === 1 ? 2.1 : 1.6, SPAWN_Z + dz));
+      spawn(g, obstacle(), l * LANE_W, 0, sz);
+      [-2.4, 0, 2.4].forEach((dz, i) => spawn(g, 'COIN_BOW', l * LANE_W, i === 1 ? 2.1 : 1.6, sz + dz));
     }
   };
 
   const spawnDeco = (g: Game) => {
+    const sz = spawnZ(g.speed);
     const side = Math.random() < 0.5 ? -1 : 1;
     const x = side * (6.5 + Math.random() * 20);
     const r = Math.random();
     const type: ObjType = r < 0.32 ? 'GER' : r < 0.52 ? 'SHEEP' : r < 0.66 ? 'OVOO' : 'TREE';
     // keep gers and trees away from the path, sheep may graze closer
     const xx = type === 'SHEEP' ? side * (5 + Math.random() * 12) : x;
-    spawn(g, type, xx, 0, SPAWN_Z - 10, type === 'TREE' ? 0.9 + Math.random() * 0.5 : 1);
+    spawn(g, type, xx, 0, sz - 10, type === 'TREE' ? 0.9 + Math.random() * 0.5 : 1);
   };
 
   useFrame((state, dtRaw) => {
@@ -588,7 +589,7 @@ function Scene({ G, isMobile, onHud, onEnd, onShieldHit }: {
     const idle = g.state === 'START';
     if (playing) g.time += dt;
 
-    const target = playing ? Math.min(MAX_SPEED, START_SPEED + g.time * RAMP) : idle ? 5 : 0;
+    const target = playing ? START_SPEED + g.time * RAMP : idle ? 5 : 0;
     g.speed = THREE.MathUtils.lerp(g.speed, target, 1 - Math.exp(-(playing ? 3 : 4) * dt));
     const step = g.speed * dt;
     g.dist += step;
@@ -624,9 +625,10 @@ function Scene({ G, isMobile, onHud, onEnd, onShieldHit }: {
     let crashed = false;
     const keep: Obj[] = [];
     for (const o of g.objects) {
+      const prevZ = o.z;
       o.z += step;
       let remove = o.z > 14;
-      if (playing && !remove && o.z > -0.9 && o.z < 0.9 && Math.abs(o.x - g.laneX) < 0.95 && (o.type !== 'GER' && o.type !== 'TREE' && o.type !== 'OVOO' && o.type !== 'SHEEP')) {
+      if (playing && !remove && o.z > -0.9 && prevZ < 0.9 && Math.abs(o.x - g.laneX) < 0.95 && (o.type !== 'GER' && o.type !== 'TREE' && o.type !== 'OVOO' && o.type !== 'SHEEP')) {
         if (isObstacle(o.type)) {
           if (g.y < 0.85) {
             if (g.shield) {
@@ -671,7 +673,7 @@ function Scene({ G, isMobile, onHud, onEnd, onShieldHit }: {
     camera.position.set(g.laneX * 0.35 + (Math.random() - 0.5) * sh * 0.6, 4.3 + (Math.random() - 0.5) * sh * 0.4, 8.6);
     camera.lookAt(g.laneX * 0.2, 1.4, -9);
     const cam = camera as THREE.PerspectiveCamera;
-    const fov = 52 + ((g.speed - START_SPEED) / (MAX_SPEED - START_SPEED)) * 7;
+    const fov = 52 + Math.min(1, Math.max(0, (g.speed - START_SPEED) / 30)) * 9;
     if (Math.abs(fov - fovRef.current) > 0.05) {
       fovRef.current = fov;
       cam.fov = fov;
