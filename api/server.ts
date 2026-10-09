@@ -290,9 +290,9 @@ app.get("/api/og/:section/:key.jpg", async (req, res) => {
     res.set({ "Cross-Origin-Resource-Policy": "cross-origin", "Cache-Control": "public, max-age=3600, s-maxage=86400" });
     if (m) return res.status(200).type(m[1]).send(Buffer.from(m[2], "base64"));
     if (/^https?:\/\//.test(src)) return res.redirect(302, src);
-    return res.redirect(302, `${SITE_URL}/og-image.png`);
+    return res.redirect(302, `${SITE_URL}/og-image.png?v=2`);
   } catch {
-    return res.redirect(302, `${SITE_URL}/og-image.png`);
+    return res.redirect(302, `${SITE_URL}/og-image.png?v=2`);
   }
 });
 
@@ -386,7 +386,7 @@ app.get("*", async (req, res, next) => {
       ? img
       : img
         ? `${SITE_URL}/api/og/${section}/${encodeURIComponent(row.slug && cfg.bySlug ? row.slug : row.id)}.jpg`
-        : `${SITE_URL}/og-image.png`;
+        : `${SITE_URL}/og-image.png?v=2`;
     const url = `${SITE_URL}/${section}/${parts.slice(1).join("/")}`;
 
     let html = "";
