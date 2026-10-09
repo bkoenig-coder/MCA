@@ -75,6 +75,7 @@ const TABLE_COLUMNS: Record<string, Set<string>> = {
     ...withLangs('category').filter(c => c !== 'category_tr'),
     'price', 'capacity', 'registered_count', 'date', 'time', 'image_url', 'gallery_images', 'whats_included', 'created_at', 'updated_at',
   ]),
+  game_scores: new Set(['id', 'score', 'player_name', 'created_at']),
   gallery: new Set([
     'id', ...withLangs('title'), ...withLangs('artist'), ...withLangs('description'), ...withLangs('category').filter(c => c !== 'category_tr'),
     'year', 'image_url', 'gallery_images', 'created_at', 'updated_at',

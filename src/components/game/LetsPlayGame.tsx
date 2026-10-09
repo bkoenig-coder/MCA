@@ -15,8 +15,9 @@ import { db, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimest
 const LANE_W = 2.2;
 const GRAVITY = -34;
 const JUMP_V = 12.5;
-const START_SPEED = 14;
-const MAX_SPEED = 32;
+const START_SPEED = 16;
+const MAX_SPEED = 46;
+const RAMP = 0.75; // speed gained per second
 const SPAWN_Z = -80;
 const FOG = '#f1d3a4';
 
@@ -544,23 +545,29 @@ function Scene({ G, isMobile, onHud, onEnd, onShieldHit }: {
     const lanes = [-1, 0, 1];
     const pick = () => lanes[Math.floor(Math.random() * 3)];
     const r = Math.random();
+    const hard = Math.min(0.22, (levelOf(g.speed) - 1) * 0.025); // more obstacles as you go faster
     const obstacle = () => (Math.random() < 0.5 ? 'ROCK' : 'FENCE') as ObjType;
-    if (r < 0.34) {
+    if (!g.shield && Math.random() < 0.04) {
+      spawn(g, 'POWER_SHIELD', pick() * LANE_W, 1.1, SPAWN_Z);
+      return;
+    }
+    const t1 = 0.28 + hard;
+    const t2 = t1 + 0.18 + hard * 0.7;
+    const t3 = t2 + Math.max(0.12, 0.3 - hard * 1.4);
+    if (r < t1) {
       spawn(g, obstacle(), pick() * LANE_W, 0, SPAWN_Z);
-    } else if (r < 0.52) {
+    } else if (r < t2) {
       const free = pick();
       lanes.filter((l) => l !== free).forEach((l) => spawn(g, obstacle(), l * LANE_W, 0, SPAWN_Z));
-    } else if (r < 0.82) {
+    } else if (r < t3) {
       const l = pick();
       const type: ObjType = Math.random() < 0.5 ? 'COIN_BOW' : 'COIN_MORIN';
       for (let i = 0; i < 5; i++) spawn(g, type, l * LANE_W, 1.0, SPAWN_Z - i * 2.4);
-    } else if (r < 0.94) {
+    } else {
       // an obstacle with a golden arc to jump through
       const l = pick();
       spawn(g, obstacle(), l * LANE_W, 0, SPAWN_Z);
       [-2.4, 0, 2.4].forEach((dz, i) => spawn(g, 'COIN_BOW', l * LANE_W, i === 1 ? 2.1 : 1.6, SPAWN_Z + dz));
-    } else if (!g.shield) {
-      spawn(g, 'POWER_SHIELD', pick() * LANE_W, 1.1, SPAWN_Z);
     }
   };
 
@@ -581,7 +588,7 @@ function Scene({ G, isMobile, onHud, onEnd, onShieldHit }: {
     const idle = g.state === 'START';
     if (playing) g.time += dt;
 
-    const target = playing ? Math.min(MAX_SPEED, START_SPEED + g.time * 0.3) : idle ? 5 : 0;
+    const target = playing ? Math.min(MAX_SPEED, START_SPEED + g.time * RAMP) : idle ? 5 : 0;
     g.speed = THREE.MathUtils.lerp(g.speed, target, 1 - Math.exp(-(playing ? 3 : 4) * dt));
     const step = g.speed * dt;
     g.dist += step;
@@ -603,7 +610,7 @@ function Scene({ G, isMobile, onHud, onEnd, onShieldHit }: {
       g.nextRow -= step;
       if (g.nextRow <= 0) {
         spawnRow(g);
-        g.nextRow = Math.max(10, 9 + g.speed * 0.3);
+        g.nextRow = Math.max(12, 8 + g.speed * 0.3);
       }
     }
     g.nextDeco -= step;
@@ -765,7 +772,7 @@ export default function LetsPlayGame() {
       const scores: { name: string; score: number }[] = [];
       snapshot.forEach((doc) => {
         const data = doc.data();
-        scores.push({ name: data.name, score: data.score });
+        scores.push({ name: data.player_name ?? data.name ?? '?', score: Number(data.score) || 0 });
       });
       setLeaderboard(scores);
     });
@@ -858,7 +865,7 @@ export default function LetsPlayGame() {
     setLeaderboard(list.slice(0, 15));
     setHasSubmittedScore(true);
     try {
-      await addDoc(collection(db, 'game_scores'), { name: playerName.trim(), score: finalScore, createdAt: serverTimestamp() });
+      await addDoc(collection(db, 'game_scores'), { playerName: playerName.trim(), score: Math.max(0, Math.min(finalScore, 1000000)), createdAt: serverTimestamp() });
     } catch (error) {
       console.error('Failed to save score:', error);
     }
