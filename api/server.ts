@@ -296,6 +296,74 @@ app.get("/api/og/:section/:key.jpg", async (req, res) => {
   }
 });
 
+// Share texts for the Steppe Runner game (a shared score link looks like /heritage?score=1234&lang=de)
+const GAME_TEXT: Record<string, { title: string; titleScore: string; desc: string }> = {
+  en: {
+    title: "Steppe Runner | Mongolian Center in Austria",
+    titleScore: "I scored {n} points in Steppe Runner! Can you beat me?",
+    desc: "Ride across the golden Mongolian steppe, collect treasures and jump the obstacles. Play free at the Mongolian Center in Austria.",
+  },
+  de: {
+    title: "Steppen-Läufer | Mongolisches Zentrum in Österreich",
+    titleScore: "Ich habe {n} Punkte im Steppen-Läufer erreicht! Schaffst du mehr?",
+    desc: "Reite über die goldene mongolische Steppe, sammle Schätze und springe über Hindernisse. Kostenlos spielen beim Mongolischen Zentrum in Österreich.",
+  },
+  mn: {
+    title: "Талын Гүйгч | Австри дахь Монголын Төв",
+    titleScore: "Би Талын Гүйгч тоглоомд {n} оноо авлаа! Та миний оноог давах уу?",
+    desc: "Алтан монгол тал нутгаар давхиж, эрдэнэ цуглуулж, саад бэрхшээлийг үсэрч давж үзээрэй. Австри дахь Монголын Төвийн вэбсайтад үнэгүй тоглоорой.",
+  },
+  tr: {
+    title: "Bozkır Koşucusu | Avusturya Moğol Merkezi",
+    titleScore: "Bozkır Koşucusu’nda {n} puan yaptım! Sen geçebilir misin?",
+    desc: "Altın Moğol bozkırında dörtnala git, hazineleri topla ve engellerin üzerinden atla. Avusturya Moğol Merkezi’nde ücretsiz oyna.",
+  },
+};
+
+app.get("/heritage", async (req, res, next) => {
+  try {
+    const hasScore = req.query.score !== undefined;
+    if (!hasScore && req.query.game === undefined) return next();
+    const lang = String(req.query.lang || "").slice(0, 2).toLowerCase();
+    const tx = GAME_TEXT[lang] || GAME_TEXT.en;
+    const n = parseInt(String(req.query.score), 10);
+    const title = hasScore && n > 0 ? tx.titleScore.replace("{n}", String(Math.min(n, 1000000))) : tx.title;
+    const url = `${SITE_URL}/heritage` + (hasScore && n > 0 ? `?score=${n}${lang ? `&lang=${lang}` : ""}` : "");
+    const image = `${SITE_URL}/og-game.jpg`;
+
+    let html = "";
+    for (const f of [path.join(process.cwd(), "dist", "index.html"), path.join(process.cwd(), "index.html")]) {
+      if (fs.existsSync(f)) { html = fs.readFileSync(f, "utf-8"); break; }
+    }
+    if (!html) html = await (await fetch(SITE_URL)).text();
+
+    const setTag = (attr: "property" | "name", name: string, value: string) => {
+      const re = new RegExp(`<meta\\s+${attr}="${name}"\\s+content="[^"]*"[^>]*>`, "g");
+      const tag = `<meta ${attr}="${name}" content="${escAttr(value)}" />`;
+      html = re.test(html) ? html.replace(re, () => tag) : html.replace("</head>", () => `${tag}
+</head>`);
+    };
+    html = html.replace(/<title>.*?<\/title>/, () => `<title>${escAttr(title)}</title>`);
+    html = html.replace(/<meta\s+property="og:image:(width|height|type)"[^>]*>\s*/g, "");
+    setTag("property", "og:title", title);
+    setTag("name", "twitter:title", title);
+    setTag("name", "description", tx.desc);
+    setTag("property", "og:description", tx.desc);
+    setTag("name", "twitter:description", tx.desc);
+    setTag("property", "og:image", image);
+    setTag("name", "twitter:image", image);
+    setTag("property", "og:image:width", "1200");
+    setTag("property", "og:image:height", "630");
+    setTag("property", "og:image:alt", "Steppe Runner");
+    setTag("property", "og:url", url);
+    setTag("name", "twitter:url", url);
+    res.status(200).set({ "Content-Type": "text/html; charset=utf-8", "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600" }).end(html);
+  } catch (e) {
+    console.error("Game share preview error:", e);
+    next();
+  }
+});
+
 app.get("*", async (req, res, next) => {
   try {
     const rawPath = (req.query.ssrPath as string) || req.path;

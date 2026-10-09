@@ -732,7 +732,7 @@ function Scene({ G, isMobile, onHud, onEnd, onShieldHit }: {
 // The game component (HUD, start and game-over screens, leaderboard)
 // ---------------------------------------------------------------------------
 export default function LetsPlayGame() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const r = (k: string, o?: Record<string, unknown>) => t(`heritagePage.runner.${k}`, o);
 
   const G = useRef<Game>(newGame('START'));
@@ -841,7 +841,8 @@ export default function LetsPlayGame() {
     setTimeout(() => setFlash(false), 260);
   };
 
-  const shareUrl = 'https://mongoliancenter.org' + window.location.pathname + (finalScore > 0 ? `?score=${finalScore}` : '');
+  const lang = (i18n.language || 'en').slice(0, 2);
+  const shareUrl = 'https://mongoliancenter.org/heritage' + (finalScore > 0 ? `?score=${finalScore}&lang=${lang}` : '?game=1');
   const shareTitle = finalScore > 0 ? r('shareScore', { score: finalScore }) : r('shareInvite');
 
   const handleShare = (platform: string) => {

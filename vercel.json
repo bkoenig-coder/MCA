@@ -20,6 +20,16 @@
       "destination": "/api/server?ssrPath=/"
     },
     {
+      "source": "/heritage",
+      "has": [
+        {
+          "type": "query",
+          "key": "score"
+        }
+      ],
+      "destination": "/api/server?ssrPath=/heritage"
+    },
+    {
       "source": "/events",
       "destination": "/api/server?ssrPath=/events"
     },
