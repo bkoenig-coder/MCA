@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { Overlay } from '../components/diorama/Overlay';
 import LazyMount from '../components/LazyMount';
+import CultureShowcase from '../components/CultureShowcase';
 
 // Heavy parts load only when the visitor scrolls to them
 const DioramaCanvas = lazy(() => import('../components/diorama/DioramaCanvas'));
@@ -55,13 +56,6 @@ const CATEGORY_LABEL_KEYS: Record<HeritageCategory, string> = {
   ceremony: 'heritagePage.modal.categoryCeremony',
 };
 
-// Display texts come from the translation keys heritagePage.timeline.<id>.*
-const ADVANCED_BILATERAL_CHRONOLOGY = [
-  { id: 'early-contact', highlights: ['h1', 'h2'] },
-  { id: 'diplomatic-relations', highlights: ['h1'] },
-  { id: 'vienna-center', highlights: ['h1', 'h2'] }
-];
-
 export default function Heritage() {
   const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState<'all' | 'intangible' | 'material' | 'calligraphy' | 'ceremony'>('all');
@@ -69,7 +63,6 @@ export default function Heritage() {
   const [selectedArtifact, setSelectedArtifact] = useState<HeritageArtifact | null>(null);
   const [activeDioramaPopup, setActiveDioramaPopup] = useState<string | null>(null);
   const [isGameActive, setIsGameActive] = useState(false);
-  const [activeEraId, setActiveEraId] = useState<string>('all');
 
   const itemKey = (id: string, field: string) => `heritagePage.items.${id}.${field}`;
   const q = searchQuery.trim().toLowerCase();
@@ -209,103 +202,8 @@ export default function Heritage() {
         </div>
       </section>
 
-      {/* 5. ADVANCED AUSTRIAN-MONGOLIAN HISTORICAL RELATIONS TIMELINE */}
-      <section className="py-20 px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-200">
-        
-        {/* Timeline Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 rounded-lg border border-amber-200 text-xs uppercase tracking-widest font-mono text-amber-900 font-bold mb-3">
-            <Landmark className="w-3.5 h-3.5 text-[#D4AF37]" />
-            {t('heritagePage.history.badge')}
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-serif text-slate-900 font-normal">
-            {t('heritagePage.history.title1')} <span className="italic text-[#C5A059]">{t('heritagePage.history.title2')}</span>
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-600 font-normal mt-2.5 leading-relaxed">
-            {t('heritagePage.history.intro')}
-          </p>
-        </div>
-
-        {/* Central Alternating Timeline Track */}
-        <div className="relative max-w-5xl mx-auto">
-          
-          {/* Central Vertical Spine Line (Gold Gradient with glowing nodes) */}
-          <div className="absolute left-4 md:left-1/2 top-4 bottom-4 w-[2px] bg-gradient-to-b from-[#D4AF37]/20 via-[#D4AF37] to-[#D4AF37]/20 md:-translate-x-1/2 pointer-events-none" />
-
-          <div className="space-y-12 md:space-y-16">
-            {ADVANCED_BILATERAL_CHRONOLOGY
-              .filter(item => activeEraId === 'all' || activeEraId === item.id)
-              .map((event, idx) => {
-                const isEven = idx % 2 === 0;
-                return (
-                  <motion.div
-                    key={event.id}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: idx * 0.1 }}
-                    className="relative flex flex-col md:flex-row items-start md:items-center"
-                  >
-                    {/* Glowing Central Milestone Node */}
-                    <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-[#0A1128] border-2 border-[#D4AF37] flex items-center justify-center z-10 shadow-md">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#D4AF37] animate-pulse" />
-                    </div>
-
-                    {/* Left Side Content Container */}
-                    <div className={`w-full md:w-1/2 pl-12 md:pl-0 ${
-                      isEven ? 'md:pr-12 md:text-right' : 'md:order-2 md:pl-12 md:text-left'
-                    }`}>
-                      <div className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-sm hover:shadow-md hover:border-[#D4AF37]/50 transition-all group">
-                        
-                        {/* Milestone Top Metadata Bar */}
-                        <div className={`flex flex-wrap items-center gap-2 mb-3 ${isEven ? 'md:justify-end' : 'md:justify-start'}`}>
-                          <span className="px-2.5 py-0.5 bg-[#0A1128] text-white rounded text-xs font-mono font-bold tracking-wider">
-                            {t(`heritagePage.timeline.${event.id}.badge`)}
-                          </span>
-                          <span className="text-xs font-mono uppercase tracking-widest text-[#C5A059] font-bold">
-                            {t(`heritagePage.timeline.${event.id}.category`)}
-                          </span>
-                        </div>
-
-                        {/* Year Display with Serif Typography */}
-                        <span className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 tracking-tight block mb-1">
-                          {t(`heritagePage.timeline.${event.id}.year`)}
-                        </span>
-
-                        <h3 className="text-base sm:text-lg font-serif font-semibold text-[#0A1128] mb-1 leading-snug">
-                          {t(`heritagePage.timeline.${event.id}.title`)}
-                        </h3>
-
-                        <p className="text-xs text-slate-600 font-normal leading-relaxed mb-4">
-                          {t(`heritagePage.timeline.${event.id}.desc`)}
-                        </p>
-
-                        {/* Key Highlight Chips */}
-                        <div className={`pt-3 border-t border-slate-100 flex flex-wrap gap-1.5 ${isEven ? 'md:justify-end' : 'md:justify-start'}`}>
-                          {event.highlights.map((h, i) => (
-                            <span key={i} className="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-50 border border-slate-100 rounded-md text-xs text-slate-600 font-sans">
-                              <CheckCircle2 className="w-3 h-3 text-[#D4AF37]" />
-                              <span>{t(`heritagePage.timeline.${event.id}.${h}`)}</span>
-                            </span>
-                          ))}
-                        </div>
-
-                        {/* Location footnote */}
-                        <div className={`mt-3 pt-2 text-xs font-mono text-slate-400 flex items-center gap-1.5 ${isEven ? 'md:justify-end' : 'md:justify-start'}`}>
-                          <Landmark className="w-3 h-3 text-slate-400" />
-                          <span>{t(`heritagePage.timeline.${event.id}.location`)}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Right Side Spacer for desktop grid layout */}
-                    <div className={`hidden md:block w-1/2 ${isEven ? 'order-2' : 'order-1'}`} />
-                  </motion.div>
-                );
-              })}
-          </div>
-        </div>
-      </section>
+      {/* 5. Our culture: a showcase of cultural items */}
+      <CultureShowcase />
 
       {/* 6. Registered Living Heritage & Material Collections (AT THE BOTTOM BEFORE GAME) */}
       <section className="py-16 px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-200">

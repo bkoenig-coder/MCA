@@ -2,6 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import heritagePage from './locales/heritagePage';
+import heritageShowcase from './locales/heritageShowcase';
 import legalPages from './locales/legalPages';
 import pagesMisc from './locales/pagesMisc';
 import partnersPage from './locales/partnersPage';
@@ -3043,7 +3044,7 @@ i18n
   });
 
 // Page-level translation files are merged on top of the base resources above.
-for (const bundle of [heritagePage, legalPages, pagesMisc, partnersPage, siteUi]) {
+for (const bundle of [heritagePage, heritageShowcase, legalPages, pagesMisc, partnersPage, siteUi]) {
   for (const lng of Object.keys(bundle) as Array<keyof typeof bundle>) {
     i18n.addResourceBundle(lng, 'translation', bundle[lng], true, true);
   }
