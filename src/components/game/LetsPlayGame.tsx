@@ -21,7 +21,7 @@ const spawnZ = (speed: number) => -Math.min(160, Math.max(80, speed * 1.6)); // 
 const FOG = '#f1d3a4';
 
 type GameState = 'START' | 'PLAYING' | 'GAMEOVER';
-type ObjType = 'ROCK' | 'FENCE' | 'COIN_BOW' | 'COIN_MORIN' | 'POWER_SHIELD' | 'GER' | 'OVOO' | 'TREE' | 'SHEEP' | 'HORSE';
+type ObjType = 'ROCK' | 'FENCE' | 'COIN_BOW' | 'COIN_MORIN' | 'POWER_SHIELD' | 'GER' | 'OVOO' | 'TREE' | 'SHEEP' | 'HORSE' | 'COW';
 
 interface Obj {
   id: number;
@@ -379,6 +379,57 @@ function Rider({ G, dust, character }: { G: React.MutableRefObject<Game>; dust: 
   );
 }
 
+/** A cow for the scenery: spotted, brown or dark. */
+function Cow({ coat, patch, x, z, turn, graze }: { coat: string; patch: string | null; x: number; z: number; turn: number; graze: boolean }) {
+  const legs: [number, number][] = [[-0.2, -0.4], [0.2, -0.4], [-0.2, 0.4], [0.2, 0.4]];
+  return (
+    <group position={[x, 0, z]} rotation={[0, turn, 0]}>
+      <mesh position={[0, 0.78, 0]} rotation={[Math.PI / 2, 0, 0]} castShadow>
+        <capsuleGeometry args={[0.38, 0.8, 6, 12]} />
+        {mat(coat)}
+      </mesh>
+      {patch && (
+        <>
+          <mesh position={[0.3, 0.95, 0.1]} scale={[0.5, 0.7, 0.9]}><sphereGeometry args={[0.3, 8, 6]} />{mat(patch)}</mesh>
+          <mesh position={[-0.28, 0.8, -0.3]} scale={[0.5, 0.9, 0.7]}><sphereGeometry args={[0.28, 8, 6]} />{mat(patch)}</mesh>
+        </>
+      )}
+      {legs.map(([lx, lz], i) => (
+        <mesh key={i} position={[lx, 0.28, lz]} castShadow>
+          <cylinderGeometry args={[0.09, 0.075, 0.56, 6]} />
+          {mat(coat)}
+        </mesh>
+      ))}
+      <group position={[0, 0.9, -0.62]} rotation={[graze ? 0.9 : 0.25, 0, 0]}>
+        <mesh position={[0, 0, -0.18]} castShadow>
+          <boxGeometry args={[0.3, 0.32, 0.42]} />
+          {mat(coat)}
+        </mesh>
+        <mesh position={[0, -0.06, -0.42]}>
+          <boxGeometry args={[0.24, 0.2, 0.12]} />
+          {mat('#e9c9b2')}
+        </mesh>
+        {[-1, 1].map((sx) => (
+          <mesh key={sx} position={[sx * 0.2, 0.16, -0.12]} rotation={[0, 0, -sx * 0.9]}>
+            <coneGeometry args={[0.04, 0.2, 5]} />
+            {mat('#efe6d2')}
+          </mesh>
+        ))}
+        {[-1, 1].map((sx) => (
+          <mesh key={`e${sx}`} position={[sx * 0.19, 0.08, -0.02]} scale={[1, 0.5, 0.8]}>
+            <sphereGeometry args={[0.07, 6, 6]} />
+            {mat(coat)}
+          </mesh>
+        ))}
+      </group>
+      <mesh position={[0, 0.78, 0.55]} rotation={[0.3, 0, 0]}>
+        <cylinderGeometry args={[0.025, 0.02, 0.5, 5]} />
+        {mat(coat)}
+      </mesh>
+    </group>
+  );
+}
+
 /** A standing or grazing horse for the scenery. */
 function Horse({ coat, mane, graze, x, z, turn }: { coat: string; mane: string; graze: boolean; x: number; z: number; turn: number }) {
   const legs: [number, number][] = [[-0.2, -0.55], [0.2, -0.55], [-0.2, 0.45], [0.2, 0.45]];
@@ -565,6 +616,13 @@ function Item({ o, shadows }: { o: Obj; shadows: boolean }) {
           <Horse coat="#d8c9aa" mane="#8d7a58" graze={false} x={-1.6} z={1.3} turn={2.5} />
         </group>
       )}
+      {o.type === 'COW' && (
+        <group>
+          <Cow coat="#f2eee6" patch="#2a2522" graze x={0} z={0} turn={0.6} />
+          <Cow coat="#7a4a2a" patch={null} graze={false} x={1.9} z={1.1} turn={-0.7} />
+          <Cow coat="#2b2522" patch={null} graze x={-1.7} z={1.5} turn={2.2} />
+        </group>
+      )}
       {o.type === 'SHEEP' && (
         <group>
           {[[0, 0, 0], [0.9, 0, 0.5], [-0.8, 0, 0.7]].map(([x, , z], i) => (
@@ -711,9 +769,9 @@ function Scene({ G, isMobile, character, onHud, onEnd, onShieldHit }: {
     const side = Math.random() < 0.5 ? -1 : 1;
     const x = side * (6.5 + Math.random() * 20);
     const r = Math.random();
-    const type: ObjType = r < 0.28 ? 'GER' : r < 0.44 ? 'SHEEP' : r < 0.62 ? 'HORSE' : r < 0.74 ? 'OVOO' : 'TREE';
+    const type: ObjType = r < 0.28 ? 'GER' : r < 0.46 ? 'SHEEP' : r < 0.54 ? 'HORSE' : r < 0.68 ? 'COW' : r < 0.78 ? 'OVOO' : 'TREE';
     // keep gers and trees away from the path, sheep may graze closer
-    const xx = type === 'SHEEP' || type === 'HORSE' ? side * (5.5 + Math.random() * 12) : x;
+    const xx = type === 'SHEEP' || type === 'HORSE' || type === 'COW' ? side * (5.5 + Math.random() * 12) : x;
     spawn(g, type, xx, 0, sz - 10, type === 'TREE' ? 0.9 + Math.random() * 0.5 : 1);
   };
 
