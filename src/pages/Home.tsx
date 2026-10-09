@@ -17,6 +17,7 @@ import { Overlay } from '../components/diorama/Overlay';
 import BridgeMap, { BRIDGE_DISTANCE_KM } from '../components/BridgeMap';
 
 import ScriptPlaque from '../components/ScriptPlaque';
+import GameBanner from '../components/GameBanner';
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -272,6 +273,8 @@ export default function Home() {
       </section>
 
       <SectionSeam />
+      {/* Steppe Runner game banner, above the partners */}
+      <GameBanner />
       {/* Partners Marquee Section - Corporate Refactor */}
       <section className="py-10 md:py-12 bg-white relative overflow-hidden border-y border-gray-200">
         <div className="text-center mb-6 relative z-20">

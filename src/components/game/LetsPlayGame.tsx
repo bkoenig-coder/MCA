@@ -386,12 +386,20 @@ function Rider({ G, dust, character }: { G: React.MutableRefObject<Game>; dust: 
 }
 
 /** A line of Mongolian warriors beside the road. Now and then they raise an arm in salute. */
-function Army({ side }: { side: number }) {
+function Army({ G, side }: { G: React.MutableRefObject<Game>; side: number }) {
   const arms = useRef<(THREE.Group | null)[]>([]);
-  const offsets = [-4.6, -2.3, 2.3, 4.6];
+  const men = useRef<(THREE.Group | null)[]>([]);
+  const wp = useMemo(() => new THREE.Vector3(), []);
+  const offsets = [-4.8, -2.4, 0, 2.4, 4.8]; // five warriors in a row
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     offsets.forEach((_, i) => {
+      // every warrior turns to look at the rider
+      const m = men.current[i];
+      if (m) {
+        m.getWorldPosition(wp);
+        m.rotation.y = Math.atan2(-(G.current.laneX - wp.x), -(0 - wp.z));
+      }
       const a = arms.current[i];
       if (!a) return;
       const k = (t + i * 0.18) % 9; // a salute every nine seconds
@@ -405,9 +413,9 @@ function Army({ side }: { side: number }) {
   const armor = '#566379';
   const skirt = '#a8322d';
   return (
-    <group rotation={[0, side > 0 ? Math.PI / 2 : -Math.PI / 2, 0]}>
+    <group>
       {offsets.map((z, i) => (
-        <group key={i} position={[0, 0, z]}>
+        <group key={i} ref={(g) => { men.current[i] = g; }} position={[0, 0, z]}>
           {[-0.12, 0.12].map((x) => (
             <mesh key={x} position={[x, 0.42, 0]}><cylinderGeometry args={[0.085, 0.075, 0.84, 6]} />{mat('#2a2a35')}</mesh>
           ))}
@@ -430,7 +438,7 @@ function Army({ side }: { side: number }) {
         </group>
       ))}
       {/* the tug: a standard with horsehair, in the middle of the line */}
-      <group position={[0, 0, 0]}>
+      <group position={[side * 1.4, 0, 0]}>
         <mesh position={[0, 1.7, 0]}><cylinderGeometry args={[0.03, 0.04, 3.4, 6]} />{mat('#5d3a1c')}</mesh>
         <mesh position={[0, 3.45, 0]}><coneGeometry args={[0.08, 0.3, 6]} />{mat('#d4af37', { emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
         <mesh position={[0, 3.1, 0]}><coneGeometry args={[0.38, 0.8, 10, 1, true]} />{mat('#1c1816', { side: THREE.DoubleSide })}</mesh>
@@ -540,7 +548,7 @@ function Spin({ children, bob = 0.15 }: { children: React.ReactNode; bob?: numbe
   return <group ref={r}>{children}</group>;
 }
 
-function Item({ o, shadows }: { o: Obj; shadows: boolean }) {
+function Item({ o, shadows, G }: { o: Obj; shadows: boolean; G: React.MutableRefObject<Game> }) {
   const s = o.scale;
   return (
     <group ref={(r) => { o.ref = r; }} position={[o.x, o.y, o.z]} scale={s}>
@@ -676,7 +684,7 @@ function Item({ o, shadows }: { o: Obj; shadows: boolean }) {
           <Horse coat="#d8c9aa" mane="#8d7a58" graze={false} x={-1.6} z={1.3} turn={2.5} />
         </group>
       )}
-      {o.type === 'ARMY' && <Army side={o.x < 0 ? -1 : 1} />}
+      {o.type === 'ARMY' && <Army G={G} side={o.x < 0 ? -1 : 1} />}
       {o.type === 'COW' && (
         <group>
           <Cow coat="#f2eee6" patch="#2a2522" graze x={0} z={0} turn={0.6} />
@@ -830,9 +838,16 @@ function Scene({ G, isMobile, character, onHud, onEnd, onShieldHit }: {
     const side = Math.random() < 0.5 ? -1 : 1;
     const x = side * (6.5 + Math.random() * 20);
     const r = Math.random();
-    const type: ObjType = r < 0.28 ? 'GER' : r < 0.46 ? 'SHEEP' : r < 0.54 ? 'HORSE' : r < 0.68 ? 'COW' : r < 0.78 ? 'OVOO' : r < 0.84 ? 'ARMY' : 'TREE';
+    const type: ObjType = r < 0.28 ? 'GER' : r < 0.46 ? 'SHEEP' : r < 0.54 ? 'HORSE' : r < 0.68 ? 'COW' : r < 0.78 ? 'OVOO' : r < 0.815 ? 'ARMY' : 'TREE';
     // keep gers and trees away from the path, sheep may graze closer
     const xx = type === 'ARMY' ? side * (5.4 + Math.random() * 1.2) : type === 'SHEEP' || type === 'HORSE' || type === 'COW' ? side * (5.5 + Math.random() * 12) : x;
+    if (type === 'ARMY') {
+      // a long line of warriors on both sides of the road, side by side
+      const off = Math.abs(xx);
+      spawn(g, 'ARMY', -off, 0, sz - 10);
+      spawn(g, 'ARMY', off, 0, sz - 10);
+      return;
+    }
     spawn(g, type, xx, 0, sz - 10, type === 'TREE' ? 0.9 + Math.random() * 0.5 : 1);
   };
 
@@ -978,7 +993,7 @@ function Scene({ G, isMobile, character, onHud, onEnd, onShieldHit }: {
 
       <Rider G={G} dust={!isMobile} character={character} />
       {G.current.objects.map((o) => (
-        <Item key={o.id} o={o} shadows={shadows} />
+        <Item key={o.id} o={o} shadows={shadows} G={G} />
       ))}
     </>
   );
