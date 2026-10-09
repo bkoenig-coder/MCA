@@ -135,16 +135,16 @@ interface Look {
   blanket: string;
   deel: string;
   sash: string;
-  hat: 'cone' | 'crown' | 'helm' | 'boqta';
+  hat: 'cone' | 'felt' | 'helm' | 'boqta';
   hatColor: string;
   trim: string;
 }
 
 const LOOKS: Record<CharacterId, Look> = {
   herder: { horse: '#8a4b22', mane: '#33190a', blanket: '#a8322d', deel: '#1c4fa8', sash: '#d4af37', hat: 'cone', hatColor: '#a8322d', trim: '#d4af37' },
-  khan: { horse: '#ece6d8', mane: '#b9ae95', blanket: '#d4af37', deel: '#8f1d2c', sash: '#d4af37', hat: 'crown', hatColor: '#d4af37', trim: '#7a1f2b' },
+  khan: { horse: '#ece6d8', mane: '#b9ae95', blanket: '#d4af37', deel: '#efe7c8', sash: '#d8c68e', hat: 'felt', hatColor: '#f6f1e4', trim: '#2a2a2a' },
   warrior: { horse: '#201b18', mane: '#0c0a09', blanket: '#475569', deel: '#475569', sash: '#a8322d', hat: 'helm', hatColor: '#9aa5b1', trim: '#a8322d' },
-  queen: { horse: '#c9a26a', mane: '#f1e4c8', blanket: '#7c1d3a', deel: '#0f766e', sash: '#d4af37', hat: 'boqta', hatColor: '#7c1d3a', trim: '#d4af37' },
+  queen: { horse: '#c9a26a', mane: '#f1e4c8', blanket: '#e0361c', deel: '#e8891c', sash: '#d4af37', hat: 'boqta', hatColor: '#e0361c', trim: '#d4af37' },
 };
 
 /** Small flat portrait of each rider for the picker. */
@@ -157,9 +157,9 @@ function Avatar({ id }: { id: CharacterId }) {
       <rect x="14" y="38" width="20" height="3" fill={l.sash} />
       <circle cx="24" cy="24" r="7" fill="#f0b996" />
       {l.hat === 'cone' && (<><rect x="14" y="17" width="20" height="3" rx="1.5" fill="#d4af37" /><polygon points="17,17 24,5 31,17" fill={l.hatColor} /></>)}
-      {l.hat === 'crown' && (<><rect x="14" y="17" width="20" height="3" rx="1.5" fill="#5a3b22" /><rect x="17" y="7" width="14" height="11" rx="2" fill="#d4af37" /><polygon points="19,7 24,1 29,7" fill="#d4af37" /><circle cx="24" cy="3" r="1.6" fill="#e5484d" /></>)}
+      {l.hat === 'felt' && (<><path d="M15 27 Q24 40 33 27 L33 33 Q24 46 15 33 Z" fill="#cfcac0" /><path d="M16 21 Q16 8 24 8 Q32 8 32 21 L30 20 Q24 13 18 20 Z" fill="#f6f1e4" /><rect x="14" y="19" width="4" height="12" rx="2" fill="#f6f1e4" /><rect x="30" y="19" width="4" height="12" rx="2" fill="#f6f1e4" /><rect x="14" y="29" width="4" height="2" fill="#2a2a2a" /><rect x="30" y="29" width="4" height="2" fill="#2a2a2a" /></>)}
       {l.hat === 'helm' && (<><rect x="15" y="17" width="18" height="3" rx="1.5" fill="#7b8794" /><polygon points="17,17 24,6 31,17" fill="#b8c2cc" /><rect x="23.4" y="1" width="1.2" height="6" fill="#cbd2d9" /><circle cx="27" cy="9" r="2" fill="#c1121f" /></>)}
-      {l.hat === 'boqta' && (<><rect x="15" y="17" width="18" height="3" rx="1.5" fill="#d4af37" /><polygon points="19,17 21,4 27,4 29,17" fill="#7c1d3a" /><rect x="17" y="2.5" width="14" height="2.5" rx="1" fill="#d4af37" /><rect x="14" y="21" width="2.5" height="12" rx="1.2" fill="#17120e" /><rect x="31.5" y="21" width="2.5" height="12" rx="1.2" fill="#17120e" /></>)}
+      {l.hat === 'boqta' && (<><rect x="15" y="17" width="18" height="3" rx="1.5" fill="#e0361c" /><rect x="19" y="4" width="10" height="14" fill="#e0361c" /><rect x="16" y="2" width="16" height="4" rx="1" fill="#e0361c" /><rect x="22" y="1" width="4" height="2" fill="#f6f1e4" /><circle cx="14.5" cy="23" r="1.4" fill="#fbf7ea" /><circle cx="14.5" cy="27" r="1.4" fill="#fbf7ea" /><circle cx="14.5" cy="31" r="1.4" fill="#fbf7ea" /><circle cx="33.5" cy="23" r="1.4" fill="#fbf7ea" /><circle cx="33.5" cy="27" r="1.4" fill="#fbf7ea" /><circle cx="33.5" cy="31" r="1.4" fill="#fbf7ea" /><path d="M14 36 Q24 40 34 36 L35 40 Q24 44 13 40 Z" fill="#1d1a1a" /></>)}
     </svg>
   );
 }
@@ -176,18 +176,17 @@ function Gear({ look, id }: { look: Look; id: CharacterId }) {
           <mesh position={[0, 1.34, 0]}><sphereGeometry args={[0.04, 8, 8]} />{mat(gold, { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
         </>
       )}
-      {look.hat === 'crown' && (
+      {look.hat === 'felt' && (
         <>
-          <mesh position={[0, 1.02, 0]} castShadow><cylinderGeometry args={[0.27, 0.27, 0.07, 14]} />{mat('#5a3b22')}</mesh>
-          <mesh position={[0, 1.22, 0]} castShadow><cylinderGeometry args={[0.2, 0.18, 0.34, 12]} />{mat(gold, { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
-          <mesh position={[0, 1.42, 0]}><coneGeometry args={[0.1, 0.16, 8]} />{mat(gold, { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
-          <mesh position={[0, 1.54, 0]}><sphereGeometry args={[0.045, 8, 8]} />{mat('#c1121f', { emissive: '#600', emissiveIntensity: 0.5 })}</mesh>
+          <mesh position={[0, 0.98, 0]} scale={[1, 0.85, 1]} castShadow><sphereGeometry args={[0.2, 14, 10]} />{mat(look.hatColor, { roughness: 0.95 })}</mesh>
           {[-1, 1].map((x) => (
-            <mesh key={x} position={[x * 0.2, 0.86, 0]}><boxGeometry args={[0.05, 0.22, 0.2]} />{mat('#7a1f2b')}</mesh>
+            <group key={x}>
+              <mesh position={[x * 0.19, 0.85, 0.02]} rotation={[0, 0, x * 0.12]}><boxGeometry args={[0.06, 0.24, 0.26]} />{mat(look.hatColor, { roughness: 0.95 })}</mesh>
+              <mesh position={[x * 0.2, 0.72, 0.02]}><boxGeometry args={[0.06, 0.06, 0.24]} />{mat(look.trim)}</mesh>
+            </group>
           ))}
-          {/* cape */}
-          <mesh position={[0, 0.42, 0.24]} rotation={[0.12, 0, 0]}><boxGeometry args={[0.58, 0.9, 0.04]} />{mat('#7a1f2b')}</mesh>
-          <mesh position={[0, 0.78, 0.2]}><boxGeometry args={[0.6, 0.08, 0.1]} />{mat('#f3efe6')}</mesh>
+          <mesh position={[0, 0.86, 0.17]}><boxGeometry args={[0.32, 0.22, 0.06]} />{mat(look.hatColor, { roughness: 0.95 })}</mesh>
+          <mesh position={[0, 0.74, 0.17]}><boxGeometry args={[0.3, 0.05, 0.05]} />{mat(look.trim)}</mesh>
         </>
       )}
       {look.hat === 'helm' && (
@@ -203,23 +202,30 @@ function Gear({ look, id }: { look: Look; id: CharacterId }) {
       )}
       {look.hat === 'boqta' && (
         <>
-          <mesh position={[0, 1.03, 0]} castShadow><cylinderGeometry args={[0.2, 0.2, 0.08, 14]} />{mat(gold, { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
-          <mesh position={[0, 1.3, 0]} castShadow><cylinderGeometry args={[0.1, 0.18, 0.46, 12]} />{mat(look.hatColor)}</mesh>
-          <mesh position={[0, 1.18, 0]}><torusGeometry args={[0.15, 0.025, 6, 14]} />{mat(gold, { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
-          <mesh position={[0, 1.42, 0]}><torusGeometry args={[0.115, 0.02, 6, 14]} />{mat(gold, { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
-          <mesh position={[0, 1.55, 0]}><cylinderGeometry args={[0.2, 0.1, 0.05, 14]} />{mat(gold, { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
-          <mesh position={[0, 1.6, 0]}><sphereGeometry args={[0.04, 8, 8]} />{mat('#e5484d', { emissive: '#600', emissiveIntensity: 0.4 })}</mesh>
-          {/* braids with coral beads */}
+          <mesh position={[0, 1.02, 0]} castShadow><cylinderGeometry args={[0.2, 0.2, 0.1, 14]} />{mat(look.hatColor)}</mesh>
+          <mesh position={[0, 1.3, 0]} castShadow><boxGeometry args={[0.2, 0.5, 0.2]} />{mat(look.hatColor)}</mesh>
+          <mesh position={[0, 1.58, 0]} castShadow><boxGeometry args={[0.32, 0.12, 0.26]} />{mat(look.hatColor)}</mesh>
+          <mesh position={[0, 1.66, 0]}><boxGeometry args={[0.18, 0.05, 0.12]} />{mat('#f6f1e4')}</mesh>
+          {/* strings of pearls on both sides */}
           {[-1, 1].map((x) => (
-            <group key={x} position={[x * 0.2, 0.84, 0.02]}>
-              <mesh position={[0, -0.18, 0]}><cylinderGeometry args={[0.035, 0.03, 0.4, 6]} />{mat('#17120e')}</mesh>
-              <mesh position={[0, -0.4, 0]}><sphereGeometry args={[0.05, 8, 8]} />{mat('#e5484d')}</mesh>
+            <group key={x} position={[x * 0.2, 0.96, 0.0]}>
+              {[0, 1, 2, 3, 4].map((i) => (
+                <mesh key={i} position={[x * 0.02, -i * 0.085, 0]}><sphereGeometry args={[0.033, 8, 8]} />{mat('#fbf7ea', { roughness: 0.35 })}</mesh>
+              ))}
             </group>
           ))}
+          <mesh position={[0, 1.08, 0.12]}><sphereGeometry args={[0.05, 8, 8]} />{mat('#f6f1e4', { roughness: 0.35 })}</mesh>
         </>
       )}
       {id === 'queen' && (
-        <mesh position={[0, 0.5, 0.2]} rotation={[0.1, 0, 0]}><boxGeometry args={[0.5, 0.8, 0.03]} />{mat('#e9d8a6')}</mesh>
+        <>
+          {/* dark collar with gold pattern, like the empress portraits */}
+          <mesh position={[0, 0.74, 0]}><cylinderGeometry args={[0.24, 0.27, 0.12, 14]} />{mat('#1d1a1a')}</mesh>
+          <mesh position={[0, 0.74, 0]}><torusGeometry args={[0.25, 0.018, 6, 16]} />{mat('#d4af37', { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
+          {[-0.14, 0, 0.14].map((x) => (
+            <mesh key={x} position={[x, 0.7, 0.2]}><sphereGeometry args={[0.024, 6, 6]} />{mat('#d4af37', { emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
+          ))}
+        </>
       )}
     </>
   );
