@@ -1051,7 +1051,7 @@ export default function LetsPlayGame() {
   };
 
   const lang = (i18n.language || 'en').slice(0, 2);
-  const shareUrl = 'https://mongoliancenter.org/heritage' + (finalScore > 0 ? `?score=${finalScore}&lang=${lang}` : '?game=1');
+  const shareUrl = 'https://mongoliancenter.org/game' + (finalScore > 0 ? `?score=${finalScore}&lang=${lang}` : '');
   const shareTitle = finalScore > 0 ? r('shareScore', { score: finalScore }) : r('shareInvite');
 
   const handleShare = (platform: string) => {

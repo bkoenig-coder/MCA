@@ -20,6 +20,10 @@
       "destination": "/api/server?ssrPath=/"
     },
     {
+      "source": "/game",
+      "destination": "/api/server?ssrPath=/game"
+    },
+    {
       "source": "/heritage",
       "has": [
         {

@@ -20,6 +20,7 @@ const ROUTE_TITLES: Record<string, string> = {
   '/donate': 'nav.impact',
   '/contact': 'nav.contact',
   '/partners': 'partnersPage.navLabel',
+  '/game': 'heritagePage.game.title',
   '/membership': 'nav.membership',
   '/members': 'siteUi.seo.members',
   '/careers': 'nav.careers',

@@ -27,7 +27,6 @@ import CultureShowcase from '../components/CultureShowcase';
 
 // Heavy parts load only when the visitor scrolls to them
 const DioramaCanvas = lazy(() => import('../components/diorama/DioramaCanvas'));
-const LetsPlayGame = lazy(() => import('../components/game/LetsPlayGame'));
 import { SoyomboSymbol, UlziiSymbol } from '../components/MongolianDesign';
 
 type HeritageCategory = 'intangible' | 'material' | 'calligraphy' | 'ceremony';
@@ -66,7 +65,6 @@ export default function Heritage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedArtifact, setSelectedArtifact] = useState<HeritageArtifact | null>(null);
   const [activeDioramaPopup, setActiveDioramaPopup] = useState<string | null>(null);
-  const [isGameActive, setIsGameActive] = useState(false);
 
   const itemKey = (id: string, field: string) => `heritagePage.items.${id}.${field}`;
   const q = searchQuery.trim().toLowerCase();
@@ -143,80 +141,33 @@ export default function Heritage() {
         </div>
       </section>
 
-      {/* 3. Steppe Runner mini-game (right after the diorama) */}
-      <section className="py-20 px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-200">
-        <div className="bg-white rounded-2xl border border-slate-200 p-8 md:p-12 shadow-sm">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-slate-100 pb-6">
-            <div>
-              <div className="inline-flex items-center gap-2 mb-2 bg-amber-50 px-3 py-1 rounded-lg border border-amber-200 text-xs uppercase tracking-widest font-mono text-amber-900 font-bold">
-                <Gamepad2 className="w-3.5 h-3.5 text-[#D4AF37]" />
-                {t('heritagePage.game.badge')}
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-serif text-slate-900 font-normal">
-                {t('heritagePage.game.title')} <span className="italic text-[#C5A059]">{t('heritagePage.game.titleNative')}</span>
-              </h2>
-              <p className="text-xs text-slate-500 font-normal mt-1 max-w-xl">
-                {t('heritagePage.game.blurb')}
-              </p>
+      {/* 3. Steppe Runner: a banner that opens the game page */}
+      <section className="px-6 lg:px-8 py-14 max-w-7xl mx-auto">
+        <Link
+          to="/game"
+          className="group relative block overflow-hidden rounded-3xl bg-brand-ink border border-brand-gold/30 shadow-[0_30px_70px_-30px_rgba(10,17,40,0.65)] hover:shadow-[0_40px_80px_-30px_rgba(212,175,55,0.45)] transition-shadow"
+        >
+          <img
+            src="/og-game.jpg"
+            alt={t('heritagePage.game.previewAlt')}
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-[1500ms]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0A1128]/95 via-[#0A1128]/65 to-transparent" />
+          <div className="relative p-8 md:p-14 max-w-2xl">
+            <div className="inline-flex items-center gap-2 mb-4 bg-amber-50/95 px-3 py-1 rounded-lg border border-amber-200 text-xs uppercase tracking-widest font-mono text-amber-900 font-bold">
+              <Gamepad2 className="w-3.5 h-3.5 text-[#D4AF37]" />
+              {t('heritagePage.game.badge')}
             </div>
-
-            <div className="flex items-center gap-3">
-              {!isGameActive ? (
-                <button
-                  onClick={() => setIsGameActive(true)}
-                  className="px-6 py-3 bg-[#0A1128] text-white rounded-lg text-xs uppercase tracking-wider font-bold hover:bg-[#D4AF37] hover:text-[#0A1128] transition-all shadow-md active:scale-95"
-                >
-                  {t('heritagePage.game.play')}
-                </button>
-              ) : (
-                <button
-                  onClick={() => setIsGameActive(false)}
-                  className="px-4 py-2.5 bg-slate-100 text-slate-700 rounded-lg text-xs uppercase tracking-wider font-semibold hover:bg-slate-200 transition-colors"
-                >
-                  {t('heritagePage.game.hide')}
-                </button>
-              )}
-            </div>
+            <h2 className="text-3xl md:text-5xl font-serif text-white mb-3">
+              {t('heritagePage.game.title')} <span className="italic text-brand-gold">{t('heritagePage.game.titleNative')}</span>
+            </h2>
+            <p className="text-white/80 leading-relaxed mb-7 max-w-xl">{t('heritagePage.game.blurb')}</p>
+            <span className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#D4AF37] text-[#0A1128] rounded-lg text-xs uppercase tracking-widest font-bold group-hover:bg-white transition-colors">
+              {t('heritagePage.game.play')} <ArrowRight size={14} />
+            </span>
           </div>
-
-          {isGameActive ? (
-            <div className="w-full bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 shadow-inner">
-              <Suspense fallback={<div className="h-[320px] flex items-center justify-center text-slate-400"><Loader className="w-8 h-8 animate-spin" /></div>}>
-                <LetsPlayGame />
-              </Suspense>
-            </div>
-          ) : (
-            <div 
-              onClick={() => setIsGameActive(true)}
-              className="relative w-full h-[320px] sm:h-[400px] rounded-2xl overflow-hidden bg-slate-900 flex flex-col items-center justify-center text-center cursor-pointer group border border-slate-800"
-            >
-              <img 
-                src="https://images.unsplash.com/photo-1542642596-f3310061e888?q=80&w=1200&auto=format&fit=crop" 
-                alt={t('heritagePage.game.previewAlt')} 
-                className="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-slate-950/70 group-hover:bg-slate-950/50 transition-colors" />
-
-              <div className="relative z-10 p-6 flex flex-col items-center max-w-md">
-                <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md border border-[#D4AF37]/40 flex items-center justify-center text-[#D4AF37] mb-5 group-hover:scale-110 transition-transform">
-                  <Gamepad2 className="w-8 h-8 animate-pulse" />
-                </div>
-                <h3 className="text-white text-xl font-serif mb-2">
-                  {t('heritagePage.game.ready')}
-                </h3>
-                <p className="text-slate-300 text-xs font-normal leading-relaxed mb-6">
-                  <Trans
-                    i18nKey="heritagePage.game.controls"
-                    components={{ k: <strong className="text-[#D4AF37]" /> }}
-                  />
-                </p>
-                <span className="px-6 py-3 bg-[#D4AF37] text-[#0A1128] rounded-lg text-xs uppercase tracking-widest font-semibold shadow-lg group-hover:bg-white transition-colors">
-                  {t('heritagePage.game.start')}
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
+        </Link>
       </section>
 
       {/* 4. Classical Vertical Script (Bichig) Archival Corner */}

@@ -320,15 +320,18 @@ const GAME_TEXT: Record<string, { title: string; titleScore: string; desc: strin
   },
 };
 
-app.get("/heritage", async (req, res, next) => {
+app.get("*", async (req, res, next) => {
   try {
+    const rawGamePath = String((req.query.ssrPath as string) || req.path).replace(/\/+$/, "") || "/";
+    const isGamePage = rawGamePath === "/game";
     const hasScore = req.query.score !== undefined;
-    if (!hasScore && req.query.game === undefined) return next();
+    // /game always gets the game preview; older /heritage?score=... links keep working
+    if (!isGamePage && !(rawGamePath === "/heritage" && (hasScore || req.query.game !== undefined))) return next();
     const lang = String(req.query.lang || "").slice(0, 2).toLowerCase();
     const tx = GAME_TEXT[lang] || GAME_TEXT.en;
     const n = parseInt(String(req.query.score), 10);
     const title = hasScore && n > 0 ? tx.titleScore.replace("{n}", String(Math.min(n, 1000000))) : tx.title;
-    const url = `${SITE_URL}/heritage` + (hasScore && n > 0 ? `?score=${n}${lang ? `&lang=${lang}` : ""}` : "");
+    const url = `${SITE_URL}/game` + (hasScore && n > 0 ? `?score=${n}${lang ? `&lang=${lang}` : ""}` : "");
     const image = `${SITE_URL}/og-game.jpg`;
 
     let html = "";
