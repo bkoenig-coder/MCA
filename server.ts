@@ -81,7 +81,31 @@ async function startServer() {
   });
 
   // Helper to send email notification to info@mongoliancenter.org
-  async function notifyAdmin(subject: string, htmlContent: string) {
+  /**
+ * Adds a subscriber to MailerLite (https://developers.mailerlite.com). It needs two settings:
+ * MAILERLITE_API_KEY (required) and MAILERLITE_GROUP_ID (optional, the list people join).
+ * Switch on "double opt-in" in the MailerLite account so every address is confirmed by email.
+ */
+async function addToMailerLite(email: string): Promise<"added" | "not-configured"> {
+  const key = process.env.MAILERLITE_API_KEY;
+  if (!key) return "not-configured";
+  const body: Record<string, unknown> = { email };
+  if (process.env.MAILERLITE_GROUP_ID) body.groups = [process.env.MAILERLITE_GROUP_ID];
+  const r = await fetch("https://connect.mailerlite.com/api/subscribers", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!r.ok) {
+    const detail = await r.text().catch(() => "");
+    throw new Error(`MailerLite ${r.status}: ${detail.slice(0, 200)}`);
+  }
+  return "added";
+}
+
+const looksLikeEmail = (v: unknown): v is string => typeof v === "string" && v.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+async function notifyAdmin(subject: string, htmlContent: string) {
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
       console.log("No SMTP credentials set, skipping email notification.");
       return;
@@ -159,20 +183,27 @@ Keep responses concise, polite, helpful, and respond in the language the user as
   });
 
   app.post("/api/newsletter/subscribe", async (req, res) => {
-    const { email } = req.body;
-
-    if (!email) {
-      return res.status(400).json({ error: "Email is required" });
+    const { email } = req.body || {};
+    if (!looksLikeEmail(email)) {
+      return res.status(400).json({ error: "Please enter a valid email address." });
     }
 
     try {
-      // Send notification via Hostinger SMTP
-      // This will send the notification email to info@mongoliancenter.org directly
-      await notifyAdmin(
+      // 1. the newsletter list (MailerLite sends the confirmation email)
+      let listed: "added" | "not-configured" = "not-configured";
+      try {
+        listed = await addToMailerLite(email.trim().toLowerCase());
+      } catch (e) {
+        console.error("MailerLite error:", e);
+        return res.status(502).json({ error: "We could not save your subscription right now. Please try again later." });
+      }
+
+      // 2. a short note to the team (never blocks the signup)
+      notifyAdmin(
         "New Newsletter Subscriber",
-        `<p>A new user has subscribed to the newsletter!</p>
-         <p><strong>Email:</strong> ${email}</p>`
-      );
+        `<p>A new user has subscribed to the newsletter${listed === "added" ? " (added to MailerLite)" : ""}.</p>
+         <p><strong>Email:</strong> ${email.replace(/[<>&]/g, "")}</p>`
+      ).catch((e: unknown) => console.error("Admin notification failed:", e));
 
       res.status(201).json({ message: "Successfully subscribed!" });
     } catch (error: any) {

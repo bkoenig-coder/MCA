@@ -2,6 +2,7 @@ import { useState, FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Link } from 'react-router-dom';
 
 interface NewsletterFormProps {
   variant?: 'light' | 'dark';
@@ -80,6 +81,11 @@ export default function NewsletterForm({ variant = 'dark' }: NewsletterFormProps
           )}
         </button>
       </form>
+
+      <p className={`mt-3 text-xs text-center leading-relaxed ${isDark ? 'text-white/45' : 'text-brand-ink/50'}`}>
+        {t('siteUi.newsletter.consent')}{' '}
+        <Link to="/privacy" className="underline hover:text-brand-gold transition-colors">{t('footer.privacy')}</Link>
+      </p>
 
       <AnimatePresence>
         {status !== 'idle' && (
