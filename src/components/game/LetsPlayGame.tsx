@@ -21,7 +21,7 @@ const spawnZ = (speed: number) => -Math.min(160, Math.max(80, speed * 1.6)); // 
 const FOG = '#f1d3a4';
 
 type GameState = 'START' | 'PLAYING' | 'GAMEOVER';
-type ObjType = 'ROCK' | 'FENCE' | 'COIN_BOW' | 'COIN_MORIN' | 'POWER_SHIELD' | 'GER' | 'OVOO' | 'TREE' | 'SHEEP' | 'HORSE' | 'COW';
+type ObjType = 'ROCK' | 'FENCE' | 'COIN_BOW' | 'COIN_MORIN' | 'POWER_SHIELD' | 'GER' | 'OVOO' | 'TREE' | 'SHEEP' | 'HORSE' | 'COW' | 'ARMY';
 
 interface Obj {
   id: number;
@@ -385,6 +385,60 @@ function Rider({ G, dust, character }: { G: React.MutableRefObject<Game>; dust: 
   );
 }
 
+/** A line of Mongolian warriors beside the road. Now and then they raise an arm in salute. */
+function Army({ side }: { side: number }) {
+  const arms = useRef<(THREE.Group | null)[]>([]);
+  const offsets = [-4.6, -2.3, 2.3, 4.6];
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    offsets.forEach((_, i) => {
+      const a = arms.current[i];
+      if (!a) return;
+      const k = (t + i * 0.18) % 9; // a salute every nine seconds
+      let raise = 0;
+      if (k < 0.5) raise = k / 0.5;
+      else if (k < 2.6) raise = 1;
+      else if (k < 3.1) raise = 1 - (k - 2.6) / 0.5;
+      a.rotation.z = 2.55 * raise;
+    });
+  });
+  const armor = '#566379';
+  const skirt = '#a8322d';
+  return (
+    <group rotation={[0, side > 0 ? Math.PI / 2 : -Math.PI / 2, 0]}>
+      {offsets.map((z, i) => (
+        <group key={i} position={[0, 0, z]}>
+          {[-0.12, 0.12].map((x) => (
+            <mesh key={x} position={[x, 0.42, 0]}><cylinderGeometry args={[0.085, 0.075, 0.84, 6]} />{mat('#2a2a35')}</mesh>
+          ))}
+          <mesh position={[0, 0.98, 0]}><cylinderGeometry args={[0.28, 0.2, 0.4, 10]} />{mat(skirt)}</mesh>
+          <mesh position={[0, 1.38, 0]}><cylinderGeometry args={[0.24, 0.27, 0.5, 10]} />{mat(armor, { roughness: 0.6 })}</mesh>
+          <mesh position={[0, 1.2, 0]}><torusGeometry args={[0.26, 0.04, 6, 14]} />{mat('#d4af37', { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.3 })}</mesh>
+          <mesh position={[0, 1.78, 0]}><sphereGeometry args={[0.16, 10, 8]} />{mat('#f0b996')}</mesh>
+          <mesh position={[0, 1.9, 0]}><cylinderGeometry args={[0.21, 0.21, 0.05, 12]} />{mat('#8e99a6', { roughness: 0.5 })}</mesh>
+          <mesh position={[0, 2.06, 0]}><coneGeometry args={[0.17, 0.3, 10]} />{mat('#b8c2cc', { roughness: 0.45 })}</mesh>
+          <mesh position={[0, 2.28, 0]}><coneGeometry args={[0.05, 0.2, 6]} />{mat('#c1121f')}</mesh>
+          {/* right arm: raised for the salute */}
+          <group ref={(g) => { arms.current[i] = g; }} position={[0.3, 1.56, 0]}>
+            <mesh position={[0, -0.28, 0]}><cylinderGeometry args={[0.06, 0.07, 0.56, 6]} />{mat(armor, { roughness: 0.6 })}</mesh>
+            <mesh position={[0, -0.6, 0]}><sphereGeometry args={[0.07, 8, 6]} />{mat('#f0b996')}</mesh>
+          </group>
+          {/* left arm holds a spear */}
+          <mesh position={[-0.3, 1.3, 0]}><cylinderGeometry args={[0.06, 0.07, 0.56, 6]} />{mat(armor, { roughness: 0.6 })}</mesh>
+          <mesh position={[-0.38, 1.35, 0]}><cylinderGeometry args={[0.02, 0.02, 2.9, 5]} />{mat('#5d3a1c')}</mesh>
+          <mesh position={[-0.38, 2.9, 0]}><coneGeometry args={[0.05, 0.25, 5]} />{mat('#cbd2d9', { roughness: 0.4 })}</mesh>
+        </group>
+      ))}
+      {/* the tug: a standard with horsehair, in the middle of the line */}
+      <group position={[0, 0, 0]}>
+        <mesh position={[0, 1.7, 0]}><cylinderGeometry args={[0.03, 0.04, 3.4, 6]} />{mat('#5d3a1c')}</mesh>
+        <mesh position={[0, 3.45, 0]}><coneGeometry args={[0.08, 0.3, 6]} />{mat('#d4af37', { emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
+        <mesh position={[0, 3.1, 0]}><coneGeometry args={[0.38, 0.8, 10, 1, true]} />{mat('#1c1816', { side: THREE.DoubleSide })}</mesh>
+      </group>
+    </group>
+  );
+}
+
 /** A cow for the scenery: spotted, brown or dark. */
 function Cow({ coat, patch, x, z, turn, graze }: { coat: string; patch: string | null; x: number; z: number; turn: number; graze: boolean }) {
   const legs: [number, number][] = [[-0.2, -0.4], [0.2, -0.4], [-0.2, 0.4], [0.2, 0.4]];
@@ -622,6 +676,7 @@ function Item({ o, shadows }: { o: Obj; shadows: boolean }) {
           <Horse coat="#d8c9aa" mane="#8d7a58" graze={false} x={-1.6} z={1.3} turn={2.5} />
         </group>
       )}
+      {o.type === 'ARMY' && <Army side={o.x < 0 ? -1 : 1} />}
       {o.type === 'COW' && (
         <group>
           <Cow coat="#f2eee6" patch="#2a2522" graze x={0} z={0} turn={0.6} />
@@ -775,9 +830,9 @@ function Scene({ G, isMobile, character, onHud, onEnd, onShieldHit }: {
     const side = Math.random() < 0.5 ? -1 : 1;
     const x = side * (6.5 + Math.random() * 20);
     const r = Math.random();
-    const type: ObjType = r < 0.28 ? 'GER' : r < 0.46 ? 'SHEEP' : r < 0.54 ? 'HORSE' : r < 0.68 ? 'COW' : r < 0.78 ? 'OVOO' : 'TREE';
+    const type: ObjType = r < 0.28 ? 'GER' : r < 0.46 ? 'SHEEP' : r < 0.54 ? 'HORSE' : r < 0.68 ? 'COW' : r < 0.78 ? 'OVOO' : r < 0.84 ? 'ARMY' : 'TREE';
     // keep gers and trees away from the path, sheep may graze closer
-    const xx = type === 'SHEEP' || type === 'HORSE' || type === 'COW' ? side * (5.5 + Math.random() * 12) : x;
+    const xx = type === 'ARMY' ? side * (5.4 + Math.random() * 1.2) : type === 'SHEEP' || type === 'HORSE' || type === 'COW' ? side * (5.5 + Math.random() * 12) : x;
     spawn(g, type, xx, 0, sz - 10, type === 'TREE' ? 0.9 + Math.random() * 0.5 : 1);
   };
 
