@@ -39,6 +39,11 @@ const rows: Row[] = [
   ['noBeat', 'So close! The challenge was {{score}}. Try again!', 'Knapp! Die Herausforderung war {{score}}. Versuche es noch einmal!', 'Бага зэрэг дутлаа! Сорилт {{score}} байсан. Дахин оролдоорой!', 'Çok yakın! Hedef {{score}} puandı. Tekrar dene!'],
   ['playAgain', 'Play again', 'Nochmal spielen', 'Дахин тоглох', 'Tekrar oyna'],
   ['share', 'Share your score', 'Punkte teilen', 'Оноогоо түгээх', 'Puanını paylaş'],
+  ['chooseCharacter', 'Choose your rider', 'Wähle deinen Reiter', 'Давхигчаа сонгоно уу', 'Binicini seç'],
+  ['char.herder', 'Herder', 'Hirte', 'Малчин', 'Çoban'],
+  ['char.khan', 'Khan', 'Khan', 'Хаан', 'Han'],
+  ['char.warrior', 'Warrior', 'Krieger', 'Дайчин', 'Savaşçı'],
+  ['char.queen', 'Queen', 'Königin', 'Хатан', 'Hatun'],
   ['hall', 'Hall of Heroes', 'Heldenhalle', 'Баатруудын танхим', 'Kahramanlar Salonu'],
   ['noHeroes', 'No heroes yet. Be the first!', 'Noch keine Helden. Sei der Erste!', 'Одоогоор баатар байхгүй. Та анхных нь болоорой!', 'Henüz kahraman yok. İlk sen ol!'],
   [
@@ -59,7 +64,12 @@ const rows: Row[] = [
 
 function build(index: number) {
   const out: Record<string, any> = {};
-  for (const row of rows) out[row[0]] = row[index + 1];
+  for (const row of rows) {
+    const path = row[0].split('.');
+    let node = out;
+    for (let i = 0; i < path.length - 1; i++) node = node[path[i]] ??= {};
+    node[path[path.length - 1]] = row[index + 1];
+  }
   return { heritagePage: { runner: out } };
 }
 

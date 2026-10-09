@@ -122,6 +122,109 @@ const mat = (color: string, extra: Partial<THREE.MeshStandardMaterialParameters>
   <meshStandardMaterial color={color} roughness={0.85} {...extra} />
 );
 
+
+// ---------------------------------------------------------------------------
+// Riders (cosmetic choice; they all play the same)
+// ---------------------------------------------------------------------------
+export type CharacterId = 'herder' | 'khan' | 'warrior' | 'queen';
+export const CHARACTER_IDS: CharacterId[] = ['herder', 'khan', 'warrior', 'queen'];
+
+interface Look {
+  horse: string;
+  mane: string;
+  blanket: string;
+  deel: string;
+  sash: string;
+  hat: 'cone' | 'crown' | 'helm' | 'boqta';
+  hatColor: string;
+  trim: string;
+}
+
+const LOOKS: Record<CharacterId, Look> = {
+  herder: { horse: '#8a4b22', mane: '#33190a', blanket: '#a8322d', deel: '#1c4fa8', sash: '#d4af37', hat: 'cone', hatColor: '#a8322d', trim: '#d4af37' },
+  khan: { horse: '#ece6d8', mane: '#b9ae95', blanket: '#d4af37', deel: '#8f1d2c', sash: '#d4af37', hat: 'crown', hatColor: '#d4af37', trim: '#7a1f2b' },
+  warrior: { horse: '#201b18', mane: '#0c0a09', blanket: '#475569', deel: '#475569', sash: '#a8322d', hat: 'helm', hatColor: '#9aa5b1', trim: '#a8322d' },
+  queen: { horse: '#c9a26a', mane: '#f1e4c8', blanket: '#7c1d3a', deel: '#0f766e', sash: '#d4af37', hat: 'boqta', hatColor: '#7c1d3a', trim: '#d4af37' },
+};
+
+/** Small flat portrait of each rider for the picker. */
+function Avatar({ id }: { id: CharacterId }) {
+  const l = LOOKS[id];
+  return (
+    <svg viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">
+      <circle cx="24" cy="24" r="23" fill="#16295a" />
+      <path d="M8 46 Q10 32 24 32 Q38 32 40 46 Z" fill={l.deel} />
+      <rect x="14" y="38" width="20" height="3" fill={l.sash} />
+      <circle cx="24" cy="24" r="7" fill="#f0b996" />
+      {l.hat === 'cone' && (<><rect x="14" y="17" width="20" height="3" rx="1.5" fill="#d4af37" /><polygon points="17,17 24,5 31,17" fill={l.hatColor} /></>)}
+      {l.hat === 'crown' && (<><rect x="14" y="17" width="20" height="3" rx="1.5" fill="#5a3b22" /><rect x="17" y="7" width="14" height="11" rx="2" fill="#d4af37" /><polygon points="19,7 24,1 29,7" fill="#d4af37" /><circle cx="24" cy="3" r="1.6" fill="#e5484d" /></>)}
+      {l.hat === 'helm' && (<><rect x="15" y="17" width="18" height="3" rx="1.5" fill="#7b8794" /><polygon points="17,17 24,6 31,17" fill="#b8c2cc" /><rect x="23.4" y="1" width="1.2" height="6" fill="#cbd2d9" /><circle cx="27" cy="9" r="2" fill="#c1121f" /></>)}
+      {l.hat === 'boqta' && (<><rect x="15" y="17" width="18" height="3" rx="1.5" fill="#d4af37" /><polygon points="19,17 21,4 27,4 29,17" fill="#7c1d3a" /><rect x="17" y="2.5" width="14" height="2.5" rx="1" fill="#d4af37" /><rect x="14" y="21" width="2.5" height="12" rx="1.2" fill="#17120e" /><rect x="31.5" y="21" width="2.5" height="12" rx="1.2" fill="#17120e" /></>)}
+    </svg>
+  );
+}
+
+/** Headwear and extras for each rider, drawn inside the rider's torso group. */
+function Gear({ look, id }: { look: Look; id: CharacterId }) {
+  const gold = '#d4af37';
+  return (
+    <>
+      {look.hat === 'cone' && (
+        <>
+          <mesh position={[0, 1.02, 0]} castShadow><cylinderGeometry args={[0.24, 0.24, 0.05, 12]} />{mat(gold, { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
+          <mesh position={[0, 1.18, 0]} castShadow><coneGeometry args={[0.17, 0.28, 8]} />{mat(look.hatColor)}</mesh>
+          <mesh position={[0, 1.34, 0]}><sphereGeometry args={[0.04, 8, 8]} />{mat(gold, { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
+        </>
+      )}
+      {look.hat === 'crown' && (
+        <>
+          <mesh position={[0, 1.02, 0]} castShadow><cylinderGeometry args={[0.27, 0.27, 0.07, 14]} />{mat('#5a3b22')}</mesh>
+          <mesh position={[0, 1.22, 0]} castShadow><cylinderGeometry args={[0.2, 0.18, 0.34, 12]} />{mat(gold, { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
+          <mesh position={[0, 1.42, 0]}><coneGeometry args={[0.1, 0.16, 8]} />{mat(gold, { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
+          <mesh position={[0, 1.54, 0]}><sphereGeometry args={[0.045, 8, 8]} />{mat('#c1121f', { emissive: '#600', emissiveIntensity: 0.5 })}</mesh>
+          {[-1, 1].map((x) => (
+            <mesh key={x} position={[x * 0.2, 0.86, 0]}><boxGeometry args={[0.05, 0.22, 0.2]} />{mat('#7a1f2b')}</mesh>
+          ))}
+          {/* cape */}
+          <mesh position={[0, 0.42, 0.24]} rotation={[0.12, 0, 0]}><boxGeometry args={[0.58, 0.9, 0.04]} />{mat('#7a1f2b')}</mesh>
+          <mesh position={[0, 0.78, 0.2]}><boxGeometry args={[0.6, 0.08, 0.1]} />{mat('#f3efe6')}</mesh>
+        </>
+      )}
+      {look.hat === 'helm' && (
+        <>
+          <mesh position={[0, 1.0, 0]} castShadow><cylinderGeometry args={[0.22, 0.22, 0.05, 12]} />{mat('#7b8794', { roughness: 0.5 })}</mesh>
+          <mesh position={[0, 1.16, 0]} castShadow><coneGeometry args={[0.18, 0.3, 10]} />{mat(look.hatColor, { roughness: 0.5 })}</mesh>
+          <mesh position={[0, 1.36, 0]}><cylinderGeometry args={[0.015, 0.015, 0.14, 5]} />{mat('#cbd2d9', { roughness: 0.4 })}</mesh>
+          <mesh position={[0, 1.3, 0.1]} rotation={[0.5, 0, 0]}><coneGeometry args={[0.06, 0.28, 6]} />{mat('#c1121f')}</mesh>
+          {/* round shield on the back */}
+          <mesh position={[0, 0.45, 0.27]} rotation={[Math.PI / 2, 0, 0]}><cylinderGeometry args={[0.32, 0.32, 0.05, 20]} />{mat('#8d2b24')}</mesh>
+          <mesh position={[0, 0.45, 0.31]} rotation={[Math.PI / 2, 0, 0]}><cylinderGeometry args={[0.09, 0.09, 0.06, 12]} />{mat(gold, { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
+        </>
+      )}
+      {look.hat === 'boqta' && (
+        <>
+          <mesh position={[0, 1.03, 0]} castShadow><cylinderGeometry args={[0.2, 0.2, 0.08, 14]} />{mat(gold, { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
+          <mesh position={[0, 1.3, 0]} castShadow><cylinderGeometry args={[0.1, 0.18, 0.46, 12]} />{mat(look.hatColor)}</mesh>
+          <mesh position={[0, 1.18, 0]}><torusGeometry args={[0.15, 0.025, 6, 14]} />{mat(gold, { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
+          <mesh position={[0, 1.42, 0]}><torusGeometry args={[0.115, 0.02, 6, 14]} />{mat(gold, { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
+          <mesh position={[0, 1.55, 0]}><cylinderGeometry args={[0.2, 0.1, 0.05, 14]} />{mat(gold, { roughness: 0.45, emissive: '#6b4f00', emissiveIntensity: 0.35 })}</mesh>
+          <mesh position={[0, 1.6, 0]}><sphereGeometry args={[0.04, 8, 8]} />{mat('#e5484d', { emissive: '#600', emissiveIntensity: 0.4 })}</mesh>
+          {/* braids with coral beads */}
+          {[-1, 1].map((x) => (
+            <group key={x} position={[x * 0.2, 0.84, 0.02]}>
+              <mesh position={[0, -0.18, 0]}><cylinderGeometry args={[0.035, 0.03, 0.4, 6]} />{mat('#17120e')}</mesh>
+              <mesh position={[0, -0.4, 0]}><sphereGeometry args={[0.05, 8, 8]} />{mat('#e5484d')}</mesh>
+            </group>
+          ))}
+        </>
+      )}
+      {id === 'queen' && (
+        <mesh position={[0, 0.5, 0.2]} rotation={[0.1, 0, 0]}><boxGeometry args={[0.5, 0.8, 0.03]} />{mat('#e9d8a6')}</mesh>
+      )}
+    </>
+  );
+}
+
 function Leg({ pivot, color }: { pivot: React.RefObject<THREE.Group | null>; color: string }) {
   return (
     <group ref={pivot as React.RefObject<THREE.Group>}>
@@ -137,7 +240,8 @@ function Leg({ pivot, color }: { pivot: React.RefObject<THREE.Group | null>; col
   );
 }
 
-function Rider({ G, dust }: { G: React.MutableRefObject<Game>; dust: boolean }) {
+function Rider({ G, dust, character }: { G: React.MutableRefObject<Game>; dust: boolean; character: CharacterId }) {
+  const look = LOOKS[character];
   const root = useRef<THREE.Group>(null);
   const fl = useRef<THREE.Group>(null);
   const fr = useRef<THREE.Group>(null);
@@ -177,9 +281,9 @@ function Rider({ G, dust }: { G: React.MutableRefObject<Game>; dust: boolean }) 
     if (armR.current) armR.current.rotation.x = arm;
   });
 
-  const horse = '#8a4b22';
-  const dark = '#33190a';
-  const deel = '#1c4fa8';
+  const horse = look.horse;
+  const dark = look.mane;
+  const deel = look.deel;
 
   return (
     <group ref={root}>
@@ -234,7 +338,7 @@ function Rider({ G, dust }: { G: React.MutableRefObject<Game>; dust: boolean }) 
       {/* saddle blanket */}
       <mesh position={[0, 1.33, 0]} castShadow>
         <boxGeometry args={[0.55, 0.06, 0.6]} />
-        {mat('#a8322d')}
+        {mat(look.blanket)}
       </mesh>
 
       {/* rider */}
@@ -245,25 +349,13 @@ function Rider({ G, dust }: { G: React.MutableRefObject<Game>; dust: boolean }) 
         </mesh>
         <mesh position={[0, 0.2, 0]}>
           <torusGeometry args={[0.25, 0.045, 6, 14]} />
-          {mat('#d4af37', { metalness: 0.5, roughness: 0.35 })}
+          {mat(look.sash, { roughness: 0.5, emissive: '#3a2a00', emissiveIntensity: 0.25 })}
         </mesh>
         <mesh position={[0, 0.9, 0]} castShadow>
           <sphereGeometry args={[0.17, 12, 10]} />
           {mat('#f0b996')}
         </mesh>
-        {/* Mongolian hat: brim, cone and a red knob */}
-        <mesh position={[0, 1.02, 0]} castShadow>
-          <cylinderGeometry args={[0.24, 0.24, 0.05, 12]} />
-          {mat('#d4af37', { metalness: 0.4 })}
-        </mesh>
-        <mesh position={[0, 1.18, 0]} castShadow>
-          <coneGeometry args={[0.17, 0.28, 8]} />
-          {mat('#a8322d')}
-        </mesh>
-        <mesh position={[0, 1.34, 0]}>
-          <sphereGeometry args={[0.04, 8, 8]} />
-          {mat('#d4af37', { metalness: 0.6 })}
-        </mesh>
+        <Gear look={look} id={character} />
         {[-1, 1].map((s) => (
           <group key={s} ref={s < 0 ? armL : armR} position={[s * 0.27, 0.68, 0]}>
             <mesh position={[0, -0.22, 0]} castShadow>
@@ -558,9 +650,10 @@ function Backdrop() {
 // ---------------------------------------------------------------------------
 interface Hud { score: number; mult: number; combo: number; shield: boolean; level: number }
 
-function Scene({ G, isMobile, onHud, onEnd, onShieldHit }: {
+function Scene({ G, isMobile, character, onHud, onEnd, onShieldHit }: {
   G: React.MutableRefObject<Game>;
   isMobile: boolean;
+  character: CharacterId;
   onHud: (h: Hud) => void;
   onEnd: (score: number) => void;
   onShieldHit: () => void;
@@ -764,7 +857,7 @@ function Scene({ G, isMobile, onHud, onEnd, onShieldHit }: {
         <meshStandardMaterial map={path} roughness={1} />
       </mesh>
 
-      <Rider G={G} dust={!isMobile} />
+      <Rider G={G} dust={!isMobile} character={character} />
       {G.current.objects.map((o) => (
         <Item key={o.id} o={o} shadows={shadows} />
       ))}
@@ -787,6 +880,7 @@ export default function LetsPlayGame() {
   const [newBest, setNewBest] = useState(false);
   const [gameKey, setGameKey] = useState(0);
   const [flash, setFlash] = useState(false);
+  const [character, setCharacter] = useState<CharacterId>('herder');
 
   const [playerName, setPlayerName] = useState('');
   const [leaderboard, setLeaderboard] = useState<{ name: string; score: number }[]>([]);
@@ -805,6 +899,8 @@ export default function LetsPlayGame() {
 
     try {
       setBest(parseInt(localStorage.getItem('steppe-best') || '0', 10) || 0);
+      const saved = localStorage.getItem('steppe-character') as CharacterId | null;
+      if (saved && CHARACTER_IDS.includes(saved)) setCharacter(saved);
     } catch { /* storage blocked */ }
 
     const params = new URLSearchParams(window.location.search);
@@ -880,6 +976,11 @@ export default function LetsPlayGame() {
     window.dispatchEvent(new Event('game-ended'));
   };
 
+  const chooseCharacter = (id: CharacterId) => {
+    setCharacter(id);
+    try { localStorage.setItem('steppe-character', id); } catch { /* storage blocked */ }
+  };
+
   const onShieldHit = () => {
     setFlash(true);
     setTimeout(() => setFlash(false), 260);
@@ -947,7 +1048,7 @@ export default function LetsPlayGame() {
       }}
     >
       <Canvas shadows={!isMobile} dpr={[1, isMobile ? 1.5 : 2]} camera={{ position: [0, 4.3, 8.6], fov: 52, near: 0.1, far: 320 }}>
-        <Scene key={gameKey} G={G} isMobile={isMobile} onHud={setHud} onEnd={onEnd} onShieldHit={onShieldHit} />
+        <Scene key={gameKey} G={G} isMobile={isMobile} character={character} onHud={setHud} onEnd={onEnd} onShieldHit={onShieldHit} />
       </Canvas>
 
       {/* warm vignette */}
@@ -1000,7 +1101,24 @@ export default function LetsPlayGame() {
               🏆 {r('challenge', { score: challengeScore })}
             </div>
           )}
-          <p className="text-white/85 mb-6 max-w-md">{r('startText')}</p>
+          <p className="text-white/85 mb-5 max-w-md">{r('startText')}</p>
+          <div className="pointer-events-auto mb-6">
+            <div className="text-[11px] uppercase tracking-[0.2em] text-brand-gold/80 mb-2 font-semibold">{r('chooseCharacter')}</div>
+            <div className="flex gap-2 md:gap-3 justify-center">
+              {CHARACTER_IDS.map((id) => (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); chooseCharacter(id); }}
+                  aria-pressed={character === id}
+                  className={`flex flex-col items-center gap-1.5 w-[74px] md:w-[88px] pt-2 pb-2 rounded-2xl border transition-all ${character === id ? 'border-brand-gold bg-brand-gold/20 scale-105 shadow-[0_0_18px_rgba(212,175,55,0.35)]' : 'border-white/20 bg-black/30 hover:border-brand-gold/60'}`}
+                >
+                  <Avatar id={id} />
+                  <span className={`text-[11px] md:text-xs font-semibold ${character === id ? 'text-brand-gold' : 'text-white/80'}`}>{r(`char.${id}`)}</span>
+                </button>
+              ))}
+            </div>
+          </div>
           <div className="hidden md:flex gap-10 mb-8 text-white/70 text-sm">
             <div className="flex flex-col items-center gap-1.5"><span className="text-lg text-white font-mono">A / D / ← / →</span><span>{r('move')}</span></div>
             <div className="flex flex-col items-center gap-1.5"><span className="text-lg text-white font-mono">SPACE / ↑</span><span>{r('jump')}</span></div>
