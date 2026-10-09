@@ -4,6 +4,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import heritagePage from './locales/heritagePage';
 import legalPages from './locales/legalPages';
 import pagesMisc from './locales/pagesMisc';
+import partnersPage from './locales/partnersPage';
 import siteUi from './locales/siteUi';
 
 const resources = {
@@ -3042,7 +3043,7 @@ i18n
   });
 
 // Page-level translation files are merged on top of the base resources above.
-for (const bundle of [heritagePage, legalPages, pagesMisc, siteUi]) {
+for (const bundle of [heritagePage, legalPages, pagesMisc, partnersPage, siteUi]) {
   for (const lng of Object.keys(bundle) as Array<keyof typeof bundle>) {
     i18n.addResourceBundle(lng, 'translation', bundle[lng], true, true);
   }

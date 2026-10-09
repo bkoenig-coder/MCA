@@ -26,6 +26,7 @@ const GalleryDetails = lazy(() => import('./pages/GalleryDetails'));
 const Profile = lazy(() => import('./pages/Profile'));
 const Impact = lazy(() => import('./pages/Impact'));
 const Contact = lazy(() => import('./pages/Contact'));
+const Partners = lazy(() => import('./pages/Partners'));
 const Membership = lazy(() => import('./pages/Membership'));
 const ApplyStudent = lazy(() => import('./pages/ApplyStudent'));
 const ApplyProfessional = lazy(() => import('./pages/ApplyProfessional'));
@@ -111,6 +112,7 @@ export default function App() {
                   <Route path="/impact" element={<Impact />} />
                   <Route path="/donate" element={<Impact />} />
                   <Route path="/contact" element={<Contact />} />
+                  <Route path="/partners" element={<Partners />} />
                   <Route path="/membership" element={<Membership />} />
                   <Route path="/membership/apply-student" element={<ApplyStudent />} />
                   <Route path="/membership/apply-professional" element={<ApplyProfessional />} />
