@@ -5,6 +5,7 @@ import heritagePage from './locales/heritagePage';
 import heritageShowcase from './locales/heritageShowcase';
 import legalPages from './locales/legalPages';
 import pagesMisc from './locales/pagesMisc';
+import runnerGame from './locales/runnerGame';
 import partnersPage from './locales/partnersPage';
 import siteUi from './locales/siteUi';
 
@@ -3044,7 +3045,7 @@ i18n
   });
 
 // Page-level translation files are merged on top of the base resources above.
-for (const bundle of [heritagePage, heritageShowcase, legalPages, pagesMisc, partnersPage, siteUi]) {
+for (const bundle of [heritagePage, heritageShowcase, runnerGame, legalPages, pagesMisc, partnersPage, siteUi]) {
   for (const lng of Object.keys(bundle) as Array<keyof typeof bundle>) {
     i18n.addResourceBundle(lng, 'translation', bundle[lng], true, true);
   }

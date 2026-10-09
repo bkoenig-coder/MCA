@@ -16,7 +16,6 @@ import mcaLogoWideLight from '../assets/media/mca-logo-wide-light.png';
 import { Overlay } from '../components/diorama/Overlay';
 import BridgeMap, { BRIDGE_DISTANCE_KM } from '../components/BridgeMap';
 
-import LetsPlayGame from '../components/game/LetsPlayGame';
 import ScriptPlaque from '../components/ScriptPlaque';
 
 export default function Home() {
