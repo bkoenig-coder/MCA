@@ -6,6 +6,15 @@ import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronUp, ChevronRight, Check, Link as LinkIcon, Facebook, Twitter, Linkedin, ShieldCheck, Flame } from 'lucide-react';
 import { db, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } from '../../firebase';
 
+/** Records a play for the admin dashboard (the analytics table: path, timestamp, metadata). Never blocks the game. */
+function logGameEvent(path: '/game/start' | '/game/end', metadata: Record<string, unknown>) {
+  try {
+    addDoc(collection(db, 'analytics'), { path, timestamp: serverTimestamp(), metadata }).catch(() => {});
+  } catch {
+    /* ignore */
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Steppe Runner: a golden-hour ride across the steppe.
 // The game state lives in a mutable ref and is updated every frame (no React
@@ -1158,10 +1167,12 @@ export default function LetsPlayGame() {
     setPlayerName('');
     setNewBest(false);
     window.dispatchEvent(new Event('game-started'));
+    logGameEvent('/game/start', { character, quality, lang: (i18n.language || 'en').slice(0, 2) });
     container.current?.focus();
   };
 
   const onEnd = (score: number) => {
+    logGameEvent('/game/end', { score, seconds: Math.round(G.current.time), character, quality, lang: (i18n.language || 'en').slice(0, 2) });
     setFinalScore(score);
     setState('GAMEOVER');
     let isBest = false;

@@ -8,9 +8,10 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { 
   Plus, Calendar, FileText, Users, User as UserIcon, TrendingUp, Image as ImageIcon, 
   Trash2, Edit3, Check, X, AlertCircle, ExternalLink, Download, Shield, Sparkles, 
-  Wand2, Copy, Search, Eye, MapPin, Clock, Tag, Compass, Upload, Loader2, Link2, SlidersHorizontal
+  Wand2, Copy, Search, Eye, MapPin, Clock, Tag, Compass, Upload, Loader2, Link2, SlidersHorizontal, Gamepad2
 } from 'lucide-react';
 import { toast } from 'sonner';
+import GameStats, { GameScoreRow, GameEventRow } from '../components/admin/GameStats';
 import Modal from '../components/Modal';
 import CoverImageField from '../components/admin/CoverImageField';
 import RichTextArea from '../components/admin/RichTextArea';
@@ -277,11 +278,13 @@ export default function AdminDashboard() {
   const isAdminUser = isSuperAdmin || isDomainAdmin || userEmail === 'batmunkh.unen@gmail.com' || profile?.role === 'admin';
   const isEditor = isAdminUser || profile?.role === 'moderator';
 
-  const [activeTab, setActiveTab] = useState<'analytics' | 'events' | 'posts' | 'registrations' | 'gallery' | 'users' | 'applications' | 'careers'>('posts');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'game' | 'events' | 'posts' | 'registrations' | 'gallery' | 'users' | 'applications' | 'careers'>('posts');
 
   // Analytics State
   const [pageViews, setPageViews] = useState<any[]>([]);
   const [analyticsData, setAnalyticsData] = useState<any[]>([]);
+  const [gameScores, setGameScores] = useState<GameScoreRow[]>([]);
+  const [gameEvents, setGameEvents] = useState<GameEventRow[]>([]);
 
   // Content State
   const [events, setEvents] = useState<any[]>([]);
@@ -373,7 +376,27 @@ export default function AdminDashboard() {
     // Fetch Analytics
     const qAnalytics = query(collection(db, 'analytics'), orderBy('timestamp', 'desc'), limit(1000));
     const unsubscribeAnalytics = onSnapshot(qAnalytics, (snapshot) => {
-      const views = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const all = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as any[];
+      const toDate = (t: any): Date | null => {
+        if (!t) return null;
+        const d = typeof t.toDate === 'function' ? t.toDate() : new Date(t);
+        return isNaN(d.getTime()) ? null : d;
+      };
+      // game plays are recorded as /game/start and /game/end: they feed the Game tab, not the visit numbers
+      const views = all.filter(v => !String(v.path || '').startsWith('/game/'));
+      setGameEvents(
+        all
+          .filter(v => String(v.path || '').startsWith('/game/'))
+          .map(v => ({
+            event: String(v.path).endsWith('/end') ? 'end' : 'start',
+            score: Number(v.metadata?.score) || 0,
+            seconds: Number(v.metadata?.seconds) || 0,
+            character: v.metadata?.character,
+            lang: v.metadata?.lang,
+            quality: v.metadata?.quality,
+            when: toDate(v.timestamp),
+          })) as GameEventRow[]
+      );
       setPageViews(views);
 
       const counts: { [key: string]: number } = {};
@@ -391,6 +414,17 @@ export default function AdminDashboard() {
       const chartData = Object.entries(counts).map(([date, count]) => ({ date, count })).reverse();
       setAnalyticsData(chartData);
     }, (error) => handleFirestoreError(error, OperationType.GET, 'analytics'));
+
+    // Fetch game scores
+    const qScores = query(collection(db, 'game_scores'), orderBy('score', 'desc'), limit(100));
+    const unsubscribeScores = onSnapshot(qScores, (snapshot) => {
+      setGameScores(snapshot.docs.map(doc => {
+        const d: any = doc.data();
+        const t = d.createdAt;
+        const when = t ? (typeof t.toDate === 'function' ? t.toDate() : new Date(t)) : null;
+        return { id: doc.id, name: String(d.player_name ?? d.name ?? '?'), score: Number(d.score) || 0, when: when && !isNaN(when.getTime()) ? when : null };
+      }));
+    }, (error) => handleFirestoreError(error, OperationType.GET, 'game_scores'));
 
     // Fetch Events
     const qEvents = query(collection(db, 'events'), orderBy('createdAt', 'desc'));
@@ -430,6 +464,7 @@ export default function AdminDashboard() {
 
     return () => {
       unsubscribeAnalytics();
+      unsubscribeScores();
       unsubscribeEvents();
       unsubscribePosts();
       unsubscribeRegs();
@@ -1328,6 +1363,7 @@ export default function AdminDashboard() {
               { id: 'registrations', label: 'Registrations', icon: <Users size={16} />, badge: registrations.length },
               { id: 'users', label: 'Members', icon: <Shield size={16} />, badge: users.length },
               { id: 'analytics', label: 'Visits', icon: <TrendingUp size={16} />, badge: null },
+              { id: 'game', label: 'Game', icon: <Gamepad2 size={16} />, badge: gameScores.length },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -1435,6 +1471,18 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               </div>
+            </motion.div>
+          )}
+
+          {/* GAME TAB */}
+          {activeTab === 'game' && (
+            <motion.div
+              key="game"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+            >
+              <GameStats scores={gameScores} events={gameEvents} onDelete={(id) => confirmDelete('game_scores', id)} />
             </motion.div>
           )}
 
