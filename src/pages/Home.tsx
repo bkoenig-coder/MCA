@@ -303,8 +303,7 @@ export default function Home() {
                   { name: 'Verein der mongolischen StudentInnen in Österreich', src: amoxLogo, url: 'https://www.facebook.com/MongolianStudentAssociationInAustria' },
                   { name: 'Gmax Mongolischer Kinder-und Jugendverein', src: '/gmax logo.jpg', url: 'https://www.facebook.com/gmax.gmax.9406' },
                   { name: 'Delger Mongolian Placement', src: delgerLogo, url: 'https://www.delger-placement.at/' },
-                  // no logo file yet: shown as a text mark until one is added (src: '/media/isca-logo.png')
-                  { name: 'ISCA – International Sport and Culture Association', src: '', mark: 'ISCA', url: 'https://www.isca.org/' }
+                  { name: 'ISCA – International Sport and Culture Association', src: '/media/isca-logo.svg', mark: 'ISCA', url: 'https://www.isca.org/' }
                 ].map((partner: { name: string; src: string; url: string; mark?: string }, idx) => (
                   <a 
                     key={`${groupIndex}-${idx}`} 

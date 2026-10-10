@@ -20,6 +20,7 @@ const partners = [
   { name: "EU Active", logo: euactiveLogo, url: "https://www.euactive.org/" },
   { name: "Gmax Mongolischer Kinder-und Jugendverein", logo: "/gmax logo.jpg", url: "https://www.facebook.com/gmax.gmax.9406" },
   { name: "Delger Mongolian Placement", logo: delgerLogo, url: "https://www.delger-placement.at/" },
+  { name: "ISCA – International Sport and Culture Association", logo: "/media/isca-logo.svg", url: "https://www.isca.org/" },
   { name: "MCA", logo: mcaLogo, url: "/contact" },
 ];
 
