@@ -302,8 +302,10 @@ export default function Home() {
                   { name: 'Verein für aktiv Leben und Bildung', src: euActiveLogo, url: 'https://www.euactive.org/' },
                   { name: 'Verein der mongolischen StudentInnen in Österreich', src: amoxLogo, url: 'https://www.facebook.com/MongolianStudentAssociationInAustria' },
                   { name: 'Gmax Mongolischer Kinder-und Jugendverein', src: '/gmax logo.jpg', url: 'https://www.facebook.com/gmax.gmax.9406' },
-                  { name: 'Delger Mongolian Placement', src: delgerLogo, url: 'https://www.delger-placement.at/' }
-                ].map((partner, idx) => (
+                  { name: 'Delger Mongolian Placement', src: delgerLogo, url: 'https://www.delger-placement.at/' },
+                  // no logo file yet: shown as a text mark until one is added (src: '/media/isca-logo.png')
+                  { name: 'ISCA – International Sport and Culture Association', src: '', mark: 'ISCA', url: 'https://www.isca.org/' }
+                ].map((partner: { name: string; src: string; url: string; mark?: string }, idx) => (
                   <a 
                     key={`${groupIndex}-${idx}`} 
                     href={partner.url}
@@ -313,12 +315,16 @@ export default function Home() {
                     className="flex flex-col items-center justify-center gap-2.5 group cursor-pointer opacity-75 hover:opacity-100 transition-all duration-300 hover:scale-105"
                   >
                     <div className="flex items-center justify-center h-14 md:h-16 min-w-[150px] md:min-w-[180px] group-hover:-translate-y-0.5 transition-transform duration-300 will-change-transform">
-                      <img 
-                        src={partner.src} 
-                        alt={partner.name} 
-                        loading="lazy"
-                        className="h-full w-auto max-h-[56px] md:max-h-[64px] object-contain transition-all duration-300" 
-                      />
+                      {partner.src ? (
+                        <img 
+                          src={partner.src} 
+                          alt={partner.name} 
+                          loading="lazy"
+                          className="h-full w-auto max-h-[56px] md:max-h-[64px] object-contain transition-all duration-300" 
+                        />
+                      ) : (
+                        <span className="font-serif text-3xl md:text-4xl font-semibold tracking-[0.12em] text-brand-blue">{partner.mark}</span>
+                      )}
                     </div>
                     <span className="font-sans font-medium text-[11px] md:text-[11px] tracking-widest uppercase text-center text-gray-500 group-hover:text-[#760000] transition-colors duration-300 max-w-[140px] md:max-w-[180px] truncate">
                       {partner.name}
