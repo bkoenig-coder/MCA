@@ -65,7 +65,7 @@ export default function About() {
     { label: t('siteUi.about.factEstablished'), value: '2026' },
     { label: t('siteUi.about.factForm'), value: t('siteUi.about.factFormValue') },
     { label: t('siteUi.about.factSeat'), value: t('contact.info.vienna') },
-    { label: t('siteUi.about.factLanguages'), value: 'English · Deutsch · Монгол' },
+    { label: t('siteUi.about.factLanguages'), value: 'Türkçe · English · Deutsch · Монгол' },
   ];
 
   const principles = [
