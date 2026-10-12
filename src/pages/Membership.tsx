@@ -240,8 +240,7 @@ export default function Membership() {
                     t('membershipPage.tiers.student.benefits.0'),
                     t('membershipPage.tiers.student.benefits.1'),
                     t('membershipPage.tiers.student.benefits.2'),
-                    t('membershipPage.tiers.student.benefits.3'),
-                    t('membershipPage.tiers.student.benefits.4')
+                    t('membershipPage.tiers.student.benefits.3')
                   ].map((benefit, i) => (
                     <div key={i} className="flex gap-4 items-start">
                       <CheckCircle2 size={18} className="text-brand-gold/70 shrink-0 mt-0.5" />
@@ -300,8 +299,7 @@ export default function Membership() {
                     t('membershipPage.tiers.professional.benefits.1'),
                     t('membershipPage.tiers.professional.benefits.2'),
                     t('membershipPage.tiers.professional.benefits.3'),
-                    t('membershipPage.tiers.professional.benefits.4'),
-                    t('membershipPage.tiers.professional.benefits.5')
+                    t('membershipPage.tiers.professional.benefits.4')
                   ].map((benefit, i) => (
                     <div key={i} className="flex gap-4 items-start">
                       <CheckCircle2 size={18} className="text-brand-gold shrink-0 mt-0.5 drop-shadow-[0_0_8px_rgba(212,175,55,0.8)]" />

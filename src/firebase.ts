@@ -324,6 +324,10 @@ export async function deleteDoc(docRef: DocRef) {
   }
 }
 
+// Every listener needs its own channel name: two listeners on the same table that start in the same
+// millisecond used to share one channel and crash the page ("cannot add postgres_changes callbacks").
+let channelCounter = 0;
+
 // Real-time snapshot listener / initial load
 export function onSnapshot(
   target: DocRef | CollectionRef | QueryRef,
@@ -351,7 +355,7 @@ export function onSnapshot(
   // Supabase real-time channel subscription
   const tableName = mapTableName(target.collectionName);
   const channel = supabase
-    .channel(`realtime_${tableName}_${Date.now()}`)
+    .channel(`realtime_${tableName}_${++channelCounter}_${Math.random().toString(36).slice(2, 8)}`)
     .on('postgres_changes', { event: '*', schema: 'public', table: tableName }, () => {
       if (isSubscribed) fetchData();
     })
