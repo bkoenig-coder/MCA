@@ -524,7 +524,6 @@ const resources = {
               'Exclusive networking dinners',
               'Priority registration for forums',
               'Directory listing',
-              'Voting rights at general assembly'
             ]
           },
           institutional: {
@@ -1374,7 +1373,6 @@ const resources = {
               'Exklusive Networking-Dinner',
               'Bevorzugte Anmeldung zu Foren',
               'Eintragung im Mitgliederverzeichnis',
-              'Stimmrecht bei der Generalversammlung'
             ]
           },
           institutional: {
@@ -2127,7 +2125,6 @@ const resources = {
               'Онцгой холбоо сүлжээний оройн зоог',
               'Форумд тэргүүлэн бүртгүүлэх',
               'Гишүүдийн лавлахад нэр бичигдэх',
-              'Ерөнхий чуулганд санал өгөх эрх'
             ]
           },
           institutional: {
@@ -2783,7 +2780,6 @@ const resources = {
               'Özel ağ oluşturma akşam yemekleri',
               'Forumlar için öncelikli kayıt',
               'Dizinde listelenme',
-              'Genel kurulda oy hakkı'
             ]
           },
           institutional: {
