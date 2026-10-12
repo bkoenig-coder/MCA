@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Loader } from 'lucide-react';
 import CloudHeader from '../components/CloudHeader';
+import HallOfHeroes from '../components/game/HallOfHeroes';
 
 const LetsPlayGame = lazy(() => import('../components/game/LetsPlayGame'));
 
@@ -23,6 +24,8 @@ export default function Game() {
         >
           <LetsPlayGame />
         </Suspense>
+
+        <HallOfHeroes />
 
         <div className="mt-8 text-center">
           <Link to="/heritage" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-brand-gold transition-colors">

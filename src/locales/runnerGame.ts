@@ -45,6 +45,7 @@ const rows: Row[] = [
   ['char.warrior', 'Warrior', 'Krieger', 'Дайчин', 'Savaşçı'],
   ['char.queen', 'Queen', 'Königin', 'Хатан', 'Hatun'],
   ['hall', 'Hall of Heroes', 'Heldenhalle', 'Баатруудын танхим', 'Kahramanlar Salonu'],
+  ['loadError', 'The scores could not be loaded. Please refresh the page.', 'Die Punkte konnten nicht geladen werden. Bitte laden Sie die Seite neu.', 'Онооны жагсаалтыг ачаалж чадсангүй. Хуудсаа дахин ачаална уу.', 'Puanlar yüklenemedi. Lütfen sayfayı yenileyin.'],
   ['noHeroes', 'No heroes yet. Be the first!', 'Noch keine Helden. Sei der Erste!', 'Одоогоор баатар байхгүй. Та анхных нь болоорой!', 'Henüz kahraman yok. İlk sen ol!'],
   [
     'shareScore',
