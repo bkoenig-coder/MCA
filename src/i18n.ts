@@ -511,7 +511,6 @@ const resources = {
               'Access to community events',
               'Student networking sessions',
               'Newsletter updates',
-              'Youth representation & voting'
             ]
           },
           professional: {
@@ -1360,7 +1359,6 @@ const resources = {
               'Zugang zu Gemeinschaftsveranstaltungen',
               'Netzwerktreffen für Studierende',
               'Newsletter-Updates',
-              'Jugendvertretung & Stimmrecht'
             ]
           },
           professional: {
@@ -2112,7 +2110,6 @@ const resources = {
               'Олон нийтийн арга хэмжээнд оролцох',
               'Оюутнуудын сүлжээний уулзалт',
               'Мэдээллийн товхимол хүлээн авах',
-              'Залуучуудын төлөөлөл ба санал өгөх эрх'
             ]
           },
           professional: {
@@ -2767,7 +2764,6 @@ const resources = {
               'Topluluk etkinliklerine erişim',
               'Öğrenciler için ağ oluşturma buluşmaları',
               'Bülten güncellemeleri',
-              'Gençlik temsili ve oy hakkı'
             ]
           },
           professional: {
