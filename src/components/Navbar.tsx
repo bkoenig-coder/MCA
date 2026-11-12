@@ -8,6 +8,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { signInWithGoogle, logOut, db, collection, query, where, orderBy, onSnapshot, handleFirestoreError, OperationType } from '../firebase';
 import { useTranslation } from 'react-i18next';
 import { AlkhanBorder } from './MongolianDesign';
+import { CloudDrift } from './CuteClouds';
 import BridgeMap from './BridgeMap';
 import WavingBoy from './WavingBoy';
 import mcaLogoWide from '../assets/media/mca-logo-wide.png';
@@ -416,6 +417,10 @@ export default function Navbar() {
 
                   {/* Right column: the map, a short message and a hello */}
                   <div className="flex flex-col gap-6 lg:pl-4">
+                    {/* A cloud sits right above the map */}
+                    <div aria-hidden="true" className="relative h-14 -mb-4">
+                      <CloudDrift variant="c" className="top-0 right-2 w-40 md:w-52 opacity-[0.75]" duration={26} />
+                    </div>
                     <div className="w-full rounded-xl border border-brand-line bg-brand-cream px-6 py-5">
                       <BridgeMap viennaLabel={t('footer.vienna')} ulaanbaatarLabel={t('footer.ulaanbaatar')} />
                     </div>

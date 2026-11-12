@@ -2,6 +2,7 @@ import { Mail, MapPin, Phone, Instagram, Facebook, Linkedin, ArrowUp } from 'luc
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AlkhanBorder } from './MongolianDesign';
+import { CloudDrift, CloudSky } from './CuteClouds';
 import mcaLogoWide from '../assets/media/mca-logo-wide.png';
 
 const socialLinks = [
@@ -35,11 +36,16 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-brand-sand">
+    <footer className="relative overflow-hidden bg-brand-sand">
       {/* The lower edge of the page carries the same painted border as the top */}
       <AlkhanBorder />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-16 pb-8">
+      {/* Clouds cross the sky above the footer, and two rest in its corners */}
+      <CloudSky className="h-28 mt-6" />
+      <CloudDrift variant="b" className="bottom-44 left-[2%] w-32 md:w-56 opacity-[0.22]" duration={30} />
+      <CloudDrift variant="c" tone="gold" className="bottom-24 right-[5%] w-28 md:w-48 opacity-[0.2]" delay={5} duration={26} />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-10 pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
           {/* Who we are */}
           <div className="lg:col-span-5">

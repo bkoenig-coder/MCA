@@ -215,4 +215,4 @@ export const EyebrowMark = (_props: { className?: string }) => null;
 /** Sections are separated by space, not by a band. Kept so older pages keep compiling. */
 export const SectionSeam = () => null;
 
-export { CloudDrift, CuteCloud, CuteCloud as CloudMotif } from './CuteClouds';
+export { CloudDrift, CloudSky, CuteCloud } from './CuteClouds';

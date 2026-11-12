@@ -13,13 +13,15 @@ import HeroVideo from '../components/HeroVideo';
 import BridgeMap, { BRIDGE_DISTANCE_KM } from '../components/BridgeMap';
 import ScriptPlaque from '../components/ScriptPlaque';
 import GameBanner from '../components/GameBanner';
+import { CloudDrift, CloudSky } from '../components/CuteClouds';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const container = 'max-w-7xl mx-auto px-6 lg:px-8';
 const button = 'inline-flex items-center justify-center gap-2 rounded-lg text-[15px] font-medium whitespace-nowrap';
 const textLink = 'group inline-flex items-center gap-2 text-[15px] font-medium text-brand-ink hover:text-brand-blue transition-colors duration-150';
-const card = 'group flex flex-col h-full w-full overflow-hidden rounded-xl border border-brand-line bg-brand-cream transition-colors duration-150 hover:border-brand-ink/25';
+const box = 'rounded-xl border border-brand-ink/15 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.05)]';
+const card = `group flex flex-col h-full w-full overflow-hidden ${box} transition-[border-color,box-shadow] duration-200 hover:border-brand-blue/40 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)]`;
 
 const partners: Array<{ name: string; src: string; url: string }> = [
   { name: 'Embassy of Mongolia in Vienna', src: '/embassy logo.png', url: 'https://vienna.embassy.mn/' },
@@ -49,11 +51,11 @@ function SectionHead({ label, title, children, dark = false }: { label?: string;
 }
 
 /** Previous and next for a row that scrolls sideways. */
-function ScrollButtons({ target, labels }: { target: React.RefObject<HTMLDivElement | null>; labels: [string, string] }) {
+function ScrollButtons({ target, labels, className = 'hidden sm:flex' }: { target: React.RefObject<HTMLDivElement | null>; labels: [string, string]; className?: string }) {
   const by = (dx: number) => target.current?.scrollBy({ left: dx, behavior: 'smooth' });
-  const cls = 'w-10 h-10 rounded-lg border border-brand-line flex items-center justify-center text-brand-ink-soft hover:text-brand-ink hover:bg-brand-cream';
+  const cls = 'w-11 h-11 rounded-full border border-brand-ink/20 bg-white flex items-center justify-center text-brand-ink hover:bg-brand-ink hover:text-white';
   return (
-    <div className="hidden sm:flex gap-2">
+    <div className={`${className} gap-3`}>
       <button type="button" onClick={() => by(-400)} aria-label={labels[0]} className={cls}>
         <ChevronLeft size={18} strokeWidth={1.5} />
       </button>
@@ -196,7 +198,8 @@ export default function Home() {
       </section>
 
       {/* Bridge: Ulaanbaatar to Vienna */}
-      <section className="py-20 md:py-28">
+      <section className="relative overflow-hidden pt-6 pb-20 md:pb-28">
+        <CloudSky className="h-28 mb-10 md:mb-14" />
         <div className={`${container} grid lg:grid-cols-12 gap-12 lg:gap-16 items-center`}>
           <div className="lg:col-span-5">
             <p className="text-sm text-brand-ink-mute mb-2">{t('siteUi.home.bridge.tag')}</p>
@@ -257,8 +260,10 @@ export default function Home() {
           <ul className="grid md:grid-cols-3 gap-4">
             {membershipTypes.map(({ icon: Icon, title, note, path }) => (
               <li key={path}>
-                <Link to={path} className="group flex items-center gap-4 h-20 px-5 rounded-xl border border-brand-line bg-brand-cream transition-colors duration-150 hover:border-brand-ink/25">
-                  <Icon size={18} strokeWidth={1.5} className="shrink-0 text-brand-ink-mute" />
+                <Link to={path} className={`group flex items-center gap-4 h-20 px-5 ${box} transition-[border-color,box-shadow] duration-200 hover:border-brand-blue/40 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)]`}>
+                  <span className="shrink-0 w-10 h-10 rounded-lg bg-brand-blue/10 text-brand-blue flex items-center justify-center">
+                    <Icon size={20} strokeWidth={1.5} />
+                  </span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-[15px] font-medium text-brand-ink truncate">{title}</span>
                     <span className="block text-sm text-brand-ink-mute truncate">{note}</span>
@@ -273,8 +278,9 @@ export default function Home() {
 
       {/* News */}
       {news.length > 0 && (
-        <section className="py-20 md:py-28 border-t border-brand-line">
-          <div className={container}>
+        <section className="relative overflow-hidden py-20 md:py-28 border-t border-brand-line">
+          <CloudDrift variant="b" className="top-8 right-[4%] w-36 md:w-60 opacity-[0.25]" delay={2} duration={30} />
+          <div className={`${container} relative z-10`}>
             <SectionHead title={t('news.featuredNews')}>
               <Link to="/news" className={textLink}>{t('news.allNews')} <Arrow /></Link>
               <ScrollButtons target={newsScrollRef} labels={scrollLabels} />
@@ -293,11 +299,17 @@ export default function Home() {
                         )}
                       </div>
                       <div className="flex flex-col flex-1 p-6">
-                        {date && !isNaN(date.getTime()) && (
-                          <time dateTime={date.toISOString()} className="text-[13px] text-brand-ink-mute tabular mb-2">
-                            {date.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })}
-                          </time>
-                        )}
+                        <p className="flex items-center gap-2 text-[13px] mb-2">
+                          <span className="font-medium text-brand-blue">{t('news.featuredTag')}</span>
+                          {date && !isNaN(date.getTime()) && (
+                            <>
+                              <span aria-hidden="true" className="text-brand-ink-mute">·</span>
+                              <time dateTime={date.toISOString()} className="text-brand-ink-mute tabular">
+                                {date.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })}
+                              </time>
+                            </>
+                          )}
+                        </p>
                         <h3 className="font-serif text-xl leading-snug text-brand-ink line-clamp-2 mb-3">{title}</h3>
                         <p className="text-[15px] text-brand-ink-soft leading-relaxed line-clamp-3 mb-6">{item.excerpt || pick(item, 'content')}</p>
                         <span className="mt-auto inline-flex items-center gap-2 text-[15px] font-medium text-brand-ink group-hover:text-brand-blue transition-colors duration-150">
@@ -309,6 +321,7 @@ export default function Home() {
                 );
               })}
             </div>
+            <ScrollButtons target={newsScrollRef} labels={scrollLabels} className="flex sm:hidden justify-center mt-6" />
           </div>
         </section>
       )}
@@ -326,20 +339,20 @@ export default function Home() {
               {gallery.map((item) => {
                 const title = pick(item, 'title');
                 return (
-                  <Link key={item.id} to={`/gallery/${item.id}`} className="group w-[85vw] sm:w-[352px] shrink-0 snap-start">
-                    <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-brand-sand">
-                      {item.imageUrl && (
-                        <img src={item.imageUrl} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" referrerPolicy="no-referrer" />
-                      )}
-                    </div>
-                    <div className="flex items-baseline justify-between gap-4 mt-4">
-                      <h3 className="font-serif text-xl leading-snug text-brand-ink line-clamp-2 group-hover:text-brand-blue transition-colors duration-150">{title}</h3>
-                      <span className="shrink-0 inline-flex items-center gap-2 text-sm text-brand-ink-mute">{t('gallery.viewCapture')} <Arrow /></span>
+                  <Link key={item.id} to={`/gallery/${item.id}`} className="group relative block w-[85vw] sm:w-[352px] shrink-0 snap-start aspect-[4/5] overflow-hidden rounded-xl bg-brand-indigo shadow-[0_1px_2px_rgba(0,0,0,0.05)] transition-shadow duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
+                    {item.imageUrl && (
+                      <img src={item.imageUrl} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" referrerPolicy="no-referrer" />
+                    )}
+                    <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-brand-indigo/90 to-transparent" />
+                    <div className="absolute inset-x-6 bottom-6">
+                      <h3 className="font-serif text-xl leading-snug text-white line-clamp-2">{title}</h3>
+                      <span className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-white/85">{t('gallery.viewCapture')} <Arrow /></span>
                     </div>
                   </Link>
                 );
               })}
             </div>
+            <ScrollButtons target={galleryScrollRef} labels={scrollLabels} className="flex sm:hidden justify-center mt-6" />
           </div>
         </section>
       )}
@@ -403,15 +416,16 @@ export default function Home() {
       )}
 
       {/* The three pillars, and the centre in figures */}
-      <section className="py-20 md:py-28 border-t border-brand-line">
-        <div className={container}>
+      <section className="relative overflow-hidden py-20 md:py-28 border-t border-brand-line">
+        <CloudDrift variant="a" className="top-10 right-[4%] w-36 md:w-60 opacity-[0.25]" duration={26} />
+        <div className={`${container} relative z-10`}>
           <SectionHead title={<>{t('siteUi.home.foundation.titleNormal')}{t('siteUi.home.foundation.titleItalic')}</>} />
 
-          <ol className="grid md:grid-cols-3 border-t border-brand-line md:divide-x divide-brand-line">
+          <ol className="grid md:grid-cols-3 overflow-hidden rounded-2xl border border-brand-ink/15 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.05)] divide-y md:divide-y-0 md:divide-x divide-brand-line">
             {pillars.map((pillar, idx) => (
-              <li key={pillar.link} className="border-b border-brand-line md:px-8 md:first:pl-0 md:last:pr-0">
-                <Link to={pillar.link} className="group flex flex-col h-full py-8">
-                  <span className="text-sm text-brand-ink-mute tabular mb-6">{String(idx + 1).padStart(2, '0')}</span>
+              <li key={pillar.link}>
+                <Link to={pillar.link} className="group flex flex-col h-full p-8 md:p-10 transition-colors duration-150 hover:bg-brand-cream">
+                  <span className="font-serif text-5xl leading-none text-brand-gold tabular mb-6">{String(idx + 1).padStart(2, '0')}</span>
                   <h3 className="font-serif text-2xl leading-snug text-brand-ink mb-3">{pillar.title}</h3>
                   <p className="text-[15px] text-brand-ink-soft leading-relaxed mb-8">{pillar.desc}</p>
                   <span className="mt-auto inline-flex items-center gap-2 text-[15px] font-medium text-brand-ink group-hover:text-brand-blue transition-colors duration-150">
@@ -426,7 +440,7 @@ export default function Home() {
             {stats.map((stat) => (
               <div key={stat.label} className="flex flex-col">
                 <dt className="order-2 mt-3 text-[15px] font-medium text-brand-ink">{stat.label}</dt>
-                <dd className="order-1 font-serif text-5xl leading-none text-brand-ink tabular">{stat.value}</dd>
+                <dd className="order-1 font-serif text-5xl leading-none text-brand-blue tabular">{stat.value}</dd>
                 <dd className="order-3 mt-1 text-sm text-brand-ink-mute leading-relaxed max-w-[15rem]">{stat.desc}</dd>
               </div>
             ))}
@@ -478,11 +492,11 @@ export default function Home() {
           <SectionHead dark label={t('collab.tag')} title={<>{t('collab.titleNormal')}{t('collab.titleItalic')}</>} />
           <p className="-mt-4 mb-12 max-w-2xl text-lg text-brand-felt-soft leading-relaxed">{t('collab.desc')}</p>
 
-          <ul className="grid md:grid-cols-3 border-t border-brand-line-dark md:divide-x divide-brand-line-dark">
+          <ul className="grid md:grid-cols-3 gap-6">
             {audiences.map(({ key, icon: Icon, to }) => (
-              <li key={key} className="border-b border-brand-line-dark md:px-8 md:first:pl-0 md:last:pr-0">
-                <Link to={to} className="group flex flex-col h-full py-8">
-                  <Icon size={18} strokeWidth={1.5} className="text-brand-felt-soft mb-6" />
+              <li key={key}>
+                <Link to={to} className="group flex flex-col h-full rounded-xl border border-brand-line-dark bg-white/[0.04] p-7 transition-colors duration-150 hover:bg-white/[0.07] hover:border-white/25">
+                  <Icon size={24} strokeWidth={1.5} className="text-brand-sky mb-6" />
                   <h3 className="font-serif text-2xl leading-snug text-brand-felt mb-3">{t(`collab.${key}.title`)}</h3>
                   <p className="text-[15px] text-brand-felt-soft leading-relaxed mb-8">{t(`collab.${key}.text`)}</p>
                   <span className="mt-auto inline-flex items-center gap-2 text-[15px] font-medium text-brand-sky">
