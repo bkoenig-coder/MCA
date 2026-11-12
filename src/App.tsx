@@ -45,19 +45,10 @@ const Careers = lazy(() => import('./pages/Careers'));
 const CareerDetails = lazy(() => import('./pages/CareerDetails'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
-// Luxury brand fallback loading screen with traditional Mongolian Ulzii motif
+// Shown while a page's code loads: the endless knot, still, on the page colour
 const PageLoader = () => (
-  <div className="flex min-h-[60vh] w-full items-center justify-center bg-brand-paper">
-    <div className="flex flex-col items-center gap-4">
-      <div className="relative flex items-center justify-center">
-        <div className="absolute -inset-4 rounded-full bg-brand-gold/15 animate-ping" />
-        <div className="absolute -inset-2 rounded-full bg-brand-gold/20 animate-pulse" />
-        <UlziiSymbol className="w-12 h-12 text-brand-gold relative z-10 animate-pulse" color="#D4AF37" />
-      </div>
-      <span className="text-[11px] font-sans font-semibold tracking-[0.25em] uppercase text-brand-gold/80 animate-pulse">
-        Mongolian Center Austria
-      </span>
-    </div>
+  <div className="flex min-h-[60vh] w-full items-center justify-center bg-brand-paper" role="status" aria-label="Loading">
+    <UlziiSymbol className="w-10 h-10 text-brand-ink/25" />
   </div>
 );
 
@@ -67,9 +58,9 @@ function PageTransition({ children }: { children: React.ReactNode }) {
   return (
     <motion.div
       key={pathname}
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>
@@ -94,7 +85,7 @@ export default function App() {
           <AnalyticsTracker />
           <CookieConsent />
           <CarpetIntro />
-          <div className="min-h-screen flex flex-col selection:bg-brand-indigo/20 selection:text-brand-indigo">
+          <div className="relative min-h-screen flex flex-col">
             <ScrollToTop />
             <Navbar />
             <main className="flex-grow">

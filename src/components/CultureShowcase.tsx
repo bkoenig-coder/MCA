@@ -28,7 +28,7 @@ const Numeral = ({ n }: { n: string }) => (
 
 function Caption({ title, text }: { title: string; text: string }) {
   return (
-    <figcaption className="absolute left-5 right-5 bottom-5 md:left-7 md:right-7 md:bottom-7 rounded-xl border border-white/15 bg-[#0A1128]/55 backdrop-blur-md p-5 md:p-6">
+    <figcaption className="absolute left-5 right-5 bottom-5 md:left-7 md:right-7 md:bottom-7 rounded-xl border border-white/15 bg-brand-indigo/55 backdrop-blur-md p-5 md:p-6">
       <span className="block w-10 h-px bg-brand-gold mb-3 transition-all duration-500 group-hover:w-24" />
       <h3 className="font-serif text-2xl md:text-3xl text-white mb-1.5">{title}</h3>
       <p className="text-sm text-white/80 leading-relaxed">{text}</p>
@@ -46,7 +46,7 @@ function PhotoTile({ src, pos, title, text, n, className, delay }: { src: string
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.07]"
         style={{ objectPosition: pos }}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0A1128]/85 via-[#0A1128]/10 to-[#0A1128]/30" />
+      <div className="absolute inset-0 bg-gradient-to-t from-brand-indigo/85 via-brand-indigo/10 to-brand-indigo/30" />
       <Frame />
       <Numeral n={n} />
       <Caption title={title} text={text} />

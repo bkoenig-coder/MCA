@@ -182,7 +182,7 @@ export default function AIAssistant() {
             key={i}
             onClick={() => handleSelection(buttonText)}
             disabled={!isLatest || isTyping}
-            className="block w-full text-center mt-3 px-4 py-3 bg-white hover:bg-brand-paper border border-brand-ink/20 text-xs font-bold uppercase tracking-widest text-brand-ink transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="block w-full text-left mt-2 px-3 py-2.5 rounded-lg bg-brand-cream hover:bg-brand-sand border border-brand-line text-sm font-medium text-brand-ink disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {buttonText}
           </button>
@@ -202,9 +202,10 @@ export default function AIAssistant() {
       <AnimatePresence>
         {!isOpen && (
           <motion.div
-            initial={{ y: 20, opacity: 0 }}
+            initial={{ y: 8, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 20, opacity: 0 }}
+            exit={{ y: 8, opacity: 0 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             ref={fabRef}
             className="fixed bottom-6 right-6 z-50 flex items-center justify-center"
           >
@@ -216,34 +217,27 @@ export default function AIAssistant() {
                   type="button"
                   onClick={() => setIsOpen(true)}
                   aria-label={t('siteUi.assistant.sayHello')}
-                  initial={{ y: 70, opacity: 0 }}
+                  initial={{ y: 12, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: 70, opacity: 0 }}
-                  transition={{ type: 'spring', stiffness: 240, damping: 20 }}
+                  exit={{ y: 12, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                   className="absolute bottom-[calc(100%-16px)] right-1 z-0 flex items-end gap-1 cursor-pointer"
                 >
-                  <span className="mb-14 whitespace-nowrap rounded-2xl rounded-br-sm bg-white border border-brand-ink/10 px-3 py-1.5 text-xs font-medium text-brand-ink shadow-md">
+                  <span className="mb-14 whitespace-nowrap rounded-xl rounded-br-sm bg-brand-cream border border-brand-line px-3 py-1.5 text-sm text-brand-ink">
                     {t('siteUi.nav.hello')}
                   </span>
                   <WavingBoy className="h-28 w-auto" />
                 </motion.button>
               )}
             </AnimatePresence>
-            {/* Pulse effect rings */}
-            <div className="absolute inset-0 rounded-full animate-ping opacity-20 bg-brand-ink/50" />
-            <div className="absolute -inset-2 rounded-full animate-pulse opacity-10 bg-brand-gold/30" />
-            
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <button
               onClick={() => setIsOpen(true)}
               aria-label={t('siteUi.assistant.open')}
-              style={{ borderRadius: '24px' }}
-              className="relative z-10 flex items-center gap-2 px-5 py-3 bg-brand-ink text-white shadow-[0_10px_20px_rgba(0,0,0,0.15)] transition-all duration-300 border border-brand-ink/20 hover:bg-white hover:text-brand-ink hover:border-brand-ink"
+              className="relative z-10 h-11 flex items-center gap-2 px-4 rounded-lg bg-brand-ink text-white text-sm font-medium shadow-[0_8px_24px_rgba(0,0,0,0.12)] hover:bg-brand-blue"
             >
-              <MessageSquare className="w-4 h-4 text-brand-gold" />
-              <span className="font-bold text-[10px] uppercase tracking-widest">{t('siteUi.assistant.support')}</span>
-            </motion.button>
+              <MessageSquare size={18} strokeWidth={1.5} />
+              <span>{t('siteUi.assistant.support')}</span>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -252,21 +246,19 @@ export default function AIAssistant() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ type: 'tween', duration: 0.3, ease: 'easeOut' }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             role="dialog"
             aria-label={t('siteUi.assistant.dialog')}
-            className="fixed bottom-6 right-6 z-50 w-[350px] sm:w-[400px] h-[520px] max-h-[82vh] bg-white shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-brand-ink/10 flex flex-col overflow-hidden rounded-xl"
+            className="fixed bottom-6 right-6 z-50 w-[350px] sm:w-[400px] h-[520px] max-h-[82vh] bg-brand-cream shadow-[0_8px_24px_rgba(0,0,0,0.08)] border border-brand-line flex flex-col overflow-hidden rounded-xl"
           >
             {/* Header */}
-            <div className="bg-brand-ink text-white px-6 py-4 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <MessageSquare className="w-5 h-5 text-brand-gold" />
-                <div>
-                  <h3 className="font-bold text-sm uppercase tracking-wider">{t('siteUi.assistant.title')}</h3>
-                </div>
+            <div className="bg-brand-ink text-white pl-5 pr-3 py-3 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <MessageSquare size={18} strokeWidth={1.5} />
+                <h3 className="font-sans font-medium text-[15px] tracking-normal">{t('siteUi.assistant.title')}</h3>
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
@@ -278,7 +270,7 @@ export default function AIAssistant() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-4 bg-[#FAFAFA]">
+            <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3 bg-brand-paper">
               {messages.map((msg, idx) => {
                 const isLatestModelMessage = msg.role === 'model' && idx === messages.length - 1;
                 return (
@@ -287,10 +279,10 @@ export default function AIAssistant() {
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     className={cn(
-                      "max-w-[88%] px-4 py-3 text-xs leading-relaxed shadow-sm rounded-xl",
+                      "max-w-[88%] px-4 py-3 text-sm leading-relaxed rounded-xl",
                       msg.role === 'user' 
                         ? "bg-brand-ink text-white self-end ml-auto" 
-                        : "bg-white border border-brand-ink/10 text-brand-ink self-start"
+                        : "bg-brand-cream border border-brand-line text-brand-ink self-start"
                     )}
                   >
                     {msg.role === 'model' ? renderMessageText(modelText(msg), isLatestModelMessage) : <span className="whitespace-pre-wrap">{msg.text}</span>}
@@ -301,18 +293,18 @@ export default function AIAssistant() {
                 <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-white border border-brand-ink/10 text-brand-ink self-start px-4 py-3 shadow-sm flex items-center gap-1.5 rounded-xl"
+                  className="bg-brand-cream border border-brand-line text-brand-ink self-start px-4 py-3 flex items-center gap-1.5 rounded-xl"
                 >
-                  <div className="w-1.5 h-1.5 bg-brand-gold rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <div className="w-1.5 h-1.5 bg-brand-gold rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <div className="w-1.5 h-1.5 bg-brand-gold rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                  <div className="w-1.5 h-1.5 bg-brand-ink-mute rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
+                  <div className="w-1.5 h-1.5 bg-brand-ink-mute rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
+                  <div className="w-1.5 h-1.5 bg-brand-ink-mute rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
                 </motion.div>
               )}
               <div ref={messagesEndRef} />
             </div>
 
             {/* Interactive Query Input */}
-            <form onSubmit={handleSubmit} className="p-3 bg-white border-t border-slate-100 flex items-center gap-2">
+            <form onSubmit={handleSubmit} className="p-3 bg-brand-cream border-t border-brand-line flex items-center gap-2">
               <input
                 ref={inputRef}
                 type="text"
@@ -321,15 +313,15 @@ export default function AIAssistant() {
                 placeholder={t('siteUi.assistant.placeholder')}
                 aria-label={t('siteUi.assistant.askLabel')}
                 disabled={isTyping}
-                className="flex-1 px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-brand-gold text-slate-800 placeholder:text-slate-400"
+                className="flex-1 h-10 px-3 text-sm bg-brand-sand border border-brand-line rounded-lg focus:outline-none focus:border-brand-blue text-brand-ink placeholder:text-brand-ink-mute"
               />
               <button
                 type="submit"
                 disabled={!inputText.trim() || isTyping}
                 aria-label={t('siteUi.assistant.send')}
-                className="p-2.5 bg-brand-ink text-brand-gold rounded-lg hover:bg-brand-indigo transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                className="w-10 h-10 flex items-center justify-center bg-brand-ink text-white rounded-lg hover:bg-brand-blue disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                <Send size={14} />
+                <Send size={16} strokeWidth={1.5} />
               </button>
             </form>
           </motion.div>

@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
 
+// The footage opens on a shot of Earth from orbit. The film for this page starts in Mongolia:
+// first on the steppe scene the poster is taken from, then every loop from the open sky.
+const FIRST_START = 22.3;
+const LOOP_START = 2.9;
+
 /**
  * Background video for the home page. A small poster picture shows at once; the video itself
  * (a short, light copy) starts a moment later, and is skipped for visitors who asked for less
@@ -27,17 +32,23 @@ export default function HeroVideo() {
         alt=""
         // @ts-ignore: fetchPriority is valid on img
         fetchPriority="high"
-        className="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-80 md:opacity-100"
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
       />
       {play && (
         <video
           autoPlay
-          loop
           muted
           playsInline
           preload="metadata"
+          onLoadedMetadata={(e) => { e.currentTarget.currentTime = FIRST_START; }}
           onCanPlay={() => setReady(true)}
-          className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-1000 ${ready ? 'opacity-80 md:opacity-100' : 'opacity-0'}`}
+          onEnded={(e) => {
+            const v = e.currentTarget;
+            v.currentTime = LOOP_START;
+            v.play().catch(() => {});
+          }}
+          // The file carries black cinema bars above and below the picture; the frame is taller than the hero so they fall outside it
+          className={`absolute inset-x-0 top-[-13.5%] h-[128%] w-full object-cover pointer-events-none transition-opacity duration-1000 ${ready ? 'opacity-100' : 'opacity-0'}`}
         >
           <source src="/media/hero-640.mp4" media="(max-width: 767px)" type="video/mp4" />
           <source src="/media/hero-1280.mp4" type="video/mp4" />
