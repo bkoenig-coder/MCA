@@ -1,188 +1,127 @@
-import { Globe, Mail, MapPin, Phone, Instagram, Facebook, Linkedin, ArrowRight } from 'lucide-react';
+import { Mail, MapPin, Phone, Instagram, Facebook, Linkedin, ArrowUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { motion, Variants } from 'motion/react';
-import { UlziiSymbol, MeanderBand, CloudDrift, CloudSky } from './MongolianDesign';
+import { AlkhanBorder } from './MongolianDesign';
 import mcaLogoWide from '../assets/media/mca-logo-wide.png';
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.1,
-    }
-  }
-};
+const socialLinks = [
+  { icon: Instagram, label: 'Instagram', url: 'https://www.instagram.com/mncenteraustria/' },
+  { icon: Facebook, label: 'Facebook', url: 'https://www.facebook.com/profile.php?id=61568045031863' },
+  { icon: Linkedin, label: 'LinkedIn', url: 'https://www.linkedin.com/company/mongolian-center-in-austria/' },
+];
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
-  }
-};
+const linkClass = 'text-brand-ink-soft hover:text-brand-ink transition-colors duration-150';
 
 export default function Footer() {
   const { t } = useTranslation();
 
-  const socialLinks = [
-    { icon: Instagram, url: 'https://www.instagram.com/mncenteraustria/' },
-    { icon: Facebook, url: 'https://www.facebook.com/profile.php?id=61568045031863' },
-    { icon: Linkedin, url: 'https://www.linkedin.com/company/mongolian-center-in-austria/' }
+  const navLinks = [
+    { to: '/about', label: t('nav.about') },
+    { to: '/events', label: t('nav.events') },
+    { to: '/news', label: t('nav.news') },
+    { to: '/gallery', label: t('nav.gallery') },
+    { to: '/impact', label: t('nav.impact') },
+    { to: '/partners', label: t('partnersPage.navLabel') },
+    { to: '/careers', label: t('nav.careers') },
+    { to: '/game', label: t('heritagePage.game.title') },
+    { to: '/diorama', label: t('siteUi.home.tour') },
+  ];
+
+  const legalLinks = [
+    { to: '/privacy', label: t('footer.privacy') },
+    { to: '/terms', label: t('footer.terms') },
+    { to: '/imprint', label: t('footer.imprint') },
+    { to: '/governance', label: t('footer.governance') },
   ];
 
   return (
-    <footer className="bg-brand-paper border-t border-brand-ink/5 pt-12 md:pt-16 pb-6 px-6 mt-12 relative overflow-hidden">
-      <MeanderBand className="absolute top-0 left-0 right-0 bg-brand-gold/40" />
-      <CloudDrift variant="b" className="bottom-44 left-[2%] w-32 md:w-56 opacity-[0.22]" duration={30} />
-      <CloudDrift variant="c" tone="gold" className="bottom-24 right-[5%] w-28 md:w-48 opacity-[0.2]" delay={5} duration={26} />
+    <footer className="bg-brand-sand">
+      {/* The lower edge of the page carries the same painted border as the top */}
+      <AlkhanBorder />
 
-      
-      <CloudSky className="-mx-6 mb-6 h-28 opacity-90" />
-
-      <div className="max-w-7xl mx-auto relative z-10 flex flex-col">
-        {/* Giant Monogram / Title - Moved to top */}
-        <motion.div 
-          initial={{ opacity: 0, y: 40, scale: 0.95 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full flex flex-col items-center mb-8 md:mb-12"
-        >
-          <div className="w-full overflow-hidden flex justify-center text-center select-none pointer-events-none">
-             <div aria-hidden="true" className={`${t('siteUi.footer.monogram1').length > 9 ? 'text-[10.5vw]' : 'text-[14vw]'} sm:text-[8.5vw] md:text-[7.5vw] lg:text-[7vw] xl:text-[90px] leading-none font-sans font-black tracking-tighter text-brand-ink/5 uppercase`}>
-                {t('siteUi.footer.monogram1')}<br className="md:hidden" /> <span className="hidden md:inline"> </span>{t('siteUi.footer.monogram2')}
-             </div>
-          </div>
-        </motion.div>
-
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-10%" }}
-          className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8 mb-16 md:mb-20"
-        >
-          {/* Brand Column */}
-          <motion.div variants={itemVariants} className="md:col-span-12 lg:col-span-5 flex flex-col">
-            <Link to="/" aria-label={t('nav.home')} className="mb-8 group inline-block w-max">
-              <img src={mcaLogoWide} alt={t('siteUi.org.name')} className="h-16 md:h-20 w-auto object-contain transition-transform duration-500 group-hover:scale-105" />
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-16 pb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
+          {/* Who we are */}
+          <div className="lg:col-span-5">
+            <Link to="/" aria-label={t('nav.home')} className="inline-block mb-6">
+              <img src={mcaLogoWide} alt={t('siteUi.org.name')} className="h-16 w-auto object-contain" />
             </Link>
-            <p className="text-sm md:text-base text-brand-ink/70 font-light leading-relaxed max-w-sm mb-10">
+            <p className="text-[15px] text-brand-ink-soft leading-relaxed max-w-sm mb-6">
               {t('footer.desc')}
             </p>
-            <div className="flex gap-4">
-              {socialLinks.map(({ icon: Icon, url }, idx) => (
-                <a 
-                  key={idx}
-                  href={url} 
+            <div className="flex gap-2">
+              {socialLinks.map(({ icon: Icon, label, url }) => (
+                <a
+                  key={label}
+                  href={url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-11 h-11 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/50 hover:border-brand-gold hover:text-brand-gold hover:bg-white transition-all duration-300 shadow-sm"
+                  aria-label={label}
+                  className="w-10 h-10 rounded-lg border border-brand-line flex items-center justify-center text-brand-ink-soft hover:text-brand-ink hover:bg-brand-cream transition-colors duration-150"
                 >
-                  <Icon size={18} />
+                  <Icon size={18} strokeWidth={1.5} />
                 </a>
               ))}
             </div>
-          </motion.div>
+          </div>
 
-          {/* Spacer */}
-          <div className="hidden lg:block lg:col-span-1"></div>
-
-          {/* Links Group */}
-          <div className="col-span-1 md:col-span-12 lg:col-span-6 grid grid-cols-3 gap-3 md:gap-8 overflow-hidden">
-            {/* Links: Navigate */}
-            <motion.div variants={itemVariants} className="flex flex-col">
-              <h4 className="text-[8px] sm:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-brand-gold mb-6 md:mb-8 break-words">{t('footer.navTitle')}</h4>
-              <ul className="space-y-4 text-xs md:text-sm text-brand-ink/60 font-light flex flex-col">
-                <li><Link to="/about" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.about')}</Link></li>
-                <li><Link to="/events" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.events')}</Link></li>
-                <li><Link to="/gallery" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.gallery')}</Link></li>
-                <li><Link to="/impact" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.impact')}</Link></li>
-                <li><Link to="/partners" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('partnersPage.navLabel')}</Link></li>
-                <li><Link to="/game" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('heritagePage.game.title')}</Link></li>
-                <li><Link to="/news" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.news')}</Link></li>
-                <li><Link to="/careers" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.careers')}</Link></li>
+          {/* Links */}
+          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-[1fr_1fr_minmax(0,1.5fr)] gap-x-8 gap-y-12 text-[15px]">
+            <div>
+              <h2 className="font-sans text-sm text-brand-ink-mute mb-4 tracking-normal">{t('footer.navTitle')}</h2>
+              <ul className="space-y-3">
+                {navLinks.map((l) => (
+                  <li key={l.to}><Link to={l.to} className={linkClass}>{l.label}</Link></li>
+                ))}
               </ul>
-            </motion.div>
+            </div>
 
-            {/* Links: Legal */}
-            <motion.div variants={itemVariants} className="flex flex-col">
-              <h4 className="text-[8px] sm:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-brand-gold mb-6 md:mb-8 break-words">{t('footer.legalTitle')}</h4>
-              <ul className="space-y-4 text-xs md:text-sm text-brand-ink/60 font-light flex flex-col">
-                <li><Link to="/privacy" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block text-balance">{t('footer.privacy')}</Link></li>
-                <li><Link to="/terms" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block text-balance">{t('footer.terms')}</Link></li>
-                <li><Link to="/imprint" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('footer.imprint')}</Link></li>
-                <li><Link to="/governance" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block text-balance">{t('footer.governance')}</Link></li>
+            <div>
+              <h2 className="font-sans text-sm text-brand-ink-mute mb-4 tracking-normal">{t('footer.legalTitle')}</h2>
+              <ul className="space-y-3">
+                {legalLinks.map((l) => (
+                  <li key={l.to}><Link to={l.to} className={linkClass}>{l.label}</Link></li>
+                ))}
               </ul>
-            </motion.div>
+            </div>
 
-            {/* Links: Contact */}
-            <motion.div variants={itemVariants} className="flex flex-col">
-              <h4 className="text-[8px] sm:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-brand-gold mb-6 md:mb-8 break-words">{t('nav.contact')}</h4>
-              <ul className="space-y-5 text-[10px] md:text-sm text-brand-ink/60 font-light flex flex-col">
-                <li className="flex items-start gap-2 sm:gap-4">
-                  <MapPin className="text-brand-gold mt-0.5 shrink-0 w-3 h-3 sm:w-[18px] sm:h-[18px]" />
-                  <address className="not-italic leading-tight sm:leading-relaxed break-words">
+            <div className="col-span-2 sm:col-span-1">
+              <h2 className="font-sans text-sm text-brand-ink-mute mb-4 tracking-normal">{t('nav.contact')}</h2>
+              <ul className="space-y-3 text-brand-ink-soft">
+                <li className="flex items-start gap-2.5">
+                  <MapPin size={18} strokeWidth={1.5} className="text-brand-ink-mute mt-0.5 shrink-0" />
+                  <address className="not-italic leading-relaxed">
                     Schöpfleuthergasse 25<br />1210 {t('contact.info.vienna')}
                   </address>
                 </li>
-                <li className="flex items-center gap-2 sm:gap-4 break-all">
-                  <Phone className="text-brand-gold shrink-0 w-3 h-3 sm:w-[18px] sm:h-[18px]" />
-                  <span>+4367761160389</span>
+                <li className="flex items-center gap-2.5">
+                  <Phone size={18} strokeWidth={1.5} className="text-brand-ink-mute shrink-0" />
+                  <a href="tel:+4367761160389" className={`${linkClass} tabular`}>+43 677 61160389</a>
                 </li>
-                <li className="flex items-center gap-2 sm:gap-4 break-all">
-                  <Mail className="text-brand-gold shrink-0 w-3 h-3 sm:w-[18px] sm:h-[18px]" />
-                  <a href="mailto:info@mongoliancenter.org" className="hover:text-brand-gold transition-colors break-words">info@mongoliancenter.org</a>
+                <li className="flex items-center gap-2.5 min-w-0">
+                  <Mail size={18} strokeWidth={1.5} className="text-brand-ink-mute shrink-0" />
+                  <a href="mailto:info@mongoliancenter.org" className={`${linkClass} break-all`}>info@mongoliancenter.org</a>
                 </li>
               </ul>
-            </motion.div>
+            </div>
           </div>
-        </motion.div>
-        
-        {/* Footer Bottom Setup */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full border-t border-brand-ink/10 pt-8 mt-auto flex flex-col md:flex-row justify-between items-center gap-6"
-        >
-          <div className="text-[9px] uppercase font-bold tracking-[0.3em] text-brand-ink/40 flex items-center gap-3">
-             {t('footer.copyright')}
-             <Link to="/diorama" className="inline-block w-1.5 h-1.5 rounded-full bg-brand-gold/30 hover:bg-brand-gold transition-colors" title={t('siteUi.footer.discoverSteppe')} />
-          </div>
-          
-          <p className="text-[10px] text-brand-ink/50 text-center md:text-left max-w-xl leading-relaxed">
-            {t('siteUi.footer.legalNote')}
-          </p>
+        </div>
 
-          <div className="flex gap-8 md:gap-12 text-[9px] uppercase font-bold tracking-[0.3em] text-brand-ink/40">
-            <span className="flex items-center gap-2 italic">
-              <div className="w-1.5 h-1.5 bg-brand-gold rounded-full" />
-              {t('footer.vienna')}
-            </span>
-            <span className="flex items-center gap-2 italic">
-              <div className="w-1.5 h-1.5 bg-brand-gold rounded-full" />
-              {t('footer.ulaanbaatar')}
-            </span>
+        <div className="mt-16 pt-6 border-t border-brand-line flex flex-col md:flex-row md:items-start justify-between gap-6 text-[13px] text-brand-ink-mute">
+          <p className="shrink-0">{t('footer.copyright')}</p>
+          <p className="max-w-xl leading-relaxed">{t('siteUi.footer.legalNote')}</p>
+          <div className="flex items-center gap-4 shrink-0">
+            <span>{t('footer.vienna')} · {t('footer.ulaanbaatar')}</span>
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              aria-label={t('siteUi.footer.backToTop')}
+              title={t('siteUi.footer.backToTop')}
+              className="w-10 h-10 rounded-lg border border-brand-line flex items-center justify-center text-brand-ink-soft hover:text-brand-ink hover:bg-brand-cream"
+            >
+              <ArrowUp size={18} strokeWidth={1.5} />
+            </button>
           </div>
-        </motion.div>
-        
-        {/* Back to Top */}
-        <motion.button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="absolute right-0 md:right-0 bottom-[140px] md:bottom-auto md:top-1/2 -translate-y-1/2 w-12 h-12 border border-brand-ink/10 rounded-full flex items-center justify-center hover:bg-brand-ink hover:text-white transition-colors duration-300 z-50 text-brand-ink group cursor-pointer"
-          title={t('siteUi.footer.backToTop')}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <ArrowRight size={16} className="-rotate-90 group-hover:-translate-y-1 transition-transform" />
-        </motion.button>
-
+        </div>
       </div>
     </footer>
   );

@@ -1,14 +1,17 @@
 import React from 'react';
-import { motion } from 'motion/react';
 
+/**
+ * Ölzii, the endless knot: one closed band woven over and under itself nine times, in the same
+ * upright form as the knot in the centre's logo. Colour follows `color` (default: text colour).
+ */
 export const UlziiSymbol = ({ className = "w-12 h-12", color = "currentColor" }) => (
-  <svg viewBox="0 0 100 100" className={className} xmlns="http://www.w3.org/2000/svg">
-    <path 
-      d="M50 10 L85 45 L73 57 L50 34 L27 57 L15 45 Z M50 90 L85 55 L73 43 L50 66 L27 43 L15 55 Z M10 50 L22 38 L45 61 L33 73 Z M90 50 L78 38 L55 61 L67 73 Z M42 42 L58 58 M42 58 L58 42" 
-      fill="none" 
-      stroke={color} 
-      strokeWidth="8" 
-      strokeLinejoin="bevel" 
+  <svg viewBox="0 0 100 100" className={className} xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path
+      d="M57.17 37.17 L40 20 L50 10 L55 15 L60 20 L52.83 27.17M47.17 32.83 L32.83 47.17M27.17 52.83 L20 60 L30 70 L47.17 52.83M52.83 47.17 L70 30 L80 40 L72.83 47.17M67.17 52.83 L52.83 67.17M47.17 72.83 L40 80 L50 90 L60 80 L42.83 62.83M37.17 57.17 L20 40 L30 30 L37.17 37.17M42.83 42.83 L57.17 57.17M62.83 62.83 L70 70 L80 60 L62.83 42.83"
+      fill="none"
+      stroke={color}
+      strokeWidth="5"
+      strokeLinejoin="miter"
     />
   </svg>
 );
@@ -169,120 +172,47 @@ export const GerSymbol = ({ className = "w-32 h-24", strokeColor = "#d4af37", fi
   </svg>
 );
 
+/** A plain framed card with a brass mark in each corner, as on a painted chest. */
 export const MongolianFormalFrame = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <div className={`relative p-6 border border-brand-gold/30 bg-white/95 rounded-xl shadow-md ${className}`}>
-    {/* Ornate Gold Corner Accent - Top Left */}
-    <svg className="absolute -top-1 -left-1 w-6 h-6 text-brand-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-      <path d="M0 8V0H8 M0 0L6 6" strokeWidth="2" />
-    </svg>
-    {/* Ornate Gold Corner Accent - Top Right */}
-    <svg className="absolute -top-1 -right-1 w-6 h-6 text-brand-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-      <path d="M24 8V0H16 M24 0L18 6" strokeWidth="2" />
-    </svg>
-    {/* Ornate Gold Corner Accent - Bottom Left */}
-    <svg className="absolute -bottom-1 -left-1 w-6 h-6 text-brand-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-      <path d="M0 16V24H8 M0 24L6 18" strokeWidth="2" />
-    </svg>
-    {/* Ornate Gold Corner Accent - Bottom Right */}
-    <svg className="absolute -bottom-1 -right-1 w-6 h-6 text-brand-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-      <path d="M24 16V24H16 M24 24L18 18" strokeWidth="2" />
-    </svg>
+  <div className={`relative p-6 border border-brand-line bg-brand-cream rounded-xl ${className}`}>
+    {['top-2 left-2 border-t border-l', 'top-2 right-2 border-t border-r', 'bottom-2 left-2 border-b border-l', 'bottom-2 right-2 border-b border-r'].map((pos) => (
+      <i key={pos} aria-hidden="true" className={`absolute block w-3 h-3 border-brand-gold ${pos}`} />
+    ))}
     {children}
   </div>
 );
 
+/** A quiet divider: two hairlines with the endless knot between them. */
 export const MongolianKhasDivider = ({ className = "my-12" }: { className?: string }) => (
-  <div className={`flex items-center justify-center gap-4 ${className}`}>
-    <motion.div
-      className="h-px bg-gradient-to-r from-transparent via-brand-gold/50 to-brand-gold flex-1 max-w-xs origin-right"
-      initial={{ scaleX: 0 }}
-      whileInView={{ scaleX: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-    />
-    <motion.div
-      className="flex items-center gap-2"
-      initial={{ opacity: 0, scale: 0.6, rotate: -45 }}
-      whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <div className="w-1.5 h-1.5 rotate-45 bg-brand-gold/70" />
-      <UlziiSymbol className="w-6 h-6 text-brand-gold" />
-      <div className="w-1.5 h-1.5 rotate-45 bg-brand-gold/70" />
-    </motion.div>
-    <motion.div
-      className="h-px bg-gradient-to-l from-transparent via-brand-gold/50 to-brand-gold flex-1 max-w-xs origin-left"
-      initial={{ scaleX: 0 }}
-      whileInView={{ scaleX: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-    />
+  <div aria-hidden="true" className={`flex items-center justify-center gap-4 ${className}`}>
+    <div className="h-px bg-brand-line flex-1 max-w-xs" />
+    <UlziiSymbol className="w-5 h-5 text-brand-gold" />
+    <div className="h-px bg-brand-line flex-1 max-w-xs" />
   </div>
 );
 
-
 /**
- * Repeating key/meander band inspired by traditional Mongolian ornamental borders.
- * Drawn with a CSS mask so its colour follows `text-*` / `bg-*` classes (default: brand gold).
+ * Alkhan khee, the meander: a single unbroken line. Drawn with a CSS mask, so its colour
+ * follows a `bg-*` class (default: brass).
  */
 export const MeanderBand = ({ className = "" }: { className?: string }) => (
-  <div aria-hidden="true" className={`meander-band h-3 w-full ${className.includes("bg-") ? "" : "bg-brand-gold/60"} ${className}`} />
-);
-
-/** Small diamond + line used in front of section eyebrows; the line draws in on scroll. */
-export const EyebrowMark = ({ className = "" }: { className?: string }) => (
-  <span aria-hidden="true" className={`inline-flex items-center gap-1.5 shrink-0 ${className}`}>
-    <i className="block w-1.5 h-1.5 rotate-45 bg-brand-gold" />
-    <motion.i
-      className="block h-px w-8 bg-brand-gold/50 origin-left"
-      initial={{ scaleX: 0 }}
-      whileInView={{ scaleX: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-    />
-  </span>
+  <div aria-hidden="true" className={`meander-band h-3 w-full ${className.includes("bg-") ? "" : "bg-brand-gold"} ${className}`} />
 );
 
 /**
- * Full-width meander ornament that sits on the seam between two page sections.
- * Zero height, so it never changes the layout, and it overlaps both neighbouring sections.
+ * The painted border: alkhan khee in cream on the red of a ger door. It frames the page the way
+ * the pattern frames a door or the hem of a deel, so it is used at the top and bottom edge only.
  */
-export const SectionSeam = () => (
-  <div aria-hidden="true" className="relative h-0 z-30 pointer-events-none">
-    <motion.div
-      className="absolute left-0 right-0 top-0 -translate-y-1/2"
-      initial={{ opacity: 0, scaleX: 0.85 }}
-      whileInView={{ opacity: 1, scaleX: 1 }}
-      viewport={{ once: true, margin: "0px 0px -20% 0px" }}
-      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <MeanderBand className="bg-brand-gold/50" />
-    </motion.div>
+export const AlkhanBorder = ({ className = "" }: { className?: string }) => (
+  <div aria-hidden="true" className={`flex h-5 items-center bg-brand-door ${className}`}>
+    <div className="meander-band h-3 w-full bg-[#F3E6C4]" />
   </div>
 );
 
-/**
- * Stylised cloud scroll in the spirit of traditional Mongolian cloud ornaments:
- * a flat base with three curling spiral lobes. Colour follows `currentColor`.
- */
-export const CloudMotif = ({ className = "w-48 h-auto" }: { className?: string }) => (
-  <svg viewBox="0 0 220 90" className={className} fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    {/* base line with a tail that curls up at each end */}
-    <path d="M6 74C6 66 14 64 18 68C21 71 17 76 13 74" />
-    <path d="M18 78H202" />
-    <path d="M214 74C214 66 206 64 202 68C199 71 203 76 207 74" />
-    {/* left lobe */}
-    <path d="M30 78C24 56 44 40 62 50C74 57 70 74 58 72C49 70 50 60 58 60" />
-    {/* centre lobe (largest) */}
-    <path d="M72 78C66 42 98 18 128 30C148 38 148 64 130 64C116 64 114 48 126 46C134 45 138 52 133 56" />
-    {/* right lobe */}
-    <path d="M150 78C150 57 172 44 188 54C198 60 194 74 183 72C175 70 176 61 184 61" />
-    {/* inner echo lines */}
-    <path d="M44 78C42 70 48 66 54 68" opacity="0.6" />
-    <path d="M88 78C88 64 98 54 110 54" opacity="0.6" />
-    <path d="M164 78C164 70 170 66 176 68" opacity="0.6" />
-  </svg>
-);
+/** Section labels no longer carry an ornament. Kept so older pages keep compiling. */
+export const EyebrowMark = (_props: { className?: string }) => null;
 
-export { CloudDrift, CloudSky, CuteCloud } from './CuteClouds';
+/** Sections are separated by space, not by a band. Kept so older pages keep compiling. */
+export const SectionSeam = () => null;
+
+export { CloudDrift, CuteCloud, CuteCloud as CloudMotif } from './CuteClouds';

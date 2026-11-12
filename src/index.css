@@ -1,69 +1,79 @@
 @import "tailwindcss";
 
 @theme {
-  --font-serif: "Twemoji Country Flags", "Cormorant Garamond", Georgia, serif;
+  --font-serif: "Twemoji Country Flags", "Source Serif 4 Variable", "Noto Serif", Georgia, serif;
   --font-sans: "Twemoji Country Flags", "Plus Jakarta Sans Variable", "Inter Variable", sans-serif;
   --font-mongolian: "Noto Sans Mongolian", "Mongolian Baiti", "Noto Serif", sans-serif;
-  
-  --color-brand-indigo: #0A1128;
-  --color-brand-navy: #0B132B;
-  --color-brand-gold: #D4AF37;
-  --color-brand-blue: #0066B3;
-  --color-brand-bronze: #C5A059;
-  --color-brand-cream: #FAF8F5;
-  --color-brand-sand: #F4F0E8;
-  --color-brand-ink: #0F172A;
-  --color-brand-paper: #FDFBF7;
+
+  /* Felt and ink: one warm neutral ramp, light side */
+  --color-brand-paper: #F7F4EE;      /* page background, undyed felt */
+  --color-brand-cream: #FDFBF7;      /* card */
+  --color-brand-sand: #EFE9DF;       /* raised surface, inputs */
+  --color-brand-ink: #1F1B16;        /* primary text */
+  --color-brand-ink-soft: #5E554A;   /* secondary text */
+  --color-brand-ink-mute: #746B5F;   /* captions and meta only */
+  --color-brand-line: rgb(31 27 22 / 0.1);
+
+  /* Same ramp, dark side (soot) */
+  --color-brand-indigo: #161513;     /* dark section */
+  --color-brand-navy: #1C1A18;       /* card on a dark section */
+  --color-brand-felt: #EFE9DE;       /* primary text on dark */
+  --color-brand-felt-soft: #AAA398;  /* secondary text on dark */
+  --color-brand-line-dark: rgb(239 233 222 / 0.12);
+
+  /* The one accent: the blue of the logo, the colour of the khadag */
+  --color-brand-blue: #0064B1;
+  --color-brand-blue-deep: #00518F;  /* hover and pressed */
+  --color-brand-sky: #8CC0EE;        /* the accent on dark surfaces */
+
+  /* Ornament colours. They belong to the painted borders, not to text or buttons. */
+  --color-brand-gold: #B08D3C;       /* flat brass */
+  --color-brand-bronze: #B08D3C;
+  --color-brand-door: #B5402A;       /* the red of a painted ger door */
+
+  /* Neutral greys follow the felt ramp, so older pages share the same tint */
+  --color-slate-50: #F7F4EE;
+  --color-slate-100: #EFE9DF;
+  --color-slate-200: #E4DDD0;
+  --color-slate-300: #CFC7B8;
+  --color-slate-400: #A1988A;
+  --color-slate-500: #746B5F;
+  --color-slate-600: #5E554A;
+  --color-slate-700: #453E36;
+  --color-slate-800: #2E2924;
+  --color-slate-900: #1C1A18;
+  --color-slate-950: #12110F;
+
+  /* Ambers follow the brass, so nothing reads as metallic gold */
+  --color-amber-50: #FBF6E9;
+  --color-amber-100: #F3E9CC;
+  --color-amber-200: #E6D5A3;
+  --color-amber-300: #D2BA73;
+  --color-amber-400: #C0A254;
+  --color-amber-500: #B08D3C;
+  --color-amber-600: #96762F;
+  --color-amber-700: #7A5F26;
+  --color-amber-800: #5E491F;
+  --color-amber-900: #4A3A1A;
+
+  /* One easing curve for everything */
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
   body {
-    @apply font-sans bg-white text-slate-800 antialiased selection:bg-brand-gold/30 selection:text-brand-ink;
+    @apply font-sans bg-brand-paper text-brand-ink antialiased selection:bg-brand-blue/20 selection:text-brand-ink;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif font-medium tracking-tight;
+    @apply font-serif font-normal;
+    letter-spacing: -0.01em;
   }
 }
 
-.perspective-1000 {
-  perspective: 1000px;
-}
-
-.glass-card {
-  @apply bg-white/80 backdrop-blur-xl border border-amber-900/10 shadow-sm transition-all duration-300;
-}
-
-.executive-card {
-  @apply bg-white border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.08)] hover:border-amber-500/40 transition-all duration-300 rounded-xl;
-}
-
-.executive-card-dark {
-  @apply bg-slate-900/90 backdrop-blur-md border border-amber-500/20 shadow-xl hover:border-amber-500/50 transition-all duration-300 rounded-xl;
-}
-
-.gold-metallic-gradient {
-  background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
-}
-
-.gold-gradient {
-  background: linear-gradient(135deg, #0A1128 0%, #D4AF37 50%, #0A1128 100%);
-}
-
-.gold-subtle-glow {
-  box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
-}
-
-.text-gold {
-  @apply text-brand-gold;
-}
-
-.border-gold {
-  @apply border-brand-gold/30;
-}
-
-.mongolian-pattern-border {
-  background-image: repeating-linear-gradient(45deg, #D4AF37 0, #D4AF37 2px, transparent 0, transparent 8px);
+/* Figures line up in columns and share one format */
+.tabular {
+  font-variant-numeric: tabular-nums;
 }
 
 @keyframes ember-float {
@@ -97,80 +107,49 @@
   display: none; /* Chrome, Safari and Opera */
 }
 
-/* Custom visual scrollbar */
+/* Thin scrollbar for panels that scroll inside the page */
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #D4AF37 rgba(10, 17, 40, 0.05); /* brand-gold and faint ink */
+  scrollbar-color: rgb(31 27 22 / 0.3) rgb(31 27 22 / 0.05);
 }
 .custom-scrollbar::-webkit-scrollbar {
   height: 6px;
+  width: 6px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(10, 17, 40, 0.05);
+  background: rgb(31 27 22 / 0.05);
   border-radius: 10px;
-  margin: 0 1.5rem;
-}
-@media (min-width: 768px) {
-  .custom-scrollbar::-webkit-scrollbar-track {
-    margin: 0 calc(max(1.5rem, (100vw - 80rem) / 2));
-  }
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #D4AF37;
+  background-color: rgb(31 27 22 / 0.3);
   border-radius: 10px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: #bb8e51;
+  background-color: rgb(31 27 22 / 0.45);
 }
 
-/* ---- UX polish ---- */
 html {
   scroll-behavior: smooth;
 }
 
-/* Visible keyboard focus that matches the brand */
+/* Visible keyboard focus in the accent */
 :focus-visible {
   outline: 2px solid var(--color-brand-blue);
   outline-offset: 3px;
   border-radius: 4px;
 }
 
-/* Tactile press feedback on buttons and button-like links */
+/* Press feedback on buttons and button-like links */
 button:not(:disabled),
 [role="button"],
 a[class*="rounded"] {
-  transition-property: transform, background-color, border-color, color, box-shadow, opacity;
-  transition-duration: 200ms;
-  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  transition-property: transform, background-color, border-color, color, opacity;
+  transition-duration: 160ms;
+  transition-timing-function: var(--ease-brand);
 }
 button:not(:disabled):active,
 a[class*="rounded"]:active {
   transform: scale(0.98);
-}
-
-/* Cards lift slightly on hover */
-.executive-card:hover {
-  transform: translateY(-2px);
-}
-
-/* ---- Cloud illustrations ---- */
-@keyframes cloud-sway {
-  0%, 100% { transform: rotate(-9deg); }
-  50% { transform: rotate(11deg); }
-}
-@keyframes cloud-twinkle {
-  0%, 100% { opacity: 0.2; transform: scale(0.55); }
-  50% { opacity: 1; transform: scale(1); }
-}
-.cloud-spiral {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: cloud-sway 9s ease-in-out infinite;
-}
-.cloud-spark {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: cloud-twinkle 3.4s ease-in-out infinite;
 }
 
 /* Respect users who prefer less motion */
@@ -187,48 +166,17 @@ a[class*="rounded"]:active {
   }
 }
 
-/* ---- Heritage ornaments ---- */
+/*
+ * Alkhan khee, the meander border. One unbroken line that turns back on itself and runs on,
+ * drawn as a mask so its colour follows the element's background colour.
+ */
 .meander-band {
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12' viewBox='0 0 24 12'%3E%3Cpath d='M0 11H3V1.5H21V11H24M8 11V5H16V11' fill='none' stroke='black' stroke-width='1.6' stroke-linejoin='miter'/%3E%3C/svg%3E");
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12' viewBox='0 0 24 12'%3E%3Cpath d='M0 11H3V1.5H21V11H24M8 11V5H16V11' fill='none' stroke='black' stroke-width='1.6' stroke-linejoin='miter'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='12' viewBox='0 0 16 12'%3E%3Cpath d='M0 10H1V2H13V6H5V10H16' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='miter'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='12' viewBox='0 0 16 12'%3E%3Cpath d='M0 10H1V2H13V6H5V10H16' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='miter'/%3E%3C/svg%3E");
   -webkit-mask-repeat: repeat-x;
   mask-repeat: repeat-x;
-  -webkit-mask-size: 24px 12px;
-  mask-size: 24px 12px;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-
-/* Gold sheen that sweeps across primary buttons on hover */
-.btn-shimmer {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
-.btn-shimmer::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%);
-  transform: translateX(-120%);
-  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.btn-shimmer:hover::after {
-  transform: translateX(120%);
-}
-
-/* Soft light that slowly passes over the flags in the top bar */
-.flag-sheen::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.55) 50%, transparent 65%);
-  transform: translateX(-130%);
-  animation: flag-sheen 7s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes flag-sheen {
-  0%, 70% { transform: translateX(-130%); }
-  100% { transform: translateX(130%); }
+  -webkit-mask-size: 16px 12px;
+  mask-size: 16px 12px;
+  -webkit-mask-position: left center;
+  mask-position: left center;
 }

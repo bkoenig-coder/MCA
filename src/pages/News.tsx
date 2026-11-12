@@ -119,7 +119,7 @@ export default function News() {
                   <div className="lg:col-span-5">
                     <p className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold mb-4">{t('news.latest')}</p>
                     <Link to={linkUrl}>
-                      <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 leading-[1.15] hover:text-[#0066B3] transition-colors">{dTitle}</h2>
+                      <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 leading-[1.15] hover:text-brand-blue transition-colors">{dTitle}</h2>
                     </Link>
                     <p className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs uppercase tracking-[0.12em] font-semibold text-slate-500">
                       <span className="flex items-center gap-1.5">
@@ -158,7 +158,7 @@ export default function News() {
                           {formatNewsDate(post.createdAt, t('common.locale'), { month: 'long', day: 'numeric', year: 'numeric' })}
                         </p>
                         <Link to={linkUrl}>
-                          <h3 className="font-serif text-xl md:text-2xl font-bold text-slate-900 leading-snug group-hover:text-[#0066B3] transition-colors line-clamp-3">{dTitle}</h3>
+                          <h3 className="font-serif text-xl md:text-2xl font-bold text-slate-900 leading-snug group-hover:text-brand-blue transition-colors line-clamp-3">{dTitle}</h3>
                         </Link>
                         <p className="mt-3 font-serif text-sm md:text-base text-slate-700 leading-relaxed line-clamp-3 flex-1">{plain(dContent)}</p>
                         <Link to={linkUrl} className="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] font-semibold text-slate-900 hover:text-brand-blue transition-colors">
@@ -180,7 +180,7 @@ export default function News() {
       </section>
 
       {/* Broadsheet Newsletter Suite */}
-      <section className="py-16 md:py-24 px-6 bg-[#0A1128] text-white relative overflow-hidden border-t-4 border-slate-900">
+      <section className="py-16 md:py-24 px-6 bg-brand-indigo text-white relative overflow-hidden border-t-4 border-slate-900">
         <div className="max-w-4xl mx-auto relative z-10 text-center">
           <h2 className="text-3xl md:text-5xl font-serif mb-4 tracking-tight">
             {t('news.newsletter.title')} <span className="italic text-brand-gold font-light">{t('news.newsletter.titleItalic')}</span>

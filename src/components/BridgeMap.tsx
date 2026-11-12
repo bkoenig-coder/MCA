@@ -16,7 +16,7 @@ const pct = (x: number, y: number) => ({
 
 export const BRIDGE_DISTANCE_KM = DISTANCE_KM;
 
-/** Dot-matrix map of Europe and Asia with an animated arc from Vienna to Ulaanbaatar. */
+/** Dot-matrix map of Europe and Asia. The arc from Vienna to Ulaanbaatar draws itself once, when it comes into view. */
 export default function BridgeMap({ viennaLabel = 'Vienna', ulaanbaatarLabel = 'Ulaanbaatar' }: { viennaLabel?: string; ulaanbaatarLabel?: string }) {
   return (
     <div
@@ -25,41 +25,29 @@ export default function BridgeMap({ viennaLabel = 'Vienna', ulaanbaatarLabel = '
       aria-label={`${viennaLabel} to ${ulaanbaatarLabel}, about ${DISTANCE_KM.toLocaleString('en')} kilometres`}
     >
       <svg viewBox={`${VB.x} ${VB.y} ${VB.w} ${VB.h}`} className="w-full h-auto" fill="none" aria-hidden="true">
-        <path d={LAND_DOTS} stroke="currentColor" strokeWidth="0.55" strokeLinecap="round" className="text-brand-blue/25" />
+        <path d={LAND_DOTS} stroke="currentColor" strokeWidth="0.55" strokeLinecap="round" className="text-brand-ink/20" />
         <motion.path
           d={ARC}
-          className="stroke-brand-gold"
-          strokeWidth="0.35"
+          className="stroke-brand-blue"
+          strokeWidth="0.45"
           strokeLinecap="round"
-          strokeDasharray="1.1 1.1"
-          initial={{ pathLength: 0, opacity: 0 }}
-          whileInView={{ pathLength: 1, opacity: 1 }}
+          initial={{ pathLength: 0 }}
+          whileInView={{ pathLength: 1 }}
           viewport={{ once: true, margin: '-15%' }}
-          transition={{ duration: 2.2, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
         />
         {[VIENNA, ULAANBAATAR].map(([x, y], i) => (
-          <g key={i}>
-            <motion.circle
-              cx={x}
-              cy={y}
-              r="2.4"
-              className="fill-brand-blue/20"
-              style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
-              animate={{ scale: [0.7, 1.6, 0.7], opacity: [0.7, 0, 0.7] }}
-              transition={{ duration: 2.8, repeat: Infinity, ease: 'easeOut', delay: i * 0.6 }}
-            />
-            <circle cx={x} cy={y} r="1.4" className="fill-brand-blue stroke-white" strokeWidth="0.5" />
-          </g>
+          <circle key={i} cx={x} cy={y} r="1.5" className="fill-brand-blue stroke-brand-paper" strokeWidth="0.5" />
         ))}
       </svg>
       <span
-        className="absolute -translate-x-1/2 mt-3 text-xs font-semibold uppercase tracking-[0.14em] text-brand-ink whitespace-nowrap"
+        className="absolute -translate-x-1/2 mt-3 text-[13px] font-medium text-brand-ink whitespace-nowrap"
         style={pct(vx, vy)}
       >
         {viennaLabel}
       </span>
       <span
-        className="absolute -translate-x-1/2 mt-3 text-xs font-semibold uppercase tracking-[0.14em] text-brand-ink whitespace-nowrap"
+        className="absolute -translate-x-1/2 mt-3 text-[13px] font-medium text-brand-ink whitespace-nowrap"
         style={pct(ux, uy)}
       >
         {ulaanbaatarLabel}

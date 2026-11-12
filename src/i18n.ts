@@ -45,11 +45,11 @@ const resources = {
         }
       },
       hero: {
-        tag: 'Vienna • Austria',
-        title: 'The Mongolian Cultural &',
-        titleItalic: 'Community Center in Vienna',
-        subtitle: 'Welcome to the official platform of the Mongolian Center in Austria. We are a non-governmental organization with the goal of preserving our cultural heritage and fostering strong community connections in Austria. Through this website, you can explore our initiatives, learn about upcoming events, and follow the development of our project.',
-        ctaEvents: 'Explore Events',
+        tag: 'Vienna, Austria',
+        title: 'The Mongolian cultural and',
+        titleItalic: 'community center in Vienna',
+        subtitle: 'We are a non-governmental organization with the goal of preserving our cultural heritage and fostering strong community connections in Austria',
+        ctaEvents: 'Explore events',
         ctaImpact: 'Our Mission',
         ctaStory: 'Our Heritage',
         established: 'Founded in'
@@ -57,16 +57,16 @@ const resources = {
       pillars: {
         title: 'Strategic Pillars',
         community: {
-          title: 'Community Engagement',
-          desc: 'Fostering a premier network where Mongolian professionals, students, and local Austrian partners connect and collaborate.'
+          title: 'Community engagement',
+          desc: 'Building a network where Mongolian professionals, students and Austrian partners connect and collaborate.'
         },
         arts: {
-          title: 'Cultural Diplomacy',
-          desc: 'Elevating both traditional and contemporary Mongolian artistry through high-profile, cross-cultural exhibitions in Europe.'
+          title: 'Cultural diplomacy',
+          desc: 'Presenting traditional and contemporary Mongolian art through cross-cultural exhibitions in Europe.'
         },
         impact: {
-          title: 'Sustainable Impact',
-          desc: 'Driving meaningful social change and civic solidarity through targeted philanthropic initiatives in Austria and Mongolia.'
+          title: 'Sustainable impact',
+          desc: 'Supporting social change and civic solidarity through charitable initiatives in Austria and Mongolia.'
         }
       },
       careers: {
@@ -137,37 +137,37 @@ const resources = {
         date: 'June 15-17, 2026',
         nextEvent: 'Next Event',
         audience: 'Open to all community members',
-        cta: 'View All Events'
+        cta: 'View all events'
       },
       impactCta: {
-        title: 'Drive Global Impact',
-        desc: 'Partner with us to sustain this vital cultural bridge and sponsor bilateral social initiatives that generate measurable results.',
-        cta: 'Donate Now'
+        title: 'Let’s make a real difference together',
+        desc: 'Help us sustain this cultural bridge and fund social projects that benefit both countries.',
+        cta: 'Donate now'
       },
       homeMembership: {
-        tag: 'Official Membership',
+        tag: 'Membership',
         titleNormal: 'Become a ',
-        titleItalic: 'Member',
-        desc: 'Join a growing platform connecting Austria and Mongolia. Gain access to a premium network, exclusive cultural events, and high-level bilateral opportunities.',
-        btnApply: 'Become a Member',
-        btnExplore: 'Explore Benefits',
+        titleItalic: 'member',
+        desc: 'Join a growing platform connecting Austria and Mongolia. Gain access to our network, cultural events and opportunities to work together.',
+        btnApply: 'Become a member',
+        btnExplore: 'Explore benefits',
         slides: {
           professional: {
-            title: 'Professional Community',
+            title: 'Professional community',
             benefit1: 'International network access',
             benefit2: 'Exclusive event invitations',
             benefit3: 'Priority forum registration',
             benefit4: 'Cultural & professional exchange'
           },
           student: {
-            title: 'Student Membership',
+            title: 'Student membership',
             benefit1: 'Access to junior network',
             benefit2: 'Mentorship opportunities',
             benefit3: 'Discounted event tickets',
             benefit4: 'Career development support'
           },
           institutional: {
-            title: 'Institutional Partner',
+            title: 'Institutional partner',
             benefit1: 'Brand visibility',
             benefit2: 'Bespoke B2B introductions',
             benefit3: 'Co-hosting opportunities',
@@ -260,8 +260,8 @@ const resources = {
         titleItalic: 'Events',
         subtitle: 'From cultural festivals to educational workshops, join us in celebrating and experiencing Mongolian heritage.',
         register: 'Register Now',
-        nextUpcoming: 'Next Upcoming Event',
-        viewDetails: 'View Details',
+        nextUpcoming: 'Next event',
+        viewDetails: 'View details',
         price: 'Price',
         date: 'Date',
         time: 'Time',
@@ -303,9 +303,9 @@ const resources = {
         moreNews: 'More news',
         postedOn: 'Posted on',
         ourVoice: 'Our Voice',
-        featuredNews: 'Featured News',
-        allNews: 'All News',
-        readStory: 'Read Story',
+        featuredNews: 'Featured news',
+        allNews: 'All news',
+        readStory: 'Read story',
         featuredTag: 'Featured',
         featuredEvent: 'Featured Event',
         newsletter: {
@@ -323,8 +323,8 @@ const resources = {
         subtitle: 'Explore a curated collection of Mongolian art, photography, and traditional crafts.',
         all: 'All Works',
         ourVision: 'Our Vision',
-        featuredGallery: 'Featured Gallery',
-        allGallery: 'All Gallery',
+        featuredGallery: 'Featured gallery',
+        allGallery: 'All galleries',
         viewCapture: 'View',
         painting: 'Painting',
         photography: 'Photography',
@@ -796,10 +796,10 @@ const resources = {
         }
       },
       hero: {
-        tag: 'Wien • Österreich',
-        title: 'Das Mongolische Kultur- &',
+        tag: 'Wien, Österreich',
+        title: 'Das mongolische Kultur- und',
         titleItalic: 'Gemeinschaftszentrum in Wien',
-        subtitle: 'Willkommen auf der offiziellen Plattform des Mongolischen Zentrums in Österreich. Wir sind ein gemeinnütziger Verein mit dem Ziel, unser kulturelles Erbe zu bewahren und starke Gemeinschaftsbindungen in Österreich zu fördern. Über diese Website können Sie mehr über unsere Initiativen erfahren, sich über kommende Veranstaltungen informieren und die Entwicklung unseres Projekts verfolgen.',
+        subtitle: 'Wir sind ein gemeinnütziger Verein mit dem Ziel, unser kulturelles Erbe zu bewahren und starke Gemeinschaftsbindungen in Österreich zu fördern',
         ctaEvents: 'Veranstaltungen',
         ctaImpact: 'Unsere Mission',
         ctaStory: 'Unsere Geschichte',
@@ -809,11 +809,11 @@ const resources = {
         title: 'Unsere strategischen Säulen',
         community: {
           title: 'Netzwerk & Gemeinschaft',
-          desc: 'Aufbau eines erstklassigen Netzwerks, in dem mongolische Fachkräfte, Studierende und österreichische Partner zusammenkommen und zusammenarbeiten.'
+          desc: 'Aufbau eines Netzwerks, in dem mongolische Fachkräfte, Studierende und österreichische Partner zusammenkommen und zusammenarbeiten.'
         },
         arts: {
           title: 'Kulturdiplomatie',
-          desc: 'Förderung traditioneller und zeitgenössischer mongolischer Kunst durch hochkarätige, interkulturelle Ausstellungen in Europa.'
+          desc: 'Förderung traditioneller und zeitgenössischer mongolischer Kunst durch interkulturelle Ausstellungen in Europa.'
         },
         impact: {
           title: 'Nachhaltige Wirkung',
@@ -896,10 +896,10 @@ const resources = {
         cta: 'Jetzt spenden'
       },
       homeMembership: {
-        tag: 'Offizielle Mitgliedschaft',
+        tag: 'Mitgliedschaft',
         titleNormal: 'Mitglied ',
         titleItalic: 'werden',
-        desc: 'Treten Sie einer wachsenden Plattform bei, die Österreich und die Mongolei verbindet. Erhalten Sie Zugang zu einem erstklassigen Netzwerk, exklusiven kulturellen Veranstaltungen und hochrangigen bilateralen Möglichkeiten.',
+        desc: 'Treten Sie einer wachsenden Plattform bei, die Österreich und die Mongolei verbindet. Erhalten Sie Zugang zu unserem Netzwerk, zu kulturellen Veranstaltungen und zu Möglichkeiten der Zusammenarbeit.',
         btnApply: 'Mitglied werden',
         btnExplore: 'Vorteile entdecken',
         slides: {
@@ -1547,10 +1547,10 @@ const resources = {
         }
       },
       hero: {
-        tag: 'Вена • Австри',
+        tag: 'Вена, Австри',
         title: 'Вена дахь Монгол соёл,',
         titleItalic: 'олон нийтийн төв',
-        subtitle: 'Австри дахь Монголын Төвийн албан ёсны платформд тавтай морилно уу. Бид соёлын өвөө хадгалан хамгаалах, Австри дахь монгол хамт олны холбоо, эв нэгдлийг бэхжүүлэх зорилготой төрийн бус байгууллага юм. Энэ вэбсайтаар дамжуулан та манай санаачилгуудтай танилцаж, удахгүй болох арга хэмжээний мэдээлэл авч, төслийн хөгжлийг дагаж болно.',
+        subtitle: 'Бид соёлын өвөө хадгалан хамгаалах, Австри дахь монгол хамт олны холбоо, эв нэгдлийг бэхжүүлэх зорилготой төрийн бус байгууллага юм',
         ctaEvents: 'Арга хэмжээнүүд',
         ctaImpact: 'Бидний зорилго',
         ctaStory: 'Бидний түүх',
@@ -1560,11 +1560,11 @@ const resources = {
         title: 'Стратегийн тулгуур',
         community: {
           title: 'Олон нийтийн хамтын ажиллагаа',
-          desc: 'Монголын мэргэжилтнүүд, оюутан залуус болон Австри улс дахь түншүүдийг холбосон дээд зэрэглэлийн сүлжээг бүтээн байгуулах.'
+          desc: 'Монголын мэргэжилтнүүд, оюутан залуус болон Австри улс дахь түншүүдийг холбосон сүлжээг бүтээн байгуулах.'
         },
         arts: {
           title: 'Соёлын дипломат харилцаа',
-          desc: 'Монголын уламжлалт болон орчин үеийн урлагийг Европ дахь өндөр зэрэглэлийн, олон улсын үзэсгэлэнгээр дамжуулан сурталчлах.'
+          desc: 'Монголын уламжлалт болон орчин үеийн урлагийг Европ дахь олон улсын үзэсгэлэнгээр дамжуулан сурталчлах.'
         },
         impact: {
           title: 'Тогтвортой нөлөөлөл',
@@ -1647,10 +1647,10 @@ const resources = {
         cta: 'Хандив өгөх'
       },
       homeMembership: {
-        tag: 'Албан ёсны гишүүнчлэл',
+        tag: 'Гишүүнчлэл',
         titleNormal: 'Хамт олондоо ',
         titleItalic: 'нэгдээрэй',
-        desc: 'Австри, Монголыг холбосон энэхүү өргөжин тэлж буй платформд нэгдээрэй. Дээд зэрэглэлийн холбоо сүлжээ, соёлын арга хэмжээ болон хамтын ажиллагааны боломжуудыг аваарай.',
+        desc: 'Австри, Монголыг холбосон энэхүү өргөжин тэлж буй платформд нэгдээрэй. Холбоо сүлжээ, соёлын арга хэмжээ болон хамтын ажиллагааны боломжуудыг аваарай.',
         btnApply: 'Гишүүнээр элсэх',
         btnExplore: 'Боломжуудыг үзэх',
         slides: {
@@ -2298,11 +2298,11 @@ const resources = {
         }
       },
       hero: {
-        tag: 'Viyana • Avusturya',
-        title: 'Viyana\'daki Moğol Kültür &',
+        tag: 'Viyana, Avusturya',
+        title: "Viyana'daki Moğol Kültür ve",
         titleItalic: 'Topluluk Merkezi',
-        subtitle: 'Avusturya Moğol Merkezi\'nin resmi platformuna hoş geldiniz. Kültürel mirasımızı korumak ve Avusturya\'daki güçlü topluluk bağlarını geliştirmek amacıyla kurulmuş kar amacı gütmeyen bir sivil toplum kuruluşuyuz. Bu web sitesi aracılığıyla girişimlerimizi inceleyebilir, yaklaşan etkinlikler hakkında bilgi edinebilir ve projemizin gelişimini takip edebilirsiniz.',
-        ctaEvents: 'Etkinlikleri Keşfet',
+        subtitle: "Kültürel mirasımızı korumak ve Avusturya'daki güçlü topluluk bağlarını geliştirmek amacıyla kurulmuş kar amacı gütmeyen bir sivil toplum kuruluşuyuz",
+        ctaEvents: 'Etkinlikleri keşfet',
         ctaImpact: 'Misyonumuz',
         ctaStory: 'Mirasımız',
         established: 'Kuruluş yılı'
@@ -2310,15 +2310,15 @@ const resources = {
       pillars: {
         title: 'Stratejik Sütunlar',
         community: {
-          title: 'Topluluk Katılımı',
-          desc: 'Moğol profesyonellerin, öğrencilerin ve yerel Avusturyalı ortakların bağlantı kurup iş birliği yaptığı seçkin bir ağ geliştirmek.'
+          title: 'Topluluk katılımı',
+          desc: 'Moğol profesyonellerin, öğrencilerin ve yerel Avusturyalı ortakların bağlantı kurup iş birliği yaptığı bir ağ geliştirmek.'
         },
         arts: {
-          title: 'Kültürel Diplomasi',
-          desc: 'Avrupa\'daki yüksek profilli, kültürler arası sergiler aracılığıyla hem geleneksel hem de çağdaş Moğol sanatını ön plana çıkarmak.'
+          title: 'Kültürel diplomasi',
+          desc: "Avrupa'daki kültürler arası sergiler aracılığıyla hem geleneksel hem de çağdaş Moğol sanatını ön plana çıkarmak."
         },
         impact: {
-          title: 'Sürdürülebilir Etki',
+          title: 'Sürdürülebilir etki',
           desc: 'Avusturya ve Moğolistan\'daki hedeflenen hayırseverlik girişimleri aracılığıyla anlamlı bir sosyal değişim ve sivil dayanışma sağlamak.'
         }
       },
@@ -2390,37 +2390,37 @@ const resources = {
         date: '15-17 Haziran 2026',
         nextEvent: 'Sıradaki Etkinlik',
         audience: 'Tüm topluluk üyelerine açık',
-        cta: 'Tüm Etkinlikleri Görüntüle'
+        cta: 'Tüm etkinlikleri görüntüle'
       },
       impactCta: {
-        title: 'Küresel Etki Yaratın',
+        title: 'Birlikte gerçek bir fark yaratalım',
         desc: 'Bu hayati kültürel köprüyü sürdürmek ve ölçülebilir sonuçlar üreten ikili sosyal girişimlere sponsor olmak için bizimle ortak olun.',
-        cta: 'Bağış Yapın'
+        cta: 'Bağış yapın'
       },
       homeMembership: {
-        tag: 'Resmi Üyelik',
+        tag: 'Üyelik',
         titleNormal: 'Topluluğumuza ',
-        titleItalic: 'Üye Olun',
-        desc: 'Avusturya ve Moğolistan\'ı birbirine bağlayan, büyüyen bir platforma katılın. Seçkin bir ağa, özel kültürel etkinliklere ve üst düzey ikili fırsatlara erişim kazanın.',
-        btnApply: 'Üye Ol',
-        btnExplore: 'Avantajları Keşfet',
+        titleItalic: 'üye olun',
+        desc: "Avusturya ve Moğolistan'ı birbirine bağlayan, büyüyen bir platforma katılın. Ağımıza, kültürel etkinliklere ve iş birliği fırsatlarına erişim kazanın.",
+        btnApply: 'Üye ol',
+        btnExplore: 'Avantajları keşfet',
         slides: {
           professional: {
-            title: 'Profesyonel Topluluk',
+            title: 'Profesyonel topluluk',
             benefit1: 'Uluslararası ağ erişimi',
             benefit2: 'Özel etkinlik davetiyeleri',
             benefit3: 'Öncelikli forum kaydı',
             benefit4: 'Kültürel ve profesyonel değişim'
           },
           student: {
-            title: 'Öğrenci Üyeliği',
+            title: 'Öğrenci üyeliği',
             benefit1: 'Gençlik ağına erişim',
             benefit2: 'Mentörlük fırsatları',
             benefit3: 'İndirimli etkinlik biletleri',
             benefit4: 'Kariyer geliştirme desteği'
           },
           institutional: {
-            title: 'Kurumsal Ortak',
+            title: 'Kurumsal ortak',
             benefit1: 'Marka görünürlüğü',
             benefit2: 'Özel B2B tanıştırmaları',
             benefit3: 'Ortak etkinlik düzenleme fırsatları',
@@ -2513,8 +2513,8 @@ const resources = {
         titleItalic: 'Etkinlikler',
         subtitle: 'Kültür festivallerinden eğitici çalıştaylara kadar, Moğol mirasını kutlamak ve deneyimlemek için bize katılın.',
         register: 'Şimdi Kaydol',
-        nextUpcoming: 'Sıradaki Etkinlik',
-        viewDetails: 'Detayları Görüntüle',
+        nextUpcoming: 'Sıradaki etkinlik',
+        viewDetails: 'Detayları görüntüle',
         price: 'Ücret',
         date: 'Tarih',
         time: 'Saat',
@@ -2556,9 +2556,9 @@ const resources = {
         moreNews: 'Diğer haberler',
         postedOn: 'Yayınlanma tarihi',
         ourVoice: 'Sesimiz',
-        featuredNews: 'Öne Çıkan Haberler',
-        allNews: 'Tüm Haberler',
-        readStory: 'Haberi Oku',
+        featuredNews: 'Öne çıkan haberler',
+        allNews: 'Tüm haberler',
+        readStory: 'Haberi oku',
         featuredTag: 'Öne Çıkan',
         featuredEvent: 'Öne Çıkan Etkinlik',
         newsletter: {
@@ -2576,8 +2576,8 @@ const resources = {
         subtitle: 'Moğol sanatı, fotoğrafçılığı ve geleneksel el sanatlarından oluşan küratörlü bir koleksiyonu keşfedin.',
         all: 'Tüm Eserler',
         ourVision: 'Vizyonumuz',
-        featuredGallery: 'Öne Çıkan Galeri',
-        allGallery: 'Tüm Galeri',
+        featuredGallery: 'Öne çıkan galeri',
+        allGallery: 'Tüm galeri',
         viewCapture: 'Görüntüle',
         painting: 'Resim',
         photography: 'Fotoğraf',
