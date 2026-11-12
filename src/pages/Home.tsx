@@ -207,7 +207,7 @@ export default function Home() {
               {t('siteUi.home.bridge.desc')}
             </p>
             <div className="flex items-baseline gap-3 border-t border-brand-line pt-6">
-              <span className="font-serif text-4xl text-brand-ink tabular">{'≈ ' + BRIDGE_DISTANCE_KM.toLocaleString(locale)}</span>
+              <span className="shrink-0 whitespace-nowrap font-serif text-4xl text-brand-ink tabular">{'≈ ' + BRIDGE_DISTANCE_KM.toLocaleString(locale)}</span>
               <span className="text-sm text-brand-ink-mute">{t('siteUi.home.bridge.km')}</span>
             </div>
           </div>
