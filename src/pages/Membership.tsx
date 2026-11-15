@@ -27,6 +27,12 @@ const partners = [
 export default function Membership() {
   const { t } = useTranslation();
 
+  // Each tier lists whatever benefits its translation holds, so the page can't ask for a line that doesn't exist
+  const tierBenefits = (tier: 'student' | 'professional' | 'institutional'): string[] => {
+    const list = t(`membershipPage.tiers.${tier}.benefits`, { returnObjects: true }) as unknown;
+    return Array.isArray(list) ? list.map(String) : [];
+  };
+
   return (
     <div className="min-h-screen bg-white pt-[140px] md:pt-[152px]">
       {/* Header */}
@@ -236,13 +242,7 @@ export default function Membership() {
                 <div className="h-[1px] w-full bg-gradient-to-r from-white/10 to-transparent mb-8" />
                 
                 <div className="space-y-4 mb-auto relative z-10 pb-10">
-                  {[
-                    t('membershipPage.tiers.student.benefits.0'),
-                    t('membershipPage.tiers.student.benefits.1'),
-                    t('membershipPage.tiers.student.benefits.2'),
-                    t('membershipPage.tiers.student.benefits.3'),
-                    t('membershipPage.tiers.student.benefits.4')
-                  ].map((benefit, i) => (
+                  {tierBenefits('student').map((benefit, i) => (
                     <div key={i} className="flex gap-4 items-start">
                       <CheckCircle2 size={18} className="text-brand-gold/70 shrink-0 mt-0.5" />
                       <span className="text-white/70 font-normal text-sm">{benefit}</span>
@@ -295,14 +295,7 @@ export default function Membership() {
                 <div className="h-[1px] w-full bg-gradient-to-r from-brand-gold/30 to-transparent mb-8 opacity-50" />
                 
                 <div className="space-y-4 mb-auto pb-10">
-                  {[
-                    t('membershipPage.tiers.professional.benefits.0'),
-                    t('membershipPage.tiers.professional.benefits.1'),
-                    t('membershipPage.tiers.professional.benefits.2'),
-                    t('membershipPage.tiers.professional.benefits.3'),
-                    t('membershipPage.tiers.professional.benefits.4'),
-                    t('membershipPage.tiers.professional.benefits.5')
-                  ].map((benefit, i) => (
+                  {tierBenefits('professional').map((benefit, i) => (
                     <div key={i} className="flex gap-4 items-start">
                       <CheckCircle2 size={18} className="text-brand-gold shrink-0 mt-0.5 drop-shadow-[0_0_8px_rgba(212,175,55,0.8)]" />
                       <span className="text-white/90 font-normal text-sm">{benefit}</span>
@@ -347,13 +340,7 @@ export default function Membership() {
                 <div className="h-[1px] w-full bg-gradient-to-r from-white/10 to-transparent mb-8" />
                 
                 <div className="space-y-4 mb-auto relative z-10 pb-10">
-                  {[
-                    t('membershipPage.tiers.institutional.benefits.0'),
-                    t('membershipPage.tiers.institutional.benefits.1'),
-                    t('membershipPage.tiers.institutional.benefits.2'),
-                    t('membershipPage.tiers.institutional.benefits.3'),
-                    t('membershipPage.tiers.institutional.benefits.4')
-                  ].map((benefit, i) => (
+                  {tierBenefits('institutional').map((benefit, i) => (
                     <div key={i} className="flex gap-4 items-start">
                       <CheckCircle2 size={18} className="text-brand-gold/70 shrink-0 mt-0.5" />
                       <span className="text-white/70 font-normal text-sm">{benefit}</span>
