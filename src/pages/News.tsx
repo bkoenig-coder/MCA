@@ -80,9 +80,9 @@ export default function News() {
           <div aria-hidden="true" className="border-t border-slate-900" />
 
           <div className="text-center py-4 md:py-5">
-            <h1 className="font-serif font-semibold text-3xl sm:text-4xl lg:text-5xl tracking-tight uppercase text-slate-900 leading-none">
+            <p className="font-serif font-semibold text-3xl sm:text-4xl lg:text-5xl tracking-tight uppercase text-slate-900 leading-none">
               The MCA Gazette
-            </h1>
+            </p>
             <p className="mt-2 font-serif italic text-sm text-slate-600">{t('news.tagline')}</p>
           </div>
 
@@ -129,7 +129,7 @@ export default function News() {
                       {count > 0 && <span>+{count} {count === 1 ? 'photo' : 'photos'}</span>}
                     </p>
                     <p className="mt-5 font-serif text-base md:text-lg text-slate-700 leading-relaxed line-clamp-5">{plain(dContent)}</p>
-                    <Link to={linkUrl} className="mt-6 inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] font-semibold text-slate-900 hover:text-brand-blue transition-colors group">
+                    <Link to={linkUrl} className="mt-4 py-2 inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] font-semibold text-slate-900 hover:text-brand-blue transition-colors group">
                       {t('news.readMore')} <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </div>
@@ -151,7 +151,7 @@ export default function News() {
                       <article key={post.id} className="flex flex-col group">
                         <Link to={linkUrl} className="block mb-4">
                           <div className="aspect-[16/10] overflow-hidden bg-slate-100 border border-slate-300">
-                            <img src={post.imageUrl} alt={dTitle} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
+                            <img loading="lazy" decoding="async" src={post.imageUrl} alt={dTitle} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
                           </div>
                         </Link>
                         <p className="text-xs uppercase tracking-[0.14em] font-semibold text-slate-500 mb-2">
@@ -161,7 +161,7 @@ export default function News() {
                           <h3 className="font-serif text-xl md:text-2xl font-bold text-slate-900 leading-snug group-hover:text-[#0066B3] transition-colors line-clamp-3">{dTitle}</h3>
                         </Link>
                         <p className="mt-3 font-serif text-sm md:text-base text-slate-700 leading-relaxed line-clamp-3 flex-1">{plain(dContent)}</p>
-                        <Link to={linkUrl} className="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] font-semibold text-slate-900 hover:text-brand-blue transition-colors">
+                        <Link to={linkUrl} className="mt-2 py-2 inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] font-semibold text-slate-900 hover:text-brand-blue transition-colors">
                           {t('news.readMore')} <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
                         </Link>
                       </article>

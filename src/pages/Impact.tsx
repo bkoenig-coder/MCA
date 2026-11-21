@@ -313,7 +313,7 @@ export default function Impact() {
               >
                 <div>
                   <div className="aspect-[16/10] rounded-[24px] overflow-hidden mb-6 relative bg-slate-900 border border-slate-200">
-                    <img 
+                    <img loading="lazy" decoding="async" 
                       src={item.image} 
                       alt={item.title} 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"

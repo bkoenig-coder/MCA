@@ -252,7 +252,7 @@ export default function GalleryDetails() {
                     {galleryPlates.map((imgUrl: string, gIdx: number) => (
                       <div key={gIdx} className="border border-brand-ink/10 p-2 bg-white rounded-lg shadow-sm group hover:border-brand-gold transition-colors">
                         <div className="aspect-[4/3] overflow-hidden bg-slate-900 rounded">
-                          <img 
+                          <img loading="lazy" decoding="async" 
                             src={imgUrl} 
                             alt={t("pagesMisc.gallery.plateAlt", { title: dTitle, n: gIdx + 1 })} 
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 

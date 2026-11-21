@@ -90,7 +90,7 @@ export default function Gallery() {
                   >
                     <Link to={`/gallery/${art.id}`}>
                       <div className="aspect-[16/10] rounded-2xl md:rounded-[2rem] overflow-hidden shadow-lg relative">
-                        <img 
+                        <img loading="lazy" decoding="async" 
                           src={art.imageUrl} 
                           alt={dTitle} 
                           className="w-full h-full object-cover bg-brand-paper/20 transition-transform duration-500 group-hover:scale-105"

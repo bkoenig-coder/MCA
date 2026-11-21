@@ -264,7 +264,7 @@ export default function Events() {
                     >
                       {/* Image Section */}
                       <div className="md:w-[40%] relative overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[350px]">
-                        <img 
+                        <img loading="lazy" decoding="async" 
                           src={event.imageUrl} 
                           alt={dTitle} 
                           className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
@@ -371,7 +371,7 @@ export default function Events() {
                       >
                         {/* Image Section */}
                         <div className="md:w-[40%] relative overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[350px] grayscale-[30%]">
-                          <img 
+                          <img loading="lazy" decoding="async" 
                             src={event.imageUrl} 
                             alt={dTitle} 
                             className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"

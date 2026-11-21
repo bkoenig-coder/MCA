@@ -407,7 +407,7 @@ export default function NewsDetails() {
                           : "border-transparent opacity-60 hover:opacity-100"
                       }`}
                     >
-                      <img
+                      <img loading="lazy" decoding="async"
                         src={photoUrl}
                         alt={t("pagesMisc.newsDetails.thumb", { n: idx + 1 })}
                         className="w-full h-full object-cover"
@@ -683,7 +683,7 @@ export default function NewsDetails() {
                           : "border-transparent opacity-50 hover:opacity-100"
                       }`}
                     >
-                      <img
+                      <img loading="lazy" decoding="async"
                         src={photoUrl}
                         alt={t("pagesMisc.newsDetails.thumb", { n: idx + 1 })}
                         className="w-full h-full object-cover"

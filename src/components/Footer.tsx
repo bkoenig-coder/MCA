@@ -69,7 +69,7 @@ export default function Footer() {
           {/* Brand Column */}
           <motion.div variants={itemVariants} className="md:col-span-12 lg:col-span-5 flex flex-col">
             <Link to="/" aria-label={t('nav.home')} className="mb-8 group inline-block w-max">
-              <img src={mcaLogoWide} alt={t('siteUi.org.name')} className="h-16 md:h-20 w-auto object-contain transition-transform duration-500 group-hover:scale-105" />
+              <img loading="lazy" decoding="async" src={mcaLogoWide} alt={t('siteUi.org.name')} className="h-16 md:h-20 w-auto object-contain transition-transform duration-500 group-hover:scale-105" />
             </Link>
             <p className="text-sm md:text-base text-brand-ink/70 font-light leading-relaxed max-w-sm mb-10">
               {t('footer.desc')}
@@ -93,49 +93,49 @@ export default function Footer() {
           <div className="hidden lg:block lg:col-span-1"></div>
 
           {/* Links Group */}
-          <div className="col-span-1 md:col-span-12 lg:col-span-6 grid grid-cols-3 gap-3 md:gap-8 overflow-hidden">
+          <div className="col-span-1 md:col-span-12 lg:col-span-6 grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-10 sm:gap-3 md:gap-8 overflow-hidden">
             {/* Links: Navigate */}
             <motion.div variants={itemVariants} className="flex flex-col">
-              <h4 className="text-[8px] sm:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-brand-gold mb-6 md:mb-8 break-words">{t('footer.navTitle')}</h4>
-              <ul className="space-y-4 text-xs md:text-sm text-brand-ink/60 font-light flex flex-col">
-                <li><Link to="/about" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.about')}</Link></li>
-                <li><Link to="/events" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.events')}</Link></li>
-                <li><Link to="/gallery" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.gallery')}</Link></li>
-                <li><Link to="/impact" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.impact')}</Link></li>
-                <li><Link to="/partners" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('partnersPage.navLabel')}</Link></li>
-                <li><Link to="/game" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('heritagePage.game.title')}</Link></li>
-                <li><Link to="/news" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.news')}</Link></li>
-                <li><Link to="/careers" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('nav.careers')}</Link></li>
+              <h4 className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] md:tracking-[0.3em] font-bold text-brand-gold mb-5 md:mb-8 break-words">{t('footer.navTitle')}</h4>
+              <ul className="text-xs md:text-sm text-brand-ink/60 font-light flex flex-col">
+                <li><Link to="/about" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2">{t('nav.about')}</Link></li>
+                <li><Link to="/events" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2">{t('nav.events')}</Link></li>
+                <li><Link to="/gallery" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2">{t('nav.gallery')}</Link></li>
+                <li><Link to="/impact" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2">{t('nav.impact')}</Link></li>
+                <li><Link to="/partners" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2">{t('partnersPage.navLabel')}</Link></li>
+                <li><Link to="/game" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2">{t('heritagePage.game.title')}</Link></li>
+                <li><Link to="/news" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2">{t('nav.news')}</Link></li>
+                <li><Link to="/careers" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2">{t('nav.careers')}</Link></li>
               </ul>
             </motion.div>
 
             {/* Links: Legal */}
             <motion.div variants={itemVariants} className="flex flex-col">
-              <h4 className="text-[8px] sm:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-brand-gold mb-6 md:mb-8 break-words">{t('footer.legalTitle')}</h4>
-              <ul className="space-y-4 text-xs md:text-sm text-brand-ink/60 font-light flex flex-col">
-                <li><Link to="/privacy" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block text-balance">{t('footer.privacy')}</Link></li>
-                <li><Link to="/terms" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block text-balance">{t('footer.terms')}</Link></li>
-                <li><Link to="/imprint" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block">{t('footer.imprint')}</Link></li>
-                <li><Link to="/governance" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block text-balance">{t('footer.governance')}</Link></li>
+              <h4 className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] md:tracking-[0.3em] font-bold text-brand-gold mb-5 md:mb-8 break-words">{t('footer.legalTitle')}</h4>
+              <ul className="text-xs md:text-sm text-brand-ink/60 font-light flex flex-col">
+                <li><Link to="/privacy" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2 text-balance">{t('footer.privacy')}</Link></li>
+                <li><Link to="/terms" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2 text-balance">{t('footer.terms')}</Link></li>
+                <li><Link to="/imprint" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2">{t('footer.imprint')}</Link></li>
+                <li><Link to="/governance" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2 text-balance">{t('footer.governance')}</Link></li>
               </ul>
             </motion.div>
 
             {/* Links: Contact */}
-            <motion.div variants={itemVariants} className="flex flex-col">
-              <h4 className="text-[8px] sm:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-brand-gold mb-6 md:mb-8 break-words">{t('nav.contact')}</h4>
-              <ul className="space-y-5 text-[10px] md:text-sm text-brand-ink/60 font-light flex flex-col">
+            <motion.div variants={itemVariants} className="flex flex-col col-span-2 sm:col-span-1">
+              <h4 className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] md:tracking-[0.3em] font-bold text-brand-gold mb-5 md:mb-8 break-words">{t('nav.contact')}</h4>
+              <ul className="space-y-5 text-sm sm:text-[11px] md:text-sm text-brand-ink/60 font-light flex flex-col">
                 <li className="flex items-start gap-2 sm:gap-4">
-                  <MapPin className="text-brand-gold mt-0.5 shrink-0 w-3 h-3 sm:w-[18px] sm:h-[18px]" />
+                  <MapPin className="text-brand-gold mt-0.5 shrink-0 w-[18px] h-[18px]" />
                   <address className="not-italic leading-tight sm:leading-relaxed break-words">
                     Schöpfleuthergasse 25<br />1210 {t('contact.info.vienna')}
                   </address>
                 </li>
                 <li className="flex items-center gap-2 sm:gap-4 break-all">
-                  <Phone className="text-brand-gold shrink-0 w-3 h-3 sm:w-[18px] sm:h-[18px]" />
-                  <span>+4367761160389</span>
+                  <Phone className="text-brand-gold shrink-0 w-[18px] h-[18px]" />
+                  <a href="tel:+4367761160389" className="hover:text-brand-gold transition-colors">+4367761160389</a>
                 </li>
                 <li className="flex items-center gap-2 sm:gap-4 break-all">
-                  <Mail className="text-brand-gold shrink-0 w-3 h-3 sm:w-[18px] sm:h-[18px]" />
+                  <Mail className="text-brand-gold shrink-0 w-[18px] h-[18px]" />
                   <a href="mailto:info@mongoliancenter.org" className="hover:text-brand-gold transition-colors break-words">info@mongoliancenter.org</a>
                 </li>
               </ul>
@@ -151,16 +151,16 @@ export default function Footer() {
           transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className="w-full border-t border-brand-ink/10 pt-8 mt-auto flex flex-col md:flex-row justify-between items-center gap-6"
         >
-          <div className="text-[9px] uppercase font-bold tracking-[0.3em] text-brand-ink/40 flex items-center gap-3">
+          <div className="text-[10px] uppercase font-bold tracking-[0.25em] text-brand-ink/50 flex items-center gap-3">
              {t('footer.copyright')}
              <Link to="/diorama" className="inline-block w-1.5 h-1.5 rounded-full bg-brand-gold/30 hover:bg-brand-gold transition-colors" title={t('siteUi.footer.discoverSteppe')} />
           </div>
           
-          <p className="text-[10px] text-brand-ink/50 text-center md:text-left max-w-xl leading-relaxed">
+          <p className="text-[11px] text-brand-ink/60 text-center md:text-left max-w-xl leading-relaxed">
             {t('siteUi.footer.legalNote')}
           </p>
 
-          <div className="flex gap-8 md:gap-12 text-[9px] uppercase font-bold tracking-[0.3em] text-brand-ink/40">
+          <div className="flex gap-8 md:gap-12 text-[10px] uppercase font-bold tracking-[0.25em] text-brand-ink/50">
             <span className="flex items-center gap-2 italic">
               <div className="w-1.5 h-1.5 bg-brand-gold rounded-full" />
               {t('footer.vienna')}

@@ -235,7 +235,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <MeanderBand className="absolute bottom-0 left-0 right-0 z-20 bg-brand-gold/50" />
+        <MeanderBand tone="dark" className="absolute bottom-0 left-0 right-0 z-20" />
       </section>
 
       {/* Bridge: Ulaanbaatar to Vienna */}
@@ -399,7 +399,7 @@ export default function Home() {
       {news.length > 0 && (<>
       <SectionSeam />
       {/* Featured News Carousel */}
-      <section className="py-16 md:py-24 bg-white relative overflow-hidden">
+      <section className="py-12 md:py-24 bg-white relative overflow-hidden">
         <CloudDrift variant="b" className="top-8 right-[4%] w-36 md:w-60 opacity-[0.2]" delay={2} duration={30} />
         <div className="max-w-7xl mx-auto px-6 lg:px-8 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 relative z-10">
           <div>
@@ -421,7 +421,7 @@ export default function Home() {
             </h2>
           </div>
           <div className="flex gap-4 sm:gap-6">
-            <Link to="/news" className="text-[11px] md:text-xs uppercase tracking-[0.2em] font-bold text-brand-ink hover:text-brand-blue transition-colors flex items-center gap-2 border-b border-brand-ink/10 pb-1">{t('news.allNews')} <ArrowRight size={12}/></Link>
+            <Link to="/news" className="relative text-[11px] md:text-xs uppercase tracking-[0.2em] font-bold text-brand-ink hover:text-brand-blue transition-colors flex items-center gap-2 border-b border-brand-ink/10 pb-1 after:content-[''] after:absolute after:inset-x-0 after:-inset-y-3">{t('news.allNews')} <ArrowRight size={12}/></Link>
           </div>
         </div>
 
@@ -479,7 +479,7 @@ export default function Home() {
       {gallery.length > 0 && (<>
       <SectionSeam />
       {/* Featured Gallery Carousel */}
-      <section className="py-16 md:py-24 bg-white relative overflow-hidden">
+      <section className="py-12 md:py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 relative z-10">
           <div>
             <div className="flex items-center gap-4 mb-3">
@@ -500,7 +500,7 @@ export default function Home() {
             </h2>
           </div>
           <div className="flex gap-4 sm:gap-6">
-              <Link to="/gallery" className="text-[11px] md:text-xs uppercase tracking-[0.2em] font-bold text-brand-ink hover:text-brand-blue transition-colors flex items-center gap-2 border-b border-brand-ink/10 pb-1">{t('gallery.allGallery')} <ArrowRight size={12}/></Link>
+              <Link to="/gallery" className="relative text-[11px] md:text-xs uppercase tracking-[0.2em] font-bold text-brand-ink hover:text-brand-blue transition-colors flex items-center gap-2 border-b border-brand-ink/10 pb-1 after:content-[''] after:absolute after:inset-x-0 after:-inset-y-3">{t('gallery.allGallery')} <ArrowRight size={12}/></Link>
           </div>
         </div>
 
@@ -565,7 +565,7 @@ export default function Home() {
         <>
         <SectionSeam />
         {/* Featured Events Preview - Dynamic List */}
-        <section className="py-16 md:py-24 bg-white relative overflow-hidden">
+        <section className="py-12 md:py-24 bg-white relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
               <div>
@@ -577,7 +577,7 @@ export default function Home() {
                   {t('highlight.title')} <span className="italic text-brand-gold">{t('highlight.titleItalic')}</span>
                 </h2>
               </div>
-              <Link to="/events" className="text-[11px] md:text-xs uppercase tracking-[0.2em] font-bold text-brand-ink hover:text-brand-blue transition-colors flex items-center gap-2 border-b border-brand-ink/10 pb-1">
+              <Link to="/events" className="relative text-[11px] md:text-xs uppercase tracking-[0.2em] font-bold text-brand-ink hover:text-brand-blue transition-colors flex items-center gap-2 border-b border-brand-ink/10 pb-1 after:content-[''] after:absolute after:inset-x-0 after:-inset-y-3">
                 {t('highlight.cta')} <ArrowRight size={14} />
               </Link>
             </div>
@@ -660,7 +660,7 @@ export default function Home() {
 
       <SectionSeam />
       {/* Pillars Section - Redesigned for Prestige & Impact */}
-      <section className="py-16 md:py-24 bg-white relative overflow-hidden">
+      <section className="py-12 md:py-24 bg-white relative overflow-hidden">
         <CloudDrift variant="a" className="bottom-10 left-[3%] w-36 md:w-64 opacity-[0.2]" duration={26} />
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <motion.div 
@@ -737,7 +737,7 @@ export default function Home() {
 
       <SectionSeam />
       {/* Key Metrics / Impact Section */}
-      <section className="py-16 md:py-24 bg-white border-y border-brand-ink/5 relative overflow-hidden">
+      <section className="py-12 md:py-24 bg-white border-y border-brand-ink/5 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
             {[
@@ -771,7 +771,7 @@ export default function Home() {
 
       <SectionSeam />
       {/* Impact CTA - Immersive & Urgent */}
-      <section className="py-16 md:py-24 bg-white relative overflow-hidden">
+      <section className="py-12 md:py-24 bg-white relative overflow-hidden">
         {/* Subtle Background Accents */}
         
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
@@ -875,8 +875,8 @@ export default function Home() {
 {/* Partnership invitation */}
       <section className="relative overflow-hidden bg-[#0A1128] text-white py-20 md:py-28">
         {/* Gold frame and meander borders */}
-        <MeanderBand className="absolute top-0 inset-x-0 bg-brand-gold/40" />
-        <MeanderBand className="absolute bottom-0 inset-x-0 bg-brand-gold/40" />
+        <MeanderBand tone="dark" className="absolute top-0 inset-x-0" />
+        <MeanderBand tone="dark" className="absolute bottom-0 inset-x-0" />
         <div aria-hidden="true" className="absolute inset-x-4 md:inset-x-10 top-8 bottom-8 border border-brand-gold/25 pointer-events-none" />
 
         <div className="max-w-6xl mx-auto px-6 lg:px-8 relative z-10">

@@ -12,7 +12,7 @@ import CarpetIntro from './components/CarpetIntro';
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import SEO from './components/SEO';
 import { UlziiSymbol } from './components/MongolianDesign';
-import { motion } from 'motion/react';
+import { motion, MotionConfig } from 'motion/react';
 
 // Lazy loaded page components for optimal bundle splitting
 const Home = lazy(() => import('./pages/Home'));
@@ -87,6 +87,8 @@ function ScrollToTop() {
 export default function App() {
   return (
     <ErrorBoundary>
+      {/* Visitors who ask their device for less motion get fades instead of sliding/scaling animations */}
+      <MotionConfig reducedMotion="user">
       <AuthProvider>
         <Router>
           <SEO />
@@ -141,6 +143,7 @@ export default function App() {
           </div>
         </Router>
       </AuthProvider>
+      </MotionConfig>
     </ErrorBoundary>
   );
 }

@@ -105,6 +105,8 @@ export default function CarpetIntro() {
   // Shown once per visit: coming back to another page or reloading goes straight to the site
   const [isVisible, setIsVisible] = useState(() => {
     try {
+      // Visitors who asked for less motion skip the sliding-carpet opening and go straight to the site
+      if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return false;
       return sessionStorage.getItem('mca-intro-seen') !== '1';
     } catch {
       return true;

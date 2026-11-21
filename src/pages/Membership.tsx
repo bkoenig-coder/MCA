@@ -220,7 +220,7 @@ export default function Membership() {
               {/* Card Image Header */}
               <div className="relative w-full h-56 md:h-64 overflow-hidden rounded-t-[40px]">
                 <div className="absolute inset-0 bg-brand-ink/40 group-hover:bg-brand-ink/10 transition-colors duration-500 z-10" />
-                <img 
+                <img loading="lazy" decoding="async" 
                   src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop" 
                   alt={t('membershipPage.tiers.student.name')}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
@@ -273,8 +273,8 @@ export default function Membership() {
               {/* Card Image Header */}
               <div className="relative w-full h-56 md:h-64 overflow-hidden rounded-t-[40px] z-10">
                 <div className="absolute inset-0 bg-brand-ink/30 group-hover:bg-transparent transition-colors duration-500 z-10 mix-blend-multiply" />
-                <img 
-                  src="https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                <img loading="lazy" decoding="async" 
+                  src="https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
                   alt={t('membershipPage.tiers.professional.name')}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale-[30%] group-hover:grayscale-0" 
                 />
@@ -319,8 +319,8 @@ export default function Membership() {
               {/* Card Image Header */}
               <div className="relative w-full h-56 md:h-64 overflow-hidden rounded-t-[40px]">
                 <div className="absolute inset-0 bg-brand-ink/40 group-hover:bg-brand-ink/10 transition-colors duration-500 z-10" />
-                <img 
-                  src="https://images.unsplash.com/photo-1571645163064-77faa9676a46?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                <img loading="lazy" decoding="async" 
+                  src="https://images.unsplash.com/photo-1571645163064-77faa9676a46?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
                   alt={t('membershipPage.tiers.institutional.name')}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                 />
@@ -396,7 +396,7 @@ export default function Membership() {
                   title={partner.name}
                   className="flex items-center justify-center w-40 md:w-56 h-24 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-500 cursor-pointer"
                 >
-                  <img src={partner.logo} alt={partner.name} className="max-w-full max-h-full object-contain" />
+                  <img loading="lazy" decoding="async" src={partner.logo} alt={partner.name} className="max-w-full max-h-full object-contain" />
                 </a>
               ))}
               {/* Duplicate set for seamless loop */}
@@ -409,7 +409,7 @@ export default function Membership() {
                   title={partner.name}
                   className="flex items-center justify-center w-40 md:w-56 h-24 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-500 cursor-pointer"
                 >
-                  <img src={partner.logo} alt={partner.name} className="max-w-full max-h-full object-contain" />
+                  <img loading="lazy" decoding="async" src={partner.logo} alt={partner.name} className="max-w-full max-h-full object-contain" />
                 </a>
               ))}
               {/* Triple set to ensure no empty space on large screens */}
@@ -422,7 +422,7 @@ export default function Membership() {
                   title={partner.name}
                   className="flex items-center justify-center w-40 md:w-56 h-24 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-500 cursor-pointer"
                 >
-                  <img src={partner.logo} alt={partner.name} className="max-w-full max-h-full object-contain" />
+                  <img loading="lazy" decoding="async" src={partner.logo} alt={partner.name} className="max-w-full max-h-full object-contain" />
                 </a>
               ))}
             </motion.div>

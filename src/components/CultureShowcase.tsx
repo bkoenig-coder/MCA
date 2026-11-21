@@ -80,7 +80,7 @@ export default function CultureShowcase() {
           <motion.div {...reveal(0.12)} className="group relative overflow-hidden rounded-3xl md:col-span-2 min-h-[340px] bg-[linear-gradient(155deg,#16295a_0%,#0A1128_65%)] shadow-[0_30px_70px_-30px_rgba(10,17,40,0.65)] hover:shadow-[0_40px_80px_-30px_rgba(212,175,55,0.45)] transition-shadow duration-500">
             <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_28%_55%,rgba(212,175,55,0.22),transparent_62%)]" />
             <UlziiSymbol className="absolute -right-10 -bottom-10 w-56 h-56 text-brand-gold/[0.07] rotate-12" />
-            <MeanderBand className="absolute top-0 left-0 right-0 bg-brand-gold/30" />
+            <MeanderBand tone="dark" className="absolute top-0 left-0 right-0" />
             <Frame />
             <Numeral n="02" />
             <div className="relative h-full flex items-center gap-6 md:gap-8 px-9 md:px-10 pt-16 pb-8">

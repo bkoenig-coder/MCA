@@ -222,13 +222,22 @@ export const MongolianKhasDivider = ({ className = "my-12" }: { className?: stri
 );
 
 
+type BandTone = 'light' | 'dark' | 'ghost';
+
 /**
- * Repeating key/meander band inspired by traditional Mongolian ornamental borders.
- * Drawn with a CSS mask so its colour follows `text-*` / `bg-*` classes (default: brand gold).
+ * Woven trim band in the spirit of traditional Mongolian borders: a ribbon of ulzii lozenges.
+ *  - 'light' (default): ivory ribbon with navy thread, for white and cream sections.
+ *  - 'dark': navy ribbon with cream thread, for navy sections and photos.
+ *  - 'ghost': the lozenge chain drawn with a CSS mask, so its colour follows `bg-*` classes (faint watermarks).
+ * The two ribbons carry their own colours, so any `bg-*` class passed in is ignored for them.
  */
-export const MeanderBand = ({ className = "" }: { className?: string }) => (
-  <div aria-hidden="true" className={`meander-band h-3 w-full ${className.includes("bg-") ? "" : "bg-brand-gold/60"} ${className}`} />
-);
+export const MeanderBand = ({ className = "", tone = 'light' }: { className?: string; tone?: BandTone }) => {
+  if (tone === 'ghost') {
+    return <div aria-hidden="true" className={`meander-band h-3 w-full ${className.includes("bg-") ? "" : "bg-brand-gold/60"} ${className}`} />;
+  }
+  const rest = className.split(/\s+/).filter((c) => c && !c.startsWith('bg-')).join(' ');
+  return <div aria-hidden="true" className={`khee-band khee-band--${tone} h-3 w-full ${rest}`} />;
+};
 
 /** Small diamond + line used in front of section eyebrows; the line draws in on scroll. */
 export const EyebrowMark = ({ className = "" }: { className?: string }) => (

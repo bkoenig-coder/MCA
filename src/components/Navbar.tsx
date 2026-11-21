@@ -173,7 +173,7 @@ export default function Navbar() {
         scrolled ? "h-0 opacity-0 pointer-events-none overflow-hidden" : "hidden sm:flex h-11 items-center"
       )}>
         <span aria-hidden="true" className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-brand-gold/70 to-transparent" />
-        <MeanderBand className="absolute inset-x-0 top-1/2 -translate-y-1/2 bg-white/[0.04] pointer-events-none" />
+        <MeanderBand tone="ghost" className="absolute inset-x-0 top-1/2 -translate-y-1/2 bg-white/[0.04] pointer-events-none" />
         <div className="max-w-[1600px] w-full mx-auto px-4 md:px-10 2xl:px-16 grid grid-cols-[1fr_auto_1fr] items-center h-full text-[11px] uppercase tracking-[0.18em] font-sans font-bold select-none min-w-0 relative">
           <div aria-hidden="true" />
 
@@ -377,14 +377,14 @@ export default function Navbar() {
                 i18n.changeLanguage(nextLang.code);
               }}
               aria-label={t('siteUi.nav.switchLanguage')}
-              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border flex items-center justify-center text-xs sm:text-sm transition-all duration-300 bg-brand-paper hover:bg-white text-brand-ink border-brand-ink/10 shadow-sm active:scale-90"
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border flex items-center justify-center text-xs sm:text-sm transition-all duration-300 bg-brand-paper hover:bg-white text-brand-ink border-brand-ink/10 shadow-sm active:scale-90"
             >
               <currentLang.Flag className="w-5 h-auto rounded-[2px] shadow-sm" aria-hidden="true" />
             </button>
 
             {/* Profile Avatar Trigger */}
             {user && (
-              <Link to="/profile" aria-label={t('siteUi.nav.viewProfile')} className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-[#C5A059]/30 p-0.5 bg-white flex items-center justify-center shadow-sm">
+              <Link to="/profile" aria-label={t('siteUi.nav.viewProfile')} className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-[#C5A059]/30 p-0.5 bg-white flex items-center justify-center shadow-sm">
                 {user.photoURL ? (
                   <img src={user.photoURL} alt="" className="w-full h-full rounded-full object-cover" />
                 ) : (
@@ -395,7 +395,7 @@ export default function Navbar() {
 
             {/* Burger Trigger */}
             <button 
-              className="p-2 sm:p-2.5 transition-all duration-300 text-white rounded bg-[#0A1128] hover:bg-neutral-800 active:scale-95 flex items-center justify-center shadow-sm"
+              className="w-10 h-10 sm:w-11 sm:h-11 transition-all duration-300 text-white rounded bg-[#0A1128] hover:bg-neutral-800 active:scale-95 flex items-center justify-center shadow-sm"
               onClick={() => setIsOpen(!isOpen)}
               aria-label={isOpen ? t('siteUi.nav.closeMenu') : t('siteUi.nav.openMenu')}
             >
@@ -450,7 +450,7 @@ export default function Navbar() {
                 </div>
               </div>
 
-              <MeanderBand className="shrink-0 bg-brand-gold/40" />
+              <MeanderBand tone="dark" className="shrink-0" />
 
               {/* Background Cultural Emblem Accent */}
               <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-20 flex items-center justify-center">
