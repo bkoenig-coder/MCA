@@ -251,20 +251,15 @@ export const EyebrowMark = ({ className = "" }: { className?: string }) => (
 );
 
 /**
- * Full-width meander ornament that sits on the seam between two page sections.
+ * Full-width carpet-border divider that sits on the seam between two page sections.
  * Zero height, so it never changes the layout, and it overlaps both neighbouring sections.
+ * It is always there and does not animate while people scroll.
  */
 export const SectionSeam = () => (
   <div aria-hidden="true" className="relative h-0 z-30 pointer-events-none">
-    <motion.div
-      className="absolute left-0 right-0 top-0 -translate-y-1/2"
-      initial={{ opacity: 0, scaleX: 0.85 }}
-      whileInView={{ opacity: 1, scaleX: 1 }}
-      viewport={{ once: true, margin: "0px 0px -20% 0px" }}
-      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <MeanderBand className="bg-brand-gold/50" />
-    </motion.div>
+    <div className="absolute left-0 right-0 top-0 -translate-y-1/2">
+      <MeanderBand />
+    </div>
   </div>
 );
 
