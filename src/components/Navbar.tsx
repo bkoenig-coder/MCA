@@ -534,7 +534,7 @@ export default function Navbar() {
                 </div>
               </div>
 
-              <MeanderBand tone="dark" className="shrink-0" />
+              <MeanderBand className="shrink-0" />
 
               {/* Background Cultural Emblem Accent */}
               <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-20 flex items-center justify-center">

@@ -202,27 +202,20 @@ a[class*="rounded"]:active {
 }
 
 /*
- * Woven trim band: a ribbon of lozenges (ulzii) in navy thread on ivory, with a vermilion heart in each,
- * edged with stitching. Reads like real appliqué trim on white; the dark colourway is for navy sections.
- * Tile is 24x16, shown at 18x12 so it matches the 12px band height.
+ * Section divider, in the design of the opening carpet: crimson edges, saffron and indigo pin stripes, and a band of
+ * woven lozenges (ivory ground, indigo diamond, crimson heart, saffron beads). The tile is 12px wide and 20px tall.
+ * It carries its own colours, so it sits on white, cream and navy alike; the fine lines on top are the warp and weft.
  */
 .khee-band {
-  background-repeat: repeat-x, repeat-x;
-  background-size: 18px 12px, 3px 12px;
-  background-position: left center, left center;
-  box-shadow: 0 1px 2px rgba(10, 17, 40, 0.14);
-}
-.khee-band--light {
-  background-color: #f3ebd8;
+  background-color: #F1E6CC;
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='16' viewBox='0 0 24 16'%3E%3Cpath d='M0 .5H24M0 15.5H24' stroke='%230A2A5C' stroke-width='1' stroke-opacity='.85' fill='none'/%3E%3Cpath d='M0 2.8H24M0 13.2H24' stroke='%230A2A5C' stroke-width='.6' stroke-opacity='.5' stroke-dasharray='2 1' fill='none'/%3E%3Cpath d='M0 8L6 4.8L12 8L18 11.2L24 8M0 8L6 11.2L12 8L18 4.8L24 8' stroke='%230A2A5C' stroke-width='1.2' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M6 6.1L7.9 8L6 9.9L4.1 8ZM18 6.1L19.9 8L18 9.9L16.1 8Z' fill='%23B83A2B'/%3E%3C/svg%3E"),
-    repeating-linear-gradient(90deg, rgba(10, 42, 92, 0.05) 0 1px, transparent 1px 3px);
-}
-.khee-band--dark {
-  background-color: #0c2f66;
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='16' viewBox='0 0 24 16'%3E%3Cpath d='M0 .5H24M0 15.5H24' stroke='%23EADFBE' stroke-width='1' stroke-opacity='.8' fill='none'/%3E%3Cpath d='M0 2.8H24M0 13.2H24' stroke='%23EADFBE' stroke-width='.6' stroke-opacity='.5' stroke-dasharray='2 1' fill='none'/%3E%3Cpath d='M0 8L6 4.8L12 8L18 11.2L24 8M0 8L6 11.2L12 8L18 4.8L24 8' stroke='%23F2E8C8' stroke-width='1.2' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M6 6.1L7.9 8L6 9.9L4.1 8ZM18 6.1L19.9 8L18 9.9L16.1 8Z' fill='%23D2503C'/%3E%3C/svg%3E"),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 3px);
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.08) 0 1px, transparent 1px 3px),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'12'%20height%3D'20'%20viewBox%3D'0%200%2012%2020'%3E%3Crect%20width%3D'12'%20height%3D'2'%20fill%3D'%23A3202D'%2F%3E%3Crect%20y%3D'2'%20width%3D'12'%20height%3D'1'%20fill%3D'%23E0A92E'%2F%3E%3Crect%20y%3D'3'%20width%3D'12'%20height%3D'1'%20fill%3D'%230B1636'%2F%3E%3Crect%20y%3D'4'%20width%3D'12'%20height%3D'12'%20fill%3D'%23F1E6CC'%2F%3E%3Cpath%20d%3D'M6%204.92L11.08%2010L6%2015.08L.92%2010Z'%20fill%3D'none'%20stroke%3D'%230B1636'%20stroke-width%3D'1'%2F%3E%3Cpath%20d%3D'M6%207.69L8.31%2010L6%2012.31L3.69%2010Z'%20fill%3D'%23A3202D'%2F%3E%3Ccircle%20cx%3D'0'%20cy%3D'10'%20r%3D'.95'%20fill%3D'%23E0A92E'%2F%3E%3Ccircle%20cx%3D'12'%20cy%3D'10'%20r%3D'.95'%20fill%3D'%23E0A92E'%2F%3E%3Crect%20y%3D'16'%20width%3D'12'%20height%3D'1'%20fill%3D'%230B1636'%2F%3E%3Crect%20y%3D'17'%20width%3D'12'%20height%3D'1'%20fill%3D'%23E0A92E'%2F%3E%3Crect%20y%3D'18'%20width%3D'12'%20height%3D'2'%20fill%3D'%23A3202D'%2F%3E%3C%2Fsvg%3E");
+  background-repeat: repeat, repeat, repeat-x;
+  background-size: auto, auto, 12px 20px;
+  background-position: 0 0, 0 0, left center;
+  box-shadow: 0 0 0 1px rgba(2, 20, 48, 0.5), 0 2px 6px rgba(10, 17, 40, 0.22);
 }
 
 /* Gold sheen that sweeps across primary buttons on hover */

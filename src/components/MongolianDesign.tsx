@@ -222,21 +222,18 @@ export const MongolianKhasDivider = ({ className = "my-12" }: { className?: stri
 );
 
 
-type BandTone = 'light' | 'dark' | 'ghost';
-
 /**
- * Woven trim band in the spirit of traditional Mongolian borders: a ribbon of ulzii lozenges.
- *  - 'light' (default): ivory ribbon with navy thread, for white and cream sections.
- *  - 'dark': navy ribbon with cream thread, for navy sections and photos.
- *  - 'ghost': the lozenge chain drawn with a CSS mask, so its colour follows `bg-*` classes (faint watermarks).
- * The two ribbons carry their own colours, so any `bg-*` class passed in is ignored for them.
+ * Section divider in the design of the opening carpet: crimson edges, saffron and indigo pin stripes, and a band of
+ * woven lozenges. It carries its own colours, so it sits on white, cream and navy alike (any `bg-*` class passed in
+ * is ignored). Pass tone="ghost" for the faint one-colour lozenge chain instead, drawn with a CSS mask so its colour
+ * follows the `bg-*` classes (used for the watermark in the top bar).
  */
-export const MeanderBand = ({ className = "", tone = 'light' }: { className?: string; tone?: BandTone }) => {
+export const MeanderBand = ({ className = "", tone }: { className?: string; tone?: 'ghost' }) => {
   if (tone === 'ghost') {
     return <div aria-hidden="true" className={`meander-band h-3 w-full ${className.includes("bg-") ? "" : "bg-brand-gold/60"} ${className}`} />;
   }
   const rest = className.split(/\s+/).filter((c) => c && !c.startsWith('bg-')).join(' ');
-  return <div aria-hidden="true" className={`khee-band khee-band--${tone} h-3 w-full ${rest}`} />;
+  return <div aria-hidden="true" className={`khee-band h-5 w-full ${rest}`} />;
 };
 
 /** Small diamond + line used in front of section eyebrows; the line draws in on scroll. */

@@ -235,7 +235,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <MeanderBand tone="dark" className="absolute bottom-0 left-0 right-0 z-20" />
+        <MeanderBand className="absolute bottom-0 left-0 right-0 z-20" />
       </section>
 
       {/* Bridge: Ulaanbaatar to Vienna */}
@@ -875,8 +875,8 @@ export default function Home() {
 {/* Partnership invitation */}
       <section className="relative overflow-hidden bg-[#0A1128] text-white py-14 md:py-28">
         {/* Gold frame and meander borders */}
-        <MeanderBand tone="dark" className="absolute top-0 inset-x-0" />
-        <MeanderBand tone="dark" className="absolute bottom-0 inset-x-0" />
+        <MeanderBand className="absolute top-0 inset-x-0" />
+        <MeanderBand className="absolute bottom-0 inset-x-0" />
         <div aria-hidden="true" className="absolute inset-x-4 md:inset-x-10 top-8 bottom-8 border border-brand-gold/25 pointer-events-none" />
 
         <div className="max-w-6xl mx-auto px-6 lg:px-8 relative z-10">
