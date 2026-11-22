@@ -223,9 +223,9 @@ export const MongolianKhasDivider = ({ className = "my-12" }: { className?: stri
 
 
 /**
- * Section divider in the design of the opening carpet: crimson edges, saffron and indigo pin stripes, and a band of
- * woven lozenges. It carries its own colours, so it sits on white, cream and navy alike (any `bg-*` class passed in
- * is ignored). Pass tone="ghost" for the faint one-colour lozenge chain instead, drawn with a CSS mask so its colour
+ * Section divider: a framed frieze in the logo's blue, white and red (white hooked meander on blue, between white pin
+ * lines and red edges). It carries its own colours, so it sits on white, cream and navy alike (any `bg-*` class passed
+ * in is ignored). Pass tone="ghost" for the faint one-colour lozenge chain instead, drawn with a CSS mask so its colour
  * follows the `bg-*` classes (used for the watermark in the top bar).
  */
 export const MeanderBand = ({ className = "", tone }: { className?: string; tone?: 'ghost' }) => {
@@ -233,7 +233,7 @@ export const MeanderBand = ({ className = "", tone }: { className?: string; tone
     return <div aria-hidden="true" className={`meander-band h-3 w-full ${className.includes("bg-") ? "" : "bg-brand-gold/60"} ${className}`} />;
   }
   const rest = className.split(/\s+/).filter((c) => c && !c.startsWith('bg-')).join(' ');
-  return <div aria-hidden="true" className={`khee-band h-5 w-full ${rest}`} />;
+  return <div aria-hidden="true" className={`khee-band h-[18px] w-full ${rest}`} />;
 };
 
 /** Small diamond + line used in front of section eyebrows; the line draws in on scroll. */
@@ -251,7 +251,7 @@ export const EyebrowMark = ({ className = "" }: { className?: string }) => (
 );
 
 /**
- * Full-width carpet-border divider that sits on the seam between two page sections.
+ * Full-width framed-frieze divider that sits on the seam between two page sections.
  * Zero height, so it never changes the layout, and it overlaps both neighbouring sections.
  * It is always there and does not animate while people scroll.
  */

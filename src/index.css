@@ -202,20 +202,21 @@ a[class*="rounded"]:active {
 }
 
 /*
- * Section divider, in the design of the opening carpet: crimson edges, saffron and indigo pin stripes, and a band of
- * woven lozenges (ivory ground, indigo diamond, crimson heart, saffron beads). The tile is 12px wide and 20px tall.
- * It carries its own colours, so it sits on white, cream and navy alike; the fine lines on top are the warp and weft.
+ * Section divider: a framed frieze in the logo's blue, white and red. A band of white hooked meander on blue (the
+ * ornament of the state emblem's ring, without its cross shape) sits between white pin lines and red edges.
+ * The tile is 16px wide and 18px tall and carries its own colours, so it works on white, cream, navy and over photos;
+ * the fine lines on top are warp and weft, as on the opening carpet.
  */
 .khee-band {
-  background-color: #F1E6CC;
+  background-color: #0066B3;
   background-image:
     repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 3px),
     repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.08) 0 1px, transparent 1px 3px),
-    url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'12'%20height%3D'20'%20viewBox%3D'0%200%2012%2020'%3E%3Crect%20width%3D'12'%20height%3D'2'%20fill%3D'%23A3202D'%2F%3E%3Crect%20y%3D'2'%20width%3D'12'%20height%3D'1'%20fill%3D'%23E0A92E'%2F%3E%3Crect%20y%3D'3'%20width%3D'12'%20height%3D'1'%20fill%3D'%230B1636'%2F%3E%3Crect%20y%3D'4'%20width%3D'12'%20height%3D'12'%20fill%3D'%23F1E6CC'%2F%3E%3Cpath%20d%3D'M6%204.92L11.08%2010L6%2015.08L.92%2010Z'%20fill%3D'none'%20stroke%3D'%230B1636'%20stroke-width%3D'1'%2F%3E%3Cpath%20d%3D'M6%207.69L8.31%2010L6%2012.31L3.69%2010Z'%20fill%3D'%23A3202D'%2F%3E%3Ccircle%20cx%3D'0'%20cy%3D'10'%20r%3D'.95'%20fill%3D'%23E0A92E'%2F%3E%3Ccircle%20cx%3D'12'%20cy%3D'10'%20r%3D'.95'%20fill%3D'%23E0A92E'%2F%3E%3Crect%20y%3D'16'%20width%3D'12'%20height%3D'1'%20fill%3D'%230B1636'%2F%3E%3Crect%20y%3D'17'%20width%3D'12'%20height%3D'1'%20fill%3D'%23E0A92E'%2F%3E%3Crect%20y%3D'18'%20width%3D'12'%20height%3D'2'%20fill%3D'%23A3202D'%2F%3E%3C%2Fsvg%3E");
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'16'%20height%3D'18'%20viewBox%3D'0%200%2016%2018'%3E%3Crect%20width%3D'16'%20height%3D'2'%20fill%3D'%23DA2032'%2F%3E%3Crect%20y%3D'2'%20width%3D'16'%20height%3D'1'%20fill%3D'%23FFFFFF'%2F%3E%3Crect%20y%3D'3'%20width%3D'16'%20height%3D'12'%20fill%3D'%230066B3'%2F%3E%3Cg%20transform%3D'translate(0%203)'%3E%3Cpath%20d%3D'M0%2010V2H8V8H4V5M16%202V10H8V4H12V7'%20fill%3D'none'%20stroke%3D'%23FFFFFF'%20stroke-width%3D'2'%2F%3E%3Ccircle%20cx%3D'6'%20cy%3D'5'%20r%3D'.9'%20fill%3D'%23DA2032'%2F%3E%3Ccircle%20cx%3D'10'%20cy%3D'8'%20r%3D'.9'%20fill%3D'%23DA2032'%2F%3E%3C%2Fg%3E%3Crect%20y%3D'15'%20width%3D'16'%20height%3D'1'%20fill%3D'%23FFFFFF'%2F%3E%3Crect%20y%3D'16'%20width%3D'16'%20height%3D'2'%20fill%3D'%23DA2032'%2F%3E%3C%2Fsvg%3E");
   background-repeat: repeat, repeat, repeat-x;
-  background-size: auto, auto, 12px 20px;
+  background-size: auto, auto, 16px 18px;
   background-position: 0 0, 0 0, left center;
-  box-shadow: 0 0 0 1px rgba(2, 20, 48, 0.5), 0 2px 6px rgba(10, 17, 40, 0.22);
+  box-shadow: 0 1px 3px rgba(10, 17, 40, 0.22);
 }
 
 /*
