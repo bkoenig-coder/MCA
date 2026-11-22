@@ -3,55 +3,33 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { SoyomboSymbol, GerSymbol } from './MongolianDesign';
 
-// ---- Mongolian carpet design: a woven field framed by traditional ornament bands ----
+// ---- Mongolian carpet: a woven indigo field framed by wool stripes and a band of lozenges ----
+// Dyed-wool colours (indigo, madder red, saffron, ivory) rather than metallic gold; the emblem keeps its gold.
 const NAVY = '#0A2A5C';
-const BURGUNDY = '#6E1B2C';
-const GOLD = '#E0B94A';
-const DEEP = '#05173A'; // deep midnight blue of the border bands
-const PALE_GOLD = '#F3E3AE'; // light thread of the plait
+const INK = '#0B1636'; // near-black indigo for the dark pin stripes
+const CRIMSON = '#A3202D';
+const SAFFRON = '#E0A92E';
+const IVORY = '#F1E6CC';
 
 const dataUri = (svg: string) => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
 
 /**
- * Ornament tiles. Each is drawn horizontally; the vertical version rotates the same drawing,
- * so the pattern reads correctly on all four sides of the frame.
- *  - curl: a row of curling waves (khuiten / cloud-scroll motif)
- *  - plait: two interlaced waves (the endless "ulzii" plait)
+ * The woven lozenge band: an ivory ground, an indigo diamond with a crimson heart, and saffron beads between
+ * the diamonds. The tile is square; the vertical version puts the beads top and bottom.
  */
-const ORNAMENTS = {
-  curl: {
-    w: 40,
-    h: 20,
-    art:
-      '<path d="M0 18.5H40"/>' +
-      '<path d="M6 18.5C6 9 12 3.5 20 4.5C28 5.5 29.5 13.5 23.5 14.5C18.5 15.3 16.5 9.5 20.5 8.8"/>' +
-      '<path d="M32 18.5C32 14 35 12 38 13"/>',
-    sw: 3,
-  },
-  plait: {
-    w: 32,
-    h: 16,
-    art: '<path d="M0 8C5 0 11 0 16 8S27 16 32 8"/><path d="M0 8C5 16 11 16 16 8S27 0 32 8"/>',
-    sw: 2.8,
-  },
-} as const;
-
-const ornamentTile = (kind: keyof typeof ORNAMENTS, vertical: boolean, color: string = GOLD) => {
-  const { w, h, art, sw } = ORNAMENTS[kind];
-  const body = `<g fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${art}</g>`;
-  const svg = vertical
-    ? `<svg xmlns="http://www.w3.org/2000/svg" width="${h}" height="${w}" viewBox="0 0 ${h} ${w}"><g transform="translate(${h} 0) rotate(90)">${body}</g></svg>`
-    : `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${body}</svg>`;
-  return dataUri(svg);
-};
-const TILES = {
-  curl: { h: ornamentTile('curl', false, GOLD), v: ornamentTile('curl', true, GOLD), ratio: ORNAMENTS.curl.w / ORNAMENTS.curl.h },
-  plait: { h: ornamentTile('plait', false, PALE_GOLD), v: ornamentTile('plait', true, PALE_GOLD), ratio: ORNAMENTS.plait.w / ORNAMENTS.plait.h },
-  // pale-gold thread on the blue field (phone cartouches)
-  plaitLight: { h: ornamentTile('plait', false, PALE_GOLD), v: ornamentTile('plait', true, PALE_GOLD), ratio: ORNAMENTS.plait.w / ORNAMENTS.plait.h },
+const lozengeTile = (vertical: boolean) => {
+  const beads = vertical
+    ? `<circle cx="13" cy="0" r="2" fill="${SAFFRON}"/><circle cx="13" cy="26" r="2" fill="${SAFFRON}"/>`
+    : `<circle cx="0" cy="13" r="2" fill="${SAFFRON}"/><circle cx="26" cy="13" r="2" fill="${SAFFRON}"/>`;
+  return dataUri(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><rect width="26" height="26" fill="${IVORY}"/><path d="M13 2L24 13L13 24L2 13Z" fill="none" stroke="${INK}" stroke-width="2.2"/><path d="M13 8L18 13L13 18L8 13Z" fill="${CRIMSON}"/>${beads}</svg>`
+  );
 };
 
-const BAND_SHADOW = `inset 0 0 0 1px ${GOLD}66, inset 0 3px 8px rgba(0,0,0,0.55)`;
+// A small plait for the phone cartouches (horizontal tile only)
+const PLAIT_TILE = dataUri(
+  `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="16" viewBox="0 0 32 16"><g fill="none" stroke="${IVORY}" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M0 8C5 0 11 0 16 8S27 16 32 8"/><path d="M0 8C5 16 11 16 16 8S27 0 32 8"/></g></svg>`
+);
 
 // Field weave: small lozenges, light thread and dark shadow thread
 const lozenge = (stroke: string) =>
@@ -61,44 +39,81 @@ const lozenge = (stroke: string) =>
 const LOZENGE_LIGHT = lozenge('#8FB6E6');
 const LOZENGE_DARK = lozenge('#021430');
 
-/** Nested squares with a diamond: the corner stone where two ornament bands meet. */
-const CornerStone = ({ className = '', size }: { className?: string; size: number }) => (
-  <svg viewBox="0 0 40 40" className={className} width={size} height={size} aria-hidden="true">
-    <rect width="40" height="40" fill={DEEP} />
-    <rect x="3" y="3" width="34" height="34" fill="none" stroke={GOLD} strokeWidth="2" />
-    <rect x="8" y="8" width="24" height="24" fill="none" stroke={GOLD} strokeWidth="1" />
-    <path d="M20 10L30 20L20 30L10 20Z" fill={GOLD} />
-    <path d="M20 15.5L24.5 20L20 24.5L15.5 20Z" fill={DEEP} />
-  </svg>
-);
-
 /** A diamond medallion used in the middle of the phone cartouches. */
 const DiamondSeal = ({ className = '' }: { className?: string }) => (
   <svg viewBox="0 0 40 40" className={className} aria-hidden="true">
-    <path d="M20 2L38 20L20 38L2 20Z" fill={DEEP} stroke={GOLD} strokeWidth="2" />
-    <path d="M20 9L31 20L20 31L9 20Z" fill="none" stroke={GOLD} strokeWidth="1.5" />
-    <path d="M20 15L25 20L20 25L15 20Z" fill={GOLD} />
+    <path d="M20 2L38 20L20 38L2 20Z" fill={INK} stroke={SAFFRON} strokeWidth="2" />
+    <path d="M20 9L31 20L20 31L9 20Z" fill="none" stroke={SAFFRON} strokeWidth="1.5" />
+    <path d="M20 15L25 20L20 25L15 20Z" fill={CRIMSON} />
   </svg>
 );
 
-/** A rectangular ornament band with a corner stone in each corner. */
-const OrnamentFrame = ({ band, kind, className, style }: { band: number; kind: keyof typeof TILES; className?: string; style?: React.CSSProperties }) => {
-  const t = TILES[kind];
-  const th = band * 0.8;
-  const h = { backgroundColor: DEEP, boxShadow: BAND_SHADOW, backgroundImage: t.h, backgroundSize: `${th * t.ratio}px ${th}px`, backgroundRepeat: 'repeat-x', backgroundPosition: 'center' } as const;
-  const v = { backgroundColor: DEEP, boxShadow: BAND_SHADOW, backgroundImage: t.v, backgroundSize: `${th}px ${th * t.ratio}px`, backgroundRepeat: 'repeat-y', backgroundPosition: 'center' } as const;
+// ---- The border: wool stripes from the outer edge inwards, with the lozenge band in the middle ----
+type Stripe = { w: number; color?: string; band?: boolean };
+const STRIPES: Stripe[] = [
+  { w: 5, color: IVORY },
+  { w: 9, color: CRIMSON },
+  { w: 3, color: INK },
+  { w: 26, band: true },
+  { w: 3, color: INK },
+  { w: 4, color: SAFFRON },
+  { w: 3, color: CRIMSON },
+];
+
+/** Corner stone where the two lozenge bands meet: indigo square, saffron outline and diamond, crimson heart. */
+const CornerStone = ({ size, className = '' }: { size: number; className?: string }) => {
+  const m = size / 2;
+  const r = Math.max(2, size / 2 - 4);
+  const h = r / 2;
   return (
-    <div className={`absolute ${className ?? ''}`} style={style}>
-      <div className="absolute inset-x-0 top-0" style={{ height: band, ...h }} />
-      <div className="absolute inset-x-0 bottom-0" style={{ height: band, ...h }} />
-      <div className="absolute inset-y-0 left-0" style={{ width: band, ...v }} />
-      <div className="absolute inset-y-0 right-0" style={{ width: band, ...v }} />
-      {['left-0 top-0', 'right-0 top-0', 'left-0 bottom-0', 'right-0 bottom-0'].map((pos) => (
-        <CornerStone key={pos} size={band} className={`absolute ${pos}`} />
-      ))}
+    <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size} className={className} aria-hidden="true">
+      <rect width={size} height={size} fill={INK} />
+      <rect x="1.5" y="1.5" width={size - 3} height={size - 3} fill="none" stroke={SAFFRON} strokeWidth="1.3" />
+      <path d={`M${m} ${m - r}L${m + r} ${m}L${m} ${m + r}L${m - r} ${m}Z`} fill={SAFFRON} />
+      <path d={`M${m} ${m - h}L${m + h} ${m}L${m} ${m + h}L${m - h} ${m}Z`} fill={CRIMSON} />
+    </svg>
+  );
+};
+
+/** The woven border. `u` scales every stripe, `inset` is the distance from the screen edge. */
+const WovenFrame = ({ u, inset }: { u: number; inset: number }) => {
+  let off = 0;
+  const rings = STRIPES.map((s, i) => {
+    const w = Math.max(2, Math.round(s.w * u));
+    const ring = (() => {
+      if (!s.band) {
+        // plain stripe: a border drawn all the way round (the corners join diagonally)
+        return <div key={i} className="absolute" style={{ inset: off, border: `${w}px solid ${s.color}` }} />;
+      }
+      const common = { backgroundColor: IVORY, backgroundSize: `${w}px ${w}px` } as const;
+      const horizontal = { ...common, backgroundImage: lozengeTile(false), backgroundRepeat: 'round no-repeat' } as const;
+      const vertical = { ...common, backgroundImage: lozengeTile(true), backgroundRepeat: 'no-repeat round' } as const;
+      return (
+        <div key={i} className="absolute" style={{ inset: off }}>
+          <div className="absolute top-0" style={{ left: w, right: w, height: w, ...horizontal }} />
+          <div className="absolute bottom-0" style={{ left: w, right: w, height: w, ...horizontal }} />
+          <div className="absolute left-0" style={{ top: w, bottom: w, width: w, ...vertical }} />
+          <div className="absolute right-0" style={{ top: w, bottom: w, width: w, ...vertical }} />
+          {['left-0 top-0', 'right-0 top-0', 'left-0 bottom-0', 'right-0 bottom-0'].map((pos) => (
+            <CornerStone key={pos} size={w} className={`absolute ${pos}`} />
+          ))}
+        </div>
+      );
+    })();
+    off += w;
+    return ring;
+  });
+  return (
+    <div className="absolute" style={{ inset, boxShadow: '0 0 0 1px rgba(2,20,48,0.6), 0 2px 10px rgba(0,0,0,0.45)' }}>
+      {rings}
     </div>
   );
 };
+
+// The cut edge of the carpet where it opens: a striped selvedge and wool tassels
+const FRINGE_THREADS = `repeating-linear-gradient(90deg, ${IVORY} 0px, ${IVORY} 2px, transparent 2px, transparent 6px, ${CRIMSON} 6px, ${CRIMSON} 8px, transparent 8px, transparent 12px)`;
+const SELVEDGE_DOWN = `linear-gradient(to bottom, ${CRIMSON} 0%, ${CRIMSON} 50%, ${IVORY} 50%, ${IVORY} 78%, ${SAFFRON} 78%, ${SAFFRON} 100%)`;
+const SELVEDGE_UP = `linear-gradient(to top, ${CRIMSON} 0%, ${CRIMSON} 50%, ${IVORY} 50%, ${IVORY} 78%, ${SAFFRON} 78%, ${SAFFRON} 100%)`;
 
 export default function CarpetIntro() {
   const { t } = useTranslation();
@@ -123,20 +138,17 @@ export default function CarpetIntro() {
     const timer = setTimeout(() => {
       setIsVisible(false);
     }, 2800);
-    
+
     return () => {
       clearTimeout(timer);
     };
   }, []);
 
   const phone = typeof window !== 'undefined' && window.innerWidth < 768;
-  const frameInset = phone ? 12 : 24; // distance of the outer ornament band from the screen edge
-  const outerBand = phone ? 20 : 30; // curling-wave band
-  const innerBand = phone ? 11 : 14; // plait band
-  const innerInset = frameInset + outerBand + 4;
-  const lineInset = innerInset + innerBand + 5;
+  const frameInset = phone ? 8 : 14; // distance of the border from the screen edge
+  const stripeScale = phone ? 0.62 : 1.15; // phones get a slimmer border
 
-  // Deep blue wool carpet: lozenge-woven field framed by a curl band and a plait band
+  // Deep blue wool carpet: lozenge-woven field framed by wool stripes and a lozenge band
   const carpetBg = (
     <>
       {/* Field */}
@@ -152,19 +164,25 @@ export default function CarpetIntro() {
         }}
       />
 
-      {/* Border: gold edge, curling-wave band, plait band, fine gold line */}
-      <div className="absolute border-[3px]" style={{ inset: frameInset / 2, borderColor: GOLD }} />
-      <OrnamentFrame kind="curl" band={outerBand} style={{ inset: frameInset }} />
-      <OrnamentFrame kind="plait" band={innerBand} style={{ inset: innerInset }} />
-      <div className="absolute border" style={{ inset: lineInset, borderColor: `${GOLD}aa` }} />
+      {/* Border: wool stripes round a band of woven lozenges */}
+      <WovenFrame u={stripeScale} inset={frameInset} />
 
-      {/* Phones: a diamond seal flanked by meander, top and bottom of the field */}
+      {/* Fine warp and weft threads over everything, so the stripes read as woven wool */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            'repeating-linear-gradient(0deg, rgba(255,255,255,0.045) 0px, rgba(255,255,255,0.045) 1px, transparent 1px, transparent 3px), repeating-linear-gradient(90deg, rgba(0,0,0,0.08) 0px, rgba(0,0,0,0.08) 1px, transparent 1px, transparent 3px)',
+        }}
+      />
+
+      {/* Phones: a diamond seal flanked by plait, top and bottom of the field */}
       <div className="md:hidden">
         {['top-[7.5%]', 'bottom-[7.5%]'].map((pos) => (
           <div key={pos} className={`absolute ${pos} left-12 right-12 flex items-center gap-3`}>
-            <div className="flex-1 h-3" style={{ backgroundImage: TILES.plaitLight.h, backgroundSize: '27px 13.5px', backgroundRepeat: 'repeat-x', backgroundPosition: 'center' }} />
+            <div className="flex-1 h-3" style={{ backgroundImage: PLAIT_TILE, backgroundSize: '27px 13.5px', backgroundRepeat: 'repeat-x', backgroundPosition: 'center' }} />
             <DiamondSeal className="w-9 h-9 shrink-0" />
-            <div className="flex-1 h-3" style={{ backgroundImage: TILES.plaitLight.h, backgroundSize: '27px 13.5px', backgroundRepeat: 'repeat-x', backgroundPosition: 'center' }} />
+            <div className="flex-1 h-3" style={{ backgroundImage: PLAIT_TILE, backgroundSize: '27px 13.5px', backgroundRepeat: 'repeat-x', backgroundPosition: 'center' }} />
           </div>
         ))}
       </div>
@@ -174,12 +192,12 @@ export default function CarpetIntro() {
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.div 
+        <motion.div
           className="fixed inset-0 z-[99999] pointer-events-none flex flex-col"
           exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeOut" } }}
         >
           {/* Top half */}
-          <motion.div 
+          <motion.div
             className="w-full h-1/2 bg-[#041f44] shadow-[0_30px_60px_rgba(0,0,0,0.9)] overflow-hidden relative z-10"
             initial={{ y: "0%" }}
             animate={{ y: "-100%" }}
@@ -197,20 +215,23 @@ export default function CarpetIntro() {
               </div>
             </div>
 
-            {/* Fringe for top half */}
-            <div 
-              className="absolute bottom-0 left-0 w-full h-4 md:h-6 z-30 border-b border-black/50" 
+            {/* Tassels for top half */}
+            <div
+              className="absolute bottom-0 left-0 w-full h-4 md:h-6 z-30 border-b border-black/50"
               style={{
-                backgroundImage: 'repeating-linear-gradient(90deg, #d4af37 0px, #d4af37 2px, transparent 2px, transparent 6px), linear-gradient(to bottom, transparent, rgba(0,0,0,0.6))',
-              }} 
+                backgroundImage: `${FRINGE_THREADS}, linear-gradient(to bottom, transparent, rgba(0,0,0,0.6))`,
+              }}
             />
-            {/* Thick golden border right above fringe */}
-            <div className="absolute bottom-4 md:bottom-6 left-0 w-full h-2 md:h-3 bg-gradient-to-r from-[#8a681c] via-brand-gold to-[#8a681c] shadow-[0_4px_15px_rgba(0,0,0,0.8)] z-30 border-y border-[#ffe28a]/40" />
+            {/* Striped selvedge right above the tassels */}
+            <div
+              className="absolute bottom-4 md:bottom-6 left-0 w-full h-2 md:h-3 shadow-[0_4px_15px_rgba(0,0,0,0.8)] z-30"
+              style={{ backgroundImage: SELVEDGE_DOWN }}
+            />
 
           </motion.div>
 
           {/* Bottom half */}
-          <motion.div 
+          <motion.div
             className="w-full h-1/2 bg-[#041f44] shadow-[0_-30px_60px_rgba(0,0,0,0.9)] overflow-hidden relative z-10"
             initial={{ y: "0%" }}
             animate={{ y: "100%" }}
@@ -230,15 +251,18 @@ export default function CarpetIntro() {
               </div>
             </div>
 
-            {/* Fringe for bottom half */}
-            <div 
-              className="absolute top-0 left-0 w-full h-4 md:h-6 z-30 border-t border-black/50" 
+            {/* Tassels for bottom half */}
+            <div
+              className="absolute top-0 left-0 w-full h-4 md:h-6 z-30 border-t border-black/50"
               style={{
-                backgroundImage: 'repeating-linear-gradient(90deg, #d4af37 0px, #d4af37 2px, transparent 2px, transparent 6px), linear-gradient(to top, transparent, rgba(0,0,0,0.6))',
-              }} 
+                backgroundImage: `${FRINGE_THREADS}, linear-gradient(to top, transparent, rgba(0,0,0,0.6))`,
+              }}
             />
-            {/* Thick golden border right below fringe */}
-            <div className="absolute top-4 md:top-6 left-0 w-full h-2 md:h-3 bg-gradient-to-r from-[#8a681c] via-brand-gold to-[#8a681c] shadow-[0_-4px_15px_rgba(0,0,0,0.8)] z-30 border-y border-[#ffe28a]/40" />
+            {/* Striped selvedge right below the tassels */}
+            <div
+              className="absolute top-4 md:top-6 left-0 w-full h-2 md:h-3 shadow-[0_-4px_15px_rgba(0,0,0,0.8)] z-30"
+              style={{ backgroundImage: SELVEDGE_UP }}
+            />
 
           </motion.div>
         </motion.div>
