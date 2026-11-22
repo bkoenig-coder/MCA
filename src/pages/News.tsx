@@ -7,6 +7,7 @@ import { Calendar, User, ArrowRight, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { UlziiSymbol, SoyomboSymbol, MongolianLine, ArcherSymbol, MongolianFormalFrame, MongolianKhasDivider } from '../components/MongolianDesign';
 import NewsletterForm from '../components/NewsletterForm';
+import { getNoiseTile } from '../lib/noise';
 
 
 function formatNewsDate(val: any, locale: string = 'en', options?: Intl.DateTimeFormatOptions): string {
@@ -26,8 +27,6 @@ function formatNewsDate(val: any, locale: string = 'en', options?: Intl.DateTime
     return 'Recent';
   }
 }
-
-const NOISE = "url(\"data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E\")";
 
 /** Plain-text excerpt: strips markdown marks from article content. */
 const plain = (text?: string) =>
@@ -67,8 +66,8 @@ export default function News() {
 
       {/* Newspaper front page: a paper sheet on the page */}
       <section className="relative mx-auto w-[calc(100%-2rem)] max-w-7xl my-6 md:my-10 px-5 md:px-12 py-8 md:py-12 bg-[#FAF7EF] border border-slate-300 shadow-[0_10px_40px_rgba(15,23,42,0.08)]">
-        {/* Paper grain */}
-        <div aria-hidden="true" className="absolute inset-0 pointer-events-none opacity-[0.05] mix-blend-multiply" style={{ backgroundImage: NOISE }} />
+        {/* Paper grain: a small repeating speckle tile (a full-size noise filter is slow on old phones) */}
+        <div aria-hidden="true" className="absolute inset-0 pointer-events-none opacity-90" style={{ backgroundImage: getNoiseTile() ?? undefined, backgroundSize: '64px 64px' }} />
 
         {/* Masthead */}
         <header className="relative mb-8 md:mb-10">

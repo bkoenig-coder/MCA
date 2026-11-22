@@ -3,21 +3,26 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { OPEN_SETTINGS_EVENT, readConsent, saveConsent } from '../lib/consent';
+import { afterIntro } from '../lib/intro';
 
 export default function CookieConsent() {
   const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Ask on the first visit
+    // Ask on the first visit, a moment after the opening carpet has finished
     let timer: number | undefined;
+    let stopWaiting = () => {};
     if (!readConsent()) {
-      timer = window.setTimeout(() => setIsVisible(true), 1500);
+      stopWaiting = afterIntro(() => {
+        timer = window.setTimeout(() => setIsVisible(true), 1000);
+      });
     }
     // The footer's cookie link lets visitors change their mind at any time
     const reopen = () => setIsVisible(true);
     window.addEventListener(OPEN_SETTINGS_EVENT, reopen);
     return () => {
+      stopWaiting();
       if (timer) window.clearTimeout(timer);
       window.removeEventListener(OPEN_SETTINGS_EVENT, reopen);
     };

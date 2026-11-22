@@ -7,12 +7,21 @@ import AnalyticsTracker from './components/AnalyticsTracker';
 import CookieConsent from './components/CookieConsent';
 import { Toaster } from 'sonner';
 import { ErrorBoundary } from './components/ErrorBoundary';
-import AIAssistant from './components/AIAssistant';
 import CarpetIntro from './components/CarpetIntro';
+import { useAfterIntro } from './lib/intro';
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import SEO from './components/SEO';
 import { UlziiSymbol } from './components/MongolianDesign';
 import { motion, MotionConfig } from 'motion/react';
+
+// The chat helper is not needed to open the site: it loads after the opening carpet has finished
+const AIAssistant = lazy(() => import('./components/AIAssistant'));
+
+/** Renders its children only once the opening carpet is over (straight away when there is none). */
+function AfterIntro({ children }: { children: React.ReactNode }) {
+  const ready = useAfterIntro();
+  return ready ? <>{children}</> : null;
+}
 
 // Lazy loaded page components for optimal bundle splitting
 const Home = lazy(() => import('./pages/Home'));
@@ -138,8 +147,12 @@ export default function App() {
               </Suspense>
             </main>
             <Footer />
-            <AIAssistant />
-            <SpeedInsights />
+            <AfterIntro>
+              <Suspense fallback={null}>
+                <AIAssistant />
+              </Suspense>
+              <SpeedInsights />
+            </AfterIntro>
           </div>
         </Router>
       </AuthProvider>

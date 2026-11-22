@@ -4,6 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
+    <!-- First visit: paint the carpet's blue at once, so slow phones do not show a white screen while the site loads.
+         CarpetIntro takes the class off again. The conditions match the ones in CarpetIntro.tsx. -->
+    <script>
+      try {
+        var n = navigator, c = n.connection || {};
+        if (!sessionStorage.getItem('mca-intro-seen') &&
+            !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) &&
+            !(n.deviceMemory && n.deviceMemory <= 2) && !c.saveData && !/(^|-)2g$/.test(c.effectiveType || '')) {
+          document.documentElement.className += ' intro-pending';
+        }
+      } catch (e) {}
+    </script>
+    <style>html.intro-pending, html.intro-pending body { background: #0A2A5C; }</style>
+
     <!-- Google Analytics is loaded from src/lib/consent.ts, only after the visitor accepts analytics cookies -->
 
     <!-- Favicon -->

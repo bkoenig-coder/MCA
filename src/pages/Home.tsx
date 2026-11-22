@@ -219,10 +219,10 @@ export default function Home() {
                   <span>{t('hero.ctaEvents')}</span>
                   <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <Link to="/membership" className="w-full sm:w-auto flex-1 text-center border border-brand-gold/60 text-white hover:text-brand-gold hover:border-brand-gold px-7 py-3.5 md:py-4 rounded-lg text-[11px] md:text-xs uppercase tracking-[0.14em] font-semibold transition-all whitespace-nowrap bg-white/10 backdrop-blur-md flex items-center justify-center">
+                <Link to="/membership" className="w-full sm:w-auto flex-1 text-center border border-brand-gold/60 text-white hover:text-brand-gold hover:border-brand-gold px-7 py-3.5 md:py-4 rounded-lg text-[11px] md:text-xs uppercase tracking-[0.14em] font-semibold transition-all whitespace-nowrap bg-slate-950/45 flex items-center justify-center">
                   {t('homeMembership.btnApply')}
                 </Link>
-                <Link to="/diorama" className="w-full sm:w-auto flex-1 text-center border border-white/20 text-white/90 hover:text-white hover:border-white/40 px-6 py-3.5 md:py-4 rounded-lg text-[11px] md:text-xs uppercase tracking-[0.14em] font-semibold transition-all shadow-sm flex items-center justify-center gap-2 group whitespace-nowrap bg-white/5 backdrop-blur-md">
+                <Link to="/diorama" className="w-full sm:w-auto flex-1 text-center border border-white/20 text-white/90 hover:text-white hover:border-white/40 px-6 py-3.5 md:py-4 rounded-lg text-[11px] md:text-xs uppercase tracking-[0.14em] font-semibold transition-all shadow-sm flex items-center justify-center gap-2 group whitespace-nowrap bg-slate-950/45">
                   <SoyomboSymbol className="w-3.5 h-3.5 text-brand-gold group-hover:rotate-12 transition-transform duration-300" />
                   <span>{t('siteUi.home.tour')}</span>
                 </Link>
@@ -523,9 +523,6 @@ export default function Home() {
                 transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
               >
                   <Link to={`/gallery/${item.id}`} className="group relative rounded-2xl overflow-hidden h-[340px] md:h-[450px] block bg-brand-ink shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_60px_-20px_rgba(0,0,0,0.25)] ring-1 ring-black/5 hover:ring-white/20 transition-all duration-300">
-                    {/* Background Noise Texture */}
-                    <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
-
                     {item.imageUrl && (
                       <motion.img 
                         initial={{ scale: 1.1, opacity: 0 }}

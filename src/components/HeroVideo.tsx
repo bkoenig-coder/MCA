@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
+import { afterIntro } from '../lib/intro';
 
 /**
  * Background video for the home page. A small poster picture shows at once; the video itself
- * (a short, light copy) starts a moment later, and is skipped for visitors who asked for less
- * motion or who are on a slow or data-saving connection.
+ * (a short, light copy) starts a moment later, once the opening carpet has finished so the two do not
+ * compete on a small phone, and is skipped for visitors who asked for less motion or who are on a slow
+ * or data-saving connection.
  */
 export default function HeroVideo() {
   const [play, setPlay] = useState(false);
@@ -14,8 +16,14 @@ export default function HeroVideo() {
     const conn = (navigator as any).connection;
     const slow = conn?.saveData || /(^|-)2g$/.test(conn?.effectiveType || '');
     if (reduce || slow) return;
-    const t = window.setTimeout(() => setPlay(true), 600);
-    return () => window.clearTimeout(t);
+    let timer: number | undefined;
+    const cancel = afterIntro(() => {
+      timer = window.setTimeout(() => setPlay(true), 600);
+    });
+    return () => {
+      cancel();
+      if (timer) window.clearTimeout(timer);
+    };
   }, []);
 
   return (

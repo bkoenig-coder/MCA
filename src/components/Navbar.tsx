@@ -342,7 +342,7 @@ export default function Navbar() {
           'transition-all duration-500 px-4 md:px-10 2xl:px-16 relative w-full bg-white',
           isOpen ? 'z-[155]' : 'z-[120]',
           scrolled 
-            ? 'py-2 shadow-[0_4px_30px_rgba(0,0,0,0.04)] border-b border-brand-gold/15 bg-white/95 backdrop-blur-md' 
+            ? 'py-2 shadow-[0_4px_30px_rgba(0,0,0,0.04)] border-b border-brand-gold/15 bg-white/95'
             : 'py-2.5 border-b border-[#0F0F0F]/5',
           isOpen && 'border-b-0 bg-white'
         )}
