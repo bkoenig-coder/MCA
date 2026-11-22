@@ -271,12 +271,8 @@ const fmtDate = (ts: any) => {
 };
 
 export default function AdminDashboard() {
-  const { user, profile } = useAuth();
-  const userEmail = user?.email?.toLowerCase() || '';
-  const isSuperAdmin = userEmail === 'emeraldtorstein@gmail.com';
-  const isDomainAdmin = userEmail.endsWith('@mongoliancenter.org') || userEmail === 'info@mongoliancenter.org';
-  const isAdminUser = isSuperAdmin || isDomainAdmin || userEmail === 'batmunkh.unen@gmail.com' || profile?.role === 'admin';
-  const isEditor = isAdminUser || profile?.role === 'moderator';
+  // Roles come from the database (admin, moderator, user); no e-mail addresses are checked here
+  const { user, isAdmin, isEditor } = useAuth();
 
   const [activeTab, setActiveTab] = useState<'analytics' | 'game' | 'events' | 'posts' | 'registrations' | 'gallery' | 'users' | 'applications' | 'careers'>('posts');
 
@@ -1750,7 +1746,7 @@ export default function AdminDashboard() {
                           <select
                             value={u.role || 'user'}
                             onChange={(e) => handleRoleChange(u.id, e.target.value)}
-                            disabled={!isSuperAdmin || u.email?.toLowerCase() === 'emeraldtorstein@gmail.com'}
+                            disabled={!isAdmin || u.id === user?.uid}
                             className="px-3 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold uppercase tracking-wider text-slate-800"
                           >
                             <option value="user">User</option>

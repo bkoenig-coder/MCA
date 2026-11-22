@@ -4,6 +4,12 @@ import { MapPin, Mail, Phone, Globe, Info } from 'lucide-react';
 
 
 import { EyebrowMark } from '../components/MongolianDesign';
+import legalPages from '../locales/legalPages';
+import { registerTranslations } from '../locales/register';
+
+// The legal text is downloaded with this page, not with the whole site
+registerTranslations(legalPages);
+
 export default function Imprint() {
   const { t } = useTranslation();
 
@@ -18,7 +24,7 @@ export default function Imprint() {
           >
             <div className="flex items-center gap-4 mb-8">
               <EyebrowMark />
-              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep">
                 {t('legalPages.eyebrow')}
               </span>
             </div>

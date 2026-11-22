@@ -38,9 +38,12 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [nextEvent, setNextEvent] = useState<any>(null);
   const location = useLocation();
-  const { user, profile } = useAuth();
+  const { user, isEditor } = useAuth();
   const langRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const wasOpen = useRef(false);
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -63,10 +66,7 @@ export default function Navbar() {
     { name: t('nav.careers'), path: '/careers', icon: Briefcase },
   ];
 
-  const isSuperAdmin = user?.email?.toLowerCase() === 'emeraldtorstein@gmail.com';
-  const isAdminUser = isSuperAdmin || user?.email?.toLowerCase() === 'batmunkh.unen@gmail.com' || profile?.role === 'admin';
-  const isEditor = isAdminUser || profile?.role === 'moderator';
-
+  // The admin link shows for people whose role in the database is admin or moderator
   if (isEditor) {
     navItems.push({ name: t('nav.admin'), path: '/admin', icon: Shield });
   }
@@ -81,7 +81,7 @@ export default function Navbar() {
         setIsOpen(false);
       }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('mousedown', handleClickOutside);
 
     // Fetch next event
@@ -120,10 +120,61 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
+  // Close both menus whenever the page changes (links, browser back and forward)
+  useEffect(() => {
+    setIsOpen(false);
+    setIsLangOpen(false);
+  }, [location.pathname]);
+
+  // Keyboard: Escape closes the menus; Tab stays inside the open menu
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsLangOpen(false);
+        setIsOpen(false);
+        return;
+      }
+      if (e.key !== 'Tab' || !isOpen || !overlayRef.current) return;
+      const items = overlayRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen]);
+
+  // Move focus into the menu when it opens, and back to the menu button when it closes
+  useEffect(() => {
+    if (isOpen) {
+      wasOpen.current = true;
+      closeBtnRef.current?.focus();
+    } else if (wasOpen.current) {
+      wasOpen.current = false;
+      const toggles = Array.from(document.querySelectorAll<HTMLElement>('[data-menu-toggle]'));
+      toggles.find((el) => el.offsetParent !== null)?.focus();
+    }
+  }, [isOpen]);
+
   const currentLang = languages.find(l => i18n.language?.startsWith(l.code)) || languages[0];
 
   return (
     <header ref={menuRef} className="fixed top-0 left-0 right-0 z-[100]">
+      {/* Skip link: first stop for keyboard users */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-[200] focus:rounded-md focus:bg-brand-gold focus:px-4 focus:py-2.5 focus:text-xs focus:font-semibold focus:uppercase focus:tracking-[0.12em] focus:text-[#0A1128] focus:shadow-lg"
+      >
+        {t('siteUi.nav.skipToContent')}
+      </a>
+
       {/* Top Banner */}
       <AnimatePresence>
         {nextEvent && (
@@ -145,6 +196,8 @@ export default function Navbar() {
                 <Link 
                   key={i}
                   to={`/events/${nextEvent.id}`}
+                  aria-hidden={i > 0 ? true : undefined}
+                  tabIndex={i > 0 ? -1 : undefined}
                   className="flex items-center gap-8 px-8 group transition-all duration-500 text-[#0A1128] hover:text-[#0A1128]/80"
                 >
                   <div className="flex items-center gap-3">
@@ -203,6 +256,8 @@ export default function Navbar() {
               <button 
                 onClick={() => setIsLangOpen(!isLangOpen)}
                 aria-label={t('siteUi.nav.selectLanguage')}
+                aria-expanded={isLangOpen}
+                aria-haspopup="true"
                 className="flex items-center gap-2 text-white/85 hover:text-[#C5A059] transition-all py-1"
               >
                 <span><currentLang.Flag className="w-5 h-auto rounded-[2px] shadow-sm" aria-hidden="true" /></span>
@@ -221,6 +276,7 @@ export default function Navbar() {
                     {languages.map((lang) => (
                       <button
                         key={lang.code}
+                        aria-current={i18n.language?.startsWith(lang.code) ? 'true' : undefined}
                         onClick={() => {
                           i18n.changeLanguage(lang.code);
                           setIsLangOpen(false);
@@ -281,6 +337,7 @@ export default function Navbar() {
       </div>
 
       <nav
+        aria-label={t('footer.navTitle')}
         className={cn(
           'transition-all duration-500 px-4 md:px-10 2xl:px-16 relative w-full bg-white',
           isOpen ? 'z-[155]' : 'z-[120]',
@@ -293,13 +350,14 @@ export default function Navbar() {
         <div className="max-w-[1600px] w-full mx-auto flex items-center justify-between relative xl:grid xl:grid-cols-[1fr_auto_1fr] xl:gap-0">
           
           {/* Left Nav Links (Desktop only) */}
-          <div className="hidden xl:flex items-center justify-end gap-8 pr-10">
+          <div className="hidden xl:flex items-center justify-end gap-6 2xl:gap-8 pr-8 2xl:pr-10">
             {navItems.filter(item => ['/about', '/events', '/membership', '/news'].includes(item.path)).map((item) => {
               const isActive = location.pathname === item.path;
               return (
                 <Link
                   key={item.path}
                   to={item.path}
+                  aria-current={isActive ? 'page' : undefined}
                   className={cn(
                     "group text-xs uppercase tracking-[0.1em] font-sans font-semibold transition-colors duration-300 relative py-2 whitespace-nowrap",
                     isActive ? "text-[#0066B3]" : "text-slate-700 hover:text-[#0066B3]"
@@ -330,13 +388,14 @@ export default function Navbar() {
           </Link>
 
           {/* Right Nav Links & Actions (Desktop only) */}
-          <div className="hidden xl:flex items-center gap-8 pl-10 min-w-0">
+          <div className="hidden xl:flex items-center gap-6 2xl:gap-8 pl-8 2xl:pl-10 min-w-0">
             {navItems.filter(item => ['/gallery', '/impact', '/contact', '/heritage'].includes(item.path)).map((item) => {
               const isActive = location.pathname === item.path;
               return (
                 <Link
                   key={item.path}
                   to={item.path}
+                  aria-current={isActive ? 'page' : undefined}
                   className={cn(
                     "group text-xs uppercase tracking-[0.1em] font-sans font-semibold transition-colors duration-300 relative py-2 whitespace-nowrap",
                     isActive ? "text-[#0066B3]" : "text-slate-700 hover:text-[#0066B3]"
@@ -356,14 +415,28 @@ export default function Navbar() {
               );
             })}
 
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              aria-label={isOpen ? t('siteUi.nav.closeMenu') : t('siteUi.nav.openMenu')}
-              className="ml-auto flex items-center gap-2 text-xs uppercase tracking-[0.1em] font-semibold py-2.5 px-4 rounded-lg bg-[#0A1128] text-white hover:bg-[#0066B3] transition-colors duration-300"
-            >
-              {isOpen ? <X size={14} className="text-[#C5A059]" /> : <Menu size={14} className="text-[#C5A059]" />}
-              <span className="hidden 2xl:inline">{isOpen ? t('siteUi.nav.close') : t('siteUi.nav.menu')}</span>
-            </button>
+            <div className="ml-auto flex items-center gap-3">
+              {/* The one action most visitors are here for, always in reach */}
+              {!location.pathname.startsWith('/membership') && (
+                <Link
+                  to="/membership"
+                  className="inline-flex items-center rounded-lg border border-brand-gold bg-brand-gold/10 px-4 py-2.5 text-xs uppercase tracking-[0.1em] font-semibold text-[#0A1128] transition-colors duration-300 hover:bg-brand-gold"
+                >
+                  {t('siteUi.nav.badgeJoin')}
+                </Link>
+              )}
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                data-menu-toggle
+                aria-expanded={isOpen}
+                aria-controls="site-menu"
+                aria-label={isOpen ? t('siteUi.nav.closeMenu') : t('siteUi.nav.openMenu')}
+                className="flex items-center gap-2 text-xs uppercase tracking-[0.1em] font-semibold py-2.5 px-4 rounded-lg bg-[#0A1128] text-white hover:bg-[#0066B3] transition-colors duration-300"
+              >
+                {isOpen ? <X size={14} className="text-[#C5A059]" /> : <Menu size={14} className="text-[#C5A059]" />}
+                <span className="hidden 2xl:inline">{isOpen ? t('siteUi.nav.close') : t('siteUi.nav.menu')}</span>
+              </button>
+            </div>
           </div>
 
           {/* Mobile Layout Actions Row */}
@@ -397,6 +470,9 @@ export default function Navbar() {
             <button 
               className="w-10 h-10 sm:w-11 sm:h-11 transition-all duration-300 text-white rounded bg-[#0A1128] hover:bg-neutral-800 active:scale-95 flex items-center justify-center shadow-sm"
               onClick={() => setIsOpen(!isOpen)}
+              data-menu-toggle
+              aria-expanded={isOpen}
+              aria-controls="site-menu"
               aria-label={isOpen ? t('siteUi.nav.closeMenu') : t('siteUi.nav.openMenu')}
             >
               {isOpen ? <X size={15} className="text-[#C5A059]" /> : <Menu size={15} className="text-[#C5A059]" />}
@@ -412,6 +488,11 @@ export default function Navbar() {
               animate={{ opacity: 1, backdropFilter: 'blur(16px)' }}
               exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              id="site-menu"
+              ref={overlayRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={t('footer.navTitle')}
               className="fixed inset-0 h-screen w-full bg-slate-50/98 z-[130] flex flex-col overflow-hidden"
               style={{ willChange: 'opacity' }}
             >
@@ -432,16 +513,19 @@ export default function Navbar() {
                         const nextLang = languages[nextIndex];
                         i18n.changeLanguage(nextLang.code);
                       }}
-                      className="w-8 h-8 rounded-full border flex items-center justify-center text-xs transition-all duration-300 bg-[#0A1128]/5 hover:bg-[#0A1128]/10 text-brand-ink border-brand-ink/5 shadow-sm active:scale-90"
+                      className="w-10 h-10 rounded-full border flex items-center justify-center text-xs transition-all duration-300 bg-[#0A1128]/5 hover:bg-[#0A1128]/10 text-brand-ink border-brand-ink/5 shadow-sm active:scale-90"
                       title={t('siteUi.nav.changeLanguage')}
+                      aria-label={t('siteUi.nav.changeLanguage')}
                     >
                       <currentLang.Flag className="w-5 h-auto rounded-[2px] shadow-sm" aria-hidden="true" />
                     </button>
 
                     {/* Redundant, Beautiful Back Trigger */}
                     <button
+                      ref={closeBtnRef}
                       onClick={() => setIsOpen(false)}
-                      className="group flex items-center gap-2 text-[9px] md:text-[10px] uppercase tracking-[0.18em] font-sans font-black text-white bg-[#0A1128] hover:bg-[#0066B3] transition-all py-2 px-3 sm:px-4.5 rounded shadow-sm hover:shadow active:scale-95"
+                      aria-label={t('siteUi.nav.closeMenu')}
+                      className="group flex items-center gap-2 min-h-10 text-[10px] md:text-[11px] uppercase tracking-[0.18em] font-sans font-black text-white bg-[#0A1128] hover:bg-[#0066B3] transition-all py-2.5 px-3.5 sm:px-4.5 rounded shadow-sm hover:shadow active:scale-95"
                     >
                       <X size={13} className="text-[#C5A059]" />
                       <span className="hidden min-[400px]:inline">{t('siteUi.nav.close')}</span>
@@ -465,10 +549,10 @@ export default function Navbar() {
                   
                   {/* Left Column: Menu Links */}
                   <div className="flex flex-col justify-start lg:border-r border-brand-ink/10 lg:pr-12 text-left">
-                     <span className="text-xs uppercase tracking-[0.18em] font-semibold text-[#C5A059] mb-3 lg:mb-4 block">
+                     <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep mb-3 lg:mb-4 block">
                         {t('footer.navTitle')}
                      </span>
-                     <nav className="flex flex-col">
+                     <div className="flex flex-col">
                        {navItems.map((item, idx) => {
                          const isActive = location.pathname === item.path;
                          return (
@@ -482,6 +566,7 @@ export default function Navbar() {
                                <Link
                                  to={item.path}
                                  onClick={() => setIsOpen(false)}
+                                 aria-current={isActive ? 'page' : undefined}
                                  className="group flex items-center justify-between w-full relative py-2 sm:py-3.5 border-b border-brand-ink/5 hover:bg-[#0A1128]/5 px-2 rounded-md transition-all"
                                >
                                  <div className="flex items-center gap-3.5">
@@ -508,22 +593,33 @@ export default function Navbar() {
                                      <span className="text-[11px] bg-[#DA2032]/10 text-[#DA2032] px-2 py-0.5 rounded uppercase tracking-[0.1em] font-sans font-semibold whitespace-nowrap">
                                         {t('siteUi.nav.badgeGive')}
                                       </span>
-                                   )}
-                                   <UlziiSymbol className={cn("w-4 h-4 transition-all duration-300", isActive ? "text-brand-gold opacity-100" : "text-brand-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0")} />
-                                 </div>
+                                   )}                                 </div>
                                </Link>
                              </motion.div>
                            </div>
                          );
                        })}
-                     </nav>
+                     </div>
                   </div>
 
-                  {/* Right Column: cloud, map, message, and a friendly hello */}
+                  {/* Right Column: friendly hello on top of the map, then the message */}
                   <div className="flex flex-col gap-5 lg:pl-4 border-t lg:border-t-0 border-brand-ink/10 pt-6 lg:pt-0 mt-6 lg:mt-0">
-                     {/* Cloud sits right above the map */}
-                     <div aria-hidden="true" className="relative h-14 -mb-2">
-                       <CloudDrift variant="c" className="top-0 right-2 w-40 md:w-52 opacity-[0.75]" duration={26} />
+                     {/* The hello boy stands on the top edge of the map, with a cloud drifting beside him */}
+                     <div className="relative h-32 sm:h-36 -mb-5">
+                       <div aria-hidden="true" className="absolute inset-0">
+                         <CloudDrift variant="c" className="top-2 left-0 w-36 md:w-48 opacity-[0.75]" duration={26} />
+                       </div>
+                       <motion.div
+                         initial={{ opacity: 0, y: 12 }}
+                         animate={{ opacity: 1, y: 0 }}
+                         transition={{ duration: 0.7, delay: 0.5 }}
+                         className="absolute bottom-0 right-4 sm:right-8 z-10 flex items-end gap-2"
+                       >
+                         <span className="mb-[4.5rem] sm:mb-20 rounded-2xl rounded-br-sm bg-white border border-brand-ink/10 px-3.5 py-1.5 text-sm font-medium text-brand-ink shadow-sm">
+                           {t('siteUi.nav.hello')}
+                         </span>
+                         <WavingBoy className="h-32 sm:h-36 w-auto translate-y-[4%]" />
+                       </motion.div>
                      </div>
 
                      <motion.div
@@ -565,18 +661,6 @@ export default function Navbar() {
                           {t('siteUi.nav.featuredDesc')}
                         </motion.p>
                      </div>
-
-                     <motion.div
-                       initial={{ opacity: 0, y: 12 }}
-                       animate={{ opacity: 1, y: 0 }}
-                       transition={{ duration: 0.7, delay: 0.5 }}
-                       className="mt-auto flex items-end justify-end gap-2 pr-2"
-                     >
-                       <span className="relative mb-24 rounded-2xl rounded-br-sm bg-white border border-brand-ink/10 px-4 py-2 text-sm font-medium text-brand-ink shadow-sm">
-                         {t('siteUi.nav.hello')}
-                       </span>
-                       <WavingBoy className="h-44 sm:h-52 w-auto" />
-                     </motion.div>
                   </div>
                 </div>
 
@@ -588,22 +672,22 @@ export default function Navbar() {
                   className="w-full pt-3 sm:pt-5 border-t border-brand-ink/10 flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 relative z-10 shrink-0 mt-2 sm:mt-4"
                 >
                   {/* Left: Quick Portal links */}
-                  <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-6 text-[9px] font-sans font-bold uppercase tracking-[0.2em] text-brand-ink/60">
-                     <Link to="/membership/apply-student" onClick={() => setIsOpen(false)} className="hover:text-[#0066B3] transition-colors">{t('siteUi.nav.forStudents')}</Link>
-                     <Link to="/membership/apply-professional" onClick={() => setIsOpen(false)} className="hover:text-[#0066B3] transition-colors">{t('siteUi.nav.forCompanies')}</Link>
-                     <Link to="/contact" onClick={() => setIsOpen(false)} className="hover:text-[#0066B3] transition-colors">{t('siteUi.nav.forInstitutions')}</Link>
+                  <div className="flex flex-wrap justify-center sm:justify-start gap-x-4 sm:gap-x-6 text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-brand-ink/60">
+                     <Link to="/membership/apply-student" onClick={() => setIsOpen(false)} className="inline-block py-2 hover:text-[#0066B3] transition-colors">{t('siteUi.nav.forStudents')}</Link>
+                     <Link to="/membership/apply-professional" onClick={() => setIsOpen(false)} className="inline-block py-2 hover:text-[#0066B3] transition-colors">{t('siteUi.nav.forCompanies')}</Link>
+                     <Link to="/contact" onClick={() => setIsOpen(false)} className="inline-block py-2 hover:text-[#0066B3] transition-colors">{t('siteUi.nav.forInstitutions')}</Link>
                   </div>
 
                   {/* Right: Social icons & Sign in */}
                   <div className="flex flex-wrap items-center justify-center sm:justify-end gap-5">
                      <div className="flex gap-4 items-center">
-                        <a href="https://www.linkedin.com/company/mongolian-center-in-austria/" target="_blank" rel="noopener noreferrer" className="text-brand-ink/50 hover:text-brand-gold transition-colors">
+                        <a href="https://www.linkedin.com/company/mongolian-center-in-austria/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2 -m-2 text-brand-ink/50 hover:text-brand-gold transition-colors">
                            <Linkedin size={14} />
                         </a>
-                        <a href="https://www.instagram.com/mncenteraustria/" target="_blank" rel="noopener noreferrer" className="text-brand-ink/50 hover:text-brand-gold transition-colors">
+                        <a href="https://www.instagram.com/mncenteraustria/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 -m-2 text-brand-ink/50 hover:text-brand-gold transition-colors">
                            <Instagram size={14} />
                         </a>
-                        <a href="https://www.facebook.com/profile.php?id=61568045031863" target="_blank" rel="noopener noreferrer" className="text-brand-ink/50 hover:text-brand-gold transition-colors">
+                        <a href="https://www.facebook.com/profile.php?id=61568045031863" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2 -m-2 text-brand-ink/50 hover:text-brand-gold transition-colors">
                            <Facebook size={14} />
                         </a>
                      </div>
@@ -612,7 +696,7 @@ export default function Navbar() {
 
                      <div>
                         {user ? (
-                          <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.2em]">
+                          <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em]">
                              <Link to="/profile" onClick={() => setIsOpen(false)} className="text-brand-ink hover:text-brand-gold transition-colors">
                                {user.displayName}
                              </Link>
@@ -633,7 +717,7 @@ export default function Navbar() {
                                  }
                                }
                             }}
-                            className="text-[9px] font-bold uppercase tracking-[0.2em] text-brand-ink hover:text-brand-gold transition-colors flex items-center gap-1.5"
+                            className="py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink hover:text-brand-gold transition-colors flex items-center gap-1.5"
                           >
                             <LogIn size={11} /> {t('siteUi.nav.memberAccess')}
                           </button>

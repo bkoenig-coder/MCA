@@ -14,9 +14,13 @@ interface AuthContextType {
   user: AppUser | null;
   profile: any | null;
   loading: boolean;
+  /** True when the signed-in user's role in the database is admin. */
+  isAdmin: boolean;
+  /** True for admins and moderators: the people who may edit site content. */
+  isEditor: boolean;
 }
 
-const AuthContext = createContext<AuthContextType>({ user: null, profile: null, loading: true });
+const AuthContext = createContext<AuthContextType>({ user: null, profile: null, loading: true, isAdmin: false, isEditor: false });
 
 export const useAuth = () => useContext(AuthContext);
 
@@ -31,11 +35,11 @@ function toAppUser(session: Session): AppUser {
   };
 }
 
+// The role a new profile starts with. The database has the final say (see supabase-security.sql: it sets
+// the role from the verified sign-in e-mail and blocks everyone else from changing it), so no personal
+// e-mail addresses are kept in the website code.
 function defaultRole(email: string | null) {
-  const e = email?.toLowerCase() || '';
-  const isSuperAdmin = e === 'emeraldtorstein@gmail.com' || e === 'batmunkh.unen@gmail.com';
-  const isDomainAdmin = e.endsWith('@mongoliancenter.org');
-  return isSuperAdmin || isDomainAdmin ? 'admin' : 'user';
+  return (email?.toLowerCase() || '').endsWith('@mongoliancenter.org') ? 'admin' : 'user';
 }
 
 async function loadOrCreateProfile(appUser: AppUser) {
@@ -107,8 +111,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
   }, []);
 
+  const isAdmin = profile?.role === 'admin';
+  const isEditor = isAdmin || profile?.role === 'moderator';
+
   return (
-    <AuthContext.Provider value={{ user, profile, loading }}>
+    <AuthContext.Provider value={{ user, profile, loading, isAdmin, isEditor }}>
       {children}
     </AuthContext.Provider>
   );

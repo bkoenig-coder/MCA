@@ -33,7 +33,7 @@ export default function Partners() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <motion.div {...fade} className="flex items-center gap-3 mb-8">
             <EyebrowMark />
-            <h2 className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{p('do.title')}</h2>
+            <h2 className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep">{p('do.title')}</h2>
           </motion.div>
           <div className="grid md:grid-cols-3 gap-6">
             {WHAT.map(({ key, icon: Icon }) => (

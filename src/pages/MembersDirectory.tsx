@@ -86,7 +86,7 @@ export default function MembersDirectory() {
             className="inline-flex items-center gap-4 mb-8"
           >
             <EyebrowMark />
-            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">Directory</span>
+            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep">Directory</span>
             <EyebrowMark />
           </motion.div>
 

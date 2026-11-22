@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function Profile() {
   const { t } = useTranslation();
-  const { user, profile, loading } = useAuth();
+  const { user, profile, loading, isAdmin } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [displayName, setDisplayName] = useState('');
@@ -141,7 +141,7 @@ export default function Profile() {
                   <UserIcon size={48} />
                 )}
               </div>
-              {(profile?.role === 'admin' || user.email?.toLowerCase() === 'emeraldtorstein@gmail.com' || user.email?.toLowerCase() === 'batmunkh.unen@gmail.com') && (
+              {isAdmin && (
                 <div className="absolute -bottom-2 -right-2 bg-brand-ink text-brand-gold p-2 rounded-xl shadow-lg" title={t('pagesMisc.profile.admin')}>
                   <Shield size={16} />
                 </div>

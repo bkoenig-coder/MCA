@@ -65,7 +65,7 @@ export default function Membership() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
             <div className="w-full lg:w-1/3 lg:sticky lg:top-32">
-              <span className="inline-block text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold mb-6 relative">
+              <span className="inline-block text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep mb-6 relative">
                 <span className="absolute -left-12 top-1/2 -translate-y-1/2 w-8 h-px bg-brand-gold hidden md:block" />
                 {t('membershipPage.benefits.tag')}
               </span>

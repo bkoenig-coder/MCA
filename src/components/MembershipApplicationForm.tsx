@@ -307,7 +307,7 @@ export default function MembershipApplicationForm({ tier, title: titleProp }: Me
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="bg-brand-paper p-6 rounded-3xl border border-brand-ink/5 space-y-4">
-              <h3 className="text-xs uppercase tracking-widest font-bold text-brand-gold">{t('membershipPage.form.secContact')}</h3>
+              <h3 className="text-xs uppercase tracking-widest font-bold text-brand-gold-deep">{t('membershipPage.form.secContact')}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2">{t('membershipPage.form.labelFirstName')}</label>
@@ -363,7 +363,7 @@ export default function MembershipApplicationForm({ tier, title: titleProp }: Me
 
             {/* Tier Specific Information */}
             <div className="bg-brand-paper p-6 rounded-3xl border border-brand-ink/5 space-y-4">
-              <h3 className="text-xs uppercase tracking-widest font-bold text-brand-gold">{t('membershipPage.form.secCredentials', { tier: title })}</h3>
+              <h3 className="text-xs uppercase tracking-widest font-bold text-brand-gold-deep">{t('membershipPage.form.secCredentials', { tier: title })}</h3>
               
               {tier === 'student' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -416,7 +416,7 @@ export default function MembershipApplicationForm({ tier, title: titleProp }: Me
             </div>
 
             <div className="bg-brand-paper p-6 rounded-3xl border border-brand-ink/5 space-y-4">
-              <h3 className="text-xs uppercase tracking-widest font-bold text-brand-gold">{t('membershipPage.form.secMotivation')}</h3>
+              <h3 className="text-xs uppercase tracking-widest font-bold text-brand-gold-deep">{t('membershipPage.form.secMotivation')}</h3>
               <div>
                 <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 mb-2">
                   {t('membershipPage.form.labelMotivation')}

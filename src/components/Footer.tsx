@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { motion, Variants } from 'motion/react';
 import { UlziiSymbol, MeanderBand, CloudDrift, CloudSky } from './MongolianDesign';
 import mcaLogoWide from '../assets/media/mca-logo-wide.png';
+import { OPEN_SETTINGS_EVENT } from '../lib/consent';
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -29,9 +30,9 @@ export default function Footer() {
   const { t } = useTranslation();
 
   const socialLinks = [
-    { icon: Instagram, url: 'https://www.instagram.com/mncenteraustria/' },
-    { icon: Facebook, url: 'https://www.facebook.com/profile.php?id=61568045031863' },
-    { icon: Linkedin, url: 'https://www.linkedin.com/company/mongolian-center-in-austria/' }
+    { icon: Instagram, label: 'Instagram', url: 'https://www.instagram.com/mncenteraustria/' },
+    { icon: Facebook, label: 'Facebook', url: 'https://www.facebook.com/profile.php?id=61568045031863' },
+    { icon: Linkedin, label: 'LinkedIn', url: 'https://www.linkedin.com/company/mongolian-center-in-austria/' }
   ];
 
   return (
@@ -75,10 +76,11 @@ export default function Footer() {
               {t('footer.desc')}
             </p>
             <div className="flex gap-4">
-              {socialLinks.map(({ icon: Icon, url }, idx) => (
-                <a 
+              {socialLinks.map(({ icon: Icon, label, url }, idx) => (
+                <a
                   key={idx}
-                  href={url} 
+                  href={url}
+                  aria-label={label}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-11 h-11 rounded-full border border-brand-ink/10 flex items-center justify-center text-brand-ink/50 hover:border-brand-gold hover:text-brand-gold hover:bg-white transition-all duration-300 shadow-sm"
@@ -96,7 +98,7 @@ export default function Footer() {
           <div className="col-span-1 md:col-span-12 lg:col-span-6 grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-10 sm:gap-3 md:gap-8 overflow-hidden">
             {/* Links: Navigate */}
             <motion.div variants={itemVariants} className="flex flex-col">
-              <h4 className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] md:tracking-[0.3em] font-bold text-brand-gold mb-5 md:mb-8 break-words">{t('footer.navTitle')}</h4>
+              <h4 className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] md:tracking-[0.3em] font-bold text-brand-gold-deep mb-5 md:mb-8 break-words">{t('footer.navTitle')}</h4>
               <ul className="text-xs md:text-sm text-brand-ink/60 font-light flex flex-col">
                 <li><Link to="/about" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2">{t('nav.about')}</Link></li>
                 <li><Link to="/events" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2">{t('nav.events')}</Link></li>
@@ -111,18 +113,28 @@ export default function Footer() {
 
             {/* Links: Legal */}
             <motion.div variants={itemVariants} className="flex flex-col">
-              <h4 className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] md:tracking-[0.3em] font-bold text-brand-gold mb-5 md:mb-8 break-words">{t('footer.legalTitle')}</h4>
+              <h4 className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] md:tracking-[0.3em] font-bold text-brand-gold-deep mb-5 md:mb-8 break-words">{t('footer.legalTitle')}</h4>
               <ul className="text-xs md:text-sm text-brand-ink/60 font-light flex flex-col">
                 <li><Link to="/privacy" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2 text-balance">{t('footer.privacy')}</Link></li>
                 <li><Link to="/terms" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2 text-balance">{t('footer.terms')}</Link></li>
                 <li><Link to="/imprint" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2">{t('footer.imprint')}</Link></li>
                 <li><Link to="/governance" className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2 text-balance">{t('footer.governance')}</Link></li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => window.dispatchEvent(new Event(OPEN_SETTINGS_EVENT))}
+                    aria-label={`${t('cookies.title')} – ${t('cookies.settings')}`}
+                    className="hover:text-brand-gold hover:translate-x-1 transition-all duration-300 inline-block py-2 text-left"
+                  >
+                    {t('cookies.title')}
+                  </button>
+                </li>
               </ul>
             </motion.div>
 
             {/* Links: Contact */}
             <motion.div variants={itemVariants} className="flex flex-col col-span-2 sm:col-span-1">
-              <h4 className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] md:tracking-[0.3em] font-bold text-brand-gold mb-5 md:mb-8 break-words">{t('nav.contact')}</h4>
+              <h4 className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] md:tracking-[0.3em] font-bold text-brand-gold-deep mb-5 md:mb-8 break-words">{t('nav.contact')}</h4>
               <ul className="space-y-5 text-sm sm:text-[11px] md:text-sm text-brand-ink/60 font-light flex flex-col">
                 <li className="flex items-start gap-2 sm:gap-4">
                   <MapPin className="text-brand-gold mt-0.5 shrink-0 w-[18px] h-[18px]" />

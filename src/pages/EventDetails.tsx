@@ -546,7 +546,7 @@ export default function EventDetails() {
               ) : (
                 <>
                   <div className="mb-8">
-                    <span className="inline-block px-3 py-1 bg-brand-gold/10 text-brand-gold rounded-lg text-xs uppercase tracking-widest font-bold mb-4">
+                    <span className="inline-block px-3 py-1 bg-brand-gold/10 text-brand-gold-deep rounded-lg text-xs uppercase tracking-widest font-bold mb-4">
                       {event.price === 0 ? t('pagesMisc.eventReg.tagFree') : t('pagesMisc.eventReg.tag')}
                     </span>
                     <h3 className="text-3xl font-serif text-brand-ink mb-2">{dTitle}</h3>

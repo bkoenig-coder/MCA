@@ -40,7 +40,7 @@ export default function CloudHeader({
         >
           <div className={`flex items-center gap-4 mb-5 ${center ? 'justify-center' : ''}`}>
             <EyebrowMark />
-            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{tag}</span>
+            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep">{tag}</span>
             {center && <EyebrowMark />}
           </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-brand-ink leading-[1.1] tracking-tight">

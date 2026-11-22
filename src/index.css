@@ -8,6 +8,8 @@
   --color-brand-indigo: #0A1128;
   --color-brand-navy: #0B132B;
   --color-brand-gold: #D4AF37;
+  /* Gold for small text on white and cream (about 5.5:1). Plain brand gold is only about 2.1:1 there. */
+  --color-brand-gold-deep: #7F5F10;
   --color-brand-blue: #0066B3;
   --color-brand-bronze: #C5A059;
   --color-brand-cream: #FAF8F5;

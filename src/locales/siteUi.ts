@@ -36,6 +36,7 @@ const rows: Row[] = [
   ['nav.forStudents', 'For students', 'Für Studierende', 'Оюутнуудад', 'Öğrenciler için'],
   ['nav.forCompanies', 'For companies', 'Für Unternehmen', 'Компаниудад', 'Şirketler için'],
   ['nav.forInstitutions', 'For institutions', 'Für Institutionen', 'Байгууллагуудад', 'Kurumlar için'],
+  ['nav.skipToContent', 'Skip to content', 'Zum Inhalt springen', 'Үндсэн агуулга руу очих', 'İçeriğe geç'],
 
   // Footer and intro wordmark
   ['footer.monogram1', 'MONGOLIAN', 'MONGOLISCHES', 'МОНГОЛЫН', 'MOĞOL'],

@@ -54,7 +54,7 @@ const PageLoader = () => (
         <div className="absolute -inset-2 rounded-full bg-brand-gold/20 animate-pulse" />
         <UlziiSymbol className="w-12 h-12 text-brand-gold relative z-10 animate-pulse" color="#D4AF37" />
       </div>
-      <span className="text-[11px] font-sans font-semibold tracking-[0.25em] uppercase text-brand-gold/80 animate-pulse">
+      <span className="text-[11px] font-sans font-semibold tracking-[0.25em] uppercase text-brand-gold-deep animate-pulse">
         Mongolian Center Austria
       </span>
     </div>
@@ -99,7 +99,7 @@ export default function App() {
           <div className="min-h-screen flex flex-col selection:bg-brand-indigo/20 selection:text-brand-indigo">
             <ScrollToTop />
             <Navbar />
-            <main className="flex-grow">
+            <main id="main-content" tabIndex={-1} className="flex-grow focus:outline-none">
               <Suspense fallback={<PageLoader />}>
                 <PageTransition>
                 <Routes>

@@ -91,7 +91,7 @@ export default function CareerDetails() {
             <motion.article initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <div className="flex items-center gap-4 mb-4">
                 <EyebrowMark />
-                <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('careers.tag')}</span>
+                <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep">{t('careers.tag')}</span>
               </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-brand-ink leading-tight mb-4">{job.title}</h1>
               <JobMeta job={job} />

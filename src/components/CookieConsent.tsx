@@ -2,28 +2,29 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { OPEN_SETTINGS_EVENT, readConsent, saveConsent } from '../lib/consent';
 
 export default function CookieConsent() {
   const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    try {
-      if (!localStorage.getItem('cookie-consent')) {
-        const timer = setTimeout(() => setIsVisible(true), 1500);
-        return () => clearTimeout(timer);
-      }
-    } catch {
-      /* storage blocked: stay hidden */
+    // Ask on the first visit
+    let timer: number | undefined;
+    if (!readConsent()) {
+      timer = window.setTimeout(() => setIsVisible(true), 1500);
     }
+    // The footer's cookie link lets visitors change their mind at any time
+    const reopen = () => setIsVisible(true);
+    window.addEventListener(OPEN_SETTINGS_EVENT, reopen);
+    return () => {
+      if (timer) window.clearTimeout(timer);
+      window.removeEventListener(OPEN_SETTINGS_EVENT, reopen);
+    };
   }, []);
 
   const choose = (all: boolean) => {
-    try {
-      localStorage.setItem('cookie-consent', JSON.stringify({ essential: true, analytics: all, marketing: all }));
-    } catch {
-      /* ignore */
-    }
+    saveConsent({ essential: true, analytics: all, marketing: all });
     setIsVisible(false);
   };
 

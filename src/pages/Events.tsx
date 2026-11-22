@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'motion/react';
 import CloudHeader from '../components/CloudHeader';
-import { Calendar, MapPin, Clock, ArrowRight, Loader2, Info, X, CheckCircle2 } from 'lucide-react';
+import { Calendar, CalendarPlus, MapPin, Clock, ArrowRight, Loader2, Info, X, CheckCircle2 } from 'lucide-react';
+import { downloadEventIcs } from '../lib/calendar';
 import { useAuth } from '../contexts/AuthContext';
 import { signInWithGoogle, db, collection, onSnapshot, query, orderBy, addDoc, serverTimestamp, writeBatch, doc, increment, getDocs, where, handleFirestoreError, OperationType } from '../firebase';
 import { useState, useEffect } from 'react';
@@ -226,6 +227,16 @@ export default function Events() {
     }
   };
 
+  // Category filter (the labels are the event categories in the visitor's language)
+  const [category, setCategory] = useState('all');
+  useEffect(() => setCategory('all'), [i18n.language]);
+  const categoryOf = (ev: any): string => loc(ev, 'category') || t('events.defaultCategory');
+  const categories = Array.from(new Set(events.map(categoryOf)));
+  const inCategory = (ev: any) => category === 'all' || categoryOf(ev) === category;
+  const startOfToday = new Date().setHours(0, 0, 0, 0);
+  const upcomingEvents = events.filter((e) => new Date(e.date).getTime() >= startOfToday && inCategory(e));
+  const pastEvents = events.filter((e) => new Date(e.date).getTime() < startOfToday && inCategory(e));
+
   return (
     <div className="pt-[140px] md:pt-[152px]">
       {/* Header */}
@@ -242,11 +253,31 @@ export default function Events() {
             <div className="space-y-24 md:space-y-40">
               {/* Upcoming Events */}
               <div>
-                <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-12">{t('pagesMisc.events.upcoming')}</h2>
+                <h2 className={cn('text-3xl md:text-5xl font-serif text-brand-ink', categories.length > 1 ? 'mb-6' : 'mb-12')}>{t('pagesMisc.events.upcoming')}</h2>
+                {categories.length > 1 && (
+                  <div className="flex flex-wrap gap-2 mb-12" role="group" aria-label={t('events.tag')}>
+                    {['all', ...categories].map((c) => (
+                      <button
+                        key={c}
+                        type="button"
+                        onClick={() => setCategory(c)}
+                        aria-pressed={category === c}
+                        className={cn(
+                          'px-4 py-2 rounded-full border text-xs uppercase tracking-[0.14em] font-semibold transition-colors',
+                          category === c
+                            ? 'bg-brand-ink border-brand-ink text-white'
+                            : 'border-brand-ink/20 text-brand-ink/70 hover:border-brand-gold-deep hover:text-brand-ink'
+                        )}
+                      >
+                        {c === 'all' ? t('pagesMisc.events.allCategories') : c}
+                      </button>
+                    ))}
+                  </div>
+                )}
                 <div className="space-y-8 md:space-y-12">
-                  {events.filter(e => new Date(e.date).getTime() >= new Date().setHours(0, 0, 0, 0)).length === 0 ? (
+                  {upcomingEvents.length === 0 ? (
                     <p className="text-brand-ink/60 font-medium">{t('pagesMisc.events.noUpcoming')}</p>
-                  ) : events.filter(e => new Date(e.date).getTime() >= new Date().setHours(0, 0, 0, 0)).map((event, idx) => {
+                  ) : upcomingEvents.map((event, idx) => {
                     const lang = i18n.language;
                     const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : lang === 'tr' ? (event.titleTr || event.titleEn || event.title) : (event.titleEn || event.title);
                     const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : lang === 'tr' ? (event.descriptionTr || event.descriptionEn || event.description) : (event.descriptionEn || event.description);
@@ -277,7 +308,7 @@ export default function Events() {
                       <div className="md:w-[60%] p-8 md:p-12 flex flex-col justify-center">
                         <div className="flex items-center justify-between mb-6">
                           <div className="flex items-center gap-3">
-                            <span className="px-4 py-1.5 bg-white rounded-lg text-xs uppercase tracking-widest font-bold text-brand-gold">
+                            <span className="px-4 py-1.5 bg-white rounded-lg text-xs uppercase tracking-widest font-bold text-brand-gold-deep">
                               {dCat || t('events.defaultCategory')}
                             </span>
                             {event.capacity > 0 && (
@@ -299,7 +330,7 @@ export default function Events() {
                           {dDesc}
                         </p>
                         
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
                           <div className="flex items-center gap-3 text-brand-ink/60">
                             <Calendar size={16} className="text-brand-gold" />
                             <span className="text-[11px] uppercase tracking-widest font-medium">
@@ -319,9 +350,26 @@ export default function Events() {
                             </span>
                           </div>
                         </div>
-                        
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            downloadEventIcs({
+                              id: event.id,
+                              title: dTitle,
+                              description: dDesc,
+                              location: dLocation || t('events.vienna'),
+                              date: event.date,
+                              time: event.time,
+                            })
+                          }
+                          className="mb-8 self-start inline-flex items-center gap-2 py-1 text-xs uppercase tracking-[0.14em] font-semibold text-brand-gold-deep hover:text-brand-ink transition-colors"
+                        >
+                          <CalendarPlus size={14} /> {t('pagesMisc.events.addToCalendar')}
+                        </button>
+
                         <div className="mt-auto flex flex-col sm:flex-row gap-4">
-                          <button 
+                          <button
                             onClick={() => handleRegister(event)}
                             disabled={loadingId === event.id || (event.capacity > 0 && (event.registeredCount || 0) >= event.capacity)}
                             className="flex-1 bg-brand-ink text-white px-8 py-4 rounded-lg text-xs uppercase tracking-[0.1em] font-medium hover:bg-brand-gold transition-all shadow-xl disabled:opacity-50 flex items-center justify-center gap-3"
@@ -349,11 +397,11 @@ export default function Events() {
               </div>
 
               {/* Past Events */}
-              {events.filter(e => new Date(e.date).getTime() < new Date().setHours(0, 0, 0, 0)).length > 0 && (
+              {pastEvents.length > 0 && (
                 <div>
                   <h2 className="text-3xl md:text-5xl font-serif text-brand-ink mb-12">{t('pagesMisc.events.past')}</h2>
                   <div className="space-y-8 md:space-y-12">
-                    {events.filter(e => new Date(e.date).getTime() < new Date().setHours(0, 0, 0, 0)).map((event, idx) => {
+                    {pastEvents.map((event, idx) => {
                       const lang = i18n.language;
                       const dTitle = lang === 'mn' ? (event.titleMn || event.title) : lang === 'de' ? (event.titleDe || event.title) : lang === 'tr' ? (event.titleTr || event.titleEn || event.title) : (event.titleEn || event.title);
                       const dDesc = lang === 'mn' ? (event.descriptionMn || event.description) : lang === 'de' ? (event.descriptionDe || event.description) : lang === 'tr' ? (event.descriptionTr || event.descriptionEn || event.description) : (event.descriptionEn || event.description);
@@ -384,7 +432,7 @@ export default function Events() {
                         <div className="md:w-[60%] p-8 md:p-12 flex flex-col justify-center">
                           <div className="flex items-center justify-between mb-6">
                             <div className="flex items-center gap-3">
-                              <span className="px-4 py-1.5 bg-white rounded-lg text-xs uppercase tracking-widest font-bold text-brand-gold">
+                              <span className="px-4 py-1.5 bg-white rounded-lg text-xs uppercase tracking-widest font-bold text-brand-gold-deep">
                                 {dCat || t('events.defaultCategory')}
                               </span>
                             </div>
@@ -504,7 +552,7 @@ export default function Events() {
               ) : (
                 <>
                   <div className="mb-8">
-                    <span className="inline-block px-3 py-1 bg-brand-gold/10 text-brand-gold rounded-lg text-xs uppercase tracking-widest font-bold mb-4">
+                    <span className="inline-block px-3 py-1 bg-brand-gold/10 text-brand-gold-deep rounded-lg text-xs uppercase tracking-widest font-bold mb-4">
                       {selectedEvent.price === 0 ? t('pagesMisc.eventReg.tagFree') : t('pagesMisc.eventReg.tag')}
                     </span>
                     <h3 className="text-3xl font-serif text-brand-ink mb-2">{loc(selectedEvent, 'title')}</h3>

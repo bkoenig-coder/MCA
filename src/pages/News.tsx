@@ -117,7 +117,7 @@ export default function News() {
                   </Link>
 
                   <div className="lg:col-span-5">
-                    <p className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold mb-4">{t('news.latest')}</p>
+                    <p className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep mb-4">{t('news.latest')}</p>
                     <Link to={linkUrl}>
                       <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 leading-[1.15] hover:text-[#0066B3] transition-colors">{dTitle}</h2>
                     </Link>

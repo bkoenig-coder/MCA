@@ -252,7 +252,7 @@ export default function Home() {
             >
               <div className="flex items-center gap-4 mb-3">
                 <EyebrowMark />
-                <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('siteUi.home.bridge.tag')}</span>
+                <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep">{t('siteUi.home.bridge.tag')}</span>
               </div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight text-brand-ink mb-5">
                 {t('siteUi.home.bridge.titleNormal')}<span className="italic text-brand-gold">{t('siteUi.home.bridge.titleItalic')}</span>
@@ -350,7 +350,7 @@ export default function Home() {
             <div className="max-w-2xl">
               <div className="flex items-center gap-4 mb-2">
                 <EyebrowMark />
-                <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('homeMembership.tag')}</span>
+                <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep">{t('homeMembership.tag')}</span>
               </div>
               <h2 className="text-2xl md:text-3xl font-serif text-brand-ink mb-2 leading-tight">
                 {t('homeMembership.titleNormal')}<span className="italic text-brand-gold">{t('homeMembership.titleItalic')}</span>
@@ -405,7 +405,7 @@ export default function Home() {
           <div>
             <div className="flex items-center gap-4 mb-3">
               <EyebrowMark />
-              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('news.ourVoice')}</span>
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep">{t('news.ourVoice')}</span>
             </div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight text-brand-ink">
               {(() => {
@@ -451,7 +451,7 @@ export default function Home() {
                       )}
                     </div>
                     <div className="flex flex-col flex-1 p-6">
-                      <span className="text-xs uppercase tracking-[0.14em] font-semibold text-brand-gold mb-3">{t('news.featuredTag')}</span>
+                      <span className="text-xs uppercase tracking-[0.14em] font-semibold text-brand-gold-deep mb-3">{t('news.featuredTag')}</span>
                       <h3 className="text-xl font-serif text-brand-ink mb-3 line-clamp-2 leading-snug">{dTitle}</h3>
                       <p className="text-sm text-slate-600 leading-relaxed line-clamp-3 mb-6">{item.excerpt || dContent}</p>
                       <span className="mt-auto inline-flex items-center gap-2 text-xs uppercase tracking-[0.14em] font-semibold text-brand-ink group-hover:text-brand-blue transition-colors">
@@ -484,7 +484,7 @@ export default function Home() {
           <div>
             <div className="flex items-center gap-4 mb-3">
               <EyebrowMark />
-              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('gallery.ourVision')}</span>
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep">{t('gallery.ourVision')}</span>
             </div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight text-brand-ink">
               {(() => {
@@ -522,7 +522,7 @@ export default function Home() {
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
               >
-                  <Link to={`/gallery/${item.id}`} className="group relative rounded-2xl overflow-hidden h-[450px] block bg-brand-ink shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_60px_-20px_rgba(0,0,0,0.25)] ring-1 ring-black/5 hover:ring-white/20 transition-all duration-300">
+                  <Link to={`/gallery/${item.id}`} className="group relative rounded-2xl overflow-hidden h-[340px] md:h-[450px] block bg-brand-ink shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_60px_-20px_rgba(0,0,0,0.25)] ring-1 ring-black/5 hover:ring-white/20 transition-all duration-300">
                     {/* Background Noise Texture */}
                     <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
 
@@ -571,7 +571,7 @@ export default function Home() {
               <div>
                 <div className="flex items-center gap-4 mb-3">
                   <EyebrowMark />
-                  <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{showingPastEvents ? t('siteUi.home.pastEvents') : t('highlight.tag')}</span>
+                  <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep">{showingPastEvents ? t('siteUi.home.pastEvents') : t('highlight.tag')}</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight text-brand-ink">
                   {t('highlight.title')} <span className="italic text-brand-gold">{t('highlight.titleItalic')}</span>
@@ -615,14 +615,14 @@ export default function Home() {
                               <img src={event.imageUrl} alt={dTitle} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
                             )}
                             <div className="absolute top-4 left-4 bg-white text-brand-ink rounded-lg shadow-sm px-3 py-2 flex flex-col items-center min-w-[52px] leading-none">
-                              <span className="text-[11px] uppercase tracking-wider font-semibold text-brand-gold">
+                              <span className="text-[11px] uppercase tracking-wider font-semibold text-brand-gold-deep">
                                 {new Date(event.date).toLocaleDateString(t('common.locale'), { month: 'short' })}
                               </span>
                               <span className="text-xl font-serif font-semibold mt-1">{new Date(event.date).getDate()}</span>
                             </div>
                           </div>
                           <div className="flex flex-col flex-1 p-6">
-                            <span className="text-xs uppercase tracking-[0.14em] font-semibold text-brand-gold mb-3">{dCat || t('events.defaultCategory')}</span>
+                            <span className="text-xs uppercase tracking-[0.14em] font-semibold text-brand-gold-deep mb-3">{dCat || t('events.defaultCategory')}</span>
                             <h3 className="text-xl font-serif text-brand-ink mb-3 line-clamp-2 leading-snug">{dTitle}</h3>
                             <p className="text-sm text-slate-600 leading-relaxed line-clamp-2 mb-5">{dDesc}</p>
                             <div className="flex flex-col gap-1.5 text-[13px] text-slate-500 mb-6">
@@ -671,7 +671,7 @@ export default function Home() {
           >
             <div className="flex items-center gap-4 mb-6 md:mb-8">
               <EyebrowMark />
-              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('siteUi.home.foundation.tag')}</span>
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep">{t('siteUi.home.foundation.tag')}</span>
             </div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight text-brand-ink">
               {t('siteUi.home.foundation.titleNormal')}<span className="italic text-brand-gold">{t('siteUi.home.foundation.titleItalic')}</span>
@@ -708,23 +708,23 @@ export default function Home() {
               <Link
                 key={idx}
                 to={pillar.link}
-                className="group flex flex-col justify-between bg-white border border-brand-ink/5 md:border-r md:border-y-0 md:border-l-0 last:border-r-0 p-8 md:p-12 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 relative block min-h-[380px]"
+                className="group flex flex-col justify-between bg-white border border-brand-ink/5 md:border-r md:border-y-0 md:border-l-0 last:border-r-0 p-6 md:p-12 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 relative block md:min-h-[380px]"
               >
                 <div>
-                  <span className="font-serif text-5xl md:text-6xl text-brand-gold/30 group-hover:text-brand-gold transition-colors duration-300 font-bold block mb-6">
+                  <span className="font-serif text-4xl md:text-6xl text-brand-gold/30 group-hover:text-brand-gold transition-colors duration-300 font-bold block mb-3 md:mb-6">
                     {pillar.number}
                   </span>
-                  
-                  <h3 className="text-2xl md:text-3xl font-serif text-brand-ink mb-4 font-normal">
+
+                  <h3 className="text-2xl md:text-3xl font-serif text-brand-ink mb-3 md:mb-4 font-normal">
                     {pillar.title}
                   </h3>
-                  
-                  <p className="text-sm md:text-base text-brand-ink/70 font-normal leading-relaxed mb-6">
+
+                  <p className="text-sm md:text-base text-brand-ink/70 font-normal leading-relaxed mb-4 md:mb-6">
                     {pillar.desc}
                   </p>
                 </div>
-                
-                <div className="flex items-center justify-between mt-auto pt-6 border-t border-brand-ink/5 text-xs uppercase tracking-widest font-bold text-brand-ink group-hover:text-brand-blue transition-colors duration-300">
+
+                <div className="flex items-center justify-between mt-auto pt-4 md:pt-6 border-t border-brand-ink/5 text-xs uppercase tracking-widest font-bold text-brand-ink group-hover:text-brand-blue transition-colors duration-300">
                   <span>{t('siteUi.home.foundation.learnMore')}</span>
                   <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -831,7 +831,7 @@ export default function Home() {
               </motion.div>
             </div>
 
-            <div className="lg:w-2/5 relative min-h-[400px] lg:min-h-full overflow-hidden">
+            <div className="lg:w-2/5 relative min-h-[240px] lg:min-h-full overflow-hidden">
               <motion.div
                 initial={{ scale: 1.3, opacity: 0 }}
                 whileInView={{ scale: 1, opacity: 1 }}
@@ -873,7 +873,7 @@ export default function Home() {
       </section>
       <SectionSeam />
 {/* Partnership invitation */}
-      <section className="relative overflow-hidden bg-[#0A1128] text-white py-20 md:py-28">
+      <section className="relative overflow-hidden bg-[#0A1128] text-white py-14 md:py-28">
         {/* Gold frame and meander borders */}
         <MeanderBand tone="dark" className="absolute top-0 inset-x-0" />
         <MeanderBand tone="dark" className="absolute bottom-0 inset-x-0" />
@@ -898,7 +898,7 @@ export default function Home() {
             <p className="text-base md:text-lg text-white/75 leading-relaxed">{t('collab.desc')}</p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6 mt-12 md:mt-14">
+          <div className="grid md:grid-cols-3 gap-4 md:gap-6 mt-8 md:mt-14">
             {[
               { key: 'institutions', icon: Landmark, to: '/contact' },
               { key: 'businesses', icon: Briefcase, to: '/membership' },
@@ -913,11 +913,11 @@ export default function Home() {
               >
                 <Link
                   to={to}
-                  className="group flex flex-col h-full rounded-xl border border-white/10 bg-white/[0.04] p-7 hover:border-brand-gold/50 hover:bg-white/[0.07] transition-colors duration-300"
+                  className="group flex flex-col h-full rounded-xl border border-white/10 bg-white/[0.04] p-5 md:p-7 hover:border-brand-gold/50 hover:bg-white/[0.07] transition-colors duration-300"
                 >
-                  <Icon className="w-7 h-7 text-brand-gold mb-5" />
-                  <h3 className="text-2xl font-serif font-medium text-white mb-2">{t(`collab.${key}.title`)}</h3>
-                  <p className="text-sm text-white/70 leading-relaxed mb-6">{t(`collab.${key}.text`)}</p>
+                  <Icon className="w-6 h-6 md:w-7 md:h-7 text-brand-gold mb-3 md:mb-5" />
+                  <h3 className="text-xl md:text-2xl font-serif font-medium text-white mb-2">{t(`collab.${key}.title`)}</h3>
+                  <p className="text-sm text-white/70 leading-relaxed mb-4 md:mb-6">{t(`collab.${key}.text`)}</p>
                   <span className="mt-auto inline-flex items-center gap-2 text-xs uppercase tracking-[0.14em] font-semibold text-brand-gold">
                     {t('collab.learnMore')} <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
                   </span>
@@ -926,7 +926,7 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="mt-8 md:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/contact" className="btn-shimmer inline-flex items-center justify-center gap-2 bg-brand-gold text-slate-950 px-8 py-4 rounded-lg text-xs uppercase tracking-[0.14em] font-semibold hover:bg-amber-400 transition-colors">
               {t('collab.ctaPartner')} <ArrowRight size={14} />
             </Link>

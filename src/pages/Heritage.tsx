@@ -29,6 +29,13 @@ import GameBanner from '../components/GameBanner';
 // Heavy parts load only when the visitor scrolls to them
 const DioramaCanvas = lazy(() => import('../components/diorama/DioramaCanvas'));
 import { SoyomboSymbol, UlziiSymbol } from '../components/MongolianDesign';
+import heritagePage from '../locales/heritagePage';
+import heritageShowcase from '../locales/heritageShowcase';
+import { registerTranslations } from '../locales/register';
+
+// The heritage text is downloaded with this page, not with the whole site
+registerTranslations(heritagePage);
+registerTranslations(heritageShowcase);
 
 type HeritageCategory = 'intangible' | 'material' | 'calligraphy' | 'ceremony';
 

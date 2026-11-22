@@ -39,6 +39,8 @@ const pagesMisc = {
         viewPast: "View Event Details & Photos",
         free: "Free",
         soldOut: "Sold Out",
+        addToCalendar: "Add to calendar",
+        allCategories: "All",
         spotsFilled: "{{registered}}/{{capacity}} spots filled",
       },
       eventReg: {
@@ -256,6 +258,8 @@ const pagesMisc = {
         viewPast: "Details und Fotos ansehen",
         free: "Kostenlos",
         soldOut: "Ausgebucht",
+        addToCalendar: "Zum Kalender hinzufügen",
+        allCategories: "Alle",
         spotsFilled: "{{registered}}/{{capacity}} Plätze belegt",
       },
       eventReg: {
@@ -473,6 +477,8 @@ const pagesMisc = {
         viewPast: "Дэлгэрэнгүй мэдээлэл, зургийг үзэх",
         free: "Үнэгүй",
         soldOut: "Дүүрсэн",
+        addToCalendar: "Хуанлид нэмэх",
+        allCategories: "Бүгд",
         spotsFilled: "{{capacity}} байрны {{registered}} нь дүүрсэн",
       },
       eventReg: {
@@ -690,6 +696,8 @@ const pagesMisc = {
         viewPast: "Etkinlik Ayrıntılarını ve Fotoğrafları Gör",
         free: "Ücretsiz",
         soldOut: "Tükendi",
+        addToCalendar: "Takvime ekle",
+        allCategories: "Tümü",
         spotsFilled: "{{registered}}/{{capacity}} kontenjan dolu",
       },
       eventReg: {

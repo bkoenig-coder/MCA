@@ -168,7 +168,7 @@ export default function Impact() {
             >
               <div className="flex items-center gap-4 mb-5">
                 <EyebrowMark />
-                <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('impact.donation.tag')}</span>
+                <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep">{t('impact.donation.tag')}</span>
               </div>
 
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-brand-ink leading-[1.08] tracking-tight">
@@ -294,7 +294,7 @@ export default function Impact() {
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-3 mb-4">
               <EyebrowMark />
-              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('impact.initiatives.tag')}</span>
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep">{t('impact.initiatives.tag')}</span>
               <EyebrowMark />
             </div>
             <h2 className="text-4xl md:text-5xl font-serif text-slate-900 mb-4 tracking-tight">{t('impact.initiatives.title')}</h2>
@@ -352,7 +352,7 @@ export default function Impact() {
           <div className="max-w-2xl mb-12">
             <div className="flex items-center gap-4 mb-4">
               <EyebrowMark />
-              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{t('impact.more.tag')}</span>
+              <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep">{t('impact.more.tag')}</span>
             </div>
             <h2 className="text-3xl md:text-5xl font-serif text-brand-ink leading-tight">{t('impact.more.title')}</h2>
             <p className="mt-4 text-base md:text-lg text-slate-600 leading-relaxed">{t('impact.more.desc')}</p>

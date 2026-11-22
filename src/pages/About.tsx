@@ -21,7 +21,7 @@ function SectionHeader({ tag, title, intro, center = false }: { tag: string; tit
     <div className={center ? 'text-center max-w-3xl mx-auto mb-12 md:mb-14' : 'max-w-3xl mb-12 md:mb-14'}>
       <div className={`flex items-center gap-4 mb-3 ${center ? 'justify-center' : ''}`}>
         <EyebrowMark />
-        <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold">{tag}</span>
+        <span className="text-xs uppercase tracking-[0.18em] font-semibold text-brand-gold-deep">{tag}</span>
       </div>
       <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight text-brand-ink">{title}</h2>
       {intro && <p className="mt-5 text-base md:text-lg text-brand-ink/80 leading-relaxed">{intro}</p>}
@@ -107,7 +107,7 @@ export default function About() {
           <dl className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-slate-200 border-x border-slate-200">
             {facts.map((f) => (
               <div key={f.label} className="px-5 md:px-8 py-6">
-                <dt className="text-xs uppercase tracking-[0.14em] font-semibold text-brand-gold mb-1.5">{f.label}</dt>
+                <dt className="text-xs uppercase tracking-[0.14em] font-semibold text-brand-gold-deep mb-1.5">{f.label}</dt>
                 <dd className="text-base md:text-lg font-serif text-brand-ink leading-snug">{f.value}</dd>
               </div>
             ))}
@@ -130,7 +130,7 @@ export default function About() {
 
           <motion.aside {...reveal} className="lg:col-span-5">
             <div className="border border-slate-200 rounded-xl p-8 md:p-10 bg-white">
-              <p className="text-xs uppercase tracking-[0.14em] font-semibold text-brand-gold mb-3">{t('siteUi.about.visionLabel')}</p>
+              <p className="text-xs uppercase tracking-[0.14em] font-semibold text-brand-gold-deep mb-3">{t('siteUi.about.visionLabel')}</p>
               <h3 className="text-2xl md:text-3xl font-serif text-brand-ink leading-snug mb-4">{t('about.vision.title')}</h3>
               <p className="text-base text-brand-ink/80 leading-relaxed">{t('about.vision.desc')}</p>
             </div>
@@ -209,7 +209,7 @@ export default function About() {
                   </div>
                   <div className="pt-5">
                     <h3 className="text-2xl font-serif text-brand-ink group-hover:text-brand-blue transition-colors">{m.name}</h3>
-                    <p className="mt-1 text-xs uppercase tracking-[0.14em] font-semibold text-brand-gold">{m.role}</p>
+                    <p className="mt-1 text-xs uppercase tracking-[0.14em] font-semibold text-brand-gold-deep">{m.role}</p>
                   </div>
                 </Link>
               </motion.div>

@@ -41,7 +41,7 @@ export default function InitiativeDetails() {
     return (
       <div className="pt-32 pb-24 min-h-[60vh] flex flex-col items-center justify-center bg-white px-6">
         <h1 className="text-3xl font-serif text-brand-ink mb-6">{t('pagesMisc.initiative.notFound')}</h1>
-        <Link to="/impact" className="flex items-center gap-2 text-brand-gold hover:text-brand-ink transition-colors font-sans uppercase tracking-widest text-xs font-bold">
+        <Link to="/impact" className="flex items-center gap-2 text-brand-gold-deep hover:text-brand-ink transition-colors font-sans uppercase tracking-widest text-xs font-bold">
           <ArrowLeft size={16} /> {t('pagesMisc.initiative.back')}
         </Link>
       </div>
@@ -81,7 +81,7 @@ export default function InitiativeDetails() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="pt-4"
           >
-            <div className="text-xs text-brand-gold font-semibold tracking-[0.18em] uppercase mb-4">
+            <div className="text-xs text-brand-gold-deep font-semibold tracking-[0.18em] uppercase mb-4">
               {t('pagesMisc.initiative.tag')}
             </div>
             
