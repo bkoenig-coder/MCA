@@ -207,8 +207,8 @@ export default function CarpetIntro() {
             <div className="absolute top-0 left-0 w-full h-[200%]">
               {carpetBg}
               {/* Sits just above the fringe at the seam; sizes follow the screen height so proportions hold on any screen */}
-              <div className="absolute left-0 right-0 bottom-1/2 flex flex-col items-center px-4 pb-[clamp(2.5rem,9vh,5.5rem)]">
-                <div className="relative select-none h-[min(26vh,18rem)] md:h-[min(21vh,15rem)] aspect-[400/330]">
+              <div className="absolute left-0 right-0 bottom-1/2 flex flex-col items-center px-4 pb-[clamp(2.5rem,9vh,5.5rem)] md:pb-[clamp(3.25rem,6vh,4.5rem)]">
+                <div className="relative select-none h-[min(26vh,18rem)] md:h-[min(calc(44vh_-_110px),25rem)] aspect-[400/330]">
                   <SoyomboSymbol className="absolute inset-0 w-full h-full text-brand-gold opacity-90 drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]" />
                   <GerSymbol className="absolute left-1/2 -translate-x-1/2 -bottom-[3%] w-[58%] h-[52%] drop-shadow-[0_6px_12px_rgba(0,0,0,0.5)]" strokeColor="#d4af37" fillColor="#fdfbf7" />
                 </div>
