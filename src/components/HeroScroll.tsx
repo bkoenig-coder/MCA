@@ -28,6 +28,8 @@ export function useHeroScrollSize(): ScrollSize {
  *  - 'compact': tablets, beside the text
  *  - 'desktop': its own column on large screens
  * The picture is cropped in from the photo's edges and exists in three widths (see public/media/hero-scroll-*.jpg).
+ * The phone size uses a lengthened version of it (hero-scroll-tall-*.jpg): the plain paper and the frame are stretched,
+ * while the script and the small ornaments keep their own shape and are spread out over the longer paper.
  */
 export default function HeroScroll({ size = 'desktop' }: { size?: ScrollSize }) {
   const { t } = useTranslation();
@@ -39,6 +41,21 @@ export default function HeroScroll({ size = 'desktop' }: { size?: ScrollSize }) 
   }[size];
   // Tell the browser how wide the picture will be, so it fetches the smallest copy that stays sharp
   const sizes = { mini: '96px', compact: '150px', desktop: '(min-width: 1280px) 360px, 300px' }[size];
+  // On phones the panel is a long, narrow scroll (it runs down the side of the text), so it uses the lengthened picture
+  const tall = size === 'mini';
+  const picture = tall
+    ? {
+        src: '/media/hero-scroll-tall-288.jpg',
+        srcSet: '/media/hero-scroll-tall-192.jpg 192w, /media/hero-scroll-tall-288.jpg 288w',
+        width: 288,
+        height: 652,
+      }
+    : {
+        src: '/media/hero-scroll-480.jpg',
+        srcSet: '/media/hero-scroll-320.jpg 320w, /media/hero-scroll-480.jpg 480w, /media/hero-scroll-720.jpg 720w',
+        width: 1363,
+        height: 1874,
+      };
 
   return (
     <motion.div
@@ -53,11 +70,11 @@ export default function HeroScroll({ size = 'desktop' }: { size?: ScrollSize }) 
         className="absolute -inset-5 md:-inset-8 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.2),transparent_68%)]"
       />
       <img
-        src="/media/hero-scroll-480.jpg"
-        srcSet="/media/hero-scroll-320.jpg 320w, /media/hero-scroll-480.jpg 480w, /media/hero-scroll-720.jpg 720w"
+        src={picture.src}
+        srcSet={picture.srcSet}
         sizes={sizes}
-        width={1363}
-        height={1874}
+        width={picture.width}
+        height={picture.height}
         alt={t('siteUi.org.name')}
         decoding="async"
         className="relative block w-full h-auto rounded-[3px] shadow-[0_28px_60px_-18px_rgba(0,0,0,0.8),0_0_0_1px_rgba(212,175,55,0.3)]"
