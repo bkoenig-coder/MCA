@@ -26,11 +26,6 @@ const lozengeTile = (vertical: boolean) => {
   );
 };
 
-// A small plait for the phone cartouches (horizontal tile only)
-const PLAIT_TILE = dataUri(
-  `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="16" viewBox="0 0 32 16"><g fill="none" stroke="${IVORY}" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M0 8C5 0 11 0 16 8S27 16 32 8"/><path d="M0 8C5 16 11 16 16 8S27 0 32 8"/></g></svg>`
-);
-
 // Field weave: small lozenges, light thread and dark shadow thread
 const lozenge = (stroke: string) =>
   dataUri(
@@ -38,15 +33,6 @@ const lozenge = (stroke: string) =>
   );
 const LOZENGE_LIGHT = lozenge('#8FB6E6');
 const LOZENGE_DARK = lozenge('#021430');
-
-/** A diamond medallion used in the middle of the phone cartouches. */
-const DiamondSeal = ({ className = '' }: { className?: string }) => (
-  <svg viewBox="0 0 40 40" className={className} aria-hidden="true">
-    <path d="M20 2L38 20L20 38L2 20Z" fill={INK} stroke={SAFFRON} strokeWidth="2" />
-    <path d="M20 9L31 20L20 31L9 20Z" fill="none" stroke={SAFFRON} strokeWidth="1.5" />
-    <path d="M20 15L25 20L20 25L15 20Z" fill={CRIMSON} />
-  </svg>
-);
 
 // ---- The border: wool stripes from the outer edge inwards, with the lozenge band in the middle ----
 type Stripe = { w: number; color?: string; band?: boolean };
@@ -175,17 +161,6 @@ export default function CarpetIntro() {
             'repeating-linear-gradient(0deg, rgba(255,255,255,0.045) 0px, rgba(255,255,255,0.045) 1px, transparent 1px, transparent 3px), repeating-linear-gradient(90deg, rgba(0,0,0,0.08) 0px, rgba(0,0,0,0.08) 1px, transparent 1px, transparent 3px)',
         }}
       />
-
-      {/* Phones: a diamond seal flanked by plait, top and bottom of the field */}
-      <div className="md:hidden">
-        {['top-[7.5%]', 'bottom-[7.5%]'].map((pos) => (
-          <div key={pos} className={`absolute ${pos} left-12 right-12 flex items-center gap-3`}>
-            <div className="flex-1 h-3" style={{ backgroundImage: PLAIT_TILE, backgroundSize: '27px 13.5px', backgroundRepeat: 'repeat-x', backgroundPosition: 'center' }} />
-            <DiamondSeal className="w-9 h-9 shrink-0" />
-            <div className="flex-1 h-3" style={{ backgroundImage: PLAIT_TILE, backgroundSize: '27px 13.5px', backgroundRepeat: 'repeat-x', backgroundPosition: 'center' }} />
-          </div>
-        ))}
-      </div>
     </>
   );
 
