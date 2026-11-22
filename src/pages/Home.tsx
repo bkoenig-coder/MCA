@@ -16,7 +16,7 @@ import mcaLogoWideLight from '../assets/media/mca-logo-wide-light.png';
 import { Overlay } from '../components/diorama/Overlay';
 import BridgeMap, { BRIDGE_DISTANCE_KM } from '../components/BridgeMap';
 
-import ScriptPlaque from '../components/ScriptPlaque';
+import HeroScroll, { useHeroScrollSize } from '../components/HeroScroll';
 import GameBanner from '../components/GameBanner';
 
 export default function Home() {
@@ -28,6 +28,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [activePopup, setActivePopup] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const scrollSize = useHeroScrollSize();
 
   const membershipSlides = [
     {
@@ -169,7 +170,7 @@ export default function Home() {
         <Overlay activePopup={activePopup} onClose={() => setActivePopup(null)} />
 
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full z-20 relative py-12 md:py-0 pointer-events-none">
-          <div className="grid lg:grid-cols-[minmax(0,1fr)_260px] xl:grid-cols-[minmax(0,1fr)_300px] gap-12 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_300px] xl:grid-cols-[minmax(0,1fr)_360px] gap-12 lg:gap-16 items-center">
             <div className="flex flex-col">
               <div className="flex items-start gap-6 md:gap-0">
                 <div className="flex-1 pointer-events-auto">
@@ -198,15 +199,17 @@ export default function Home() {
                   </motion.div>
                 </div>
 
-                {/* Official Plaque - vertical Mongolian script (phone, small, beside the text) */}
-                <div className="md:hidden relative flex-shrink-0 pt-8">
-                  <ScriptPlaque mini />
-                </div>
-
-                {/* Official Plaque - vertical Mongolian script (tablet) */}
-                <div className="hidden md:block lg:hidden relative flex-shrink-0 pt-6 ml-4">
-                  <ScriptPlaque compact />
-                </div>
+                {/* Gilded script panel: phone (small, beside the text) and tablet. Only the size that fits is rendered. */}
+                {scrollSize === 'mini' && (
+                  <div className="relative flex-shrink-0 pt-8">
+                    <HeroScroll size="mini" />
+                  </div>
+                )}
+                {scrollSize === 'compact' && (
+                  <div className="relative flex-shrink-0 pt-6 ml-4">
+                    <HeroScroll size="compact" />
+                  </div>
+                )}
               </div>
 
               <motion.div
@@ -229,10 +232,12 @@ export default function Home() {
               </motion.div>
             </div>
 
-            {/* Official Plaque - vertical Mongolian script (desktop) */}
-            <div className="hidden lg:flex items-center justify-center relative w-full py-4 pointer-events-none">
-              <ScriptPlaque />
-            </div>
+            {/* Gilded script panel (desktop: its own column) */}
+            {scrollSize === 'desktop' && (
+              <div className="flex items-center justify-center relative w-full py-4 pointer-events-none">
+                <HeroScroll />
+              </div>
+            )}
           </div>
         </div>
         <MeanderBand className="absolute bottom-0 left-0 right-0 z-20" />
